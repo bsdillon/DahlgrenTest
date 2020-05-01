@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <style>
+      body {width:500;}
+      em {color:blue; font-weight:bold;}
+      .normal {color:black; font-weight:normal; font-style:normal;}
+      img {border: solid black 2px; width:400px;}
+    </style>
+    <script>
+    </script>
+  </head>
+  <body>
+    <h3 class="assignment">Instructions on how to create an action</h3>
+    <p>This is a <a href="https://lab.github.com/githubtraining/github-actions:-hello-world">link 
+      at GitHub</a> that generates a tutorial. The tutorial isn't fantastic, but it does generate 
+      a successful action that can be learned from. The full transcript is available 
+      <a href="https://github.com/bsdillon/hello-github-actions/pull/2">here</a>.
+    </p>
+    <p>Note the following:
+      <ul>
+        <li><em>Workflows are defined in special files in the .github/workflows directory, named main.yml.</em><br>
+        If there is an action it has to be started from this directory and be found in the main.yml file.
+        </li>
+        <li>
+<em><pre>
+name: A workflow for my Hello World file <span class="normal">&lt;-- This is the full name that will show up in the action page.</span>
+on: push <span class="normal">&lt;-- This is the event that will cause the action to fire</span>
+jobs:
+  build:
+    name: Hello world action <span class="normal">&lt;-- This is the name of the build action</span>
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ./action-a <span class="normal">&lt;-- This is the folder with a script. The path is relative from the root directory.</span>
+        with:
+          MY_NAME: "Mona" <span class="normal">&lt;-- This is a parameter to the script</span>
+</pre></em><br>
+<img src="./imgs/action1.png" /><br><br><br>
+<img src="./imgs/action2.png" /><br><br><br>
+<img src="./imgs/action3.png" /><br>
+        </li>
+      </ul>
+    </p>
+  </body>
+</html>
