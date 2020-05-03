@@ -6,11 +6,12 @@ inputs:
   OPERAND1:
     description: "First parameter from main.yml"
     required: true
-    default: 0
   OPERAND2:
     description: "Second parameter from main.yml"
     required: true
-    default: 0
+  ANSWER:
+    description: "Expected answer"
+    required: true
 
 runs:
   using: "docker"
