@@ -39,6 +39,79 @@ jobs:
 <img src="./imgs/action2.png" /><br><br><br>
 <img src="./imgs/action3.png" /><br>
         </li>
+        <li>The action-a script is another layer of complexity<br>
+<em><pre>
+name: "Hello Actions"
+description: "Greet someone"
+author: "octocat@github.com"
+
+inputs:
+  MY_NAME: <span class="normal">&lt;-- This is the parameter to the action that comes from the main YML.</span>
+    description: "Who to greet"
+    required: true
+    default: "World"
+
+runs:
+  using: "docker"
+  image: "Dockerfile" <span class="normal">&lt;-- Note that the docker tool is used to create a docker image according to this script.</span>
+
+branding:
+  icon: "mic"
+  color: "purple"
+</pre></em>
+        </li>
+        <li>
+          The docker script adds a third layer of complexity. At this point
+          at least this code is more direct.<br>
+<em><pre>
+FROM debian:9.5-slim
+
+ADD entrypoint.sh /entrypoint.sh <span class="normal">&lt;-- The script is added to the docker image so the code can be run in the container.</span>
+RUN chmod +x /entrypoint.sh <span class="normal">&lt;-- Chmod changes the permissions on a file. In this case allowing it to be run as a script.</span>
+ENTRYPOINT ["/entrypoint.sh"] <span class="normal">&lt;-- This keyword makes that script an executable external interface of the container.</span>
+</pre></em>
+        </li>
+        <li>
+          The script itself is a pretty simple bit of code.<br>
+<em><pre> 
+#!/bin/sh -l <span class="normal">&lt;-- This is the required "shebang" indicating the kind of script.</span>
+             <span class="normal">&lt;-- sh invokes the standard command interpreter. I have no idea what -l does</span>
+sh -c "echo Hello world my name is $INPUT_MY_NAME" <span class="normal">&lt;-- sh means run as a script. Option c treats the string like a single command.</span>
+</pre></em>
+        </li>
+        <li>
+          Note that when the main.yml executes it creates an Ubutu OS image for the runtime environment.
+          This in accordance with the script and confirmed in the execution output.<br>
+<img src="./imgs/action4.png" /><br><br>
+          In action-a, however, the Dockerfile requires a Debian OS image. In the execution output it can
+          be seen that #1 Docker is spinning up a debian environment. Steps #2 through #4 follow the docker
+          script creating a container with the required entry point/interface. The output #5 is the result
+          of the uses statement in main.yml. Apparently the entry point/interface is executed automatically.<br>
+<img src="./imgs/action-a.png" />
+        </li>
+        <li>
+          <b>CURRENT WORKING THEORY</b>: main.yml subordinates all actions which may be individiually defined in separate folders.
+          within that folder, the yml script can subordinate any additional scripts. In this case there is a docker script to create
+          the container, insert the script, and make that script an executable for that container.<br><br>
+          As a result of this system two containers are created and executed in the following steps:<br>
+          <ol>
+            <li>Main.yml creates the checkout container with all code.</li>
+            <li>Main.yml uses the action-a yml script which initially sets up a temporary container with Docker.
+              <ol start="3">
+                <li>The docker script adds the entrypoint.sh script to the container.</li>
+                <li>The docker script makes that entrypoint script the EntryPoint/interface for the container.</li>
+              </ol>
+            </li>
+            <li value="5">The container created by action-a is executed with the parameter Mona.</li>
+            <li>That execution takes place.
+              <ol start="7">
+                <li>The entrypoint.sh script executes and sends output to screen.</li>
+              </ol>
+            </li>
+          </ol>
+
+<img src="./imgs/action5.png" />
+        </li>
       </ul>
     </p>
   </body>

@@ -1,0 +1,17 @@
+name: "Simple Math test"
+description: "Do simple math tests with parameters from main.yml"
+author: "Brian Dillon"
+
+inputs:
+  OPERAND1:
+    description: "First parameter from main.yml"
+    required: true
+    default: 0
+  OPERAND2:
+    description: "Second parameter from main.yml"
+    required: true
+    default: 0
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
