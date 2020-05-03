@@ -18,18 +18,18 @@ jobs:
         path: log.log
     - name: Verify scripting capability #1
       if: ${{success() || failure() }}
-      uses: ./mathTest
+      uses: ./.github/actions/mathTest
       with:
         OPERAND1: 3
         OPERAND2: 5
     - name: Verify scripting capability #2
       if: ${{success() || failure() }}
-      uses: ./mathTest
+      uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         OPERAND2: 2
     - name: Verify scripting capability only one operand
       if: ${{success() || failure() }}
-      uses: ./mathTest
+      uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
