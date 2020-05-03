@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       name: Validate HTML Files
-        - uses: Cyb3r-Jak3/html5validator-action@v0.4
+        - uses: Cyb3r-Jak3/html5validator-action@v0.3
           with:
             root: ./html/
             css: true
