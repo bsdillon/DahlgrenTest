@@ -1,7 +1,7 @@
 name: HTML Validation Checks
 on: push
 jobs:
-  build:
+  HTML Checks:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -16,3 +16,26 @@ jobs:
       with:
         name: log
         path: log.log
+  MathChecks
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Successful math test
+      uses: ./.github/actions/mathTest
+      with:
+        OPERAND1: 3
+        OPERAND2: 5
+        ANSWER: 2
+    - name: Mismatch answer math test
+      if: ${{success() || failure() }}
+      uses: ./.github/actions/mathTest
+      with:
+        OPERAND1: -3
+        OPERAND2: 2
+        ANSWER: 1
+    - name: Missing operand math test
+      if: ${{success() || failure() }}
+      uses: ./.github/actions/mathTest
+      with:
+        OPERAND1: -3
+        ANSWER: 5
