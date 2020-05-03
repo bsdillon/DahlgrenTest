@@ -11,7 +11,7 @@ jobs:
         root: ./html
         css: true
     - name: Get HTML log
-      if: ${{success() || failed() }}
+      if: ${{success() || failure() }}
       uses: actions/upload-artifact@v1
       with:
         name: log
