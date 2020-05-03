@@ -1,4 +1,4 @@
-name: Continuous Integration Tests
+name: Math Tests verifying parameters
 on: push
 jobs:
   build:
