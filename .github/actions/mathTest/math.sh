@@ -20,7 +20,7 @@ fi
 
 let diff=$INPUT_OPERAND2-$INPUT_OPERAND1
 
-if [ $diff = $INPUT_ANSWER ]
+if [ $diff -eq $INPUT_ANSWER ]
 then
   echo "Pass $INPUT_OPERAND2 - $INPUT_OPERAND1 = $diff"
 else
