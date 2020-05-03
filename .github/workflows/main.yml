@@ -16,22 +16,23 @@ jobs:
       with:
         name: log
         path: log.log
-    - name: Verify scripting capability #1
+    - name: Successful math test
       if: ${{success() || failure() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: 3
         OPERAND2: 5
         ANSWER: 2
-    - name: Verify scripting capability #2
+    - name: Mismatch answer math test
       if: ${{success() || failure() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         OPERAND2: 2
-        ANSWER: 5
-    - name: Verify scripting capability only one operand
+        ANSWER: 1
+    - name: Missing operand math test
       if: ${{success() || failure() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
+        ANSWER: 5
