@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -z ${INPUT_OPERAND1+x} ]; 
 then 
@@ -18,9 +18,9 @@ then
    exit 1
 fi
 
-diff=$INPUT_OPERAND2-$INPUT_OPERAND1
+let diff=$INPUT_OPERAND2-$INPUT_OPERAND1
 
-if [ $diff -eq $INPUT_ANSWER ]
+if [ $diff = $INPUT_ANSWER ]
 then
   echo "Pass $INPUT_OPERAND2 - $INPUT_OPERAND1 = $diff"
 else
