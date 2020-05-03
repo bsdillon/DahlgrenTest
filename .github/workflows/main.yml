@@ -10,8 +10,8 @@ jobs:
       with:
         root: ./html
         css: true
-      if: succeeded() || failed()
     - name: Get HTML log
+      if: ${{success() || failed() }}
       uses: actions/upload-artifact@v1
       with:
         name: log
