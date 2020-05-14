@@ -1,7 +1,9 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <title>Creating Multiple Actions</title>
     <style>
-      body {width:500;}
+      body {width:500px;}
       em {color:blue; font-weight:bold;}
       .normal {color:black; font-weight:normal; font-style:normal;}
       img {border: solid black 2px; width:400px;}
@@ -22,7 +24,7 @@
           that are brought about for different events. For
           example, there might be one workflow for all commits
           and another for merges.<br>
-          <img src="./imgs/multi-workflow.png" />
+          <img alt="Two workflows" src="./imgs/multi-workflow.png" />
         </li>
         <li>
           <b>Create separate jobs</b> - This requires
@@ -33,7 +35,7 @@
           pass/fail report. This technique appears to apply
           best to different jobs that should be executed at
           the same event.<br>
-          <img src="./imgs/multi-jobs.png" />
+          <img alt="Two jobs" src="./imgs/multi-jobs.png" />
         </li>
         <li>
           <b>Create multiple steps</b> - This requires
@@ -44,7 +46,7 @@
           that there are failure steps to recover data.
           Importantly, each step can refer to a different
           action yml file.<br>
-          <img src="./imgs/multi-step.png" />
+          <img alt="Multiple steps" src="./imgs/multi-step.png" />
         </li>
       </ul>
     </p>
@@ -59,7 +61,7 @@
         <li>Each step in each job can point to any specific action.</li>
         <li>Each action contains a script that may well specify an unlimited number of actions.</li>
       </ul>
-      <img src="./imgs/multi-action.png" />
+      <img alt="Action diagram" src="./imgs/multi-action.png" />
     </p>
     <p>
       Next actions:<br>

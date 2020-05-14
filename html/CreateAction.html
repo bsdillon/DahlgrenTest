@@ -1,9 +1,11 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <title>Creating an Action</title>
     <style>
-      body {width:500;}
-      em {color:blue; font-weight:bold;}
-      .normal {color:black; font-weight:normal; font-style:normal;}
+      body {width:500px;}
+      code {color:blue; font-weight:bold;}
+      .normal {color:#444444; font-weight:normal; font-style:italic; text-align:right;}
       img {border: solid black 2px; width:400px;}
     </style>
     <script>
@@ -18,66 +20,71 @@
     </p>
     <p>Note the following:
       <ul>
-        <li><em>Workflows are defined in special files in the .github/workflows directory, named main.yml.</em><br>
+        <li>Workflows are defined in special files in the .github/workflows directory, named main.yml. 
         If there is an action it has to be started from this directory and be found in the main.yml file.
         </li>
         <li>
-<em><pre>
-name: A workflow for my Hello World file <span class="normal">&lt;-- This is the full name that will show up in the action page.</span>
-on: push <span class="normal">&lt;-- This is the event that will cause the action to fire</span>
-jobs:
-  build:
-    name: Hello world action <span class="normal">&lt;-- This is the name of the build action</span>
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: ./action-a <span class="normal">&lt;-- This is the folder with a script. The path is relative from the root directory.</span>
-        with:
-          MY_NAME: "Mona" <span class="normal">&lt;-- This is a parameter to the script</span>
-</pre></em><br>
+<code>name: A workflow for my Hello World file </code><br>
+<span class="normal">//This is the full name that will show up in the action page.</span><br>
+<code>on: push </code><br>
+<span class="normal">//This is the event that will cause the action to fire</span><br>
+<code>jobs:</code><br>
+<code>&nbsp;&nbsp;build:</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;name: Hello world action </code><br>
+<span class="normal">//This is the name of the build action</span><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;runs-on: ubuntu-latest</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;steps:</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- uses: actions/checkout@v1</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- uses: ./action-a </code><br>
+<span class="normal">//This is the folder with a script. The path is relative from the root directory.</span><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MY_NAME: "Mona" </code><br>
+<span class="normal">//This is a parameter to the script</span>
+<br>
 <img src="./imgs/action1.png" /><br><br><br>
 <img src="./imgs/action2.png" /><br><br><br>
 <img src="./imgs/action3.png" /><br>
         </li>
         <li>The action-a script is another layer of complexity<br>
-<em><pre>
-name: "Hello Actions"
-description: "Greet someone"
-author: "octocat@github.com"
-
-inputs:
-  MY_NAME: <span class="normal">&lt;-- This is the parameter to the action that comes from the main YML.</span>
-    description: "Who to greet"
-    required: true
-    default: "World"
-
-runs:
-  using: "docker"
-  image: "Dockerfile" <span class="normal">&lt;-- Note that the docker tool is used to create a docker image according to this script.</span>
-
-branding:
-  icon: "mic"
-  color: "purple"
-</pre></em>
+<code>name: "Hello Actions"</code><br>
+<code>description: "Greet someone"</code><br>
+<code>author: "octocat@github.com"</code><br>
+<br>
+<code>inputs:</code><br>
+<code>&nbsp;&nbsp;MY_NAME: </code><br>
+<span class="normal">//This is the parameter to the action that comes from the main YML.</span></br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;description: "Who to greet"</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;required: true</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;default: "World"</code><br>
+<br>
+<code>runs:</code><br>
+<code>&nbsp;&nbsp;using: "docker"</code><br>
+<code>&nbsp;&nbsp;image: "Dockerfile" </code><br>
+<span class="normal">//Note that the docker tool is used to create a docker image according to this script.</span><br>
+<br>
+<code>branding:</code><br>
+<code>&nbsp;&nbsp;icon: "mic"</code><br>
+<code>&nbsp;&nbsp;color: "purple"</code>
         </li>
         <li>
           The docker script adds a third layer of complexity. At this point
           at least this code is more direct.<br>
-<em><pre>
-FROM debian:9.5-slim
-
-ADD entrypoint.sh /entrypoint.sh <span class="normal">&lt;-- The script is added to the docker image so the code can be run in the container.</span>
-RUN chmod +x /entrypoint.sh <span class="normal">&lt;-- Chmod changes the permissions on a file. In this case allowing it to be run as a script.</span>
-ENTRYPOINT ["/entrypoint.sh"] <span class="normal">&lt;-- This keyword makes that script an executable external interface of the container.</span>
-</pre></em>
+<code>FROM debian:9.5-slim</code><br>
+<br>
+<code>ADD entrypoint.sh /entrypoint.sh </code><br>
+<span class="normal">//The script is added to the docker image so the code can be run in the container.</span><br>
+<code>RUN chmod +x /entrypoint.sh </code><br>
+<span class="normal">//Chmod changes the permissions on a file. In this case allowing it to be run as a script.</span><br>
+<code>ENTRYPOINT ["/entrypoint.sh"] </code><br>
+<span class="normal">//This keyword makes that script an executable external interface of the container.</span>
         </li>
         <li>
           The script itself is a pretty simple bit of code.<br>
-<em><pre> 
-#!/bin/sh -l <span class="normal">&lt;-- This is the required "shebang" indicating the kind of script.</span>
-             <span class="normal">&lt;-- sh invokes the standard command interpreter. I have no idea what -l does</span>
-sh -c "echo Hello world my name is $INPUT_MY_NAME" <span class="normal">&lt;-- sh means run as a script. Option c treats the string like a single command.</span>
-</pre></em>
+<code>#!/bin/sh -l </code><br>
+<span class="normal">//This is the required "shebang" indicating the kind of script.</span><br>
+<span class="normal">//sh invokes the standard command interpreter. I have no idea what -l does</span><br>
+<code>sh -c "echo Hello world my name is $INPUT_MY_NAME" </code><br>
+<span class="normal">&lt;-- sh means run as a script. Option c treats the string like a single command.</span>
         </li>
         <li>
           Note that when the main.yml executes it creates an Ubutu OS image for the runtime environment.
