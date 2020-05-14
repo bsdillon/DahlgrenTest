@@ -1,4 +1,3 @@
-
 FROM openjdk:7
 COPY . helloWorld
 WORKDIR helloWorld
