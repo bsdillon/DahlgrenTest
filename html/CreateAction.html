@@ -18,12 +18,12 @@
       a successful action that can be learned from. The full transcript is available 
       <a href="https://github.com/bsdillon/hello-github-actions/pull/2">here</a>.
     </p>
-    <p>Note the following:
-      <ul>
-        <li>Workflows are defined in special files in the .github/workflows directory, named main.yml. 
+    <p>Note the following:</p>
+    <ul>
+      <li>Workflows are defined in special files in the .github/workflows directory, named main.yml. 
         If there is an action it has to be started from this directory and be found in the main.yml file.
-        </li>
-        <li>
+      </li>
+      <li>
 <code>name: A workflow for my Hello World file </code><br>
 <span class="normal">//This is the full name that will show up in the action page.</span><br>
 <code>on: push </code><br>
@@ -41,18 +41,18 @@
 <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MY_NAME: "Mona" </code><br>
 <span class="normal">//This is a parameter to the script</span>
 <br>
-<img src="./imgs/action1.png" /><br><br><br>
-<img src="./imgs/action2.png" /><br><br><br>
-<img src="./imgs/action3.png" /><br>
-        </li>
-        <li>The action-a script is another layer of complexity<br>
+<img alt="Action for hello world" src="./imgs/action1.png" /><br><br><br>
+<img alt="Jobs within the action" src="./imgs/action2.png" /><br><br><br>
+<img alt="Steps in a job" src="./imgs/action3.png" /><br>
+      </li>
+      <li>The action-a script is another layer of complexity<br>
 <code>name: "Hello Actions"</code><br>
 <code>description: "Greet someone"</code><br>
 <code>author: "octocat@github.com"</code><br>
 <br>
 <code>inputs:</code><br>
-<code>&nbsp;&nbsp;MY_NAME: </code><br>
-<span class="normal">//This is the parameter to the action that comes from the main YML.</span></br>
+<code>&nbsp;&nbsp;MY_NAME:</code><br>
+<span class="normal">//This is the parameter to the action that comes from the main YML.</span><br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;description: "Who to greet"</code><br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;required: true</code><br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;default: "World"</code><br>
@@ -65,8 +65,8 @@
 <code>branding:</code><br>
 <code>&nbsp;&nbsp;icon: "mic"</code><br>
 <code>&nbsp;&nbsp;color: "purple"</code>
-        </li>
-        <li>
+      </li>
+      <li>
           The docker script adds a third layer of complexity. At this point
           at least this code is more direct.<br>
 <code>FROM debian:9.5-slim</code><br>
@@ -77,49 +77,47 @@
 <span class="normal">//Chmod changes the permissions on a file. In this case allowing it to be run as a script.</span><br>
 <code>ENTRYPOINT ["/entrypoint.sh"] </code><br>
 <span class="normal">//This keyword makes that script an executable external interface of the container.</span>
-        </li>
-        <li>
+      </li>
+      <li>
           The script itself is a pretty simple bit of code.<br>
 <code>#!/bin/sh -l </code><br>
 <span class="normal">//This is the required "shebang" indicating the kind of script.</span><br>
 <span class="normal">//sh invokes the standard command interpreter. I have no idea what -l does</span><br>
 <code>sh -c "echo Hello world my name is $INPUT_MY_NAME" </code><br>
 <span class="normal">&lt;-- sh means run as a script. Option c treats the string like a single command.</span>
-        </li>
-        <li>
+      </li>
+      <li>
           Note that when the main.yml executes it creates an Ubutu OS image for the runtime environment.
           This in accordance with the script and confirmed in the execution output.<br>
-<img src="./imgs/action4.png" /><br><br>
+<img alt="YML script" src="./imgs/action4.png" /><br><br>
           In action-a, however, the Dockerfile requires a Debian OS image. In the execution output it can
           be seen that #1 Docker is spinning up a debian environment. Steps #2 through #4 follow the docker
           script creating a container with the required entry point/interface. The output #5 is the result
           of the uses statement in main.yml. Apparently the entry point/interface is executed automatically.<br>
-<img src="./imgs/action-a.png" />
-        </li>
-        <li>
-          <b>CURRENT WORKING THEORY</b>: main.yml subordinates all actions which may be individiually defined in separate folders.
+<img alt="Corresponding output" src="./imgs/action-a.png" />
+      </li>
+      <li>
+        <b>CURRENT WORKING THEORY</b>: main.yml subordinates all actions which may be individiually defined in separate folders.
           within that folder, the yml script can subordinate any additional scripts. In this case there is a docker script to create
           the container, insert the script, and make that script an executable for that container.<br><br>
           As a result of this system two containers are created and executed in the following steps:<br>
-          <ol>
-            <li>Main.yml creates the checkout container with all code.</li>
-            <li>Main.yml uses the action-a yml script which initially sets up a temporary container with Docker.
-              <ol start="3">
-                <li>The docker script adds the entrypoint.sh script to the container.</li>
-                <li>The docker script makes that entrypoint script the EntryPoint/interface for the container.</li>
-              </ol>
-            </li>
-            <li value="5">The container created by action-a is executed with the parameter Mona.</li>
-            <li>That execution takes place.
-              <ol start="7">
-                <li>The entrypoint.sh script executes and sends output to screen.</li>
-              </ol>
-            </li>
-          </ol>
-
-<img src="./imgs/action5.png" />
-        </li>
-      </ul>
-    </p>
+        <ol>
+          <li>Main.yml creates the checkout container with all code.</li>
+          <li>Main.yml uses the action-a yml script which initially sets up a temporary container with Docker.
+            <ol start="3">
+              <li>The docker script adds the entrypoint.sh script to the container.</li>
+              <li>The docker script makes that entrypoint script the EntryPoint/interface for the container.</li>
+            </ol>
+          </li>
+          <li value="5">The container created by action-a is executed with the parameter Mona.</li>
+          <li>That execution takes place.
+            <ol start="7">
+              <li>The entrypoint.sh script executes and sends output to screen.</li>
+            </ol>
+          </li>
+        </ol>
+        <img src="./imgs/action5.png" />
+      </li>
+    </ul>
   </body>
 </html>
