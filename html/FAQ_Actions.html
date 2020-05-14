@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Additional information on Actions</title>
+    <style>
+      body {width:500px;}
+      code {color:blue; font-weight:bold;}
+      .normal {color:black; font-weight:normal; font-style:normal;}
+      img {border: solid black 2px; width:400px;}
+    </style>
+    <script>
+    </script>
+  </head>
+  <body>
+    <h3>Additional instructions on actions</h3>
+    <dl>
+      <dt>Positive/negative paths</dt>
+      <dd>
+        In a Workflow you can define each step to either execute on success,
+        failure, etc. The default is to execute on the step only if it has
+        been successful. These cases can be used to create error paths and 
+        to execute a set of tests that may not all pass. <a href="https://help.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions">More information</a><br>
+        <code>- name: Mismatch answer math test</code><br>
+        <code>&nbsp;&nbsp;if: ${{success() || failure() }}</code><br>
+        <code>&nbsp;&nbsp;uses: ./.github/actions/mathTest</code>
+      </dd>
+      <dt></dt><dd></dd>
+      <dt></dt><dd></dd>
+      <dt></dt><dd></dd>
+    </dl>
+  </body>
+</html>
