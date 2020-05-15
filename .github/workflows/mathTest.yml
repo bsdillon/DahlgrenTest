@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    -name: Math Tests
+    - name: Math Tests
     - name: Successful math test
       uses: ./.github/actions/mathTest
       if: ${{success()}}
