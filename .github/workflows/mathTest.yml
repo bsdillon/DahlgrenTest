@@ -5,22 +5,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    -name: Math Tests
     - name: Successful math test
       uses: ./.github/actions/mathTest
+      if: ${{success()}}
       with:
         OPERAND1: 3
         OPERAND2: 5
         ANSWER: 2
+    steps:
     - name: Mismatch answer math test
-      if: ${{success()}}
       uses: ./.github/actions/mathTest
+      if: ${{failure() }}
       with:
         OPERAND1: -3
         OPERAND2: 2
         ANSWER: 1
+    steps:
     - name: Missing operand math test
-      if: ${{failure() }}
       uses: ./.github/actions/mathTest
+      if: ${{failure() }}
       with:
         OPERAND1: -3
         ANSWER: 5
