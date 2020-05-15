@@ -15,7 +15,7 @@ jobs:
         ANSWER: 2
     steps:
     - name: Mismatch answer math test
-      uses: ./.github/actions/mathTest
+    - uses: ./.github/actions/mathTest
       if: ${{failure() }}
       with:
         OPERAND1: -3
@@ -23,7 +23,7 @@ jobs:
         ANSWER: 1
     steps:
     - name: Missing operand math test
-      uses: ./.github/actions/mathTest
+    - uses: ./.github/actions/mathTest
       if: ${{failure() }}
       with:
         OPERAND1: -3
