@@ -27,6 +27,6 @@ jobs:
       with:
         OPERAND1: -3
         ANSWER: 5
-  outcome: ${{success}}
+  outcome: ${{success()}}
     
       
