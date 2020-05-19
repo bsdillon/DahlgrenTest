@@ -23,7 +23,7 @@ jobs:
         ANSWER: 1 '
     - name: Missing operand math test
       id: step3
-      if: ${{ steps.step3.outcome == failure() || steps.step3.outcome == success() }}
+      if: ${{ outcome == failure() || outcome == success() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
