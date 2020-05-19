@@ -27,7 +27,5 @@ jobs:
       with:
         OPERAND1: -3
         ANSWER: 5
-  conclusion: ${{ !outcome }}
-     
+          
     
-      
