@@ -2,7 +2,7 @@ name: HTML Validation Checks
 on: 
   push:
     branches:
-      - update-documentation
+      - 'update-documentation'
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
