@@ -5,6 +5,8 @@ on:
     branches:
       - 'JavaTest'
   pull_request:
+    branches: 
+      - 'master'
     branches-ignore:
       - 'update-documentation'
 jobs:
