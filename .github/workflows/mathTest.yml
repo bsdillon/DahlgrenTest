@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Mismatch answer math test
-      if: $!{{ always() }}
+      if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
