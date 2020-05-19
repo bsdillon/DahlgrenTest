@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Signing up for a Stack Overflow Account</title>
+    <title>Updating a Branch from Master</title>
       <style>
         body {width:575px;}
       </style>
@@ -9,37 +9,44 @@
     </script>
   </head>
   <body>
-    <h3 class="assignment">Signing up for a Stack Overflow</h3>
-    <p>Stack Overflow is an important resource for research and general 
-      knowledge of computer science and it is important that we fully 
-      utilize it by creating an account.</p>
-      <ul>
-        <li>To start, follow <a href="https://stackoverflow.com"
-          target="_blank">this link</a> and navigate to the blue sign up
-          button.</li>
-          <img alt="StackOverFlow" src="./imgs/StackOverflowAcct01.png"/>
-        <li>Next, choose a display name(similar to GitHub, choose something 
-          appropriate) and then signup using an email and password.</li>
-          <ul>
-            <ul>
-              <ul>
-                  <ul><img alt="StackOverFlow" src="./imgs/StackOverflowAcct02.png"/></ul>
-              </ul>
-            </ul>
-          </ul>
-        <li>After signing up, you will be told to check your email for a 
-          confirmation email. It will look something like this:</li>
-          <img alt="StackOverFlow" src="./imgs/StackOverflowAcct03.png"/>
-          <img alt="StackOverFlow" src="./imgs/StackOverflowAcct04.png"/>
-        <li>Confirming will take you to this page, where you can confirm your 
-          information and finalize your account settings.</li>
-          <ul>
-            <ul>
-              <ul>
-                  <ul><img alt="StackOverFlow" src="./imgs/StackOverflowAcct05.png"/></ul>
-              </ul>
-            </ul>
-          </ul>
-      </ul>
+    <h3>How to update a branch</h3>
+    <p>
+      When a branch has been created for a feature and then closed
+      it hangs around until someone closes it. When this happens, 
+      that branch becomes outdated in comparison to the master trunk.
+      This process will update the branch so it can be closed.
+    </p>
+    <p>
+      From the repository's main page, select the branches tab to show
+      what branches exist and how far out of date they are from the 
+      master.
+      <br>
+      <img alt="Look for existing branches" src="./imgs/updateBranch.png">
+    </p>
+    <p>
+      This view shows both changes in master that need to be updated.
+      Note that the Math-Test branch has 26 commits in its own branch 
+      that need to be merged with master. At the same time, master has
+      had 15 new commits that need to be merged with Math-Test. A 
+      long-living branch will become outdated and needs to be returned
+      to the master.
+      <br>
+      <img alt="Check for currency" src="./imgs/updateBranch2.png">
+    </p>
+    <p>
+      Once a branch has been identified, from desktop move to that branch.
+      In the menu select Branch > Update from Master. Don't forget to fetch
+      origin to get all those updates. Once this is done, any change from
+      master will also be available on this branch.
+      <br>
+      <img alt="Update on desktop" src="./imgs/updateBranch4.png">
+    </p>
+    <p>
+      If you refreshed the list of branches online, you will see that
+      the branch is now caught up with the master branch. At this point
+      the branch could be deleted.
+      <br>
+      <img alt="Branch is current" src="./imgs/updateBranch5.png">
+    </p>
   </body>
 </html>
