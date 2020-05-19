@@ -1,5 +1,8 @@
 name: HTML Validation Checks
-on: pull_request
+on: 
+  push:
+    branches:
+      - update-documentation
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
