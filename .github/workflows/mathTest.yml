@@ -22,7 +22,7 @@ jobs:
         ANSWER: 1 '
     - id: step3
       name: Missing operand math test
-      if: ${{ outcome || !outcome }}
+      if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
