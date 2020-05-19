@@ -12,7 +12,7 @@ jobs:
         OPERAND2: 5
         ANSWER: 2
     - name: Mismatch answer math test
-      if: ${{ always() }} # always() means that the test will always run regardless of the previous test 
+      #if: ${{ always() }} # always() means that the test will always run regardless of the previous test 
                           # I think that could be a better alternative to if: ${{ success() || failure() }}
       uses: ./.github/actions/mathTest
       with:
@@ -21,7 +21,7 @@ jobs:
         ANSWER: 1
       continue-on-error: true
     - name: Missing operand math test
-      if: ${{ always() }}
+      # if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
