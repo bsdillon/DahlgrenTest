@@ -6,15 +6,15 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Successful math test
+      id: step1
+      
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: 3
         OPERAND2: 5
         ANSWER: 2
-  testing-failure:
-    runs-on: ubuntu-latest
-    steps:
     - name: Mismatch answer math test
+      id: step2
       if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
@@ -22,10 +22,9 @@ jobs:
         OPERAND2: 2
         ANSWER: 1 '
     - name: Missing operand math test
-      if: ${{ always() }}
+      id: step3
+      if: ${{ steps.step3.outcome == failure }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         ANSWER: 5
-          
-    
