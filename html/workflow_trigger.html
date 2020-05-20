@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Control workflow triggers</title>
+    <link rel="stylesheet" type="text/css" href="common.css">
+    <style>
+    </style>
+    <script>
+    </script>
+  </head>
+  <body>
+    <h3>Control workflow triggers</h3>
+    <p>
+     When creating a workflow, the second line, after the flow's name,
+     is the trigger. <br>
+     <code>
+     name: some name<br>
+     &nbsp;&nbsp;on: push
+     </code>     
+    </p>
+    <p>
+      There are <a href="https://help.github.com/en/actions/reference/events-that-trigger-workflows#webhook-events">many events</a>
+      that can trigger an event, but the two most common are:
+    </p>
+    <ul>
+      <li><code>push</code></li>
+      <li><code>pull-request</code></li>
+    </ul>
+    <p>
+      These events can also be paired with specific branches<br>
+      <code>
+      on:<br>
+      &nbsp;&nbsp;push:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;branches:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- master<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 'devel-html'</code><br>
+      OR exclude certain branches<br>
+      <code>&nbsp;&nbsp;pull_request:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;branches-ignore:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 'other'</code><br>
+      OR use pattern matching for branch names<br>
+      <code>&nbsp;&nbsp;pull_request:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;branches-ignore:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 'devel-**'</code><br>
+    </p>
+    <p>
+      By employing a group of these triggers you can specify a test to
+      run under specific conditions and no other. There are a number of
+      different combinations for full documentation see 
+      <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#triggering-a-workflow-with-events">this page</a>.
+    </p>
+  </body>
+</html>

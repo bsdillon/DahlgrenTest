@@ -1,0 +1,13 @@
+Using Maven to build action
+* https://medium.com/faun/continuous-integration-of-java-project-with-github-actions-7a8a0e8246ef
+* https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
+* https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+
+Using Gradle
+* https://help.github.com/en/actions/language-and-framework-guides/publishing-java-packages-with-gradle
+
+Other formats
+* https://help.github.com/en/actions/language-and-framework-guides/github-actions-for-java
+
+Probably not helpful
+* https://examples.javacodegeeks.com/devops/docker/docker-hello-world-example/
