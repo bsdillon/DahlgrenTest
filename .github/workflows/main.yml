@@ -1,5 +1,11 @@
 name: HTML Validation Checks
-on: push
+on:
+  push:
+    branches-ignore: 
+      - Math-Test-Passing-By-Failing*'
+  pull_request:
+    branches:
+      - "*"
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
