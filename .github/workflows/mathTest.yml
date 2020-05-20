@@ -40,4 +40,4 @@ jobs:
       if: always()
       run: echo $outcome
       env:
-        outcome: ${{ job.status }}
+        outcome: ${{ job.steps.step2.outcome }}
