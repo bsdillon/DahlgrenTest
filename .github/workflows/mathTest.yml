@@ -35,7 +35,6 @@ jobs:
         ANSWER: 5
     - name: show job status
       if: always()
-      run: echo $status 
-      env: 
+      run: echo $status
+      env:
         status: ${{job.status}}
-      
