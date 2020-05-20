@@ -33,8 +33,9 @@ jobs:
       with:
         OPERAND1: -3
         ANSWER: 5
+      continue-on-error: true
     - name: show job status
       if: always()
       run: echo $status
       env:
-        status: ${{job.status.step}}
+        status: ${{job.status}}
