@@ -37,5 +37,5 @@ jobs:
       if: always()
       run: echo $status 
       env: 
-        status: ${{job.status}}
+        status: ${{job.status = success}}
       
