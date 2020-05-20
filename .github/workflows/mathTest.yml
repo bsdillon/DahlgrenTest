@@ -1,5 +1,11 @@
 name: Math Tests verifying parameters
-on: push
+on:
+  push:
+    branches:
+      - 'Math-Test-Pass*'
+  pull_request:
+    branches:
+      - "*"
 jobs:
   build:
     runs-on: ubuntu-latest
