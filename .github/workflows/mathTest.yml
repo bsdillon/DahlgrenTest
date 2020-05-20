@@ -38,6 +38,16 @@ jobs:
     - name: show job status
       id: step4
       if: always()
-      run: echo $outcome
+      run: echo $status
       env:
-        outcome: ${{ !job.status }}
+        status: ${{ job.status }}
+
+
+
+
+
+
+
+
+
+
