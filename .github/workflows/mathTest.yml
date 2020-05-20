@@ -36,7 +36,8 @@ jobs:
         OPERAND1: -3
         ANSWER: 5
     - name: show job status
+      id: step4
       if: always()
-      run: echo $status
+      run: echo $outcome
       env:
-        status: ${{ job.status }}
+        outcome: ${{ job.steps.step4 }}
