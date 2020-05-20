@@ -25,11 +25,17 @@ jobs:
       with:
         OPERAND1: -3
         OPERAND2: 2
-        ANSWER: 1 '
-    - id: step3
-      name: Missing operand math test
+        ANSWER: 1
+    - name: Missing operand math test
+      id: step3
       if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         ANSWER: 5
+    - name: show job status
+      if: always()
+      run: echo $status 
+      env: 
+        status: ${{job.status}}
+      
