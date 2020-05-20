@@ -35,6 +35,7 @@ jobs:
       with:
         OPERAND1: -3
         ANSWER: 5
+        fail-on-error: true
     - name: show job status
       id: step4
       if: always()
