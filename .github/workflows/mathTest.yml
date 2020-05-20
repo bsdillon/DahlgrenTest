@@ -2,7 +2,7 @@ name: Math Tests verifying parameters
 on:
   push:
     branches:
-      - Math-Test-Pass*'
+      - 'Math-Test-Pass*'
   pull_request:
     branches:
       - "*"

@@ -2,7 +2,7 @@ name: HTML Validation Checks
 on:
   push:
     branches-ignore: 
-      - Math-Test-Passing-By-Failing*'
+      - 'Math-Test-Passing-By-Failing*'
   pull_request:
     branches:
       - "*"
