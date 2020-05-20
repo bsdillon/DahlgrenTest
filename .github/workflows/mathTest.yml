@@ -26,6 +26,7 @@ jobs:
         OPERAND1: -3
         OPERAND2: 2
         ANSWER: 1
+      continue-on-error: true
     - name: Missing operand math test
       id: step3
       if: ${{ always() }}
