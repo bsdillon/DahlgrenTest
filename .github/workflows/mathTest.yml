@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Successful math test
-      id: step1
+      id: step
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: 3
