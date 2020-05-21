@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Workflow YML Syntax</title>
+    <link rel="stylesheet" type="text/css" href="common.css">
+    <style>
+      dd dt code {color:#00AA00;}
+    </style>
+    <script>
+    </script>
+  </head>
+  <body>
+    <h3>Workflow YML Syntax</h3>
+    <p>
+      The workflow file uses a YML syntax referenced <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow">here</a>.
+      All workflow files are saved in the same <a href="https://github.com/bsdillon/DahlgrenTest/tree/master/.github/workflows">directory</a>. The workflow has several required parts.
+    </p>
+    <dl>
+      <dt><code>name:</code></dt>
+      <dd>
+        You can use any name you want for a workflow, but it does show up in the actions tab.<br>
+        <img alt="workflow names" src="./imgs/action1.png">
+      </dd>
+      <dt><code>on:</code></dt>
+      <dd>
+        This section defines one or more triggers. <a href="workflow_trigger.html">Another document</a>
+        discusses this more extensively.
+      </dd>
+      <dt><code>jobs:<br>
+          &nbsp;&nbsp;named_job:</code></dt>
+      <dd>
+        Each job is its own nested entity with a unique name. You could have several of them in the same workflow.<br>
+        <dl>
+          <dt><code>runs-on:</code></dt>
+          <dd>
+            This section defines the virtual machine which will run the job.
+            There are a variety of <a href="https://help.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources">pre-defined runner</a> options.
+            There is another option to <a href="https://help.github.com/en/actions/hosting-your-own-runners/using-self-hosted-runners-in-a-workflow">define your own runner</a>. You may also create a
+            <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#configuring-a-build-matrix">matrix of runners</a> to execute the same test on several VMs.
+          </dd>
+          <dt><code>steps:</code></dt>
+          <dd>
+             The steps of the job can be a variety of different things that execute sequentially.
+          </dd>
+        </dl>
+      </dd>
+      <dt><code></code></dt>
+      <dd>
+      </dd>
+      <dt><code></code></dt>
+      <dd>
+      </dd>
+      <dt><code></code></dt>
+      <dd>
+      </dd>
+      <dt><code></code></dt>
+      <dd>
+      </dd>
+      <dt><code></code></dt>
+      <dd>
+      </dd>
+      <dt><code></code></dt>
+      <dd>
+      </dd>
+    </dl>
+  </body>
+</html>
