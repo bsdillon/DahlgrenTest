@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="common.css">
     <style>
       dd dt code {color:#00AA00;}
+      dd dd dt code {color:#CC00CC;}
     </style>
     <script>
     </script>
@@ -29,38 +30,50 @@
       <dt><code>jobs:<br>
           &nbsp;&nbsp;named_job:</code></dt>
       <dd>
-        Each job is its own nested entity with a unique name. You could have several of them in the same workflow.<br>
+        Each job is its own nested entity with a unique name. You could have several of them in the same workflow.
         <dl>
+          <dt><code>env:<br>
+              &nbsp;&nbsp;VAR_NAME:</code> var_value
+          </dt>
+          <dd>
+            Environmental variables may be declared for a job. Each variable name will be INPUT_<i>VAR_NAME</i> in
+            then new VM.
+          </dd>
           <dt><code>runs-on:</code></dt>
           <dd>
-            This section defines the virtual machine which will run the job.
+            This section defines the virtual machine which will run the job. This is the cloud on which you can test your programs.
             There are a variety of <a href="https://help.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources">pre-defined runner</a> options.
             There is another option to <a href="https://help.github.com/en/actions/hosting-your-own-runners/using-self-hosted-runners-in-a-workflow">define your own runner</a>. You may also create a
             <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#configuring-a-build-matrix">matrix of runners</a> to execute the same test on several VMs.
           </dd>
-          <dt><code>steps:</code></dt>
+          <dt><code>steps:<br>
+              &nbsp;&nbsp;- id: step_name</code></dt>
           <dd>
-             The steps of the job can be a variety of different things that execute sequentially.
+             The steps of the job can be a variety of different things that execute sequentially. There are <a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits">limits</a>
+             to the length and number of jobs that can be run, but these are not unreasonable. The step IDs also show up in the actions tab.<br>
+             <img alt="workflow names" src="./imgs/action2.png">
+            <dl>
+              <dt><code>- using: path/to/action</code></dt>
+              <dd>
+                Individual actions can be called with a using statement. The action
+                can be specified to a particular version or release</a> in the form
+                <nobr>{owner}/{repo}@{ref}</nobr>. GitHub itself has a default action
+                owner with <a href="https://github.com/actions">multiple defined actions</a>.
+              </dd>
+              <dt><code>- using: action/checkout@v2</code></dt>
+              <dd>
+                V2 is the current stable baseline for the checkout action. This action is 
+                "equivalent to 'git fetch' and 'git clone'". In other words it creates
+                a local copy of our repository for use in the running machine.
+              </dd>
+              <dt><code>uses: docker://alpine</code></dt>
+              <dd>
+                Docker actions are a specialized topic that needs to be investigated. Some
+                documentation is available <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#referencing-a-container-on-docker-hub">here</a>.
+              </dd>
+            </dl>
           </dd>
         </dl>
-      </dd>
-      <dt><code></code></dt>
-      <dd>
-      </dd>
-      <dt><code></code></dt>
-      <dd>
-      </dd>
-      <dt><code></code></dt>
-      <dd>
-      </dd>
-      <dt><code></code></dt>
-      <dd>
-      </dd>
-      <dt><code></code></dt>
-      <dd>
-      </dd>
-      <dt><code></code></dt>
-      <dd>
       </dd>
     </dl>
   </body>
