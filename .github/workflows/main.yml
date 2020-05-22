@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'update-documentation'
+      - 'master'
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
