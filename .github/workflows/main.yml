@@ -1,5 +1,5 @@
 name: HTML Validation Checks
-on: 
+on:
   push:
     branches:
       - 'update-documentation'
