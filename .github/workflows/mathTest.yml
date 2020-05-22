@@ -12,37 +12,24 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Successful math test
-      id: step
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: 3
         OPERAND2: 5
         ANSWER: 2
     - name: Mismatch answer math test
-      id: step2
       if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         OPERAND2: 2
         ANSWER: 1
-      env: 
-        outcome: ${{ steps.step2.outcome }}
     - name: Missing operand math test
-      id: step3
       if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         ANSWER: 5
-        fail-on-error: true
-    - name: show job status
-      id: step4
-      if: always()
-      run: echo $status
-      env:
-        status: ${{ job.status }}
-
 
 
 
