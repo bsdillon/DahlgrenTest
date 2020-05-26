@@ -16,8 +16,9 @@ jobs:
         root: ./html
         css: true
         format: xml
+        action_debug: true
     - name: Get HTML log
       uses: actions/upload-artifact@v1
       with:
         name: log
-        path: ./html/log.log
+        path: log.log
