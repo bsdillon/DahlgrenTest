@@ -14,10 +14,3 @@ jobs:
       with:
         root: ./html
         css: true
-        format: text
-    - name: Get HTML log
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@v1
-      with:
-        name: HTML-Fails
-        path: log.log
