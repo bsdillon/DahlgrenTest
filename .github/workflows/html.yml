@@ -15,10 +15,9 @@ jobs:
         root: ./html
         css: true
         format: text
-        log_level: DEBUG
     - name: Get HTML log
       if: ${{ failure() }}
       uses: actions/upload-artifact@v1
       with:
-        name: log
+        name: HTML-Fails
         path: log.log
