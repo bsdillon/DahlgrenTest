@@ -10,11 +10,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Validate HTML Files
-      uses: Cyb3r-Jak3/html5validator-action@v0.3
+      uses: Cyb3r-Jak3/html5validator-action@v0.4
       id: me_1
       with:
         root: ./html
         css: true
+        format: xml
     - name: Get HTML log
       if: ${{ failure() }}
       uses: actions/upload-artifact@v1
