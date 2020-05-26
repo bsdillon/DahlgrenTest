@@ -17,6 +17,7 @@ jobs:
         format: text
         action_debug: true
     - name: Get HTML log
+      if: ${{ failure() }}
       uses: actions/upload-artifact@v1
       with:
         name: log
