@@ -1,8 +1,12 @@
 name: HTML Validation Checks
-on: 
+on:
   push:
     branches:
       - 'update-documentation'
+      - 'master'
+  pull_request:
+    branches: 
+      - 'master'
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
@@ -13,9 +17,3 @@ jobs:
       with:
         root: ./html
         css: true
-    - name: Get HTML log
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@v1
-      with:
-        name: log
-        path: log.log

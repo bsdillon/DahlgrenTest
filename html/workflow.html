@@ -47,14 +47,15 @@
             <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#configuring-a-build-matrix">matrix of runners</a> to execute the same test on several VMs.
           </dd>
           <dt><code>steps:<br>
-              &nbsp;&nbsp;- id: step_id<br>
-              &nbsp;&nbsp;- name: step_name</code></dt>
+              &nbsp;&nbsp;- name: step_name<br>
+              &nbsp;&nbsp;- id: step_id</code></dt>
           <dd>
              The steps of the job can be a variety of different things that execute sequentially. There are <a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits">limits</a>
-             to the length and number of jobs that can be run, but these are not unreasonable. The step IDs also show up in the actions tab. Each step should start with a name that will show up in the action reports.
-             <br>
-             <img alt="workflow names" src="./imgs/action2.png"><br>
-             Each step can also have an id number so that the workflow can coordinate among the step.
+             to the length and number of jobs that can be run, but these are not unreasonable. The step name also shows up in the actions tab.<br>
+             <img alt="workflow names" src="./imgs/action2.png">
+            <br>
+             The step ID is an optional tag that can be used to relay information between steps. For example <code>steps.some_ID.outputs.output</code> can be used
+             in another step to derive information from some_ID. A great example of this is in <a href="https://github.com/Duckle29/actions_test/blob/master/.github/workflows/qmkpid.yml">another repository</a>.
             <dl>
               <dt><code>uses: path/to/action</code></dt>
               <dd >

@@ -1,12 +1,13 @@
 name: Java Hello World
 
-on: 
+on:
   push:
     branches:
       - 'JavaTest'
   pull_request:
-    branches: 
+    branches:
       - 'master'
+      - '!update-documentation'
 jobs:
 
   build:

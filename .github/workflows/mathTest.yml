@@ -1,5 +1,8 @@
 name: Math Tests verifying parameters
-on: push
+on:
+  push:
+    branches:
+      - 'Math-Test-Pass*'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,15 +15,24 @@ jobs:
         OPERAND2: 5
         ANSWER: 2
     - name: Mismatch answer math test
-      if: ${{success() || failure() }}
+      if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         OPERAND2: 2
         ANSWER: 1
     - name: Missing operand math test
-      if: ${{success() || failure() }}
+      if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         ANSWER: 5
+
+
+
+
+
+
+
+
+
