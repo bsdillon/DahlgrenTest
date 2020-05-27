@@ -4,6 +4,9 @@ on:
     branches:
       - 'update-documentation'
       - 'master'
+  pull_request:
+    branches: 
+      - 'master'
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
