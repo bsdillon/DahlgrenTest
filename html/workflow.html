@@ -57,14 +57,16 @@
              The step ID is an optional tag that can be used to relay information between steps. For example <code>steps.some_ID.outputs.output</code> can be used
              in another step to derive information from some_ID. A great example of this is in <a href="https://github.com/Duckle29/actions_test/blob/master/.github/workflows/qmkpid.yml">another repository</a>.
             <dl>
-              <dt><code>- using: path/to/action</code></dt>
+              <dt><code>uses: path/to/action</code></dt>
               <dd >
                 Individual actions can be called with a using statement. The action
                 can be specified to a particular version or release in the form
                 <code>{owner}/{repo}@{ref}</code>. GitHub itself has a default action
-                owner with <a href="https://github.com/actions">multiple defined actions</a>.
+                owner with <a href="https://github.com/actions">multiple defined actions</a>.<br><br>
+                Note also that if you create a workflow in github, the editor will give you <a href="https://help.github.com/en/actions/getting-started-with-github-actions/using-actions-from-github-marketplace">helpful suggestions</a>
+                for other actions you may wish to reuse.
               </dd>
-              <dt><code>- using: action/checkout@v2</code></dt>
+              <dt><code>uses: action/checkout@v2</code></dt>
               <dd>
                 V2 is the current stable baseline for the checkout action. This action is 
                 "equivalent to 'git fetch' and 'git clone'". In other words it creates

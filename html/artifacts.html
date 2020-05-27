@@ -11,6 +11,7 @@
     </script>
   </head>
   <body>
+    <a href="https://developer.github.com/v3/actions/artifacts/">Additional references</a>
     <h3>Creating Artifacts</h3>
     <p>
       Within a job you can create an artifact. This is a great way to store data and 
@@ -19,5 +20,51 @@
       you can specify the name of the artifact that will be created.<br>
       <img alt="code for artifacts" src="./imgs/artifacts.png" />
     </p>
+    <h3>Files of System Data</h3>
+    <p>
+      One use for artifacts is the output of any system command from the test system.
+      This workflow script runs a list command 'ls' to get the full list of HTML 
+      documents in the folder. The data is output into a file and then saved as an 
+      artifact.<br><br>
+<code>
+1 - name: Save File listing<br>
+2 &nbsp;&nbsp;run: ls html/ > out.txt<br>
+3 - name: Keep file listing artifact<br>
+4 &nbsp;&nbsp;uses: actions/upload-artifact@v1<br>
+5 &nbsp;&nbsp;with:<br>
+6 &nbsp;&nbsp;&nbsp;&nbsp;name: file_list<br>
+7 &nbsp;&nbsp;&nbsp;&nbsp;path: out.txt
+</code>
+    </p>
+    <h4>Explanation of lines</h4>
+    <ol>
+      <li value="2">The ls command produces a list of all files in a given directory. In this case it is DahlgreTest/html/ where all the HTML files are located. The '&gt;' pipes the output into a file 'out.txt'.</li>
+      <li value="6">This is the name of the artifact that will be created.</li>
+      <li>The location of the same file created on line 2.</li>
+    </ol>
+    <h3>Screenshot Images</h3>
+    <p>
+      There is <a href="https://github.com/hakierspejs/jekyll-screenshot-github-action">a project</a> that can take screenshots of
+      a web page as part of a test/workflow. The workflow will need the following syntax.<br><br>
+<code>
+1  jobs:<br>
+2  &nbsp;&nbsp;build:<br>
+3  &nbsp;&nbsp;&nbsp;&nbsp;runs-on: ubuntu-latest<br>
+4  &nbsp;&nbsp;&nbsp;&nbsp;steps:<br>
+5  &nbsp;&nbsp;&nbsp;&nbsp;- uses: actions/checkout@master<br>
+6  &nbsp;&nbsp;&nbsp;&nbsp;- uses: hakierspejs/jekyll-screenshot-github-action@master<br>
+7  &nbsp;&nbsp;&nbsp;&nbsp;- uses: actions/upload-artifact@v1<br>
+8  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with:<br>
+9  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: screenshot<br>
+10 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;path: /home/runner/work/_temp/_github_home/screenshot.png
+</code>
+    </p>
+    <h4>Explanation of lines</h4>
+    <ol>
+      <li value="6">This is the action written by hakierspejs. The action runs locally and saves the image at the path on line 10.</li>
+      <li>The upload will save the screenshot taken.</li>
+      <li value="9">This is the name of the artifact that will be created.</li>
+      <li>This the path on the runner where the saved screenshot is temporarily stored.</li>
+    </ol>
   </body>
 </html>
