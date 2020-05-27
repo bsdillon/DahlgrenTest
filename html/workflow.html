@@ -47,20 +47,25 @@
             <a href="https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#configuring-a-build-matrix">matrix of runners</a> to execute the same test on several VMs.
           </dd>
           <dt><code>steps:<br>
-              &nbsp;&nbsp;- id: step_name</code></dt>
+              &nbsp;&nbsp;- id: step_id<br>
+              &nbsp;&nbsp;- name: step_name</code></dt>
           <dd>
              The steps of the job can be a variety of different things that execute sequentially. There are <a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits">limits</a>
-             to the length and number of jobs that can be run, but these are not unreasonable. The step IDs also show up in the actions tab.<br>
-             <img alt="workflow names" src="./imgs/action2.png">
+             to the length and number of jobs that can be run, but these are not unreasonable. The step IDs also show up in the actions tab. Each step should start with a name that will show up in the action reports.
+             <br>
+             <img alt="workflow names" src="./imgs/action2.png"><br>
+             Each step can also have an id number so that the workflow can coordinate among the step.
             <dl>
-              <dt><code>- using: path/to/action</code></dt>
+              <dt><code>uses: path/to/action</code></dt>
               <dd >
                 Individual actions can be called with a using statement. The action
                 can be specified to a particular version or release in the form
                 <code>{owner}/{repo}@{ref}</code>. GitHub itself has a default action
-                owner with <a href="https://github.com/actions">multiple defined actions</a>.
+                owner with <a href="https://github.com/actions">multiple defined actions</a>.<br><br>
+                Note also that if you create a workflow in github, the editor will give you <a href="https://help.github.com/en/actions/getting-started-with-github-actions/using-actions-from-github-marketplace">helpful suggestions</a>
+                for other actions you may wish to reuse.
               </dd>
-              <dt><code>- using: action/checkout@v2</code></dt>
+              <dt><code>uses: action/checkout@v2</code></dt>
               <dd>
                 V2 is the current stable baseline for the checkout action. This action is 
                 "equivalent to 'git fetch' and 'git clone'". In other words it creates
