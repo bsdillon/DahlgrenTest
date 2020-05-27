@@ -12,6 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Save File listing
+      run: ls > out.txt
+    - name: Keep file listing artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: file_list.txt
+        path: out.txt
     - name: Validate HTML Files
       uses: Cyb3r-Jak3/html5validator-action@v0.3
       with:
