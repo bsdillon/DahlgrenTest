@@ -1,4 +1,4 @@
-from code.validate import validate_email
+from app.core.validate import validate_email
 
 import pytest
 

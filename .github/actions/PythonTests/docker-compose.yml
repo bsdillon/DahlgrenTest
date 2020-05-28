@@ -1,0 +1,19 @@
+version: "3.2"
+
+services:
+  pytesting:       
+    build: 
+      dockerfile: ./Docker/Dockerfile
+      context: ../
+
+    env_file:
+      - env-config.env
+      
+    stdin_open: true
+    tty: true
+    
+    command:
+      /bin/bash
+
+    volumes:
+      - ../:/working
