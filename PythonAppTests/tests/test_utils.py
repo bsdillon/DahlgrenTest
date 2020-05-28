@@ -1,4 +1,4 @@
-from code.utils import add, remove_spaces
+from PythonAppTests.code.utils import add, remove_spaces
 import pytest
 
 
