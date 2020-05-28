@@ -1,4 +1,4 @@
-from awesomecode.validate import validate_email
+from code.validate import validate_email
 
 import pytest
 
