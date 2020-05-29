@@ -3,7 +3,7 @@ version: "3.2"
 services:
   pytesting:       
     build: 
-      dockerfile: ./Docker/Dockerfile
+      dockerfile: ./.github/actions/PythonTests/Dockerfile
       context: ../
 
     env_file:
