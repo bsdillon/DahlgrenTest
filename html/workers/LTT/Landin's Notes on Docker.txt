@@ -12,3 +12,11 @@ How this relates to GitHub actions
 We can use actions to install the dependencies and to run the program
 
 we can also install dependencies that will allow us to test that code.
+
+
+
+The tests before were not using docker and were native only to the GitHub actions workspace.
+With docker, one could theoretically docker pull the image from DockerHub and build the code without having to install any dependencies.
+
+Using DockerHub you and other people can push and pull images that your setup needs, which saves everyone from having to install everything. 
+We are doing something similar to this on GitHub with actions, but I think that actions are just one part of the picture when it comes to Docker.
