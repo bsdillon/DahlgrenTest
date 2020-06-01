@@ -1,0 +1,25 @@
+This is what I have for now in terms of tutorial and content. I will convert this to HTML once I’m done compiling a list of pointers.
+DevOps Link: http://play.sonatype.com/watch/DjeASur76cocPeSnaoYNJa? 
+Containers Link: https://www.docker.com/resources/what-container
+Docker Homepage: https://hub.docker.com/
+----------------------------------------------------------------
+DevOps:
+Start with code you write and eventually deploy it in the destination server which is designed to run multiple operating system or “minicomputers.” 
+Types of “minicomputers”: virtual machines, containers.
+Containers:
+Containers are a standard unit of software that packages up code and all of its component, so it can run from one computing environment to another that consists of different types of applications. 
+Docker:
+Most common platform for Containers: Docker
+Start with a Docker file that defines your configuration, asks you to download a file and move it to a folder and deploy it. 
+Docker image is made from docker file that is all of dependencies and applications into one big group. 
+All of this can be utilized in Docker Hub
+Run the docker image to create instances of containers
+**dev ops video didn’t help as much. Found another video that I could look into tomorrow. 
+https://www.youtube.com/watch?v=XxcbFRBOjdA
+----------------------------------------------------------------
+Git Hub actions:
+
+
+
+
+
