@@ -1,0 +1,14 @@
+Docker: used to separate the product from the machine it is being run on
+allows for any system to pull an image to create a container that will run the program
+
+Use it to install anything that you will need for the program.
+
+Ex.: You are developing python code.
+	You do not want to have to instal the python development programs
+	you can use docker to install the required dependencies for running the program
+
+How this relates to GitHub actions
+
+We can use actions to install the dependencies and to run the program
+
+we can also install dependencies that will allow us to test that code.
