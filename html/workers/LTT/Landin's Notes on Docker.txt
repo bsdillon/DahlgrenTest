@@ -19,4 +19,6 @@ The tests before were not using docker and were native only to the GitHub action
 With docker, one could theoretically docker pull the image from DockerHub and build the code without having to install any dependencies.
 
 Using DockerHub you and other people can push and pull images that your setup needs, which saves everyone from having to install everything. 
-We are doing something similar to this on GitHub with actions, but I think that actions are just one part of the picture when it comes to Docker.
+We are doing something similar to this on GitHub with actions, but I think that actions are just one part of the picture when it comes to Docker. As it stands now we could still have the problem of the program working on GitHub but not a personal machine.
+
+Right now my thoughts are that we can use GitHub and Actions to share and test the code, and we use docker to make sure that we can use a common workspace, that can allow us to build the code on our own machines and not just GitHub.
