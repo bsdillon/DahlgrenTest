@@ -1,0 +1,31 @@
+name: "Simple Math test"
+description: "Do simple math tests with parameters from main.yml"
+author: "Brian Dillon"
+
+inputs:
+  OPERAND1:
+  OPERAND2:
+  ANSWER:
+  PASSES:
+    description: "Whether the test should pass or not"
+    required: true
+
+jobs:
+  build:
+    runs:
+      using: "docker"
+      image: "Dockerfile"
+    steps:
+    - uses: actions/checkout@v1
+    - name: Test case
+      uses: ./.github/actions/mathTest
+      with:
+        OPERAND1: INPUT_OPERAND1
+        OPERAND2: INPUT_OPERAND2
+        ANSWER: INPUT_ANSWER
+    - name: Check pass
+      if: ${{ success() && INPUT_PASSES<1 }}
+      run: exit 1
+    - name: Check fail
+      if: ${{ failure() && INPUT_PASSES>0 }}
+      run: exit 1

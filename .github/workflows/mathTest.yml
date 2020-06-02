@@ -8,33 +8,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Successful math test
+    - name: T1. Successful math test
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: 3
         OPERAND2: 5
         ANSWER: 2
-    - name: Mismatch answer math test
+    - name: T2. Mismatch answer math test
       if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         OPERAND2: 2
         ANSWER: 1
-    - name: Missing operand math test
+    - name: T3. Missing operand math test
       if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: -3
         ANSWER: 5
-    - name: Another test should pass
+    - name: T4. Another test should pass
       if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: 6
         OPERAND2: 9
         ANSWER: 3
-    - name: Another test should pass
+    - name: T5. Another test should pass
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: 1
