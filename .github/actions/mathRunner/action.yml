@@ -30,8 +30,8 @@ jobs:
         OPERAND2: INPUT_OPERAND2
         ANSWER: INPUT_ANSWER
     - name: Check pass
-      if: ${{ success() && INPUT_PASSES<1 }}
-      run: exit 1
+      if: ${{ success() }}
+      run: exit 1-INPUT_PASSES
     - name: Check fail
-      if: ${{ failure() && INPUT_PASSES>0 }}
-      run: exit 1
+      if: ${{ failure() }}
+      run: exit 0+INPUT_PASSES
