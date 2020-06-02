@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Test case
       id: _test
-      uses: ./.github/actions/mathTest
+      uses: /actions/mathTest
       with:
         OPERAND1: INPUT_OPERAND1
         OPERAND2: INPUT_OPERAND2
