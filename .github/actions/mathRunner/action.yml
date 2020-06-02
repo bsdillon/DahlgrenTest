@@ -17,21 +17,22 @@ inputs:
     required: true
 
 jobs:
-  build:
+  test:
     runs:
       using: "docker"
       image: "Dockerfile"
     steps:
     - uses: actions/checkout@v1
     - name: Test case
+      id: _test
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: INPUT_OPERAND1
         OPERAND2: INPUT_OPERAND2
         ANSWER: INPUT_ANSWER
     - name: Check pass
-      if: ${{ success() }}
+      if: test.steps._test.status == success
       run: exit 1-INPUT_PASSES
     - name: Check fail
-      if: ${{ failure() }}
+      if: test.steps._test.status == failure
       run: exit 0+INPUT_PASSES
