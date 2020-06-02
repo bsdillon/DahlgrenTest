@@ -1,0 +1,18 @@
+Like BD mentioned in the 10am meeting, secrets may not be necessary for the purpose I
+thought they could fill. As they can be used so that you can push images to dockerhub.
+
+
+Using docker for the python testing seeems a bit more involved that originally thought.
+
+I have all of the dependancies installed but GitHub actions is saying that 
+the commands for pytest(the tester) and flake8(the linter) cannot be found. 
+
+I am not sure if this is because the pathing is wrong, or if an external file needs to 
+be created
+
+The original Python-Testing branch has a few additional files that get those tests and 
+lints running, so I may need to adapt those as well.
+
+OR, we could do what BD did for the html validator(something like uses: [*repo name*] ) 
+and leverage another repository. I have one in mind but I am not 100% sure that it will 
+function the same. 
