@@ -21,25 +21,11 @@ jobs:
     runs:
       using: "docker"
       image: "Dockerfile"
-    steps:
-    - name: Save File listing
-      run: ls html/ > out.txt
-    - name: Keep file listing artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: file_list
-        path: out.txt
-    - uses: actions/checkout@v1
-    - name: Test case
-      id: _test
-      uses: actions/mathTest
-      with:
-        OPERAND1: INPUT_OPERAND1
-        OPERAND2: INPUT_OPERAND2
-        ANSWER: INPUT_ANSWER
-    - name: Check pass
-      if: test.steps._test.status == success
-      run: exit 1-INPUT_PASSES
-    - name: Check fail
-      if: test.steps._test.status == failure
-      run: exit 0+INPUT_PASSES
+      steps:
+      - name: Save File listing
+        run: ls html/ > out.txt
+      - name: Keep file listing artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: file_list
+          path: out.txt
