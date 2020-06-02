@@ -22,10 +22,17 @@ jobs:
       using: "docker"
       image: "Dockerfile"
     steps:
-    - uses: actions/checkout@v2
+    - name: Save File listing
+      run: ls html/ > out.txt
+    - name: Keep file listing artifact
+      uses: actions/upload-artifact@v1
+      with:
+      name: file_list
+      path: out.txt
+    - uses: actions/checkout@v1
     - name: Test case
       id: _test
-      uses: /actions/mathTest
+      uses: actions/mathTest
       with:
         OPERAND1: INPUT_OPERAND1
         OPERAND2: INPUT_OPERAND2
