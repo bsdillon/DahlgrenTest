@@ -27,8 +27,8 @@ jobs:
     - name: Keep file listing artifact
       uses: actions/upload-artifact@v1
       with:
-      name: file_list
-      path: out.txt
+        name: file_list
+        path: out.txt
     - uses: actions/checkout@v1
     - name: Test case
       id: _test
