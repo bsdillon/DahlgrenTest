@@ -4,42 +4,6 @@ on:
     branches:
       - 'Math-Test-Pass*'
 jobs:
-  old-test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: T1. Successful math test
-      uses: ./.github/actions/mathTest
-      with:
-        OPERAND1: 3
-        OPERAND2: 5
-        ANSWER: 2
-    - name: T2. Mismatch answer math test
-      if: ${{ always() }}
-      uses: ./.github/actions/mathTest
-      with:
-        OPERAND1: -3
-        OPERAND2: 2
-        ANSWER: 1
-    - name: T3. Missing operand math test
-      if: ${{ always() }}
-      uses: ./.github/actions/mathTest
-      with:
-        OPERAND1: -3
-        ANSWER: 5
-    - name: T4. Another test should pass
-      if: ${{ always() }}
-      uses: ./.github/actions/mathTest
-      with:
-        OPERAND1: 6
-        OPERAND2: 9
-        ANSWER: 3
-    - name: T5. Another test should pass
-      uses: ./.github/actions/mathTest
-      with:
-        OPERAND1: 1
-        OPERAND2: 9
-        ANSWER: 8
   new-test:
     runs-on: ubuntu-latest
     steps:
