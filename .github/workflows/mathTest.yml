@@ -4,7 +4,7 @@ on:
     branches:
       - 'Math-Test-Pass*'
 jobs:
-  build:
+  old-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -40,3 +40,47 @@ jobs:
         OPERAND1: 1
         OPERAND2: 9
         ANSWER: 8
+jobs:
+  new-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: T1.b Successful math test
+      if: ${{ always() }}
+      uses: ./.github/actions/mathRunner
+      with:
+        OPERAND1: 3
+        OPERAND2: 5
+        ANSWER: 2
+        PASSES: 1
+    - name: T2.b Mismatch answer math test
+      if: ${{ always() }}
+      uses: ./.github/actions/mathRunner
+      with:
+        OPERAND1: -3
+        OPERAND2: 2
+        ANSWER: 1
+        PASSES: 0
+    - name: T3.b Missing operand math test
+      if: ${{ always() }}
+      uses: ./.github/actions/mathRunner
+      with:
+        OPERAND1: -3
+        ANSWER: 5
+        PASSES: 0
+    - name: T4.b Another test should pass
+      if: ${{ always() }}
+      uses: ./.github/actions/mathRunner
+      with:
+        OPERAND1: 6
+        OPERAND2: 9
+        ANSWER: 3
+        PASSES: 1
+    - name: T5.b Another test should pass
+      if: ${{ always() }}
+      uses: ./.github/actions/mathRunner
+      with:
+        OPERAND1: 1
+        OPERAND2: 9
+        ANSWER: 8
+        PASSES: 1
