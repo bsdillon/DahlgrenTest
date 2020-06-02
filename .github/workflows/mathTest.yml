@@ -28,16 +28,15 @@ jobs:
         OPERAND1: -3
         ANSWER: 5
     - name: Another test should pass
+      if: ${{ always() }}
       uses: ./.github/actions/mathTest
       with:
         OPERAND1: 6
         OPERAND2: 9
         ANSWER: 3
-
-
-
-
-
-
-
-
+    - name: Another test should pass
+      uses: ./.github/actions/mathTest
+      with:
+        OPERAND1: 1
+        OPERAND2: 9
+        ANSWER: 8
