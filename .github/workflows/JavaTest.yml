@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - 'JavaTest'
-  pull_request:
-    branches: 
-      - 'master'
-      - '!update-documentation' # you can only use branches or branches-ignore
+# BSD for now hiding this from running outside of this branch
+#  pull_request:
+#    branches: 
+#      - 'master'
+#      - '!update-documentation' # you can only use branches or branches-ignore
 jobs:
   build:
     runs-on: ubuntu-latest
