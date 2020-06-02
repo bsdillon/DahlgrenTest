@@ -40,7 +40,6 @@ jobs:
         OPERAND1: 1
         OPERAND2: 9
         ANSWER: 8
-jobs:
   new-test:
     runs-on: ubuntu-latest
     steps:
