@@ -4,8 +4,14 @@ author: "Brian Dillon"
 
 inputs:
   OPERAND1:
+    description: "Passed in"
+    required: false
   OPERAND2:
+    description: "Passed in"
+    required: false
   ANSWER:
+    description: "Passed in"
+    required: false
   PASSES:
     description: "Whether the test should pass or not"
     required: true
