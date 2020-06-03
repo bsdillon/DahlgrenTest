@@ -1,4 +1,7 @@
-body {width:500px;}
+body {
+  width:500px;
+  background-color: #c2c2d6;
+}
 code {color:blue; font-weight:bold;}
 .normal {color:#444444; font-weight:normal; font-style:italic; text-align:right;}
 img {border: solid black 2px; width:400px;}
