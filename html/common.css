@@ -1,16 +1,10 @@
 body {
   width:500px;
   background-color: #c2c2d6;
-  background-image: url("./imgs/updateBranch.png");
-  background-attachment:fixed;
-  background-position: top left;
-  background-repeat: no-repeat;
-
 }
 a:link {color:#0000ff;}
 a:visited  {color:#0000ff;}
 a:hover {color:#000099;} 
 code {color:blue; font-weight:bold;}
 .normal {color:#444444; font-weight:normal; font-style:italic; text-align:right;}
-img {border: solid black 2px; width:400px;}
-img {max-width:575px; display: block; margin-left: auto; margin-right: auto;}
+img {border: solid black 2px; max-width:575px; display: block; margin-left: auto; margin-right: auto;}
