@@ -1,6 +1,11 @@
 body {
   width:500px;
   background-color: #c2c2d6;
+  background-image: url("./imgs/updateBranch.png");
+  background-attachment:fixed;
+  background-position: top left;
+  background-repeat: no-repeat;
+
 }
 a:link {color:#0000ff;}
 a:visited  {color:#0000ff;}
