@@ -11,7 +11,7 @@ from app.core.utils import add, remove_spaces
 def test_add(x, y, result):
     assert add(x, y) == result
 
-@pytest.mark.parametrizeFail('x, y, wrongResult', [
+@pytest.mark.parametrize('x, y, wrongResult', [
     (14, 10, 20),
     (5, 2, 10),
     (1, 6, 12)
