@@ -17,7 +17,7 @@ def test_add(x, y, result):
     (1, 6, 12)
 ])
 
-def test_fail_add(x, y, wrongResult)
+def test_fail_add(x, y, wrongResult):
     assert add(x, y) != wrongResult
 
 @pytest.mark.parametrize('data, result', [
