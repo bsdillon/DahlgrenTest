@@ -1,12 +1,8 @@
 name: HTML Validation Checks
 on:
   push:
-    branches:
-      - 'update-documentation'
-      - 'master'
-  pull_request:
-    branches: 
-      - 'master'
+    paths:
+      - "html/**"
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
