@@ -1,6 +1,8 @@
 body {
   width:650px;
   background-color: #E6E6E6;
+  text-align: justify;
+  text-justify: inter-word;
 }
 a:link {color:#0000ff;}
 a:visited  {color:#0000ff;}
