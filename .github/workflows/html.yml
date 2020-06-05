@@ -1,5 +1,8 @@
 ---
 name: HTML Validation Checks
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
 on:
   push:
     paths:
