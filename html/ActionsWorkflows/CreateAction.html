@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Create an Action</title>
-    <link rel="stylesheet" type="text/css" href="common.css">
+    <link rel="stylesheet" type="text/css" href="../common.css">
     <style>
     </style>
     <script>
@@ -10,14 +10,14 @@
   </head>
   <body>
     <h3 class="assignment">Instructions on how to create an action</h3>
-    <p>This is a <a href="https://lab.github.com/githubtraining/github-actions:-hello-world">link 
-      at GitHub</a> that generates a tutorial. The tutorial isn't fantastic, but it does generate 
-      a successful action that can be learned from. The full transcript is available 
+    <p>This is a <a href="https://lab.github.com/githubtraining/github-actions:-hello-world">link
+      at GitHub</a> that generates a tutorial. The tutorial isn't fantastic, but it does generate
+      a successful action that can be learned from. The full transcript is available
       <a href="https://github.com/bsdillon/hello-github-actions/pull/2">here</a>.
     </p>
     <p>Note the following:</p>
     <ul>
-      <li>Workflows are defined in special files in the .github/workflows directory, named main.yml. 
+      <li>Workflows are defined in special files in the .github/workflows directory, named main.yml.
         If there is an action it has to be started from this directory and be found in the main.yml file.
       </li>
       <li>
@@ -38,9 +38,9 @@
 <code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MY_NAME: "Mona" </code><br>
 <span class="normal">//This is a parameter to the script</span>
 <br>
-<img alt="Action for hello world" src="./imgs/action1.png" /><br><br><br>
-<img alt="Jobs within the action" src="./imgs/action2.png" /><br><br><br>
-<img alt="Steps in a job" src="./imgs/action3.png" /><br>
+<img alt="Action for hello world" src="../imgs/action1.png" /><br><br><br>
+<img alt="Jobs within the action" src="../imgs/action2.png" /><br><br><br>
+<img alt="Steps in a job" src="../imgs/action3.png" /><br>
       </li>
       <li>The action-a script is another layer of complexity<br>
 <code>name: "Hello Actions"</code><br>
@@ -86,12 +86,12 @@
       <li>
           Note that when the main.yml executes it creates an Ubutu OS image for the runtime environment.
           This in accordance with the script and confirmed in the execution output.<br>
-<img alt="YML script" src="./imgs/action4.png" /><br><br>
+<img alt="YML script" src="../imgs/action4.png" /><br><br>
           In action-a, however, the Dockerfile requires a Debian OS image. In the execution output it can
           be seen that #1 Docker is spinning up a debian environment. Steps #2 through #4 follow the docker
           script creating a container with the required entry point/interface. The output #5 is the result
           of the uses statement in main.yml. Apparently the entry point/interface is executed automatically.<br>
-<img alt="Corresponding output" src="./imgs/action-a.png" />
+<img alt="Corresponding output" src="../imgs/action-a.png" />
       </li>
       <li>
         <b>CURRENT WORKING THEORY</b>: main.yml subordinates all actions which may be individiually defined in separate folders.
@@ -113,7 +113,7 @@
             </ol>
           </li>
         </ol>
-        <img alt="Workflow diagram" src="./imgs/action5.png" />
+        <img alt="Workflow diagram" src="../imgs/action5.png" />
       </li>
     </ul>
   </body>

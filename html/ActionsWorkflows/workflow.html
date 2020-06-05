@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Workflow YML Syntax</title>
-    <link rel="stylesheet" type="text/css" href="common.css">
+    <link rel="stylesheet" type="text/css" href="../common.css">
     <style>
       dd dt code {color:#00AA00;}
       dd dd dt code {color:#CC00CC;}
@@ -20,7 +20,7 @@
       <dt><code>name:</code></dt>
       <dd>
         You can use any name you want for a workflow, but it does show up in the actions tab.<br>
-        <img alt="workflow names" src="./imgs/action1.png">
+        <img alt="workflow names" src="../imgs/action1.png">
       </dd>
       <dt><code>on:</code></dt>
       <dd>
@@ -52,7 +52,7 @@
           <dd>
              The steps of the job can be a variety of different things that execute sequentially. There are <a href="https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#usage-limits">limits</a>
              to the length and number of jobs that can be run, but these are not unreasonable. The step name also shows up in the actions tab.<br>
-             <img alt="workflow names" src="./imgs/action2.png">
+             <img alt="workflow names" src="../imgs/action2.png">
             <br>
              The step ID is an optional tag that can be used to relay information between steps. For example <code>steps.some_ID.outputs.output</code> can be used
              in another step to derive information from some_ID. A great example of this is in <a href="https://github.com/Duckle29/actions_test/blob/master/.github/workflows/qmkpid.yml">another repository</a>.
@@ -68,7 +68,7 @@
               </dd>
               <dt><code>uses: action/checkout@v2</code></dt>
               <dd>
-                V2 is the current stable baseline for the checkout action. This action is 
+                V2 is the current stable baseline for the checkout action. This action is
                 "equivalent to 'git fetch' and 'git clone'". In other words it creates
                 a local copy of our repository for use in the running machine.
               </dd>

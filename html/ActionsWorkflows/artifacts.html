@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Creating Artifacts</title>
-    <link rel="stylesheet" type="text/css" href="common.css">
+    <link rel="stylesheet" type="text/css" href="../common.css">
     <style>
       dd dt code {color:#00AA00;}
       dd dd dt code {color:#CC00CC;}
@@ -14,17 +14,17 @@
     <a href="https://developer.github.com/v3/actions/artifacts/">Additional references</a>
     <h3>Creating Artifacts</h3>
     <p>
-      Within a job you can create an artifact. This is a great way to store data and 
-      later retrieve it. These files only last a short time (90 days), but that is 
+      Within a job you can create an artifact. This is a great way to store data and
+      later retrieve it. These files only last a short time (90 days), but that is
       long enough to be accessed if needed. There is a built in action for this and
       you can specify the name of the artifact that will be created.<br>
-      <img alt="code for artifacts" src="./imgs/artifacts.png" />
+      <img alt="code for artifacts" src="../imgs/artifacts.png" />
     </p>
     <h3>Files of System Data</h3>
     <p>
       One use for artifacts is the output of any system command from the test system.
-      This workflow script runs a list command 'ls' to get the full list of HTML 
-      documents in the folder. The data is output into a file and then saved as an 
+      This workflow script runs a list command 'ls' to get the full list of HTML
+      documents in the folder. The data is output into a file and then saved as an
       artifact.<br><br>
 <code>
 1 - name: Save File listing<br>
