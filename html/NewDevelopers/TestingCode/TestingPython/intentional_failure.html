@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create a Python Pytest</title>
+    <link rel="stylesheet" type="text/css" href="../../../common.css">
+    <style>
+    </style>
+    <script>
+    </script>
+  </head>
+  <body>
+    <h3>Creating a Test that Intentionally Fails</h3>
+    <ul>
+      <li>Start by creating a test file like in the <a href="basic_test.html">basic test 
+        tutorial.</a>.
+      </li>
+      <li>The way that you want to structure your test is so that the expected result
+        is not what what your actual result will be. From the example in the basic test 
+        tutorial, we set up x and y and then set the expected result to something other
+        than x + y. Then, instead of having '==' for equality, we put '!='so that we get a
+        positive result for the intentionally incorrect expected result.
+        <img src="../../../imgs/Pytest-Intentional-Failure/example_code.png" alt="Example Code"/>
+      </li>
+      <li>Here is what will be shown in the Actions page.
+        <img src="../../../imgs/Pytest-Intentional-Failure/actions_example.png" alt="Action Example"/>
+      </li>
+      <li>This may not be exactly what you will have to do for each intentionally 
+        failed unit test, but it gives you a basis for how to do it.
+      </li>
+    </ul>
+  </body>
+</html>

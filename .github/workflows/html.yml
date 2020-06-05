@@ -1,19 +1,24 @@
+---
 name: HTML Validation Checks
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - 'update-documentation'
-      - 'master'
-  pull_request:
-    branches: 
-      - 'master'
+    paths:
+      - "html/**"
+      - ".github/workflows/html.yml"
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Validate HTML Files
-      uses: Cyb3r-Jak3/html5validator-action@v0.3
-      with:
-        root: ./html
-        css: true
+      - uses: actions/checkout@v1
+      - name: Validate HTML Files
+        uses: Cyb3r-Jak3/html5validator-action@v0.3
+        with:
+          root: ./html
+          css: true
+#    - name: Second round of validation
+#      uses: stoe/xo-action@master
+#      with:
+#        repo-token: ${{ secrets.GITHUB_TOKEN }}
