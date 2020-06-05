@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - "html/**"
-      - ".github/workflows.html.yml"
+      - ".github/workflows/html.yml"
 jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
