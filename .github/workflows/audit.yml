@@ -1,12 +1,14 @@
-on: 
+---
+name: Audit YML
+on:
   push:
     paths:
-      - ".github/workflows/audit.yml"
+      - ".github/**"
 
 jobs:
   lintAllTheThings:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: yaml-lint
-      uses: ibiqlik/action-yamllint@v1
+      - uses: actions/checkout@v1
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v1
