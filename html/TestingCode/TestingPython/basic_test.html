@@ -14,20 +14,23 @@
       <li>Start by creating a test file with the formatting test_(your .py file name).
         <img src="../../imgs/Pytest-Tutorial/pytest_example_file.png" alt="Basic Python Test"/>
       </li>
-      <li>In your test_*.py file, you need to 'import pytest' and use 'from' the filre testing
-        and import the functions you will be using.
+      <li>In your test_*.py file, you need to 'import pytest' and use 'from' the file
+        testing and import the functions you will be using.
         <img src="../../imgs/Pytest-Tutorial/import_and_from.png" alt="Import and From"/>
       </li>
-      <li>Next you set up the parameters for the test and set up the assert statement.
+      <li>Next you set up the parameters for the test and set up the assert statement. In this
+        example, the x and y variables are fed into the function and used to compare against
+        the result variable. If the result of add(x, y) == result it will pass.
         <img src="../../imgs/Pytest-Tutorial/parameters_assert.png" alt="Parameters and Assert"/>
       </li>
-      <li>If you got everything correct, go to the actions page. It should show all of your tests
-        and whether the test passed or failed. Here is an example of tests that ran and passed.
+      <li>If you got everything correct, go to the actions page. It should show all of
+        your tests and whether the test passed or failed. Here is an example of tests
+        that ran and passed.
         <img src="../../imgs/Pytest-Tutorial/passed_tests.png" alt="Passed Tests"/>
       </li>
-      <li>If you make a syntax error anywhere in the code, not just in test_*.py files, the linter
-        flake8 will catch it and prevent the code from building. Here is an example of what a syntax
-        error looks like in the actions page.
+      <li>If you make a syntax error anywhere in the code, not just in test_*.py files, 
+        the linter flake8 will catch it and prevent the code from building. Here is 
+        an example of what a syntax error looks like in the actions page.
         <img src="../../imgs/Pytest-Tutorial/syntax_error_from_flake8.png" alt="Syntax Error"/>
       </li>
     </ul>
