@@ -1,3 +1,4 @@
+---
 name: "Simple Math test"
 description: "Do simple math tests with parameters from main.yml"
 author: "Brian Dillon"
@@ -16,3 +17,4 @@ inputs:
 runs:
   using: "docker"
   image: "Dockerfile"
+  
