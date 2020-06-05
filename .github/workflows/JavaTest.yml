@@ -1,12 +1,13 @@
+---
 name: JavaTest-Maven
 
-on: 
+on:
   push:
     branches:
       - 'JavaTest'
 # BSD for now hiding this from running outside of this branch
 #  pull_request:
-#    branches: 
+#    branches:
 #      - 'master'
 #      - '!update-documentation' # you can only use branches or branches-ignore
 jobs:

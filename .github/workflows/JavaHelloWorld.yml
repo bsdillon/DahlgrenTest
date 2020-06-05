@@ -1,10 +1,11 @@
+---
 name: Java Hello World
 
 on:
   push:
     branches:
       - 'JavaTest'
-#BSD for now hiding this from running outside of this branch
+# BSD for now hiding this from running outside of this branch
 #  pull_request:
 #    branches:
 #      - 'master'
@@ -15,5 +16,5 @@ jobs:
     name: "JavaHelloWorld"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./.github/actions/HelloWorldTest
+      - uses: actions/checkout@v1
+      - uses: ./.github/actions/HelloWorldTest
