@@ -16,5 +16,5 @@ jobs:
         css: true
     - name: Second round of validation
       uses: stoe/xo-action@master
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+#      with:
+#        repo-token: ${{ secrets.GITHUB_TOKEN }}
