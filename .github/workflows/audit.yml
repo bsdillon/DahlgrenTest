@@ -1,12 +1,13 @@
 ---
 name: Audit YML
-on:
+on:# yamllint disable-line rule:truthy
+#fix truthy warning per https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
   push:
     paths:
       - ".github/**"
 
 jobs:
-  lintAllTheThings:
+  lint all YMLs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
