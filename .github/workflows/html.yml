@@ -1,3 +1,4 @@
+---
 name: HTML Validation Checks
 on:
   push:
@@ -8,12 +9,12 @@ jobs:
   HTMLChecks:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Validate HTML Files
-      uses: Cyb3r-Jak3/html5validator-action@v0.3
-      with:
-        root: ./html
-        css: true
+      - uses: actions/checkout@v1
+      - name: Validate HTML Files
+        uses: Cyb3r-Jak3/html5validator-action@v0.3
+        with:
+          root: ./html
+          css: true
 #    - name: Second round of validation
 #      uses: stoe/xo-action@master
 #      with:
