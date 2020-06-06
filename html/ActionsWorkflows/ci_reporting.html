@@ -18,21 +18,40 @@
     </p>
     <h3>Auto-generated Issues</h3>
     <p>
+      According to <a href="https://developer.github.com/v3/issues/#create-an-issue">the API</a> it is possible to 
+      automatically generate an issue as the result of a workflow. This may be usefull to automatically report a bug
+      or prompt someone to take an action after some specific set of failures.
     </p>
     <code>
     1. - name: Create issue using REST API<br>
     2. if: ${{ failure() }}<br>
     3. run: |<br>
-    4.nbsp;nbsp;nbsp;curl --request POST \<br>
-    5.nbsp;nbsp;nbsp;--url https://api.github.com/repos/${{ github.repository }}/issues \<br>
-    6.nbsp;nbsp;nbsp;--header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \<br>
-    7.nbsp;nbsp;nbsp;--header 'content-type: application/json' \<br>
-    8.nbsp;nbsp;nbsp;--data '{<br>
-    9.nbsp;nbsp;nbsp;nbsp;nbsp;"title": "Auto-issue [${{ github.sha }}] - Failed ${{ github.workflow }}",<br>
-    10.nbsp;nbsp;nbsp;nbsp;"body": "ENTER GENERIC INSTRUCTIONS FOR RESOLUTION.",<br>
-    11.nbsp;nbsp;nbsp;nbsp;"labels": ["bug","auto"],<br>
-    12.nbsp;nbsp;nbsp;nbsp;"assignees": ["bsdillon","landin3thorsted"]<br>
-    13.nbsp;nbsp;nbsp;nbsp;}'
+    4.   curl --request POST \<br>
+    5.   --url https://api.github.com/repos/${{ github.repository }}/issues \<br>
+    6.   --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \<br>
+    7.   --header 'content-type: application/json' \<br>
+    8.   --data '{<br>
+    9.     "title": "Auto-issue [${{ github.sha }}] - Failed ${{ github.workflow }}",<br>
+    10.    "body": "ENTER GENERIC INSTRUCTIONS FOR RESOLUTION.",<br>
+    11.    "labels": ["bug","auto"],<br>
+    12.    "assignees": ["bsdillon","landin3thorsted"]<br>
+    13.    }'
     </code>
+    <h4>Explanation of code</h4>
+    <ol>
+      <li value="2">In this case the workflow has failed, so this issue is reporting a bug.</li>
+      <li value="4">This is a POST action in GitHub's REST API. That means something is being posted to the site.</li>
+      <li>The location for the new post is the issues folder of the project repository. Note that the variable github.workflow 
+        is used rather than hard-coding the name of the repository. This theme will be repeated.</li>
+      <li>I really don't know what this means, but it must be used to authorize the push the new issue. The secret tokens are 
+        created by the project admin, but GITHUB_TOKEN is automatically generated for the project.</li>
+      <li value="9">This title can be edited, but this one refers to the SHA hash code of the last push that triggered the 
+        workflow. It also names the workflow itself in a dynamic way.</li>
+      <li>This body is limited to a single string, but some instructions could be put here or a link to an HTML explantion.</li>
+      <li>Labels can be affixed to any issue. Some of them like bug and documentation are pre-defined, but you can create
+        any label that serves to distinguish your issue.</li>
+      <li>One or more persons can be automatically assigned to this issue. This can be done strategically so that any bug is
+        automatically reported to the expert in that area or to the product owner.</li>
+    </ol>
   </body>
 </html>
