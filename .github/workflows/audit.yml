@@ -25,6 +25,6 @@ jobs:
           --data '{
             "title": "Auto-issue [${{ github.sha }}] - Failed ${{ github.workflow }}",
             "body": "ENTER GENERIC INSTRUCTIONS FOR RESOLUTION.",
-            "labels": ["bug","auto"]
+            "labels": ["bug","auto"],
             "assignees": ["bsdillon","landin3thorsted"]
             }'
