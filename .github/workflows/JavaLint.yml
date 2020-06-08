@@ -1,0 +1,14 @@
+
+
+name: "Lint code quality check"
+on:
+  push:
+    branches:
+      - 'JavaTest'
+
+jobs:
+  JavaLint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SonarCloud Scan #Installation for SoncarCloud
+        uses: SonarSource/sonarcloud-github-action@v1.3

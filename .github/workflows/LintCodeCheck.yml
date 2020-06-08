@@ -1,0 +1,14 @@
+
+name: "Lint code quality check"
+on:
+  schedule: #runs everyday at 8pm
+    -cron: '0 20 * * *'
+    branches:
+      -master
+
+jobs:
+  LintCodeQuality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SonarCloud Scan #Installation for SoncarCloud
+        uses: SonarSource/sonarcloud-github-action@v1.3
