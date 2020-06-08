@@ -1,0 +1,11 @@
+Making progress! Got the python building again. 
+Got rid of an unnecessary call(of some sorts to a docker hub push) that probably wasnt doing anything.
+
+Still having the problem with calling pytest and flake8. I am 99% sure that this problem stem from some 
+pathing not being correct when creating the docker container. When I figure out how to call pytest from
+within the container it should work! The same goes with flake8(the linter). I am pretty sure that that
+setting up c++, or any other language should be similar.
+
+I also cleared up some of my confusion on what some of those extra files do, by looking at the flake8 
+and pytest  documentation and I will create a doc that details all of my findings, using these notes and
+any more knowledge I gain.

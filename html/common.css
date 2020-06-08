@@ -1,5 +1,14 @@
-body {width:500px;}
+body {
+  width:650px;
+  background-color: #E6E6E6;
+  text-align: justify;
+  text-justify: inter-word;
+}
+a:link {color:#0000ff;}
+a:visited  {color:#0000ff;}
+a:hover {color:#000099;} 
 code {color:blue; font-weight:bold;}
 .normal {color:#444444; font-weight:normal; font-style:italic; text-align:right;}
-img {border: solid black 2px; width:400px;}
-img {max-width:575px; display: block; margin-left: auto; margin-right: auto;}
+img {border: solid black 2px; max-width:600px; display: block; margin-left: auto; margin-right: auto;}
+h2{border: solid blue; border-width:2px 0px 2px 0px; background-color:white; text-align:center; font-variant: small-caps; text-transform: capitalize;}
+h3{border: solid blue; border-width:2px 0px 2px 0px; background-color:white; text-align:center; font-variant: small-caps; text-transform: capitalize;}

@@ -1,0 +1,7 @@
+Device Names and Info
+
+Name	RAM	Storage	Processor
+Spectre	16GB	463GB	i7
+ProBook	8GB	464GB	i5
+TweedleDee-	-	-
+TweedleDum-	-	-

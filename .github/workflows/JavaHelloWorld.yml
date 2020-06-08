@@ -1,18 +1,23 @@
+---
 name: Java Hello World
 
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
 on:
   push:
     branches:
       - 'JavaTest'
-  pull_request:
-    branches:
-      - 'master'
-      - '!update-documentation'
+# BSD for now hiding this from running outside of this branch
+#  pull_request:
+#    branches:
+#      - 'master'
+#      - '!update-documentation'
 jobs:
 
   build:
     name: "JavaHelloWorld"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./.github/actions/HelloWorldTest
+      - uses: actions/checkout@v1
+      - uses: ./.github/actions/HelloWorldTest

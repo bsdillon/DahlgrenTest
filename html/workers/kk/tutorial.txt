@@ -1,0 +1,24 @@
+----------------------------------------------------------------
+Git Hub actions:
+If you need a refresher on how GitHub works use the link:
+https://lab.github.com/githubtraining/introduction-to-github
+If you do not need the previous the tutorial on how GitHub works, you can go straight to the tutorials on how to deal with workflow files:
+https://lab.github.com/githubtraining/github-actions:-hello-world
+----------------------------------------------------------------
+DevOps:
+Overview 
+http://play.sonatype.com/watch/DjeASur76cocPeSnaoYNJa?
+Containers:
+https://www.docker.com/resources/what-container
+Jenkins Build Tool
+Intro and Getting Started: https://www.youtube.com/watch?v=89yWXXIOisk
+More about Docker (more specifically docker containers) common platform for containers:
+This tutorial helps understand about Docker and provides examples of how to use it
+https://www.youtube.com/watch?v=xnuXKYsZv2Y
+Docker Homepage: https://hub.docker.com/
+----------------------------------------------------------------
+HTML
+Using w3schools.com, you can see a variety of examples that help to give you an idea how HTML works.
+https://www.w3schools.com/
+
+
