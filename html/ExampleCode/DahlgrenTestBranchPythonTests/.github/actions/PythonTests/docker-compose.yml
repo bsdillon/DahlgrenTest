@@ -1,17 +1,18 @@
+---
 version: "3.2"
 
 services:
-  pytesting:       
-    build: 
+  pytesting:
+    build:
       dockerfile: ./.github/actions/PythonTests/Dockerfile
       context: ../
 
     env_file:
       - env-config.env
-      
+
     stdin_open: true
     tty: true
-    
+
     command:
       /bin/bash
 
