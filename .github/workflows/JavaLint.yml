@@ -1,11 +1,8 @@
-
-
 name: "Lint code quality check"
 on:
   push:
     branches:
       - 'JavaTest'
-
 jobs:
   JavaLint:
     runs-on: ubuntu-latest
