@@ -10,9 +10,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v2
+    - name: Build Unitx
+      run: docker pull kazssym/cppunitx-builder
     - name: configure
       run: ./configure
     - name: make
