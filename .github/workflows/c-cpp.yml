@@ -13,6 +13,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1
     - name: Build Unitx
       run: docker build kazssym/cppunitx-builder
     - name: configure
