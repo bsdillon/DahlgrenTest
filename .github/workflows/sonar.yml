@@ -7,7 +7,6 @@ on:
       - 'KKBranch'
   pull_request:
       types: [opened, synchronize, reopened]
-name: Main Workflow
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
