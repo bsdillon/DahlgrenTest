@@ -28,9 +28,9 @@ jobs:
     if: ${{ failure() }}
     run: |
     curl --request POST \
-    url https://api.github.com/repos/${{ github.repository }}/issues \
-    header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-    header 'content-type: application/json' \
+    --url: https://api.github.com/repos/${{ github.repository }}/issues \
+    --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+    --header 'content-type: application/json' \
     --data '{
     "title": "Auto-issue [${{ github.sha }}] - Failed ${{ github.workflow }}",
     "body": "CODE INSPECTOR FAILED TEST: QUALITY SCORE NOT 100.",
