@@ -2,6 +2,9 @@
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
+  push:
+    branches:
+      'KKBranch'
   schedule:
     - cron: '0 20 * * *'
 
@@ -32,8 +35,7 @@ jobs:
       --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
       --header 'content-type: application/json' \
       --data '{
-        "title": "Auto-issue [${{ github.sha }}] -
-          Failed ${{ github.workflow }}",
+        "title": "Auto-issue [${{ github.sha }}] - Failed ${{ github.workflow }}",
         "body": "CODE INSPECTOR FAILED TEST: QUALITY SCORE NOT 100.",
         "labels": ["bug","auto"],
         "assignees": ["bsdillon"]
