@@ -21,20 +21,28 @@ import sys
 import pytest
 
 def run_all():
+    """Runs all tests
+    """
     print("Running all tests...")
     pytest.main(['-v', 'app/tests', '--cov-report', 'term-missing', '--cov=app/'])
 
 def run_coverage_only():
+    """Running coverage report
+    """
     print("Running coverage report...")
     pytest.main(['--cov-report', 'term-missing', '--cov=app/', 'app/tests'])
 
 def run_generative_only():
+    """Runs generative tests
+    """
     print("Running generative testing...")
     pytest.main(['-v', 'app/tests', '--hypothesis-show-statistics', '-k', 'generative'])
 
 
 
 def main():
+    """Sets up and kicks off all tests
+    """
     parser = argparse.ArgumentParser(
         description="A command line-tool to manage the project.")
     parser.add_argument(
