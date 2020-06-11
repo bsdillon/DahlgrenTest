@@ -18,9 +18,9 @@ then
    exit 1
 fi
 
-let diff=$INPUT_OPERAND2-$INPUT_OPERAND1
+diff=$(($INPUT_OPERAND2-$INPUT_OPERAND1))
 
-if [ $diff = $INPUT_ANSWER ]
+if [ $diff = "$INPUT_ANSWER" ]
 then
   echo "Pass $INPUT_OPERAND2 - $INPUT_OPERAND1 = $diff"
 else
