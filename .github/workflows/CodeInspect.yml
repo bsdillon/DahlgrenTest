@@ -35,3 +35,4 @@ jobs:
     "body": "CODE INSPECTOR FAILED TEST: QUALITY SCORE NOT 100.",
     "labels": ["bug","auto"],
     "assignees": ["bsdillon"]
+    }'
