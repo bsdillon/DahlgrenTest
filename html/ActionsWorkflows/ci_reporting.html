@@ -26,16 +26,16 @@
     1. - name: Create issue using REST API<br>
     2. if: ${{ failure() }}<br>
     3. run: |<br>
-    4.   curl --request POST \<br>
-    5.   --url https://api.github.com/repos/${{ github.repository }}/issues \<br>
-    6.   --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \<br>
-    7.   --header 'content-type: application/json' \<br>
-    8.   --data '{<br>
-    9.     "title": "Auto-issue [${{ github.sha }}] - Failed ${{ github.workflow }}",<br>
-    10.    "body": "ENTER GENERIC INSTRUCTIONS FOR RESOLUTION.",<br>
-    11.    "labels": ["bug","auto"],<br>
-    12.    "assignees": ["bsdillon","landin3thorsted"]<br>
-    13.    }'
+    4.&nbsp;&nbsp;&nbsp;curl --request POST \<br>
+    5.&nbsp;&nbsp;&nbsp;--url https://api.github.com/repos/${{ github.repository }}/issues \<br>
+    6.&nbsp;&nbsp;&nbsp;--header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \<br>
+    7.&nbsp;&nbsp;&nbsp;--header 'content-type: application/json' \<br>
+    8.&nbsp;&nbsp;&nbsp;--data '{<br>
+    9.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "Auto-issue [${{ github.sha }}] - Failed ${{ github.workflow }}",<br>
+    10.&nbsp;&nbsp;&nbsp;&nbsp;"body": "ENTER GENERIC INSTRUCTIONS FOR RESOLUTION.",<br>
+    11.&nbsp;&nbsp;&nbsp;&nbsp;"labels": ["bug","auto"],<br>
+    12.&nbsp;&nbsp;&nbsp;&nbsp;"assignees": ["bsdillon","landin3thorsted"]<br>
+    13.&nbsp;&nbsp;&nbsp;&nbsp;}'
     </code>
     <h4>Explanation of code</h4>
     <ol>

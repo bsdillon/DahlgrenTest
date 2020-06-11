@@ -19,16 +19,3 @@ jobs:
           OPERAND1: 3
           OPERAND2: 5
           ANSWER: 2
-      - name: Mismatch answer math test
-        if: ${{ always() }}
-        uses: ./.github/actions/mathTest
-        with:
-          OPERAND1: -3
-          OPERAND2: 2
-          ANSWER: 1
-      - name: Missing operand math test
-        if: ${{ always() }}
-        uses: ./.github/actions/mathTest
-        with:
-          OPERAND1: -3
-          ANSWER: 5

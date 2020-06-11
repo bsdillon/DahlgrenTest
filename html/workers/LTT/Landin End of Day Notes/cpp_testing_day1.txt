@@ -1,0 +1,11 @@
+So far I have been reading on C++ testing frameworks. 
+One that seemed like it could be promising is Catch2 it seems to be maintained and regularly updated.
+Another promising one is MSTest, which has a thread on stackoverflow that may help
+
+C/C++ does have a Github preset workflow which will help, but there is some setup file that needs to be investigated.
+
+I have also gone back to the Python-Tests-Second-Try because the way that C++ will have to be 
+set up on actions may be similar to that.
+
+https://github.com/catchorg/Catch2
+https://stackoverflow.com/questions/62007181/how-to-use-mstest-in-github-actions
