@@ -3,7 +3,7 @@
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    -cron: '0 20 * * *'
+    - cron: '0 20 * * *'
 
 jobs:
   check-quality:
@@ -24,7 +24,7 @@ jobs:
         max_long_functions_rate: '0.0001'
         project_name: ''
         max_timeout_sec: '600'
-    -name: Create issue using REST API
+    - name: Create issue using REST API
     if: ${{ failure() }}
     run: |
       curl --request POST \
