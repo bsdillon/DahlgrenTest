@@ -2,9 +2,6 @@
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches:
-      'KKBranch'
   schedule:
     - cron: '0 20 * * *'
 
