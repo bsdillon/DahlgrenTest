@@ -2,9 +2,8 @@
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branch:
-      'KKBranch'
+  schedule:
+    -cron: '0 20 * * *'
 
 jobs:
   check-quality:
@@ -19,9 +18,20 @@ jobs:
         code_inspector_access_key: ${{ secrets.CODE_INSPECTOR_ACCESS_KEY }}
         code_inspector_secret_key: ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}
         min_quality_grade: 'WARNING'
-        min_quality_score: '50'
+        min_quality_score: '100'
         max_defects_rate: '0.0001'
         max_complex_functions_rate: '0.0001'
         max_long_functions_rate: '0.0001'
         project_name: ''
         max_timeout_sec: '600'
+    -name: Create issue using REST API
+    if: ${{ failure() }}
+    run: |
+    curl --request POST \
+    --url https://api.github.com/repos/${{ github.repository }}/issues \
+    --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+    --data '{
+    "title": "Auto-issue [${{ github.sha }}] - Failed ${{ github.workflow }}",
+    "body": "CODE INSPECTOR FAILED TEST: QUALITY SCORE NOT 100.",
+    "labels": ["bug","auto"],
+    "assignees": ["bsdillon"]
