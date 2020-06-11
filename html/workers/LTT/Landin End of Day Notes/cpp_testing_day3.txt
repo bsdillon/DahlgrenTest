@@ -1,0 +1,21 @@
+Finally getting a grasp on how to do it based off of research!
+Tomorrow should be implementing what I've learned to get code building and testing.
+
+Today's Findings:
+
+So at the beginning of the day, I set out to try to understand the three links from yesterday but they were not quite showing
+me a clear picture so I looked elsewhere. Yesterday's links are still useful! But, I have found examples of EXACTLY what we
+are looking to do.
+
+While looking up 'CMake,' which is used in the links from yesterday, I found this page!
+https://github.com/marketplace/actions/run-cmake
+
+This page provides a useable CMake action AND EXAMPLES!
+
+One example that I think will be the most useful is this repository, as it uses CMake to BUILD AND TEST their code USING ACTIONS!!!
+Exactly what we are looking for, and it is a full fleged project that people are active on, so we can potentially use it to model our
+repository!
+https://github.com/assimp/assimp
+
+Using this repository and this video, I am fairly certain that I can create a building and testing framework!
+https://www.youtube.com/watch?v=Lp1ifh9TuFI

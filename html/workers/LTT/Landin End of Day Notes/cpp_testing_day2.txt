@@ -1,0 +1,22 @@
+Spent the day looking for ways to get C/C++ code running on GitHub actions and came across a few good resources.
+Tried doign some things that immediatley came to mind, but those didn't pan out.
+
+I have been reading through these links/repositories
+
+A lot is going on in this one, and I think this is probably the best resource! 
+I am still trying to wrap my head around what all is going on.
+https://github.com/landin3thorsted/HelloWorld/actions/runs/130160215
+Supporting article
+https://cristianadam.eu/20191222/using-github-actions-with-c-plus-plus-and-cmake/
+
+Another one that has a lot going on 
+https://www.codeproject.com/Articles/5265628/Writing-CI-Pipeline-using-GitHub-Actions-to-Build
+
+This one is the simplist but and I was able to fork from this repository which gave the results in the action like we want.
+This one also has an example of artifacts.
+https://github.com/cristianadam/HelloWorld
+The forked version which has the actions running
+https://github.com/landin3thorsted/HelloWorld
+https://github.com/landin3thorsted/HelloWorld/actions/runs/130160215
+
+A lot to read through! I think something should come from one if not multiple of these.
