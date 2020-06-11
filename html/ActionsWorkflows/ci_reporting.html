@@ -18,7 +18,7 @@
     </p>
     <h3>Auto-generated Issues</h3>
     <p>
-      According to <a href="https://developer.github.com/v3/issues/#create-an-issue">the API</a> it is possible to 
+      According to <a href="https://developer.github.com/v3/issues/#create-an-issue">the API</a> it is possible to
       automatically generate an issue as the result of a workflow. This may be usefull to automatically report a bug
       or prompt someone to take an action after some specific set of failures.
     </p>
@@ -43,9 +43,9 @@
       <li value="4">This is a POST action in GitHub's REST API. That means something is being posted to the site.</li>
       <li>The location for the new post is the issues folder of the project repository. Note that the variable github.workflow 
         is used rather than hard-coding the name of the repository. This theme will be repeated.</li>
-      <li>I really don't know what this means, but it must be used to authorize the push the new issue. The secret tokens are 
+      <li>I really don't know what this means, but it must be used to authorize the push the new issue. The secret tokens are
         created by the project admin, but GITHUB_TOKEN is automatically generated for the project.</li>
-      <li value="9">This title can be edited, but this one refers to the SHA hash code of the last push that triggered the 
+      <li value="9">This title can be edited, but this one refers to the SHA hash code of the last push that triggered the
         workflow. It also names the workflow itself in a dynamic way.</li>
       <li>This body is limited to a single string, but some instructions could be put here or a link to an HTML explantion.</li>
       <li>Labels can be affixed to any issue. Some of them like bug and documentation are pre-defined, but you can create
