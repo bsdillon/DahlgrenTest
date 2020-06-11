@@ -18,7 +18,7 @@ then
    exit 1
 fi
 
-set diff=(($INPUT_OPERAND2-$INPUT_OPERAND1))
+diff=$(($INPUT_OPERAND2-$INPUT_OPERAND1))
 
 if [ $diff = "$INPUT_ANSWER" ]
 then
