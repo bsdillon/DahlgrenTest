@@ -7,24 +7,39 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    
+  job:
+    name: ${{ matrix.os }}-${{ matrix.cxx }}-build-and-test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        name: [ubuntu-gcc, macos-clang, windows-msvc, ubuntu-clang]
+        # For Windows msvc, for Linux and macOS let's use the clang compiler, use gcc for Linux.
+        include:
+          - name: windows-msvc
+            os: windows-latest
+            cxx: cl.exe
+            cc: cl.exe
+          - name: ubuntu-clang
+            os: ubuntu-latest
+            cxx: clang++
+            cc: clang
+          - name: macos-clang
+            os: macos-latest
+            cxx: clang++
+            cc: clang
+          - name: ubuntu-gcc
+            os: ubuntu-latest
+            cxx: g++
+            cc: gcc
     steps:
     - uses: actions/checkout@v2
-    - name: setup-msbuild
-      uses: microsoft/setup-msbuild@v1
-    - name: Run a one-line script
-      run:  '& "$(vswhere -property installationPath)\Common7\IDE\MSTest.exe" /help'
-      
-    - name: Build Unitx
-      run: docker build kazssym/cppunitx-builder
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+    
+    - uses: lukka/get-cmake@latest
+    
+    - uses: ilammy/msvc-dev-cmd@v1
+    
+    - uses: lukka/set-shell-env@v1
+      with:
+        CXX: ${{ matrix.cxx }}
+        CC: ${{ matrix.cc }}
