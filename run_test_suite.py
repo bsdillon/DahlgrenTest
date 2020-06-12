@@ -26,10 +26,10 @@ def run_all():
     """
     print("Running all tests...")
     pytest.main(['-v',
-        'app/tests',
-        '--cov-report',
-        'term-missing',
-        '--cov=app/'])
+                 'app/tests',
+                 '--cov-report',
+                 'term-missing',
+                 '--cov=app/'])
     pytest.validate(['-v',
         'app/tests',
         '--cov-report',
@@ -65,7 +65,7 @@ def run_generative_only():
         '--hypothesis-show-statistics',
         '-k',
         'generative'])
-    
+
 
 def main():
     """Sets up and kicks off all tests
