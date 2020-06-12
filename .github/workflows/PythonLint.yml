@@ -19,12 +19,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install flake8
-      - name: Whynot #1
+      - name: Whynot first
         uses: WhyNotHugo/python-linting@v1.0.0
-      - name: Whynot #2
+      - name: Whynot second
         if: ${{ always() }}
         uses: whynothugo/python-linting@master
-      - name: Lint w/flake8 #1
+      - name: Lint w/flake8 first
         if: ${{ always() }}
         run: |
           # stop the build if there are Python
@@ -35,7 +35,7 @@ jobs:
             --select=E9,F63,F7,F82
             --show-source
             --statistics
-      - name: Lint w/flake8 #2
+      - name: Lint w/flake8 second
         if: ${{ always() }}
         run: |
           # exit-zero treats all errors as warnings.
