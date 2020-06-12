@@ -1,2 +1,2 @@
 def validate_email(email):
-    return True test '@' in email else False
+    return True if '@' in email else False

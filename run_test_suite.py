@@ -15,7 +15,6 @@ python -m pytest app/tests
 
 """
 import argparse
-import os
 # import urllib.request
 import sys
 
