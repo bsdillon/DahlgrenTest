@@ -31,10 +31,10 @@ def run_all():
                  'term-missing',
                  '--cov=app/'])
     pytest.validate(['-v',
-        'app/tests',
-        '--cov-report',
-        'term-missing',
-        '--cov=app/'])
+                     'app/tests',
+                     '--cov-report',
+                     'term-missing',
+                     '--cov=app/'])
 
 
 def run_coverage_only():
@@ -42,13 +42,13 @@ def run_coverage_only():
     """
     print("Running coverage report...")
     pytest.main(['--cov-report',
-        'term-missing',
-        '--cov=app/',
-        'app/tests'])
+                 'term-missing',
+                 '--cov=app/',
+                 'app/tests'])
     pytest.validate(['--cov-report',
-        'term-missing',
-        '--cov=app/',
-        'app/tests'])
+                     'term-missing',
+                     '--cov=app/',
+                     'app/tests'])
 
 
 def run_generative_only():
@@ -56,15 +56,15 @@ def run_generative_only():
     """
     print("Running generative testing...")
     pytest.main(['-v',
-        'app/tests',
-        '--hypothesis-show-statistics',
-        '-k',
-        'generative'])
+                 'app/tests',
+                 '--hypothesis-show-statistics',
+                 '-k',
+                 'generative'])
     pytest.validate(['-v',
-        'app/tests',
-        '--hypothesis-show-statistics',
-        '-k',
-        'generative'])
+                     'app/tests',
+                     '--hypothesis-show-statistics',
+                     '-k',
+                     'generative'])
 
 
 def main():
@@ -72,12 +72,11 @@ def main():
     """
     parser = argparse.ArgumentParser(
         description="A command line-tool to manage the project.")
-    parser.add_argument(
-        'stage',
-        metavar='stage',
-        type=str,
-        choices=['all', 'generative', 'coverage'],
-        help="Testing to run. Either: all, generative, coverage")
+    parser.add_argument('stage',
+                        metavar='stage',
+                        type=str,
+                        choices=['all', 'generative', 'coverage'],
+                        help="Testing to run. Either: all, generative, coverage")
 
     if len(sys.argv[1:]) == 0:
         print("Running all...")
