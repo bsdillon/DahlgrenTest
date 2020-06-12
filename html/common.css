@@ -3,11 +3,6 @@ body {
   background-color: #E6E6E6;
   text-align: justify;
   text-justify: inter-word;
-  background-image: url('./imgs/expDahl.png');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: right top;
-  background-size: 20%;
 }
 a:link {color:#0000ff;}
 a:visited  {color:#0000ff;}
