@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.1)
-project (DahlgrenTest)
+project (unit_test_example)
 
 find_package(Threads REQUIRED)
 
