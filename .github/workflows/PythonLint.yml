@@ -28,4 +28,8 @@ jobs:
             "body": "Python linting detected some errors.",
             "labels": ["bug","auto"],
             "assignees": ["bsdillon"]
+<<<<<<< HEAD
             }'
+=======
+            }'
+>>>>>>> 5f9166b79caf6eef024c3842831b5257b5d381f1
