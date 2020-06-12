@@ -72,7 +72,7 @@ def main():
     """
     parser = argparse.ArgumentParser(
         description="A command line-tool to manage the project.")
-    tmp="Testing to run. Either: all, generative, coverage"
+    tmp = "Testing to run. Either: all, generative, coverage"
     parser.add_argument('stage',
                         metavar='stage',
                         type=str,

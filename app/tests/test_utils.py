@@ -1,5 +1,6 @@
-import pytest
 from app.core.utils import add, remove_spaces
+
+import pytest
 
 
 @pytest.mark.parametrize('x, y, result', [
