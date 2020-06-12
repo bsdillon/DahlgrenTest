@@ -72,11 +72,12 @@ def main():
     """
     parser = argparse.ArgumentParser(
         description="A command line-tool to manage the project.")
+    tmp="Testing to run. Either: all, generative, coverage"
     parser.add_argument('stage',
                         metavar='stage',
                         type=str,
                         choices=['all', 'generative', 'coverage'],
-                        help="Testing to run. Either: all, generative, coverage")
+                        help=tmp)
 
     if len(sys.argv[1:]) == 0:
         print("Running all...")
