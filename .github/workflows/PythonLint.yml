@@ -5,8 +5,9 @@ name: Python Linting
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - 'justchecking'
+    paths:
+      - "**.py"
+      - ".github/workflows/PythonLint.yml"
 jobs:
   Linting_with_flake8:
     runs-on: ubuntu-18.04
