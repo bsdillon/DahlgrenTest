@@ -8,7 +8,7 @@ on:
     branches:
       - 'justchecking'
 jobs:
-  Linting w/flake8:
+  Linting_with_flake8:
     runs-on: ubuntu-18.04
     steps:
       - name: Setup code
@@ -43,7 +43,7 @@ jobs:
             "labels": ["bug","python","auto"],
             "assignees": ["bsdillon"]
             }'
-  Linting w/WhyNot:
+  Linting_with_WhyNot:
     runs-on: ubuntu-18.04
     steps:
       - name: Setup code
