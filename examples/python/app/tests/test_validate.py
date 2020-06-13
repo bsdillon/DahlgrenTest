@@ -9,4 +9,7 @@ import pytest
     ('', False)
 ])
 def test_validate_email(email, is_ok):
+    """Tests the 'email validator'
+    checks to make sure there is an @ in the string provided
+    """
     assert validate_email(email) == is_ok
