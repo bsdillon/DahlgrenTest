@@ -4,7 +4,7 @@
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    - cron: '0 20 * * *'
+    - cron: '0 1 * * *'
 
 jobs:
   check-quality:
