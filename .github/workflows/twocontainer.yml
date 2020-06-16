@@ -20,12 +20,12 @@ jobs:
       - name: Save IP
         uses: actions/upload-artifact@v2
           with:
-            name: IP2
+            name: IPTwo
             path: IP2.txt
       - name: Get IP
         uses: actions/download-artifact@v2
           with:
-            name: IP1
+            name: IPOne
       - uses: actions/checkout@v1
       - name: box 2
         uses: ./.github/actions/box2
@@ -41,12 +41,12 @@ jobs:
       - name: Save IP
         uses: actions/upload-artifact@v2
           with:
-            name: IP1
+            name: IPOne
             path: IP1.txt
       - name: Get IP
         uses: actions/download-artifact@v2
           with:
-            name: IP2
+            name: IPTwo
       - uses: actions/checkout@v1
       - name: box 1
         uses: ./.github/actions/box1
