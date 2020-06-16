@@ -1,0 +1,22 @@
+---
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - 'justchecking'
+
+jobs:
+  firstBox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Successful math test
+        uses: ./.github/actions/box1
+  secondBox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Successful math test
+        uses: ./.github/actions/box2
