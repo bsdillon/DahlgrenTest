@@ -1,7 +1,7 @@
-def add(x, y):
+def add(num1, num2):
     """Adds two numbers
     """
-    return x + y
+    return num1 + num2
 
 
 def remove_spaces(data):
