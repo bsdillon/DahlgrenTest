@@ -19,13 +19,13 @@ jobs:
           echo ${{ steps.ip.outputs.ipv4 }} > IP2.txt
       - name: Save IP
         uses: actions/upload-artifact@v2
-          with:
-            name: IPTwo
-            path: IP2.txt
+        with:
+          name: IPTwo
+          path: IP2.txt
       - name: Get IP
         uses: actions/download-artifact@v2
-          with:
-            name: IPOne
+        with:
+          name: IPOne
       - uses: actions/checkout@v1
       - name: box 2
         uses: ./.github/actions/box2
@@ -40,13 +40,13 @@ jobs:
           echo ${{ steps.ip.outputs.ipv4 }} > IP1.txt
       - name: Save IP
         uses: actions/upload-artifact@v2
-          with:
-            name: IPOne
-            path: IP1.txt
+        with:
+          name: IPOne
+          path: IP1.txt
       - name: Get IP
         uses: actions/download-artifact@v2
-          with:
-            name: IPTwo
+        with:
+          name: IPTwo
       - uses: actions/checkout@v1
       - name: box 1
         uses: ./.github/actions/box1
