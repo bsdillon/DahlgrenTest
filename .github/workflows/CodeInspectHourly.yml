@@ -1,0 +1,29 @@
+---
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  schedule:
+    # Every two hours through workdays 4am-8pm
+    # maximizing use of the 10 inspections per day
+    - cron: '0 9,11,13,15,17,19,21,23 * * 1-5'
+
+jobs:
+  check-quality:
+    runs-on: ubuntu-latest
+    name: A job to check my code quality
+    steps:
+      - name: Check code meets quality standards
+        id: code-inspector
+        uses: codeinspectorio/github-action@master
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          code_inspector_access_key: ${{ secrets.CODE_INSPECTOR_ACCESS_KEY }}
+          code_inspector_secret_key: ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}
+          min_quality_grade: 'WARNING'
+          min_quality_score: '100'
+          max_defects_rate: '0.0000'
+          max_complex_functions_rate: '0.0001'
+          max_long_functions_rate: '0.0001'
+          project_name: ''
+          max_timeout_sec: '600'

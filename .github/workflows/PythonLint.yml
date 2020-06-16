@@ -1,0 +1,66 @@
+---
+name: Python Linting
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    paths:
+      - "**.py"
+      - ".github/workflows/PythonLint.yml"
+jobs:
+  Linting_with_flake8:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup code
+        uses: actions/checkout@master
+      - name: Setup python
+        uses: actions/setup-python@v1
+      - name: Install flake8
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+      - name: check flake8
+        run: |
+          flake8 . \
+            --count \
+            --select=E9,F63,F7,F82 \
+            --show-source \
+            --statistics
+      - name: Create issue using REST API
+        if: ${{ failure() }}
+        # Only executes if one of the tests failed
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "Failed flake8 Linting",
+            "body": "Python linting detected some errors.",
+            "labels": ["bug","python","auto"],
+            "assignees": ["bsdillon"]
+            }'
+  Linting_with_WhyNot:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup code
+        uses: actions/checkout@master
+      - name: Setup python
+        uses: actions/setup-python@v1
+      - name: check Whynot
+        uses: WhyNotHugo/python-linting@v1.0.0
+      - name: Create issue using REST API
+        if: ${{ failure() }}
+        # Only executes if one of the tests failed
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/${{ github.repository }}/issues \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+          --data '{
+            "title": "Failed WhyNot Linting",
+            "body": "Python linting detected some errors.",
+            "labels": ["bug","python","auto"],
+            "assignees": ["bsdillon"]
+            }'

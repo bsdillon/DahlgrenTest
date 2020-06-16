@@ -45,6 +45,47 @@
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- 'devel-**'</code><br>
     </p>
     <p>
+      Another way to trigger a workflow is on a definite chronological schedule.
+      In this code the values 1-5 indicate different measures of time. The value
+      shown here will prompt the the execution on Friday April 3 at 2:01am UTC.
+      <code>
+      on:<br>
+      &nbsp;&nbsp;schedule:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;- cron: '1 2 3 4 5'
+      </code>
+    </p>
+    <ol>
+      <li>Minutes (0-59)</li>
+      <li>Hour (0-23)</li>
+      <li>Day (1-31)</li>
+      <li>Month (1-12)</li>
+      <li>Weekday (0=Sunday through 6=Saturday)</li>
+    </ol>
+    <p>
+      Another option is to execute the job on a periodic schedule. The '*' is a
+      wildcard with '*/1' indicating any time that matches modulo 1. See <a href="https://en.wikipedia.org/wiki/Cron">
+      this Wikipedia article</a> for more information about the exact syntax.
+      This one executes every 6 hours so 0000Hrs, 0600Hrs, 1200Hrs, and 1800Hrs all UTC.
+      <code>
+      on:<br>
+      &nbsp;&nbsp;schedule:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;- cron: '0 */6 * * *'<br>
+      </code>
+      This one executes every day at midnight eastern time. Remember the time difference with UTC.
+      <code>
+      on:<br>
+      &nbsp;&nbsp;schedule:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;- cron: '0 5 * * */1'
+      </code>
+      This one executes every two hours on weekdays from 4am EST to 6pm EST. This will likely be used
+      to run the same job periodically during the workday.
+      <code>
+      on:<br>
+      &nbsp;&nbsp;schedule:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;- cron: '0 9,11,13,15,17,19,21,23 * * 1-5'
+      </code>
+    </p>
+    <p>
       By employing a group of these triggers you can specify a test to
       run under specific conditions and no other. There are a number of
       different combinations for full documentation see
