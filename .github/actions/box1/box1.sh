@@ -2,7 +2,9 @@
 
 echo "box 1 was here"
 
-value1=value=$(<IP1.txt)
-value2=value=$(<IP2.txt)
+v1="IP1.txt"
+v2="IP2.txt"
+value1 < "$v1"
+value2 < "$v2"
 echo "IP1: $value1"
 echo "IP2: $value2"
