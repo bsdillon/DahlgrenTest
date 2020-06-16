@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Successful math test
+      - name: box 1
         uses: ./.github/actions/box1
   secondBox:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Successful math test
+      - name: box 2
         uses: ./.github/actions/box2
