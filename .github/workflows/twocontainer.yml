@@ -11,12 +11,36 @@ jobs:
   secondBox:
     runs-on: ubuntu-latest
     steps:
+      uses: haythem/public-ip@v1
+    - name: Print Public IP
+      run: |
+        echo ${{ steps.ip.outputs.ipv4 }} > IP.txt
+      uses: actions/upload-artifact@v1
+        with:
+          name: IP2.txt
+          path: IP2.txt
+      uses: actions/download-artifact@v2
+        with:
+          name: IP1.txt
+          path: IP1.txt
       - uses: actions/checkout@v1
       - name: box 2
-        uses: ./.github/actions/box3
+        uses: ./.github/actions/box2
   firstBox:
     runs-on: ubuntu-latest
     steps:
+      uses: haythem/public-ip@v1
+    - name: Print Public IP
+      run: |
+        echo ${{ steps.ip.outputs.ipv4 }} > IP.txt
+      uses: actions/upload-artifact@v1
+        with:
+          name: IP1.txt
+          path: IP1.txt
+      uses: actions/download-artifact@v2
+        with:
+          name: IP2.txt
+          path: IP2.txt
       - uses: actions/checkout@v1
       - name: box 1
         uses: ./.github/actions/box1
