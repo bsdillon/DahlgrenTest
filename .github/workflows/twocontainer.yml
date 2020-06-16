@@ -11,6 +11,8 @@ jobs:
   secondBox:
     runs-on: ubuntu-latest
     steps:
+    - name: Public IP
+      id: ip
       uses: haythem/public-ip@v1
     - name: Print Public IP
       run: |
@@ -29,6 +31,8 @@ jobs:
   firstBox:
     runs-on: ubuntu-latest
     steps:
+    - name: Public IP
+      id: ip
       uses: haythem/public-ip@v1
     - name: Print Public IP
       run: |
