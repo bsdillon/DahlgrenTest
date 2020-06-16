@@ -3,8 +3,6 @@ name: "Box 2"
 description: "Just a test"
 author: "Brian Dillon"
 
-inputs:
-
 runs:
   using: "docker"
   image: "Dockerfile"
