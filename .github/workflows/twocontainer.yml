@@ -17,10 +17,12 @@ jobs:
     - name: Print Public IP
       run: |
         echo ${{ steps.ip.outputs.ipv4 }} > IP2.txt
+    - name: Save IP
       uses: actions/upload-artifact@v1
         with:
           name: IP2.txt
           path: IP2.txt
+    - name: Get IP
       uses: actions/download-artifact@v2
         with:
           name: IP1.txt
@@ -37,10 +39,12 @@ jobs:
     - name: Print Public IP
       run: |
         echo ${{ steps.ip.outputs.ipv4 }} > IP1.txt
+    - name: Save IP
       uses: actions/upload-artifact@v1
         with:
           name: IP1.txt
           path: IP1.txt
+    - name: Get IP
       uses: actions/download-artifact@v2
         with:
           name: IP2.txt
