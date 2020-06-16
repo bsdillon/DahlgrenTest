@@ -1,0 +1,22 @@
+---
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      'KKBranch'
+jobs:
+  CodeCov:
+    runs-on: ubuntu-latest
+    name: Codecov
+    steps:
+      - name: Codecov Setup
+        uses: actions/checkout@master
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml # optional
+          flags: unittests # optional
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
