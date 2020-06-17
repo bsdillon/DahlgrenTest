@@ -8,3 +8,9 @@ def remove_spaces(data):
     """Removes spaces from a string
     """
     return data.replace(' ', '')
+
+
+def not_tested():
+    """Not a real comment
+    """
+    return "nothing"
