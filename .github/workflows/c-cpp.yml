@@ -51,4 +51,9 @@ jobs:
         cmakeAppendedArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release'
         buildWithCMakeArgs: '-- -v'
         buildDirectory: '${{ github.workspace }}/build/'
+    - name: Perform Unit Tests
+      run: |
+        ls
+        
+        
         
