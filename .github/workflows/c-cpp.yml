@@ -53,7 +53,8 @@ jobs:
         buildDirectory: '${{ github.workspace }}/build/'
     - name: Perform Unit Tests
       run: |
-        ls
+        cd build
+        ./tst/test2_tst
         
         
         
