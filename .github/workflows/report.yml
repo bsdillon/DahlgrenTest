@@ -13,5 +13,5 @@ jobs:
     name: Begin report
     steps:
       - name: Process report
-      run: |
-        curl https://api.github.com/repos/${{ github.repository }}/commits \ 
+        run:
+          curl https://api.github.com/repos/${{ github.repository }}/commits \ 
