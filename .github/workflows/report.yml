@@ -12,9 +12,21 @@ jobs:
     runs-on: ubuntu-latest
     name: Begin report
     steps:
-      - name: Process report
+      - name: Process commits
         run: |
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/commits \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+      - name: List issue comments for this repository
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/issues/comments \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' \
+      - name: Get feeds
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/feeds \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
