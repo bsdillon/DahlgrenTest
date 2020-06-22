@@ -22,6 +22,10 @@ jobs:
         with:
           name: IPTwo
           path: IP2.txt
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '4s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
@@ -50,6 +54,10 @@ jobs:
         with:
           name: IPOne
           path: IP1.txt
+      - name: Sleep for 30 seconds
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '4s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
