@@ -12,21 +12,32 @@ jobs:
     runs-on: ubuntu-latest
     name: Begin report
     steps:
-      - name: Process commits
+      #$- name: Process commits
+        #run: |
+        #  curl --request GET \
+        #  --url https://api.github.com/repos/${{ github.repository }}/commits \
+        #  --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+        #  --header 'content-type: application/json' \
+      - name: Retrive failed actions
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/commits \
+          --url https://api.github.com/repos/${{ github.repository }}/commits/KKBranch/status?state=failure \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
-      - name: List issue comments for this repository
+      - name: Retrive passed actions
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/issues/comments \
+          --url https://api.github.com/repos/${{ github.repository }}/commits/KKBranch/status?state=success \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
-      - name: Get feeds
-        run: |
-          curl --request GET \
-          --url https://api.github.com/repos/feeds \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
+      #- name: List issue comments for this repository
+      #  run: |
+      #    curl --request GET \
+      #    --url https://api.github.com/repos/${{ github.repository }}/issues/comments \
+      #    --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+      #    --header 'content-type: application/json' \
+      - name: Store in artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Report Log
+          path: log.log
