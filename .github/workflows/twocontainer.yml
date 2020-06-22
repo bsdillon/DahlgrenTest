@@ -28,7 +28,7 @@ jobs:
           name: IPOne
       - uses: actions/checkout@v1
       - name: Save File listing
-        run: ls html/ > out1.txt
+        run: ls > out1.txt
       - name: Keep file listing artifact
         uses: actions/upload-artifact@v1
         with:
@@ -55,7 +55,7 @@ jobs:
         with:
           name: IPTwo
       - name: Save File listing
-        run: ls html/ > out2.txt
+        run: ls > out2.txt
       - name: Keep file listing artifact
         uses: actions/upload-artifact@v1
         with:
