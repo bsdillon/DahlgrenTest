@@ -23,21 +23,14 @@ jobs:
         with:
           name: IPTwo
           path: IP2.txt
-      - name: Sleep for 30 seconds
+      - name: Wait for IP files to write
         uses: jakejarvis/wait-action@master
         with:
-          time: '1s'
+          time: '2s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
           name: IPOne
-      - name: Save File listing
-        run: ls -l > out2.txt
-      - name: Keep file listing artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: file2_list
-          path: out2.txt
       - name: box 2
         uses: ./.github/actions/box2
   firstBox:
@@ -55,22 +48,13 @@ jobs:
         with:
           name: IPOne
           path: IP1.txt
-      - name: Delay
-        run: sleep 1s    
-      # - name: Sleep for 30 seconds
-      #   uses: jakejarvis/wait-action@master
-      #   with:
-      #     time: '4s'
+      - name: Wait for IP files to write
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '2s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
           name: IPTwo
-      - name: Save File listing
-        run: ls -l > out1.txt
-      - name: Keep file listing artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: file1_list
-          path: out1.txt
       - name: box 1
         uses: ./.github/actions/box1
