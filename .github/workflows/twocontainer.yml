@@ -27,6 +27,13 @@ jobs:
         with:
           name: IPOne
       - uses: actions/checkout@v1
+      - name: Save File listing
+        run: ls html/ > out1.txt
+      - name: Keep file listing artifact
+        uses: actions/upload-artifact@v1
+          with:
+            name: file1_list
+            path: out1.txt
       - name: box 2
         uses: ./.github/actions/box2
   firstBox:
@@ -47,6 +54,13 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: IPTwo
+      - name: Save File listing
+        run: ls html/ > out2.txt
+      - name: Keep file listing artifact
+        uses: actions/upload-artifact@v1
+          with:
+            name: file2_list
+            path: out2.txt
       - uses: actions/checkout@v1
       - name: box 1
         uses: ./.github/actions/box1
