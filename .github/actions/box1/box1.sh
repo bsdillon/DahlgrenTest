@@ -2,8 +2,8 @@
 
 echo "box 1 was here"
 
-v1="IP1.txt"
-v2="IP2.txt"
+v1="/IP1.txt"
+v2="./IP2.txt"
 value1 < "$v1"
 value2 < "$v2"
 echo "IP1: $value1"
