@@ -16,16 +16,8 @@ jobs:
         name: [ubuntu-gcc, macos-clang, windows-msvc, ubuntu-clang]
         # For Windows msvc, for Linux and macOS let's use the clang compiler, use gcc for Linux.
         include:
-          - name: windows-msvc
-            os: windows-latest
-            cxx: cl.exe
-            cc: cl.exe
           - name: ubuntu-clang
             os: ubuntu-latest
-            cxx: clang++
-            cc: clang
-          - name: macos-clang
-            os: macos-latest
             cxx: clang++
             cc: clang
           - name: ubuntu-gcc
