@@ -33,7 +33,7 @@ jobs:
       - name: Retrive pull requests (closed)
         run: |
           curl --request GET \
-          --url https://api.github.com/search/issues?q=+type:pr+user:StackExchange&sort=created&order=asc
+          --url https://api.github.com/search/issues?q=+type:pr&sort=created&order=asc
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' \
       #- name: List issue comments for this repository
