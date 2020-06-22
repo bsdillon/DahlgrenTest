@@ -1,6 +1,7 @@
 //============================================================================
 // Name        : sorting_and_searching_test.cpp
 // Author      : Carlos Gomes
+// Modified By : Landin Thorsted
 // Version     :
 // Copyright   : Copyright Carlos Gomes
 // Description : Unit test for the function of the classes provided in
@@ -109,6 +110,13 @@ TEST(SearchTest, not_containing_search_value) {
 
   (searcher.binary_search(v, x), 0);
 }
+
+TEST(AddingTest, addingTwoNumbers) {
+  Add adder;
+  EXPECT_EQ(adder.addTwoNumbers(1, 1), 2);
+  
+}
+
 
 //int main(int argc, char **argv) {
 //  testing::InitGoogleTest(&argc, argv);

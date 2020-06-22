@@ -14,6 +14,10 @@
 
 using namespace sorting_and_searching;
 
+int Add::addTwoNumbers(int num1, int num2) {
+  return num1 + num2;
+}
+
 /*!
  * Creates a vector with a certain size, fills it with random values within a
  * range and returns it.

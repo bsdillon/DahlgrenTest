@@ -5,6 +5,9 @@
 // Copyright   : Copyright Carlos Gomes
 // Description : Classes providing the methods for sorting and search vectors.
 //============================================================================
+#ifndef DAHLGRENTEST_SRC_SORTINGSEARCH_HPP
+#define DAHLGRENTEST_SRC_SORTINGSEARCH_HPP
+
 #pragma once
 
 #include <assert.h>
@@ -12,6 +15,17 @@
 #include <random>
 
 namespace sorting_and_searching {
+  
+class Add {
+public:
+  /*
+   * Adds two integer values and returns the result.
+   * @param num1 the first integer value.
+   * @param num2 the second integer value to be added to num1
+   * @return Returns the result of num1 + num2
+   */
+  int addTwoNumbers(int num1, int num2);
+};
 
 class Obtain {
 public:
@@ -50,3 +64,5 @@ public:
 };
 
 } // namespace sorting_and_searching
+
+#endif //DAHLGRENTEST_SRC_SORTING_AND_SEARCHING_CPP
