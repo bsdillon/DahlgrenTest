@@ -26,7 +26,7 @@ jobs:
       - name: Sleep for 30 seconds
         uses: jakejarvis/wait-action@master
         with:
-          time: '4s'
+          time: '1s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
@@ -55,10 +55,12 @@ jobs:
         with:
           name: IPOne
           path: IP1.txt
-      - name: Sleep for 30 seconds
-        uses: jakejarvis/wait-action@master
-        with:
-          time: '4s'
+      - name: Delay
+        run: sleep 1s    
+      # - name: Sleep for 30 seconds
+      #   uses: jakejarvis/wait-action@master
+      #   with:
+      #     time: '4s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
