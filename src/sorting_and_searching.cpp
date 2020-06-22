@@ -11,46 +11,84 @@
 #include <vector>
 
 #include "SortSearch.hpp"
-/*
-int main(int argc, char **argv) {
-  std::cout << "Hello World!" << std::endl;
 
-  // Create instances of the classes providing the required methods.
-  sorting_and_searching::Obtain obtainer;
-  sorting_and_searching::Sort sorter;
-  sorting_and_searching::Search searcher;
+using namespace sorting_and_searching;
 
-  // Get a random value, this value is searched later within the vector.
-  const std::size_t v_size = 50u;
-  const std::size_t range = 100u;
+/*!
+ * Creates a vector with a certain size, fills it with random values within a
+ * range and returns it.
+ * @param vector_size is the size of the vector, which should be returned.
+ * @param range is the max and min value of the vector, it ranges from -range
+ * to +range.
+ * @return Returns the vector.
+ */
+std::vector<int> Obtain::getVector(std::size_t vector_size, std::size_t range) {
+  assert(vector_size > 0);
+  assert(range > 0);
+  assert(vector_size < std::numeric_limits<int>::max());
+  assert(range < std::numeric_limits<int>::max());
+
+  std::vector<int> vec(vector_size);
   std::random_device rd;
   std::mt19937 rng(rd());
-  std::uniform_int_distribution<int> uni(1, v_size);
-  std::size_t random_integer = uni(rng);
-  int search_value = uni(rng);
-
-  std::vector<int> v = obtainer.getVector(random_integer, range);
-
-  std::cout << "\nData before sorting: ";
-  for (std::size_t j = 0u; j < v.size(); ++j)
-    std::cout << v[j] << " ";
-
-  sorter.sortVector(v);
-
-  std::cout << "\nData after sorting: ";
-  for (std::size_t j = 0u; j < v.size(); ++j)
-    std::cout << v[j] << " ";
-
-  int pos = searcher.binary_search(v, search_value);
-
-  if (pos < 0) {
-    std::cout << "\n\n" << search_value << " was *not* found!" << std::endl;
-  } else {
-    std::cout << "\n\n"
-              << search_value << " was found at the " << pos << " position!"
-              << std::endl;
+  std::uniform_int_distribution<int> uni(-range, range);
+  for (auto &v : vec) {
+    int random_integer = uni(rng);
+    v = random_integer;
   }
 
-  return 0;
+  return vec;
 }
-*/
+
+/*!
+ * Sorts the values within a given vector in increasing order.
+ * @param v is a vector with integers which should be sorted.
+ */
+void Sort::sortVector(std::vector<int> &v) {
+  assert(v.size() >= 1u);
+
+  int temp;
+
+  for (std::size_t i = 0u; i < v.size(); ++i) {
+    for (std::size_t j = 0u; j < v.size() - 1; ++j) {
+      if (v[j] > v[j + 1]) {
+        temp = v[j];
+        v[j] = v[j + 1];
+        v[j + 1] = temp;
+      }
+    }
+  }
+}
+
+/*!
+ * Method to search the position of a value inside a vector. If there are
+ * multiple entries with the same value, one entry positions of them is
+ * returned.
+ * @param vec is the input vector.
+ * @param X is the value which should be found within the vector.
+ * @return -1 if not found, otherwise the position on the vector.
+ */
+int Search::binary_search(const std::vector<int> &vec, int X) {
+  assert(vec.size() >= 1u);
+  assert(X < std::numeric_limits<int>::max());
+
+  // Set the begin and end.
+  std::size_t itr_begin = 0u;
+  std::size_t itr_end = vec.size() - 1;
+  while (itr_begin <= itr_end) {
+    // Get the iterator in the middle of the search part of the array.
+    std::size_t itr = itr_begin + (itr_end - itr_begin) / 2u;
+
+    if (vec[itr] == X) {
+      return itr;
+    } else if (vec[itr] < X) {
+      // Value was not found and
+      itr_begin = itr + 1u;
+    } else {
+      itr_end = itr - 1u;
+    }
+  } // Iterate until X is found or the search ends.
+
+  // Value was not found, so return -1.
+  return -1;
+}
