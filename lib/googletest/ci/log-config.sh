@@ -35,12 +35,12 @@ set -e
 # reset ccache statistics
 ccache --zero-stats
 
-echo PATH=${"PATH"}
+echo "PATH=${PATH}"
 
 echo "Compiler configuration:"
-echo CXX=${"CXX"}
-echo CC=${"CC"}
-echo CXXFLAGS=${"CXXFLAGS"}
+echo "CXX=${CXX}"
+echo "CC=${CC}"
+echo "CXXFLAGS=${CXXFLAGS}"
 
 echo "C++ compiler version:"
 ${CXX} --version || echo "${CXX} does not seem to support the --version flag"

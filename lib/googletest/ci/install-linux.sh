@@ -44,6 +44,6 @@ if [ "${TRAVIS_SUDO}" = "true" ]; then
     sudo apt-get update && sudo apt-get install -y bazel gcc g++ clang
 elif [ "${CXX}" = "clang++" ]; then
     # Use ccache, assuming $HOME/bin is in the path, which is true in the Travis build environment.
-    ln -sf /usr/bin/ccache $HOME/bin/${"CXX"};
-    ln -sf /usr/bin/ccache $HOME/bin/${"CC"};
+    ln -sf "/usr/bin/ccache $HOME/bin/${CXX}";
+    ln -sf "/usr/bin/ccache $HOME/bin/${CC}";
 fi
