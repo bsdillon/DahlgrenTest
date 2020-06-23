@@ -11,6 +11,7 @@ jobs:
   secondBox:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: Public IP
         id: ip
         uses: haythem/public-ip@v1
@@ -22,16 +23,20 @@ jobs:
         with:
           name: IPTwo
           path: IP2.txt
+      - name: Wait for IP files to write
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '2s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
           name: IPOne
-      - uses: actions/checkout@v1
       - name: box 2
         uses: ./.github/actions/box2
   firstBox:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       - name: Public IP
         id: ip
         uses: haythem/public-ip@v1
@@ -43,10 +48,13 @@ jobs:
         with:
           name: IPOne
           path: IP1.txt
+      - name: Wait for IP files to write
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '2s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
           name: IPTwo
-      - uses: actions/checkout@v1
       - name: box 1
         uses: ./.github/actions/box1
