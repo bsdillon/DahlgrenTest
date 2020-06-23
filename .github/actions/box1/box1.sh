@@ -2,10 +2,7 @@
 
 echo "box 1 files:"
 ## list all files.
-for entry in "/"/*
-do
-  echo "$entry"
-done
+ls -l
 
 echo "box 1 IP addresses:"
 input="/IP1.txt"
