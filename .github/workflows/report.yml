@@ -37,7 +37,6 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json'
 
-
   get_data:
     runs-on: ubuntu-latest
     name: Extract data and put into json artifact
@@ -47,7 +46,8 @@ jobs:
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/stats/participation \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' > commit_count.json
+          --header 'content-type: application/json' > commit_count.json \
+          cat commit_count.json
       - name: Put into json artifact
         uses: actions/upload-artifact@v1
         with:
