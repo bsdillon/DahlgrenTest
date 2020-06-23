@@ -52,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Commit-Log
-          path: commit_count.json
+          path: ./commit_count.json
