@@ -17,5 +17,6 @@ jobs:
           curl -i -H 'Content-Type: application/json' \
           -H "X-Access-Key: ${{ secrets.CODE_INSPECTOR_ACCESS_KEY }}" \
           -H "X-Secret-Key: ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}" \
-          -X POST -d '{"query": "query {projects(howmany: 10, skip:0){name}}"}' \
+          # yamllint disable-line rule:line-length
+          -X POST -d '{"query": "query {project(name: "DahlgrenTest"){name lastAnalysis{status startTimestamp violations(howmany: 10, skip: 0){line language  filename description}}}"}' \
           --url https://api.code-inspector.com/graphql
