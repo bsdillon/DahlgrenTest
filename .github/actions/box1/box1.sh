@@ -10,6 +10,7 @@ do
   ip2="$line"
 done < "$input"
 
-ping -c 1 "$ip2"
+pingTest=$(ping -c 1 "$ip2")
 
+echo "$pingTest"
 echo "box 2 done"
