@@ -17,15 +17,28 @@ jobs:
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/commits \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
+          --header 'content-type: application/json'
       - name: List of pull requests
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/pulls \
+          --url https://api.github.com/repos/${{ github.repository }}/pulls?state=all \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-      #- name: Store in artifact
-      #  uses: actions/upload-artifact@v1
-      #  with:
-      #    name: Report Log
-      #    path: log.log
+          --header 'content-type: application/json'
+      - name: Get contributor stats
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json'
+      - name: Get stats
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/stats \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json'
+      - name: Get weekly commit count
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/stats/participation \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json'
