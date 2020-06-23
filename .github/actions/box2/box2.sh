@@ -1,10 +1,16 @@
 #!/bin/bash
 
-echo "box 2 was  here"
+echo "box 2 executing"
 
-v1="IP1.txt"
-v2="IP2.txt"
-value1 < "$v1"
-value2 < "$v2"
-echo "IP1: $value1"
-echo "IP2: $value2"
+ip1 = "0.0.0.0"
+echo "box 1 IP addresses:"
+input="IP1.txt"
+while IFS= read -r line
+do
+  echo "IP1: $line"
+  ip1 = "$line"
+done < "$input"
+
+ping -c 1 "$ip1"
+
+echo "box 2 done"

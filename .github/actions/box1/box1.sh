@@ -1,18 +1,15 @@
 #!/bin/bash
 
-echo "box 1 files:"
-## list all files.
-ls -l
+echo "box 1 executing"
 
-echo "box 1 IP addresses:"
-input="IP1.txt"
-while IFS= read -r line
-do
-  echo "IP1: $line"
-done < "$input"
-
+ip2 = "0.0.0.0"
 input="IP2.txt"
 while IFS= read -r line
 do
   echo "IP2: $line"
+  ip2 = "$line"
 done < "$input"
+
+ping -c 1 "$ip2"
+
+echo "box 2 done"
