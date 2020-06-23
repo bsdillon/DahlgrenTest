@@ -1,0 +1,21 @@
+---
+name: Code Inspector Report
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - 'justchecking'
+
+jobs:
+  queryCI:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query Code Inspector
+        run: |
+          curl -i -H 'Content-Type: application/json' \
+          -H "X-Access-Key: ${{ secrets.CODE_INSPECTOR_ACCESS_KEY }}" 
+          -H "X-Secret-Key: ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}" \
+          -X POST -d '{"query": "query {projects(howmany: 10, skip:0){name}}"}' \
+          https://api.code-inspector.com/graphql
