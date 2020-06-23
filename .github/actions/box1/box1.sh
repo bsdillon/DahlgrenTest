@@ -5,13 +5,13 @@ echo "box 1 files:"
 ls -l
 
 echo "box 1 IP addresses:"
-input="/IP1.txt"
+input="IP1.txt"
 while IFS= read -r line
 do
   echo "IP1: $line"
 done < "$input"
 
-input="/IP2.txt"
+input="IP2.txt"
 while IFS= read -r line
 do
   echo "IP2: $line"
