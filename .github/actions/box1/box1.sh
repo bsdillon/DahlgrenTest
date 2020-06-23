@@ -1,7 +1,13 @@
 #!/bin/bash
 
-echo "box 1 was here"
+echo "box 1 files:"
+## list all files.
+while IFS= read -r line
+do
+  echo "$line"
+done < < (ls -l)
 
+echo "box 1 IP addresses:"
 input="/IP1.txt"
 while IFS= read -r line
 do
