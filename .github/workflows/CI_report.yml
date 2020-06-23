@@ -20,3 +20,7 @@ jobs:
           -H "X-Secret-Key: ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}" \
           -X POST -d '{"query": "query {project(name: "DahlgrenTest"){name lastAnalysis{status startTimestamp}}"}' \
           --url https://api.code-inspector.com/graphql
+
+# https://doc.code-inspector.com/api.html
+# https://doc.code-inspector.com/docs/api/#jwt
+# https://github.com/codeinspectorio/api-access-examples
