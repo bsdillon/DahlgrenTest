@@ -14,7 +14,7 @@ echo "Pinging $ip2"
 pingTest=$(ping -c1 "$ip2")
 
 echo "$pingTest"
-pingTest=$(ping -c1 google.com)
+pingTest=$(ping -c1 172.217.7.206)
 
 echo "$pingTest"
 echo "box 2 done"
