@@ -5,7 +5,7 @@ echo "box 1 files:"
 while IFS= read -r line
 do
   echo "$line"
-done < < (ls -l)
+done < (ls -l)
 
 echo "box 1 IP addresses:"
 input="/IP1.txt"
