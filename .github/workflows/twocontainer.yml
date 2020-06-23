@@ -26,7 +26,7 @@ jobs:
       - name: Wait for IP files to write
         uses: jakejarvis/wait-action@master
         with:
-          time: '2s'
+          time: '3s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
@@ -51,7 +51,7 @@ jobs:
       - name: Wait for IP files to write
         uses: jakejarvis/wait-action@master
         with:
-          time: '2s'
+          time: '3s'
       - name: Get IP
         uses: actions/download-artifact@v2
         with:
