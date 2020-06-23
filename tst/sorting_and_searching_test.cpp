@@ -111,10 +111,16 @@ TEST(SearchTest, not_containing_search_value) {
   (searcher.binary_search(v, x), 0);
 }
 
-TEST(AddingTest, addingTwoNumbers) {
+TEST(AddingTest, addingTest) {
   Add adder;
   EXPECT_EQ(adder.addTwoNumbers(1, 1), 2);
-  
+  ASSERT_EQ(adder.addTwoNumbers(43, 42), 85);
+}
+
+TEST(AddingTest, negativeAddingTest) {
+  Add adder;
+  EXPECT_NE(adder.addTwoNumbers(1, 1), 3);
+  ASSERT_NE(adder.addTwoNumbers(23, 42), -19);
 }
 
 
