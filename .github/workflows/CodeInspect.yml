@@ -6,7 +6,7 @@ on:
   schedule:
     # Midnight each day Monday through Saturday
     # this gives us an end of day, overnight eval
-     - cron: '0 5 * * 2-6'
+    - cron: '0 5 * * 2-6'
 
 jobs:
   check-quality:
