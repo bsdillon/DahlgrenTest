@@ -2,10 +2,10 @@
 
 echo "box 1 files:"
 ## list all files.
-while IFS= read -r line
+for entry in "/"/*
 do
-  echo "$line"
-done < (ls -l)
+  echo "$entry"
+done
 
 echo "box 1 IP addresses:"
 input="/IP1.txt"
