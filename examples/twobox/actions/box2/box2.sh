@@ -7,8 +7,8 @@ echo "box 1 IP addresses:"
 input="IP1.txt"
 while IFS= read -r line
 do
-  echo "IP1: $line"
   ip1="$line"
+  echo "IP1: $ip1"
 done < "$input"
 
 echo "box 2 done"
