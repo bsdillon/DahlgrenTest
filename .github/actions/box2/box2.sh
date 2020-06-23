@@ -12,7 +12,7 @@ do
 done < "$input"
 
 echo "Pinging $ip1"
-ping -c1 "$ip1" > pingResult
+"ping -c1 $ip1" > pingResult
 while IFS= read -r line
 do
   echo "$line"
