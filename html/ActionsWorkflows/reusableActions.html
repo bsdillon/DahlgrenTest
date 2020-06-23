@@ -42,9 +42,9 @@
       sequential execution (i.e. no loops see <a href="https://github.community/t/creating-a-while-loop-in-workflow/119253">this discussion</a>) and delays can get around some of 
       these limitations. The time parameter follows the <a href="https://ss64.com/bash/sleep.html">linux sleep syntax</a>.<br>
       <code>
-      - name: Wait for 5 seconds
-      &nbsp;&nbsp;uses: jakejarvis/wait-action@master
-      &nbsp;&nbsp;with:
+      - name: Wait for 5 seconds<br>
+      &nbsp;&nbsp;uses: jakejarvis/wait-action@master<br>
+      &nbsp;&nbsp;with:<br>
       &nbsp;&nbsp;&nbsp;&nbsp;time: '5s'
       </code>
     </p>
