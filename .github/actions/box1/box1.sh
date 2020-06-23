@@ -10,10 +10,4 @@ do
   ip2="$line"
 done < "$input"
 
-echo "Pinging $ip2"
-ping -c1 "$ip2" > pingResult
-while IFS= read -r line
-do
-  echo "$line"
-done < "pingResult"
 echo "box 2 done"

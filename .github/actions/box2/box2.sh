@@ -11,11 +11,4 @@ do
   ip1="$line"
 done < "$input"
 
-echo "Pinging $ip1"
-"ping -c1 $ip1" > pingResult
-while IFS= read -r line
-do
-  echo "$line"
-done < "pingResult"
-
 echo "box 2 done"
