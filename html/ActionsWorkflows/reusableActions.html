@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reusable Actions</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+    <style>
+    </style>
+    <script>
+    </script>
+  </head>
+  <body>
+    <h3>List of useful actions</h3>
+    <p>
+      All of these actions have been used in the various workflow examples and may be useful again.
+    </p>
+    <h3>Checkout</h3>
+    <p>
+      Checkout is a standard action that copies all code from the repository into the build machine.
+      This action will wipe out files that may have been created previously. Be careful to perform
+      the checkout before creating any new files.<br>
+      <code>
+      - uses: actions/checkout@v1
+      </code>
+    </p>
+    <h3>IP v4 and v6</h3>
+    <p>
+      IP addresses are sometimes desired and can be accessed by this action. The value can be 
+      pulled out using the action and then saved to a file.<br>
+      <code>
+      - name: Public IP<br>
+      &nbsp;&nbsp;id: ip<br>
+      &nbsp;&nbsp;uses: haythem/public-ip@v1<br>
+      - name: Print Public IP<br>
+      &nbsp;&nbsp;run: |<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;echo ${{ steps.ip.outputs.ipv4 }} > IP2.txt
+      </code>
+    </p>
+    <h3>Sleep</h3>
+    <p>
+      Sleep is occasionally needed to allow time for some other action to occur.
+      While this is not the best way to code, the workflow syntax only allows
+      sequential execution (i.e. no loops see <a href="https://github.community/t/creating-a-while-loop-in-workflow/119253">this discussion</a>) and delays can get around some of 
+      these limitations. The time parameter follows the <a href="https://ss64.com/bash/sleep.html">linux sleep syntax</a>.<br>
+      <code>
+      - name: Wait for 5 seconds
+      &nbsp;&nbsp;uses: jakejarvis/wait-action@master
+      &nbsp;&nbsp;with:
+      &nbsp;&nbsp;&nbsp;&nbsp;time: '5s'
+      </code>
+    </p>
+    <h3>Upload and Download Artifacts</h3>
+    <p>
+      These two actions use similar syntax to export artifacts. The path of the artifact is relative to the 
+      execution location on the runner. The name of the artifact will be the zip file that contains that file.<br>
+      <code>
+      - name: Keep output file as artifact<br>
+      &nbsp;&nbsp;uses: actions/upload-artifact@v1<br>
+      &nbsp;&nbsp;uses: actions/download-artifact@v1<br>
+      &nbsp;&nbsp;with:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;name: file_list<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;path: out.txt
+      </code>
+    </p>
+  </body>
+</html>

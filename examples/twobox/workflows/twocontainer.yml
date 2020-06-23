@@ -11,13 +11,7 @@ jobs:
   secondBox:
     runs-on: ubuntu-latest
     steps:
-      - name: Test Ping1
-        run: |
-          ping 172.217.7.142
       - uses: actions/checkout@v1
-      - name: Test Ping2
-        run: |
-          ping 172.217.7.142
       - name: Public IP
         id: ip
         uses: haythem/public-ip@v1
