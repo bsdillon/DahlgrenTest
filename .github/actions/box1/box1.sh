@@ -2,9 +2,14 @@
 
 echo "box 1 was here"
 
-v1="/IP1.txt"
-v2="./IP2.txt"
-value1 < "$v1"
-value2 < "$v2"
-echo "IP1: $value1"
-echo "IP2: $value2"
+input="/IP1.txt"
+while IFS= read -r line
+do
+  echo "IP1: $line"
+done
+
+input="/IP2.txt"
+while IFS= read -r line
+do
+  echo "IP2: $line"
+done
