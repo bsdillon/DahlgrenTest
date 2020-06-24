@@ -54,7 +54,7 @@ jobs:
       - name: Run ProjectHealth
         run: python .github/workflows/ProjectHealth.py commit_count.json > health.txt
       - name: Update projet health
-        run: cp -f .github/workflows/health.txt health.txt
+        run: cp -f health.txt .github/workflows/health.txt 
       - name: Check file
         run: cat .github/workflows/health.txt
       - name: Put results into artifact
