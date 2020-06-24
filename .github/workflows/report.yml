@@ -54,7 +54,11 @@ jobs:
       - name: Run ProjectHealth
         run: python .github/workflows/ProjectHealth.py commit_count.json > health.txt
       - name: Update projet health
-        run: cp -f health.txt .github/workflows/health.txt
+        run: git add health.txt
+      - name: Commit to Repository
+        run: git commit -m "Updated repository"
+      - name: Push to Repository
+        run: git push
       - name: Put results into artifact
         uses: actions/upload-artifact@v1
         with:
