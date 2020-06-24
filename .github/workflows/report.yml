@@ -52,7 +52,7 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > commit_count.json \
       - name: Run ProjectHealth
-        run: ls -l
+        run: python .github/workflows/ProjectHealth.py commit_count.json
       - name: Put into json artifact
         uses: actions/upload-artifact@v1
         with:
