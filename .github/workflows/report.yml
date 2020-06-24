@@ -52,4 +52,9 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > commit_count.json \
       - name: Run ProjectHealth
-        run: python .github/workflows/ProjectHealth.py commit_count.json
+        run: python .github/workflows/ProjectHealth.py commit_count.json > health.txt
+      - name: Put results into artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Repos-Stats
+          path: ./health.txt
