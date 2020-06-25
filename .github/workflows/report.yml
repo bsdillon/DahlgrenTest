@@ -62,7 +62,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add health.txt
-          git mv -f health.txt ./.github/workflows
           git commit -m "Updated the project health" -a
       - name: Push changes
         uses: ad-m/github-push-action@master
