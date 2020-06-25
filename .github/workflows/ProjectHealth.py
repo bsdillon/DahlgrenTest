@@ -11,5 +11,5 @@ the last index should indicate the most recent week since the
 creation of the repos or a year past its creation
 '''
 print("Weekly commit count:", str(count_list[len(count_list) - 1]))
-print("Updated again")
+print("Updated again 2")
 reader.close
