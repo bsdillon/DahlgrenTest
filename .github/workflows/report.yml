@@ -53,12 +53,10 @@ jobs:
           --header 'content-type: application/json' > commit_count.json \
       - name: Run ProjectHealth
         run: python .github/workflows/ProjectHealth.py commit_count.json > health.txt
-      - name: Update projet health
-        run: cp -f health.txt .github/workflows/health.txt 
-      - name: Check file
-        run: cat .github/workflows/health.txt
-      - name: Put results into artifact
-        uses: actions/upload-artifact@v1
+      - uses: actions/checkout@v1
+        #./project/frontend/ will exist with checkout action
+      - name: Upload artifact that contains project health
+        uses: actions/upload-artifact@v1.0.0
         with:
           name: Repos-Stats
-          path: ./health.txt
+          path: ./project/frontend/health.txt
