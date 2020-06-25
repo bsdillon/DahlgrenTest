@@ -41,8 +41,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Extract data and put into json artifact
     steps:
-      - name: GitHub Push
-        uses: ad-m/github-push-action@v0.6.0
       - name: Begin Setup
         uses: actions/checkout@master
         with:
