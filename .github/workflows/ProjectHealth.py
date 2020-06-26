@@ -1,8 +1,10 @@
 import json
 import sys
-from datetime import timedelta
-import datetime
 import os
+import datetime
+from datetime import timedelta
+
+
 
 file = sys.argv[1]
 reader = open(file)
@@ -13,7 +15,7 @@ day_count = 0
 log = {}
 today = datetime.date.today()
 while count >= 0:
-    if (count_list[count] != 0):
+    if(count_list[count]!=0):
         n_date = str(today - timedelta(days=day_count))
         log.update( {n_date : count_list[count]})
         day_count = day_count + 7
