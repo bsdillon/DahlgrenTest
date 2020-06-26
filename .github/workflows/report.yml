@@ -31,12 +31,12 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json'contribute.json
       - name: Upload pull stats to an artifact
-        run: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v1
         with:
           name: pull-stats
           path: pulls.json
       - name: Upload contribute stats to an artifact
-        run: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v1
         with:
           name: constribute-stats
           path: contribute.json
