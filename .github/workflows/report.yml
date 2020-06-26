@@ -60,6 +60,11 @@ jobs:
           --url https://api.github.com/repos/${{ github.repository }}/stats/participation \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > commit_count.json \
+      - name: Upload weekly commit json
+        uses: actions/upload-artifact@v1
+        with:
+          name: weekly-commits
+          path: commit_count.json
       - name: Run ProjectHealth
         run: python .github/workflows/ProjectHealth.py commit_count.json > ./html/health.txt
       - name: Commit health text file
