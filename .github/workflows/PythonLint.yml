@@ -27,20 +27,6 @@ jobs:
             --select=E9,F63,F7,F82 \
             --show-source \
             --statistics
-      # - name: Create issue using REST API
-      #   if: ${{ failure() }}
-      #   # Only executes if one of the tests failed
-      #   run: |
-      #     curl --request POST \
-      #     --url https://api.github.com/repos/${{ github.repository }}/issues \
-      #     --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-      #     --header 'content-type: application/json' \
-      #     --data '{
-      #       "title": "Failed flake8 Linting",
-      #       "body": "Python linting detected some errors.",
-      #       "labels": ["bug","python","auto"],
-      #       "assignees": ["bsdillon"]
-      #       }'
   Linting_with_WhyNot:
     runs-on: ubuntu-18.04
     steps:
@@ -50,17 +36,3 @@ jobs:
         uses: actions/setup-python@v1
       - name: check Whynot
         uses: WhyNotHugo/python-linting@v1.0.0
-      # - name: Create issue using REST API
-      #   if: ${{ failure() }}
-      #   # Only executes if one of the tests failed
-      #   run: |
-      #     curl --request POST \
-      #     --url https://api.github.com/repos/${{ github.repository }}/issues \
-      #     --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-      #     --header 'content-type: application/json' \
-      #     --data '{
-      #       "title": "Failed WhyNot Linting",
-      #       "body": "Python linting detected some errors.",
-      #       "labels": ["bug","python","auto"],
-      #       "assignees": ["bsdillon"]
-      #       }'
