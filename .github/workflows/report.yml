@@ -21,13 +21,15 @@ jobs:
       - name: List of pull requests
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/pulls?state=all \
+          # Certain llnes are unavoidably long and
+          # the yamllint rule is disabled for those lines.
+          --url https://api.github.com/repos/${{ github.repository }}/pulls?state=all \   # yamllint disable-line rule:line-length
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > pulls.json
       - name: Get contributor stats
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
+          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \   # yamllint disable-line rule:line-length
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
       - name: Upload pull stats to an artifact
@@ -49,15 +51,17 @@ jobs:
       - name: Begin Setup
         uses: actions/checkout@master
         with:
-          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN
-          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+          # otherwise, the token used is the GITHUB_TOKEN
+          persist-credentials: false 
+          # otherwise, you will failed to push refs to dest repo
+          fetch-depth: 0 
       - uses: actions/checkout@v1
       - name: Setup python
         uses: actions/setup-python@v1
       - name: Get weekly commit count
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/stats/participation \
+          --url https://api.github.com/repos/${{ github.repository }}/stats/participation \  # yamllint disable-line rule:line-length
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > commit_count.json \
       - name: Upload weekly commit json
@@ -66,7 +70,7 @@ jobs:
           name: weekly-commits
           path: commit_count.json
       - name: Run ProjectHealth
-        run: python .github/workflows/ProjectHealth.py commit_count.json > ./html/health.txt
+        run: python .github/workflows/ProjectHealth.py commit_count.json > ./html/health.txt  # yamllint disable-line rule:line-length
       - name: Commit health text file
         run: |
           git config --local user.email "action@github.com"
