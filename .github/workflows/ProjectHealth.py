@@ -2,6 +2,7 @@ import json
 import sys
 from datetime import timedelta
 import datetime
+import os
 
 file = sys.argv[1]
 reader = open(file)
@@ -17,7 +18,7 @@ while count >= 0:
         log.update( {n_date : count_list[count]})
         day_count = day_count + 7
     count = count - 1
-with open('log.js', 'w') as out_file:
+with open(os.path.join('./.github/workflows/', 'log.js'), 'w') as out_file:
     out_file.write('var graph = %s;' % json.dumps(log))
 
 '''
