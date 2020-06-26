@@ -71,7 +71,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add ./.github/workflows/log.js
+          git add ./.github/workflows/log.txt
           git commit -m "Updated the project health to javascript log" -a
       - name: Push changes
         uses: ad-m/github-push-action@master
