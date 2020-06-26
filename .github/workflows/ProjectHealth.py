@@ -18,7 +18,7 @@ while count >= 0:
         log.update( {n_date : count_list[count]})
         day_count = day_count + 7
     count = count - 1
-with open(os.path.join('./.github/workflows/', 'log.txt'), 'w') as out_file:
+with open(os.path.join('./html/', 'log.js'), 'w') as out_file:
     out_file.write('var graph = %s;' % json.dumps(log))
 
 '''
