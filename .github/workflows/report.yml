@@ -23,13 +23,15 @@ jobs:
           curl --request GET \
           # Certain llnes are unavoidably long and
           # the yamllint rule is disabled for those lines.
-          --url https://api.github.com/repos/${{ github.repository }}/pulls?state=all \   # yamllint disable-line rule:line-length
+          # yamllint disable-line rule:line-length
+          --url https://api.github.com/repos/${{ github.repository }}/pulls?state=all \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > pulls.json
       - name: Get contributor stats
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \   # yamllint disable-line rule:line-length
+          # yamllint disable-line rule:line-length
+          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
       - name: Upload pull stats to an artifact
@@ -61,7 +63,8 @@ jobs:
       - name: Get weekly commit count
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/stats/participation \  # yamllint disable-line rule:line-length
+          # yamllint disable-line rule:line-length
+          --url https://api.github.com/repos/${{ github.repository }}/stats/participation \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > commit_count.json \
       - name: Upload weekly commit json
@@ -70,7 +73,8 @@ jobs:
           name: weekly-commits
           path: commit_count.json
       - name: Run ProjectHealth
-        run: python .github/workflows/ProjectHealth.py commit_count.json > ./html/health.txt  # yamllint disable-line rule:line-length
+        # yamllint disable-line rule:line-length
+        run: python .github/workflows/ProjectHealth.py commit_count.json > ./html/health.txt
       - name: Commit health text file
         run: |
           git config --local user.email "action@github.com"
