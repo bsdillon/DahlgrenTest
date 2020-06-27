@@ -28,9 +28,9 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > pulls.json
       - name: Get contributor stats
+        # yamllint disable-line rule:line-length
         run: |
           curl --request GET \
-          # yamllint disable-line rule:line-length
           --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
@@ -54,9 +54,9 @@ jobs:
         uses: actions/checkout@master
         with:
           # otherwise, the token used is the GITHUB_TOKEN
-          persist-credentials: false 
+          persist-credentials: false
           # otherwise, you will failed to push refs to dest repo
-          fetch-depth: 0 
+          fetch-depth: 0
       - uses: actions/checkout@v1
       - name: Setup python
         uses: actions/setup-python@v1
