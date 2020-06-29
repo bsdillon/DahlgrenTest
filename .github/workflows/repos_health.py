@@ -1,14 +1,8 @@
-import json
 import datetime
+import json
 import os
 import sys
 from datetime import timedelta
-
-'''
-count_list tracks the total number of commits per week (of 52 total)
-the last index should indicate the most recent week since the
-creation of the repos or a year past its creation
-'''
 
 file = sys.argv[1]
 reader = open(file)

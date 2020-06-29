@@ -72,9 +72,9 @@ jobs:
         with:
           name: weekly-commits
           path: commit_count.json
-      - name: Run ProjectHealth
+      - name: Run Project Health
       # yamllint disable rule:line-length
-        run: python .github/workflows/project_health.py commit_count.json > ./html/health.txt
+        run: python .github/workflows/repos_health.py commit_count.json > ./html/health.txt
       - name: Commit health text file
         run: |
           git config --local user.email "action@github.com"
