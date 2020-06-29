@@ -4,11 +4,10 @@ name: Repository report
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches: 'KKBranch'
-  #schedule:
-    # Midnight Monday
-    #- cron: '0 0 * * *'
+
+  schedule:
+    # Every night at midnight
+    - cron: '0 0 * * *'
 jobs:
   report:
     runs-on: ubuntu-latest
@@ -75,7 +74,7 @@ jobs:
           path: commit_count.json
       - name: Run ProjectHealth
       # yamllint disable rule:line-length
-        run: python .github/workflows/ProjectHealth.py commit_count.json > ./html/health.txt
+        run: python .github/workflows/Project_Health.py commit_count.json > ./html/health.txt
       - name: Commit health text file
         run: |
           git config --local user.email "action@github.com"
