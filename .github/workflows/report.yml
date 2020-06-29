@@ -64,7 +64,6 @@ jobs:
       # yamllint disable rule:line-length
         run: |
           curl --request GET \
-          # yamllint disable-line rule:line-length
           --url https://api.github.com/repos/${{ github.repository }}/stats/participation \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > commit_count.json \
