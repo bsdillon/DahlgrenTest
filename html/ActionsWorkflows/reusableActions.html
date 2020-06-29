@@ -24,11 +24,24 @@
     </p>
     <h3>GitHub Push</h3>
     <p>
-      GitHub Push is an action found in the
-      that can automatically add, update, commit, and push any changes to any ofthe files
-      in the repository in a workflow.<br>
+      GitHub Push is an action that can automatically add, update, commit, and push any changes
+      to any file in the repository. To utilize this action effectively, you need to do the following:
+      <ol>
+        <li>Write code that will make the changes.</li>
+        <li>Output the results in a data file.</li>
+        <li>Provide proper syntax in the yaml file that will run the program
+          and output the results automatically. You can refer to the sample snippet below.
+          Note that if you wish to write the output data to a specific direcotory in the repository,
+          make sure you include the path in both the <code>git add {path}/{filename}</code> command
+          AND your code or the <code>run:</code> prompt (precede the path to file with the '>' character in the
+          run prompt at the command to run your code). </li>
+        <li>Choose when you want to run this workflow automatically using proper cron syntax.
+          This <a href="https://crontab.guru/">site</a> provides a good reference on when you
+          want to run this workflow.</li>
+        <li> Make sure the workflow passes all tests when commiting and correct them. </li>
+      </ol>
       <code>
-        - name: Create local changes:<br>
+        - name: Run code:<br>
         &nbsp;&nbsp;run: |<br>
         &nbsp;&nbsp;&nbsp;&nbsp;...<br>
         - name: Commit files<br>
@@ -42,9 +55,8 @@
         &nbsp;&nbsp;with:<br>
         &nbsp;&nbsp;&nbsp;&nbsp;github_token: ${{ secrets.GITHUB_TOKEN }}<br>
         &nbsp;&nbsp;&nbsp;&nbsp;branch: 'KKBranch'<br>
-        Note the last two lines are inputs. Other inputs and information about GitHub Push action
-        are found this GitHub markplace
-        <a href="https://github.com/marketplace/actions/github-push">link</a>.
+        Note the last two lines are parameters. Other parameters and information about the GitHub Push action
+        are found <a href="https://github.com/marketplace/actions/github-push">here</a>.
       </code>
     </p>
     <h3>IP v4 and v6</h3>
@@ -75,7 +87,7 @@
     </p>
     <h3>Upload and Download Artifacts</h3>
     <p>
-      These two actions use similar syntax to export artifacts. The path of the artifact is relative to the 
+      These two actions use similar syntax to export artifacts. The path of the artifact is relative to the
       execution location on the runner. The name of the artifact will be the zip file that contains that file.<br>
       <code>
       - name: Keep output file as artifact<br>
