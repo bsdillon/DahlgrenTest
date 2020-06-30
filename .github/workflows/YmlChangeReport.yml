@@ -1,0 +1,25 @@
+---
+name: YML Change Report
+# Rules for yaml Lint
+# https://yamllint.readthedocs.io/en/stable/rules.html
+
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    paths:
+      - ".github/workflows/**.yml"
+
+jobs:
+  Find changed files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: List all files
+        run: ls ./.github/workflows/*.yml -ls | awk '{print $7,$8,$9}' > out.txt
+      - name: Keep file listing artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: file_list
+          path: out.txt
