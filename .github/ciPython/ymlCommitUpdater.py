@@ -32,7 +32,7 @@ for f in json_array["files"] :
         if count>0:
             # We only want to add comma's between additional files
             out_file.write(", ")
-        out_file.write(name+": "+f["patch"])
+        out_file.write("'"+name+"': '"+f["patch"]+"'")
         count+=1
-
+out_file.write("}");
 reader.close()
