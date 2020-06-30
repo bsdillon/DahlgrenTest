@@ -78,7 +78,7 @@ jobs:
       - name: Commit health text file
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.name "GitHub  Action"
           git add ./html/log.js
           git commit -m "Updated the project health to javascript log" -a
       # yamllint enable rule:line-length

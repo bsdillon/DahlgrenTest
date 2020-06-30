@@ -11,7 +11,7 @@ json_array = json.load(reader)
 
 # Incremental commit history file
 outputfile = sys.argv[2]
-out_file = open(outputfile, 'w')
+out_file = open(outputfile, 'a')
 
 # Get commit meta data
 commit_json = json_array["commit"]
@@ -21,7 +21,7 @@ com_name = com_author["name"]
 com_date = com_author["date"]
 
 # Write out meta data as new commit datum
-out_file.write("commit[\""+com_date+"\"]={'developer': "+com_name+", 'message': \""+com_message+"\", \"files\": [")
+out_file.write("commit[\""+com_date+"\"]={\"developer\": \""+com_name+"\", \"message\": \""+com_message+"\", \"files\": [")
 
 # Go through all the files committed
 count = 0
