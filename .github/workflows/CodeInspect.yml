@@ -27,16 +27,3 @@ jobs:
           max_long_functions_rate: '0.0001'
           project_name: ''
           max_timeout_sec: '600'
-      - name: Create issue using REST API
-        if: ${{ failure() }}
-        run: |
-          curl --request POST \
-          --url https://api.github.com/repos/${{ github.repository }}/issues \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' \
-          --data '{
-            "title": "Failed Code Inspector",
-            "body": "CODE INSPECTOR FAILED TEST: QUALITY SCORE NOT 100.",
-            "labels": ["CodeInspector","auto"],
-            "assignees": ["bsdillon"]
-            }'
