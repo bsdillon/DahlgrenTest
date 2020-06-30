@@ -21,7 +21,7 @@ com_name = com_author["name"]
 com_date = com_author["date"]
 
 # Write out meta data as new commit datum
-out_file.write("commit["+com_date+"]={'meta': {'name': "+com_name+", 'message': "+com_message+"}, "
+out_file.write("commit["+com_date+"]={'meta': {'name': "+com_name+", 'message': "+com_message+"}, ")
 
 # Go through all the files committed
 count = 0
