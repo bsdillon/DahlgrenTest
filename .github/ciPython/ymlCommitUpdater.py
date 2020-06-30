@@ -13,5 +13,5 @@ out_file.write("Appending "+datafile)
 reader = open(datafile)
 json_array = json.load(reader)
 for key, value in json_array.iteritems() :
-    out_file.write(key+": "+value)
+    out_file.write(str(key)+": "+str(value))
 reader.close()
