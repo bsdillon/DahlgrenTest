@@ -1,0 +1,89 @@
+---
+name: Repository report
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+
+  schedule:
+    # Every night at midnight
+    - cron: '0 0 * * *'
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    name: Begin report
+    steps:
+      - name: Process commits
+      # yamllint disable rule:line-length
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/commits \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json'
+      - name: List of pull requests
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/pulls?state=all \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' > pulls.json
+      - name: Get contributor stats
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' > contribute.json
+      # yamllint enable rule:line-length
+      - name: Upload pull stats to an artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: pull-stats
+          path: pulls.json
+      - name: Upload contribute stats to an artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: constribute-stats
+          path: contribute.json
+
+
+  get_data:
+    runs-on: ubuntu-latest
+    name: Extract data and put into json artifact
+    steps:
+      - name: Begin Setup
+        uses: actions/checkout@master
+        with:
+          # otherwise, the token used is the GITHUB_TOKEN
+          persist-credentials: false
+          # otherwise, you will failed to push refs to dest repo
+          fetch-depth: 0
+      - uses: actions/checkout@v1
+      - name: Setup python
+        uses: actions/setup-python@v1
+      - name: Get weekly commit count
+      # yamllint disable rule:line-length
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/stats/participation \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' > commit_count.json \
+      # yamllint enable rule:line-length
+      - name: Upload weekly commit json
+        uses: actions/upload-artifact@v1
+        with:
+          name: weekly-commits
+          path: commit_count.json
+      - name: Run Project Health
+      # yamllint disable rule:line-length
+        run: python .github/workflows/repos_health.py commit_count.json > ./html/health.txt
+      - name: Commit health text file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./html/log.js
+          git commit -m "Updated the project health to javascript log" -a
+      # yamllint enable rule:line-length
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'master'
