@@ -27,9 +27,9 @@ out_file.write("commit["+com_date+"]={'meta': {'name': "+com_name+", 'message': 
 count = 0
 for f in json_array["files"] :
     name = f["filename"]
-    if name[-3:] == 'yml'
+    if name[-3:] == 'yml':
         # We only want to print out yml files
-        if count>0
+        if count>0:
             # We only want to add comma's between additional files
             out_file.write(", ")
         out_file.write(name+": "+f["patch"])
