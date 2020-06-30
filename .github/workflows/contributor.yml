@@ -12,6 +12,14 @@ jobs:
   FindContributorActivity:
     runs-on: ubuntu-latest
     steps:
+      - name: Get failed commits
+      # yamllint disable rule:line-length
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/commits/status \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json'
+      # yamllint enable rule:line-length
       - name: Get activity in json
       # yamllint disable rule:line-length
         run: |
