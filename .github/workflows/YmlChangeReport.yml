@@ -27,3 +27,18 @@ jobs:
         with:
           name: file_list
           path: yml_change.json
+      - name: Parse change status
+      # yamllint disable rule:line-length
+        run: python .github/ciPython/ymlCommitUpdater.py yml_change.json ./html/yml_history.js > ./html/yml_history.js
+      - name: Commit history file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ./html/yml_history.js
+          git commit -m "Automatic update of yml change history" -a
+      # yamllint enable rule:line-length
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'justchecking'
