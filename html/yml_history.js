@@ -1,1 +1,1 @@
-var commit = []
+var commit = {}
