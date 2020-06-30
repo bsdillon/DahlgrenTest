@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Create a Python Pytest</title>
+    <title>Create a C++ Test</title>
     <link rel="stylesheet" type="text/css" href="../../../common.css">
     <style>
     </style>
@@ -10,37 +10,57 @@
   </head>
   <body>
     <h3>Creating a Basic Python Unit Test Using Pytest</h3>
-    <ul>
-      <li>Start by creating a test file with the formatting test_(your .py file name).
-        <img src="../../../imgs/Pytest-Tutorial/pytest_example_file.png" alt="Basic Python Test"/>
-      </li>
-      <li>In your test_*.py file, you need to 'import pytest' and use 'from' the file
-        testing and import the functions you will be using.
-        <img src="../../../imgs/Pytest-Tutorial/import_and_from.png" alt="Import and From"/>
-      </li>
-      <li>Next you set up the parameters for the test and set up the assert statement. In this
-        example, the x and y variables are fed into the function and used to compare against
-        the result variable. If the result of add(x, y) == result it will pass.
-        <img src="../../../imgs/Pytest-Tutorial/parameters_assert.png" alt="Parameters and Assert"/>
-      </li>
-      <li>If you got everything correct, go to the actions page. It should show all of
-        your tests and whether the test passed or failed. Here is an example of tests
-        that ran and passed.
-        <img src="../../../imgs/Pytest-Tutorial/passed_tests.png" alt="Passed Tests"/>
-      </li>
-      <li>If you make a syntax error anywhere in the code, not just in test_*.py files, 
-        the linter flake8 will catch it and prevent the code from building. Here is 
-        an example of what a syntax error looks like in the actions page.
-        <img src="../../../imgs/Pytest-Tutorial/syntax_error_from_flake8.png" alt="Syntax Error"/>
-      </li>
-      <li>More reading on these topics can be done at the following
-        <a href="https://docs.pytest.org/en/stable/" target="_blank">Pytest</a>
-        <a href="https://github.com/marketplace/actions/github-action-for-pytest" target="_blank">
-          Pytest relating to Github Actions</a>
-        <a href="https://flake8.pycqa.org/en/latest/index.html" target="_blank">Flake8</a>
-        <a href="https://github.com/marketplace/actions/python-syntax-checker" target="_blank">
-          Flake8 relating to GitHub Actions</a>
-      </li>
-    </ul>
+    <p>
+      To create a test using GTest, create a .cpp file like you would for any other
+      project.
+    </p>
+    <p>
+      In that .cpp file, include the file/files you are testing using an include 
+      statement for the headers.
+    </p>
+    <p>
+      You must also include this include statement, #include "gtest/gtest.h", which 
+      will include the GTest library.
+    </p>
+    <p>
+      Since this is a .cpp file follow all the normal C++ conventions.
+      To define a test, you essentially define a function like this:<br>
+      TEST(test_case_name, test_name) { <br>
+        //Code to setup the test <br>
+        //One or multiple GTest ASSERT_*() or EXPECT_*() statements <br>}
+    </p>
+    <p>
+      The name of the test group should relate to the function/feature that you are 
+      testing and the name of the test should relate to what aspect of that feature 
+      you are testing.
+    </p>
+    <p>
+      EXPECT_ or ASSERT_ are formatted EXPECT_*() where * can be replaced
+      by any of the defined assert/expect statements. Depending on what the * is,
+      what is inside the parenthesis can be either (x) or (x, y).
+    </p>
+    <p>
+      The difference between EXPECT_ and ASSERT_ is simple, ASSERT_ will stop the
+      tests in an instance if it fails, while EXPECT_ will continue checking the 
+      rest of the tests in that instance.
+    </p>
+    <p>
+      There are many ways you can use the EXPECT_*/ASSERT_*, the star can be a 
+      number of different things and I will link a document with a comprehensive 
+      list. A two that should be known are *_EQ and *_NE, these are == and != 
+      respectively and are used in the examples 
+    </p>
+    <p>
+      Here is an example output of two tests on a function called addTwoNumbers.<br>
+      We named the test group AddTwoNumbersTest and the individual tests addTest<br>
+      and addTestExpectedFail. The second test uses NE to make sure that two <br>
+      numbers don't add to something they're not supposed to.<br>
+      [----------] 2 tests from AddTwoNumbersTest<br>
+      [ RUN      ] AddTwoNumbersTest.addTest<br>
+      [       OK ] AddTwoNumbersTest.addTest (0 ms)<br>
+      [ RUN      ] AddTwoNumbersTest.addTestExpectedFail<br>
+      [       OK ] AddTwoNumbersTest.addTestExpectedFail (0 ms)<br>
+      [----------] 2 tests from AddTwoNumbersTest (0 ms total)<br>
+    </p>
   </body>
 </html>
