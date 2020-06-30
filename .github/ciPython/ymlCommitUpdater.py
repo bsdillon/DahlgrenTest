@@ -24,7 +24,6 @@ com_date = com_author["date"]
 out_file.write("commit["+com_date+"]={'meta': {'name': "+com_name+", 'message': "+com_message+"}, "
 
 # Go through all the files committed
-fileList = json_array["files"]
 count = 0
 for f in json_array["files"] :
     name = f["filename"]
