@@ -30,6 +30,11 @@ jobs:
       - name: Parse change status
       # yamllint disable rule:line-length
         run: python .github/ciPython/ymlCommitUpdater.py yml_change.json ./html/yml_history.js > ./html/yml_history.js
+      - name: Keep file listing artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: history
+          path: ./html/yml_history.js
       - name: Commit history file
         run: |
           git config --local user.email "action@github.com"
