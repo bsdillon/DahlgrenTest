@@ -18,7 +18,7 @@ jobs:
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/commits/KKBranch/status \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json'
+          --header 'content-type: application/json' > commits.json
       # yamllint enable rule:line-length
       - name: Get activity in json
       # yamllint disable rule:line-length
@@ -31,5 +31,5 @@ jobs:
       - name: Upload json to artifact
         uses: actions/upload-artifact@v1
         with:
-          name: Contributor-Stats
-          path: contribute.json
+          name: Commits-Stats
+          path: commits.json
