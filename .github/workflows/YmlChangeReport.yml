@@ -31,7 +31,6 @@ jobs:
       # yamllint disable rule:line-length
         run: python .github/ciPython/ymlCommitUpdater.py yml_change.json ./html/yml_history.js > ./html/yml_history.js
       - name: Keep file listing artifact
-        if ${{ always() }}
         uses: actions/upload-artifact@v1
         with:
           name: history
@@ -41,7 +40,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ./html/yml_history.js
-          git commit -m "Automatic  update of yml change history" -a
+          git commit -m "Automatic update of yml change history" -a
       # yamllint enable rule:line-length
       - name: Push changes
         uses: ad-m/github-push-action@master
