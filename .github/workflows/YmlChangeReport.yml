@@ -40,7 +40,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add ./html/yml_history.js
-          git commit -m "Automatic  update of yml change history" -a
+          git commit -m "Automatic update of yml change history" -a
       # yamllint enable rule:line-length
       - name: Push changes
         uses: ad-m/github-push-action@master
