@@ -25,9 +25,8 @@ out_file.write("commit["+com_date+"]={'meta': {'name': "+com_name+", 'message': 
 
 # Go through all the files committed
 fileList = json_array["files"]
-filesOut = []
 count = 0
-for f in fileList :
+for f in json_array["files"] :
     name = f["filename"]
     if name.[-3]=="yml"
         # We only want to print out yml files
