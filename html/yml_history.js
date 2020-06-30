@@ -1,1 +1,1 @@
-commit["2020-06-30T04:03:48Z"]={"developer": "bsdillon", "message": "Merge branch 'justchecking' of https://github.com/bsdillon/DahlgrenTest into justchecking", "files": []}
+commit["2020-06-30T04:09:51Z"]={"developer": "bsdillon", "message": "Trying to append the file", "files": [".github/workflows/YmlChangeReport.yml"]}
