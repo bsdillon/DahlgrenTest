@@ -24,6 +24,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Contributor-Stats
-          path: contri.json
-      - uses: actions/checkout@v1
-        run: ls -l
+          path: contribute.json
