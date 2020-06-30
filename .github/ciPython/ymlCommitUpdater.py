@@ -14,7 +14,7 @@ outputfile = sys.argv[2]
 out_file = open(outputfile, 'w')
 
 # Get commit meta data
-commit_json = json["commit"]
+commit_json = json_array["commit"]
 com_message = commit_json["message"]
 com_author = commit_json["author"]
 com_name = com_author["name"]
