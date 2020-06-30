@@ -5,10 +5,11 @@ import sys
 datafile = sys.argv[1]
 reader = open(datafile)
 json_array = json.load(reader)
+reader.close()
 
 # Incremental commit history file
 outputfile = sys.argv[2]
-out_file = open(outputfile, 'a')
+out_file = open(outputfile, "a")
 
 # Get commit meta data
 commit_json = json_array["commit"]
@@ -34,4 +35,4 @@ for f in json_array["files"]:
         out_file.write("\""+name+"\"")
         count += 1
 out_file.write("]}")
-reader.close()
+out_file.close()
