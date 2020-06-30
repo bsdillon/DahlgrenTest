@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project Health</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+    <script src="yml_history.js"></script>
+    <script>
+      function loadData()
+      {
+        var myDiv = document.getElementById("data");
+        var table = document.createElement("TABLE");
+        myDiv.appendChild(table);
+
+        for (const [key, value] of Object.entries(commit))
+        {
+          var tr = document.createElement("TR");
+          table.appendChild(tr);
+          var th = document.createElement("TH");
+          var cell = document.createTextNode("cell");
+          th.appendChild(cell);
+          tr.appendChild(td);
+          cell.innerHTML=key;
+          var td = document.createElement("TD");
+          cell = document.createTextNode("cell");
+          td.appendChild(cell);
+          tr.appendChild(td);
+          cell.innerHTML=value;
+        }
+      }
+    </script>
+  </head>
+  <body onload="loadData()">
+    <div id="data"></div>
+  </body>
+</html>
