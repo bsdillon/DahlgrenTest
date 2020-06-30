@@ -17,38 +17,25 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: List all files
+        # yamllint disable rule:line-length
         run: |
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }} \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > yml_change.json
-      - name: Keep file listing artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: file_list
-          path: yml_change.json
+        # yamllint enable rule:line-length
       - name: Parse change status
-      # yamllint disable rule:line-length
+        # yamllint disable rule:line-length
         run: python .github/ciPython/ymlCommitUpdater.py yml_change.json ./html/yml_history.js > ./html/yml_history.js
-      - name: Keep file listing artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: history
-          path: ./html/yml_history.js
+        # yamllint enable rule:line-length
       - name: Commit history file
         run: |
           git config --local user.email "Not applicable"
           git config --local user.name "GitHub Action"
           git add ./html/yml_history.js
-          git commit -m "Automatic update of yml change history" -a
-      # yamllint enable rule:line-length
+          git commit -m "Auto-push yml change history" -a
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: 'justchecking'
-      - name: Clean up artifacts
-        uses: kolpav/purge-artifacts-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          expire-in: 0

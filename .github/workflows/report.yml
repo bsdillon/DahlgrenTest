@@ -14,7 +14,7 @@ jobs:
     name: Begin report
     steps:
       - name: Process commits
-      # yamllint disable rule:line-length
+        # yamllint disable rule:line-length
         run: |
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/commits \
@@ -60,7 +60,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v1
       - name: Get weekly commit count
-      # yamllint disable rule:line-length
+        # yamllint disable rule:line-length
         run: |
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/stats/participation \
@@ -73,7 +73,7 @@ jobs:
           name: weekly-commits
           path: commit_count.json
       - name: Run Project Health
-      # yamllint disable rule:line-length
+        # yamllint disable rule:line-length
         run: python .github/workflows/repos_health.py commit_count.json > ./html/health.txt
       - name: Commit health text file
         run: |
