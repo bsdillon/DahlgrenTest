@@ -90,10 +90,19 @@
           href="https://cmake.org/cmake/help/latest/command/add_test.html#command:add_test"
           target="_blank">(documentation)</a>
       target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib gtest)
-      //Another line I am not really sure what it does. I think it creates a folder with the libraries
-        required for the tests. <a 
+      //Another line I am not really sure what it does. I think it creates a folder
+        with the libraries required for the tests. <a 
           href="https://cmake.org/cmake/help/v3.0/command/target_link_libraries.html"
           target="_blank">(documentation)</a>
     </pre>
+    <p>
+      To build the code, we create a new file in the project called build. We can
+      run CMake to create the makefiles to build your code using a terminal. From
+      the build folder, we can use the following commands.<br>
+      cmake ..  (runs cmake on the parent directory and puts the files in /build)<br>
+      make      (builds the code so that it can be run.)<br>
+      ./tst/test2_tst  (this would run the tests from the tst folder which was spawned
+      from the CMakeLists.txt.)
+    </p>
   </body>
 </html>
