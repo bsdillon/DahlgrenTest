@@ -26,26 +26,26 @@ jobs:
             os: ubuntu-latest
             cxx: g++
             cc: gcc
-    steps:
-    - uses: actions/checkout@v2
+      steps:
+      - uses: actions/checkout@v2
 
-    - uses: lukka/get-cmake@latest
+      - uses: lukka/get-cmake@latest
 
-    - uses: ilammy/msvc-dev-cmd@v1
+      - uses: ilammy/msvc-dev-cmd@v1
 
-    - uses: lukka/set-shell-env@v1
-      with:
-        CXX: ${{ matrix.cxx }}
-        CC: ${{ matrix.cc }}
-    - name: configure and build
-      uses: lukka/run-cmake@v2
-      with:
-        cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-        cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-        cmakeAppendedArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release'
-        buildWithCMakeArgs: '-- -v'
-        buildDirectory: '${{ github.workspace }}/build/'
-    - name: Perform Unit Tests
-      run: |
-        cd build
-        ./tst/test2_tst
+      - uses: lukka/set-shell-env@v1
+        with:
+          CXX: ${{ matrix.cxx }}
+          CC: ${{ matrix.cc }}
+      - name: configure and build
+        uses: lukka/run-cmake@v2
+        with:
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+          cmakeAppendedArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release'
+          buildWithCMakeArgs: '-- -v'
+          buildDirectory: '${{ github.workspace }}/build/'
+      - name: Perform Unit Tests
+        run: |
+          cd build
+          ./tst/test2_tst
