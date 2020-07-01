@@ -8,7 +8,7 @@ total = open(os.path.join("./html/", "total_commit.txt"), 'r')
 # keeps daily track of total commits for each user
 daily = open("daily_commit.txt", 'w')
 # appends daily commits in javascript
-daily_js = open(os.path.join("./html/", "daily_commits.js", "a")
+daily_js = open(os.path.join("./html/", "daily_commits.js"), "a")
 data_file = sys.argv[1]
 reader = open(data_file)
 json_array = json.load(reader)
