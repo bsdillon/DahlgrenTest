@@ -1,7 +1,7 @@
 import datetime
 import json
-import sys
 import os
+import sys
 
 # keeps track of total commits for each user
 total = open(os.path.join("./html/", "total_commit.txt"), 'r')
