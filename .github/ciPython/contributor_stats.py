@@ -1,6 +1,6 @@
 import datetime
-import sys
 import json
+import sys
 import os
 
 # keeps track of total commits for each user
