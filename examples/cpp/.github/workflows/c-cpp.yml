@@ -1,10 +1,11 @@
+---
 name: C/C++ CI
 
 on:
   push:
-    branches: [ cpptests ]
+    branches: [cpptests]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   job:
@@ -14,7 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         name: [ubuntu-gcc, ubuntu-clang]
-        # For Windows msvc, for Linux and macOS let's use the clang compiler, use gcc for Linux.
+        # For Windows msvc, for Linux and macOS let's use the clang compiler,
+        # use gcc for Linux.
         include:
           - name: ubuntu-clang
             os: ubuntu-latest
@@ -26,11 +28,11 @@ jobs:
             cc: gcc
     steps:
     - uses: actions/checkout@v2
-    
+
     - uses: lukka/get-cmake@latest
-    
+
     - uses: ilammy/msvc-dev-cmd@v1
-    
+
     - uses: lukka/set-shell-env@v1
       with:
         CXX: ${{ matrix.cxx }}
@@ -47,6 +49,3 @@ jobs:
       run: |
         cd build
         ./tst/test2_tst
-        
-        
-        
