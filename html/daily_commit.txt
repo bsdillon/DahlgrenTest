@@ -1,14 +1,14 @@
-01-July-2020 Total Commits
+01-July-2020 Daily Commits
 
-Total Commits: 17
+Daily Commits: 1
 Developer: actions-user
 -----------------------------
-Total Commits: 138
+Daily Commits: 0
 Developer: landin3thorsted
 -----------------------------
-Total Commits: 179
+Daily Commits: 0
 Developer: kkarp9
 -----------------------------
-Total Commits: 360
+Daily Commits: 0
 Developer: bsdillon
 -----------------------------
