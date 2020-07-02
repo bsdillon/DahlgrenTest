@@ -14,12 +14,12 @@ out_file = open(outputfile, "a+")
 # See https://thispointer.com/
 # how-to-append-text-or-lines-to-a-file-in-python/
 # Scan to end of existing output file
-# Move read cursor to the start of file.
-file_object.seek(0)
+# Move read cursor to the end of file
+out_file.seek(0,2)
 # If file is not empty then append '\n'
-data = file_object.read(100)
+data = out_file.read(100)
 if len(data) > 0 :
-    file_object.write("\n")
+    out_file.write("\n")
 # It is safe to append text at the end of file
 
 # Get commit meta data
