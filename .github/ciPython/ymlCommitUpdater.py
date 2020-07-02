@@ -18,21 +18,22 @@ com_author = commit_json["author"]
 com_name = com_author["name"]
 com_date = com_author["date"]
 
-# Write out meta data as new commit datum
-out_file.write("commit[\""+com_date+"\"]={\"developer\": \"")
-out_file.write(com_name+"\", \"message\": \""+com_message)
-out_file.write("\", \"files\": [")
+if len(json_array["files"]) > 0:
+    # Write out meta data as new commit datum
+    out_file.write("commit[\""+com_date+"\"]={\"developer\": \"")
+    out_file.write(com_name+"\", \"message\": \""+com_message)
+    out_file.write("\", \"files\": [")
 
-# Go through all the files committed
-count = 0
-for f in json_array["files"]:
-    name = f["filename"]
-    if name[-3:] == 'yml':
-        # We only want to print out yml files
-        if count > 0:
-            # We only want to add comma's between additional files
-            out_file.write(", ")
-        out_file.write("\""+name+"\"")
-        count += 1
-out_file.write("]};\n")
-out_file.close()
+    # Go through all the files committed
+    count = 0
+    for f in json_array["files"]:
+        name = f["filename"]
+        if name[-3:] == 'yml':
+            # We only want to print out yml files
+            if count > 0:
+                # We only want to add comma's between additional files
+                out_file.write(", ")
+            out_file.write("\""+name+"\"")
+            count += 1
+    out_file.write("]};\n")
+    out_file.close()
