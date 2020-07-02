@@ -3,7 +3,12 @@
   <head>
     <title>Project Health</title>
     <link rel="stylesheet" type="text/css" href="../common.css">
-    <script src="../yml_history.js"></script>
+    <style>
+      table, th, td {border: 1px solid black;}
+      th {background-color:#cccccc;}
+      td {background-color:white;}
+    </style>
+    <script src="./../yml_history.js"></script>
     <script>
       function loadData()
       {
@@ -11,20 +16,52 @@
         var table = document.createElement("TABLE");
         myDiv.appendChild(table);
 
+        var tr = document.createElement("TR");
+        table.appendChild(tr);
+        var th = document.createElement("TH");
+        var cell = document.createTextNode("Date");
+        th.appendChild(cell);
+        tr.appendChild(th);
+        var td = document.createElement("TH");
+        cell = document.createTextNode("Developer");
+        td.appendChild(cell);
+        tr.appendChild(td);
+        td = document.createElement("TH");
+        cell = document.createTextNode("Memo");
+        td.appendChild(cell);
+        tr.appendChild(td);
+        td = document.createElement("TH");
+        cell = document.createTextNode("Files");
+        td.appendChild(cell);
+        tr.appendChild(td);
+
         for (const [key, value] of Object.entries(commit))
         {
-          var tr = document.createElement("TR");
+          tr = document.createElement("TR");
           table.appendChild(tr);
-          var th = document.createElement("TH");
-          var cell = document.createTextNode("cell");
-          th.appendChild(cell);
-          tr.appendChild(td);
-          cell.innerHTML=key;
-          var td = document.createElement("TD");
-          cell = document.createTextNode("cell");
+          td = document.createElement("TD");
+          var format = {day: '2-digit', month: '2-digit', year: 'numeric'};
+          var date = new Date(Date.parse(key)).toLocaleDateString('en-US', format);
+          cell = document.createTextNode(date);
           td.appendChild(cell);
           tr.appendChild(td);
-          cell.innerHTML=value;
+          td = document.createElement("TD");
+          cell = document.createTextNode(value["developer"]);
+          td.appendChild(cell);
+          tr.appendChild(td);
+          td = document.createElement("TD");
+          cell = document.createTextNode(value["message"]);
+          td.appendChild(cell);
+          tr.appendChild(td);
+          td = document.createElement("TD");
+          var list = "";
+          for (let i=0;i<value["files"].length;i++)
+          {
+            list += value["files"][i]+"\n";
+          }
+          cell = document.createTextNode(list);
+          td.appendChild(cell);
+          tr.appendChild(td);
         }
       }
     </script>
