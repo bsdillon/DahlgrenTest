@@ -8,6 +8,7 @@ json_array = json.load(reader)
 reader.close()
 
 # Incremental history file
+outputfile = sys.argv[2]
 out_file = open(outputfile, "a+")
 out_file.write(history)
 
