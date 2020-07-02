@@ -26,7 +26,7 @@ jobs:
         # yamllint enable rule:line-length
       - name: Parse change status
         # yamllint disable rule:line-length
-        run: python .github/ciPython/ymlCommitUpdater.py yml_change.json ./html/yml_history.js > ./html/yml_history.js
+        run: python .github/ciPython/ymlCommitUpdater.py yml_change.json ./html/yml_history.js
         # yamllint enable rule:line-length
       - name: Commit history file
         run: |
