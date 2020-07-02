@@ -13,7 +13,7 @@ out_file = open(outputfile, "a+")
 
 # Get commit meta data
 commit_json = json_array["commit"]
-com_message = commit_json["message"]
+com_message = commit_json["message"].replace("\n",":")
 com_author = commit_json["author"]
 com_name = com_author["name"]
 com_date = com_author["date"]
