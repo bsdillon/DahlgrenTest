@@ -1,6 +1,9 @@
 ---
 name: C/C++ CI
 
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
 on:
   push:
     branches: [cpptests]
@@ -27,25 +30,25 @@ jobs:
             cxx: g++
             cc: gcc
       steps:
-      - uses: actions/checkout@v2
+        - uses: actions/checkout@v2
 
-      - uses: lukka/get-cmake@latest
+        - uses: lukka/get-cmake@latest
 
-      - uses: ilammy/msvc-dev-cmd@v1
+        - uses: ilammy/msvc-dev-cmd@v1
 
-      - uses: lukka/set-shell-env@v1
-        with:
-          CXX: ${{ matrix.cxx }}
-          CC: ${{ matrix.cc }}
-      - name: configure and build
-        uses: lukka/run-cmake@v2
-        with:
-          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-          cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-          cmakeAppendedArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release'
-          buildWithCMakeArgs: '-- -v'
-          buildDirectory: '${{ github.workspace }}/build/'
-      - name: Perform Unit Tests
-        run: |
-          cd build
-          ./tst/test2_tst
+        - uses: lukka/set-shell-env@v1
+          with:
+            CXX: ${{ matrix.cxx }}
+            CC: ${{ matrix.cc }}
+        - name: configure and build
+          uses: lukka/run-cmake@v2
+          with:
+            cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+            cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
+            cmakeAppendedArgs: '-GNinja -DCMAKE_BUILD_TYPE=Release'
+            buildWithCMakeArgs: '-- -v'
+            buildDirectory: '${{ github.workspace }}/build/'
+        - name: Perform Unit Tests
+          run: |
+            cd build
+            ./tst/test2_tst

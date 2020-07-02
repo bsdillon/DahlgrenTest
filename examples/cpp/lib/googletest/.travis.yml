@@ -1,3 +1,4 @@
+---
 # Build matrix / environment variable are explained on:
 # https://docs.travis-ci.com/user/customizing-the-build/
 # This file can be validated on:
@@ -5,7 +6,8 @@
 
 language: cpp
 
-# Define the matrix explicitly, manually expanding the combinations of (os, compiler, env).
+# Define the matrix explicitly, manually
+# expanding the combinations of (os, compiler, env).
 # It is more tedious, but grants us far more flexibility.
 matrix:
   include:
@@ -30,6 +32,7 @@ matrix:
     - os: linux
       dist: bionic
       compiler: clang
+      # yamllint disable rule:line-length
       env: BUILD_TYPE=Release VERBOSE=1 CXX_FLAGS="-std=c++11 -Wdeprecated" NO_EXCEPTION=ON NO_RTTI=ON COMPILER_IS_GNUCXX=ON
     - os: osx
       compiler: gcc
@@ -37,6 +40,7 @@ matrix:
     - os: osx
       compiler: clang
       env: BUILD_TYPE=Release VERBOSE=1 CXX_FLAGS="-std=c++11 -Wdeprecated" HOMEBREW_LOGS=~/homebrew-logs HOMEBREW_TEMP=~/homebrew-temp
+      # yamllint enable rule:line-length
 
 # These are the install and build (script) phases for the most common entries in the matrix.  They could be included
 # in each entry in the matrix, but that is just repetitive.
@@ -53,13 +57,13 @@ addons:
     packages:
     - g++
     - clang
-    update: true
+      update: true
   homebrew:
     packages:
     - ccache
     - gcc@4.9
     - llvm@4
-    update: true
+      update: true
 
 notifications:
   email: false
