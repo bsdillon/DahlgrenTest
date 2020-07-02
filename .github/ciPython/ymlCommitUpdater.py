@@ -19,7 +19,7 @@ com_name = com_author["name"]
 com_date = com_author["date"]
 
 # Write out meta data as new commit datum
-out_file.write("commit[\""+com_date+"\"]={\"developer\": \"")
+out_file.write("\ncommit[\""+com_date+"\"]={\"developer\": \"")
 out_file.write(com_name+"\", \"message\": \""+com_message)
 out_file.write("\", \"files\": [")
 
@@ -34,5 +34,5 @@ for f in json_array["files"]:
             out_file.write(", ")
         out_file.write("\""+name+"\"")
         count += 1
-out_file.write("]}")
+out_file.write("]};")
 out_file.close()
