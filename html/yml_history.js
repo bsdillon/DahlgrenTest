@@ -1,1 +1,2 @@
+var commit = {};
 commit["2020-07-02T17:36:46Z"]={"developer": "bsdillon", "message": "Forcing the script to run", "files": [".github/workflows/YmlChangeReport.yml"]}
