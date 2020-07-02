@@ -93,7 +93,7 @@ build_script:
         if ($env:build_system -eq "bazel") {
             & $env:root\bazel.exe build -c opt //:gtest_samples
             if ($LastExitCode -eq 0) {
-                # bazel writes to StdErr and 
+                # bazel writes to StdErr and
                 # PowerShell interprets it as an error
                 $host.SetShouldExit(0)
             } else { # a real error
@@ -108,21 +108,19 @@ build_script:
 
     # yamllint disable rule:line-length
     $conf = if ($env:generator -eq "MinGW Makefiles") {"-DCMAKE_BUILD_TYPE=$env:configuration"} else {"-DCMAKE_CONFIGURATION_TYPES=Debug;Release"}
-    # yamllint enable rule:line-length
     # Disable test for MinGW (gtest tests fail, gmock tests can not build)
-    # yamllint disable rule:line-length
     $gtest_build_tests = if ($env:generator -eq "MinGW Makefiles") {"-Dgtest_build_tests=OFF"} else {"-Dgtest_build_tests=ON"}
     $gmock_build_tests = if ($env:generator -eq "MinGW Makefiles") {"-Dgmock_build_tests=OFF"} else {"-Dgmock_build_tests=ON"}
-    # yamllint enable rule:line-length
     & cmake -G "$env:generator" $conf -Dgtest_build_samples=ON $gtest_build_tests $gmock_build_tests ..
+    # yamllint enable rule:line-length
     if ($LastExitCode -ne 0) {
         throw "Exec: $ErrorMessage"
     }
-    # yamllint disable rule:line-length
     # could probably be refactored as
     # $cmake_parallel = "/m"
     # if ($env:generator -eq "MinGW Makefiles")
     # {$cmake_parallel = "-j2"}
+    # yamllint disable rule:line-length
     $cmake_parallel = if ($env:generator -eq "MinGW Makefiles") {"-j2"} else  {"/m"}
     # yamllint enable rule:line-length
     & cmake --build . --config $env:configuration -- $cmake_parallel
@@ -137,8 +135,8 @@ skip_commits:
 
 test_script:
   - ps: |
-    # Only enable some builds for pull requests, the AppVeyor queue is too long.
     # yamllint disable rule:line-length
+    # Only enable some builds for pull requests, the AppVeyor queue is too long.
     if ((Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER) -And (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes")) {
     # yamllint enable rule:line-length
       return
@@ -146,8 +144,8 @@ test_script:
     if ($env:build_system -eq "bazel") {
         # special case - testing with Bazel
         & $env:root\bazel.exe test //:gtest_samples
-        if ($LastExitCode -eq 0) { 
-            # bazel writes to StdErr and 
+        if ($LastExitCode -eq 0) {
+            # bazel writes to StdErr and
             # PowerShell interprets it as an error
             $host.SetShouldExit(0)
         } else { # a real error
