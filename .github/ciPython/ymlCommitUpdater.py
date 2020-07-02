@@ -7,20 +7,13 @@ reader = open(datafile)
 json_array = json.load(reader)
 reader.close()
 
-# Incremental commit history file
+# load the history
 outputfile = sys.argv[2]
-out_file = open(outputfile, "a+")
+history = open(outputfile, "r").read();
 
-# See https://thispointer.com/
-# how-to-append-text-or-lines-to-a-file-in-python/
-# Scan to end of existing output file
-# Move read cursor to the end of file
-out_file.seek(0,2)
-# If file is not empty then append '\n'
-data = out_file.read(100)
-if len(data) > 0 :
-    out_file.write("\n")
-# It is safe to append text at the end of file
+# create incremental file
+out_file = open(outputfile, "a+")
+out_file.write(history)
 
 # Get commit meta data
 commit_json = json_array["commit"]
