@@ -10,7 +10,6 @@ reader.close()
 # Incremental history file
 outputfile = sys.argv[2]
 out_file = open(outputfile, "a+")
-out_file.write(history)
 
 # Get commit meta data
 commit_json = json_array["commit"]
