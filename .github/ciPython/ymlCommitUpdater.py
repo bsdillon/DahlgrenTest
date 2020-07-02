@@ -7,11 +7,7 @@ reader = open(datafile)
 json_array = json.load(reader)
 reader.close()
 
-# load the history
-outputfile = sys.argv[2]
-history = open(outputfile, "r").read();
-
-# create incremental file
+# Incremental history file
 out_file = open(outputfile, "a+")
 out_file.write(history)
 
