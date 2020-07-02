@@ -1,0 +1,4 @@
+Didn't make too much progress today the interworkings of CMake, GTest and GitHub Actions are giving me some trouble.
+
+I did find a repository that uses GTest and CMake, that also has some basic tests and I am trying to incorporate that.
+https://github.com/gocarlos/unit_tests_example
