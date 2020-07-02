@@ -29,7 +29,7 @@ jobs:
           --header 'content-type: application/json' > issues.json
       # yamllint enable rule:line-length
       - name: Upload Issues json to artifact
-        uses: action/upload-artifact@v1
+        uses: actions/upload-artifact@v1
         with:
           name: Issues-Stats
           path: issues.json
