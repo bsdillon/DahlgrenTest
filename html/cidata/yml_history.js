@@ -7,3 +7,4 @@ commit["2020-07-02T19:15:33Z"]={"developer": "bsdillon", "message": "trying agai
 commit["2020-07-02T19:18:48Z"]={"developer": "bsdillon", "message": "Fixing multi-line commits::because they just suck so bad.", "files": [".github/workflows/YmlChangeReport.yml"]};
 commit["2020-07-02T19:21:06Z"]={"developer": "bsdillon", "message": "Merge branch 'master' of https://github.com/bsdillon/DahlgrenTest", "files": []};
 commit["2020-07-02T19:25:35Z"]={"developer": "bsdillon", "message": "gosh i hope my day is done", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-03T03:36:16Z"]={"developer": "bsdillon", "message": "Fixed some yml errors; docs::Blocked Code Inspector from reading any of the CPP folder code. Added images and documentation for CI reporting.", "files": [".github/workflows/YmlChangeReport.yml"]};
