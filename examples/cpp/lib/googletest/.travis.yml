@@ -4,7 +4,10 @@
 # https://docs.travis-ci.com/user/customizing-the-build/
 # This file can be validated on:
 # http://lint.travis-ci.org/
-
+on:
+  push:
+    branches-ignore:
+      - 'KKBranch'
 language: cpp
 
 # Define the matrix explicitly, manually

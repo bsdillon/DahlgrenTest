@@ -2,7 +2,10 @@
 # way too many long lines in this borrowed code
 # yamllint disable rule:line-length
 version: '{build}'
-
+on:
+  push:
+    branches-ignore:
+      - 'KKBranch'
 os: Visual Studio 2015
 
 environment:
