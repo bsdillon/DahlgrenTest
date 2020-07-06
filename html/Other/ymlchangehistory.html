@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="../common.css">
     <style>
       .mobile {position: absolute;}
-      .tt {background-color: #ffffff80; width: 450px; border-color: black; border-width:3px;}
+      .tt {background-color: #ffffff; width: 450px; border-color: black; border-width:3px;}
     </style>
     <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
     <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
@@ -23,9 +23,9 @@
         options:
         {
           responsive: false,
-          legend: 
+          legend:
           {
-            labels: 
+            labels:
             {
               usePointStyle: true
             }
@@ -48,27 +48,27 @@
           },
           scales:
           {
-            xAxes: 
+            xAxes:
             [
               {
                 display: true,
-                scaleLabel: 
+                scaleLabel:
                 {
                   display: true,
                   labelString: 'Date'
                 }
               }
             ],
-            yAxes: 
+            yAxes:
             [
               {
                 display: true,
-                scaleLabel: 
+                scaleLabel:
                 {
                   display: true,
                   labelString: 'Proportionate Graph'
                 },
-                ticks: 
+                ticks:
                 {
                   suggestedMin: 0,
                   suggestedMax: 1.2
@@ -166,7 +166,7 @@
         var d = new Date(0);//start from epoch
         d.setUTCSeconds(dates[0]/1000 - 86400);
         var date = d.toLocaleDateString('en-US', format);//get the string
-        config.data.labels.push(date);//store date          
+        config.data.labels.push(date);//store date
 
         //update the versions for all dates
         for (dInt of dates)
@@ -174,7 +174,7 @@
           var d = new Date(0);//start from epoch
           d.setUTCSeconds(dInt/1000);
           var date = d.toLocaleDateString('en-US', format);//get the string
-          config.data.labels.push(date);//store date          
+          config.data.labels.push(date);//store date
 
           for(var file in raw[date])
           {
