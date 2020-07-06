@@ -5,7 +5,7 @@ name: Contributor Activity
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches-ignore:
+    branches:
       - 'KKBranch'
 
 jobs:
