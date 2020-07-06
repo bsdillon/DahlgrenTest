@@ -3,15 +3,40 @@
   <head>
     <title>Project Health</title>
     <link rel="stylesheet" type="text/css" href="../common.css">
+    <style>
+      em {background-color:yellow; font-weight:bold;}
+    </style>
   </head>
   <body>
-    <img alt="Audit YML badge" src="https://github.com/bsdillon/DahlgrenTest/workflows/Audit%20YML/badge.svg" /><br>
-    <img alt="HTML validation badge" src="https://github.com/bsdillon/DahlgrenTest/workflows/HTML%20Validation%20Checks/badge.svg" /><br>
-    <img alt="HTML 2" src="../../workflows/HTML%20Validation%20Checks/badge.svg" /><br>
-    <img alt="Code Inspector Hourly Check badge" src="https://github.com/bsdillon/DahlgrenTest/workflows/.github/workflows/CodeInspectHourly.yml/badge.svg" /><br>
-    <img alt="Code inspector percent badge" src="https://www.code-inspector.com/project/9280/score/svg" /><br>
-    <img alt="Python Linting badge" src="https://github.com/bsdillon/DahlgrenTest/workflows/Python%20Linting/badge.svg" /><br>
-    <img alt="Codecov badge" src="https://github.com/bsdillon/DahlgrenTest/workflows/Codecov/badge.svg" /><br>
+    <h3>Project Health Metrics</h3>
+    <p>
+      GitHub offers a mechanism for automated analysis, testing, and related quality checks.
+      These "actions" can track data on the health of the project and generate updated metrics
+      regularly. Unless otherwise stated, the data is updated as automatically triggered by
+      a related trigger. For example, Code Inspector processes the code on a daily basis and
+      the badge below is the result from the last scan. Some of the data is generated only
+      when test files are updated, others when the test runs.<br>
+      <img alt="Code inspector percent badge" src="https://www.code-inspector.com/project/9280/score/svg" /><br>
+    </p>
+    <p>
+      Current statistics on the use of these actions is shown in the two graphics below. These
+      were <em>LAST UPDATED 7/2/2020</em>. The data shows that we are generating several working 
+      days worth of automated actions at a cost of very few dollars. This graph is in actual dollars
+      <b>NOT</b> thousands. The GitHub site offers up to 3000 minutes (~6 working days) for "free".
+      The cost of minutes above that follows these numbers.<br>
+      <img alt="action costs" src="./../imgs/usagecosts.png">
+    </p>
+    <p>
+      The other grahic shows the relative frequency of uses. More than half of the actions are used
+      for "lint"-ing. Lint-ers are static analysis tools that focus on syntax-level reviews of the
+      source code. Frequent checks on Lint results helps to maintain a basic level of uniformity in
+      the code style and format. Continuous Integration reporting is the next-most frequent use. CI
+      reporting provides OQE data from actions to support continuous-ATO, -Cert, etc. All the other
+      uses are investigations into basic testing in different languages. Up to this date, no 
+      requirements-based testing has occurred.<br>
+      <img alt="action costs" src="./../imgs/usagetypes.png">
+    </p>
+    
     <a href="./ymlchangehistory.html">Test script updates</a>
   </body>
 </html>

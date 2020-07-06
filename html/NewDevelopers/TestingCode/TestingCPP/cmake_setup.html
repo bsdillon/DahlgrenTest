@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Creating CMakeLists Files</title>
+    <link rel="stylesheet" type="text/css" href="../../../common.css">
+    <style>
+    </style>
+    <script>
+    </script>
+  </head>
+  <body>
+    <h3>Creating the CMake Files for Testing</h3>
+    <p>
+      CMake manages the build process of C/C++ code and makes it so that you do not 
+      have to make make files manually. It supports multiple libraries and  works
+      across multiple platforms. Generally, it seems that you will need a 
+      CMakeLists.txt file in each file that contains code. This will cover the 
+      minimum that is needed to build and test code, as it can become quite complex.<br>
+    </p> 
+    <p>
+      One C/C++ testing framework is Google Test, known as GTest. GTest seems to be
+      one of the most common testing frameworks and there are a couple repositories
+      that use it along with CMake and GitHub Actions like we are. If you want to 
+      check out one of these projects, ASSIMP is the one that we found first and 
+      served as the basis for our GitHub Workflow.<br>
+    </p>
+    <p>
+      When creating the CMakeLists.txt files, we want one in the base of our project,
+      and in each supporting directory. For example we have the CMakeLists.txt 
+      files in base of the project DahlgrenTest, in the file src where the .cpp and
+      .h files are, and in the tst file, which contains the GTest .cpp's. 
+      Theoretically if you were to seperate .cpp and .h files, you would have to 
+      make a cmake file for each of those.<br>
+    </p>
+    <p>
+      Now, that we understand how we can structure the CMakeLists.txt files, we can
+      go onto what is in them. This is the CMakeLists.txt that in the base of the
+      DahlgrenTest repo. Here are brief explanations of what each command does.
+      I am not sure if the '//' is correct syntax for comments in these files, but
+      I thought I'd do something to differentiate between commands and comments.
+    </p>
+    <pre>
+      cmake_minimum_required(VERSION 3.10)
+      //Defines the minimum version of CMake to use
+      project(C++ Tests)
+      //Names the current project
+      set(CMAKE_CXX_STANDARD 11)
+      //Sets the version of C/C++ to use (use CC for versions of C)
+      include_directories(src)
+      //Add the given directories to those the compiler uses to search for include files.
+      add_subdirectory(src)
+      add_subdirectory(tst)
+      add_subdirectory(lib/googletest)
+      //Add a subdirectory to the build. The source_dir specifies the directory in which 
+        the source CMakeLists.txt and code files are located.
+    </pre>
+    <p>
+      Next, we can look at what one of the CMakeLists.txt's looks like in one of 
+      the subdirectories. Here is the CMakeLists.txt from the src file in the
+      DahlgrenTest.
+    </p>
+    <pre>
+      set(BINARY ${CMAKE_PROJECT_NAME})
+      //this sets "BINARY" to be equal to the project name
+      file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp)
+      //Grabs files with .h and .cpp extensions to be used as sources
+      set(SOURCES ${SOURCES})
+      //sets those sources as the variable
+      add_executable(${BINARY}_run ${SOURCES})
+      //creates an executable that allows for the running of the code.
+        (think like using './""' in linux)
+      add_library(${BINARY}_lib STATIC ${SOURCES})
+      //Adds a folder with the created files.
+    </pre>
+    <p>
+    The tst folder has a similar CMakeLists.txt.
+    </p>
+    <pre>
+      set(BINARY ${CMAKE_PROJECT_NAME}_tst)
+      //Similar to above
+      file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
+      //Similar to above
+      set(SOURCES ${TEST_SOURCES})
+      //Similar to above
+      add_executable(${BINARY} ${TEST_SOURCES})
+      //Again similar to above
+      add_test(NAME ${BINARY} COMMAND ${BINARY})
+      //Not sure if this line is necessary? 'add test' links a test 
+        to the executable? <a 
+          href="https://cmake.org/cmake/help/latest/command/add_test.html#command:add_test"
+          target="_blank">(documentation)</a>
+      target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib gtest)
+      //Another line I am not really sure what it does. I think it creates a folder
+        with the libraries required for the tests. <a 
+          href="https://cmake.org/cmake/help/v3.0/command/target_link_libraries.html"
+          target="_blank">(documentation)</a>
+    </pre>
+    <p>
+      To build the code, we create a new file in the project called build. We can
+      run CMake to create the makefiles to build your code using a terminal. From
+      the build folder, we can use the following commands.<br>
+      cmake ..  (runs cmake on the parent directory and puts the files in /build)<br>
+      make      (builds the code so that it can be run.)<br>
+      ./tst/test2_tst  (this would run the tests from the tst folder which was spawned
+      from the CMakeLists.txt.)
+    </p>
+  </body>
+</html>

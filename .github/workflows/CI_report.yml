@@ -12,7 +12,7 @@ name: Code Inspector Report
 on:
   push:
     branches:
-      - 'justchecking'
+      - 'master'
 
 jobs:
   queryCI:

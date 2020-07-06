@@ -1,0 +1,13 @@
+var commit = {};
+commit["2020-07-02T18:35:27Z"]={"developer": "bsdillon", "message": "Merge branch 'master' of https://github.com/bsdillon/DahlgrenTest", "files": []};
+commit["2020-07-02T18:42:59Z"]={"developer": "bsdillon", "message": "I believe this fixes it.", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-02T19:09:28Z"]={"developer": "bsdillon", "message": "so many python errors", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-02T19:12:35Z"]={"developer": "bsdillon", "message": "Merge branch 'master' of https://github.com/bsdillon/DahlgrenTest", "files": []};
+commit["2020-07-02T19:15:33Z"]={"developer": "bsdillon", "message": "trying again with multiple lines", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-02T19:18:48Z"]={"developer": "bsdillon", "message": "Fixing multi-line commits::because they just suck so bad.", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-02T19:21:06Z"]={"developer": "bsdillon", "message": "Merge branch 'master' of https://github.com/bsdillon/DahlgrenTest", "files": []};
+commit["2020-07-02T19:25:35Z"]={"developer": "bsdillon", "message": "gosh i hope my day is done", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-03T03:36:16Z"]={"developer": "bsdillon", "message": "Fixed some yml errors; docs::Blocked Code Inspector from reading any of the CPP folder code. Added images and documentation for CI reporting.", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-03T10:04:34Z"]={"developer": "bsdillon", "message": "Update CodeInspectHourly.yml", "files": [".github/workflows/CodeInspectHourly.yml"]};
+commit["2020-07-06T02:21:12Z"]={"developer": "bsdillon", "message": "Updating ci reporting::and forcing the data to update", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-06T04:48:07Z"]={"developer": "bsdillon", "message": "Resolving the last bugs of CI data::And forcing an update", "files": [".github/workflows/YmlChangeReport.yml", ".github/workflows/html.yml"]};
