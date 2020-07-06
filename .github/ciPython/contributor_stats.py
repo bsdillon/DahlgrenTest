@@ -34,7 +34,7 @@ daily.write(" Daily Commits\n\n")
 while count < len(json_array):
     user = json_array[count]["author"]["login"]
     if old_commits.get(user) is None:
-        daily.write("Daily Commits: 0")
+        daily.write("Daily Commits: 0\n")
         # javacript appending
         daily_js.write("\""+user+"\"" + ": 0")
         if count != len(json_array) - 1:
