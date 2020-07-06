@@ -1,14 +1,2 @@
-01-July-2020 Total Commits
+06-July-2020 Total Commits
 
-Total Commits: 17
-Developer: actions-user
------------------------------
-Total Commits: 138
-Developer: landin3thorsted
------------------------------
-Total Commits: 179
-Developer: kkarp9
------------------------------
-Total Commits: 360
-Developer: bsdillon
------------------------------
