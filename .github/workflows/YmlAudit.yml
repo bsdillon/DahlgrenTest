@@ -17,4 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: yaml-lint
-        uses: ibiqlik/action-yamllint@v1
+        uses: ibiqlik/action-yamllint@v1 > ymlAudit.txt
+      - name: Upload yml audit results to artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: YML-Audit
+          path: ymlAudit.txt
