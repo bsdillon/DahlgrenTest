@@ -26,7 +26,13 @@ jobs:
             --count \
             --select=E9,F63,F7,F82 \
             --show-source \
-            --statistics
+            --statistics > py_lint.txt
+      - name: Upload lint report to artifact
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: py-lint
+          path: py_lint.txt
   Linting_with_WhyNot:
     runs-on: ubuntu-18.04
     steps:

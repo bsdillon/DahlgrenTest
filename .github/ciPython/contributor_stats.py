@@ -59,6 +59,7 @@ count = 0
 total = open(os.path.join("./html/", "total_commit.txt"), 'w')
 total.write(date)
 total.write(" Total Commits\n\n")
+# writes the total commit count for each user
 while count < len(json_array):
     total.write("Total Commits: ")
     total.write(str(json_array[count]["total"]) + "\n")
