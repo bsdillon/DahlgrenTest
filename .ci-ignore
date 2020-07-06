@@ -1,2 +1,2 @@
-.\examples\cpp
-.\examples\cpp\lib\googletest
+./examples/cpp
+./examples/cpp/lib/googletest
