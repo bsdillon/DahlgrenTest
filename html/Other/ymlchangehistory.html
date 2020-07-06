@@ -4,9 +4,8 @@
     <title>Project Health</title>
     <link rel="stylesheet" type="text/css" href="../common.css">
     <style>
-      table, th, td {border: 1px solid black;}
-      th {background-color:#cccccc;}
-      td {background-color:white;}
+      .mobile {position: absolute;}
+      .tt {background-color: #ffffff80; width: 450px; border-color: black; border-width:3px;}
     </style>
     <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
     <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
@@ -34,10 +33,11 @@
           title:
           {
             display: true,
-            text: 'COVID Trends'
+            text: 'Test Script Revision History'
           },
           tooltips:
           {
+            custom: function(tt) { customToolTip(tt);},
             mode: 'point',
             intersect: false,
           },
@@ -87,6 +87,10 @@
         height = myCanvas.height = 600;
         myLine = new Chart(ctx, config);
 
+        Chart.defaults.global.customTooltips = function(tooltip){
+          var x = 0;
+        }
+
         processData();
         myLine.update();
       }
@@ -96,6 +100,7 @@
       {
         var colorNames = Object.keys(window.chartColors);
         var raw = {};
+        var temp = {};
         var dates = [];
         var format = {day: '2-digit', month: '2-digit', year: 'numeric'};
 
@@ -103,35 +108,43 @@
         {
           //first get the date as a short string
           var d = new Date(Date.parse(key));
-          dates.push(d.getTime());
           var date = d.toLocaleDateString('en-US', format);
+          if(!(date in temp))
+          {
+            temp[date]=d.getTime();
+            dates.push(d.getTime());
+          }
 
           //set up the raw data for this date. SOMETHING must be there
-          raw[date]={};
+          if(!(date in raw))
+          {
+            raw[date]={};
+          }
 
           for (let i=0;i<value["files"].length;i++)
           {
-            if(!(value["files"][i] in raw[date]))
+            var f = value["files"][i].substring(18,value["files"][i].length-3);
+            if(!(f in raw[date]))
             {
               //the first time that a file shows up in one date, start at zero
-              raw[date][value["files"][i]]=0
+              raw[date][f]=0
             }
             //increment the version number by one for that date
-            raw[date][value["files"][i]]++;
+            raw[date][f]++;
 
-            if(!(value["files"][i] in fileData))
+            if(!(f in fileData))
             {
               //the first time that a file shows up in, start an empty dictionary
-              fileData[value["files"][i]]={};
+              fileData[f]={};
             }
 
-            if(!(date in fileData[value["files"][i]]))
+            if(!(date in fileData[f]))
             {
               //the first time that a data shows up for a specific file, start an empty string
-              fileData[value["files"][i]][date]="";
+              fileData[f][date]="";
             }
             //add the developer name and message to the string. This may build to several versions.
-            fileData[value["files"][i]][date]+=value["developer"]+": "+value["message"]+"\n";
+            fileData[f][date]+=value["developer"]+": "+value["message"]+"<br>";
           }
         }
 
@@ -140,27 +153,20 @@
 
         //get all the file versions starting with zero for all files
         var fileLines = {};
-        var index = 0;
+        var lineData = {};
+        var counts = {};
         for (const [file,set] of Object.entries(fileData))
         {
-          var colorName = colorNames[index % colorNames.length];
-          var c = window.chartColors[colorName];
-          fileLines[file] =
-          {
-            label: file,
-            backgroundColor: Chart.helpers.color(window.chartColors[colorName]).alpha(0.5).rgbString(),
-            borderColor: c,
-            borderWidth: style[index % style.length][0],
-            data: [0],
-            fill: false,
-            pointStyle: marker[index % marker.length],
-            pointRadius: 5,
-            pointBorderColor: 'rgb(0, 0, 0)',
-            borderDash: [style[index % style.length][1],style[index % style.length][2]]
-          };
-          config.data.datasets.push(fileLines[file]);
-          index++;
+          lineData[file]=[0];
+          counts[file]=0;
         }
+        var countIndex=0;
+
+        //add the day before the first data
+        var d = new Date(0);//start from epoch
+        d.setUTCSeconds(dates[0]/1000 - 86400);
+        var date = d.toLocaleDateString('en-US', format);//get the string
+        config.data.labels.push(date);//store date          
 
         //update the versions for all dates
         for (dInt of dates)
@@ -173,14 +179,105 @@
           for(var file in raw[date])
           {
             //update the version by count and save
-            var nextVersion = fileLines[file].data[fileLines[file].data.length]+raw[date][file];
-            fileLines[file].data.push(nextVersion);
+            var nextVersion = lineData[file][lineData[file].length-1]+raw[date][file];
+            lineData[file].push(nextVersion);
+            counts[file]++;
+          }
+
+          countIndex++;
+          for(var file in counts)
+          {
+            if(counts[file]<countIndex)
+            {
+              lineData[file].push(lineData[file][lineData[file].length-1]);
+              counts[file]++;
+            }
           }
         }
+
+        var index = 0;
+        for (const [file,set] of Object.entries(fileData))
+        {
+          var colorName = colorNames[index % colorNames.length];
+          var c = window.chartColors[colorName];
+          var newData =
+          {
+            label: file,
+            backgroundColor: Chart.helpers.color(window.chartColors[colorName]).alpha(0.5).rgbString(),
+            borderColor: c,
+            borderWidth: style[index % style.length][0],
+            data: [],
+            fill: false,
+            pointStyle: marker[index % marker.length],
+            pointRadius: 5,
+            pointBorderColor: 'rgb(0, 0, 0)',
+            borderDash: [style[index % style.length][1],style[index % style.length][2]]
+          };
+          index++;
+
+          newData.data=lineData[file];
+          config.data.datasets.push(newData);
+        }
+      }
+
+      function customToolTip(tooltipModel)
+      {
+        // Tooltip Element
+        var tooltipEl = document.getElementById('messageData');
+        var output="";
+
+        // Hide if no tooltip
+        if (tooltipModel.opacity === 0) {
+            tooltipEl.style.opacity = 0;
+            return;
+        }
+
+        function getBody(bodyItem) {
+            return bodyItem.lines;
+        }
+
+        // Set Text
+        if (tooltipModel.body) {
+            var titleLines = tooltipModel.title || [];
+            var bodyLines = tooltipModel.body.map(getBody);
+
+            var targetDate = "";
+            titleLines.forEach(function(title) {
+              targetDate = title;
+            });
+
+            bodyLines.forEach(function(val, i) {
+                var f = (""+val).split(":")[0];
+                if(targetDate in fileData[f])
+                {
+                  output += fileData[f][targetDate]+"<br><br>";
+                }
+            });
+        }
+
+        tooltipEl.style.opacity = 1;
+        if(output.length==0)
+        {
+          tooltipEl.style.opacity = 0;
+        }
+
+        tooltipEl.innerHTML = "<p class='tt'>"+output+"</p>";
+
+        // `this` will be the overall tooltip
+        var position = this.myLine.canvas.getBoundingClientRect();
+
+        // Display, position, and set styles for font
+        tooltipEl.style.left = position.left + tooltipModel.caretX + 'px';
+        tooltipEl.style.top = position.top + tooltipModel.caretY + 'px';
+        tooltipEl.style.fontFamily = tooltipModel._fontFamily;
+        tooltipEl.style.fontSize = tooltipModel.fontSize;
+        tooltipEl.style.fontStyle = tooltipModel._fontStyle;
+        tooltipEl.style.padding = tooltipModel.yPadding + 'px ' + tooltipModel.xPadding + 'px';
       }
     </script>
   </head>
   <body onload="loadData()">
     <canvas id="can"></canvas>
+    <div id="messageData" class="mobile"></div>
   </body>
 </html>
