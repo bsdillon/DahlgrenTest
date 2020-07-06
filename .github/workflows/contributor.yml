@@ -35,12 +35,12 @@ jobs:
         run: python .github/ciPython/contributor_stats.py contribute.json
       - name: Commit daily and total commits
         run: |
-          mv daily_commit.txt ./html/
+          mv daily_commit.txt ./html/cidata/
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub  Action"
-          git add ./html/daily_commit.txt
-          git add ./html/total_commit.txt
-          git add ./html/daily_commits.js
+          git add ./html/cidata/daily_commit.txt
+          git add ./html/cidata/total_commit.txt
+          git add ./html/cidata/daily_commits.js
           git commit -m "Daily and Total Contributor Commits" -a
       # yamllint enable rule:line-length
       - name: Push changes

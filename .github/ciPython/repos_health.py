@@ -18,7 +18,7 @@ while count >= 0:
         log.update({N_DATE: count_list[count]})
         DAY_COUNT = DAY_COUNT + 7
     count = count - 1
-with open(os.path.join('./html/', 'log.js'), 'w') as out_file:
+with open(os.path.join('./html/cidata', 'log.js'), 'w') as out_file:
     out_file.write('var graph = %s;' % json.dumps(log))
 
 reader.close()

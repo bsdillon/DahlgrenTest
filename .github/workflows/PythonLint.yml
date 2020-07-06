@@ -36,7 +36,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub  Action"
-          git add ./html/py_lint_log.txt
+          git add ./html/cidata/py_lint_log.txt
           git commit -m "Update Python Lint Log" -a
       - name: Push changes
         if: ${{ failure() }}

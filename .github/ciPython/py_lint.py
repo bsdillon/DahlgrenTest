@@ -6,7 +6,7 @@ log = open(sys.argv[1])
 current = datetime.now()
 
 dt_string = current.strftime("%m/%d/%Y %H:%M:%S")
-writer = open(os.path.join("./html/", "py_lint_log.txt"), "a")
+writer = open(os.path.join("./html/cidata/", "py_lint_log.txt"), "a")
 writer.write(str(dt_string))
 writer.write("\n------------------------\n")
 # copies and write log
