@@ -25,15 +25,15 @@ if len(json_array["files"]) > 0:
     out_file.write("\", \"files\": [")
 
     # Go through all the files committed
-    _count = 0
+    COUNT = 0
     for f in json_array["files"]:
         name = f["filename"]
         if name[-3:] == 'yml':
             # We only want to print out yml files
-            if _count > 0:
+            if COUNT > 0:
                 # We only want to add comma's between additional files
                 out_file.write(", ")
             out_file.write("\""+name+"\"")
-            _count += 1
+            COUNT += 1
     out_file.write("]};\n")
     out_file.close()
