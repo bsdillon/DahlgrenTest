@@ -1,0 +1,54 @@
+---
+name: Contributor Activity
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches: 'KKBranch'
+
+jobs:
+  FindContributorActivity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Begin Setup
+        uses: actions/checkout@master
+        with:
+          # otherwise, the token used is the GITHUB_TOKEN
+          persist-credentials: false
+          # otherwise, you will failed to push refs to dest repo
+          fetch-depth: 0
+      - uses: actions/checkout@v1
+      - name: Setup python
+        uses: actions/setup-python@v1
+      - name: Get contributors in json
+      # yamllint disable rule:line-length
+      - name: Get activity in json
+        # yamllint disable rule:line-length
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' > contribute.json
+      # yamllint enable rule:line-length
+      - name: Run Contributor Stats
+        # yamllint disable rule:line-length
+        run: python .github/ciPython/contributor_stats.py contribute.json
+      - name: Commit daily and total commits
+        run: |
+          mv daily_commit.txt ./html/
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub  Action"
+          git add ./html/daily_commit.txt
+          git add ./html/total_commit.txt
+          git commit -m "Daily and Total Contributor Commits" -a
+      # yamllint enable rule:line-length
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+          --header 'content-type: application/json' > contri.json
+        # yamllint enable rule:line-length
+      - name: Upload json to artifact
+        uses: actions/upload-artifact@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'KKBranch'
