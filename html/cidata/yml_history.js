@@ -10,3 +10,4 @@ commit["2020-07-02T19:25:35Z"]={"developer": "bsdillon", "message": "gosh i hope
 commit["2020-07-03T03:36:16Z"]={"developer": "bsdillon", "message": "Fixed some yml errors; docs::Blocked Code Inspector from reading any of the CPP folder code. Added images and documentation for CI reporting.", "files": [".github/workflows/YmlChangeReport.yml"]};
 commit["2020-07-03T10:04:34Z"]={"developer": "bsdillon", "message": "Update CodeInspectHourly.yml", "files": [".github/workflows/CodeInspectHourly.yml"]};
 commit["2020-07-06T02:21:12Z"]={"developer": "bsdillon", "message": "Updating ci reporting::and forcing the data to update", "files": [".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-06T04:48:07Z"]={"developer": "bsdillon", "message": "Resolving the last bugs of CI data::And forcing an update", "files": [".github/workflows/YmlChangeReport.yml", ".github/workflows/html.yml"]};
