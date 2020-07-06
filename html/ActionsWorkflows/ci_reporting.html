@@ -41,7 +41,7 @@
     <ol>
       <li value="2">In this case the workflow has failed, so this issue is reporting a bug.</li>
       <li value="4">This is a POST action in GitHub's REST API. That means something is being posted to the site.</li>
-      <li>The location for the new post is the issues folder of the project repository. Note that the variable github.workflow 
+      <li>The location for the new post is the issues folder of the project repository. Note that the variable github.workflow
         is used rather than hard-coding the name of the repository. This theme will be repeated.</li>
       <li>I really don't know what this means, but it must be used to authorize the push the new issue. The secret tokens are
         created by the project admin, but GITHUB_TOKEN is automatically generated for the project.</li>
@@ -52,6 +52,52 @@
         any label that serves to distinguish your issue.</li>
       <li>One or more persons can be automatically assigned to this issue. This can be done strategically so that any bug is
         automatically reported to the expert in that area or to the product owner.</li>
+    </ol>
+    <h3>Auto Updating Data</h3>
+    <p>
+    With the <a href="https://github.com/marketplace/actions/github-push">GitHub Push Action</a>, it is possible to
+    take in data from a source and update the results of the data automatically. You can generate daily reports by appending to the data file, keep
+    track of failed test reports at a site instead of manually accessing it, and extract and output data specfically needed from a data file that contains
+    hundreds or thousands of content. The code below is a helpful guideline in automatically updating data.<br>
+    </p>
+    <code>
+    1. - uses: actions/checkout@v1<br>
+    2. - uses: actions/setup-python@v1<br>
+    3. - name: Get weekly commit count<br>
+    4.  # yamllint disable rule:line-length<br>
+    5. &nbsp;&nbsp;run: |<br>
+    6. &nbsp;&nbsp;&nbsp;&nbsp;curl --request GET \<br>
+    7. &nbsp;&nbsp;&nbsp;&nbsp;--url https://api.github.com/repos/${{ github.repository }}/stats/participation \<br>
+    8. &nbsp;&nbsp;&nbsp;&nbsp;--header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \<br>
+    9. &nbsp;&nbsp;&nbsp;&nbsp;--header 'content-type: application/json' > commit_count.json \<br>
+    10. # yamllint enable rule:line-length<br>
+    11. - name: Run Project Health<br>
+    12. &nbsp;&nbsp;run: python .github/ciPython/repos_health.py commit_count.json<br>
+    13. - name: Commit health text file<br>
+    14. &nbsp;&nbsp;run: |<br>
+    15. &nbsp;&nbsp;&nbsp;&nbsp;git config --local user.email "action@github.com"<br>
+    16. &nbsp;&nbsp;&nbsp;&nbsp;git config --local user.name "GitHub  Action"<br>
+    17. &nbsp;&nbsp;&nbsp;&nbsp;git add ./html/cidata/log.js<br>
+    18. &nbsp;&nbsp;&nbsp;&nbsp;git commit -m "Updated the project health to javascript log" -a<br>
+    19. - name: Push changes<br>
+    20. &nbsp;&nbsp;uses: ad-m/github-push-action@master<br>
+    21. &nbsp;&nbsp;with:<br>
+    22. &nbsp;&nbsp;&nbsp;&nbsp;github_token: ${{ secrets.GITHUB_TOKEN }}<br>
+    23. &nbsp;&nbsp;&nbsp;&nbsp;branch: 'KKBranch'<br>
+    </code>
+    <h4>Explanation of Code</h4>
+    <ol>
+      <li>Thie action MUST be used since it copies the repository to the build machine where modifications can be made.</li>
+      <li>In order to run anything, its respective programming language setup action MUST be used. This line sets up Python where python programs can be run.</li>
+      <li value="4">This line may be important when generating your own workflows because it can disable certain yml
+        lint rules like disabling the rule for the line length. Line 10 enables the rule.</li>
+      <li value="6">This is a GET action in GitHub's REST API that gets data from the GitHub repository.</li>
+      <li value="9">When extracting data in json, with <code>runs-on: ubuntu-latest</code>, you can be able to write that
+        data to a file with the '>' symbol.</li>
+      <li value="12">Runs the python program that updates data automatically with the extracted json data we received with the GET command.</li>
+      <li value="15-18">These lines of code are necessary to run the GitHub Push action to add and commit the contents automatically to the repository.</li>
+      <li value="20-23">This is the GitHub Push action to push the commits to the repository automatically. Note because this repository is private, line 22
+        is necessary to input the secrets token. You can choose which branch to push to in line 23.</li>
     </ol>
   </body>
 </html>
