@@ -1,0 +1,21 @@
+07/06/2020 19:16:29
+------------------------
+./examples/cpp/lib/googletest/googletest/scripts/release_docs.py:130:11: E999 SyntaxError: invalid syntax
+    print 'Branching %d .wiki files:' % (len(self.files_to_branch),)
+          ^
+./examples/cpp/lib/googletest/googletest/scripts/gen_gtest_pred_impl.py:311:9: E999 SyntaxError: invalid syntax
+  print 'Updating file %s . . .' % path
+        ^
+./examples/cpp/lib/googletest/googletest/scripts/upload.py:97:19: E999 SyntaxError: invalid syntax
+    except IOError, e:
+                  ^
+./examples/cpp/lib/googletest/googletest/test/gtest_test_utils.py:176:5: F633 use of >> is invalid with print function
+    print >> sys.stderr, message
+    ^
+./examples/cpp/lib/googletest/googlemock/scripts/fuse_gmock_files.py:235:11: E999 SyntaxError: invalid syntax
+    print __doc__
+          ^
+4     E999 SyntaxError: invalid syntax
+1     F633 use of >> is invalid with print function
+5
+------------------------
