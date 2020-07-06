@@ -23,8 +23,6 @@ jobs:
         uses: actions/setup-python@v1
       - name: Get contributors in json
       # yamllint disable rule:line-length
-      - name: Get activity in json
-        # yamllint disable rule:line-length
         run: |
           curl --request GET \
           --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
@@ -45,10 +43,6 @@ jobs:
       # yamllint enable rule:line-length
       - name: Push changes
         uses: ad-m/github-push-action@master
-          --header 'content-type: application/json' > contri.json
-        # yamllint enable rule:line-length
-      - name: Upload json to artifact
-        uses: actions/upload-artifact@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: 'KKBranch'
