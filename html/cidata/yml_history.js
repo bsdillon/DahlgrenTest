@@ -12,3 +12,4 @@ commit["2020-07-03T10:04:34Z"]={"developer": "bsdillon", "message": "Update Code
 commit["2020-07-06T02:21:12Z"]={"developer": "bsdillon", "message": "Updating ci reporting::and forcing the data to update", "files": [".github/workflows/YmlChangeReport.yml"]};
 commit["2020-07-06T04:48:07Z"]={"developer": "bsdillon", "message": "Resolving the last bugs of CI data::And forcing an update", "files": [".github/workflows/YmlChangeReport.yml", ".github/workflows/html.yml"]};
 commit["2020-07-06T22:32:25Z"]={"developer": "bsdillon", "message": "Fixing lint results", "files": []};
+commit["2020-07-07T03:29:49Z"]={"developer": "bsdillon", "message": "Repaired mix up::Somehow @kkarp9 made this a nightly run instead of one triggered by a yml update.", "files": [".github/workflows/YmlChangeReport.yml"]};
