@@ -53,3 +53,10 @@ jobs:
         uses: actions/setup-python@v1
       - name: check Whynot
         uses: WhyNotHugo/python-linting@v1.0.0
+      - name: Run Whynot and write to txt file
+        run: WhyNotHugo > log.txt
+      - name: Upload to artfiact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Ling-Log
+          path: log.txt

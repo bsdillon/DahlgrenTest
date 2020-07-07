@@ -44,12 +44,7 @@ jobs:
           git commit -m "Daily and Total Contributor Commits" -a
       # yamllint enable rule:line-length
       - name: Push changes
-        run: ad-m/github-push-action@master > log.txt
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: 'KKBranch'
-      - name: Upload Log
-        uses: actions/upload-artifact@v1
-        with:
-          name: Log-file
-          path: log.txt
