@@ -56,3 +56,61 @@
 12    F821 undefined name 'processed_files'
 17
 --------------------------------------------------------
+07/07/2020 19:19:39
+---------------------------------------------------------
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:159:29: F821 undefined name 'processed_files'
+    if gtest_header_path in processed_files:
+                            ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:162:5: F821 undefined name 'processed_files'
+    processed_files.add(gtest_header_path)
+    ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:165:35: F821 undefined name 'gtest_root'
+    for line in open(os.path.join(gtest_root, gtest_header_path), 'r'):
+                                  ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:172:13: F821 undefined name 'output_file'
+            output_file.write(line)
+            ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:175:5: F821 undefined name 'output_file'
+    output_file.close()
+    ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:187:29: F821 undefined name 'processed_files'
+    if gtest_source_file in processed_files:
+                            ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:190:5: F821 undefined name 'processed_files'
+    processed_files.add(gtest_source_file)
+    ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:193:35: F821 undefined name 'gtest_root'
+    for line in open(os.path.join(gtest_root, gtest_source_file), 'r'):
+                                  ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:207:40: F821 undefined name 'processed_files'
+                if GTEST_H_SEED not in processed_files:
+                                       ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:208:21: F821 undefined name 'processed_files'
+                    processed_files.add(GTEST_H_SEED)
+                    ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:209:21: F821 undefined name 'output_file'
+                    output_file.write('#include "%s"\n' % (GTEST_H_OUTPUT,))
+                    ^
+./examples/cpp/lib/googletest/googletest/scripts/fuse_gtest_files.py:216:17: F821 undefined name 'output_file'
+                output_file.write(line)
+                ^
+./examples/cpp/lib/googletest/googletest/scripts/release_docs.py:131:15: E999 SyntaxError: invalid syntax
+        print 'Branching %d .wiki files:' % (len(self.files_to_branch),)
+              ^
+./examples/cpp/lib/googletest/googletest/scripts/gen_gtest_pred_impl.py:311:9: E999 SyntaxError: invalid syntax
+  print 'Updating file %s . . .' % path
+        ^
+./examples/cpp/lib/googletest/googletest/scripts/upload.py:97:23: E999 SyntaxError: invalid syntax
+        except IOError, e:
+                      ^
+./examples/cpp/lib/googletest/googletest/test/gtest_test_utils.py:176:5: F633 use of >> is invalid with print function
+    print >> sys.stderr, message
+    ^
+./examples/cpp/lib/googletest/googlemock/scripts/fuse_gmock_files.py:235:11: E999 SyntaxError: invalid syntax
+    print __doc__
+          ^
+4     E999 SyntaxError: invalid syntax
+1     F633 use of >> is invalid with print function
+12    F821 undefined name 'processed_files'
+17
+---------------------------------------------------------
