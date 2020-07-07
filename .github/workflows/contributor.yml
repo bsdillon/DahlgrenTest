@@ -5,7 +5,7 @@ name: Contributor Activity
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches-ignore:
+    branches:
       - 'KKBranch'
 
 jobs:
@@ -44,7 +44,12 @@ jobs:
           git commit -m "Daily and Total Contributor Commits" -a
       # yamllint enable rule:line-length
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        run: ad-m/github-push-action@master > log.txt
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: 'KKBranch'
+      - name: Upload Log
+        uses: actions/upload-artifact@v1
+        with:
+          name: Log-file
+          path: log.txt
