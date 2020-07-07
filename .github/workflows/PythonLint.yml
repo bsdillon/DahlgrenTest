@@ -51,11 +51,9 @@ jobs:
         uses: actions/checkout@master
       - name: Setup python
         uses: actions/setup-python@v1
+      - uses: actions/checkout@v1
       - name: check Whynot
-        uses: WhyNotHugo/python-linting@v1.0.0
-      - name: Run Whynot and write to txt file
-        if: ${{ failure() }}
-        run: WhyNotHugo > log.txt
+        run: WhyNotHugo/python-linting@v1.0.0 > log.txt
       - name: Upload to artfiact
         if: ${{ failure() }}
         uses: actions/upload-artifact@v1
