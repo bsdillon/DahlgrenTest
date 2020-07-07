@@ -22,7 +22,7 @@ for line in total:
             COMMIT_COUNT = int(word_list[2])
         elif word_list[0] == "Developer:":
             old_commits[word_list[1]] = COMMIT_COUNT
-count = 0
+COUNT = 0
 total.close()
 # updates daily commits
 d = datetime.datetime.today()
@@ -31,43 +31,43 @@ date = d.strftime("%d-%B-%Y")
 daily_js.write("date[\""+date+"\"]={")
 daily.write(date)
 daily.write(" Daily Commits\n\n")
-while count < len(json_array):
-    user = json_array[count]["author"]["login"]
+while COUNT < len(json_array):
+    user = json_array[COUNT]["author"]["login"]
     if old_commits.get(user) is None:
         daily.write("Daily Commits: 0\n")
         # javacript appending
         daily_js.write("\""+user+"\"" + ": 0")
-        if count != len(json_array) - 1:
+        if COUNT != len(json_array) - 1:
             daily_js.write(", ")
     else:
         daily.write("Daily Commits: ")
         old_count = old_commits[user]
-        daily_count = json_array[count]["total"] - old_count
+        daily_count = json_array[COUNT]["total"] - old_count
         daily.write(str(daily_count) + "\n")
         # javascript appending
         daily_js.write("\""+user+"\"" + ": " + str(daily_count))
-        if count != len(json_array) - 1:
+        if COUNT != len(json_array) - 1:
             daily_js.write(", ")
     daily.write("Developer: ")
     daily.write(user + "\n")
     daily.write("-----------------------------\n")
-    count = count + 1
+    COUNT = COUNT + 1
 # javascript appending
 daily_js.write("}\n")
-count = 0
+COUNT = 0
 # updates total commits
 total = open(os.path.join("./html/cidata", "total_commit.txt"), 'w')
 total.write(date)
 total.write(" Total Commits\n\n")
 # writes the total commit count for each user
-while count < len(json_array):
+while COUNT < len(json_array):
     total.write("Total Commits: ")
-    total.write(str(json_array[count]["total"]) + "\n")
+    total.write(str(json_array[COUNT]["total"]) + "\n")
     total.write("Developer: ")
-    user = json_array[count]["author"]["login"]
+    user = json_array[COUNT]["author"]["login"]
     total.write(user + "\n")
     total.write("-----------------------------\n")
-    count = count + 1
+    COUNT = COUNT + 1
 reader.close()
 total.close()
 daily.close()
