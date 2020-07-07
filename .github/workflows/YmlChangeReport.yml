@@ -9,7 +9,7 @@ name: YML Change Report
 on:
   schedule:
     # Every night at midnight
-    - cron: '4 25 * * *'
+    - cron: '26 4 * * *'
 
 jobs:
   FindChangedFiles:
