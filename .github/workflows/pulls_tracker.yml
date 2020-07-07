@@ -1,0 +1,34 @@
+---
+name: Pull-Request Report
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      'KKBranch'
+jobs:
+  get_data:
+    runs-on: ubuntu-latest
+    name: Auto-Report Pull Requests
+    steps:
+      - uses: actions/checkout@master
+        with:
+          # otherwise, the token used is the GITHUB_TOKEN
+          persist-credentials: false
+          # otherwise, you will failed to push refs to dest repo
+          fetch-depth: 0
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+      - name: Get pull requests
+        # yamllint disable rule:line-length
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/pulls?state=all \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' > pulls.json \
+      # yamllint enable rule:line-length
+      - uses: actions/download-artifact@v1
+        with:
+          name: All-pulls
+          path: pulls.json
