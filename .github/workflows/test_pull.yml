@@ -27,7 +27,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git config pull.rebase false
-        python change.py change.txt
+        python ./.github/ciPython/change.py change.txt
     - name: Upload new change to artifact
       uses: actions/upload-artifact@v1
       with:
