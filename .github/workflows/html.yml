@@ -6,7 +6,7 @@ name: HTML Validation Checks
 on:
   push:
     paths:
-      - "html/**"
+      - "**.html"
       - ".github/workflows/html.yml"
 jobs:
   HTMLChecks:

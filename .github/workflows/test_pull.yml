@@ -1,0 +1,45 @@
+---
+name: Test Pull
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      'KKBranch'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+    - name: Setup python
+      uses: actions/setup-python@v1
+    - name: Upload old change to artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: old
+        path: ./html/change.txt
+    - name: Create local changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git pull origin
+        python change.py change.txt
+    - name: Upload new change to artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: new
+        path: ./html/change.txt
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add change.txt
+        git commit -m "Add changes" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
