@@ -5,7 +5,7 @@ name: Test Pull
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    - cron: '25,28,31 * * * *'
+    - cron: '*/5 * * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
