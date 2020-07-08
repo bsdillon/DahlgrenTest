@@ -21,7 +21,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: old
-        path: ./html/change.txt
+        path: ./html/cidata/change.txt
     - name: Create local changes
       run: |
         git config --local user.email "action@github.com"
@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: new
-        path: ./html/change.txt
+        path: ./html/cidata/change.txt
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"

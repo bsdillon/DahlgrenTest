@@ -5,7 +5,7 @@ name: Pull-Request Report
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
+    branches-ignore:
       'KKBranch'
 jobs:
   get_data:
