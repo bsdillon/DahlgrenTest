@@ -8,6 +8,8 @@ name: YML Change Report
 # yamllint disable-line rule:truthy
 on:
   push:
+    branches-ignre:
+      'KKBranch'
     paths:
       - ".github/workflows/**.yml"
 

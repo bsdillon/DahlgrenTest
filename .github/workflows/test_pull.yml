@@ -26,7 +26,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git pull origin
+        git pull KKBranch
         python change.py change.txt
     - name: Upload new change to artifact
       uses: actions/upload-artifact@v1
