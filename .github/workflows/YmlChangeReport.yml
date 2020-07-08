@@ -10,8 +10,8 @@ on:
   push:
     branches-ignre:
       'KKBranch'
-    paths:
-      - ".github/workflows/**.yml"
+    # paths:
+    #   - ".github/workflows/**.yml"
 
 jobs:
   FindChangedFiles:
