@@ -4,9 +4,8 @@ name: Test Pull
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches:
-      'KKBranch'
+  schedule:
+    - cron: '25,28,31 * * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
