@@ -30,7 +30,7 @@ jobs:
         # yamllint enable rule:line-length
       - name: Commit history file
         run: |
-          git config --local user.email "None"
+          git config --local user.email "None."
           git config --local user.name "GitHub Action"
           git add ./html/cidata/yml_history.js
           git commit -m "Auto-push yml change history" -a
