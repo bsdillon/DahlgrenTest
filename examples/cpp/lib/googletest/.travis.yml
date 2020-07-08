@@ -56,7 +56,7 @@ addons:
     packages:
       - g++
       - clang
-        update: true
+        update: "true"
   homebrew:
     packages:
       - ccache
