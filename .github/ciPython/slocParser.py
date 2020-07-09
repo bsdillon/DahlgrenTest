@@ -16,8 +16,8 @@ while line:
         if len(ext) > 0 and ext in langs:
             lang = langs[ext]
             if lang not in counts:
-                counts[ext]=0;
-            counts[ext] += int(vals[0],10);
+                counts[lang]=0;
+            counts[lang] += int(vals[0],10);
     line = reader.readline()
 reader.close()
 
