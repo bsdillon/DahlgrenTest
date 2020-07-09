@@ -23,5 +23,5 @@ outputfile = sys.argv[2]
 out_file = open(outputfile, "a+")
 date = datetime.datetime.now().strftime("%x");
 for key in counts:
-   out_file.write("slocs["+data+"]["+key+"]="+counts[key]+";\n")
+   out_file.write("slocs["+date+"]["+key+"]="+counts[key]+";\n")
 out_file.close()
