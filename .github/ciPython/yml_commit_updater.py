@@ -28,8 +28,8 @@ if len(json_array["files"]) > 0:
     COUNT = 0
     for f in json_array["files"]:
         name = f["filename"]
-        if name[-3:] == 'yml':
-            # We only want to print out yml files
+        if name[-3:] == 'yml' and name[:18] == '.github/workflows/':
+            # We only want to print out yml files from the workflows
             if COUNT > 0:
                 # We only want to add comma's between additional files
                 out_file.write(", ")

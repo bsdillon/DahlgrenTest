@@ -17,5 +17,5 @@ commit["2020-07-07T13:45:29Z"]={"developer": "kkarp9", "message": "Merge branch 
 commit["2020-07-08T13:09:34Z"]={"developer": "bsdillon", "message": "Resolved linting errors", "files": [".github/workflows/issues_report.yml"]};
 commit["2020-07-08T13:10:22Z"]={"developer": "bsdillon", "message": "Fixed lint error", "files": [".github/workflows/contributor.yml"]};
 commit["2020-07-08T13:23:46Z"]={"developer": "bsdillon", "message": "Provoking YML Lint check", "files": [".github/workflows/YmlChangeReport.yml"]};
-commit["2020-07-08T17:15:07Z"]={"developer": "kkarp9", "message": "Merge branch 'master' into KKBranch", "files": [".github/workflows/YmlChangeReport.yml", ".github/workflows/contributor.yml", ".github/workflows/issues_report.yml", "examples/cpp/lib/googletest/.travis.yml", "examples/cpp/lib/googletest/appveyor.yml"]};
+commit["2020-07-08T17:15:07Z"]={"developer": "kkarp9", "message": "Merge branch 'master' into KKBranch", "files": [".github/workflows/YmlChangeReport.yml", ".github/workflows/contributor.yml", ".github/workflows/issues_report.yml"]};
 commit["2020-07-09T03:09:11Z"]={"developer": "bsdillon", "message": "Created sloc counter for automatic data", "files": [".github/workflows/SLOCReport.yml"]};
