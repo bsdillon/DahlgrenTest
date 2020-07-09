@@ -31,3 +31,4 @@ commit["2020-07-09T18:19:01Z"]={"developer": "kkarp9", "message": "Update test_p
 commit["2020-07-09T18:30:14Z"]={"developer": "kkarp9", "message": "fast forward git pull cmd", "files": [".github/workflows/test_pull.yml"]};
 commit["2020-07-09T18:38:36Z"]={"developer": "kkarp9", "message": "pull from KKBranch", "files": [".github/workflows/test_pull.yml"]};
 commit["2020-07-09T18:40:14Z"]={"developer": "kkarp9", "message": "remove config pull.ff cmd", "files": [".github/workflows/test_pull.yml"]};
+commit["2020-07-09T21:31:20Z"]={"developer": "kkarp9", "message": "add cron changes to all ci workflows", "files": [".github/workflows/PythonLint.yml", ".github/workflows/YmlChangeReport.yml", ".github/workflows/contributor.yml", ".github/workflows/issues_report.yml", ".github/workflows/pulls_tracker.yml", ".github/workflows/report.yml", ".github/workflows/test_pull.yml"]};
