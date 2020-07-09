@@ -9,7 +9,7 @@ reader = open(datafile)
 counts = {}
 line = reader.readline()
 while line:
-    vals = line.strip().lower.split(' ');
+    vals = line.strip().lower().split(' ');
     if "." in vals[1]:
         ext = vals[1].split('.')[1]
         if ext not in counts:
