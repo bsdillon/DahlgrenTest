@@ -11,7 +11,7 @@ line = reader.readline()
 while line:
     vals = line.strip().lower().split(' ');
     if "." in vals[1]:
-        ext = vals[1].split('.')[1]
+        ext = vals[1].split('.')[2]
         if ext not in counts:
             counts[ext]=0;
         counts[ext] += int(vals[0],10);
