@@ -23,7 +23,7 @@ jobs:
         name: old
         path: ./html/cidata/change.txt
     - name: Commit files
-      id: commit
+      id: pull
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "github-actions"
