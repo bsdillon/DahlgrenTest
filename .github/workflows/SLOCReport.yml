@@ -24,21 +24,25 @@ jobs:
           name: preFile
           path: allFiles.txt
       - name: Parse change status
+        if: ${{ always() }}
         # yamllint disable rule:line-length
         run: python .github/ciPython/slocParser.py allFiles.txt ./html/cidata/sloc_history.js
         # yamllint enable rule:line-length
       - name: Keep output file as artifact
+        if: ${{ always() }}
         uses: actions/upload-artifact@v1
         with:
           name: postFile
           path: ./html/cidata/sloc_history.js
       - name: Commit history file
+        if: ${{ always() }}
         run: |
           git config --local user.email "None."
           git config --local user.name "Auto-SLOC Counter"
           git add ./html/cidata/sloc_history.js
           git commit -m "Auto-push sloc history" -a
       - name: Push changes
+        if: ${{ always() }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
