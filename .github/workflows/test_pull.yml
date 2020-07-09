@@ -22,12 +22,6 @@ jobs:
       with:
         name: old
         path: ./html/cidata/change.txt
-    - name: Commit files
-      id: pull
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "github-actions"
-        git pull origin $GITHUB_REF
     - name: Create local changes
       run:  python ./.github/ciPython/change.py change.txt
     - name: Upload new change to artifact
@@ -40,8 +34,10 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "github-actions"
+        git config pull.ff only
         git add --all
         git commit -m "Add changes" -a
+        git pull origin $GITHUB_REF
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
