@@ -65,6 +65,5 @@ addons:
       - gcc@4.9
       - llvm@4
         update: true
-
 notifications:
   email: false
