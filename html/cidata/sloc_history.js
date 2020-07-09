@@ -1,1 +1,10 @@
 var slocs = {};
+slocs[07/09/20][C]=55655;
+slocs[07/09/20][Shell]=401;
+slocs[07/09/20][Java]=12;
+slocs[07/09/20][Python]=13420;
+slocs[07/09/20][JavaScript]=36;
+slocs[07/09/20][C++]=321;
+slocs[07/09/20][YAML]=1005;
+slocs[07/09/20][HTML]=2013;
+slocs[07/09/20][CSS]=20;
