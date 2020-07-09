@@ -57,7 +57,7 @@ addons:
       - g++
       - clang
 #yamllint disable
-        update: "true"
+      update: "true"
 #yamllint enable
   homebrew:
     packages:
