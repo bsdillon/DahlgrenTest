@@ -8,6 +8,8 @@ name: YML Change Report
 # yamllint disable-line rule:truthy
 on:
   push:
+    branches-ignore:
+      - 'master'
     paths:
       - ".github/workflows/**.yml"
 

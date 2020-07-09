@@ -6,6 +6,7 @@ name: Repository report
 on:
   push:
     branches-ignore:
+      - 'master'
       'KKBranch'
 jobs:
   get_data:
