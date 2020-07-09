@@ -53,7 +53,7 @@ while COUNT < len(json_array):
     daily.write("-----------------------------\n")
     COUNT = COUNT + 1
 # javascript appending
-daily_js.write("}\n")
+daily_js.write("};\n")
 COUNT = 0
 # updates total commits
 total = open(os.path.join("./html/cidata", "total_commit.txt"), 'w')

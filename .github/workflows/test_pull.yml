@@ -4,9 +4,9 @@ name: Test Pull
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches:
-      'KKBranch'
+  schedule:
+    #At 12:01 AM on January 1
+    - cron: '1 0 1 1 *'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,9 +39,9 @@ jobs:
         git config --global url."git@github.com:".insteadOf "https://github.com/"
         git add --all
         git commit -m "Add changes" -a
-        git pull origin KKBranch
+        git pull origin master
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: 'KKBranch'
+        branch: 'master'

@@ -4,9 +4,9 @@ name: Pull-Request Report
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches-ignore:
-      'KKBranch'
+  schedule:
+    # 12:10 AM everynight
+    - cron: '10 0 * * *'
 jobs:
   get_data:
     runs-on: ubuntu-latest

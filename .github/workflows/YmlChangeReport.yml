@@ -8,10 +8,8 @@ name: YML Change Report
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches-ignre:
-      'KKBranch'
-    # paths:
-    #   - ".github/workflows/**.yml"
+    paths:
+      - ".github/workflows/**.yml"
 
 jobs:
   FindChangedFiles:
@@ -40,4 +38,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'KKBranch'
+          branch: 'master'
