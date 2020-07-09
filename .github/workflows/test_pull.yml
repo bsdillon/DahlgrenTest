@@ -29,6 +29,7 @@ jobs:
       with:
         name: new
         path: ./html/cidata/change.txt
+    # ff only config
     - name: Commit files
       id: commit
       run: |
