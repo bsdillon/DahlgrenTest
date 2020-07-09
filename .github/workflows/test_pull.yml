@@ -35,6 +35,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "github-actions"
+        git config pull.ff only
+        git config --global url."git@github.com:".insteadOf "https://github.com/"
         git add --all
         git commit -m "Add changes" -a
         git pull origin KKBranch
