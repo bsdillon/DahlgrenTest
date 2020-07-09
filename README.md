@@ -7,4 +7,4 @@ Learning to use some advanced techniques
 
 ![.github/workflows/CodeInspectHourly.yml](https://github.com/bsdillon/DahlgrenTest/workflows/.github/workflows/CodeInspectHourly.yml/badge.svg)
 
-![schedule](https://github.com/bsdillon/DahlgrenTest/schedule.png)
+![schedule](schedule.png)
