@@ -1,0 +1,41 @@
+---
+name: SLOC Reporter
+# Rules for yaml Lint
+# https://yamllint.readthedocs.io/en/stable/rules.html
+
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  schedule:
+    # 00:05 each day Monday through Saturday
+    - cron: '5 5 * * 2-6'
+
+jobs:
+  GetAllLineCounts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Count and List all files
+        # wc creates very many errors for all directories
+        # This leaves the workflow in an error state
+        run: |
+          find . -name '*.*' -type f| xargs wc -l > allFiles.txt
+      - name: Parse change status
+        if: ${{ always() }}
+        # yamllint disable rule:line-length
+        run: python .github/ciPython/slocParser.py allFiles.txt ./html/cidata/sloc_history.js
+        # yamllint enable rule:line-length
+      - name: Commit history file
+        if: ${{ always() }}
+        run: |
+          git config --local user.email "None."
+          git config --local user.name "Auto-SLOC Counter"
+          git add ./html/cidata/sloc_history.js
+          git commit -m "Auto-push sloc history" -a
+      - name: Push changes
+        if: ${{ always() }}
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'master'

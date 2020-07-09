@@ -6,6 +6,7 @@ name: Contributor Activity
 on:
   push:
     branches-ignore:
+      - 'master'
       - 'KKBranch'
 
 jobs:

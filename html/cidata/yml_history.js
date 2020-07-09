@@ -31,3 +31,7 @@ commit["2020-07-09T18:19:01Z"]={"developer": "kkarp9", "message": "Update test_p
 commit["2020-07-09T18:30:14Z"]={"developer": "kkarp9", "message": "fast forward git pull cmd", "files": [".github/workflows/test_pull.yml"]};
 commit["2020-07-09T18:38:36Z"]={"developer": "kkarp9", "message": "pull from KKBranch", "files": [".github/workflows/test_pull.yml"]};
 commit["2020-07-09T18:40:14Z"]={"developer": "kkarp9", "message": "remove config pull.ff cmd", "files": [".github/workflows/test_pull.yml"]};
+commit["2020-07-08T17:15:07Z"]={"developer": "kkarp9", "message": "Merge branch 'master' into KKBranch", "files": [".github/workflows/YmlChangeReport.yml", ".github/workflows/contributor.yml", ".github/workflows/issues_report.yml"]};
+commit["2020-07-09T03:09:11Z"]={"developer": "bsdillon", "message": "Created sloc counter for automatic data", "files": [".github/workflows/SLOCReport.yml"]};
+commit["2020-07-09T04:09:25Z"]={"developer": "bsdillon", "message": "Making slock report a cron job::I'm satisfied that the slock history accumulator is working well. I set it up to run every night a little after midnight. I also reenabled the YML history accumulator. @kkarp9 I left the  other reports disabled for master until we can figure out a database or pull-push action.", "files": [".github/workflows/SLOCReport.yml", ".github/workflows/YmlChangeReport.yml"]};
+commit["2020-07-09T11:55:06Z"]={"developer": "bsdillon", "message": "Fixed directory failure on slow counter", "files": [".github/workflows/SLOCReport.yml"]};

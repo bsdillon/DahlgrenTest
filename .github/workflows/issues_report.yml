@@ -6,6 +6,7 @@ name: Report Issues
 on:
   push:
     branches-ignore:
+      - 'master'
       - 'KKBranch'
 jobs:
   report:
