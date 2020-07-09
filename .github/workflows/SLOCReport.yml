@@ -7,7 +7,9 @@ name: SLOC Reporter
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push
+  schedule:
+    # 00:05 each day Monday through Saturday
+    - cron: '5 5 * * 2-6'
 
 jobs:
   GetAllLineCounts:
@@ -15,25 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Count and List all files
+        # wc creates very many errors for all directories
+        # This leaves the workflow in an error state
         run: |
           find . -name '*.*' | xargs wc -l > allFiles.txt
-      - name: Keep output file as artifact
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v1
-        with:
-          name: preFile
-          path: allFiles.txt
       - name: Parse change status
         if: ${{ always() }}
         # yamllint disable rule:line-length
         run: python .github/ciPython/slocParser.py allFiles.txt ./html/cidata/sloc_history.js
         # yamllint enable rule:line-length
-      - name: Keep output file as artifact
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v1
-        with:
-          name: postFile
-          path: ./html/cidata/sloc_history.js
       - name: Commit history file
         if: ${{ always() }}
         run: |
