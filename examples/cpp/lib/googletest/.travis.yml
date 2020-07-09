@@ -56,7 +56,9 @@ addons:
     packages:
       - g++
       - clang
+#yamllint disable
         update: "true"
+#yamllint enable
   homebrew:
     packages:
       - ccache
