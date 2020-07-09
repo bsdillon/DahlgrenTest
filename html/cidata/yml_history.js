@@ -26,3 +26,4 @@ commit["2020-07-08T22:54:37Z"]={"developer": "kkarp9", "message": "Update test_p
 commit["2020-07-08T23:20:54Z"]={"developer": "kkarp9", "message": "Merge branch 'KKBranch' of https://github.com/bsdillon/DahlgrenTest into KKBranch", "files": []};
 commit["2020-07-09T17:40:29Z"]={"developer": "kkarp9", "message": "implement snippet from community", "files": [".github/workflows/test_pull.yml"]};
 commit["2020-07-09T17:48:55Z"]={"developer": "kkarp9", "message": "Merge branch 'KKBranch' of https://github.com/bsdillon/DahlgrenTest into KKBranch", "files": []};
+commit["2020-07-09T18:17:46Z"]={"developer": "kkarp9", "message": "changed order for pulling before py run", "files": [".github/workflows/test_pull.yml"]};
