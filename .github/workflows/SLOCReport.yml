@@ -20,7 +20,7 @@ jobs:
         # wc creates very many errors for all directories
         # This leaves the workflow in an error state
         run: |
-          find . -name '*.*' | xargs wc -l > allFiles.txt
+          find . -name '*.*' -type f| xargs wc -l > allFiles.txt
       - name: Parse change status
         if: ${{ always() }}
         # yamllint disable rule:line-length
