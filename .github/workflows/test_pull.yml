@@ -5,7 +5,7 @@ name: Test Pull
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    #At 12:01 AM on January 1
+    # At 12:01 AM on January 1
     - cron: '1 0 1 1 *'
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
         with:
-          # otherwise, the token used is the GITHUB_TOKEN,
+          # otherwise, the token used is the GITHUB_TOKEN
           # instead of your personal token
           persist-credentials: false
           # otherwise, you will failed to push refs to dest repo
@@ -32,9 +32,10 @@ jobs:
         with:
           name: new
           path: ./html/cidata/change.txt
-      # yamllint disable rule:line-length
+      # ff only config
       - name: Commit files
         id: commit
+        # yamllint disable rule:line-length
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
