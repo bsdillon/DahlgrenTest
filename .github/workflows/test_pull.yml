@@ -5,43 +5,48 @@ name: Test Pull
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    #At 12:01 AM on January 1
+    # At 12:01 AM on January 1
     - cron: '1 0 1 1 *'
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-      with:
-        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
-        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
-    - name: Setup python
-      uses: actions/setup-python@v1
-    - name: Upload old change to artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: old
-        path: ./html/cidata/change.txt
-    - name: Create local changes
-      run:  python ./.github/ciPython/change.py change.txt
-    - name: Upload new change to artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: new
-        path: ./html/cidata/change.txt
-    # ff only config
-    - name: Commit files
-      id: commit
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "github-actions"
-        git config pull.ff only
-        git config --global url."git@github.com:".insteadOf "https://github.com/"
-        git add --all
-        git commit -m "Add changes" -a
-        git pull origin master
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: 'master'
+      - uses: actions/checkout@master
+        with:
+          # otherwise, the token used is the GITHUB_TOKEN
+          # instead of your personal token
+          persist-credentials: false
+          # otherwise, you will failed to push refs to dest repo
+          fetch-depth: 0
+      - name: Setup python
+        uses: actions/setup-python@v1
+      - name: Upload old change to artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: old
+          path: ./html/cidata/change.txt
+      - name: Create local changes
+        run: python ./.github/ciPython/change.py change.txt
+      - name: Upload new change to artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: new
+          path: ./html/cidata/change.txt
+      # ff only config
+      - name: Commit files
+        id: commit
+        # yamllint disable rule:line-length
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "github-actions"
+          git config pull.ff only
+          git config --global url."git@github.com:".insteadOf "https://github.com/"
+          git add --all
+          git commit -m "Add changes" -a
+          git pull origin master
+      # yamllint enable rule:line-length
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'master'
