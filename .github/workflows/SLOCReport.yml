@@ -24,7 +24,7 @@ jobs:
       - name: Parse change status
         if: ${{ always() }}
         # yamllint disable rule:line-length
-        run: python .github/ciPython/slocParser.py allFiles.txt ./html/cidata/sloc_history.js
+        run: python .github/ciPython/sloc_parser.py allFiles.txt ./html/cidata/sloc_history.js
         # yamllint enable rule:line-length
       - name: Commit history file
         if: ${{ always() }}

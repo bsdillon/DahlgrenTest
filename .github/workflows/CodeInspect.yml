@@ -4,9 +4,8 @@
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    # Midnight each day Monday through Saturday
-    # this gives us an end of day, overnight eval
-    - cron: '0 3 * * 2-6'
+    # Midnight each day for overnight eval
+    - cron: '0 4 * * *'
 
 jobs:
   check-quality:
@@ -27,3 +26,18 @@ jobs:
           max_long_functions_rate: '0.0001'
           project_name: ''
           max_timeout_sec: '600'
+      - name: Check code meets quality standards
+        # yamllint disable rule:line-length
+        run: python .github/ciPython/code_inspect_report.py ${{ secrets.CODE_INSPECTOR_ACCESS_KEY }} ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}  ./html/cidata/code_inspect.js
+        # yamllint enable rule:line-length
+      - name: Commit history file
+        run: |
+          git config --local user.email ""
+          git config --local user.name "CodeInspect History"
+          git add ./html/cidata/code_inspect.js
+          git commit -m "Auto-push CodeInspect history" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'master'
