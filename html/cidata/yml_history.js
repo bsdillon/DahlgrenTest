@@ -47,3 +47,4 @@ commit["2020-07-12T16:02:28Z"]={"developer": "bsdillon", "message": "Update ci_r
 commit["2020-07-12T16:04:09Z"]={"developer": "bsdillon", "message": "Trying a different file name", "files": [".github/workflows/ci_report.yml"]};
 commit["2020-07-12T16:08:17Z"]={"developer": "bsdillon", "message": "Found the error::I wasn't checking out the code so there was no file to run", "files": [".github/workflows/PythonLint.yml", ".github/workflows/ci_report.yml"]};
 commit["2020-07-12T16:55:30Z"]={"developer": "bsdillon", "message": "Trying to install python for sgsql library::And not so incidentally prompting the evaluation of all yml files", "files": [".github/workflows/ci_report.yml"]};
+commit["2020-07-12T16:59:52Z"]={"developer": "bsdillon", "message": "Adding install for sgqlc", "files": [".github/workflows/ci_report.yml"]};
