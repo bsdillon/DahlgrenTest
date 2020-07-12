@@ -55,8 +55,8 @@ install:
     if (-not (Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER)) {
       Write-Output "This is *NOT* a pull request build"
     }
-    else
-    {
+
+    if ((Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER)) {
       Write-Output "This is a pull request build"
       if (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes") {
         Write-Output "PR builds are *NOT* explicitly enabled"
