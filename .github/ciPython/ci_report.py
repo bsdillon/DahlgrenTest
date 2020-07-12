@@ -19,7 +19,7 @@ headers = {
 outputfile = sys.argv[3]
 out_file = open(outputfile, "a+")
 
-QUERY = '{analysis{startTimestamp, violations, duplicates, complextFunctions, techdebt}}'
+QUERY = '{analysis{startTimestamp, violations{filename, path, howmany, violations, severity}, duplicates{howmany,filename,prefix}, complextFunctions{howmany, filename, path}, techdebt}}'
 variables = {}
 
 endpoint = HTTPEndpoint(URL, headers)
