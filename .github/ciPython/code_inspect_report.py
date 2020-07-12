@@ -2,7 +2,7 @@ import sys
 
 from sgqlc.endpoint.http import HTTPEndpoint
 
-url = 'https://api.code-inspector.com/graphql'
+URL = 'https://api.code-inspector.com/graphql'
 headers = {
     'X-Access-Key': sys.argv[1],
     'X-Secret-Key': sys.argv[2]
@@ -12,9 +12,9 @@ headers = {
 outputfile = sys.argv[3]
 out_file = open(outputfile, "a+")
 
-query = '{user {username} }'
+QUERY = '{user {username} }'
 variables = {}
 
-endpoint = HTTPEndpoint(url, headers)
-data = endpoint(query, variables)
+endpoint = HTTPEndpoint(URL, headers)
+data = endpoint(QUERY, variables)
 out_file.write(data)
