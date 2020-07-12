@@ -3,10 +3,9 @@
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push
-  # schedule:
-  # Midnight each day for overnight eval
-  # - cron: '0 4 * * *'
+  schedule:
+    # Midnight each day for overnight eval
+    - cron: '0 4 * * *'
 
 jobs:
   check-quality:
@@ -28,16 +27,19 @@ jobs:
           project_name: ''
           max_timeout_sec: '600'
       - name: Check code meets quality standards
+        if: ${{ always() }}
         # yamllint disable rule:line-length
         run: python .github/ciPython/code_inspect_report.py ${{ secrets.CODE_INSPECTOR_ACCESS_KEY }} ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}  ./html/cidata/code_inspect.js
         # yamllint enable rule:line-length
       - name: Commit history file
+        if: ${{ always() }}
         run: |
           git config --local user.email ""
           git config --local user.name "CodeInspect History"
           git add ./html/cidata/code_inspect.js
           git commit -m "Auto-push CodeInspect history" -a
       - name: Push changes
+        if: ${{ always() }}
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

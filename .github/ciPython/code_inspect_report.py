@@ -1,5 +1,3 @@
-import sys
-
 from sgqlc.endpoint.http import HTTPEndpoint
 
 url = 'https://api.code-inspector.com/graphql'
