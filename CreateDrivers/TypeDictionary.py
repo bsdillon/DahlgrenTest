@@ -25,11 +25,6 @@ class TypeDictionary:
 
     @staticmethod
     def ParseReturnType(fileName, line, fullName, type):
-        spaceUsed=False
-        if ' ' in type:
-            type = type.replace(' ','_')
-            spaceUsed = True
-
         file = open(fileName, 'r')
 
         txt = file.readline()
@@ -41,13 +36,22 @@ class TypeDictionary:
         core = txt.strip().split(';')[0]
         parts = core.split(' ')
 
+        spaceUsed=False
+        if ' ' in type:
+            type = type.replace(' ','_')
+            spaceUsed = True
+
+        return ParseReturnType2(core, parts, type, spaceUsed)
+
+    @staticmethod
+    def ParseReturnType2(core, parts, type, spaceUsed):
         index=0
         typeFound = ''
         if spaceUsed:
             while index+1<len(parts) and not parts[index]+"_"+parts[index+1] == type:
                 index+=1
             if index+1 == len(parts):
-                print 'Type ' + type + ' not found in ' + core
+                print('Type ' + type + ' not found in ' + core)
                 exit(-1)
 
             typeFound = parts[index]+' '+parts[index+1]

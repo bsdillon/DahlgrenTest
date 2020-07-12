@@ -13,8 +13,10 @@ class MessageTracker:
     elementSeparator =';'
     fileSeparator = '----------------------------\n'
 
-    def __init__(self): //creates lists and lists and more lists...determines what information is available to write code. 
-        """Standard init containing all fields to track messages"""
+    def __init__(self):
+        """
+        Creates lists and lists and more lists...determines what information is available to write code.
+        Standard init containing all fields to track messages"""
         self.driverList = []  # a list of PathList objects
         self.candidate_dict = {}  # a dict containing any-class-names : filepath in all header files in PLA Source code
         self.accepted_dict = {}  # a dict containing verified-message-class-names : filepath
@@ -61,7 +63,7 @@ class MessageTracker:
         print 'Done'
 
         #save the mapping from previous run
-        print 'Parsing topic-message mapping...',
+        print('Parsing topic-message mapping...',end=" ")
         topicMap = map.split(MessageTracker.elementSeparator)
         count = 0
         for pair in topicMap:
