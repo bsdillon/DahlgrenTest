@@ -9,7 +9,8 @@ name: Audit YML
 on:
   push:
     paths:
-      - ".github/**"
+      - ".github/workflows/**.yml"
+      - ".github/workflows/forceYMLAudit"
 
 jobs:
   lintAllYml:

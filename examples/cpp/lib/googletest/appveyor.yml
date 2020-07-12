@@ -48,20 +48,20 @@ build:
 
 install:
   - ps: |
-    Write-Output "Compiler: $env:compiler"
-    Write-Output "Generator: $env:generator"
-    Write-Output "Env:Configuation: $env:configuration"
-    Write-Output "Env: $env"
-    if (-not (Test-Path $env:APPVEYOR_PULL_REQUEST_NUMBER)) {
-      Write-Output "This is *NOT* a pull request build"
-    }
-    else
-    {
-      Write-Output "This is a pull request build"
-      if (-not (Test-Path $env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes") {
-        Write-Output "PR builds are *NOT* explicitly enabled"
+      Write-Output "Compiler: $env:compiler"
+      Write-Output "Generator: $env:generator"
+      Write-Output "Env:Configuation: $env:configuration"
+      Write-Output "Env: $env"
+      if (-not (Test-Path $env:APPVEYOR_PULL_REQUEST_NUMBER)) {
+        Write-Output "This is *NOT* a pull request build"
       }
-    }
+      else
+      {
+        Write-Output "This is a pull request build"
+        if (-not (Test-Path $env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes") {
+          Write-Output "PR builds are *NOT* explicitly enabled"
+        }
+      }
 
     # install Bazel
     if ($env:build_system -eq "bazel") {
