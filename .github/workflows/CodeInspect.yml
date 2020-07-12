@@ -26,10 +26,10 @@ jobs:
           max_long_functions_rate: '0.0001'
           project_name: ''
           max_timeout_sec: '600'
-      - name: Check code meets quality standards
+      - name: Query Code Inspector API
         if: ${{ always() }}
         # yamllint disable rule:line-length
-        run: python .github/ciPython/code_inspect_report.py ${{ secrets.CODE_INSPECTOR_ACCESS_KEY }} ${{ secrets.CODE_INSPECTOR_SECRET_KEY }}  ./html/cidata/code_inspect.js
+        run: python .github/ciPython/sloc_parser.py ${{ secrets.CODE_INSPECTOR_ACCESS_KEY }} ${{ secrets.CODE_INSPECTOR_SECRET_KEY }} ./html/cidata/code_inspect.js
         # yamllint enable rule:line-length
       - name: Commit history file
         if: ${{ always() }}
