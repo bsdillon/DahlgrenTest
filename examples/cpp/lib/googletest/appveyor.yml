@@ -63,20 +63,20 @@ install:
         }
       }
 
-    # install Bazel
-    if ($env:build_system -eq "bazel") {
-        appveyor DownloadFile https://github.com/bazelbuild/bazel/releases/download/0.28.1/bazel-0.28.1-windows-x86_64.exe -FileName bazel.exe
-    }
+      # install Bazel
+      if ($env:build_system -eq "bazel") {
+          appveyor DownloadFile https://github.com/bazelbuild/bazel/releases/download/0.28.1/bazel-0.28.1-windows-x86_64.exe -FileName bazel.exe
+      }
 
-    if ($env:build_system -eq "cmake") {
-        # git bash conflicts with MinGW makefiles
-        if ($env:generator -eq "MinGW Makefiles") {
-            $env:path = $env:path.replace("C:\Program Files\Git\usr\bin;", "")
-            if ($env:cxx_path -ne "") {
-                $env:path += ";$env:cxx_path"
-            }
-        }
-    }
+      if ($env:build_system -eq "cmake") {
+          # git bash conflicts with MinGW makefiles
+          if ($env:generator -eq "MinGW Makefiles") {
+              $env:path = $env:path.replace("C:\Program Files\Git\usr\bin;", "")
+              if ($env:cxx_path -ne "") {
+                  $env:path += ";$env:cxx_path"
+              }
+          }
+      }
 
 before_build:
   - ps: |
