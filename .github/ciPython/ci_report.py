@@ -17,4 +17,6 @@ variables = {}
 
 endpoint = HTTPEndpoint(URL, headers)
 data = endpoint(QUERY, variables)
-out_file.write(data)
+
+for key in data:
+    out_file.write(key+": "+data[key])
