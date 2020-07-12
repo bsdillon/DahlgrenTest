@@ -2,6 +2,13 @@ import sys
 
 from sgqlc.endpoint.http import HTTPEndpoint
 
+def walk_dict(out_file, d):
+    for k,v in d.items():
+        if isinstance(v, dict):
+            walk_dict(out_file, v)
+        else:
+            out_file.write("%s %s" % (k, v))
+
 URL = 'https://api.code-inspector.com/graphql'
 headers = {
     'X-Access-Key': sys.argv[1],
@@ -18,5 +25,5 @@ variables = {}
 endpoint = HTTPEndpoint(URL, headers)
 data = endpoint(QUERY, variables)
 
-for key in data:
-    out_file.write(key+": "+data[key])
+# https://sgqlc.readthedocs.io/en/latest/sgqlc.endpoint.http.html#synchronous-http-endpoint
+walk_dict(out_file, data)
