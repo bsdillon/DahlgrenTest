@@ -4,10 +4,9 @@ name: Reporting Code Inspector Findings
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push
-  # schedule:
+  schedule:
   # Midnight each day for overnight eval
-  # - cron: '0 4 * * *'
+  - cron: '0 15 * * *'
 
 jobs:
   check-quality:
