@@ -1,0 +1,25 @@
+Here is the output for the example test created by RobotFramework 
+I am currently trying to add a test and then apply some of what they are doing to my python tests that I created for the presentation
+
+root@woof:~/hihi/calc_robot_demo/RobotDemo# robot keyword_driven.robot
+==============================================================================
+Keyword Driven :: Example test cases using the keyword-driven testing appro...
+==============================================================================
+Push button                                                           | PASS |
+------------------------------------------------------------------------------
+Push multiple buttons                                                 | PASS |
+------------------------------------------------------------------------------
+Simple calculation                                                    | PASS |
+------------------------------------------------------------------------------
+Longer calculation                                                    | PASS |
+------------------------------------------------------------------------------
+Many Additions Calculation                                            | PASS |
+------------------------------------------------------------------------------
+Exponent Calculation                                                  | FAIL |        ****  This is the test that I am trying to add.  ****
+CalculationError: Invalid button '^'.
+------------------------------------------------------------------------------
+Clear                                                                 | PASS |
+------------------------------------------------------------------------------
+Keyword Driven :: Example test cases using the keyword-driven test... | FAIL |
+7 critical tests, 6 passed, 1 failed
+7 tests total, 6 passed, 1 failed
