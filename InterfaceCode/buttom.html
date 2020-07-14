@@ -2,13 +2,12 @@
 
 <html lang="en">
 <head>
- <script src=""></script>
-    <title>Button to nock node.js</title>
+    <title>Frontend Interface</title>
 </head>
 <body>
-        <button onclick="">Call Function</button>
-    <form action="http://localhost:1337" method="GET">
-        <button>Call server</button>
-    </form>
+    <button id="button">Click For Solution!</button>
+
+    <script src="scripts.js"></script>
+    <script> document.getElementById("button").addEventListener("click", solution); </script>
 </body>
 </html>
