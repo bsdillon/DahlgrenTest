@@ -23,13 +23,11 @@ Subtraction           12 - 2 - 2    8
 
 Multiplication        12 * 2 * 2    48
                       2 * -3        -6
-                      4 * 4         17
+                      4 * 4         16
                       
 
 Division              12 / 2 / 2    3
                       2 / -3        -1
-
-Failing               1 + 1         3
 
 Calculation error     [Template]    Calculation should fail
                       kekkonen      Invalid button 'k'.

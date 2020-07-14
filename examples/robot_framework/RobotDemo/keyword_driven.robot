@@ -38,7 +38,7 @@ Many Additions Calculation
     Result should be    39
     
 Exponent Calculation
-    Push button    1
+    Push button    3
     Push button    ^
     Push button    2
     Result should be    9
