@@ -73,13 +73,13 @@ function createChart(canvasID, width, height, config)
   myCanvas.width = 600;
   myCanvas.height = 600;
   var chart = new Chart(ctx, config);
-  myCanvas.style.backgroundColor = 'rgb(255,255,255)'
-  return chart
+  myCanvas.style.backgroundColor = 'rgb(255,255,255)';
+  return chart;
 }
 
 function setChartLabels(config, labels)
 {
-  for(d in labels)
+  for(var d in labels)
   {
     config.data.labels.push(labels[d]);
   }
@@ -88,123 +88,28 @@ function setChartLabels(config, labels)
 var marker = ['circle', 'rect', 'rectRot','triangle'];
 var style = [[1,5,0],[2,10,5],[2,5,3],[3,1,2],[3,3,5]];
 var lineStyleIndex = 0;
+var dataSets = 0;
+var groupColors = [[1,0,0], [1,1,0], [0,1,0], [0,0,1], [1,0,1], [0,1,1], [1,1,1]];
+var groupIndex = [0, 0, 0, 0, 0, 0, 0];
+
 function createRandomStyleLine(config, seriesName, linedata)
 {
-  var colorNames = Object.keys(window.chartColors);
-  var colorName = colorNames[lineStyleIndex % colorNames.length];
-  var c = window.chartColors[colorName];
-  var newData =
-  {
-    label: seriesName,
-    backgroundColor: Chart.helpers.color(window.chartColors[colorName]).alpha(0.5).rgbString(),
-    borderColor: c,
-    borderWidth: style[lineStyleIndex % style.length][0],
-    data: linedata,
-    fill: false,
-    pointStyle: marker[lineStyleIndex % marker.length],
-    pointRadius: 5,
-    pointBorderColor: 'rgb(0, 0, 0)',
-    borderDash: [style[lineStyleIndex % style.length][1],style[lineStyleIndex % style.length][2]]
-  };
-  lineStyleIndex++;
-
-  newData.data=linedata;
-  config.data.datasets.push(newData);
+  createAllStyle(config, seriesName, linedata, true, false, 0, 0);
 }
 
 function createRandomStyleArea(config, seriesName, linedata)
 {
-  dataSets++;
-  var fillStyle="-1";
-  if(dataSets==1)
-  {
-    fillStyle="start";
-  }
-  var colorNames = Object.keys(window.chartColors);
-  var colorName = colorNames[lineStyleIndex % colorNames.length];
-  var c = window.chartColors[colorName];
-  var newData =
-  {
-    label: seriesName,
-    backgroundColor: Chart.helpers.color(window.chartColors[colorName]).alpha(0.5).rgbString(),
-    borderColor: c,
-    borderWidth: style[lineStyleIndex % style.length][0],
-    data: linedata,
-    fill: fillStyle,
-    pointStyle: marker[lineStyleIndex % marker.length],
-    pointRadius: 5,
-    pointBorderColor: 'rgb(0, 0, 0)',
-    borderDash: [style[lineStyleIndex % style.length][1],style[lineStyleIndex % style.length][2]]
-  };
-  lineStyleIndex++;
-
-  newData.data=linedata;
-  config.data.datasets.push(newData);
+  createAllStyle(config, seriesName, linedata, true, true, 0, 0);
 }
 
-var dataSets = 0;
-var groupColors = [[1,0,0], [1,1,0], [0,1,0], [0,0,1], [1,0,1], [0,1,1], [1,1,1]];
-var groupIndex = [0, 0, 0, 0, 0, 0, 0];
 function createGroupStyleLine(config, seriesName, linedata, groupID, categoryID)
 {
-  groupIndex[groupID]+=1;
-  var scale = groupIndex[groupID];
-  var r = groupColors[groupID][0]*(255-(scale*25));
-  var g = groupColors[groupID][1]*(255-(scale*25));
-  var b = groupColors[groupID][2]*(255-(scale*25));
-  var color = 'rgb('+r+','+g+','+b+')';
-  var radius = 3+groupIndex[groupID];
-  var newData =
-  {
-    label: seriesName,
-    backgroundColor: color,
-    borderColor: color,
-    borderWidth: style[groupID % style.length][0],
-    data: linedata,
-    fill: false,
-    pointStyle: marker[categoryID % marker.length],
-    pointRadius: radius,
-    pointBorderColor: 'rgb(0, 0, 0)',
-    borderDash: [style[categoryID % style.length][1],style[categoryID % style.length][2]]
-  };
-  lineStyleIndex++;
-
-  newData.data=linedata;
-  config.data.datasets.push(newData);
+  createAllStyle(config, seriesName, linedata, false, false, groupID, categoryID);
 }
 
 function createGroupStyleArea(config, seriesName, linedata, groupID, categoryID)
 {
-  dataSets++;
-  var fillStyle="-1";
-  if(dataSets==1)
-  {
-    fillStyle="start";
-  }
-  groupIndex[groupID]+=1;
-  var scale = groupIndex[groupID];
-  var r = groupColors[groupID][0]*(128+(scale*12));
-  var g = groupColors[groupID][1]*(128+(scale*12));
-  var b = groupColors[groupID][2]*(128+(scale*12));
-  var color = 'rgb('+r+','+g+','+b+')';
-  var radius = 3+groupIndex[groupID];
-  var newData =
-  {
-    label: seriesName,
-    backgroundColor: color,
-    borderColor: color,
-    borderWidth: style[groupID % style.length][0],
-    data: linedata,
-    fill: fillStyle,
-    pointStyle: marker[categoryID % marker.length],
-    pointRadius: radius,
-    pointBorderColor: 'rgb(0, 0, 0)',
-    borderDash: [style[categoryID % style.length][1],style[categoryID % style.length][2]]
-  };
-  lineStyleIndex++;
-
-  newData.data=linedata;
-  config.data.datasets.push(newData);
+  createAllStyle(config, seriesName, linedata, false, true, groupID, categoryID);
 }
 
 function clearData(config)
@@ -216,3 +121,55 @@ function clearData(config)
   config.data.labels=[];
 }
 
+function createAllStyle(config, seriesName, linedata, random, fill, group, cat)
+{
+  dataSets++;
+  var fillStyle="false";
+  if(fill)
+  {
+    fillStyle="-1";
+  }
+
+  if(fill && dataSets==1)
+  {
+    fillStyle="start";
+  }
+
+  var colorNames = Object.keys(window.chartColors);
+  var colorName = colorNames[lineStyleIndex % colorNames.length];
+  var c = window.chartColors[colorName];
+  var bg = Chart.helpers.color(window.chartColors[colorName]).alpha(0.5).rgbString();
+  var primaryID = lineStyleIndex;
+  var secondaryID = lineStyleIndex;
+  lineStyleIndex++;
+  var radius = 5;
+  if(!random)
+  {
+    groupIndex[group]+=1;
+    var scale = groupIndex[group];
+    var r = groupColors[group][0]*(255-(scale*25));
+    var g = groupColors[group][1]*(255-(scale*25));
+    var b = groupColors[group][2]*(255-(scale*25));
+    c = 'rgb('+r+','+g+','+b+')';
+    bg = 'rgb('+r+','+g+','+b+')';
+    radius = 3+groupIndex[group];
+    primaryID = group;
+    secondaryID = cat;
+  }
+  var newData =
+  {
+    label: seriesName,
+    backgroundColor: bg,
+    borderColor: c,
+    borderWidth: style[primaryID % style.length][0],
+    data: linedata,
+    fill: fillStyle,
+    pointStyle: marker[secondaryID % marker.length],
+    pointRadius: radius,
+    pointBorderColor: 'rgb(0, 0, 0)',
+    borderDash: [style[secondaryID % style.length][1],style[secondaryID % style.length][2]]
+  };
+
+  newData.data=linedata;
+  config.data.datasets.push(newData);
+}
