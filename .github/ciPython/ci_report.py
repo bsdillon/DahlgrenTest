@@ -49,5 +49,7 @@ for viol in v_set:
         output[key]+=", '"+viol['filename']+"'"
 
 # not outputing duplicates, complex/long functions
+# must create a date-specific dictionary for data
+out_file.write("ci_violations['%s']={};\n" % (date))
 for k in output:
-    out_file.write("ci_violations[%s].%s=[%s];\n" % (date, k, output[k]))
+    out_file.write("ci_violations['%s'].%s=[%s];\n" % (date, k, output[k]))

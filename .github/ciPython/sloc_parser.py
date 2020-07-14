@@ -30,6 +30,7 @@ reader.close()
 outputfile = sys.argv[2]
 out_file = open(outputfile, "a+")
 date = datetime.datetime.now().strftime("%x")
+out_file.write("slocs[\""+date+"\"]={};\n")
 for key in counts:
     out_file.write("slocs[\""+date+"\"]."+key+"="+str(counts[key])+";\n")
 out_file.close()
