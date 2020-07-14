@@ -14,7 +14,7 @@ class FileUtilities:
         :param defaultFile:
         :return: dictionary of propertyName:value
         """
-        print 'Reading program settings...',
+        print('Reading program settings...',end=" ")
         properties = {}
         try:
             if os.path.exists(defaultFile):

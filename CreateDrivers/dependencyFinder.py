@@ -17,8 +17,8 @@ class DependencyFinder:
         try:
             self.parser = CppHeaderParser.CppHeader(os.path.join(path, filename))
         except CppHeaderParser.CppParseError as e:
-            print e
-            print 'Exiting!'
+            print(e)
+            print('Exiting!')
             exit(1)
     #end __init__
 

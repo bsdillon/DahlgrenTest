@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Code-Inspector Report</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+    <script>https://cdn.anychart.com/releases/v8/js/anychart-core.min.js</script>
+    <script>https://cdn.anychart.com/releases/v8/js/anychart-treemap.min.js</script>
+    <script>
+      //https://medium.com/@AnyChart/how-to-create-treemap-chart-using-javascript-treemap-visualizes-latest-internet-users-statistics-7e600f6ae247
+      var dates = [];
+      var sevCounts = {};
+      var sevs = ["Critical", "Important", "Consider", "Minor"];
+      var catCounts = {};
+      var cats = ["Unknown", "Error Prone", "Code Style", "Best Practice", "Safety", "Security", "Design", "Deployment", "Performance", "Documentation"];
+      var comboCounts = {};
+      var lastDate;
+
+      function parseData()
+      {
+        //set up counts that will ensure solid data for all dates
+        var count = 0;
+        var s_index = {}
+        var c_index = {}
+        var com_index = {};
+        for (k in sevs)
+        {
+          s_index[k]=0;
+          for (c in cats)
+          {
+            com_index[k+" "+c]=0;
+          }
+        }
+
+        for (c in cats)
+        {
+          c_index[c]=0;
+        }
+
+        //start parsing the data
+        lastDate = new Date(0);
+        for (const [key, value] of Object.entries(ci_violations))
+        {
+          //first get the date as a short string
+          var d = new Date(Date.parse(key));
+          if(d.getTime()>lastDate.getTime())
+          {
+            //update last time
+            lastDate = d;
+          }
+          var date = d.toLocaleDateString('en-US', format);
+          dates.push(date);
+
+          //store all counts per category/severity for this date
+          var tempS = {};
+          var tempC = {};
+          for (const [key2, value2] of Object.entries(value))
+          {
+            //figure out the severity and category statements
+            var k = key2.replace("_"," ")
+            var index = k.indexOf(' ');
+            var severity = k.substr(0,index);
+            var category = k.substr(index, k.length);
+            var count = value2.length;
+
+            //push the combination data
+            comboCounts[k].push(count);
+            com_index[k]++;
+
+            if(!(severity in tempS))
+            {
+              tempS[severity]=0;
+            }
+            tempS[severity]+= count;
+
+            if(!(category in tempC))
+            {
+              tempC[category]=0;
+            }
+            tempC[category]+= count;
+          }
+
+          //at this point we need to copy over data
+          //and otherwise put in a zero.
+          for (k of s_index)
+          {
+            if (k in tempS)
+            {
+              sevCounts[k].push(tempS[k]);
+            }
+            else
+            {
+              sevCounts[k].push(0);
+            }
+            s_index[k]++;
+          }
+
+          for (k of c_index)
+          {
+            if (k in tempC)
+            {
+              catCounts[k].push(tempC[k]);
+            }
+            else
+            {
+              catCounts[k].push(0);
+            }
+            c_index[k]++;
+          }
+
+          for (k of com_index)
+          {
+            if (!(k in com_index))
+            {
+              comboCounts[k].push(0);
+            }
+          }
+        }
+      }
+
+      function loadData()
+      {
+        var data = parseData();
+
+        CreateLines();
+        CreateTree(lastDate);
+      }
+
+      function CreateLines()
+      {
+        //create a line chart with all the combo types stacked.
+      }
+
+      function CreateTree(date)
+      {
+        var treeData = anychart.data.tree(data, "as-tree");
+        var chart = anychart.treeMap(treeData);
+        chart.title("Severity and Category of violations");
+        // set the container id
+        chart.container("tree");
+        // draw the chart
+        chart.draw();
+      }
+    </script>
+  </head>
+  <body onload="loadData()">
+    <h3>Code Inspector Report</h3>
+    <p>This report shows the nightly count of violations found by <a href='code-inspector.com'>Code Inspector</a></p>
+    <canvas id="can"></canvas>
+    <div id="tree"></div>
+  </body>
+</html>

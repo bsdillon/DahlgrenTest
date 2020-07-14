@@ -38,8 +38,8 @@ while not validated:
         defaultsChanged |= source_dir != default_source_dir
         validated = True
     except OSError as e:
-        print e
-        print 'Please try again.'
+        print(e)
+        print('Please try again.')
         continue
 
 validated = False

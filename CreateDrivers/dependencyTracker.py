@@ -35,7 +35,8 @@ class DependencyTracker:
         self.MatchDependencies(IncludeFiles, tempDependencies)
         new = len(self.permanentDependencies)
 
-        print '{new_count} new dependencies found\n'.format(new_count = new - old)
+        new_count = new - old
+        print '{new_count} new dependencies found\n'.format(new_count)
         old = new
 
         #All the dependency files have been found, but more may exist which are secondary or tertiary dependency
@@ -113,12 +114,15 @@ class DependencyTracker:
                     self.permanentDependencies[name] = typesFound[name].ParseType(name)
         print 'Done'
 
+        PrintRemainders(unfoundDependency)
+    #end FindDependencies
+
+    def PrintRemainders(self, unfoundDependency):
         if len(unfoundDependency) > 0:
             print '\nDid not discover some required types within dependency files'
             for d in unfoundDependency:
                 print d
             exit(1)
-    #end FindDependencies
 
     def WriteFiles(self, driverDirectory): //gets the type of enumerated signature
         print 'Creating Abstract files...',

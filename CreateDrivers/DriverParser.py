@@ -25,13 +25,13 @@ class DriverParser :
         try:
             cppHeader = CppHeaderParser.CppHeader(contained_in)
         except CppHeaderParser.CppParseError as e:
-            print e
-            print 'Ignoring file and continuing!\n'
+            print(e)
+            print('Ignoring file and continuing!\n')
             return None
         except RuntimeError as e:
-            print 'Max recursion depth. Printing error!'
-            print e
-            print contained_in
+            print('Max recursion depth. Printing error!')
+            print(e)
+            print(contained_in)
             exit('bad touch')
         else:
             for topic, message in cppHeader.typedefs.items():

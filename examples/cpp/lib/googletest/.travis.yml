@@ -56,14 +56,13 @@ addons:
     packages:
       - g++
       - clang
-#yamllint disable
-      update: "true"
-#yamllint enable
+    update: "true"
   homebrew:
     packages:
       - ccache
       - gcc@4.9
       - llvm@4
-        update: true
+    update: true
+
 notifications:
   email: false

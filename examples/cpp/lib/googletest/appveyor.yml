@@ -52,15 +52,30 @@ install:
       Write-Output "Generator: $env:generator"
       Write-Output "Env:Configuation: $env:configuration"
       Write-Output "Env: $env"
-      if (-not (Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER)) {
+      if (-not (Test-Path $env:APPVEYOR_PULL_REQUEST_NUMBER)) {
         Write-Output "This is *NOT* a pull request build"
       }
       else
       {
         Write-Output "This is a pull request build"
-        if (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes") {
+        if (-not (Test-Path $env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes") {
           Write-Output "PR builds are *NOT* explicitly enabled"
         }
+      }
+
+      # install Bazel
+      if ($env:build_system -eq "bazel") {
+          appveyor DownloadFile https://github.com/bazelbuild/bazel/releases/download/0.28.1/bazel-0.28.1-windows-x86_64.exe -FileName bazel.exe
+      }
+
+      if ($env:build_system -eq "cmake") {
+          # git bash conflicts with MinGW makefiles
+          if ($env:generator -eq "MinGW Makefiles") {
+              $env:path = $env:path.replace("C:\Program Files\Git\usr\bin;", "")
+              if ($env:cxx_path -ne "") {
+                  $env:path += ";$env:cxx_path"
+              }
+          }
       }
 
       # install Bazel

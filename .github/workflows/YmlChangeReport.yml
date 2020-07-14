@@ -33,7 +33,7 @@ jobs:
           git config --local user.email "None."
           git config --local user.name "GitHub Action"
           git add ./html/cidata/yml_history.js
-          git commit -m "Auto-push yml change history" -a
+          git commit -m "Auto-push the yml change history" -a
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
