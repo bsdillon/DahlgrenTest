@@ -11,4 +11,5 @@ jobs:
       uses: actions/checkout@v2
     - name: Run Robot Tests
       uses: codefour-gmbh/robotframework-action@master
-      env: ROBOT_TESTS: ${{ github.workspace }}/src/tests/robot
+      env: 
+        ROBOT_TESTS: ${{ github.workspace }}/examples/RobotDemo
