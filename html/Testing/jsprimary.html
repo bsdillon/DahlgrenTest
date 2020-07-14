@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Test Tool</title>
+    <style>
+      .large {width:300px; height:300px; background-color:black;}
+
+      .navbar {
+        overflow: hidden;
+        background-color: #ffffff;
+        border: solid black 1px;
+      }
+
+      .dropdown {
+        float: left;
+        overflow: hidden;
+        color: black;
+        background-color: #ffffff;
+      }
+
+      .dropdown .dropbtn {
+        font-size: 16px;  
+        border: none;
+        outline: none;
+        padding: 0px 0px;
+        color: black;
+        background-color: #ffffff;
+        font-family: inherit;
+        margin: 0;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        min-width: 100px;
+        box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.1);
+        z-index: 1;
+      }
+
+      .menuitem {
+        float: none;
+        color: black;
+        padding: 0px 0px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+      }
+
+      .menuitem:hover {
+        background-color: #ddd;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .show {display: block;}
+    </style>
+    <script>
+      function clickbutton(name)
+      {
+        console.log("button["+name+"]");
+        var myWindow = window.open("", "Secondary", "width=200,height=100");
+        myWindow.document.write("<p>You clicked "+name+" button.</p>");
+      }
+
+      function openFile()
+      {
+        var texts = {'textfile1.txt':'Value1', 'textfile2.txt':'Value2'};
+        if(!(fileName.value in texts))
+        {
+          fileOutput.innerHTML="Error";
+        }
+        else
+        {
+          fileOutput.innerHTML=texts[fileName.value];
+        }
+      }
+
+      function createTarget()
+      {
+        var tag=document.createElement('img');
+        tag.id='target';
+        tag.src='blue.png';
+        tag.style.position="absolute";
+        tag.addEventListener("click", function(){target.src='red.png';});
+        panel.appendChild(tag);
+        tag.style.left=tag.style.offsetLeft=panel.offsetLeft+Math.floor(Math.random()*(panel.offsetWidth-10))+"px";
+        tag.style.top=tag.style.offsetTop=panel.offsetTop+Math.floor(Math.random()*(panel.offsetHeight-10))+"px";
+      }
+
+      function repaint()
+      {
+        panel.removeChild(panel.childNodes[1]);    
+      }
+
+      function menu(n)
+      {
+        menutext.innerHTML="item"+n;
+        toggle();
+      }
+
+      document.addEventListener('contextmenu', function(event) {
+        if(event.which == 3)
+        {
+          event.preventDefault();
+          toggle();
+          context.style.left=context.style.offsetLeft=event.pageX+"px";
+          context.style.top=context.style.offsetTop=event.pageY+"px";
+        }
+      });
+
+      function toggle()
+      {
+        context.classList.toggle("show");
+      }
+    </script>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="dropdown">
+        <button class="dropbtn">Menu &#9660;
+        </button>
+        <div class="dropdown-content">
+          <a href="#" class="menuitem" onclick="menu(1)">Item1</a>
+          <a href="#" class="menuitem" onclick="menu(2)">Item2</a>
+          <a href="#" class="menuitem" onclick="menu(3)">Item3</a>
+        </div>
+      </div> 
+    </div>
+    <div>
+      <p id="menutext">No selection</p>
+    </div>
+    <br><br>
+    <div>
+      <button id="alpha" onclick="clickbutton('alpha')">Alpha</button><br>
+      <button id="bravo" onclick="clickbutton('bravo')">Bravo</button><br>
+    </div>
+    <br><br>
+    <div>
+      <label>Input file name</label>
+      <input type="text" id="fileName" name="fname"></input><button id="openfile" onclick="openFile()">Open...</button>
+      <p id="fileOutput">Waiting for file...<p>
+    </div>
+    <br><br>
+    <div>
+      <label>Radio1</label><input type="radio" name="radios" id="Radio1"></input><br>
+      <label>Radio2</label><input type="radio" name="radios" id="Radio2"></input><br>
+      <label>Radio3</label><input type="radio" name="radios" id="Radio3"></input>
+    </div>
+    <br><br>
+    <div>
+      <p id="panel" class="large" onmouseenter="createTarget()" onmouseleave="repaint()">
+      </p>
+    </div>
+    <br><br>
+    <div>
+      <label>Select color</label>
+      <select id="mySelect">
+        <option value="">Select...</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+      </select>
+    </div>
+    <br><br>
+    <div>
+      <label>Do</label><input type="checkbox" value="do"></input><br>
+      <label>Don't</label><input type="checkbox" value="don't"></input><br>
+      <label>Both</label><input type="checkbox" value="both"></input><br>
+    </div>
+    <br><br>
+    <div>
+      <label>Select date</label><input type="date" id="date"></input>
+    </div>
+    <br><br>
+    <div>
+      <input type="range" min="1" max="100" value="25"></input>
+    </div>
+    <br><br>
+    <div>
+      <button id="positive">Click Me</button><br>
+      <button id="negative">Don't Click Me</button><br>
+    </div>
+    <div id="context" class="dropdown-content">
+      <a href="#" class="menuitem" onclick="menu(1)">Item1</a>
+      <a href="#" class="menuitem" onclick="menu(2)">Item2</a>
+      <a href="#" class="menuitem" onclick="menu(3)">Item3</a>
+    </div>
+  </body>
+</html>

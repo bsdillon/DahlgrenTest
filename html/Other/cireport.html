@@ -3,8 +3,12 @@
   <head>
     <title>Code-Inspector Report</title>
     <link rel="stylesheet" type="text/css" href="../common.css">
-    <script>https://cdn.anychart.com/releases/v8/js/anychart-core.min.js</script>
-    <script>https://cdn.anychart.com/releases/v8/js/anychart-treemap.min.js</script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-treemap.min.js"></script>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="./createlinechart.js"></script>
+    <script src="./../cidata/code_inspect.js"></script>
     <script>
       //https://medium.com/@AnyChart/how-to-create-treemap-chart-using-javascript-treemap-visualizes-latest-internet-users-statistics-7e600f6ae247
       var dates = [];
@@ -14,32 +18,65 @@
       var cats = ["Unknown", "Error Prone", "Code Style", "Best Practice", "Safety", "Security", "Design", "Deployment", "Performance", "Documentation"];
       var comboCounts = {};
       var lastDate;
+      var sevStacked = {};
+      var catStacked = {};
+      var comboStacked = {};
+      var groups = {}
+      var categories = {}
+
+      function emptytt()
+      {
+        //tool tip does nothing
+      }
+
+      function loadData()
+      {
+        width = 600;
+        height = 600;
+        config = createConfig('Code-Inspector Violation Trends','Date','Number of Violations',emptytt, true);
+        line = createChart("can",width,height,config);
+
+        parseData();
+
+        loadSeverity();
+        CreateTree(lastDate);
+      }
 
       function parseData()
       {
         //set up counts that will ensure solid data for all dates
-        var count = 0;
+        var datecount = 0;
         var s_index = {}
         var c_index = {}
         var com_index = {};
-        for (k in sevs)
+        for (i in sevs)
         {
+          var k = sevs[i];
           s_index[k]=0;
-          for (c in cats)
+          sevCounts[k]=[];
+          for (j in cats)
           {
+            var c = cats[j];
             com_index[k+" "+c]=0;
+            comboCounts[k+" "+c]=[];
+            groups[k+" "+c]=i;
+            categories[k+" "+c]=j;
           }
         }
 
-        for (c in cats)
+        for (i in cats)
         {
+          var c = cats[i];
           c_index[c]=0;
+          catCounts[c]=[];
         }
 
         //start parsing the data
+        var format = {day: '2-digit', month: '2-digit', year: 'numeric'};
         lastDate = new Date(0);
         for (const [key, value] of Object.entries(ci_violations))
         {
+          datecount++;
           //first get the date as a short string
           var d = new Date(Date.parse(key));
           if(d.getTime()>lastDate.getTime())
@@ -56,10 +93,14 @@
           for (const [key2, value2] of Object.entries(value))
           {
             //figure out the severity and category statements
-            var k = key2.replace("_"," ")
+            var k = key2.replace('_',' ');
+            while(k.indexOf('_')>-1)
+            {
+              k = k.replace('_',' ');
+            }
             var index = k.indexOf(' ');
             var severity = k.substr(0,index);
-            var category = k.substr(index, k.length);
+            var category = k.substr(index+1, k.length);
             var count = value2.length;
 
             //push the combination data
@@ -81,7 +122,7 @@
 
           //at this point we need to copy over data
           //and otherwise put in a zero.
-          for (k of s_index)
+          for (k in s_index)
           {
             if (k in tempS)
             {
@@ -94,7 +135,7 @@
             s_index[k]++;
           }
 
-          for (k of c_index)
+          for (k in c_index)
           {
             if (k in tempC)
             {
@@ -107,38 +148,66 @@
             c_index[k]++;
           }
 
-          for (k of com_index)
+          for (k in com_index)
           {
-            if (!(k in com_index))
+            if (com_index[k]!=datecount)
             {
               comboCounts[k].push(0);
+              com_index[k]++;
             }
           }
         }
       }
 
-      function loadData()
-      {
-        var data = parseData();
-
-        CreateLines();
-        CreateTree(lastDate);
-      }
-
-      function CreateLines()
-      {
-        //create a line chart with all the combo types stacked.
-      }
-
       function CreateTree(date)
       {
-        var treeData = anychart.data.tree(data, "as-tree");
-        var chart = anychart.treeMap(treeData);
-        chart.title("Severity and Category of violations");
+        //var treeData = anychart.data.tree(data, "as-tree");
+        //var chart = anychart.treeMap(treeData);
+        //chart.title("Severity and Category of violations");
         // set the container id
-        chart.container("tree");
+        //chart.container("tree");
         // draw the chart
-        chart.draw();
+        //chart.draw();
+      }
+
+      function loadSeverity()
+      {
+        clearData(config)
+        //create a line chart with all the combo types stacked.
+        setChartLabels(config, dates);
+        var group = 0;
+        for(k in sevCounts)
+        {
+          createRandomStyleArea(config, k, sevCounts[k]);
+          group++;
+        }
+        line.update();
+      }
+
+      function loadCategory()
+      {
+        clearData(config)
+        //create a line chart with all the combo types stacked.
+        setChartLabels(config, dates);
+        var cat = 0;
+        for(k in catCounts)
+        {
+          createRandomStyleArea(config, k, catCounts[k]);
+          cat++;
+        }
+        line.update();
+      }
+
+      function loadCombo()
+      {
+        clearData(config)
+        //create a line chart with all the combo types stacked.
+        setChartLabels(config, dates);
+        for(k in comboCounts)
+        {
+          createGroupStyleArea(config, k, comboCounts[k], groups[k], categories[k]);
+        }
+        line.update();
       }
     </script>
   </head>
@@ -146,6 +215,8 @@
     <h3>Code Inspector Report</h3>
     <p>This report shows the nightly count of violations found by <a href='code-inspector.com'>Code Inspector</a></p>
     <canvas id="can"></canvas>
+    <p><button onclick="loadSeverity()">Severity</button><button onclick="loadCategory()">Category</button><button onclick="loadCombo()">Severity & Category</button>
+    </p>
     <div id="tree"></div>
   </body>
 </html>
