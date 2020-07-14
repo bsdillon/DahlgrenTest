@@ -1,0 +1,14 @@
+name: Robot Framework Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Run Robot Tests
+      uses: codefour-gmbh/robotframework-action@master
+      env: ROBOT_TESTS: ${{ github.workspace }}/src/tests/robot
