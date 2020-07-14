@@ -21,6 +21,7 @@ writer.addPage(tablePage)
 with open('output.pdf', 'wb') as outfile:
     writer.write(outfile)
 convert_into('output.pdf', 'test.csv', output_format="csv")
+convert_into('output.pdf', 'test.json', output_format="json")
 pdfFile.close()
 output.close()
 os.remove('output.pdf')
