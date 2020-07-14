@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20200713 13:44:51.015" generator="Robot 3.2.1 (Python 2.7.18rc1 on linux2)">
+<suite source="/root/hihi/python_and_RF/calc_robot_test.robot" id="s1" name="Calc Robot Test">
+<test id="s1-t1" name="Push button">
+<kw name="Push button">
+<arguments>
+<arg>1</arg>
+</arguments>
+<msg timestamp="20200713 13:44:51.039" level="FAIL">No keyword with name 'Push button' found.</msg>
+<status status="FAIL" endtime="20200713 13:44:51.039" starttime="20200713 13:44:51.039"></status>
+</kw>
+<status status="FAIL" endtime="20200713 13:44:51.039" critical="yes" starttime="20200713 13:44:51.037">No keyword with name 'Push button' found.</status>
+</test>
+<test id="s1-t2" name="Push multiple buttons">
+<kw name="Push button">
+<arguments>
+<arg>1</arg>
+</arguments>
+<msg timestamp="20200713 13:44:51.041" level="FAIL">No keyword with name 'Push button' found.</msg>
+<status status="FAIL" endtime="20200713 13:44:51.041" starttime="20200713 13:44:51.041"></status>
+</kw>
+<status status="FAIL" endtime="20200713 13:44:51.041" critical="yes" starttime="20200713 13:44:51.040">No keyword with name 'Push button' found.</status>
+</test>
+<test id="s1-t3" name="Simple calculation">
+<kw name="Push button">
+<arguments>
+<arg>1</arg>
+</arguments>
+<msg timestamp="20200713 13:44:51.044" level="FAIL">No keyword with name 'Push button' found.</msg>
+<status status="FAIL" endtime="20200713 13:44:51.044" starttime="20200713 13:44:51.043"></status>
+</kw>
+<status status="FAIL" endtime="20200713 13:44:51.044" critical="yes" starttime="20200713 13:44:51.042">No keyword with name 'Push button' found.</status>
+</test>
+<test id="s1-t4" name="Longer calculation">
+<kw name="Push buttons">
+<arguments>
+<arg>5 + 4 - 3 * 2 / 1 =</arg>
+</arguments>
+<msg timestamp="20200713 13:44:51.046" level="FAIL">No keyword with name 'Push buttons' found.</msg>
+<status status="FAIL" endtime="20200713 13:44:51.046" starttime="20200713 13:44:51.046"></status>
+</kw>
+<status status="FAIL" endtime="20200713 13:44:51.046" critical="yes" starttime="20200713 13:44:51.045">No keyword with name 'Push buttons' found.</status>
+</test>
+<test id="s1-t5" name="Big Boy Mongo Calculation">
+<kw name="Push buttons">
+<arguments>
+<arg>3 + 3 + 3 + 3 + 3 + 3 + 3 + 3 + 3 + 3 + 3 + 3 + 3 =</arg>
+</arguments>
+<msg timestamp="20200713 13:44:51.049" level="FAIL">No keyword with name 'Push buttons' found.</msg>
+<status status="FAIL" endtime="20200713 13:44:51.049" starttime="20200713 13:44:51.049"></status>
+</kw>
+<status status="FAIL" endtime="20200713 13:44:51.049" critical="yes" starttime="20200713 13:44:51.047">No keyword with name 'Push buttons' found.</status>
+</test>
+<status status="FAIL" endtime="20200713 13:44:51.050" starttime="20200713 13:44:51.017"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="5" pass="0">Critical Tests</stat>
+<stat fail="5" pass="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="5" id="s1" name="Calc Robot Test" pass="0">Calc Robot Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
