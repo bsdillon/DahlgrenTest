@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Test Tool</title>
+    <style>
+      .large {width:300px; height:300px; background-color:black;}
+    </style>
+    <script>
+      function clickbutton(name)
+      {
+        console.log("button["+name+"]");
+        var myWindow = window.open("", "Secondary", "width=200,height=100");
+        myWindow.document.write("<p>You clicked "+name+" button.</p>");
+      }
+
+      function openFile()
+      {
+        var texts = {'textfile1.txt':'Value1', 'textfile2.txt':'Value2'};
+        if(!(fileName.value in texts))
+        {
+          fileOutput.innerHTML="Error";
+        }
+        else
+        {
+          fileOutput.innerHTML=texts[fileName.value];
+        }
+      }
+
+      function createTarget()
+      {
+        var tag=document.createElement('img');
+        tag.id='target';
+        tag.src='blue.png';
+        tag.style.position="absolute";
+        tag.style.left=panel.offsetLeft+Math.floor(Math.random()*(panel.offsetWidth-10));
+        tag.style.top=panel.offsetTop+Math.floor(Math.random()*(panel.offsetHeight-10));
+        tag.addEventListener("click", function(){target.src='red.png';});
+        panel.appendChild(tag);
+      }
+
+      function repaint()
+      {
+        panel.removeChild(panel.childNodes[1]);    
+      }
+    </script>
+  </head>
+  <body>
+    <div>
+      <button id="alpha" onclick="clickbutton('alpha')">Alpha</button><br>
+      <button id="bravo" onclick="clickbutton('bravo')">Bravo</button><br>
+    </div>
+    <div>
+      <label>Input file name</label>
+      <input type="text" id="fileName" name="fname"></input><button id="openfile" onclick="openFile()">Open...</button>
+      <p id="fileOutput">Waiting for file...<p>
+    </div>
+    <div>
+      <label>Radio1</label><input type="radio" name="radios" id="Radio1"></input><br>
+      <label>Radio2</label><input type="radio" name="radios" id="Radio2"></input><br>
+      <label>Radio3</label><input type="radio" name="radios" id="Radio3"></input>
+    </div>
+    <div>
+      <p id="panel" class="large" onmouseenter="createTarget()" onmouseleave="repaint()">
+      </p>
+    </div>
+    <div>
+      <label>Select color</label>
+      <select id="mySelect">
+        <option value="">Select...</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+      </select>
+    </div>
+    <div>
+      <label>Do</label><input type="checkbox" value="do"></input><br>
+      <label>Don't</label><input type="checkbox" value="don't"></input><br>
+      <label>Both</label><input type="checkbox" value="both"></input><br>
+    </div>
+    <div>
+      <label>Select date</label><input type="date" id="date"></input>
+    </div>
+    <div>
+      <input type="range" min="1" max="100" value="25">
+    </div>
+    <div>
+      <button id="positive">Click Me</button><br>
+      <button id="negative">Don't Click Me</button><br>
+    </div>
+  </body>
+</html>
