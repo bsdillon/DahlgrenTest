@@ -1,7 +1,9 @@
 ---
 name: Robot Framework Tests
 
-on: [push]
+on:
+  push:
+    branches: LTTBranch
 
 jobs:
   test:
