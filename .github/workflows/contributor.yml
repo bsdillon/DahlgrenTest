@@ -4,9 +4,12 @@ name: Contributor Activity
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  schedule:
+  push:
+    branches:
+      'KKBranch'
+  # schedule:
     # every night at 2350
-    - cron: '50 23 * * *'
+  # - cron: '50 23 * * *'
 
 jobs:
   FindContributorActivity:
