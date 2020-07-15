@@ -8,7 +8,7 @@ name: SLOC Reporter
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    # 01:05 each day 
+    # 01:05 each day
     - cron: '5 5 * * *'
 
 jobs:
