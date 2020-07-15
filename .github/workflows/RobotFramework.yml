@@ -21,4 +21,3 @@ jobs:
         env:
           ROBOT_TESTS: |
             ${{ github.workspace }}/examples/robot_framework/RobotDemo
-            
