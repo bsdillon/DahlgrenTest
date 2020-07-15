@@ -3,7 +3,9 @@ name: Robot Framework Tests
 
 on:
   push:
-    branches: LTTBranch
+    paths:
+      - "**.robot"
+      - ".github/workflows/RobotFramework.yml"
 
 jobs:
   test:
