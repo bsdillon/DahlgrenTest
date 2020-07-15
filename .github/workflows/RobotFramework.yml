@@ -12,4 +12,5 @@ jobs:
       - name: Run Robot Tests
         uses: codefour-gmbh/robotframework-action@master
         env:
-          ROBOT_TESTS: ${{ github.workspace }}/examples/robot_framework/RobotDemo
+          ROBOT_TESTS: |
+            ${{ github.workspace }}/examples/robot_framework/RobotDemo
