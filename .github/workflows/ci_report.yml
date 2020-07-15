@@ -5,7 +5,7 @@ name: Reporting Code Inspector Findings
 # yamllint disable-line rule:truthy
 on:
   schedule:
-      # Midnight each day for overnight eval
+    # Midnight each day for overnight eval
     - cron: '0 15 * * *'
 
 jobs:
