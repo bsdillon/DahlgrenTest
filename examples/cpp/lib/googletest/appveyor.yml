@@ -88,7 +88,7 @@ build_script:
     # Only enable some builds for pull requests, the AppVeyor queue is too long.
     if ((Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER) -And (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes")) {
       return
-    } else {
+    }: else {
         # special case - build with Bazel
         if ($env:build_system -eq "bazel") {
             & $env:root\bazel.exe build -c opt //:gtest_samples
