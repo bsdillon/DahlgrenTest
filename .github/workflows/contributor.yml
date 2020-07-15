@@ -33,6 +33,11 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
       # yamllint enable rule:line-length
+      - name: Contribute.json to artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: contribute-stats
+          path: contribute.json
       - name: Run Contributor Stats
         # yamllint disable rule:line-length
         run: python .github/ciPython/contributor_stats.py contribute.json
