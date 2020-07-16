@@ -4,9 +4,11 @@ name: Repository report
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  schedule:
+  push:
+    branches:
+      'KKBranch'
     # every Sunday night at a min past midnight (weekly report)
-    - cron: '1 0 * * 0'
+    # - cron: '1 0 * * 0'
 jobs:
   get_data:
     runs-on: ubuntu-latest
@@ -30,16 +32,8 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > commit_count.json \
       # yamllint enable rule:line-length
-      - name: Run Project Health
-        run: python .github/ciPython/repos_health.py commit_count.json
-      - name: Commit health text file
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub  Action"
-          git add ./html/cidata/log.js
-          git commit -m "Updated the project health to javascript log" -a
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+      - name: Commit Count Artifact
+        uses: actions/upload-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'KKBranch'
+          name: weekly-count
+          path: commit_count.json
