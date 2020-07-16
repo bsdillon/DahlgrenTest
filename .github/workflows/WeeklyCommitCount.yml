@@ -37,3 +37,16 @@ jobs:
         with:
           name: weekly-count
           path: commit_count.json
+      - name: Run Project Health
+        run: python .github/ciPython/weekly_commits.py commit_count.json
+      - name: Commit weekly commit log
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Weekly Commit Report"
+          git add ./html/cidata/log.js
+          git commit -m "Weekly commit update" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'KKBranch'
