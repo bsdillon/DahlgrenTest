@@ -4,9 +4,7 @@ name: Weekly Commit Count Report
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches:
-      'KKBranch'
+  schedule:
     # every Saturday night at 23:50
     - cron: '50 3 * * 6'
 jobs:
