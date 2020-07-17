@@ -11,9 +11,9 @@ count = 0
 dates = []
 while count < len(json_array):
     userData = json_array[count]
-    userName = userData["author"]["login"]
-    if userName == "actions-user":
-        userName = "GitHubAction"
+    USERNAME = userData["author"]["login"]
+    if USERNAME == "actions-user":
+        USERNAME = "GitHubAction"
     weeks = userData["weeks"]
     for w in weeks:
         d = datetime.datetime.fromtimestamp(w["w"])
@@ -22,5 +22,5 @@ while count < len(json_array):
             week_js.write("contributions[\'"+date+"\']={};\n")
             dates.append(date)
         week_js.write("contributions[\'" + date + "\'].")
-        week_js.write(userName+"="+str(w["c"])+";\n")
+        week_js.write(USERNAME+"="+str(w["c"])+";\n")
     count += 1
