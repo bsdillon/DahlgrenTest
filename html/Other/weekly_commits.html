@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Weekly Commits Over Time</title>
+    <title>Code Growth over Time</title>
     <link rel="stylesheet" type="text/css" href="../common.css">
     <style>
     </style>
     <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
     <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
     <script src="./createlinechart.js"></script>
-    <script src="./../cidata/log.js"></script>
+    <script src="./../cidata/weekly_commits.js"></script>
     <script>
       var myLine;
       var config;
@@ -21,7 +21,7 @@
       {
         width = 600;
         height = 600;
-        config = createConfig('Weekly Commits', 'Date', 'Commits',emptytt, true);
+        config = createConfig('Weekly Commit Count for each Contributor', 'Date', 'Commits',emptytt, true);
         myLine = createChart("can",width,height,config);
 
         processData();
@@ -30,18 +30,53 @@
 
       function processData()
       {
-        var fileData = [];
+        var fileData = {};
         var format = {day: '2-digit', month: '2-digit', year: 'numeric'};
+        var raws = [];
         var labels = [];
-        for(const [key, value] of Object.entries(week))
+        var users = {};
+        var counters = {};
+        for(const [key, value] of Object.entries(contributions))
         {
           var d = new Date(Date.parse(key));
-          labels.push(d.toLocaleDateString('en-US', format));
-          fileData.push(value);
+          var sec = d.getTime()
+          raws.push(sec);
+          fileData[sec]=value;
+
+          for(const [key2, num] of Object.entries(value))
+          {
+            if(!(key2 in users))
+            {
+              users[key2]=[];
+              counters[key2]=0;
+            }
+          }
+        }
+
+        raws.sort();
+
+        var count = 0;
+        for(let i=0;i<raws.length;i++)
+        {
+          var d = new Date(raws[i]);
+          var date = d.toLocaleDateString('en-US', format);
+          labels.push(date);
+          count++;
+
+          for(key2 in fileData[raws[i]])
+          {
+            var num = fileData[raws[i]][key2];
+            users[key2].push(num);
+            counters[key2]++;
+          }
         }
 
         setChartLabels(config, labels);
-        createRandomStyleLine(config, "", fileData)
+
+        for (const [user,set] of Object.entries(users))
+        {
+          createRandomStyleArea(config, user, set);
+        }
       }
     </script>
   </head>
