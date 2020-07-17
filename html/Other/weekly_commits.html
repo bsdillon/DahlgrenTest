@@ -21,7 +21,7 @@
       {
         width = 600;
         height = 600;
-        config = createConfig('Weekly Commit Count for each Contributor', 'Date', 'Commits',emptytt, true);
+        config = createConfig('Weekly Commit Count for each Contributor', 'Date', 'Commits',emptytt, false);
         myLine = createChart("can",width,height,config);
 
         processData();
@@ -35,7 +35,6 @@
         var raws = [];
         var labels = [];
         var users = {};
-        var counters = {};
         for(const [key, value] of Object.entries(contributions))
         {
           var d = new Date(Date.parse(key));
@@ -48,27 +47,23 @@
             if(!(key2 in users))
             {
               users[key2]=[];
-              counters[key2]=0;
             }
           }
         }
 
         raws.sort();
 
-        var count = 0;
         for(let i=0;i<raws.length;i++)
         {
           var d = new Date(raws[i]);
           var date = d.toLocaleDateString('en-US', format);
           labels.push(date);
-          count++;
-
           for(key2 in fileData[raws[i]])
           {
             var num = fileData[raws[i]][key2];
             users[key2].push(num);
-            counters[key2]++;
           }
+
         }
 
         setChartLabels(config, labels);
