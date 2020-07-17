@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weekly Commits Over Time</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+    <style>
+    </style>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="./createlinechart.js"></script>
+    <script src="./../cidata/log.js"></script>
+    <script>
+      var myLine;
+      var config;
+
+      function emptytt()
+      {
+      }
+
+      function loadData()
+      {
+        width = 600;
+        height = 600;
+        config = createConfig('Weekly Commits', 'Date', 'Commits',emptytt, true);
+        myLine = createChart("can",width,height,config);
+
+        processData();
+        myLine.update();
+      }
+
+      function processData()
+      {
+        var fileData = [];
+        var format = {day: '2-digit', month: '2-digit', year: 'numeric'};
+        var labels = [];
+        for(const [key, value] of Object.entries(week))
+        {
+          var d = new Date(Date.parse(key));
+          labels.push(d.toLocaleDateString('en-US', format));
+          fileData.push(value);
+        }
+
+        setChartLabels(config, labels);
+        createRandomStyleLine(config, "", fileData)
+      }
+    </script>
+  </head>
+  <body onload="loadData()">
+    <canvas id="can"></canvas>
+    <div id="messageData" class="mobile"></div>
+  </body>
+</html>
