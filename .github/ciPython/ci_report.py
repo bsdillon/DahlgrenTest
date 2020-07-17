@@ -17,7 +17,8 @@ out_file = open(outputfile, "a+")
 
 variables = {}
 
-QUERY = '{project(id: 9280){lastAnalysis{summary{violations duplicated_lines complexFunctions longFunctions}}}}'
+QUERY = "{project(id: 9280){lastAnalysis{summary{"
+QUERY += "violations duplicated_lines complexFunctions longFunctions}}}}"
 data = endpoint(QUERY, variables)
 
 set = data['data']['project']['lastAnalysis']['summary']
@@ -26,7 +27,10 @@ dups = set['duplicated_lines']
 comps = set['complexFunctions']
 longF = set['longFunctions']
 
-QUERY = '{project(id: 9280){lastAnalysis{violations(howmany:'+str(v_count)+', skip:0){filename severity category} complexFunctions(howmany:'+str(comps)+' skip:0){filename}}}}'
+QUERY = "{project(id: 9280){lastAnalysis{violations("
+QUERY += "howmany:'+str(v_count)+', skip:0){filename"
+QUERY += "severity category} complexFunctions(howmany:"
+QUERY += str(comps)+" skip:0){filename}}}}"
 data2 = endpoint(QUERY, variables)
 
 v_set = data2['data']['project']['lastAnalysis']['violations']
@@ -43,10 +47,10 @@ output = {}
 for viol in v_set:
     key = severity[str(viol['severity'])]+"_"+viol['category']
     if key not in output:
-        output[key]=""
-        output[key]+="'"+viol['filename']+"'"
+        output[key] = ""
+        output[key] += "'"+viol['filename']+"'"
     else:
-        output[key]+=", '"+viol['filename']+"'"
+        output[key] += ", '"+viol['filename']+"'"
 
 # not outputing duplicates, complex/long functions
 # must create a date-specific dictionary for data

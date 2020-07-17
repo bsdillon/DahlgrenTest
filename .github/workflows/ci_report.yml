@@ -6,7 +6,7 @@ name: Reporting Code Inspector Findings
 on:
   schedule:
   # Midnight each day for overnight eval
-  - cron: '0 15 * * *'
+    - cron: '0 15 * * *'
 
 jobs:
   check-quality:

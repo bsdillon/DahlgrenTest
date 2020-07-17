@@ -1,6 +1,5 @@
 import datetime
 import json
-import os
 import sys
 
 # Read all data (from the dawn of time) in and parse
@@ -19,6 +18,6 @@ while count < len(json_array):
         if date not in dates:
             daily_js.write("contributions[\'"+date+"\']={};\n")
             dates.append(date)
-        daily_js.write("contributions[\'" + date + "\']."+userName+"="+str(w["c"])+";\n")
+        daily_js.write("contributions[\'" + date + "\'].")
+        daily_js.write(userName+"="+str(w["c"])+";\n")
     count += 1
-
