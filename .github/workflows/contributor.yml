@@ -46,9 +46,7 @@ jobs:
           mv daily_commit.txt ./html/cidata/
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub  Action"
-          git add ./html/cidata/daily_commit.txt
-          git add ./html/cidata/total_commit.txt
-          git add ./html/cidata/daily_commits.js
+          git add ./html/cidata/weekly_commits.js
           git commit -m "Daily and Total Contributor Commits" -a
       # yamllint enable rule:line-length
       - name: Push changes
@@ -56,3 +54,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: 'KKBranch'
+
