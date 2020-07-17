@@ -43,7 +43,6 @@ jobs:
         run: python .github/ciPython/contributor_stats.py contribute.json
       - name: Commit daily and total commits
         run: |
-          mv daily_commit.txt ./html/cidata/
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub  Action"
           git add ./html/cidata/weekly_commits.js
