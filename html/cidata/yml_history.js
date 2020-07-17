@@ -52,3 +52,4 @@ commit["2020-07-12T17:17:08Z"]={"developer": "bsdillon", "message": "Created a b
 commit["2020-07-13T03:49:02Z"]={"developer": "bsdillon", "message": "Finalizing ci_report::Making slock counter an every-day action. Also code inspector python, js, and html. The last one is just a draft.", "files": [".github/workflows/SLOCReport.yml"]};
 commit["2020-07-13T03:56:35Z"]={"developer": "bsdillon", "message": "Final work for tonight.", "files": [".github/workflows/ci_report.yml"]};
 commit["2020-07-13T23:51:29Z"]={"developer": "GitHub  Action", "message": "Daily and Total Contributor Commits", "files": []};
+commit["2020-07-15T23:19:30Z"]={"developer": "bsdillon", "message": "Update YmlChangeReport.yml::To avoid runs on non master branches", "files": [".github/workflows/YmlChangeReport.yml"]};
