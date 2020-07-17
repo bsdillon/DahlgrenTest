@@ -3,7 +3,7 @@ import json
 import sys
 
 # Read all data (from the dawn of time) in and parse
-daily_js = open("./../../html/cidata/daily_commits.js", "w")
+daily_js = open("./html/cidata/daily_commits.js", "w")
 json_array = json.load(open(sys.argv[1]))
 
 count = 0
