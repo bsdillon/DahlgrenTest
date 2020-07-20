@@ -56,3 +56,4 @@ commit["2020-07-15T23:19:30Z"]={"developer": "bsdillon", "message": "Update YmlC
 commit["2020-07-17T02:40:27Z"]={"developer": "bsdillon", "message": "Merge branch 'master' of https://github.com/bsdillon/DahlgrenTest", "files": [".github/workflows/YmlChangeReport.yml"]};
 commit["2020-07-17T02:52:42Z"]={"developer": "bsdillon", "message": "Resolved several linting errors", "files": [".github/workflows/SLOCReport.yml", ".github/workflows/YmlChangeReport.yml", ".github/workflows/ci_report.yml"]};
 commit["2020-07-20T18:54:19Z"]={"developer": "bsdillon", "message": "Merge pull request #197 from bsdillon/KKBranch::Update on parsing, charting, and documentation", "files": [".github/workflows/WeeklyCommitCount.yml", ".github/workflows/contributor.yml"]};
+commit["2020-07-20T19:22:58Z"]={"developer": "bsdillon", "message": "Fixing yml lint and forcing review", "files": [".github/workflows/ci_report.yml"]};
