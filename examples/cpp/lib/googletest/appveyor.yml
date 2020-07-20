@@ -102,7 +102,6 @@ build_script:
   - ps: |
       # Only enable some builds for pull requests,
       # the AppVeyor queue is too long.
-      # yamllint disable rule:line-length
       if ((Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER) -And (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes")) {
         return
       } else {
@@ -119,12 +118,10 @@ build_script:
               return
           }
       }
-      # yamllint enable rule:line-length
       # by default build with CMake
       md _build -Force | Out-Null
       cd _build
 
-      # yamllint disable rule:line-length
       $conf = if ($env:generator -eq "MinGW Makefiles") {"-DCMAKE_BUILD_TYPE=$env:configuration"} else {"-DCMAKE_CONFIGURATION_TYPES=Debug;Release"}
       # Disable test for MinGW (gtest tests fail, gmock tests can not build)
       $gtest_build_tests = if ($env:generator -eq "MinGW Makefiles") {"-Dgtest_build_tests=OFF"} else {"-Dgtest_build_tests=ON"}
@@ -142,7 +139,6 @@ build_script:
       if ($LastExitCode -ne 0) {
           throw "Exec: $ErrorMessage"
       }
-      # yamllint enable rule:line-length
 
 skip_commits:
   files:
@@ -150,37 +146,33 @@ skip_commits:
 
 test_script:
   - ps: |
-    # Only enable some builds for pull requests, 
-    # the AppVeyor queue is too long.
-    # yamllint disable rule:line-length
-    if ((Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER) -And (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes")) {
-      return
-    }
-    # yamllint enable rule:line-length
-    if ($env:build_system -eq "bazel") {
-        # special case - testing with Bazel
-        & $env:root\bazel.exe test //:gtest_samples
-        if ($LastExitCode -eq 0) {
-            # bazel writes to StdErr and
-            # PowerShell interprets it as an error
-            $host.SetShouldExit(0)
-        } else { # a real error
-            throw "Exec: $ErrorMessage"
-        }
-    }
-    if ($env:build_system -eq "cmake") {
-        # built with CMake - test with CTest
-        if ($env:generator -eq "MinGW Makefiles") {
-            return # No test available for MinGW
-        }
+      # Only enable some builds for pull requests,
+      # the AppVeyor queue is too long.
+      if ((Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER) -And (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes")) {
+        return
+      }
+      if ($env:build_system -eq "bazel") {
+          # special case - testing with Bazel
+          & $env:root\bazel.exe test //:gtest_samples
+          if ($LastExitCode -eq 0) {
+              # bazel writes to StdErr and
+              # PowerShell interprets it as an error
+              $host.SetShouldExit(0)
+          } else { # a real error
+              throw "Exec: $ErrorMessage"
+          }
+      }
+      if ($env:build_system -eq "cmake") {
+          # built with CMake - test with CTest
+          if ($env:generator -eq "MinGW Makefiles") {
+              return # No test available for MinGW
+          }
 
-        # yamllint disable rule:line-length
-        & ctest -C $env:configuration --timeout 600 --output-on-failure
-        # yamllint enable rule:line-length
-        if ($LastExitCode -ne 0) {
-            throw "Exec: $ErrorMessage"
-        }
-    }
+          & ctest -C $env:configuration --timeout 600 --output-on-failure
+          if ($LastExitCode -ne 0) {
+              throw "Exec: $ErrorMessage"
+          }
+      }
 
 artifacts:
   - path: '_build/CMakeFiles/*.log'
