@@ -2,6 +2,7 @@ from abstract_parser import AbstractParser
 from TypeDictionary import TypeDictionary
 import parseClass
 
+
 class Method:
     def __init__(self, fileName, line, rt, tf):
         self.details = TypeDictionary.ParseReturnType(fileName, line, tf, rt)
@@ -10,14 +11,14 @@ class Method:
         if not self.details.GetType() in dependencies:
             dependencies.append(self.details.GetType())
 
-    def GetReturnImport(self,dependencies):
+    def GetReturnImport(self, dependencies):
         """
         Finds the file which must be imported, based on return type,
         in order to enable the code
         :param dependencies: Dictionary of all typeNames->Parsers
         :return: '' if no import is required, otherwise the name of the import file
         """
-        #Arrayness is of no importance here
+        # Arrayness is of no importance here
         returnD = dependencies[self.details.GetType()]
         if isinstance(returnD, AbstractParser):
             return returnD.GetFileName()
@@ -28,7 +29,8 @@ class Method:
         t = dependencies[self.details.GetType()]
 
         if self.details.IsArray() and t.IsArray():
-            print 'Never implemented a means of getting array size from a double pointer'
+            print
+            'Never implemented a means of getting array size from a double pointer'
             exit(-1)
 
         if self.details.IsArray():
@@ -58,7 +60,7 @@ class Method:
         return answer
 
     def GetCall(self):
-        return 'get_{getName}()'.format(getName = self.details.GetName())
+        return 'get_{getName}()'.format(getName=self.details.GetName())
 
     def WriteMethod(self, file, dependencies):
         returnD = dependencies[self.details.GetType()]
@@ -72,7 +74,9 @@ class Method:
         typeDict = parseClass.ParseClass.FormatCodeReturnType(returnType)
         returnType = typeDict['returnType']
 
-        file.write('{__}{__}{returnType} get_{getName}() {{\n'.format(__ = AbstractParser.space, returnType = returnType, getName = self.details.GetName()))
+        file.write('{__}{__}{returnType} get_{getName}() {{\n'.format(
+            __=AbstractParser.space, returnType=returnType,
+            getName=self.details.GetName()))
         if self.details.IsArray() or returnD.IsArray():
             arrayWithSize = typeDict['arrayWithSize']
             baseType = typeDict['baseType']
@@ -82,13 +86,24 @@ class Method:
                         '{__}{__}{__}{__}answer[i] = {baseType}({source_name});\n'
                         '{__}{__}{__}}}\n'
                         '{__}{__}{__}return std::move(answer);\n'
-                        ).format(__ = AbstractParser.space, getSize = self.details.GetSize(), returnType = returnType, arrayWithSize = arrayWithSize, baseType = baseType, source_name = returnD.GetValue('source.' + self.details.GetName(), True)))
+                        ).format(__=AbstractParser.space,
+                                 getSize=self.details.GetSize(),
+                                 returnType=returnType,
+                                 arrayWithSize=arrayWithSize, baseType=baseType,
+                                 source_name=returnD.GetValue(
+                                     'source.' + self.details.GetName(), True)))
         else:
             if 'std::unique_ptr' in returnType:
-                file.write('{__}{__}{__}return std::move({returnType}({source_name}));\n'.format(__ = AbstractParser.space, returnType = returnType, source_name = returnD.GetValue('source.' + self.details.GetName(), False)))
+                file.write(
+                    '{__}{__}{__}return std::move({returnType}({source_name}));\n'.format(
+                        __=AbstractParser.space, returnType=returnType,
+                        source_name=returnD.GetValue(
+                            'source.' + self.details.GetName(), False)))
             else:
-                file.write('{__}{__}{__}return {source_name};\n'.format(__ = AbstractParser.space, source_name = returnD.GetValue('source.' + self.details.GetName(), False)))
-        file.write('{__}{__}}}\n\n'.format(__ = AbstractParser.space))
+                file.write('{__}{__}{__}return {source_name};\n'.format(
+                    __=AbstractParser.space, source_name=returnD.GetValue(
+                        'source.' + self.details.GetName(), False)))
+        file.write('{__}{__}}}\n\n'.format(__=AbstractParser.space))
 
     def WriteName(self):
-        return '"{getName}"'.format(getName = self.details.GetName())
+        return '"{getName}"'.format(getName=self.details.GetName())

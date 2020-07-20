@@ -92,7 +92,7 @@ install:
               }
           }
       }
-# yamllint enable
+
 before_build:
   - ps: |
      $env:root=$env:APPVEYOR_BUILD_FOLDER
@@ -172,7 +172,7 @@ test_script:
             throw "Exec: $ErrorMessage"
         }
     }
-
+# yamllint enable
 artifacts:
   - path: '_build/CMakeFiles/*.log'
     name: logs

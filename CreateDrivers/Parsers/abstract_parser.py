@@ -1,18 +1,26 @@
 import CppHeaderParser
 import os.path
 
+
 class AbstractParser:
     space = '  '
 
     def __repr__(self):
-        return 'reprParser({header_path}, {header_filename}: {target})'.format(header_path = self.header_path, header_filename = self.header_filename, target = self.target)
-    #end __repr__
+        return 'reprParser({header_path}, {header_filename}: {target})'.format(
+            header_path=self.header_path, header_filename=self.header_filename,
+            target=self.target)
+
+    # end __repr__
 
     def __str__(self):
-        return 'strParser({header_path}, {header_filename}: {target})'.format(header_path = self.header_path, header_filename = self.header_filename, target = self.target)
-    #end __str__
+        return 'strParser({header_path}, {header_filename}: {target})'.format(
+            header_path=self.header_path, header_filename=self.header_filename,
+            target=self.target)
 
-    def __init__(self, header_path, header_filename, driver_path, driver_filename, target=''):
+    # end __str__
+
+    def __init__(self, header_path, header_filename, driver_path,
+                 driver_filename, target=''):
         """
         Initialize fields.
         :param header_path: Message class header directory
@@ -36,20 +44,23 @@ class AbstractParser:
         try:
             self.parser = CppHeaderParser.CppHeader(self.header_full)
         except CppHeaderParser.CppParseError as e:
-            print e
-            print 'Exiting!'
+            print
+            e
+            print
+            'Exiting!'
             exit(1)
 
         self.Parse()
-    #end __init__
+
+    # end __init__
 
     def AppendIncludes(self, includeStatements):
         for incl in self.parser.includes:
-            name = incl[1:-1]#remove surrounding " "
+            name = incl[1:-1]  # remove surrounding " "
             if not name in includeStatements:
                 includeStatements.append(name)
 
-        #add this file
+        # add this file
         includeStatements.append(self.header_filename)
 
     def AppendDependencies(self, dependencies):
@@ -62,25 +73,31 @@ class AbstractParser:
         return self.isArray
 
     def Parse(self):
-        print 'Parse not implemented in ' + type(self).__name__
+        print
+        'Parse not implemented in ' + type(self).__name__
         exit(-1)
 
     def GetType(self):
-        print 'GetType not implemented in ' + type(self).__name__
+        print
+        'GetType not implemented in ' + type(self).__name__
         exit(-1)
 
     def GetValue(self, source, forArray):
-        print 'GetValue not implemented in ' + type(self).__name__
+        print
+        'GetValue not implemented in ' + type(self).__name__
         exit(-1)
 
     def GetFileName(self):
-        print 'GetFileName not implemented in ' + type(self).__name__
+        print
+        'GetFileName not implemented in ' + type(self).__name__
         exit(-1)
 
     def WriteHeader(self, dependencies):
-        print 'WriteHeader not implemented in ' + type(self).__name__
+        print
+        'WriteHeader not implemented in ' + type(self).__name__
         exit(-1)
 
     def GetAbstractType(self):
-        print 'GetAbstractType not implemented in ' + type(self).__name__
+        print
+        'GetAbstractType not implemented in ' + type(self).__name__
         exit(-1)

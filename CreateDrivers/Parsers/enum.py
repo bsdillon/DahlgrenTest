@@ -1,11 +1,14 @@
 import os
 from abstract_parser import AbstractParser
 
+
 class ParseEnum(AbstractParser):
-    def __init__(self, header_path, header_filename, driver_path, driver_filename, target=''):
+    def __init__(self, header_path, header_filename, driver_path,
+                 driver_filename, target=''):
         self.valueMap = {}
         self.className = ''
-        AbstractParser.__init__(self, header_path, header_filename, driver_path, driver_filename + '_Enum.h', target)
+        AbstractParser.__init__(self, header_path, header_filename, driver_path,
+                                driver_filename + '_Enum.h', target)
 
     def Parse(self):
         for e in self.parser.enums:
@@ -25,16 +28,18 @@ class ParseEnum(AbstractParser):
                         self.valueMap[v['value']] = v['name']
                     return
 
-        print 'Enum ' + self.target + ' not found in ' + self.header_full
+        print
+        'Enum ' + self.target + ' not found in ' + self.header_full
         exit(1)
 
     def GetType(self):
-        return '{target}_Enum'.format(target = self.target)
+        return '{target}_Enum'.format(target=self.target)
 
     def GetValue(self, source, forArray):
         if forArray:
-            return 'new {type}({source}[i])'.format(type = self.GetType(), source = source)
-        return 'new {type}({source})'.format(type = self.GetType(), source = source)
+            return 'new {type}({source}[i])'.format(type=self.GetType(),
+                                                    source=source)
+        return 'new {type}({source})'.format(type=self.GetType(), source=source)
 
     def AppendIncludes(self, includeStatements):
         return
@@ -68,7 +73,7 @@ class ParseEnum(AbstractParser):
                  '{__}{__}{__}return "UNKNOWN_VALUE";\n'
                  '{__}{__}}}\n'
                  '}};\n'
-                 '#endif').format(__ = AbstractParser.space))
+                 '#endif').format(__=AbstractParser.space))
         f.close()
 
     def WriteHeader(self, dependencies):
@@ -77,7 +82,8 @@ class ParseEnum(AbstractParser):
         fullSourceName = self.target
 
         if len(self.className) > 0 and len(self.myObject['namespace']) > 0:
-            print 'Unexpected class and namespace for enum ' + fullSourceName
+            print
+            'Unexpected class and namespace for enum ' + fullSourceName
             exit(-1)
 
         if len(self.className) > 0:
@@ -103,16 +109,20 @@ class ParseEnum(AbstractParser):
                  '{__}{__}}}\n'
                  '\n'
                  '{__}{__}std::string MapEnum() {{\n'
-                 '{__}{__}{__}switch (source) {{\n').format(__ = AbstractParser.space, driver_filename = self.driver_filename[:-2], header_filename = self.header_filename, target = self.target, fullSourceName = fullSourceName))
+                 '{__}{__}{__}switch (source) {{\n').format(
+            __=AbstractParser.space, driver_filename=self.driver_filename[:-2],
+            header_filename=self.header_filename, target=self.target,
+            fullSourceName=fullSourceName))
         for v in self.valueMap.keys():
             f.write(('{__}{__}{__}{__}case {v}:\n'
-                     '{__}{__}{__}{__}{__}return "{valueMap_v}";\n').format(__ = AbstractParser.space, v = v, valueMap_v = self.valueMap[v]))
+                     '{__}{__}{__}{__}{__}return "{valueMap_v}";\n').format(
+                __=AbstractParser.space, v=v, valueMap_v=self.valueMap[v]))
         f.write(('{__}{__}{__}{__}default:\n'
                  '{__}{__}{__}{__}{__}return "GEMINI_UNKNOWN_VALUE";\n'
                  '{__}{__}{__}}}\n'
                  '{__}{__}}}\n'
                  '}};\n'
-                 '#endif').format(__ = AbstractParser.space))
+                 '#endif').format(__=AbstractParser.space))
 
         f.close()
     # end WriteHeader
