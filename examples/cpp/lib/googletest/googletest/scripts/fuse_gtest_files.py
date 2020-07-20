@@ -85,6 +85,8 @@ GTEST_ALL_CC_SEED = 'src/gtest-all.cc'
 GTEST_H_OUTPUT = 'gtest/gtest.h'
 GTEST_ALL_CC_OUTPUT = 'gtest/gtest-all.cc'
 
+output_file = ""
+processed_files = {}
 
 def VerifyFileExists(directory, relative_path):
     """Verifies that the given file exists; aborts on failure.
@@ -152,6 +154,7 @@ def FuseGTestH(gtest_root, output_dir):
     output_file = open(os.path.join(output_dir, GTEST_H_OUTPUT), 'w')
     processed_files = set()  # Holds all gtest headers we've processed.
 
+
 def ProcessFile(gtest_header_path):
     """Processes the given gtest header file."""
 
@@ -162,7 +165,7 @@ def ProcessFile(gtest_header_path):
     processed_files.add(gtest_header_path)
 
     # Reads each line in the given gtest header.
-    for line in open(os.path.join(gtest_root, gtest_header_path), 'r'):
+    for line in open(os.path.join(DEFAULT_GTEST_ROOT_DIR, gtest_header_path), 'r'):
         m = INCLUDE_GTEST_FILE_REGEX.match(line)
         if m:
             # It's '#include "gtest/..."' - let's process it recursively.
@@ -173,7 +176,6 @@ def ProcessFile(gtest_header_path):
 
     ProcessFile(GTEST_H_SEED)
     output_file.close()
-
 
 def FuseGTestAllCcToFile(gtest_root, output_file):
     """Scans folder gtest_root to generate gtest/gtest-all.cc in output_file."""
