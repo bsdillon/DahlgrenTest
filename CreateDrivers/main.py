@@ -14,9 +14,11 @@
 """
 
 from FileUtilities import FileUtilities
-from message_tracker import MessageTracker
+# from message_tracker import MessageTracker
 
 # EvilGlobalState:
+from pip._vendor.distlib.compat import raw_input
+
 debug = False
 # currently not used, but has the potential to be implemented as a debug flag
 settingFile = 'settings.prop'
@@ -35,9 +37,8 @@ validated = False
 defaultsChanged = False
 
 while not validated:
-    prompt = 'Enter directory containing source code (or "quit"):' \
-             '[{default_source_dir}] '.format(default_source_dir=
-                                              default_source_dir)
+    prompt = 'Enter directory containing source code (or "quit"):[{default_' \
+             'source_dir}] '.format(default_source_dir=default_source_dir)
     source_dir = raw_input(prompt) or default_source_dir
     try:
         source_dir = FileUtilities.validate_dir(source_dir, False)
@@ -70,9 +71,8 @@ while not validated:
 validated = False
 
 while not validated:
-    prompt = 'Enter destination directory for Drivers (or "quit")' \
-             ':[{default_driver_dir}] '.format(default_driver_dir=
-                                               default_driver_dir)
+    prompt = 'Enter destination directory for Drivers (or "quit"):[{default_' \
+             'driver_dir}] '.format(default_driver_dir=default_driver_dir)
     driver_dir = raw_input(prompt) or default_driver_dir
     try:
         driver_dir = FileUtilities.validate_dir(driver_dir, True)

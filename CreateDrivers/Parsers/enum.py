@@ -41,8 +41,8 @@ class ParseEnum(AbstractParser):
         if forArray:
             return 'new {type}({source}[i])'.format(type=self.GetType(),
                                                     source=source)
-        return 'new {type}({source})'.format\
-            (type=self.GetType(), source=source)
+        return 'new {type}' \
+               '({source})'.format(type=self.GetType(), source=source)
 
     def AppendIncludes(self, includeStatements):
         return

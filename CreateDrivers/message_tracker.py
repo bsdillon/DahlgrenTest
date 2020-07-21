@@ -2,8 +2,10 @@
 import copy
 import os
 
-from Parsers.parseClass import ParseClass
 # please ensure module parseMessage.py is in same directory
+
+from Parsers.parseClass import ParseClass
+
 from dependencyTracker import DependencyTracker
 
 

@@ -1,8 +1,10 @@
-import requests
 from bs4 import BeautifulSoup
+
+import requests
+
 import pandas as pd
 
-url="http://www.tcpipguide.com/free/t_IPDatagramGeneralFormat.htm"
+url = "http://www.tcpipguide.com/free/t_IPDatagramGeneralFormat.htm"
 # make a GET request to fetch raw HTML content
 html_content = requests.get(url).text
 # out = open("html_out.txt", "w")

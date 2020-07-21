@@ -1,5 +1,7 @@
 import os
+
 from abstract_parser import AbstractParser
+
 from Method import Method
 
 
@@ -79,9 +81,9 @@ class ParseClass(AbstractParser):
 
             if self.driver_filename != c + '_Driver.h':
                 print
-                'Driver class mismatch: {driver_filename} != ' \
-                '{this_class}_Driver.h'.format(
-                    driver_filename=self.driver_filename, this_class=c)
+                'Driver class mismatch: {driver_filename} != {this_class}_Dr' \
+                'iver.h'.format(driver_filename=self.driver_filename,
+                                this_class=c)
                 exit(-1)
 
         self.ParseParentClass()
@@ -98,7 +100,8 @@ class ParseClass(AbstractParser):
     def ParseMethods(self):
         for m in self.myObject['properties']['public']:
             if m['name'] == 'resourceKey':
-                sdflkjdsf = 0
+                # sdflkjdsf = 0
+                continue
             self.Methods.append(
                 Method(self.header_full, m['line_number'], m['raw_type'],
                        m['name']))
@@ -161,7 +164,7 @@ class ParseClass(AbstractParser):
 
         for m in self.Methods:
             rt = m.GetReturnAbstractType(dependencies)
-            if not rt in methodGroups.keys():
+            if rt not in methodGroups.keys():
                 methodGroups[rt] = {}
             methodGroups[rt][count] = m
             methodList.append(m)
@@ -292,7 +295,7 @@ class ParseClass(AbstractParser):
         for m in self.Methods:
             rt = m.GetReturnAbstractType(dependencies)
 
-            if not rt in methodGroups.keys():
+            if rt not in methodGroups.keys():
                 methodGroups[rt] = {}
             methodGroups[rt][mCount] = m
             methodList.append(m)
@@ -414,7 +417,7 @@ class ParseClass(AbstractParser):
     def GetMethodSignatures(self, types, dependencies):
         for m in self.Methods:
             rt = m.GetReturnAbstractType(dependencies)
-            if not rt in types:
+            if rt not in types:
                 types.append(rt)
 
         if self.parentClassName:

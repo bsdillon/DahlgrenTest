@@ -1,8 +1,7 @@
-from PyPDF2 import PdfFileReader
-# from tabula import convert_into
-# from io import StringIO
 import os
 import requests
+
+from PyPDF2 import PdfFileReader
 
 url = 'http://scipp.ucsc.edu/groups/fermi/electronics/mil-std-883.pdf'
 r = requests.get(url)

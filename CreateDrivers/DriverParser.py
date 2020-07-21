@@ -84,14 +84,14 @@ def findCandidates(path, file):
         print('Ignoring file and continuing!\n')
     else:
         if len(cppHeader.classes) == 0:
-        # checks the number of classes
-        DriverParser.tracker.AddNonCandidate(path, file)
+            # checks the number of classes
+            DriverParser.tracker.AddNonCandidate(path, file)
         else:
-        for klasse in cppHeader.classes:
-        # for each of classes, add targeted search, goes to parse all,
-        # checks number of classes, doesn't do anything
-        DriverParser.tracker.AddCandidate(
-            re.sub(DriverParser.NSPACE_PATTERN, '', klasse), path, file)
+            for klasse in cppHeader.classes:
+                # for each of classes, add targeted search, goes to parse all,
+                # checks number of classes, doesn't do anything
+                DriverParser.tracker.AddCandidate(
+                    re.sub(DriverParser.NSPACE_PATTERN, '', klasse), path, file)
 
 
 # end find_candidate_classes()

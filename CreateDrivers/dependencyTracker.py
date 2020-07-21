@@ -63,7 +63,7 @@ class DependencyTracker:
 
     def FindNewDependencies(self, includes, depends):
 
-        for includes statements in the header file
+        # for includes statements in the header file
         for t in self.permanentDependencies.keys():
             # get the dependencies of the types
             temp = []

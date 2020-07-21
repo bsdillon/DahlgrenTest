@@ -1,4 +1,3 @@
-import os
 
 
 class TypeDetails:
@@ -43,7 +42,7 @@ class TypeDictionary:
             type = type.replace(' ', '_')
             spaceUsed = True
 
-        return ParseReturnType2(core, parts, type, spaceUsed)
+        return fileName.ParseReturnType2(core, parts, type, spaceUsed)
 
     @staticmethod
     def ParseReturnType2(core, parts, type, spaceUsed):

@@ -1,6 +1,9 @@
 import os
+
 from PyPDF2 import PdfFileReader, PdfFileWriter
+
 from tabula import convert_into
+
 # import pandas as pd
 # PyPDF2 documentation https://pythonhosted.org/PyPDF2/
 # from pdfrw import PdfReader, PdfWriter, PageMerge

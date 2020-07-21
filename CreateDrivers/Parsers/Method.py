@@ -1,5 +1,7 @@
-from abstract_parser import AbstractParser
 from TypeDictionary import TypeDictionary
+
+from abstract_parser import AbstractParser
+
 import parseClass
 
 
@@ -30,9 +32,8 @@ class Method:
         t = dependencies[self.details.GetType()]
 
         if self.details.IsArray() and t.IsArray():
-            print
-            'Never implemented a means of ' \
-            'getting array size from a double pointer'
+            print('Never implemented a means of '
+                  'getting array size from a double pointer')
             exit(-1)
 
         if self.details.IsArray():
@@ -97,7 +98,7 @@ class Method:
                                  baseType=baseType,
                                  source_name=returnD.GetValue(
                                      'source.' +
-                                     self.details.GetName(),True)))
+                                     self.details.GetName(), True)))
         else:
             if 'std::unique_ptr' in returnType:
                 file.write(
