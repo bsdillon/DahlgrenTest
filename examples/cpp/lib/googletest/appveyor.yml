@@ -45,7 +45,7 @@ configuration:
 
 build:
   verbosity: minimal
-# yamllint disable
+# yamllint disable rule:line-length
 install:
   - ps: |
       Write-Output "Compiler: $env:compiler"
@@ -172,7 +172,7 @@ test_script:
               throw "Exec: $ErrorMessage"
           }
       }
-# yamllint enable
+# yamllint enable rule:line-length
 artifacts:
   - path: '_build/CMakeFiles/*.log'
     name: logs
