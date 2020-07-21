@@ -59,7 +59,6 @@ contributions['21-June-2020'].bsdillon=50;
 contributions['28-June-2020'].bsdillon=62;
 contributions['05-July-2020'].bsdillon=61;
 contributions['12-July-2020'].bsdillon=31;
-var contributions = {};
 contributions['12-July-2020']={};
 contributions['12-July-2020'].GitHubAction=14;
 contributions['12-July-2020'].landin3thorsted=0;
