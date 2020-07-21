@@ -19,7 +19,7 @@ from message_tracker import MessageTracker
 # EvilGlobalState:
 debug = False
 # currently not used, but has the potential to be implemented as a debug flag
-settingFile ='settings.prop'
+settingFile = 'settings.prop'
 # end EvilGlobalState
 
 # def main():
@@ -36,8 +36,8 @@ defaultsChanged = False
 
 while not validated:
     prompt = 'Enter directory containing source code (or "quit"):' \
-             '[{default_source_dir}] '.format(default_source_dir =
-                                                           default_source_dir)
+             '[{default_source_dir}] '.format(default_source_dir=
+                                              default_source_dir)
     source_dir = raw_input(prompt) or default_source_dir
     try:
         source_dir = FileUtilities.validate_dir(source_dir, False)
@@ -54,31 +54,35 @@ while not validated:
     # must be a DIRECTORY, not a FILE
     prompt = \
         'Enter directory containing message/topic definitions (or "quit"):' \
-        '[{default_topic_dir}] '.format(default_topic_dir = default_topic_dir)
+        '[{default_topic_dir}] '.format(default_topic_dir=default_topic_dir)
     topic_dir = raw_input(prompt) or default_topic_dir
     try:
         topic_dir = FileUtilities.validate_dir(topic_dir, False)
         defaultsChanged |= topic_dir != default_topic_dir
         validated = True
     except OSError as e:
-        print e
-        print 'Please try again'
+        print
+        e
+        print
+        'Please try again'
         continue
 
 validated = False
 
 while not validated:
     prompt = 'Enter destination directory for Drivers (or "quit")' \
-             ':[{default_driver_dir}] '.format(default_driver_dir =
-                                                            default_driver_dir)
+             ':[{default_driver_dir}] '.format(default_driver_dir=
+                                               default_driver_dir)
     driver_dir = raw_input(prompt) or default_driver_dir
     try:
         driver_dir = FileUtilities.validate_dir(driver_dir, True)
         defaultsChanged |= driver_dir != default_driver_dir
         validated = True
     except OSError as e:
-        print e
-        print 'Please try again.'
+        print
+        e
+        print
+        'Please try again.'
         continue
 
 while defaultsChanged:
@@ -92,13 +96,13 @@ while defaultsChanged:
         defaults['topic_directory'] = default_topic_dir
         defaults['driver_directory'] = default_driver_dir
         FileUtilities.WriteDefaults(settingFile, defaults)
-        print ('Defaults updated')
+        print('Defaults updated')
         defaultsChanged = False
     elif ans == 'N':
-        print ('Defaults unchanged')
+        print('Defaults unchanged')
         defaultsChanged = False
     else:
-        print ('\nInvalid input')
+        print('\nInvalid input')
 
 FileUtilities.ReadAllFiles(source_dir, topic_dir, driver_dir)
 # end main()

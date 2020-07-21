@@ -1,5 +1,7 @@
-import CppHeaderParser
 import os.path
+
+import CppHeaderParser
+
 
 
 class AbstractParser:
@@ -57,7 +59,7 @@ class AbstractParser:
     def AppendIncludes(self, includeStatements):
         for incl in self.parser.includes:
             name = incl[1:-1]  # remove surrounding " "
-            if not name in includeStatements:
+            if name not in includeStatements:
                 includeStatements.append(name)
 
         # add this file

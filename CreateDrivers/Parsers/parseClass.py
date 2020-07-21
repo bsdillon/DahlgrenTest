@@ -19,12 +19,14 @@ class ParseClass(AbstractParser):
 
     def ToFile(self):
         return '{hdr_path}{delim}{hdr_filename}{delim}' \
-               '{driver_path}{delim}{driver_filename}\n'.format(
-            hdr_path=self.header_path,
-            hdr_filename=self.header_filename,
-            driver_path=self.driver_path,
-            driver_filename=self.driver_filename,
-            delim=ParseClass.fileDelimeter)
+               '{driver_path}' \
+               '{delim}' \
+               '{driver_filename}' \
+               '\n'.format(hdr_path=self.header_path,
+                           hdr_filename=self.header_filename,
+                           driver_path=self.driver_path,
+                           driver_filename=self.driver_filename,
+                           delim=ParseClass.fileDelimeter)
 
     def __init__(self, header_path, header_filename, driver_path,
                  driver_filename, original, target=''):
@@ -36,9 +38,11 @@ class ParseClass(AbstractParser):
         if driver_filename[len(driver_filename) - 9:] == '_Driver.h':
             df = driver_filename
         self.name = df[:-9]
-        AbstractParser.__init__(self, header_path, header_filename,
+        AbstractParser.__init__(self, header_path,
+                                header_filename,
                                 driver_path,
-                                df, target)
+                                df,
+                                target)
 
     def Parse(self):
         if len(self.parser.classes) > 1:
@@ -253,35 +257,37 @@ class ParseClass(AbstractParser):
                         '(const infrastructureservices::common::Message_T* p) '
                         '{{\n'
                         '{__}{__}{__}if (!factory) {{\n'
-                        '{__}{__}{__}{__}throw DriverException("CreateDriver() '
+                        '{__}{__}{__}{__}'
+                        'throw DriverException("CreateDriver() '
                         'is only valid from factory instances of {target}_'
                         'Driver", DriverException::Level::UnstableProgram);\n'
                         '{__}{__}{__}}}\n'
                         '{__}{__}{__}{fullSourceName}* tmp = '
                         '({fullSourceName}*)p;\n'
                         '{__}{__}{__}auto answer = this->CreateDriver(*tmp);\n'
-                        '{__}{__}{__}return std::move(answer);\n'
-                        '{__}{__}}}\n\n').format(__=AbstractParser.space,
-                                                 target=self.target,
-                                                 fullSourceName=fullSourceName))
+                        '{__}{__}{__}return std::move(answer);\n{__}{__}}}'
+                        '\n\n').format(__=AbstractParser.space,
+                                       target=self.target,
+                                       fullSourceName=fullSourceName))
 
         f.write(('{__}{__}{target}_Driver({fullSourceName} s) {{\n'
                  '{__}{__}{__}factory = false;\n'
                  '{__}{__}{__}'
                  'source = s;\n').format(__=AbstractParser.space,
-                                                target=self.target,
-                                                fullSourceName=fullSourceName))
+                                         target=self.target,
+                                         fullSourceName=fullSourceName))
         mCount = 0
         methodGroups = {}
         methodList = []
 
-        # by parsing parent classes first we get all the top methods in that order
+        # by parsing parent classes first
+        # we get all the top methods in that order
         if self.parentClassName:
             mCount = \
                 dependencies[self.parentClassName].GetAllMethods(mCount,
-                                                                methodGroups,
-                                                                methodList,
-                                                                dependencies)
+                                                                 methodGroups,
+                                                                 methodList,
+                                                                 dependencies)
 
         for m in self.Methods:
             rt = m.GetReturnAbstractType(dependencies)
@@ -317,16 +323,17 @@ class ParseClass(AbstractParser):
                         '{__}{__}infrastructureservices::common::Message_T* '
                         'CreateRandom() {{\n'
                         '{__}{__}{__}if (!factory) {{\n'
-                        '{__}{__}{__}{__}throw DriverException("CreateDriver() '
+                        '{__}{__}{__}{__}'
+                        'throw DriverException("CreateDriver() '
                         'is only valid from factory instances of '
                         '{target}_Driver", DriverException::Level::'
                         'UnstableProgram);\n'
                         '{__}{__}{__}}}\n'
                         '\n'
-                        '{__}{__}{__}return new {fullSourceName}();\n'
-                        '{__}{__}}}\n\n').format(__=AbstractParser.space,
-                                                 target=self.target,
-                                                 fullSourceName=fullSourceName))
+                        '{__}{__}{__}return new {fullSourceName}();\n{__}'
+                        '{__}}}\n\n').format(__=AbstractParser.space,
+                                             target=self.target,
+                                             fullSourceName=fullSourceName))
 
         # overwrite virtual array count method
         mCount = 0
@@ -342,9 +349,11 @@ class ParseClass(AbstractParser):
                     __=AbstractParser.space, mCount_minus_1=mCount - 1,
                     size=size))
         f.write(('{__}{__}{__}}}\n'
-                 '{__}{__}{__}std::string msg = "{target}_Driver has no array method at index ";\n'
+                 '{__}{__}{__}std::string msg = '
+                 '"{target}_Driver has no array method at index ";\n'
                  '{__}{__}{__}msg.append(std::to_string(index));\n'
-                 '{__}{__}{__}throw DriverException(msg, DriverException::Level::DataLoss);\n'
+                 '{__}{__}{__}throw '
+                 'DriverException(msg, DriverException::Level::DataLoss);\n'
                  '{__}{__}}}\n\n').format(__=AbstractParser.space,
                                           target=self.target))
 
@@ -370,9 +379,11 @@ class ParseClass(AbstractParser):
                     returnCall=returnCall))
 
             f.write(('{__}{__}{__}}}\n'
-                     '{__}{__}{__}std::string msg = "{target}_Driver has no {t} method at index ";\n'
+                     '{__}{__}{__}std::string msg = '
+                     '"{target}_Driver has no {t} method at index ";\n'
                      '{__}{__}{__}msg.append(std::to_string(index));\n'
-                     '{__}{__}{__}throw DriverException(msg, DriverException::Level::DataLoss);\n'
+                     '{__}{__}{__}throw DriverException(msg, '
+                     'DriverException::Level::DataLoss);\n'
                      '{__}{__}}}\n\n').format(__=AbstractParser.space,
                                               target=self.target, t=t))
 
@@ -389,9 +400,11 @@ class ParseClass(AbstractParser):
             mCount += 1
 
         f.write(('{__}{__}{__}}}\n'
-                 '{__}{__}{__}std::string msg = "{target}_Driver has no member at index ";\n'
+                 '{__}{__}{__}std::string msg = "{target}_Driver '
+                 'has no member at index ";\n'
                  '{__}{__}{__}msg.append(std::to_string(index));\n'
-                 '{__}{__}{__}throw DriverException(msg, DriverException::Level::DataLoss);\n'
+                 '{__}{__}{__}throw DriverException(msg, '
+                 'DriverException::Level::DataLoss);\n'
                  '{__}{__}}}\n'
                  '}};\n'
                  '#endif\n').format(__=AbstractParser.space,
@@ -405,8 +418,8 @@ class ParseClass(AbstractParser):
                 types.append(rt)
 
         if self.parentClassName:
-            dependencies[self.parentClassName].GetMethodSignatures(types,
-                                                                   dependencies)
+            dependencies[self.parentClassName]\
+                .GetMethodSignatures(types, dependencies)
 
     @staticmethod
     def FormatReturnType(rt):
@@ -447,7 +460,8 @@ class ParseClass(AbstractParser):
             returnDict['baseType'] = 'std::unique_ptr<AbstractEnum>'
             returnDict['arrayWithSize'] = 'std::unique_ptr<AbstractEnum>[size]'
             returnDict[
-                'returnType'] = 'std::unique_ptr<std::unique_ptr<AbstractEnum>[]>'
+                'returnType'] = 'std::unique_ptr<std::' \
+                                'unique_ptr<AbstractEnum>[]>'
         elif rt == 'AbstractDriver*':
             returnDict['baseType'] = 'AbstractDriver'
             returnDict['arrayWithSize'] = 'AbstractDriver[size]'
@@ -457,7 +471,8 @@ class ParseClass(AbstractParser):
             returnDict[
                 'arrayWithSize'] = 'std::unique_ptr<AbstractDriver>[size]'
             returnDict[
-                'returnType'] = 'std::unique_ptr<std::unique_ptr<AbstractDriver>[]>'
+                'returnType'] = 'std::unique_ptr<std::' \
+                                'unique_ptr<AbstractDriver>[]>'
         else:
             returnDict['returnType'] = rt
         return returnDict
@@ -475,7 +490,8 @@ class ParseClass(AbstractParser):
                  '{{\n'
                  '{__}public:\n'
                  '{__}{__}EmptyDriver() {{\n'
-                 '{__}{__}{__}signatures = std::vector<AbstractDriver::ReturnTypes>(0);\n'
+                 '{__}{__}{__}signatures = std::vector'
+                 '<AbstractDriver::ReturnTypes>(0);\n'
                  '{__}{__}{__}methodCount = 0;\n'
                  '{__}{__}}}\n'
                  '}};\n'
@@ -564,22 +580,30 @@ class ParseClass(AbstractParser):
                  '\n'
                  '{__}{__}int getID() {{return myID;}}\n'
                  '\n'
-                 '{__}{__}virtual std::unique_ptr<AbstractDriver> CreateDriver(const infrastructureservices::common::Message_T*) {{\n'
-                 '{__}{__}{__}throw DriverException("AbstractDriver has no valid use for CreateDriver()", DriverException::Level::UnstableProgram);\n'
+                 '{__}{__}virtual std::unique_ptr<AbstractDriver> '
+                 'CreateDriver(const '
+                 'infrastructureservices::common::Message_T*) {{\n'
+                 '{__}{__}{__}throw DriverException'
+                 '("AbstractDriver has no valid use for CreateDriver()", '
+                 'DriverException::Level::UnstableProgram);\n'
                  '{__}{__}}}\n'
                  '\n'
-                 '{__}{__}virtual infrastructureservices::common::Message_T* CreateRandom() {{\n'
-                 '{__}{__}{__}throw DriverException("AbstractDriver has no valid use for CreateRandom()", DriverException::Level::UnstableProgram);\n'
+                 '{__}{__}virtual infrastructureservices::common::'
+                 'Message_T* CreateRandom() {{\n'
+                 '{__}{__}{__}throw DriverException("AbstractDriver has no '
+                 'valid use for CreateRandom()", '
+                 'DriverException::Level::UnstableProgram);\n'
                  '{__}{__}}}\n'
                  '\n').format(__=AbstractParser.space))
 
         # write the Return type enumeration
-        f.write('{__}{__}enum ReturnTypes {{\n'.format(__=AbstractParser.space))
+        f.write('{__}{__}enum ReturnTypes {{\n'.format
+                (__=AbstractParser.space))
         for e in enumTypes:
             f.write(
-                '{__}{__}{__}{returnType},\n'.format(__=AbstractParser.space,
-                                                     returnType=ParseClass.FormatReturnType(
-                                                         e)))
+                '{__}''{__}{__}{returnType},\n'.format
+                (__=AbstractParser.space,
+                 returnType=ParseClass.FormatReturnType(e)))
         f.write(('{__}{__}}};\n'
                  '\n'
                  '{__}protected:\n'
@@ -588,7 +612,8 @@ class ParseClass(AbstractParser):
                  '\n'
                  # Write non-virtual methods
                  '{__}public:\n'
-                 '{__}{__}const std::vector<ReturnTypes>& getMethodTypes() {{return signatures;}}\n'
+                 '{__}{__}const std::vector<ReturnTypes>& '
+                 'getMethodTypes() {{return signatures;}}\n'
                  '\n'
                  '{__}{__}int getMethodCount() {{return methodCount;}}\n'
                  '\n'
@@ -602,21 +627,27 @@ class ParseClass(AbstractParser):
                               returnType=ParseClass.FormatReturnType(e),
                               description=ParseClass.FormatDescription(e)))
         f.write(('{__}{__}{__}}}\n'
-                 '{__}{__}{__}std::string msg = "No type description found for ";\n'
+                 '{__}{__}{__}std::string msg = '
+                 '"No type description found for ";\n'
                  '{__}{__}{__}msg.append(std::to_string(r));\n'
-                 '{__}{__}{__}throw DriverException(msg, DriverException::Level::UnstableProgram);\n'
+                 '{__}{__}{__}throw DriverException'
+                 '(msg, DriverException::Level::UnstableProgram);\n'
                  '{__}{__}}}\n'
                  '\n'
                  # Write member name method
                  '{__}{__}virtual std::string getMethodName(int index) {{\n'
-                 '{__}{__}{__}std::string msg = "AbstractDriver has no member at index ";\n'
+                 '{__}{__}{__}std::string msg = '
+                 '"AbstractDriver has no member at index ";\n'
                  '{__}{__}{__}msg.append(std::to_string(index));\n'
-                 '{__}{__}{__}throw DriverException(msg, DriverException::Level::UnstableProgram);\n'
+                 '{__}{__}{__}throw DriverException'
+                 '(msg, DriverException::Level::UnstableProgram);\n'
                  '{__}{__}}}\n'
                  '\n'
                  # Write virtual array counts method
                  '{__}{__}virtual int getMethodArrayCount(int) {{\n'
-                 '{__}{__}{__}throw DriverException("AbstractDriver has no array counts", DriverException::Level::UnstableProgram);\n'
+                 '{__}{__}{__}throw DriverException'
+                 '("AbstractDriver has no array counts", '
+                 'DriverException::Level::UnstableProgram);\n'
                  '{__}{__}}}\n'
                  '\n').format(__=AbstractParser.space))
 
@@ -624,17 +655,22 @@ class ParseClass(AbstractParser):
         for e in enumTypes:
             t = ParseClass.FormatReturnType(e)
             returnType = ParseClass.FormatCodeReturnType(e)['returnType']
-            f.write(('{__}{__}virtual {returnType} get{t}Method(int index) {{\n'
-                     '{__}{__}{__}std::string msg = "AbstractDriver has no {t} method at index ";\n'
+            f.write(('{__}{__}virtual {returnType} '
+                     'get{t}Method(int index) {{\n'
+                     '{__}{__}{__}std::string msg = '
+                     '"AbstractDriver has no {t} method at index ";\n'
                      '{__}{__}{__}msg.append(std::to_string(index));\n'
-                     '{__}{__}{__}throw DriverException(msg, DriverException::Level::UnstableProgram);\n'
+                     '{__}{__}{__}throw DriverException(msg, '
+                     'DriverException::Level::UnstableProgram);\n'
                      '{__}{__}}}\n'
                      '\n').format(__=AbstractParser.space,
                                   returnType=returnType, t=t))
 
-        # get message time; always the second method in a type (property inherited from Message_T)
+        # get message time; always the second method
+        # in a type (property inherited from Message_T)
         f.write(('{__}{__}long long getMessageArrival() {{\n'
-                 '{__}{__}{__}return getABSTRACTDRIVERPOINTERMethod(1)->getLONG_LONGMethod(0);\n'
+                 '{__}{__}{__}return getABSTRACTDRIVERPOINTERMethod(1)->'
+                 'getLONG_LONGMethod(0);\n'
                  '{__}{__}}}\n'
                  '}};\n'
                  '#endif\n').format(__=AbstractParser.space))

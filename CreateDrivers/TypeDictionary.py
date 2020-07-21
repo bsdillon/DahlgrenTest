@@ -105,7 +105,8 @@ class TypeDictionary:
                                pieces2[2] + '::' + pieces1[1].replace(']', ''),
                                True)
 
-        return TypeDetails(type, TypeDictionary.ParseLongName(temp), '0', False)
+        return TypeDetails(type,
+                           TypeDictionary.ParseLongName(temp), '0', False)
 
     @staticmethod
     def ParseLongName(fullName):
@@ -114,10 +115,10 @@ class TypeDictionary:
         if len(parts) > 1:
             name = parts[len(parts) - 1]
 
-        if not name in TypeDictionary.simpleNames:
+        if name not in TypeDictionary.simpleNames:
             TypeDictionary.simpleNames.append(name)
 
-        if len(parts) > 1 and not name in TypeDictionary.uniqueNames.keys():
+        if len(parts) > 1 and name not in TypeDictionary.uniqueNames.keys():
             TypeDictionary.uniqueNames[name] = fullName
 
         if len(parts) > 1:

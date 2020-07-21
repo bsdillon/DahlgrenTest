@@ -161,77 +161,77 @@ class MessageTracker:
 
     def CreateAll(self, driver_dir):
 
-    # knows directory
-    """
-    This method performs final correlation on the 
-    message-topic pairs and candidate classes
-    before executing the driver creation
-    Precondition: All candidate classes and message-topic 
-    pairs have been added
-    :param driver_dir: location for all drivers
-    :return: None
-    """
-    self.driverDirectory = driver_dir
+        # knows directory
+        """
+        This method performs final correlation on the
+        message-topic pairs and candidate classes
+        before executing the driver creation
+        Precondition: All candidate classes and message-topic
+        pairs have been added
+        :param driver_dir: location for all drivers
+        :return: None
+        """
+        self.driverDirectory = driver_dir
 
-    print('{candidate_count} Candidate classes identified\n'.format(
-        candidate_count=len(self.candidate_dict.keys())))
-    print('{unique_message_count} Unique message classes identified\n'
-          .format(unique_message_count=len(self.unique_message_list)))
-    print('{topic_count} Topics identified\n'
-          .format(topic_count=len(self.topic_list)))
+        print('{candidate_count} Candidate classes identified\n'.format(
+            candidate_count=len(self.candidate_dict.keys())))
+        print('{unique_message_count} Unique message classes identified\n'
+              .format(unique_message_count=len(self.unique_message_list)))
+        print('{topic_count} Topics identified\n'
+              .format(topic_count=len(self.topic_list)))
 
-    print('Unifying all lists...', )
-    self.topic_messagedict = zip(self.topic_list, self.all_message_list)
+        print('Unifying all lists...', )
+        self.topic_messagedict = zip(self.topic_list, self.all_message_list)
 
-    # get separate list of unique messages
-    self.unfound_list = copy.deepcopy(self.unique_message_list)
+        # get separate list of unique messages
+        self.unfound_list = copy.deepcopy(self.unique_message_list)
 
-    # align unique messages with candidate classes
-    for item in self.unfound_list:
-        if item in self.candidate_dict:
-            # add matches to the accepted list
-            self.accepted_dict[item] = self.candidate_dict[item]
+        # align unique messages with candidate classes
+        for item in self.unfound_list:
+            if item in self.candidate_dict:
+                # add matches to the accepted list
+                self.accepted_dict[item] = self.candidate_dict[item]
 
-    # remove all accepted classes from unfound list
-    for item in self.accepted_dict.keys():
-        self.unfound_list.remove(item)
-    print('Done\n')
+        # remove all accepted classes from unfound list
+        for item in self.accepted_dict.keys():
+            self.unfound_list.remove(item)
+        print('Done\n')
 
-    # Advise user of outcome
-    accepted = str(len(self.accepted_dict))
-    if self.unfound_list:
-        print
-        '{unfound_list_count} messages were not found:\n' \
-            .format(unfound_list_count=len(self.unfound_list))
-        for message in self.unfound_list:
-            print(message)
-        print('\n\n')
-        print('{accepted_dict_count} messages were found:\n' \
-              .format(accepted_dict_count=len(self.accepted_dict)))
-    else:
-        # clear off all unused lists
-        del self.unique_message_list
-        del self.unfound_list
-        print('All {accepted} messages were found.\n' \
-              .format(accepted=accepted))
+        # Advise user of outcome
+        accepted = str(len(self.accepted_dict))
+        if self.unfound_list:
+            print
+            '{unfound_list_count} messages were not found:\n' \
+                .format(unfound_list_count=len(self.unfound_list))
+            for message in self.unfound_list:
+                print(message)
+            print('\n\n')
+            print('{accepted_dict_count} messages were found:\n'
+                  .format(accepted_dict_count=len(self.accepted_dict)))
+        else:
+            # clear off all unused lists
+            del self.unique_message_list
+            del self.unfound_list
+            print('All {accepted} messages were found.\n'
+                  .format(accepted=accepted))
 
-    # Go through all verified header files, create a
-    # PathList object for each one, and append
-    # each PathList object to the list tracking those objects.
-    print('Reading message files...', )
-    count = 1
-    for key, value in self.accepted_dict.items():
-        # value is now a touple of path and filename strings
-        p = ParseClass(value[0], value[1], driver_dir,
-                       key + self.DriverFileEnd, True)
-        self.driverList.append(p)
-        count += 1
-        if count % 20 == 0:
-            print('.', )
-    print('Done\n')
+        # Go through all verified header files, create a
+        # PathList object for each one, and append
+        # each PathList object to the list tracking those objects.
+        print('Reading message files...', )
+        count = 1
+        for key, value in self.accepted_dict.items():
+            # value is now a touple of path and filename strings
+            p = ParseClass(value[0], value[1], driver_dir,
+                           key + self.DriverFileEnd, True)
+            self.driverList.append(p)
+            count += 1
+            if count % 20 == 0:
+                print('.', )
+        print('Done\n')
 
-    self.ProcessCodeBase()
-    self.WriteConfigFile()
+        self.ProcessCodeBase()
+        self.WriteConfigFile()
 
 
 # end CreateAll

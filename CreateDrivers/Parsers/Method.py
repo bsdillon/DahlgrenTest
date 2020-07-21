@@ -16,7 +16,8 @@ class Method:
         Finds the file which must be imported, based on return type,
         in order to enable the code
         :param dependencies: Dictionary of all typeNames->Parsers
-        :return: '' if no import is required, otherwise the name of the import file
+        :return: '' if no import is required,
+        otherwise the name of the import file
         """
         # Arrayness is of no importance here
         returnD = dependencies[self.details.GetType()]
@@ -30,7 +31,8 @@ class Method:
 
         if self.details.IsArray() and t.IsArray():
             print
-            'Never implemented a means of getting array size from a double pointer'
+            'Never implemented a means of ' \
+            'getting array size from a double pointer'
             exit(-1)
 
         if self.details.IsArray():
@@ -81,21 +83,26 @@ class Method:
             arrayWithSize = typeDict['arrayWithSize']
             baseType = typeDict['baseType']
             file.write(('{__}{__}{__}int size = (int){getSize};\n'
-                        '{__}{__}{__}auto answer = {returnType}(new {arrayWithSize});\n'
+                        '{__}{__}{__}auto answer = '
+                        '{returnType}(new {arrayWithSize});\n'
                         '{__}{__}{__}for (int i = 0; i < size; ++i) {{\n'
-                        '{__}{__}{__}{__}answer[i] = {baseType}({source_name});\n'
+                        '{__}{__}{__}{__}answer[i] = '
+                        '{baseType}({source_name});\n'
                         '{__}{__}{__}}}\n'
                         '{__}{__}{__}return std::move(answer);\n'
                         ).format(__=AbstractParser.space,
                                  getSize=self.details.GetSize(),
                                  returnType=returnType,
-                                 arrayWithSize=arrayWithSize, baseType=baseType,
+                                 arrayWithSize=arrayWithSize,
+                                 baseType=baseType,
                                  source_name=returnD.GetValue(
-                                     'source.' + self.details.GetName(), True)))
+                                     'source.' +
+                                     self.details.GetName(),True)))
         else:
             if 'std::unique_ptr' in returnType:
                 file.write(
-                    '{__}{__}{__}return std::move({returnType}({source_name}));\n'.format(
+                    '{__}{__}{__}return std::move'
+                    '({returnType}({source_name}));\n'.format(
                         __=AbstractParser.space, returnType=returnType,
                         source_name=returnD.GetValue(
                             'source.' + self.details.GetName(), False)))

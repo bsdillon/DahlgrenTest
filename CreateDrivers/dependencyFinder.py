@@ -1,9 +1,13 @@
 import os
+
 import CppHeaderParser  # v2.7.4 must be installed
-from Parsers.typedef import TypeDef
-from Parsers.parseClass import ParseClass
-from Parsers.enum import ParseEnum
+
 from Parsers.union import ParseUnion
+
+from Parsers.parseClass import ParseClass
+from Parsers.typedef import TypeDef
+from Parsers.enum import ParseEnum
+
 from TypeDictionary import TypeDictionary
 
 
@@ -58,12 +62,12 @@ class DependencyFinder:
         for c in self.parser.classes.keys():
             parts = c.split(' ')
             if len(parts) > 1 and parts[0] == 'union' and parts[1] == name:
-                return ParseUnion(self.path, self.filename, self.driver_path, c,
-                                  name)
+                return ParseUnion(self.path, self.filename,
+                                  self.driver_path, c, name)
 
             if c == name:
-                return ParseClass(self.path, self.filename, self.driver_path, c,
-                                  False, c)
+                return ParseClass(self.path, self.filename,
+                                  self.driver_path, c, False, c)
 
             for t in self.parser.classes[c]._public_typedefs:
                 p = TypeDictionary.AddTypeName(t, self.parser.classes[

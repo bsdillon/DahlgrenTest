@@ -1,10 +1,11 @@
-import re  # regex
 import os
+import re  # regex
+
 from DriverParser import DriverParser
 
 
 class FileUtilities:
-    dirPattern = '^(\/[\w^ ]+)+$'
+    dirPattern = "^(\/[\w^ ]+)+$"
     dirRegEx = re.compile(dirPattern)
     propDelimiter = ':'
 
@@ -28,7 +29,7 @@ class FileUtilities:
                 file.close()
             print
             'Done\n\n'
-        except:
+        except Exception:
             print
             'Error in file\n'
             return {}
@@ -107,7 +108,7 @@ class FileUtilities:
 
         print
         '\nIdentifying topics...',
-        for root, subdirList, fileList in os.walk(topics, topdown=True):
+        for root, fileList in os.walk(topics, topdown=True):
             for fname in fileList:
                 DriverParser.find_topics(os.path.join(root, fname))
         print
@@ -119,7 +120,7 @@ class FileUtilities:
             count = 1
             print
             'Identifying candidate Message classes...'
-            for root, subdirList, fileList in os.walk(source, topdown=True):
+            for root, fileList in os.walk(source, topdown=True):
                 print
                 'Searching ' + root,
                 for fname in fileList:

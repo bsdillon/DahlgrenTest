@@ -11,8 +11,8 @@ class ParseUnion(AbstractParser):
     def Parse(self):
         for c in self.parser.classes:
             parts = c.split(' ')
-            if len(parts) > 1 and parts[0] == 'union' and parts[
-                1] == self.target:
+            if len(parts) > 1 and parts[0] == 'union' and parts[1] == \
+                    self.target:
                 self.myObject = self.parser.classes[c]
 
         # for k in self.myUnion['members']:

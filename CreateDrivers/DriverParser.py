@@ -2,11 +2,13 @@ import re  # regex
 import CppHeaderParser  # v2.7.4 must be installed
 import os
 from message_tracker import MessageTracker
+
+
 # please ensure module parseMessage.py is in same directory
 
 
 class DriverParser:
-    NSPACE_PATTERN = '\S*::'
+    NSPACE_PATTERN = "\S*::"
     # meant to be a constant regex pattern to strip out namespaces
     tracker = MessageTracker()
 
@@ -52,7 +54,7 @@ class DriverParser:
 
     @staticmethod
     def ValidateDrivers(fileList, driver_dir):
-     # pull a directory that has all the files in it
+        # pull a directory that has all the files in it
         return DriverParser.tracker.ValidateDrivers(fileList, driver_dir)
 
 
@@ -79,17 +81,17 @@ def findCandidates(path, file):
             os.path.join(path, file))
         # parsing the file
     except CppHeaderParser.CppParseError as e:
-        print ('Ignoring file and continuing!\n')
+        print('Ignoring file and continuing!\n')
     else:
         if len(cppHeader.classes) == 0:
-            # checks the number of classes
+        # checks the number of classes
         DriverParser.tracker.AddNonCandidate(path, file)
         else:
-            for klasse in cppHeader.classes:
-                # for each of classes, add targeted search, goes to parse all,
-                # checks number of classes, doesn't do anything
-            DriverParser.tracker.AddCandidate(
-                re.sub(DriverParser.NSPACE_PATTERN, '', klasse), path, file)
+        for klasse in cppHeader.classes:
+        # for each of classes, add targeted search, goes to parse all,
+        # checks number of classes, doesn't do anything
+        DriverParser.tracker.AddCandidate(
+            re.sub(DriverParser.NSPACE_PATTERN, '', klasse), path, file)
 
 
 # end find_candidate_classes()

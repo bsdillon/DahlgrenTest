@@ -1,4 +1,5 @@
 import os
+
 from abstract_parser import AbstractParser
 
 
@@ -7,7 +8,8 @@ class ParseEnum(AbstractParser):
                  driver_filename, target=''):
         self.valueMap = {}
         self.className = ''
-        AbstractParser.__init__(self, header_path, header_filename, driver_path,
+        AbstractParser.__init__(self, header_path, header_filename,
+                                driver_path,
                                 driver_filename + '_Enum.h', target)
 
     def Parse(self):
@@ -39,7 +41,8 @@ class ParseEnum(AbstractParser):
         if forArray:
             return 'new {type}({source}[i])'.format(type=self.GetType(),
                                                     source=source)
-        return 'new {type}({source})'.format(type=self.GetType(), source=source)
+        return 'new {type}({source})'.format\
+            (type=self.GetType(), source=source)
 
     def AppendIncludes(self, includeStatements):
         return

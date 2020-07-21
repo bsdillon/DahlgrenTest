@@ -1,12 +1,14 @@
-from abstract_parser import AbstractParser
 from TypeDictionary import TypeDictionary
+
+from abstract_parser import AbstractParser
 
 
 class TypeDef(AbstractParser):
     def __init__(self, header_path, header_filename, driver_path,
                  driver_filename, target=''):
         self.trueType = ''
-        AbstractParser.__init__(self, header_path, header_filename, driver_path,
+        AbstractParser.__init__(self, header_path, header_filename,
+                                driver_path,
                                 driver_filename, target)
 
     def Parse(self):
@@ -52,7 +54,7 @@ class TypeDef(AbstractParser):
     def AppendIncludes(self, includeStatements):
         for incl in self.parser.includes:
             name = incl[1:-1]
-            if not name in includeStatements:
+            if name not in includeStatements:
                 includeStatements.append(name)
 
     def AppendDependencies(self, dependencies):

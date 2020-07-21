@@ -1,6 +1,6 @@
-from PyPDF2 import PdfFileReader, PdfFileWriter
-from tabula import convert_into
-from io import StringIO
+from PyPDF2 import PdfFileReader
+# from tabula import convert_into
+# from io import StringIO
 import os
 import requests
 
