@@ -36,7 +36,7 @@ class DependencyTracker:
         new = len(self.permanentDependencies)
 
         new_count = new - old
-        print '{new_count} new dependencies found\n'.format(new_count)
+        print('{new_count} new dependencies found\n'.format(new_count))
         old = new
 
         #All the dependency files have been found, but more may exist which are secondary or tertiary dependency
@@ -47,10 +47,10 @@ class DependencyTracker:
             self.FindNewDependencies(IncludeFiles, tempDependencies)
             self.MatchDependencies(IncludeFiles, tempDependencies)
             new = len(self.permanentDependencies)
-            print '{new_count} new dependencies found\n'.format(new_count=new - old)
+            print('{new_count} new dependencies found\n'.format(new_count=new - old))
             old = new
 
-        print 'Total of {new} dependencies identified\n'.format(new = new)
+        print('Total of {new} dependencies identified\n'.format(new = new))
     #end __init__
 
     def FindNewDependencies(self, includes, depends): //searhes for includes statements in the header file
@@ -78,7 +78,7 @@ class DependencyTracker:
 
     def MatchDependencies(self, newIncludeFiles, targetDependencies): 
         #Called for at least one class file which has additional dependencies
-        print 'Parsing dependency files...',
+        print( 'Parsing dependency files...',end=" ")
 
         #the first loop partially parses the include files and then adds the types to the typesFound collection
         typesFound = {}
@@ -86,7 +86,7 @@ class DependencyTracker:
         for f in newIncludeFiles:
             count += 1
             if count % 20 == 0:
-                print '.',
+                print( '.',end=" ")
 
             if '.h' == f[-2:]:#only bother to parse header files, not standard libraries
                 v = self.allHeaders[f]
@@ -103,7 +103,7 @@ class DependencyTracker:
 
             count += 1
             if count % 20 == 0:
-                print '.',
+                print('.',end=" ")
 
             if name in self.primitives.keys():
                 self.permanentDependencies[name] = self.primitives[name]
@@ -112,26 +112,26 @@ class DependencyTracker:
                     unfoundDependency.append(name)
                 else:
                     self.permanentDependencies[name] = typesFound[name].ParseType(name)
-        print 'Done'
+        print('Done')
 
         PrintRemainders(unfoundDependency)
     #end FindDependencies
 
     def PrintRemainders(self, unfoundDependency):
         if len(unfoundDependency) > 0:
-            print '\nDid not discover some required types within dependency files'
+            print( '\nDid not discover some required types within dependency files')
             for d in unfoundDependency:
-                print d
+                print( d)
             exit(1)
 
     def WriteFiles(self, driverDirectory): //gets the type of enumerated signature
-        print 'Creating Abstract files...',
+        print('Creating Abstract files...',end=" ")
         count = 0
         enumTypes = []
         for t in self.permanentDependencies:
             count += 1
             if count % 100 == 0:
-                print '.',
+                print('.',end=" ")
             dep = self.permanentDependencies[t]
             if isinstance(dep, ParseClass):
                 dep.GetMethodSignatures(enumTypes, self.permanentDependencies)
@@ -140,22 +140,22 @@ class DependencyTracker:
         ParseClass.WriteException(driverDirectory)
         ParseClass.WriteAbstract(driverDirectory, enumTypes)
         ParseEnum.WriteAbstract(driverDirectory)
-        print 'Done\n'
+        print('Done\n')
 
-        print 'Creating driver files...', 
+        print('Creating driver files...',end=" ")
         count = 0
         for t in self.permanentDependencies:
             count += 1
             if count % 20 == 0:
-                print '.',
+                print('.',end=" ")
             dep = self.permanentDependencies[t]
             if isinstance(dep, AbstractParser):
                 dep.WriteHeader(self.permanentDependencies)
-        print 'Done\n'
+        print('Done\n')
     #end WriteFiles
 
     def WriteFactory(self, driver_dir, topicMap, drivers):
-        print 'Writing factory...',
+        print('Writing factory...',end=" ")
 
         f = open(os.path.join(driver_dir,'DriverFactory.h'), 'w')
 
@@ -173,7 +173,7 @@ class DependencyTracker:
             t.GetFileIncludes(f)
             count += 1
             if count % 20 == 0:
-                print '.',
+                print('.',end=" ")
 
         f.write(('\n'
                  'class DriverFactory\n'
@@ -191,7 +191,7 @@ class DependencyTracker:
             index += 1
             count += 1
             if count % 20 == 0:
-                print '.',
+                print('.',end=" ")
         f.write(('\n'
                  '{__}{__}{__}return answer;\n'
                  '{__}{__}}}\n'
@@ -210,7 +210,7 @@ class DependencyTracker:
             index += 1
             count += 1
             if count % 20 == 0:
-                print '.',
+                print('.',end=" ")
         f.write(('{__}{__}{__}}}\n'
                  '\n'
                  '{__}{__}{__}return std::move(answer);\n'
@@ -219,5 +219,5 @@ class DependencyTracker:
                  '#endif\n').format(__ = AbstractParser.space))
         f.close()
 
-        print 'Done\n'
+        print('Done\n')
     #end WriteFactory
