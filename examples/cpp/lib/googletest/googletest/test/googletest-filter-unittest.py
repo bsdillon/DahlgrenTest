@@ -188,7 +188,8 @@ def RunAndReturnOutput(args=None):
 
 
 def RunAndExtractTestList(args=None):
-    """Runs the test program and returns its exit code and a list of tests run."""
+    """Runs the test program and returns
+    its exit code and a list of tests run."""
 
     p = gtest_test_utils.Subprocess([COMMAND] + (args or []), env=environ)
     tests_run = []
@@ -218,7 +219,8 @@ def InvokeWithModifiedEnv(extra_env, function, *args, **kwargs):
 
 
 def RunWithSharding(total_shards, shard_index, command):
-    """Runs a test program shard and returns exit code and a list of tests run."""
+    """Runs a test program shard and
+    returns exit code and a list of tests run."""
 
     extra_env = {SHARD_INDEX_ENV_VAR: str(shard_index),
                  TOTAL_SHARDS_ENV_VAR: str(total_shards)}
@@ -252,7 +254,8 @@ class GTestFilterUnitTest(gtest_test_utils.TestCase):
         self.assertEqual(set(set_var), set(full_partition))
 
     def AdjustForParameterizedTests(self, tests_to_run):
-        """Adjust tests_to_run in case value parameterized tests are disabled."""
+        """Adjust tests_to_run in
+        case value parameterized tests are disabled."""
 
         global param_tests_present
         if not param_tests_present:
@@ -261,16 +264,20 @@ class GTestFilterUnitTest(gtest_test_utils.TestCase):
             return tests_to_run
 
     def RunAndVerify(self, gtest_filter, tests_to_run):
-        """Checks that the binary runs correct set of tests for a given filter."""
+        """Checks that the binary runs correct
+         set of tests for a given filter."""
 
         tests_to_run = self.AdjustForParameterizedTests(tests_to_run)
 
         # First, tests using the environment variable.
 
         # Windows removes empty variables from the environment when passing it
-        # to a new process.  This means it is impossible to pass an empty filter
-        # into a process using the environment variable.  However, we can still
-        # test the case when the variable is not supplied (i.e., gtest_filter is
+        # to a new process.
+        # This means it is impossible to pass an empty filter
+        # into a process using the environment variable.
+        # However, we can still
+        # test the case when the variable
+        # is not supplied (i.e., gtest_filter is
         # None).
         # pylint: disable-msg=C6403
         if CAN_TEST_EMPTY_FILTER or gtest_filter != '':
@@ -293,9 +300,11 @@ class GTestFilterUnitTest(gtest_test_utils.TestCase):
     def RunAndVerifyWithSharding(self, gtest_filter, total_shards,
                                  tests_to_run,
                                  args=None, check_exit_0=False):
-        """Checks that binary runs correct tests for the given filter and shard.
+        """Checks that binary runs correct
+        tests for the given filter and shard.
 
-        Runs all shards of googletest-filter-unittest_ with the given filter, and
+        Runs all shards of googletest-filter-unittest_
+        with the given filter, and
         verifies that the right set of tests were run. The union of tests run
         on each shard should be identical to tests_to_run, without duplicates.
         If check_exit_0, .
@@ -312,9 +321,11 @@ class GTestFilterUnitTest(gtest_test_utils.TestCase):
         tests_to_run = self.AdjustForParameterizedTests(tests_to_run)
 
         # Windows removes empty variables from the environment when passing it
-        # to a new process.  This means it is impossible to pass an empty filter
+        # to a new process.  This means it is impossible
+        # to pass an empty filter
         # into a process using the environment variable.  However, we can still
-        # test the case when the variable is not supplied (i.e., gtest_filter is
+        # test the case when the variable is not supplied
+        # (i.e., gtest_filter is
         # None).
         # pylint: disable-msg=C6403
         if CAN_TEST_EMPTY_FILTER or gtest_filter != '':
@@ -331,7 +342,8 @@ class GTestFilterUnitTest(gtest_test_utils.TestCase):
         # pylint: enable-msg=C6403
 
     def RunAndVerifyAllowingDisabled(self, gtest_filter, tests_to_run):
-        """Checks that the binary runs correct set of tests for the given filter.
+        """Checks that the binary runs correct
+        set of tests for the given filter.
 
         Runs googletest-filter-unittest_ with the given filter, and enables
         disabled tests. Verifies that the right set of tests were run.
@@ -354,7 +366,8 @@ class GTestFilterUnitTest(gtest_test_utils.TestCase):
     def setUp(self):
         """Sets up test case.
 
-        Determines whether value-parameterized tests are enabled in the binary and
+        Determines whether value-parameterized tests
+        are enabled in the binary and
         sets the flags accordingly.
         """
 
@@ -583,7 +596,8 @@ class GTestFilterUnitTest(gtest_test_utils.TestCase):
         self.AssertSetEqual(tests_run, ['BarTest.TestOne', 'BazTest.TestOne'])
 
     def testShardStatusFileIsCreated(self):
-        """Tests that the shard file is created if specified in the environment."""
+        """Tests that the shard file is created
+        if specified in the environment."""
 
         shard_status_file = os.path.join(gtest_test_utils.GetTempDir(),
                                          'shard_status_file')

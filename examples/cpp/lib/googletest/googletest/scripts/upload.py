@@ -80,7 +80,8 @@ MAX_UPLOAD_SIZE = 900 * 1024
 def GetEmail(prompt):
     """Prompts the user for their email address and returns it.
 
-    The last used email address is saved to a file and offered up as a suggestion
+    The last used email address is saved to a file and
+    offered up as a suggestion
     to the user. If the user presses enter without typing in anything the last
     used email address is used. If the user enters a new address, it is saved
     for next time we prompt.
@@ -130,7 +131,8 @@ def ErrorExit(msg):
 
 
 class ClientLoginError(urllib2.HTTPError):
-    """Raised to indicate there was an error authenticating with ClientLogin."""
+    """Raised to indicate there was an error
+    authenticating with ClientLogin."""
 
     def __init__(self, url, code, msg, headers, args):
         urllib2.HTTPError.__init__(self, url, code, msg, headers, None)
@@ -148,12 +150,16 @@ class AbstractRpcServer(object):
 
         Args:
             host: The host to send requests to.
-            auth_function: A function that takes no arguments and returns an
-                (email, password) tuple when called. Will be called if authentication
+            auth_function: A function that takes no
+            arguments and returns an
+                (email, password) tuple when called.
+                Will be called if authentication
                 is required.
-            host_override: The host header to send to the server (defaults to host).
+            host_override: The host header to send to
+            the server (defaults to host).
             extra_headers: A dict of extra headers to append to every request.
-            save_cookies: If True, save the authentication cookies to local disk.
+            save_cookies: If True, save the authentication
+            cookies to local disk.
                 If False, use an in-memory cookiejar instead.  Subclasses must
                 implement this functionality.  Defaults to False.
         """
@@ -196,7 +202,8 @@ class AbstractRpcServer(object):
             password: The user's password
 
         Raises:
-            ClientLoginError: If there was an error authenticating with ClientLogin.
+            ClientLoginError: If there was an error
+            authenticating with ClientLogin.
             HTTPError: If there was some other form of HTTP error.
 
         Returns:
@@ -239,7 +246,8 @@ class AbstractRpcServer(object):
             auth_token: The authentication token returned by ClientLogin.
 
         Raises:
-            HTTPError: If there was an error fetching the authentication cookies.
+            HTTPError: If there was an error fetching
+            the authentication cookies.
         """
         # This is a dummy value to allow us to identify when we're successful.
         continue_location = "http://localhost/"
@@ -263,9 +271,11 @@ class AbstractRpcServer(object):
         The authentication process works as follows:
          1) We get a username and password from the user
          2) We use ClientLogin to obtain an AUTH token for the user
-                (see https://developers.google.com/identity/protocols/AuthForInstalledApps).
+                (see https://developers.google.com/
+                identity/protocols/AuthForInstalledApps).
          3) We pass the auth token to /_ah/login on the server to obtain an
-                authentication cookie. If login was successful, it tries to redirect
+                authentication cookie. If login was successful,
+                it tries to redirect
                 us to the URL we provided.
 
         If we attempt to access the upload API without first obtaining an
@@ -283,7 +293,8 @@ class AbstractRpcServer(object):
                 if e.reason == "CaptchaRequired":
                     print >> sys.stderr, (
                         "Please go to\n"
-                        "https://www.google.com/accounts/DisplayUnlockCaptcha\n"
+                        "https://www.google.com/accounts/"
+                        "DisplayUnlockCaptcha\n"
                         "and verify you are a human.  Then try again.")
                     break
                 if e.reason == "NotVerified":
@@ -304,7 +315,8 @@ class AbstractRpcServer(object):
                         "disabled.")
                     break
                 if e.reason == "ServiceUnavailable":
-                    print >> sys.stderr, "The service is not available; try again later."
+                    print >> sys.stderr, "The service is not" \
+                                         " available; try again later."
                     break
                 raise
             self._GetAuthCookie(auth_token)
@@ -317,12 +329,15 @@ class AbstractRpcServer(object):
         """Sends an RPC and returns the response.
 
         Args:
-            request_path: The path to send the request to, eg /api/appversion/create.
+            request_path: The path to send the request to,
+            eg /api/appversion/create.
             payload: The body of the request, or None to send an empty request.
             content_type: The Content-Type header to use.
             timeout: timeout in seconds; default None i.e. no timeout.
-                (Note: for large requests on OS X, the timeout doesn't work right.)
-            kwargs: Any keyword arguments are converted into query string parameters.
+                (Note: for large requests on OS X, the timeout
+                doesn't work right.)
+            kwargs: Any keyword arguments are converted into
+             query string parameters.
 
         Returns:
             The response body, as a string.
@@ -375,7 +390,8 @@ class HttpRpcServer(AbstractRpcServer):
             self.cookie_jar.save()
 
     def _GetOpener(self):
-        """Returns an OpenerDirector that supports cookies and ignores redirects.
+        """Returns an OpenerDirector that supports cookies and
+        ignores redirects.
 
         Returns:
             A urllib2.OpenerDirector object.
@@ -531,7 +547,8 @@ def EncodeMultipartFormData(fields, files):
         (content_type, body) ready for httplib.HTTP instance.
 
     Source:
-        https://web.archive.org/web/20160116052001/code.activestate.com/recipes/146306
+        https://web.archive.org
+        /web/20160116052001/code.activestate.com/recipes/146306
     """
     BOUNDARY = '-M-A-G-I-C---B-O-U-N-D-A-R-Y-'
     CRLF = '\r\n'
@@ -567,7 +584,8 @@ use_shell = sys.platform.startswith("win")
 
 def RunShellWithReturnCode(command, print_output=False,
                            universal_newlines=True):
-    """Executes a command and returns the output from stdout and the return code.
+    """Executes a command and returns the output
+    from stdout and the return code.
 
     Args:
         command: Command to execute.
@@ -660,8 +678,10 @@ class VersionControlSystem(object):
         Returns:
             A tuple (base_content, new_content, is_binary, status)
                 base_content: The contents of the base file.
-                new_content: For text files, this is empty.    For binary files, this is
-                    the contents of the new file, since the diff output won't contain
+                new_content: For text files, this is empty.
+                For binary files, this is
+                    the contents of the new file, since the diff
+                    output won't contain
                     information to reconstruct the current file.
                 is_binary: True iff the file is binary.
                 status: The status of the file.
@@ -674,7 +694,8 @@ class VersionControlSystem(object):
         """Helper that calls GetBase file for each file in the patch.
 
         Returns:
-            A dictionary that maps from filename to GetBaseFile's tuple.    Filenames
+            A dictionary that maps from filename to GetBaseFile's tuple.
+               Filenames
             are retrieved based on lines that start with "Index:" or
             "Property changes on:".
         """
@@ -683,7 +704,8 @@ class VersionControlSystem(object):
             if line.startswith('Index:') or line.startswith(
                     'Property changes on:'):
                 unused, filename = line.split(':', 1)
-                # On Windows if a file has property changes its filename uses '\'
+                # On Windows if a file has property changes its
+                # filename uses '\'
                 # instead of '/'.
                 filename = filename.strip().replace('\\', '/')
                 files[filename] = self.GetBaseFile(filename)
@@ -691,7 +713,8 @@ class VersionControlSystem(object):
 
     def UploadBaseFiles(self, issue, rpc_server, patch_list, patchset, options,
                         files):
-        """Uploads the base files (and if necessary, the current ones as well)."""
+        """Uploads the base files (and if necessary, the current ones as
+        well)."""
 
     def UploadFile(filename, file_id, content, is_binary, status, is_base):
         """Uploads a file to the server."""
@@ -770,8 +793,10 @@ class SubversionVCS(VersionControlSystem):
         # Keys: dirname, Values: 2-tuple (output for start rev and end rev).
         self.svnls_cache = {}
         # SVN base URL is required to fetch files deleted in an older revision.
-        # Result is cached to not guess it over and over again in GetBaseFile().
-        required = self.options.download_base or self.options.revision is not None
+        # Result is cached to not guess it over and over again in
+        # GetBaseFile().
+        required = self.options.download_base or \
+                   self.options.revision is not None
         self.svn_base = self._GuessBase(required)
 
     def GuessBase(self, required):
@@ -782,7 +807,8 @@ class SubversionVCS(VersionControlSystem):
         """Returns the SVN base URL.
 
         Args:
-            required: If true, exits if the url can't be guessed, otherwise None is
+            required: If true, exits if the url can't be guessed,
+            otherwise None is
                 returned.
         """
         info = RunShell(["svn", "info"])
@@ -790,7 +816,8 @@ class SubversionVCS(VersionControlSystem):
             words = line.split()
             if len(words) == 2 and words[0] == "URL:":
                 url = words[1]
-                scheme, netloc, path, params, query, fragment = urlparse.urlparse(
+                scheme, netloc, path, params, query, fragment = \
+                    urlparse.urlparse(
                     url)
                 username, netloc = urllib.splituser(netloc)
                 if username:
@@ -900,7 +927,8 @@ class SubversionVCS(VersionControlSystem):
             status_lines = status.splitlines()
             # If file is in a cl, the output will begin with
             # "\n--- Changelist 'cl_name':\n".    See
-            # https://web.archive.org/web/20090918234815/svn.collab.net/repos/svn/trunk/notes/changelist-design.txt
+            # https://web.archive.org/web/20090918234815/
+            # svn.collab.net/repos/svn/trunk/notes/changelist-design.txt
             if (len(status_lines) == 3 and
                     not status_lines[0] and
                     status_lines[1].startswith("--- Changelist")):
@@ -940,12 +968,16 @@ class SubversionVCS(VersionControlSystem):
         base_content = None
         new_content = None
 
-        # If a file is copied its status will be "A    +", which signifies
-        # "addition-with-history".  See "svn st" for more information.  We need to
-        # upload the original file or else diff parsing will fail if the file was
+        # If a file is copied its status will be "A
+        # +", which signifies
+        # "addition-with-history".  See "svn st" for more
+        # information.  We need to
+        # upload the original file or else diff parsing will
+        # fail if the file was
         # edited.
         if status[0] == "A" and status[3] != "+":
-            # We'll need to upload the new content if we're adding a binary file
+            # We'll need to upload the new content if we're adding
+            # a binary file
             # since diff's output won't contain it.
             mimetype = RunShell(["svn", "propget", "svn:mime-type", filename],
                                 silent_ok=True)
@@ -982,7 +1014,7 @@ class SubversionVCS(VersionControlSystem):
                             new_content = self.ReadFile(filename)
                         else:
                             url = "%s/%s@%s" % (
-                            self.svn_base, filename, self.rev_end)
+                                self.svn_base, filename, self.rev_end)
                             new_content = RunShell(["svn", "cat", url],
                                                    universal_newlines=True,
                                                    silent_ok=True)
@@ -997,22 +1029,25 @@ class SubversionVCS(VersionControlSystem):
                 else:
                     universal_newlines = True
                 if self.rev_start:
-                    # "svn cat -r REV delete_file.txt" doesn't work. cat requires
+                    # "svn cat -r REV delete_file.txt" doesn't
+                    # work. cat requires
                     # the full URL with "@REV" appended instead of using "-r" option.
                     url = "%s/%s@%s" % (
-                    self.svn_base, filename, self.rev_start)
-                    base_content = RunShell(["svn", "cat", url],
-                                            universal_newlines=universal_newlines,
-                                            silent_ok=True)
+                        self.svn_base, filename, self.rev_start)
+                    base_content = \
+                        RunShell(["svn", "cat", url],
+                                        universal_newlines=universal_newlines,
+                                        silent_ok=True)
                 else:
-                    base_content = RunShell(["svn", "cat", filename],
-                                            universal_newlines=universal_newlines,
-                                            silent_ok=True)
+                    base_content = \
+                        RunShell(["svn", "cat", filename],
+                                        universal_newlines=universal_newlines,
+                                        silent_ok=True)
                 if not is_binary:
                     args = []
                     if self.rev_start:
                         url = "%s/%s@%s" % (
-                        self.svn_base, filename, self.rev_start)
+                            self.svn_base, filename, self.rev_start)
                     else:
                         url = filename
                         args += ["-r", "BASE"]
@@ -1036,9 +1071,12 @@ class GitVCS(VersionControlSystem):
         self.base_hashes = {}
 
     def GenerateDiff(self, extra_args):
-        # This is more complicated than svn's GenerateDiff because we must convert
-        # the diff output to include an svn-style "Index:" line as well as record
-        # the hashes of the base files, so we can upload them along with our diff.
+        # This is more complicated than svn's GenerateDiff
+        # because we must convert
+        # the diff output to include an svn-style "Index:"
+        # line as well as record
+        # the hashes of the base files, so we can upload them
+        # along with our diff.
         if self.options.revision:
             extra_args = [self.options.revision] + extra_args
         gitdiff = RunShell(["git", "diff", "--full-index"] + extra_args)
@@ -1052,9 +1090,11 @@ class GitVCS(VersionControlSystem):
                 filename = match.group(1)
                 svndiff.append("Index: %s\n" % filename)
             else:
-                # The "index" line in a git diff looks like this (long hashes elided):
+                # The "index" line in a git diff looks like this
+                # (long hashes elided):
                 # index 82c0d44..b2cee3f 100755
-                # We want to save the left hash, as that identifies the base file.
+                # We want to save the left hash, as that identifies
+                # the base file.
                 match = re.match(r"index (\w+)\.\.", line)
                 if match:
                     self.base_hashes[filename] = match.group(1)
@@ -1121,9 +1161,11 @@ class MercurialVCS(VersionControlSystem):
             m = re.match("diff --git a/(\S+) b/(\S+)", line)
             if m:
                 # Modify line to make it look like as it comes from svn diff.
-                # With this modification no changes on the server side are required
+                # With this modification no changes on the server
+                # side are required
                 # to make upload.py work with Mercurial repos.
-                # NOTE: for proper handling of moved/copied files, we have to use
+                # NOTE: for proper handling of moved/copied files,
+                # we have to use
                 # the second filename.
                 filename = m.group(2)
                 svndiff.append("Index: %s" % filename)
@@ -1149,14 +1191,17 @@ class MercurialVCS(VersionControlSystem):
         return unknown_files
 
     def GetBaseFile(self, filename):
-        # "hg status" and "hg cat" both take a path relative to the current subdir
-        # rather than to the repo root, but "hg diff" has given us the full path
+        # "hg status" and "hg cat" both take a path relative to
+        # the current subdir
+        # rather than to the repo root, but "hg diff" has given us
+        # the full path
         # to the repo root.
         base_content = ""
         new_content = None
         is_binary = False
         oldrelpath = relpath = self._GetRelPath(filename)
-        # "hg status -C" returns two lines for moved/copied files, one otherwise
+        # "hg status -C" returns two lines for moved/copied files, one
+        # otherwise
         out = RunShell(["hg", "status", "-C", "--rev", self.base_rev, relpath])
         out = out.splitlines()
         # HACK: strip error message about missing file/directory if it isn't in
@@ -1209,12 +1254,15 @@ def SplitPatch(data):
             new_filename = new_filename.strip()
         elif line.startswith('Property changes on:'):
             unused, temp_filename = line.split(':', 1)
-            # When a file is modified, paths use '/' between directories, however
-            # when a property is modified '\' is used on Windows.    Make them the same
+            # When a file is modified, paths use '/' between directories,
+            # however
+            # when a property is modified '\' is used on Windows.
+            # Make them the same
             # otherwise the file shows up twice.
             temp_filename = temp_filename.strip().replace('\\', '/')
             if temp_filename != filename:
-                # File has property changes but no modifications, create a new diff.
+                # File has property changes but no modifications, create
+                # a new diff.
                 new_filename = temp_filename
         if new_filename:
             if filename and diff:
@@ -1262,7 +1310,8 @@ def GuessVCS(options):
     """Helper to guess the version control system.
 
     This examines the current directory, guesses which VersionControlSystem
-    we're using, and returns an instance of the appropriate class.    Exit with an
+    we're using, and returns an instance of the appropriate class.
+     Exit with an
     error if we can't figure it out.
 
     Returns:
@@ -1384,7 +1433,8 @@ def RealMain(argv, data=None):
                 base_hashes += "|"
             base_hashes += checksum + ":" + file
     form_fields.append(("base_hashes", base_hashes))
-    # If we're uploading base files, don't send the email before the uploads, so
+    # If we're uploading base files, don't send the email before the
+    # uploads, so
     # that it contains the file status.
     if options.send_mail and options.download_base:
         form_fields.append(("send_mail", "1"))

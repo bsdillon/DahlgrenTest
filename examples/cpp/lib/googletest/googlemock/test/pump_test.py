@@ -31,8 +31,9 @@
 
 """Tests for the Pump meta-programming tool."""
 
-from google3.testing.pybase import googletest
 import google3.third_party.googletest.googlemock.scripts.pump
+
+from google3.testing.pybase import googletest
 
 pump = google3.third_party.googletest.googlemock.scripts.pump
 Convert = pump.ConvertFromPumpSource
@@ -53,7 +54,8 @@ class PumpTest(googletest.TestCase):
         self.assertEquals(long_line, Convert(long_line))
 
     def testConvertsIWYUPragmaWithLeadingSpaceToSame(self):
-        long_line = ' // IWYU pragma: private, include "' + (80 * 'a') + '.h"\n'
+        long_line = ' // IWYU pragma: private, include "' + (
+                80 * 'a') + '.h"\n'
         self.assertEquals(long_line, Convert(long_line))
 
     def testConvertsIWYUPragmaWithSlashStarLeaderToSame(self):
@@ -61,7 +63,8 @@ class PumpTest(googletest.TestCase):
         self.assertEquals(long_line, Convert(long_line))
 
     def testConvertsIWYUPragmaWithSlashStarAndSpacesToSame(self):
-        long_line = ' /* IWYU pragma: private, include "' + (80 * 'a') + '.h"\n'
+        long_line = ' /* IWYU pragma: private, include "' + (
+                80 * 'a') + '.h"\n'
         self.assertEquals(long_line, Convert(long_line))
 
     def testIgnoresMetaComment(self):

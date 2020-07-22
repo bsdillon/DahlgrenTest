@@ -55,16 +55,20 @@ EXAMPLES
 This tool is experimental.  In particular, it assumes that there is no
 conditional inclusion of Google Mock or Google Test headers.  Please
 report any problems to googlemock@googlegroups.com.  You can read
-https://github.com/google/googletest/blob/master/googlemock/docs/cook_book.md for more
-information.
+https://github.com/google/googletest/blob/master/googlemock/docs/cook_book.md
+for more information.
 """
-
-__author__ = 'wan@google.com (Zhanyong Wan)'
+import fuse_gtest_files
 
 import os
+
 import re
+
 import sets
+
 import sys
+
+__author__ = 'wan@google.com (Zhanyong Wan)'
 
 # We assume that this file is in the scripts/ directory in the Google
 # Mock root directory.
@@ -72,7 +76,7 @@ DEFAULT_GMOCK_ROOT_DIR = os.path.join(os.path.dirname(__file__), '..')
 
 # We need to call into googletest/scripts/fuse_gtest_files.py.
 sys.path.append(os.path.join(DEFAULT_GMOCK_ROOT_DIR, '../googletest/scripts'))
-import fuse_gtest_files
+
 
 gtest = fuse_gtest_files
 
@@ -206,7 +210,8 @@ def FuseGMockAllCcToFile(gmock_root, output_file):
 def FuseGMockGTestAllCc(gmock_root, output_dir):
     """Scans folder gmock_root to generate gmock-gtest-all.cc in output_dir."""
 
-    output_file = file(os.path.join(output_dir, GMOCK_GTEST_ALL_CC_OUTPUT), 'w')
+    output_file = file(os.path.join(output_dir, GMOCK_GTEST_ALL_CC_OUTPUT),
+                       'w')
     # First, fuse gtest-all.cc into gmock-gtest-all.cc.
     gtest.FuseGTestAllCcToFile(GetGTestRootDir(gmock_root), output_file)
     # Next, append fused gmock-all.cc to gmock-gtest-all.cc.
