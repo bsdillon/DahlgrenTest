@@ -7,10 +7,10 @@ week_js = open("./html/cidata/weekly_commits.js", "w")
 json_array = json.load(open(sys.argv[1]))
 week_js.write("var contributions = {};\n")
 
-count = 0
+COUNT = 0
 dates = []
-while count < len(json_array):
-    userData = json_array[count]
+while COUNT < len(json_array):
+    userData = json_array[COUNT]
     USERNAME = userData["author"]["login"]
     if USERNAME == "actions-user":
         USERNAME = "GitHubAction"
@@ -23,4 +23,4 @@ while count < len(json_array):
             dates.append(date)
         week_js.write("contributions[\'" + date + "\'].")
         week_js.write(USERNAME+"="+str(w["c"])+";\n")
-    count += 1
+    COUNT += 1
