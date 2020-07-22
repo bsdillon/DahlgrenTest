@@ -24,7 +24,7 @@ class FileUtilities:
                     properties[line[0]] = line[1].strip('\n')
                     line = file.readline().split(FileUtilities.propDelimiter)
                 file.close()
-            print 'Done\n\n'
+            print('Done\n\n')
         except :
             print 'Error in file\n'
             return {}
