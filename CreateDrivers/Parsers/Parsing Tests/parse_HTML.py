@@ -4,8 +4,6 @@ import pandas as pd
 
 import requests
 
-
-
 url = "http://www.tcpipguide.com/free/t_IPDatagramGeneralFormat.htm"
 # make a GET request to fetch raw HTML content
 html_content = requests.get(url).text

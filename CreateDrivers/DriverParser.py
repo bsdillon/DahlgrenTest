@@ -1,6 +1,6 @@
-import re  # regex
-
 import os
+
+import re  # regex
 
 import CppHeaderParser  # v2.7.4 must be installed
 
