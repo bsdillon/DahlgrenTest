@@ -1,17 +1,16 @@
 import os
 
-from Parsers.enum import ParseEnum
-
 from Parsers.abstract_parser import AbstractParser
+
+from Parsers.enum import ParseEnum
 
 from Parsers.parseClass import ParseClass
 
 from TypeDictionary import TypeDictionary
 
-from primitive import Primitive
-
 from dependencyFinder import DependencyFinder
 
+from primitive import Primitive
 
 
 class DependencyTracker:
