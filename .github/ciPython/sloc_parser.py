@@ -5,8 +5,8 @@ import sys
 datafile = sys.argv[1]
 reader = open(datafile)
 langs = {"hpp": "CPP", "cc": "C", "java": "Java"}
-langs["py"]= "Python"
-langs["html"]= "HTML"
+langs["py"] = "Python"
+langs["html"] = "HTML"
 langs["yml"] = "YAML"
 langs["css"] = "CSS"
 langs["h"] = "CPP"
