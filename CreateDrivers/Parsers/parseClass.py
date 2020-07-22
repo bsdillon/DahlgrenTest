@@ -1,8 +1,8 @@
 import os
 
-from abstract_parser import AbstractParser
-
 from Method import Method
+
+from abstract_parser import AbstractParser
 
 
 class ParseClass(AbstractParser):
@@ -81,9 +81,10 @@ class ParseClass(AbstractParser):
 
             if self.driver_filename != c + '_Driver.h':
                 print
-                'Driver class mismatch: {driver_filename} != {this_class}_Dr' \
-                'iver.h'.format(driver_filename=self.driver_filename,
-                                this_class=c)
+                'Driver class mismatch: {driver_filename} != '
+                '{this_class}_'
+                'Driver.h'.format(driver_filename=self.driver_filename,
+                                  this_class=c)
                 exit(-1)
 
         self.ParseParentClass()

@@ -1,7 +1,8 @@
 import os
-import requests
 
 from PyPDF2 import PdfFileReader
+
+import requests
 
 url = 'http://scipp.ucsc.edu/groups/fermi/electronics/mil-std-883.pdf'
 r = requests.get(url)

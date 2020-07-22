@@ -2,6 +2,7 @@ import os.path
 
 import CppHeaderParser
 
+
 class AbstractParser:
     space = '  '
 

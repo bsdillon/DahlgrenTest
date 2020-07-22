@@ -1,6 +1,9 @@
 import re  # regex
-import CppHeaderParser  # v2.7.4 must be installed
+
 import os
+
+import CppHeaderParser  # v2.7.4 must be installed
+
 from message_tracker import MessageTracker
 
 
@@ -91,7 +94,8 @@ def findCandidates(path, file):
                 # for each of classes, add targeted search, goes to parse all,
                 # checks number of classes, doesn't do anything
                 DriverParser.tracker.AddCandidate(
-                    re.sub(DriverParser.NSPACE_PATTERN, '', klasse), path, file)
+                    re.sub(DriverParser.NSPACE_PATTERN, '', klasse),
+                    path, file)
 
 
 # end find_candidate_classes()

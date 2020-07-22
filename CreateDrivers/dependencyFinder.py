@@ -4,9 +4,9 @@ import CppHeaderParser  # v2.7.4 must be installed
 
 from Parsers.parseClass import ParseClass
 
-from Parsers.union import ParseUnion
-
 from Parsers.enum import ParseEnum
+
+from Parsers.union import ParseUnion
 
 from Parsers.typedef import TypeDef
 
