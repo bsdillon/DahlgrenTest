@@ -26,7 +26,7 @@ class FileUtilities:
                 file.close()
             print('Done\n\n')
         except :
-            print 'Error in file\n'
+            print ('Error in file\n')
             return {}
         return properties
     # end ReadDefaults
@@ -39,12 +39,12 @@ class FileUtilities:
         :param defaults:
         :return: None
         """
-        print 'Saving program settings...',
+        print('Saving program settings...', end=" ")
         file = open(defaultFile, 'w')
         for prop in defaults.keys():
             file.write('{prop}{propDelim}{defaults_prop}\n'.format(prop = prop, propDelim = FileUtilities.propDelimiter, defaults_prop = defaults[prop]))
         file.close()
-        print 'Done\n\n'
+        print('Done\n\n')
     # end WriteDefaults
 
     @staticmethod
@@ -56,7 +56,7 @@ class FileUtilities:
         :return: validated directory
         """
         if directory.lower() == 'quit':
-            print 'Quitting!'
+            print('Quitting!')
             exit(0)
 
         if not FileUtilities.dirRegEx.match(directory):
@@ -67,11 +67,11 @@ class FileUtilities:
             #the string is valid as a path, but it doesn't exist
             if forceCreation:
                 os.makedirs(directory)
-                print '\n\tDirectory created\n'
+                print('\n\tDirectory created\n')
             else:
                 raise OSError(directory + ' does not exist.')
         else:
-            print '\n\tDirectory  validated\n'
+            print('\n\tDirectory  validated\n')
         return directory
     # end validate_dir()
 
@@ -88,18 +88,18 @@ class FileUtilities:
         :return: None
         """
 
-        print '\nIdentifying topics...',
+        print('\nIdentifying topics...', end=" ")
         for root, subdirList, fileList in os.walk(topics, topdown=True):
             for fname in fileList:
                 DriverParser.find_topics(os.path.join(root, fname))
-        print 'Done\n'
+        print('Done\n')
 
         if not DriverParser.ValidateDrivers(os.listdir(driver), driver):
-            print 'Driver files are incomplete. Reparsing messages'
+            print('Driver files are incomplete. Reparsing messages')
             count = 1
-            print 'Identifying candidate Message classes...'
+            print('Identifying candidate Message classes...')
             for root, subdirList, fileList in os.walk(source, topdown=True):
-                print 'Searching ' + root,
+                print('Searching ' + root, end=" ")
                 for fname in fileList:
                     if '.h' == fname[-2:] and fname[:3] != 'DDS':
                         #All header files are candidates for "message classes"
@@ -108,8 +108,8 @@ class FileUtilities:
                         DriverParser.findCandidates(root, fname)
                         count += 1
                         if count % 20 == 0:
-                            print '.',
-                print '.'
-            print 'Done\n'
+                            print('.', end=" ")
+                print('.')
+            print('Done\n')
             DriverParser.ParseAll(driver)
     # end initialize_all
