@@ -21,11 +21,11 @@ QUERY = "{project(id: 9280){lastAnalysis{summary{"
 QUERY += "violations duplicated_lines complexFunctions longFunctions}}}}"
 data = endpoint(QUERY, variables)
 
-set = data['data']['project']['lastAnalysis']['summary']
-v_count = set['violations']
-dups = set['duplicated_lines']
-comps = set['complexFunctions']
-longF = set['longFunctions']
+data_set = data['data']['project']['lastAnalysis']['summary']
+v_count = data_set['violations']
+dups = data_set['duplicated_lines']
+comps = data_set['complexFunctions']
+longF = data_set['longFunctions']
 
 QUERY = "{project(id: 9280){lastAnalysis{violations("
 QUERY += "howmany:'+str(v_count)+', skip:0){filename"
