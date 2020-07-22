@@ -67,7 +67,7 @@ class TypeDictionary:
             typeFound = parts[index]
 
         if index+1 == len(parts):
-            print 'Not enough tokens in '+core
+            print('Not enough tokens in '+core)
             exit(-1)
 
         if '[' in parts[index+1]:
@@ -83,7 +83,7 @@ class TypeDictionary:
         if '[' in type:
             pieces1 = fullName.split('::::')
             if not pieces1[0] in type:
-                print 'Parts not formatted as expected. ' + pieces1[0] + ' not found in ' + type
+                print('Parts not formatted as expected. ' + pieces1[0] + ' not found in ' + type)
                 exit(-1)
 
             # get the rest of the string, reformat it and split the pieces
@@ -119,7 +119,7 @@ class TypeDictionary:
                 return name
 
             #some error with names
-            print 'Multiple full names correspond to the simple name '+name
+            print( 'Multiple full names correspond to the simple name '+name)
             exit(-1)
 
         return name
