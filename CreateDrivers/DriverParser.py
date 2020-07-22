@@ -60,8 +60,8 @@ class DriverParser :
         try:
             cppHeader = CppHeaderParser.CppHeader(os.path.join(path,file)) //parsing the file 
         except CppHeaderParser.CppParseError as e:
-            print e
-            print 'Ignoring file and continuing!\n'
+            print(e)
+            print('Ignoring file and continuing!\n')
         else:
             if len(cppHeader.classes)==0: //checks the number of classes
                 DriverParser.tracker.AddNonCandidate(path, file)
