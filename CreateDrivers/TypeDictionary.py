@@ -61,7 +61,7 @@ class TypeDictionary:
                 index+=1
 
             if index == len(parts):
-                print 'Type '+type+' not found in '+ core
+                print ('Type '+type+' not found in '+ core)
                 exit(-1)
 
             typeFound = parts[index]
