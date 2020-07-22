@@ -39,7 +39,8 @@ class DriverParser :
     # end find_topics()
 
     @staticmethod
-    def ValidateDrivers(fileList, driver_dir): //pull a directory that has all the files in it
+    def ValidateDrivers(fileList, driver_dir):
+        """pull a directory that has all the files in it"""
         return DriverParser.tracker.ValidateDrivers(fileList, driver_dir)
     # end ValidateDrivers()
 
