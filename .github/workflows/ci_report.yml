@@ -7,6 +7,10 @@ on:
   schedule:
     # Midnight each day for overnight eval
     - cron: '0 15 * * *'
+  push:
+    paths:
+      - ".github/ciPython/ci_report.py"
+      - ".github/workflows/ci_report.yml"
 
 jobs:
   check-quality:
