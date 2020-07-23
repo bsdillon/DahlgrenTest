@@ -36,8 +36,8 @@ class AbstractParser:
         try:
             self.parser = CppHeaderParser.CppHeader(self.header_full)
         except CppHeaderParser.CppParseError as e:
-            print e
-            print 'Exiting!'
+            print(e)
+            print('Exiting!')
             exit(1)
 
         self.Parse()
@@ -62,25 +62,25 @@ class AbstractParser:
         return self.isArray
 
     def Parse(self):
-        print 'Parse not implemented in ' + type(self).__name__
+        print('Parse not implemented in ' + type(self).__name__)
         exit(-1)
 
     def GetType(self):
-        print 'GetType not implemented in ' + type(self).__name__
+        print('GetType not implemented in ' + type(self).__name__)
         exit(-1)
 
     def GetValue(self, source, forArray):
-        print 'GetValue not implemented in ' + type(self).__name__
+        print('GetValue not implemented in ' + type(self).__name__)
         exit(-1)
 
     def GetFileName(self):
-        print 'GetFileName not implemented in ' + type(self).__name__
+        print('GetFileName not implemented in ' + type(self).__name__)
         exit(-1)
 
     def WriteHeader(self, dependencies):
-        print 'WriteHeader not implemented in ' + type(self).__name__
+        print('WriteHeader not implemented in ' + type(self).__name__)
         exit(-1)
 
     def GetAbstractType(self):
-        print 'GetAbstractType not implemented in ' + type(self).__name__
+        print('GetAbstractType not implemented in ' + type(self).__name__)
         exit(-1)

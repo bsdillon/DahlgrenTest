@@ -1,3 +1,4 @@
+import sys
 import os
 import CppHeaderParser  # v2.7.4 must be installed
 from Parsers.typedef import TypeDef
@@ -7,6 +8,9 @@ from Parsers.union import ParseUnion
 from TypeDictionary import TypeDictionary
 
 class DependencyFinder:
+"""
+  Extracts all the classes, typedefs, etc. from the source files.
+"""
     def __init__(self, path, filename, driver_path):
 
         self.path = path
@@ -16,10 +20,10 @@ class DependencyFinder:
 
         try:
             self.parser = CppHeaderParser.CppHeader(os.path.join(path, filename))
-        except CppHeaderParser.CppParseError as e:
-            print(e)
+        except CppHeaderParser.CppParseError as ex:
+            print(ex)
             print('Exiting!')
-            exit(1)
+            sys.exit(1)
     #end __init__
 
     def AppendTypes(self, typeList):

@@ -53,7 +53,8 @@ class DependencyTracker:
         print('Total of {new} dependencies identified\n'.format(new = new))
     #end __init__
 
-    def FindNewDependencies(self, includes, depends): //searhes for includes statements in the header file
+    def FindNewDependencies(self, includes, depends):
+        """searches for includes statements in the header file"""
         for t in self.permanentDependencies.keys():
             #get the dependencies of the types
             temp = []

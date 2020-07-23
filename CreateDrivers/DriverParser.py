@@ -58,7 +58,8 @@ class DriverParser :
         :return: None
         """
         try:
-            cppHeader = CppHeaderParser.CppHeader(os.path.join(path,file)) //parsing the file 
+            # parsing the file 
+            cppHeader = CppHeaderParser.CppHeader(os.path.join(path,file))
         except CppHeaderParser.CppParseError as e:
             print(e)
             print('Ignoring file and continuing!\n')

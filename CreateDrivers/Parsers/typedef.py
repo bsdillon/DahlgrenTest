@@ -24,7 +24,7 @@ class TypeDef(AbstractParser):
                     self.ArraySize = p.GetSize()
                     return
 
-        print '\nTypedef {target} not found in {header_full}'.format(target = self.target, header_full = self.header_full)
+        print('\nTypedef {target} not found in {header_full}'.format(target = self.target, header_full = self.header_full))
         exit(1)
 
     def GetType(self):

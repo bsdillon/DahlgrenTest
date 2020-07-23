@@ -18,7 +18,7 @@ class ParseUnion(AbstractParser):
 
     def GetValue(self, source, forArray):
         if forArray:
-            print 'Unions have not implemented with array capability'
+            print('Unions have not implemented with array capability')
             exit(-1)
         return '"Union: {target}"'.format(target = self.target)
 

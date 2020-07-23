@@ -136,9 +136,9 @@ void ReadMessage::RecursiveLoadMessage(AbstractDriver* msg, std::vector<MessageF
                 // stringstream, then convert to string
                 shortArray = msg->getSHORTPOINTERMethod(i);
                 arraySize = msg->getMethodArrayCount(i);
-                for (auto i = 0; i < arraySize; ++i)
+                for (auto arr = 0; arr < arraySize; ++arr)
                 {
-                    ss << shortArray.get()[i];
+                    ss << shortArray.get()[arr];
                 }
                 field.setValue(ss.str());
                 break;

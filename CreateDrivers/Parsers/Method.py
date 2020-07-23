@@ -28,7 +28,7 @@ class Method:
         t = dependencies[self.details.GetType()]
 
         if self.details.IsArray() and t.IsArray():
-            print 'Never implemented a means of getting array size from a double pointer'
+            print('Never implemented a means of getting array size from a double pointer')
             exit(-1)
 
         if self.details.IsArray():

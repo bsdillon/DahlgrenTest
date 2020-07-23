@@ -1,20 +1,26 @@
+import sys
 import re  # regex
 import os
 from DriverParser import DriverParser
 
 class FileUtilities:
-    dirPattern = '^(\/[\w^ ]+)+$'
+"""
+    FileUtilities provides standard methods to read source code 
+    files and handle them in a uniform way.
+"""
+    dirPattern = r'^(\/[\w^ ]+)+$'
     dirRegEx = re.compile(dirPattern)
     propDelimiter = ':'
 
     @staticmethod
     def ReadDefaults(defaultFile):
         """
-        Read the specified file if it exists. Return a properties dictionary (empty if the file doesn't exist)
+        Read the specified file if it exists. Return a properties
+        dictionary (empty if the file doesn't exist)
         :param defaultFile:
         :return: dictionary of propertyName:value
         """
-        print('Reading program settings...',end=" ")
+        print('Reading program settings...', end=" ")
         properties = {}
         try:
             if os.path.exists(defaultFile):
@@ -25,30 +31,30 @@ class FileUtilities:
                     line = file.readline().split(FileUtilities.propDelimiter)
                 file.close()
             print('Done\n\n')
-        except :
-            print ('Error in file\n')
+        except Exception as ex:
+            print('Error in file: '+ex+'\n')
             return {}
         return properties
     # end ReadDefaults
 
     @staticmethod
-    def WriteDefaults(defaultFile, defaults):
+    def WriteDefaults(default_file, defaults):
         """
         Write the default propertyName:value pairs to the specified file
-        :param defaultFile:
+        :param default_file:
         :param defaults:
         :return: None
         """
         print('Saving program settings...', end=" ")
-        file = open(defaultFile, 'w')
+        file = open(default_file, 'w')
         for prop in defaults.keys():
-            file.write('{prop}{propDelim}{defaults_prop}\n'.format(prop = prop, propDelim = FileUtilities.propDelimiter, defaults_prop = defaults[prop]))
+            file.write('{prop}{propDelim}{defaults_prop}\n'.format(prop=prop, propDelim=FileUtilities.propDelimiter, defaults_prop=defaults[prop]))
         file.close()
         print('Done\n\n')
     # end WriteDefaults
 
     @staticmethod
-    def validate_dir(directory, forceCreation):
+    def validate_dir(directory, force_creation):
         """
         Ensure directory is a valid.
         :param directory: a directory
@@ -57,7 +63,7 @@ class FileUtilities:
         """
         if directory.lower() == 'quit':
             print('Quitting!')
-            exit(0)
+            sys.exit(0)
 
         if not FileUtilities.dirRegEx.match(directory):
             #this error indicates the string is invalid in its structure
@@ -65,7 +71,7 @@ class FileUtilities:
 
         if not os.path.isdir(directory):
             #the string is valid as a path, but it doesn't exist
-            if forceCreation:
+            if force_creation:
                 os.makedirs(directory)
                 print('\n\tDirectory created\n')
             else:
@@ -89,8 +95,8 @@ class FileUtilities:
         """
 
         print('\nIdentifying topics...', end=" ")
-        for root, subdirList, fileList in os.walk(topics, topdown=True):
-            for fname in fileList:
+        for root, sub_dir_list, file_list in os.walk(topics, topdown=True):
+            for fname in file_list:
                 DriverParser.find_topics(os.path.join(root, fname))
         print('Done\n')
 
@@ -98,10 +104,10 @@ class FileUtilities:
             print('Driver files are incomplete. Reparsing messages')
             count = 1
             print('Identifying candidate Message classes...')
-            for root, subdirList, fileList in os.walk(source, topdown=True):
+            for root, sub_dir_list, file_list in os.walk(source, topdown=True):
                 print('Searching ' + root, end=" ")
-                for fname in fileList:
-                    if '.h' == fname[-2:] and fname[:3] != 'DDS':
+                for fname in file_list:
+                    if fname[-2:] == '.h' and fname[:3] != 'DDS':
                         #All header files are candidates for "message classes"
                         #No DDS files are acceptable as the contain no original classes
 
