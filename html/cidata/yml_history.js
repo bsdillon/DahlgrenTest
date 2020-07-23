@@ -59,3 +59,4 @@ commit["2020-07-20T18:54:19Z"]={"developer": "bsdillon", "message": "Merge pull 
 commit["2020-07-20T19:22:58Z"]={"developer": "bsdillon", "message": "Fixing yml lint and forcing review", "files": [".github/workflows/ci_report.yml"]};
 commit["2020-07-21T15:57:37Z"]={"developer": "kkarp9", "message": "removed artifact upload", "files": [".github/workflows/pulls_tracker.yml"]};
 commit["2020-07-21T15:59:44Z"]={"developer": "kkarp9", "message": "removed artifact upload", "files": [".github/workflows/contributor.yml"]};
+commit["2020-07-23T16:02:23Z"]={"developer": "bsdillon", "message": "Update ci_report.yml::so it runs on updates to this yml and python script", "files": [".github/workflows/ci_report.yml"]};
