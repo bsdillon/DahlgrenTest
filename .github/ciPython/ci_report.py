@@ -33,6 +33,10 @@ QUERY += "severity category} complexFunctions(howmany:"
 QUERY += str(comps)+" skip:0){filename}}}}"
 data2 = endpoint(QUERY, variables)
 
+print(data2['data'])
+print(data2['data']['project'])
+print(data2['data']['project']['lastAnalysis'])
+
 v_set = data2['data']['project']['lastAnalysis']['violations']
 c_set = data2['data']['project']['lastAnalysis']['complexFunctions']
 
