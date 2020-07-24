@@ -244,16 +244,16 @@ It is good practice to tell why you skip a test.%(stack)s]]></skipped>
     <testcase name="HasTypeParamAttribute" type_param="*" status="run" 
     result="completed" time="*" timestamp="*" classname="TypedTest/1" />
   </testsuite>
-  <testsuite name="Single/TypeParameterizedTestSuite/0" tests="1" 
+  <testsuite name="Single/TypeParameterizedTestSuite/0" tests="1"
   failures="0" disabled="0" skipped="0" errors="0" time="*" timestamp="*">
     <testcase name="HasTypeParamAttribute" type_param="*" status="run" 
-    result="completed" time="*" timestamp="*" 
+    result="completed" time="*" timestamp="*"
     classname="Single/TypeParameterizedTestSuite/0" />
   </testsuite>
-  <testsuite name="Single/TypeParameterizedTestSuite/1" tests="1" 
+  <testsuite name="Single/TypeParameterizedTestSuite/1" tests="1"
   failures="0" disabled="0" skipped="0" errors="0" time="*" timestamp="*">
-    <testcase name="HasTypeParamAttribute" type_param="*" status="run" 
-    result="completed" time="*" timestamp="*" 
+    <testcase name="HasTypeParamAttribute" type_param="*" status="run"
+    result="completed" time="*" timestamp="*"
     classname="Single/TypeParameterizedTestSuite/1" />
   </testsuite>
 </testsuites>""" % {

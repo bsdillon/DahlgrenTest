@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parsing PDFs in Python</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+</head>
+<body>
+    <h3>Parsing PDFs Using Python Libraries</h3>
+    <p>Using some of Python's standard libraries,
+    a python script can be capable of downloading a PDF file to read it, split it by
+    writing certain pages to another PDF file, and extract text and tables. The code below shows a
+    demonstration of extracting a PDF from a url, taking two pages from the document, extracting
+    text and tables, outputting the table as a DataFrame, and
+        converting it to a CSV file (this could also be converted to TSV
+    or JSON). The following libraries are used to accomplish the tasks:</p>
+    <ul>
+        <li><code>os</code></li>
+        <li><code>requests</code></li>
+        <li><code>pandas</code></li>
+        <li><code>PyPDF2</code></li>
+        <li><code>tabula</code></li>
+    </ul>
+    <h4>Code</h4>
+    <code>
+        1. import os<br>
+        2. import requests<br>
+        3. import pandas as pd<br>
+        4. from PyPDF2 import PdfFileReader, PdfFileWriter<br>
+        5. import tabula<br>
+        6.<br>
+        7. url = 'https://www.jcs.mil/Portals/36/Documents/Doctrine/Other_Pubs/ms_2525d.pdf'<br>
+        8. r = requests.get(url)<br>
+        9. with open('reader.pdf", "wb') as pdf:<br>
+        10. &nbsp;&nbsp;&nbsp;for chunk in r.iter_content():<br>
+        11. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if chunk:<br>
+        12. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pdf.write(chunk)<br>
+        13.<br>
+        14. out = open('output.txt', 'w')<br>
+        15. pdfFile = open('reader.pdf', 'rb')<br>
+        16. writer = PdfFileWriter()<br>
+        17. pdfRead = PdfFileReader(pdfFile)<br>
+        18. print('Number of pages in this pdf:', pdfRead.numPages)<br>
+        19. <br>
+        20. tablePage = pdfRead.getPage(35)<br>
+        21. textPage = pdfRead.getPage(34)<br>
+        22. writer.addPage(tablePage)<br>
+        23. with open('output.pdf', 'wb') as outfile:<br>
+        24. &nbsp;&nbsp;&nbsp;writer.write(outfile)<br>
+        25. tables = tabula.read_pdf('output.pdf', pages="all")<br>
+        26. data = tables[0]<br>
+        27. data = data.fillna('')<br>
+        28. with pd.option_context('display.max_rows', None, 'display.max_columns', None):<br>
+        29. &nbsp;&nbsp;&nbsp;pd.set_option('display.expand_frame_repr', False)<br>
+        30. &nbsp;&nbsp;&nbsp;print(data)<br>
+        31. tabula.convert_into('output.pdf', 'test.csv', output_format="csv")<br>
+        32. <br>
+        33. pdfFile.close()<br>
+        34. os.remove('output.pdf')<br>
+        35. os.remove('reader.pdf')<br>
+        36. out.close()<br>
+    </code>
+    <h4>Explanation of code</h4>
+    <ol>
+        <li value="8">Request gets the given url.</li>
+        <li value="9">Downloads the chunks from the url into a temporary reader PDF file
+            in the for loop the following line.</li>
+        <li value="16">PdfFileWriter is an object of the PyPDF2 library that write to a PDF file.</li>
+        <li value="17">PdfFileReader is another object of PyPDF2 that reads a PDF file.</li>
+        <li value="20">PdfFileReader includes a function, getPage(page#), that returns a page of the
+            PDF file with the given page number. Note that index 0 is equivalent to page 1.</li>
+        <li value="22">This is where the PdfFileWriter object adds the page object to
+        write it to another PDF file the following two lines.</li>
+        <li value="25">With tabula-py, it can read the written PDF file that contains the page
+        with tables and returns a list of all tables. In this case, there is only one table.</li>
+        <li value="26">Each table in the list of tables is a DataFrame object.</li>
+        <li value="27">A DataFrame object consists of cells of rows and columns where there may be
+        empty cells depending on the extracted table. Each empty cell gets labeled with "NaN",
+        and this call removes the label by replacing it with an empty string.</li>
+        <li value="28">Pandas is a library that supports configurations to DataFrames, and the
+        following modifications from this line and the following one configure the DataFrame where it prints out
+        all columns and rows (by default, only a few are printed) with no line breaks. A sample of the DataFrame is
+            shown below compared to the table from a PDF file.</li>
+        <li value="31">Tabula converts the table in the PDF to a CSV file.</li>
+        <li value="34">OS deletes the temporary PDF files used to output and extract
+        text and tables from the files.</li>
+    </ol>
+    <p>More examples of utilizing the functions from tabula is
+    <a href="https://nbviewer.jupyter.org/github/chezou/tabula-py/blob/master/examples/tabula_example.ipynb">here</a>.</p>
+    <h4>DataFrame Output Comparison</h4>
+    <img src="../imgs/ParsePDF.JPG" alt="DataFrame" />
+    <img src="../imgs/pdfTable.JPG" alt="PDF Table" /><br>
+    <h4>CSV Output</h4>
+    <img src="../imgs/parseCSV.JPG" alt="CSV Table" /><br>
+</body>
+</html>
