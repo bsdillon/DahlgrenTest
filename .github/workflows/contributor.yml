@@ -5,8 +5,8 @@ name: Contributor Activity
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    # every night at 2350
-    - cron: '50 23 * * *'
+    # every night at 6:13am Zulu (about 2am EST)
+    - cron: '13 6 * * *'
 
 jobs:
   FindContributorActivity:
@@ -29,18 +29,13 @@ jobs:
           --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
-      # yamllint enable rule:line-length
       - name: Run Contributor Stats
-        # yamllint disable rule:line-length
         run: python .github/ciPython/contributor_stats.py contribute.json
       - name: Commit daily and total commits
         run: |
-          mv daily_commit.txt ./html/cidata/
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub  Action"
-          git add ./html/cidata/daily_commit.txt
-          git add ./html/cidata/total_commit.txt
-          git add ./html/cidata/daily_commits.js
+          git add ./html/cidata/weekly_commits.js
           git commit -m "Daily and Total Contributor Commits" -a
       # yamllint enable rule:line-length
       - name: Push changes

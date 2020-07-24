@@ -56,13 +56,13 @@ addons:
     packages:
       - g++
       - clang
-        update: "true"
+    update: "true"
   homebrew:
     packages:
       - ccache
       - gcc@4.9
       - llvm@4
-        update: true
+    update: true
 
 notifications:
   email: false

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weekly Commits over Time</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+    <style>
+    </style>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="./createlinechart.js"></script>
+    <script src="./../cidata/weekly_commits.js"></script>
+    <script>
+      var myLine;
+      var config;
+
+      function emptytt()
+      {
+      }
+
+      function loadData()
+      {
+        width = 600;
+        height = 600;
+        config = createConfig('Weekly Commit Count for each Contributor', 'Date', 'Commits',emptytt, false);
+        myLine = createChart("can",width,height,config);
+
+        processData();
+        myLine.update();
+      }
+
+      function processData()
+      {
+        var fileData = {};
+        var format = {day: '2-digit', month: '2-digit', year: 'numeric'};
+        var raws = [];
+        var labels = [];
+        var users = {};
+        for(const [key, value] of Object.entries(contributions))
+        {
+          var d = new Date(Date.parse(key));
+          var sec = d.getTime()
+          raws.push(sec);
+          fileData[sec]=value;
+
+          for(const [key2, num] of Object.entries(value))
+          {
+            if(!(key2 in users))
+            {
+              users[key2]=[];
+            }
+          }
+        }
+
+        raws.sort();
+
+        for(let i=0;i<raws.length;i++)
+        {
+          var d = new Date(raws[i]);
+          var date = d.toLocaleDateString('en-US', format);
+          labels.push(date);
+          for(key2 in fileData[raws[i]])
+          {
+            var num = fileData[raws[i]][key2];
+            users[key2].push(num);
+          }
+
+        }
+
+        setChartLabels(config, labels);
+
+        for (const [user,set] of Object.entries(users))
+        {
+          createRandomStyleArea(config, user, set);
+        }
+      }
+    </script>
+  </head>
+  <body onload="loadData()">
+    <canvas id="can"></canvas>
+    <div id="messageData" class="mobile"></div>
+  </body>
+</html>
