@@ -68,7 +68,8 @@ def GetFlag(flag):
 
 
 def TestFlag(flag, test_val, default_val):
-    """Verifies that the given flag is affected by the corresponding env var."""
+    """Verifies that the given flag is affected by the
+    corresponding env var."""
 
     env_var = 'GTEST_' + flag.upper()
     SetEnvVar(env_var, test_val)
@@ -80,7 +81,8 @@ def TestFlag(flag, test_val, default_val):
 class GTestEnvVarTest(gtest_test_utils.TestCase):
 
     def testEnvVarAffectsFlag(self):
-        """Tests that environment variable should affect the corresponding flag."""
+        """Tests that environment variable should affect the
+        corresponding flag."""
 
         TestFlag('break_on_failure', '1', '0')
         TestFlag('color', 'yes', 'auto')

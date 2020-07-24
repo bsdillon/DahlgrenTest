@@ -302,7 +302,8 @@ def ParseExpTokenInParens(lines, pos):
 
 def RStripNewLineFromToken(token):
     if token.value.endswith('\n'):
-        return Token(token.start, token.end, token.value[:-1], token.token_type)
+        return Token(token.start, token.end, token.value[:-1],
+                     token.token_type)
     else:
         return token
 
@@ -492,7 +493,8 @@ def ParseElseNode(tokens):
         code_node = ParseCodeNode(tokens)
         Pop(']]')
         inner_else_node = ParseElseNode(tokens)
-        return CodeNode([IfNode(ParseExpNode(exp), code_node, inner_else_node)])
+        return CodeNode([IfNode(ParseExpNode(exp), code_node,
+                                inner_else_node)])
     elif not next.value.strip():
         Pop('code')
         return ParseElseNode(tokens)
@@ -796,14 +798,16 @@ def WrapLongLine(line, output):
         output.append(line)
     elif IsSingleLineComment(line):
         if IsHeaderGuardIncludeOrOneLineIWYUPragma(line):
-            # The style guide made an exception to allow long header guard lines,
+            # The style guide made an exception to allow long
+            # header guard lines,
             # includes and IWYU pragmas.
             output.append(line)
         else:
             WrapComment(line, output)
     elif IsInPreprocessorDirective(output, line):
         if IsHeaderGuardIncludeOrOneLineIWYUPragma(line):
-            # The style guide made an exception to allow long header guard lines,
+            # The style guide made an exception to allow long
+            # header guard lines,
             # includes and IWYU pragmas.
             output.append(line)
         else:

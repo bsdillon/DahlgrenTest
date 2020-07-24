@@ -73,7 +73,8 @@ SetEnvVar(gtest_test_utils.PREMATURE_EXIT_FILE_ENV_VAR, None)
 
 
 def Run(command):
-    """Runs a command; returns 1 if it was killed by a signal, or 0 otherwise."""
+    """Runs a command; returns 1 if it was killed by a signal,
+    or 0 otherwise."""
 
     p = gtest_test_utils.Subprocess(command, env=environ)
     if p.terminated_by_signal:
@@ -100,7 +101,8 @@ class GTestBreakOnFailureUnitTest(gtest_test_utils.TestCase):
                             variable; None if the variable should be unset.
           flag_value:       value of the --gtest_break_on_failure flag;
                             None if the flag should not be present.
-          expect_seg_fault: 1 if the program is expected to generate a seg-fault;
+          expect_seg_fault: 1 if the program is expected to generate a
+          seg-fault;
                             0 otherwise.
         """
 
@@ -132,7 +134,8 @@ class GTestBreakOnFailureUnitTest(gtest_test_utils.TestCase):
         SetEnvVar(BREAK_ON_FAILURE_ENV_VAR, None)
 
         msg = (
-                    'when %s%s, an assertion failure in "%s" %s cause a seg-fault.' %
+                    'when %s%s, an assertion failure in "%s" %s cause a'
+                    'eg-fault.' %
                     (BREAK_ON_FAILURE_ENV_VAR, env_var_value_msg,
                      ' '.join(command),
                      should_or_not))
@@ -182,7 +185,8 @@ class GTestBreakOnFailureUnitTest(gtest_test_utils.TestCase):
                           expect_seg_fault=1)
 
     def testBreakOnFailureOverridesThrowOnFailure(self):
-        """Tests that gtest_break_on_failure overrides gtest_throw_on_failure."""
+        """Tests that gtest_break_on_failure overrides
+        gtest_throw_on_failure."""
 
         SetEnvVar(THROW_ON_FAILURE_ENV_VAR, '1')
         try:

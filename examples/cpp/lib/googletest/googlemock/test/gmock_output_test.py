@@ -61,7 +61,8 @@ def ToUnixLineEnding(s):
 
 
 def RemoveReportHeaderAndFooter(output):
-    """Removes Google Test result report's header and footer from the output."""
+    """Removes Google Test result report's header and footer
+    from the output."""
 
     output = re.sub(r'.*gtest_main.*\n', '', output)
     output = re.sub(r'\[.*\d+ tests.*\n', '', output)
@@ -88,7 +89,8 @@ def RemoveLocations(output):
 
 
 def NormalizeErrorMarker(output):
-    """Normalizes the error marker, which is different on Windows vs on Linux."""
+    """Normalizes the error marker, which is different on
+    Windows vs on Linux."""
 
     return re.sub(r' error: ', ' Failure\n', output)
 
@@ -140,7 +142,8 @@ def GetShellCommandOutput(cmd):
 
 
 def GetNormalizedCommandOutputAndLeakyTests(cmd):
-    """Runs a command and returns its normalized output and a list of leaky tests.
+    """Runs a command and returns its normalized output and a
+    list of leaky tests.
 
     Args:
       cmd:  the shell command.

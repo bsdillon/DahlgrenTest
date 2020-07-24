@@ -32,6 +32,9 @@
 import os
 import sys
 
+# pylint: disable=C6204
+import gtest_test_utils
+
 # Determines path to gtest_test_utils and imports it.
 SCRIPT_DIR = os.path.dirname(__file__) or '.'
 
@@ -43,8 +46,7 @@ else:
     GTEST_TESTS_UTIL_DIR = os.path.join(SCRIPT_DIR, '../../googletest/test')
 sys.path.append(GTEST_TESTS_UTIL_DIR)
 
-# pylint: disable=C6204
-import gtest_test_utils
+
 
 
 def GetSourceDir():
@@ -56,7 +58,8 @@ def GetSourceDir():
 def GetTestExecutablePath(executable_name):
     """Returns the absolute path of the test binary given its name.
 
-    The function will print a message and abort the program if the resulting file
+    The function will print a message and abort the program if the
+    resulting file
     doesn't exist.
 
     Args:

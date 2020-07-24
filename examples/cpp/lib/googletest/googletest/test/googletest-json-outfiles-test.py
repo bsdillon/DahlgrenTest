@@ -132,8 +132,10 @@ class GTestJsonOutFilesTest(gtest_test_utils.TestCase):
     """Unit test for Google Test's JSON output functionality."""
 
     def setUp(self):
-        # We want the trailing '/' that the last "" provides in os.path.join, for
-        # telling Google Test to create an output directory instead of a single file
+        # We want the trailing '/' that the last "" provides in
+        # os.path.join, for
+        # telling Google Test to create an output directory
+        # instead of a single file
         # for xml output.
         self.output_dir_ = os.path.join(gtest_test_utils.GetTempDir(),
                                         GTEST_OUTPUT_SUBDIR, '')
@@ -168,8 +170,8 @@ class GTestJsonOutFilesTest(gtest_test_utils.TestCase):
         gtest_prog_path = gtest_test_utils.GetTestExecutablePath(test_name)
         command = [gtest_prog_path,
                    '--gtest_output=json:%s' % self.output_dir_]
-        p = gtest_test_utils.Subprocess(command,
-                                        working_dir=gtest_test_utils.GetTempDir())
+        p = gtest_test_utils.\
+            Subprocess(command, working_dir=gtest_test_utils.GetTempDir())
         self.assert_(p.exited)
         self.assertEquals(0, p.exit_code)
 
