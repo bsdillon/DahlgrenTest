@@ -1,0 +1,22 @@
+My issue: Create a simple HTML page with a button that returns a value from C++ code when pressed.
+
+First I looked at Google Protocol Buffers
+-Code that can be outputted into different languages (Js, C++, etc)
+-Can compact packages into smaller packages/binary
+
+Next I looked at Node.js
+-Asynchronous, non-blocking Javascript runtime environment
+-C++ addons
+  -dynamically-linked shared objects written in c/c++
+  -provide an interface between javascript and c/c++ libraries
+This seemed the most promising so I went with it
+
+I coded a C++ addon that compared the time it took for Javascript and C++ to run the same function, got from an example online
+I used the C++ function and binding.gyp file from that example for my own project
+Created a simple Node.js server along with those files
+Created a module that can be called in the server's script to call the C++ function
+Coded the server to display text "The solution to a complicated math problem" + the module/solution to C++ calculation
+
+Created a javascript file to send an XMLHttp request to the Javascript server to alert the text
+Created an HTML page with a button and event listener that called the XLMHttp request on click
+Surprised myself with actually completing this project!
