@@ -62,10 +62,8 @@ while not validated:
         defaultsChanged |= topic_dir != default_topic_dir
         validated = True
     except OSError as e:
-        print
-        e
-        print
-        'Please try again'
+        print(e)
+        print('Please try again')
         continue
 
 validated = False
@@ -79,10 +77,8 @@ while not validated:
         defaultsChanged |= driver_dir != default_driver_dir
         validated = True
     except OSError as e:
-        print
-        e
-        print
-        'Please try again.'
+        print( e)
+        print( 'Please try again.')
         continue
 
 while defaultsChanged:
@@ -96,13 +92,13 @@ while defaultsChanged:
         defaults['topic_directory'] = default_topic_dir
         defaults['driver_directory'] = default_driver_dir
         FileUtilities.WriteDefaults(settingFile, defaults)
-        print('Defaults updated')
+        print( 'Defaults updated')
         defaultsChanged = False
     elif ans == 'N':
-        print('Defaults unchanged')
+        print( 'Defaults unchanged')
         defaultsChanged = False
     else:
-        print('\nInvalid input')
+        print( '\nInvalid input')
 
 FileUtilities.ReadAllFiles(source_dir, topic_dir, driver_dir)
 # end main()

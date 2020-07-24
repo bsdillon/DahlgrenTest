@@ -58,7 +58,7 @@ class DriverParser:
 
     @staticmethod
     def ValidateDrivers(fileList, driver_dir):
-        # pull a directory that has all the files in it
+        """pull a directory that has all the files in it"""
         return DriverParser.tracker.ValidateDrivers(fileList, driver_dir)
 
 

@@ -69,9 +69,8 @@ class TypeDictionary:
 
             typeFound = parts[index]
 
-        if index + 1 == len(parts):
-            print
-            'Not enough tokens in ' + core
+        if index+1 == len(parts):
+            print('Not enough tokens in '+core)
             exit(-1)
 
         if '[' in parts[index + 1]:
@@ -131,9 +130,8 @@ class TypeDictionary:
                 # new fullname is more inclusive; replace it.
                 return name
 
-            # some error with names
-            print
-            'Multiple full names correspond to the simple name ' + name
+            #some error with names
+            print( 'Multiple full names correspond to the simple name '+name)
             exit(-1)
 
         return name

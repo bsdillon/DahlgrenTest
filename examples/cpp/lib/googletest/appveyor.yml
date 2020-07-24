@@ -100,7 +100,8 @@ before_build:
 
 build_script:
   - ps: |
-      # Only enable some builds for pull requests, the AppVeyor queue is too long.
+      # Only enable some builds for pull requests,
+      # the AppVeyor queue is too long.
       if ((Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER) -And (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes")) {
         return
       } else {
@@ -139,14 +140,14 @@ build_script:
           throw "Exec: $ErrorMessage"
       }
 
-
 skip_commits:
   files:
     - '**/*.md'
 
 test_script:
   - ps: |
-      # Only enable some builds for pull requests, the AppVeyor queue is too long.
+      # Only enable some builds for pull requests,
+      # the AppVeyor queue is too long.
       if ((Test-Path env:APPVEYOR_PULL_REQUEST_NUMBER) -And (-not (Test-Path env:enabled_on_pr) -or $env:enabled_on_pr -ne "yes")) {
         return
       }
@@ -166,6 +167,12 @@ test_script:
           if ($env:generator -eq "MinGW Makefiles") {
               return # No test available for MinGW
           }
+
+          & ctest -C $env:configuration --timeout 600 --output-on-failure
+          if ($LastExitCode -ne 0) {
+              throw "Exec: $ErrorMessage"
+          }
+      }
 
           & ctest -C $env:configuration --timeout 600 --output-on-failure
           if ($LastExitCode -ne 0) {

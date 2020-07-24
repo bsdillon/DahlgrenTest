@@ -58,21 +58,15 @@ class ParseClass(AbstractParser):
                         self.ParseParentClass()
                         return
                 # if the target isn't found, we need to throw an error
-                print
-                '\nTarget class {target} not found in {header_full}'.format(
-                    target=self.target, header_full=self.header_full)
+                print('\nTarget class {target} not found in {header_full}'.format(target = self.target, header_full = self.header_full))
                 exit(-1)
 
-            # if no target it designated we need to throw an error
-            print
-            '\nHeader file has more than 1 class: {header_full}'.format(
-                header_full=self.header_full)
+            #if no target it designated we need to throw an error
+            print('\nHeader file has more than 1 class: {header_full}'.format(header_full = self.header_full))
             exit(-1)
 
         if len(self.parser.classes) == 0:
-            print
-            '\nHeader file has no class: {header_full}'.format(
-                header_full=self.header_full)
+            print('\nHeader file has no class: {header_full}'.format(header_full = self.header_full))
             exit(-1)
 
         for c in self.parser.classes:

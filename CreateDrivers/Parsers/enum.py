@@ -30,8 +30,7 @@ class ParseEnum(AbstractParser):
                         self.valueMap[v['value']] = v['name']
                     return
 
-        print
-        'Enum ' + self.target + ' not found in ' + self.header_full
+        print('Enum ' + self.target + ' not found in ' + self.header_full)
         exit(1)
 
     def GetType(self):

@@ -28,7 +28,3 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > pulls.json \
       # yamllint enable rule:line-length
-      - uses: actions/upload-artifact@v1
-        with:
-          name: All-pulls
-          path: pulls.json

@@ -1,3 +1,4 @@
+import sys
 import os
 
 import CppHeaderParser  # v2.7.4 must be installed
@@ -17,6 +18,9 @@ from TypeDictionary import TypeDictionary
 
 
 class DependencyFinder:
+"""
+  Extracts all the classes, typedefs, etc. from the source files.
+"""
     def __init__(self, path, filename, driver_path):
 
         self.path = path

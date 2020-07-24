@@ -86,6 +86,9 @@ GTEST_ALL_CC_SEED = 'src/gtest-all.cc'
 GTEST_H_OUTPUT = 'gtest/gtest.h'
 GTEST_ALL_CC_OUTPUT = 'gtest/gtest-all.cc'
 
+OUTPUT_FILE = ""
+PROCESSED_FILES = {}
+
 
 def VerifyFileExists(directory, relative_path):
     """Verifies that the given file exists; aborts on failure.
@@ -118,8 +121,8 @@ def VerifyOutputFile(output_dir, relative_path):
     """
 
     # Makes sure the output file either doesn't exist or can be overwritten.
-    output_file = os.path.join(output_dir, relative_path)
-    if os.path.exists(output_file):
+    OUTPUT_FILE = os.path.join(output_dir, relative_path)
+    if os.path.exists(OUTPUT_FILE):
         # TODO(wan@google.com): The following user-interaction doesn't
         # work with automated processes.  We should provide a way for the
         # Makefile to force overwriting the files.
@@ -132,7 +135,7 @@ def VerifyOutputFile(output_dir, relative_path):
 
     # Makes sure the directory holding the output file exists; creates
     # it and all its ancestors if necessary.
-    parent_directory = os.path.dirname(output_file)
+    parent_directory = os.path.dirname(OUTPUT_FILE)
     if not os.path.isdir(parent_directory):
         os.makedirs(parent_directory)
 
@@ -150,8 +153,9 @@ def ValidateOutputDir(output_dir):
 def FuseGTestH(gtest_root, output_dir):
     """Scans folder gtest_root to generate gtest/gtest.h in output_dir."""
 
-    output_file = open(os.path.join(output_dir, GTEST_H_OUTPUT), 'w')
-    processed_files = set()  # Holds all gtest headers we've processed.
+    OUTPUT_FILE = open(os.path.join(output_dir, GTEST_H_OUTPUT), 'w')
+    PROCESSED_FILES = set()  # Holds all gtest headers we've processed.
+
 
 
 def ProcessFile(gtest_header_path):
@@ -164,26 +168,28 @@ def ProcessFile(gtest_header_path):
     processed_files.add(gtest_header_path)
 
     # Reads each line in the given gtest header.
-    for line in open(os.path.join(gtest_root, gtest_header_path), 'r'):
+    for line in open(os.path.join(DEFAULT_GTEST_ROOT_DIR, gtest_header_path), 'r'):
         m = INCLUDE_GTEST_FILE_REGEX.match(line)
         if m:
             # It's '#include "gtest/..."' - let's process it recursively.
             ProcessFile('include/' + m.group(1))
         else:
             # Otherwise we copy the line unchanged to the output file.
-            output_file.write(line)
+            OUTPUT_FILE.write(line)
 
     ProcessFile(GTEST_H_SEED)
-    output_file.close()
+    OUTPUT_FILE.close()
 
 
 def FuseGTestAllCcToFile(gtest_root, output_file):
-    """Scans folder gtest_root to generate gtest/gtest-all.cc in output_file."""
+    """
+      Scans folder gtest_root to generate
+      gtest/gtest-all.cc in output_file.
+    """
 
     processed_files = set()
 
-
-def ProcessFile(gtest_source_file):
+def ProcessFileSource(gtest_source_file):
     """Processes the given gtest source file."""
 
     # We don't process the same #included file twice.
@@ -193,7 +199,7 @@ def ProcessFile(gtest_source_file):
     processed_files.add(gtest_source_file)
 
     # Reads each line in the given gtest source file.
-    for line in open(os.path.join(gtest_root, gtest_source_file), 'r'):
+    for line in open(os.path.join(DEFAULT_GTEST_ROOT_DIR, gtest_source_file), 'r'):
         m = INCLUDE_GTEST_FILE_REGEX.match(line)
         if m:
             if 'include/' + m.group(1) == GTEST_SPI_H_SEED:
@@ -209,14 +215,14 @@ def ProcessFile(gtest_source_file):
                 # There is no need to #include "gtest/gtest.h" more than once.
                 if GTEST_H_SEED not in processed_files:
                     processed_files.add(GTEST_H_SEED)
-                    output_file.write('#include "%s"\n' % (GTEST_H_OUTPUT,))
+                    OUTPUT_FILE.write('#include "%s"\n' % (GTEST_H_OUTPUT,))
         else:
             m = INCLUDE_SRC_FILE_REGEX.match(line)
             if m:
                 # It's '#include "src/foo"' - let's process it recursively.
                 ProcessFile(m.group(1))
             else:
-                output_file.write(line)
+                OUTPUT_FILE.write(line)
 
     ProcessFile(GTEST_ALL_CC_SEED)
 
@@ -224,9 +230,9 @@ def ProcessFile(gtest_source_file):
 def FuseGTestAllCc(gtest_root, output_dir):
     """Scans folder gtest_root to generate gtest/gtest-all.cc in output_dir."""
 
-    output_file = open(os.path.join(output_dir, GTEST_ALL_CC_OUTPUT), 'w')
-    FuseGTestAllCcToFile(gtest_root, output_file)
-    output_file.close()
+    OUTPUT_FILE = open(os.path.join(output_dir, GTEST_ALL_CC_OUTPUT), 'w')
+    FuseGTestAllCcToFile(gtest_root, OUTPUT_FILE)
+    OUTPUT_FILE.close()
 
 
 def FuseGTest(gtest_root, output_dir):
