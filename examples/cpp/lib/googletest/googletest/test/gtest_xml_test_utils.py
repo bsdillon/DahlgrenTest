@@ -73,7 +73,8 @@ class GTestXMLTestCase(gtest_test_utils.TestCase):
         actual_attributes = actual_node.attributes
         self.assertEquals(
             expected_attributes.length, actual_attributes.length,
-            'attribute numbers differ in element %s:\nExpected: %r\nActual: %r' % (
+            'attribute numbers differ in element %s:\nExpected: %r\nActual:'
+            '%r' % (
                 actual_node.tagName, expected_attributes.keys(),
                 actual_attributes.keys()))
         for i in range(expected_attributes.length):
@@ -93,7 +94,8 @@ class GTestXMLTestCase(gtest_test_utils.TestCase):
         actual_children = self._GetChildren(actual_node)
         self.assertEquals(
             len(expected_children), len(actual_children),
-            'number of child elements differ in element ' + actual_node.tagName)
+            'number of child elements differ in element ' +
+            actual_node.tagName)
         for child_id, child in expected_children.items():
             self.assert_(child_id in actual_children,
                          '<%s> is not in <%s> (in element %s)' %
@@ -121,7 +123,8 @@ class GTestXMLTestCase(gtest_test_utils.TestCase):
         text nodes are concatenated into a single CDATA section with ID
         "detail".  An exception is raised if any element other than the above
         four is encountered, if two child elements with the same identifying
-        attributes are encountered, or if any other type of node is encountered.
+        attributes are encountered, or if any other type of node is
+        encountered.
         """
 
         children = {}
@@ -129,12 +132,14 @@ class GTestXMLTestCase(gtest_test_utils.TestCase):
             if child.nodeType == Node.ELEMENT_NODE:
                 if child.tagName == 'properties':
                     self.assert_(child.parentNode is not None,
-                                 'Encountered <properties> element without a parent')
+                                 'Encountered <properties> element without a'
+                                 'parent')
                     child_id = child.parentNode.getAttribute(
                         'name') + '-properties'
                 else:
                     self.assert_(child.tagName in self.identifying_attribute,
-                                 'Encountered unknown element <%s>' % child.tagName)
+                                 'Encountered unknown element <%s>' %
+                                 child.tagName)
                     child_id = child.getAttribute(
                         self.identifying_attribute[child.tagName])
                 self.assert_(child_id not in children)
@@ -155,19 +160,22 @@ class GTestXMLTestCase(gtest_test_utils.TestCase):
 
     def NormalizeXml(self, element):
         """
-        Normalizes Google Test's XML output to eliminate references to transient
+        Normalizes Google Test's XML output to eliminate references to
+        transient
         information that may change from run to run.
 
         *  The "time" attribute of <testsuites>, <testsuite> and <testcase>
            elements is replaced with a single asterisk, if it contains
            only digit characters.
-        *  The "timestamp" attribute of <testsuites> elements is replaced with a
+        *  The "timestamp" attribute of <testsuites> elements is replaced
+        with a
            single asterisk, if it contains a valid ISO8601 datetime value.
         *  The "type_param" attribute of <testcase> elements is replaced with a
            single asterisk (if it sn non-empty) as it is the type name returned
            by the compiler and is platform dependent.
         *  The line info reported in the first line of the "message"
-           attribute and CDATA section of <failure> elements is replaced with the
+           attribute and CDATA section of <failure> elements is replaced
+           ith the
            file's basename and a single asterisk for the line number.
         *  The directory names in file paths are removed.
         *  The stack traces are removed.
@@ -190,7 +198,8 @@ class GTestXMLTestCase(gtest_test_utils.TestCase):
             message.value = re.sub(source_line_pat, '\\1*\n', message.value)
             for child in element.childNodes:
                 if child.nodeType == Node.CDATA_SECTION_NODE:
-                    # Replaces the source line information with a normalized form.
+                    # Replaces the source line information with a
+                    # normalized form.
                     cdata = re.sub(source_line_pat, '\\1*\n', child.nodeValue)
                     # Removes the actual stack trace.
                     child.nodeValue = re.sub(r'Stack trace:\n(.|\n)*',

@@ -34,14 +34,14 @@
 import os
 import sys
 
-IS_WINDOWS = os.name == 'nt'
-IS_CYGWIN = os.name == 'posix' and 'CYGWIN' in os.uname()[0]
-IS_OS2 = os.name == 'os2'
-
 import atexit
 import shutil
 import tempfile
 import unittest as _test_module
+
+IS_WINDOWS = os.name == 'nt'
+IS_CYGWIN = os.name == 'posix' and 'CYGWIN' in os.uname()[0]
+IS_OS2 = os.name == 'os2'
 
 try:
     import subprocess
@@ -129,7 +129,8 @@ def GetSourceDir():
 
 
 def GetBuildDir():
-    """Returns the absolute path of the directory where the test binaries are."""
+    """Returns the absolute path of the directory where the test
+    binaries are."""
 
     return os.path.abspath(GetFlag('build_dir'))
 
@@ -155,7 +156,8 @@ def GetTempDir():
 def GetTestExecutablePath(executable_name, build_dir=None):
     """Returns the absolute path of the test binary given its name.
 
-    The function will print a message and abort the program if the resulting file
+    The function will print a message and abort the program if the
+    resulting file
     doesn't exist.
 
     Args:
@@ -174,8 +176,10 @@ def GetTestExecutablePath(executable_name, build_dir=None):
 
     if not os.path.exists(path):
         message = (
-                'Unable to find the test binary "%s". Please make sure to provide\n'
-                'a path to the binary via the --build_dir flag or the BUILD_DIR\n'
+                'Unable to find the test binary "%s". Please make sure'
+                'to provide\n'
+                'a path to the binary via the --build_dir flag or the'
+                'BUILD_DIR\n'
                 'environment variable.' % path)
         print >> sys.stderr, message
         sys.exit(1)
@@ -206,26 +210,30 @@ def GetExitStatus(exit_code):
 class Subprocess:
     def __init__(self, command, working_dir=None, capture_stderr=True,
                  env=None):
-        """Changes into a specified directory, if provided, and executes a command.
+        """Changes into a specified directory, if provided, and executes a
+        command.
 
         Restores the old directory afterwards.
 
         Args:
           command:        The command to run, in the form of sys.argv.
           working_dir:    The directory to change into.
-          capture_stderr: Determines whether to capture stderr in the output member
+          capture_stderr: Determines whether to capture stderr in the output
+          member
                           or to discard it.
-          env:            Dictionary with environment to pass to the subprocess.
+          env:            Dictionary with environment to pass to the
+                          subprocess.
 
         Returns:
           An object that represents outcome of the executed process. It has the
           following attributes:
-            terminated_by_signal   True if and only if the child process has been
+            terminated_by_signal   True if and only if the child process has
+                                    been
                                    terminated by a signal.
             signal                 Sygnal that terminated the child process.
             exited                 True if and only if the child process exited
                                    normally.
-            exit_code              The code with which the child process exited.
+            exit_code              The code with which the child process exited
             output                 Child process's stdout and stderr output
                                    combined in a string.
         """
@@ -256,13 +264,15 @@ class Subprocess:
 
             def _ReplaceEnvDict(dest, src):
                 # Changes made by os.environ.clear are not inheritable by child
-                # processes until Python 2.6. To produce inheritable changes we have
+                # processes until Python 2.6. To produce inheritable changes
+                # we have
                 # to delete environment items with the del statement.
                 for key in dest.keys():
                     del dest[key]
                 dest.update(src)
 
-            # When 'env' is not None, backup the environment variables and replace
+            # When 'env' is not None, backup the environment variables and
+            # replace
             # them with the passed 'env'. When 'env' is None, we simply use the
             # current 'os.environ' for compatibility with the subprocess.Popen
             # semantics used above.

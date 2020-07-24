@@ -188,9 +188,9 @@ class Foo {
 class Foo {
  public:
   virtual void Bar(
-        int a = 42, 
-        char c = 'x', 
-        const int* const p = nullptr, 
+        int a = 42,
+        char c = 'x',
+        const int* const p = nullptr,
         const std::string& s = "42",
         char tab[] = {'4','2'},
         int const *& rp = aDefaultPointer) = 0;
@@ -198,7 +198,8 @@ class Foo {
 """
         self.assertEqualIgnoreLeadingWhitespace(
             'MOCK_METHOD(void, Bar, '
-            '(int a, char c, const int* const p, const std::string& s, char tab[], int const *& rp), '
+            '(int a, char c, const int* const p, const std::string& s,'
+            'char tab[], int const *& rp), '
             '(override));', self.GenerateMethodSource(source))
 
     def testMultipleSingleLineDefaultParameters(self):
@@ -231,7 +232,8 @@ class Test {
 };
 """
         self.assertEqualIgnoreLeadingWhitespace(
-            'MOCK_METHOD(bool, Bar, (const std::string& test_arg), (override));',
+            'MOCK_METHOD(bool, Bar, (const std::string& test_arg),'
+            '(override));',
             self.GenerateMethodSource(source))
 
     def testRemovesCommentsWhenDefaultsArePresent(self):
@@ -280,7 +282,8 @@ class Foo {
   virtual int Bar(const vector<int>& v, map<int, string>* output);
 };"""
         self.assertEqualIgnoreLeadingWhitespace(
-            'MOCK_METHOD(int, Bar, (const vector<int>& v, (map<int, string>* output)), (override));',
+            'MOCK_METHOD(int, Bar, (const vector<int>& v,'
+            '(map<int, string>* output)), (override));',
             self.GenerateMethodSource(source))
 
     def testReturnTypeWithOneTemplateArg(self):
@@ -355,7 +358,8 @@ class GenerateMocksTest(TestCase):
         filename = '<test>'
         builder = ast.BuilderFromSource(cpp_source, filename)
         ast_list = list(builder.Generate())
-        lines = gmock_class._GenerateMocks(filename, cpp_source, ast_list, None)
+        lines = gmock_class._GenerateMocks(filename, cpp_source, ast_list,
+                                           None)
         return '\n'.join(lines)
 
     def testNamespaces(self):

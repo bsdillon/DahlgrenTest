@@ -1,10 +1,10 @@
 import os
 
-import requests
+from PyPDF2 import PdfFileReader, PdfFileWriter
 
 import pandas as pd
 
-from PyPDF2 import PdfFileReader, PdfFileWriter
+import requests
 
 import tabula
 

@@ -75,7 +75,8 @@ def _RenderType(ast_type):
 
 
 def _GenerateArg(source):
-    """Strips out comments, default arguments, and redundant spaces from a single argument.
+    """Strips out comments, default arguments, and redundant spaces from a
+    single argument.
 
     Args:
       source: A string for a single argument.
@@ -112,7 +113,8 @@ def _EscapeForMacro(s):
 
 def _GenerateMethods(output_lines, source, class_node):
     function_type = (
-            ast.FUNCTION_VIRTUAL | ast.FUNCTION_PURE_VIRTUAL | ast.FUNCTION_OVERRIDE)
+            ast.FUNCTION_VIRTUAL | ast.FUNCTION_PURE_VIRTUAL |
+            ast.FUNCTION_OVERRIDE)
     ctor_or_dtor = ast.FUNCTION_CTOR | ast.FUNCTION_DTOR
     indent = ' ' * _INDENT
 
@@ -147,7 +149,8 @@ def _GenerateMocks(filename, source, ast_list, desired_class_names):
     lines = []
     for node in ast_list:
         if (isinstance(node, ast.Class) and node.body and
-                # desired_class_names being None means that all classes are selected.
+                # desired_class_names being None means that all
+                # classes are selected.
                 (not desired_class_names or node.name in desired_class_names)):
             class_name = node.name
             parent_name = class_name
@@ -161,7 +164,8 @@ def _GenerateMocks(filename, source, ast_list, desired_class_names):
 
             # Add template args for templated classes.
             if class_node.templated_types:
-                # TODO(paulchang): The AST doesn't preserve template argument order,
+                # TODO(paulchang): The AST doesn't preserve template argument
+                #  order,
                 # so we have to make up names here.
                 # TODO(paulchang): Handle non-type template arguments (e.g.
                 # template<typename T, int N>).
@@ -192,7 +196,8 @@ def _GenerateMocks(filename, source, ast_list, desired_class_names):
             # Close the namespace.
             if class_node.namespace:
                 for i in range(len(class_node.namespace) - 1, -1, -1):
-                    lines.append('}  // namespace %s' % class_node.namespace[i])
+                    lines.append(
+                        '}  // namespace %s' % class_node.namespace[i])
                 lines.append('')  # Add an extra newline.
 
     if desired_class_names:
@@ -220,7 +225,7 @@ def main(argv=sys.argv):
         _INDENT = int(os.environ['INDENT'])
     except KeyError:
         pass
-    except:
+    except Exception:
         sys.stderr.write(
             'Unable to use indent of %s\n' % os.environ.get('INDENT'))
 
@@ -237,7 +242,7 @@ def main(argv=sys.argv):
         entire_ast = filter(None, builder.Generate())
     except KeyboardInterrupt:
         return
-    except:
+    except Exception:
         # An error message was already printed since we couldn't parse.
         sys.exit(1)
     else:

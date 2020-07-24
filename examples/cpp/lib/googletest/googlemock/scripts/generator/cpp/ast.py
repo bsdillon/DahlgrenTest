@@ -411,7 +411,8 @@ class Type(_GenericDeclaration):
             Args:
               name: str name of main type
               templated_types: [Class (Type?)] template type info between <>
-              modifiers: [str] type modifiers (keywords) eg, const, mutable, etc.
+              modifiers: [str] type modifiers (keywords) eg, const, mutable,
+              etc.
               reference, pointer, array: bools
             """
         _GenericDeclaration.__init__(self, start, end, name, [])
@@ -576,13 +577,15 @@ class TypeConverter(object):
                 # Ensure that names have a space between them.
                 if (type_name and type_name[-1].token_type == tokenize.NAME and
                         p.token_type == tokenize.NAME):
-                    type_name.append(tokenize.Token(tokenize.SYNTAX, ' ', 0, 0))
+                    type_name.append(tokenize.Token(tokenize.SYNTAX, ' ', 0,
+                                                    0))
                 type_name.append(p)
             else:
                 other_tokens.append(p)
             i += 1
         type_name = ''.join([t.name for t in type_name])
-        return name, type_name, templated_types, modifiers, default, other_tokens
+        return name, type_name, templated_types, modifiers, default,\
+               other_tokens
 
     def ToParameters(self, tokens):
         if not tokens:
@@ -729,7 +732,7 @@ class AstBuilder(object):
                 result = self._GenerateOne(token)
                 if result is not None:
                     yield result
-            except:
+            except Exception:
                 self.HandleError('exception', token)
                 raise
 

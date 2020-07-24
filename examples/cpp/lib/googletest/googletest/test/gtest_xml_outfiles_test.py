@@ -43,9 +43,12 @@ GTEST_OUTPUT_1_TEST = "gtest_xml_outfile1_test_"
 GTEST_OUTPUT_2_TEST = "gtest_xml_outfile2_test_"
 
 EXPECTED_XML_1 = """<?xml version="1.0" encoding="UTF-8"?>
-<testsuites tests="1" failures="0" disabled="0" errors="0" time="*" timestamp="*" name="AllTests">
-  <testsuite name="PropertyOne" tests="1" failures="0" skipped="0" disabled="0" errors="0" time="*" timestamp="*">
-    <testcase name="TestSomeProperties" status="run" result="completed" time="*" timestamp="*" classname="PropertyOne">
+<testsuites tests="1" failures="0" disabled="0" errors="0" time="*"
+timestamp="*" name="AllTests">
+  <testsuite name="PropertyOne" tests="1" failures="0" skipped="0"
+  disabled="0" errors="0" time="*" timestamp="*">
+    <testcase name="TestSomeProperties" status="run" result="completed"
+    time="*" timestamp="*" classname="PropertyOne">
       <properties>
         <property name="SetUpProp" value="1"/>
         <property name="TestSomeProperty" value="1"/>
@@ -57,9 +60,12 @@ EXPECTED_XML_1 = """<?xml version="1.0" encoding="UTF-8"?>
 """
 
 EXPECTED_XML_2 = """<?xml version="1.0" encoding="UTF-8"?>
-<testsuites tests="1" failures="0" disabled="0" errors="0" time="*" timestamp="*" name="AllTests">
-  <testsuite name="PropertyTwo" tests="1" failures="0" skipped="0" disabled="0" errors="0" time="*" timestamp="*">
-    <testcase name="TestSomeProperties" status="run" result="completed" time="*" timestamp="*" classname="PropertyTwo">
+<testsuites tests="1" failures="0" disabled="0" errors="0" time="*"
+timestamp="*" name="AllTests">
+  <testsuite name="PropertyTwo" tests="1" failures="0" skipped="0"
+  disabled="0" errors="0" time="*" timestamp="*">
+    <testcase name="TestSomeProperties" status="run" result="completed"
+    time="*" timestamp="*" classname="PropertyTwo">
       <properties>
         <property name="SetUpProp" value="2"/>
         <property name="TestSomeProperty" value="2"/>
@@ -75,8 +81,10 @@ class GTestXMLOutFilesTest(gtest_xml_test_utils.GTestXMLTestCase):
     """Unit test for Google Test's XML output functionality."""
 
     def setUp(self):
-        # We want the trailing '/' that the last "" provides in os.path.join, for
-        # telling Google Test to create an output directory instead of a single file
+        # We want the trailing '/' that the last "" provides in
+        # os.path.join, for
+        # telling Google Test to create an output directory instead of
+        # a single file
         # for xml output.
         self.output_dir_ = os.path.join(gtest_test_utils.GetTempDir(),
                                         GTEST_OUTPUT_SUBDIR, "")
@@ -110,8 +118,8 @@ class GTestXMLOutFilesTest(gtest_xml_test_utils.GTestXMLTestCase):
     def _TestOutFile(self, test_name, expected_xml):
         gtest_prog_path = gtest_test_utils.GetTestExecutablePath(test_name)
         command = [gtest_prog_path, "--gtest_output=xml:%s" % self.output_dir_]
-        p = gtest_test_utils.Subprocess(command,
-                                        working_dir=gtest_test_utils.GetTempDir())
+        p = gtest_test_utils.\
+            Subprocess(command, working_dir=gtest_test_utils.GetTempDir())
         self.assert_(p.exited)
         self.assertEquals(0, p.exit_code)
 
