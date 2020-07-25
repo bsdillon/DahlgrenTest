@@ -60,6 +60,7 @@ __author__ = 'wan@google.com (Zhanyong Wan)'
 
 import os
 import re
+
 try:
     from sets import Set as set  # For Python 2.3 compatibility
 except ImportError:
@@ -156,6 +157,7 @@ def FuseGTestH(gtest_root, output_dir):
     PROCESSED_FILES = set()  # Holds all gtest headers we've processed.
 
 
+
 def ProcessFile(gtest_header_path):
     """Processes the given gtest header file."""
 
@@ -178,10 +180,10 @@ def ProcessFile(gtest_header_path):
     ProcessFile(GTEST_H_SEED)
     OUTPUT_FILE.close()
 
-       
+
 def FuseGTestAllCcToFile(gtest_root, output_file):
     """
-      Scans folder gtest_root to generate 
+      Scans folder gtest_root to generate
       gtest/gtest-all.cc in output_file.
     """
 

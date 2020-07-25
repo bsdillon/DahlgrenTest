@@ -19,7 +19,7 @@ while line:
     vals = line.strip().lower().split(' ')
     if "." in vals[1]:
         parts = vals[1].split('.')
-        ext = parts[len(parts)-1]
+        ext = parts[len(parts) - 1]
         if len(ext) > 0 and ext in langs:
             lang = langs[ext]
             if lang not in counts:
@@ -33,7 +33,8 @@ reader.close()
 outputfile = sys.argv[2]
 out_file = open(outputfile, "a+")
 date = datetime.datetime.now().strftime("%x")
-out_file.write("slocs[\""+date+"\"]={};\n")
+out_file.write("slocs[\"" + date + "\"]={};\n")
 for key in counts:
-    out_file.write("slocs[\""+date+"\"]."+key+"="+str(counts[key])+";\n")
+    out_file.write(
+        "slocs[\"" + date + "\"]." + key + "=" + str(counts[key]) + ";\n")
 out_file.close()

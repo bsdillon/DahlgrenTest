@@ -1,0 +1,99 @@
+MIL
+-STD
+-2525D   FRIEND
+  HOSTILE
+  NEUTRAL
+  UNKNOWN
+ FIGURE 11. 
+ Examples of full frame icons (medical unit)
+. 5.3.5   Modifier
+s. A modifier provides an abstract pictorial or alphanumeric 
+representation
+ that is displayed in conjunction with an icon inside the symbol frame or frame 
+area when the frame is not shown. The modifier provides additional information 
+about the object, 
+such as unit, equipment, installation, or activity being displayed. Text modifie
+rs shall be no more 
+than three characters.
+ A modifier may not be placed in any sector where the main icon extends 
+into that particular sector of the bounding octagon.
+ 5.3.6   Amplifiers
+. An 
+amplifier
+ provides additional information about the symbol and is 
+displayed outside the frame. The amplifier field descriptions vary by dimension and are detailed 
+
+within the respective 
+appendices
+. The default placement of 
+amplifier
+s around symbols is shown 
+in each of the dimensions. Not all amplifiers are applicable to all symbols. When an amplifier is 
+
+displayed, it shall be defined in accordance with the appropriate standard identity or control 
+
+measure symbol. For the purposes of d
+e-cluttering the display, only essential amplifiers should 
+be used. 
+When multiple text amplifiers are displayed in a single field, 
+only the most critical 
+amplifier should be used.
+ Amplifiers on the left shall be right aligned, amplifiers on the right shall
+ be left aligned
+ and
+ top and bottom amplifiers shall be centered. All text shall be presented in 
+upper case
+ sans serif font. Font size and color should be tested to determine display legibility. 
+Amplifier fields should be used, even when not all amplifiers
+ on a particular side of the symbol are 
+displayed, and the order of the amplifier fields shall remain unchanged.
+ TABLE VII. 
+ Modifier 
+and amplifier
+ field definitions and 
+maximum 
+display lengths for 
+tactical symbols
+ - Continued
+. FIELD 
+ FIELD TITLE
+ DESCRIPTION
+ U1 E1/2 I1 SI1 A1 A Symbol Icon
+ The innermost part of a symbol that 
+represents a 
+joint military
+ object 
+ (see 5.3.
+4). G G G G G B Echelon
+ A graphic 
+amplifier 
+in a unit symbol that 
+identifies command level (see 
+5.3.6.1
+ and 
+table D
+-III). G - - - G C Quantity
+ A text 
+amplifier 
+in an equipment symbol 
+that identifies the number of items present.
+ - 93 - - - D Task Force 
+Indicator
+ A graphic 
+amplifier 
+that identifies a unit or 
+activitie
+s symbol as a task force
+  (see 5.3.6.3
+ and 
+figure 13
+). G - - - G E Frame Shape 
+Modifier
+ A graphic modifier that displays 
+affiliation, battle dimension, or exercise 
+amplifying descriptors of an object (see 
+5.3.2
+ and
+ tables 
+I, II and 
+III). G G G - G  . 19 Source: https://assist.dla.mil -- Downloaded: 2015-10-06T17:40ZCheck the source to verify that this is the current version before use.

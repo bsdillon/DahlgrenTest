@@ -1,11 +1,14 @@
 import sys
 import re  # regex
 import os
+import re  # regex
+
 from DriverParser import DriverParser
+
 
 class FileUtilities:
 """
-    FileUtilities provides standard methods to read source code 
+    FileUtilities provides standard methods to read source code
     files and handle them in a uniform way.
 """
     dirPattern = r'^(\/[\w^ ]+)+$'
@@ -35,6 +38,7 @@ class FileUtilities:
             print('Error in file: '+ex+'\n')
             return {}
         return properties
+
     # end ReadDefaults
 
     @staticmethod
@@ -45,12 +49,18 @@ class FileUtilities:
         :param defaults:
         :return: None
         """
-        print('Saving program settings...', end=" ")
-        file = open(default_file, 'w')
+        print
+        'Saving program settings...',
+        file = open(defaultFile, 'w')
         for prop in defaults.keys():
-            file.write('{prop}{propDelim}{defaults_prop}\n'.format(prop=prop, propDelim=FileUtilities.propDelimiter, defaults_prop=defaults[prop]))
+            file.write('{prop}{propDelim}{defaults_prop}'
+                       '\n'.format(prop=prop,
+                                   propDelim=FileUtilities.propDelimiter,
+                                   defaults_prop=defaults[prop]))
         file.close()
-        print('Done\n\n')
+        print
+        'Done\n\n'
+
     # end WriteDefaults
 
     @staticmethod
@@ -58,7 +68,8 @@ class FileUtilities:
         """
         Ensure directory is a valid.
         :param directory: a directory
-        :exception OSError: Raised if directry is not valid, not a directory, or does not exist
+        :exception OSError: Raised if directry is not valid,
+        not a directory, or does not exist
         :return: validated directory
         """
         if directory.lower() == 'quit':
@@ -66,7 +77,7 @@ class FileUtilities:
             sys.exit(0)
 
         if not FileUtilities.dirRegEx.match(directory):
-            #this error indicates the string is invalid in its structure
+            # this error indicates the string is invalid in its structure
             raise OSError(directory + ' is not a valid linux directory.')
 
         if not os.path.isdir(directory):
@@ -79,6 +90,7 @@ class FileUtilities:
         else:
             print('\n\tDirectory  validated\n')
         return directory
+
     # end validate_dir()
 
     @staticmethod
@@ -89,7 +101,8 @@ class FileUtilities:
         contained in typedef_path and its subdirectories, pass the file's path
         to find_topics().
         :param source: Path containing all source code for PLABuild.
-        :param topics: Path containing all headers with relevant Message/Topic typedefs.
+        :param topics: Path containing all headers with relevant
+        Message/Topic typedefs.
         :param driver: Destination for all drivers
         :return: None
         """

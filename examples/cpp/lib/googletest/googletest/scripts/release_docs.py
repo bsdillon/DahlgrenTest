@@ -69,14 +69,13 @@ import sys
 
 import common
 
-
 # Wiki pages that shouldn't be branched for every gtest/gmock release.
 GTEST_UNVERSIONED_WIKIS = ['DevGuide.wiki']
 GMOCK_UNVERSIONED_WIKIS = [
     'DesignDoc.wiki',
     'DevGuide.wiki',
     'KnownIssues.wiki'
-    ]
+]
 
 
 def DropWikiSuffix(wiki_filename):
@@ -92,7 +91,8 @@ class WikiBrancher(object):
     def __init__(self, dot_version):
         self.project, svn_root_path = common.GetSvnInfo()
         if self.project not in ('googletest', 'googlemock'):
-            sys.exit('This script must be run in a gtest or gmock SVN workspace.')
+            sys.exit(
+                'This script must be run in a gtest or gmock SVN workspace.')
         self.wiki_dir = svn_root_path + '/wiki'
         # Turn '2.6' to 'V2_6_'.
         self.version_prefix = 'V' + dot_version.replace('.', '_') + '_'
@@ -105,13 +105,13 @@ class WikiBrancher(object):
         #   [http://code.google.com/.../wiki/Foo#Anchor words]
         # We want to replace 'Foo' with 'V2_6_Foo' in the above cases.
         self.search_for_re = re.compile(
-                # This regex matches either
-                #   [Foo
-                # or
-                #   /wiki/Foo
-                # followed by a space or a #, where Foo is the name of an
-                # unversioned wiki page.
-                r'(\[|/wiki/)(%s)([ #])' % '|'.join(page_names))
+            # This regex matches either
+            #   [Foo
+            # or
+            #   /wiki/Foo
+            # followed by a space or a #, where Foo is the name of an
+            # unversioned wiki page.
+            r'(\[|/wiki/)(%s)([ #])' % '|'.join(page_names))
         self.replace_with = r'\1%s\2\3' % (self.version_prefix,)
 
     def GetFilesToBranch(self):
@@ -121,26 +121,31 @@ class WikiBrancher(object):
         if self.project == 'googletest':
             unversioned_wikis = GTEST_UNVERSIONED_WIKIS
         return [f for f in os.listdir(self.wiki_dir)
-                        if (f.endswith('.wiki') and
-                                not re.match(r'^V\d', f) and  # Excluded versioned .wiki files.
-                                f not in unversioned_wikis)]
+                if (f.endswith('.wiki') and
+                    not re.match(r'^V\d',
+                                 f) and  # Excluded versioned .wiki files.
+                    f not in unversioned_wikis)]
 
     def BranchFiles(self):
         """Branches the .wiki files needed to be branched."""
 
-        print 'Branching %d .wiki files:' % (len(self.files_to_branch),)
+        print
+        'Branching %d .wiki files:' % (len(self.files_to_branch),)
         os.chdir(self.wiki_dir)
         for f in self.files_to_branch:
             command = 'svn cp %s %s%s' % (f, self.version_prefix, f)
-            print command
+            print
+            command
             os.system(command)
 
     def UpdateLinksInBranchedFiles(self):
 
         for f in self.files_to_branch:
             source_file = os.path.join(self.wiki_dir, f)
-            versioned_file = os.path.join(self.wiki_dir, self.version_prefix + f)
-            print 'Updating links in %s.' % (versioned_file,)
+            versioned_file = os.path.join(self.wiki_dir,
+                                          self.version_prefix + f)
+            print
+            'Updating links in %s.' % (versioned_file,)
             text = file(source_file, 'r').read()
             new_text = self.search_for_re.sub(self.replace_with, text)
             file(versioned_file, 'w').write(new_text)

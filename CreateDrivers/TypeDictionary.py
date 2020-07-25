@@ -1,4 +1,4 @@
-import os
+
 
 class TypeDetails:
     def __init__(self, type, name, size, arrayType):
@@ -19,6 +19,7 @@ class TypeDetails:
     def IsArray(self):
         return self.__isArray
 
+
 class TypeDictionary:
     simpleNames = []
     uniqueNames = {}
@@ -29,39 +30,41 @@ class TypeDictionary:
 
         txt = file.readline()
         index = 1
-        while index!=line:
+        while index != line:
             txt = file.readline()
             index += 1
 
         core = txt.strip().split(';')[0]
         parts = core.split(' ')
 
-        spaceUsed=False
+        spaceUsed = False
         if ' ' in type:
-            type = type.replace(' ','_')
+            type = type.replace(' ', '_')
             spaceUsed = True
 
-        return ParseReturnType2(core, parts, type, spaceUsed)
+        return fileName.ParseReturnType2(core, parts, type, spaceUsed)
 
     @staticmethod
     def ParseReturnType2(core, parts, type, spaceUsed):
-        index=0
+        index = 0
         typeFound = ''
         if spaceUsed:
-            while index+1<len(parts) and not parts[index]+"_"+parts[index+1] == type:
-                index+=1
-            if index+1 == len(parts):
+            while index + 1 < len(parts) and \
+                    not parts[index] + "_" + parts[index + 1] == type:
+                index += 1
+            if index + 1 == len(parts):
                 print('Type ' + type + ' not found in ' + core)
                 exit(-1)
 
-            typeFound = parts[index]+' '+parts[index+1]
-            index+=1;
+            typeFound = parts[index] + ' ' + parts[index + 1]
+            index += 1
         else:
-            while index<len(parts) and not parts[index] == type:
-                index+=1
+            while index < len(parts) and not parts[index] == type:
+                index += 1
 
             if index == len(parts):
-                print ('Type '+type+' not found in '+ core)
+                print
+                'Type ' + type + ' not found in ' + core
                 exit(-1)
 
             typeFound = parts[index]
@@ -70,12 +73,13 @@ class TypeDictionary:
             print('Not enough tokens in '+core)
             exit(-1)
 
-        if '[' in parts[index+1]:
-            array = parts[index+1][:-1].split('[')
-            return TypeDetails(TypeDictionary.ParseLongName(typeFound), array[0], array[1], True)
+        if '[' in parts[index + 1]:
+            array = parts[index + 1][:-1].split('[')
+            return TypeDetails(TypeDictionary.ParseLongName(typeFound),
+                               array[0], array[1], True)
 
-        return TypeDetails(TypeDictionary.ParseLongName(typeFound), parts[index+1], '0', False)
-
+        return TypeDetails(TypeDictionary.ParseLongName(typeFound),
+                           parts[index + 1], '0', False)
 
     @staticmethod
     def AddTypeName(fullName, type):
@@ -83,7 +87,9 @@ class TypeDictionary:
         if '[' in type:
             pieces1 = fullName.split('::::')
             if not pieces1[0] in type:
-                print('Parts not formatted as expected. ' + pieces1[0] + ' not found in ' + type)
+                print
+                'Parts not formatted as expected. ' + pieces1[
+                    0] + ' not found in ' + type
                 exit(-1)
 
             # get the rest of the string, reformat it and split the pieces
@@ -92,9 +98,13 @@ class TypeDictionary:
             rest = rest.replace('  ', ' ')
             pieces2 = rest.split(' ')
 
-            return TypeDetails(pieces2[0], TypeDictionary.ParseLongName(pieces2[1]), pieces2[2] + '::' + pieces1[1].replace(']', ''), True)
+            return TypeDetails(pieces2[0],
+                               TypeDictionary.ParseLongName(pieces2[1]),
+                               pieces2[2] + '::' + pieces1[1].replace(']', ''),
+                               True)
 
-        return TypeDetails(type, TypeDictionary.ParseLongName(temp), '0', False)
+        return TypeDetails(type,
+                           TypeDictionary.ParseLongName(temp), '0', False)
 
     @staticmethod
     def ParseLongName(fullName):
@@ -103,19 +113,21 @@ class TypeDictionary:
         if len(parts) > 1:
             name = parts[len(parts) - 1]
 
-        if not name in TypeDictionary.simpleNames:
+        if name not in TypeDictionary.simpleNames:
             TypeDictionary.simpleNames.append(name)
 
-        if len(parts)>1 and not name in TypeDictionary.uniqueNames.keys():
-            TypeDictionary.uniqueNames[name]=fullName
+        if len(parts) > 1 and name not in TypeDictionary.uniqueNames.keys():
+            TypeDictionary.uniqueNames[name] = fullName
 
-        if len(parts)>1:
-            if TypeDictionary.uniqueNames[name]==fullName:
-                return name#exact match
+        if len(parts) > 1:
+            if TypeDictionary.uniqueNames[name] == fullName:
+                return name  # exact match
             if fullName in TypeDictionary.uniqueNames[name]:
-                return name#full uniquename is more inclusive
+                return name  # full uniquename is more inclusive
             if TypeDictionary.uniqueNames[name] in fullName:
-                TypeDictionary.uniqueNames[name]=fullName #new fullname is more inclusive; replace it.
+                TypeDictionary.uniqueNames[
+                    name] = fullName
+                # new fullname is more inclusive; replace it.
                 return name
 
             #some error with names

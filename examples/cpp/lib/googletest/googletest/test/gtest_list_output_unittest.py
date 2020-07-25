@@ -104,16 +104,17 @@ class GTestListTestsOutputUnitTest(gtest_test_utils.TestCase):
         file_path = os.path.join(gtest_test_utils.GetTempDir(),
                                  'test_out.' + out_format)
         gtest_prog_path = gtest_test_utils.GetTestExecutablePath(
-                'gtest_list_output_unittest_')
+            'gtest_list_output_unittest_')
 
         command = ([
-                gtest_prog_path,
-                '%s=%s:%s' % (GTEST_OUTPUT_FLAG, out_format, file_path),
-                '--gtest_list_tests'
+            gtest_prog_path,
+            '%s=%s:%s' % (GTEST_OUTPUT_FLAG, out_format, file_path),
+            '--gtest_list_tests'
         ])
         environ_copy = os.environ.copy()
         p = gtest_test_utils.Subprocess(
-                command, env=environ_copy, working_dir=gtest_test_utils.GetTempDir())
+            command, env=environ_copy,
+            working_dir=gtest_test_utils.GetTempDir())
 
         self.assert_(p.exited)
         self.assertEquals(0, p.exit_code)
@@ -130,10 +131,10 @@ class GTestListTestsOutputUnitTest(gtest_test_utils.TestCase):
             expected_line = expected_lines[line_count]
             expected_line_re = re.compile(expected_line.strip())
             self.assert_(
-                    expected_line_re.match(actual_line.strip()),
-                    ('actual output of "%s",\n'
-                     'which does not match expected regex of "%s"\n'
-                     'on line %d' % (actual, expected_output, line_count)))
+                expected_line_re.match(actual_line.strip()),
+                ('actual output of "%s",\n'
+                 'which does not match expected regex of "%s"\n'
+                 'on line %d' % (actual, expected_output, line_count)))
             line_count = line_count + 1
 
 

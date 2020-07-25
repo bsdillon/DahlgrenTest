@@ -5,8 +5,8 @@ name: Contributor Activity
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    # every night at 6:13am Zulu (about 2am EST)
     - cron: '13 6 * * *'
+    # every night at 6:13am Zulu (about 2am EST)
 
 jobs:
   FindContributorActivity:

@@ -1,0 +1,48 @@
+FIELD,FIELD TITLE,DESCRIPTION,U1,E1/2,I1,SI1,A1
+F,Reinforced or,A text amplifier in a unit symbol that,,,,,
+"",Reduced,"displays (+) for reinforced, (-) for reduced,",,,,,
+"",,(+) reinforced and reduced.,3,-,-,-,3
+G,Staff Comments,"A text amplifier for units, equipment and",,,,,
+"",,installations; content is implementation,,,,,
+"",,specific.,20,20,20,20,20
+H,Additional,"A text amplifier for units, equipment and",,,,,
+"",Information,installations; content is implementation,,,,,
+"",,specific.,20,20,20,20,20
+J4,Evaluation Rating,"A text amplifier for units, equipment and",,,,,
+"",,installations that consists of a one-letter,,,,,
+"",,reliability rating and a one-number,,,,,
+"",,credibility rating:,,,,,
+"",,Reliability Ratings:,,,,,
+"",,A-completely reliable,,,,,
+"",,B-usually reliable,,,,,
+"",,C-fairly reliable,,,,,
+"",,D-not usually reliable,,,,,
+"",,E-unreliable,,,,,
+"",,F-reliability cannot be judged,,,,,
+"",,Credibility Ratings:,,,,,
+"",,1-confirmed by other sources,,,,,
+"",,2-probably true,,,,,
+"",,3-possibly true,,,,,
+"",,4-doubtfully true,,,,,
+"",,5-improbable,,,,,
+"",,6-truth cannot be judged.,2,2,2,2,2
+K,Combat,A text amplifier for units and installations,,,,,
+"",Effectiveness,that indicates unit effectiveness or,,,,,
+"",,installation capability.,5,--,5,--,3
+L,Signature,A text amplifier for hostile equipment; “!”,,,,,
+"",Equipment,indicates detectable electronic signatures.,-,1,-,1,-
+M,Higher Formation,A text amplifier for units that indicates,,,,,
+"",,number or title of higher echelon,,,,,
+"",,command (corps are designated by Roman,,,,,
+"",,numerals).,21,-,-,21,-
+N,Hostile (Enemy),A text amplifier for equipment; letters,,,,,
+"",,"""ENY"" denote hostile symbols.",-,3,-,-,-
+P,IFF/SIF/AIS,A text amplifier displaying IFF/SIF/AIS,,,,,
+"",,Identification modes and codes.,15,15,15,-,15
+Q,Direction of,A graphic amplifier for units and,,,,,
+"",Movement,equipment that identifies the direction of,,,,,
+"",Indicator,movement or intended movement of an,,,,,
+"",,object (see 5.3.6.8 and figure 13).,G,G,G,-,G
+R,Mobility Indicator,A graphic amplifier for equipment that,,,,,
+"",,depicts the mobility of an object,,,,,
+"",,"(see 5.3.6.9, figure 13 and table VIII).",-,G,-,-,-

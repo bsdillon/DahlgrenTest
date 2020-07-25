@@ -30,11 +30,6 @@ jobs:
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > commit_count.json \
       # yamllint enable rule:line-length
-      - name: Commit Count Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: weekly-count
-          path: commit_count.json
       - name: Run Project Health
         run: python .github/ciPython/weekly_commits.py commit_count.json
       - name: Commit weekly commit log
