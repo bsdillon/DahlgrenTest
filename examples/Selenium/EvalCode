@@ -1,0 +1,154 @@
+import time
+from random import shuffle
+from random import seed
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains #Import actions such as right click
+from selenium.webdriver.support.ui import Select #Allows to select from normal dropdown menus
+
+#Setup and Screenshot
+driver = webdriver.Chrome(executable_path = 'C:/Users/Lauren Reynolds/Desktop/Webdriver Bin/chromedriver.exe')
+actionChains = ActionChains(driver) #Sets up actions to work on Chrome
+driver.get("https://bsdillon.github.io/DahlgrenTest/html/Testing/jsprimary.html#")
+driver.get_screenshot_as_file("screentest.png") #screenshot
+print(driver.title)
+originalwindow = driver.current_window_handle #Allow script to recognize original window
+
+#Tests
+
+#Alpha Button
+def buttons():
+    element = driver.find_element_by_id("alpha")  # Find/recognize button
+
+    element.click()  # Click on button
+    print(len(driver.window_handles))  # Ensure that script recognizes that two windows are open
+    for window_handle in driver.window_handles:  # Switch to second window
+        if window_handle != originalwindow:
+            driver.switch_to.window(window_handle)
+            break
+    driver.close()  # Close second window
+    driver.switch_to.window(originalwindow)  # Switch back to original window
+    time.sleep(1)
+    element = driver.find_element_by_id("bravo")  # Find/recognize button
+
+    element.click()  # Click on button
+    print(len(driver.window_handles))  # Ensure that script recognizes that two windows are open
+    for window_handle in driver.window_handles:  # Switch to second window
+        if window_handle != originalwindow:
+            driver.switch_to.window(window_handle)
+            break
+    driver.close()  # Close second window
+    driver.switch_to.window(originalwindow)  # Switch back to original window
+    print("button test complete")
+    time.sleep(1)
+#Context Right Click
+def rightclick():
+    context = driver.find_element_by_xpath("/html/body")  # Right click for context can be anywhere on the screen, so body is the element found
+    actionChains.context_click(context).perform()  # Right clicks for context menu
+    time.sleep(1)
+    print("right click test complete")
+#Dropdown Menu
+def menudropdown():
+    menu = driver.find_element_by_xpath("/html/body/div[1]/div")  # identify dropdown menu
+    actionChains.move_to_element(menu).perform()  # mouseover menu
+    content = driver.find_elements_by_xpath("/html/body/div[1]/div/div")  # identify menu items
+    for i in range(len(content)):  # print menu items
+        print(content[i].text)
+    driver.find_element_by_link_text("Item1").click()  # Select menu item
+    time.sleep(.5)
+    driver.find_element_by_link_text("Item2").click()
+    time.sleep(.5)
+    driver.find_element_by_link_text("Item3").click()
+    time.sleep(1)
+    print("menu test complete")
+#Text Bar
+def textbar():
+    textbar = driver.find_element_by_id("fileName")  # Don't click before inputting text
+    textbar.send_keys("textfile1.txt")  # input text
+    open = driver.find_element_by_id("openfile").click()  # find open button and open file
+    output = driver.find_element_by_id("fileOutput")  # recognize output
+    print(output.text)
+    assert output.text == ("Value1")
+    time.sleep(1)
+    textbar.clear()
+    textbar.send_keys("textfile2.txt")  # input text
+    open = driver.find_element_by_id("openfile").click()  # find open button and open file
+    output = driver.find_element_by_id("fileOutput")  # recognize output
+    print(output.text)
+    assert output.text == ("Value2")
+    print("textbar test complete")
+    time.sleep(1)
+# Radio Buttons
+def radio():
+    driver.find_element_by_id("Radio1").click()
+    time.sleep(1)
+    driver.find_element_by_id("Radio2").click()
+    time.sleep(1)
+    driver.find_element_by_id("Radio3").click()
+    time.sleep(1)
+    print("radio test complete")
+#Panel&Target
+def panel():
+    panel = driver.find_element_by_id("panel")  # recognize panel
+    actionChains.move_to_element(panel).perform()  # mouseover panel
+    time.sleep(1)
+    target = driver.find_element_by_id("target").click()  # find and click target
+    time.sleep(1)
+    print("panel test complete")
+#Colors Dropdown
+def colors():
+    select = Select(driver.find_element_by_id("mySelect"))  # Sets up to select from dropdown
+    colors = driver.find_elements_by_id("mySelect")  # finds list of colors
+    for i in range(len(colors)):  # print colors
+        print(colors[i].text)
+    select.select_by_visible_text("Red")  # select color
+    time.sleep(1)
+    select.select_by_visible_text("Blue")  # select color
+    time.sleep(1)
+    select.select_by_visible_text("Green")  # select color
+    time.sleep(1)
+    print("colors test complete")
+#Checkboxes
+def checkboxes():
+    driver.find_element_by_xpath("//html/body/div[8]/input[1]").click()
+    time.sleep(1)
+    driver.find_element_by_xpath("//html/body/div[8]/input[1]").click()
+    driver.find_element_by_xpath("/html/body/div[8]/input[2]").click()
+    time.sleep(1)
+    driver.find_element_by_xpath("/html/body/div[8]/input[2]").click()
+    driver.find_element_by_xpath("/html/body/div[8]/input[3]").click()
+    driver.find_element_by_xpath("/html/body/div[8]/input[2]").click()
+    driver.find_element_by_xpath("//html/body/div[8]/input[1]").click()
+    time.sleep(1)
+    print("checkboxes test complete")
+#Date Selection
+def date():
+    datepicker = driver.find_element_by_id("date")
+    datepicker.send_keys("07/01/2020")  # input text
+    time.sleep(1)
+    print("date test complete")
+# Slider
+def slider():
+    slider = driver.find_element_by_xpath("/html/body/div[10]/input")
+    actionChains.click_and_hold(slider).move_by_offset(40, 0).release().perform()
+    time.sleep(1)
+    print("slider test complete")
+#Dontclick/clickme buttons
+def testcase():
+    clickme = driver.find_element_by_id("positive").click()
+    print("positive test case complete")
+    time.sleep(1)
+    noclick = driver.find_element_by_id("negative").click()
+    print("negative test case complete")
+    time.sleep(1)
+
+seed(4) #sets seed for randomization
+
+def rand():
+    test = [textbar, radio, panel, checkboxes, rightclick, slider, testcase, date, colors, buttons] #puts the test functions into list
+    shuffle(test) #shuffles list, puts functions in random order
+    for i in test:
+        i()          #calls functions in randomized order
+rand()
+
+driver.close() #closes 
