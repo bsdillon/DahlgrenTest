@@ -4,9 +4,9 @@ import os
 
 # please ensure module parseMessage.py is in same directory
 
-from .Parsers.parseClass import ParseClass
+from CreateDrivers.Parsers.parseClass import ParseClass
 
-from .dependencyTracker import DependencyTracker
+from CreateDrivers.dependencyTracker import DependencyTracker
 
 
 class MessageTracker:

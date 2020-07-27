@@ -1,16 +1,16 @@
 import os
 
-from .Parsers.abstract_parser import AbstractParser
+from CreateDrivers.Parsers.abstract_parser import AbstractParser
 
-from .Parsers.enum import ParseEnum
+from CreateDrivers.Parsers.enum import ParseEnum
 
-from .Parsers.parseClass import ParseClass
+from CreateDrivers.Parsers.parseClass import ParseClass
 
-from .TypeDictionary import TypeDictionary
+from CreateDrivers.TypeDictionary import TypeDictionary
 
-from .dependencyFinder import DependencyFinder
+from CreateDrivers.dependencyFinder import DependencyFinder
 
-from .primitive import Primitive
+from CreateDrivers.primitive import Primitive
 
 
 class DependencyTracker:
@@ -57,11 +57,13 @@ class DependencyTracker:
             self.FindNewDependencies(IncludeFiles, tempDependencies)
             self.MatchDependencies(IncludeFiles, tempDependencies)
             new = len(self.permanentDependencies)
-            print('{new_count} new dependencies found\n'.format(new_count=new - old))
+            print('{new_count} new dependencies found\n'.format(
+                new_count=new - old))
             old = new
 
-        print('Total of {new} dependencies identified\n'.format(new = new))
-    #end __init__
+        print('Total of {new} dependencies identified\n'.format(new=new))
+
+    # end __init__
 
     def FindNewDependencies(self, includes, depends):
         """searches for includes statements in the header file"""
@@ -85,36 +87,43 @@ class DependencyTracker:
             if newType:
                 self.permanentDependencies[t].AppendIncludes(includes)
                 self.permanentDependencies[t].AppendDependencies(depends)
-    #end AppendNewDependencies
+
+    # end AppendNewDependencies
 
     def MatchDependencies(self, newIncludeFiles, targetDependencies):
-        #Called for at least one class file which has additional dependencies
-        print( 'Parsing dependency files...',end=" ")
+        # Called for at least one class file which has additional dependencies
+        print('Parsing dependency files...', end=" ")
 
-        #the first loop partially parses the include files and then adds the types to the typesFound collection
+        # the first loop partially parses the include
+        # files and then adds the types to the typesFound collection
         typesFound = {}
         count = 0
         for f in newIncludeFiles:
             count += 1
             if count % 20 == 0:
-                print( '.',end=" ")
+                print('.', end=" ")
 
-            if '.h' == f[-2:]:#only bother to parse header files, not standard libraries
+            if '.h' == f[
+                       -2:]:
+                # only bother to parse header files, not standard libraries
                 v = self.allHeaders[f]
-                DependencyFinder(v[0], v[1], self.driverDirectory).AppendTypes(typesFound)
+                DependencyFinder(v[0], v[1], self.driverDirectory).AppendTypes(
+                    typesFound)
 
-        #the second parsing matches the dependency to the typesFound collection
+        # the second parsing matches the
+        # dependency to the typesFound collection
         unfoundDependency = []
         for d in targetDependencies:
             name = TypeDictionary.ParseLongName(d)
 
-            #skip any already-known types
+            # skip any already-known types
             if name in self.permanentDependencies.keys():
                 continue
 
             count += 1
             if count % 20 == 0:
-                print('.',end=" ")
+                print('.', end=" ")
+
 
 # end AppendNewDependencies
 

@@ -1,6 +1,6 @@
 import os
 
-from .abstract_parser import AbstractParser
+from CreateDrivers.Parsers.abstract_parser import AbstractParser
 
 
 class ParseEnum(AbstractParser):

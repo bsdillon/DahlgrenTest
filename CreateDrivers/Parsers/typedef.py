@@ -1,6 +1,6 @@
 from .. import TypeDictionary
 
-from .abstract_parser import AbstractParser
+from CreateDrivers.abstract_parser import AbstractParser
 
 
 class TypeDef(AbstractParser):

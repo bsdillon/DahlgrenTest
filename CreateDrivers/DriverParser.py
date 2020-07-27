@@ -5,7 +5,7 @@ import re  # regex
 
 import CppHeaderParser  # v2.7.4 must be installed
 
-from .message_tracker import MessageTracker
+from CreateDrivers.message_tracker import MessageTracker
 
 
 # please ensure module parseMessage.py is in same directory
