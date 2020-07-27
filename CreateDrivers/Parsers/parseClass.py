@@ -1,8 +1,8 @@
 import os
 
-from Method import Method
+from .Method import Method
 
-from abstract_parser import AbstractParser
+from .abstract_parser import AbstractParser
 
 
 class ParseClass(AbstractParser):

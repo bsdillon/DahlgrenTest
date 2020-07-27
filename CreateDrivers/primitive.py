@@ -1,6 +1,8 @@
 class Primitive:
-"""Primitive is a type that is defined in the language
-and need not be found as a defined type in the code"""
+"""
+Primitive is a type that is defined in the language
+and need not be found as a defined type in the code
+"""
     def __init__(self, type):
         self.type = type
 

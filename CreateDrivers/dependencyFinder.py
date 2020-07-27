@@ -3,18 +3,18 @@ import os
 
 import CppHeaderParser  # v2.7.4 must be installed
 
-from Parsers.enum import ParseEnum
+from .Parsers.enum import ParseEnum
 
 
-from Parsers.parseClass import ParseClass
+from .Parsers.parseClass import ParseClass
 
 
-from Parsers.typedef import TypeDef
+from .Parsers.typedef import TypeDef
 
 
-from Parsers.union import ParseUnion
+from .Parsers.union import ParseUnion
 
-from TypeDictionary import TypeDictionary
+from .TypeDictionary import TypeDictionary
 
 
 class DependencyFinder:

@@ -1,8 +1,8 @@
-from TypeDictionary import TypeDictionary
+from .. import TypeDictionary
 
-from abstract_parser import AbstractParser
+from .abstract_parser import AbstractParser
 
-import parseClass
+from .parseClass import ParseClass
 
 
 class Method:

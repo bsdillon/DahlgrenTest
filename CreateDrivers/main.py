@@ -12,8 +12,7 @@
 
  Developed using Python 2.7.5 on RHEL 7.3
 """
-
-from FileUtilities import FileUtilities
+from .FileUtilities import FileUtilities
 # from message_tracker import MessageTracker
 
 # EvilGlobalState:

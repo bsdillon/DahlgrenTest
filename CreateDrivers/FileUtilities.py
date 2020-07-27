@@ -3,7 +3,7 @@ import re  # regex
 import os
 import re  # regex
 
-from DriverParser import DriverParser
+from .DriverParser import DriverParser
 
 
 class FileUtilities:
