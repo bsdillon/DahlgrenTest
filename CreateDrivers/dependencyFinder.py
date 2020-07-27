@@ -15,8 +15,6 @@ from CreateDrivers.TypeDictionary import TypeDictionary
 
 
 class DependencyFinder:
-
-
     """
       Extracts all the classes, typedefs, etc. from the source files.
     """

@@ -1,8 +1,10 @@
-from .. import TypeDictionary
+import sys
+sys.path.append("..") # Adds higher directory to python modules path.
+from CreateDrivers.TypeDictionary import TypeDictionary
 
-from .abstract_parser import AbstractParser
+from CreateDrivers.Parsers.abstract_parser import AbstractParser
 
-from .parseClass import ParseClass
+import CreateDrivers.Parsers.parseClass as ParseClass
 
 
 class Method:
@@ -32,7 +34,9 @@ class Method:
         t = dependencies[self.details.GetType()]
 
         if self.details.IsArray() and t.IsArray():
-            print('Never implemented a means of getting array size from a double pointer')
+            print(
+                'Never implemented a means of getting '
+                'array size from a double pointer')
             exit(-1)
 
         if self.details.IsArray():
@@ -73,7 +77,7 @@ class Method:
         if returnD.IsArray():
             returnType += '*'
 
-        typeDict = parseClass.ParseClass.FormatCodeReturnType(returnType)
+        typeDict = ParseClass.FormatCodeReturnType(returnType)
         returnType = typeDict['returnType']
 
         file.write('{__}{__}{returnType} get_{getName}() {{\n'.format(
