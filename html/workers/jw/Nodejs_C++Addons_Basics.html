@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Basics of Node.js and C++ addons</title>
+  </head>
+  <body>
+    <h3>What is Node.js?</h3>
+    <p>
+      Node.j is an asynchronous, non-blocking JavaScript server runtime built on Chrome's V8 library and the Libuv library. 
+      One of the most popular arrtibutes of Node is its ability to create C++ addons.
+    </p><br>
+    <h3>What are C++ addons?</h3>
+    <p>
+      C++ addons are dynamically linked shared objects written in C++. 
+      Basically they are functions that are written in C++ that can be called in JavaScript code using the require() function.
+      C++ addons provide an interface between JavaScript and C/C++ libraries, or in other words, they provide an easy way for C++ and JavaScript code to communicate.
+    </p><br>
+    <h3>How C++ Addons Work</h3>
+    <p>
+      The entire Node.js process space is in C++. Inside of that process space, the main JavaScript code is written in the V8 runtime (also C++) and the C++ addon code
+      is written in its own file in the Node.js process space. When the JavaScript code calls on that addon the code is loaded into the V8 runtime where the JavScript
+      code can then access it.
+    </p><br>
+    <h3>How to make a C++ addon</h3>
+    <p><b>Step 1: Downloads</b><br></p>
+    <ul>
+      <li>Download Node.js itself</li>
+      <li>Download the Node module Node-gyp by typing in the command terminal<br><br>
+          &nbsp;<i>>npm install -g node-gyp</i></li>
+    </ul>
+    <p><b>Step 2: Write C++ Function</b><br></p>
+    <ul>
+      <li>Write your C++ addon in a .cc file</li>
+      <li>Be sure to include the Node.js header module in your code</li>
+      <li>You can also call functions or objects from the V8 library<br><br>
+          &nbsp;<i>#include node.h</i> (except with carots around node.h)<br><br>
+          &nbsp;<i>using v8::NameOfImport;</i></li>
+    </ul>
+    <p><b>Step 3: Write binding.gyp File</b><br></p>
+    <ul>
+      <li>Create a file named binding.gyp</li>
+      <li>This file will specify the reference file of the C++ addon and the name you wish to use to call it<br><br>
+          &nbsp;<i>{<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;"targets": [<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"target_name": "name",<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sources": ["addon.cc"]<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;]<br>
+          &nbsp;}</i></li>
+    </ul>
+    <p><b>Step 4: Require Addon</b><br></p>
+    <ul>
+      <li>All that there is left to do now is requiring the addon<br><br>
+          &nbsp;<i>require(nameOfAddon);</i></li>
+    </ul>
+    <h3>How C++ Addons Can Be Useful</h3>
+    <p>With C++ addons not only can you make JavaScript and C++ code interact, you can also provide an indirect way for HTML and C++ code to interact.</p>
+    <ol>
+      <li>Create a simple Node.js webapp</li>
+      <li>Create a C++ addon</li>
+      <li>Create a simple module function to call the C++ addon</li>
+      <li>Call the module in the server code and display the code on the server page</li>
+      <li>Create a simple HTML interface with a button</li>
+      <li>Use an XMLHttprequest to get that code on click and display it however you want (alert, paragraph, etc...)</li>
+    </ol><br>
+  </body>
+</html>
