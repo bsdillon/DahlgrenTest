@@ -22,7 +22,8 @@ jobs:
   FindContributorActivity:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Begin Setup
+        uses: actions/checkout@v1
       - name: Setup python
         uses: actions/setup-python@v1
       - name: Get contributors in json
