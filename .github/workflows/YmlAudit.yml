@@ -10,7 +10,7 @@ on:
   push:
     paths:
       - ".github/workflows/**.yml"
-      - ".github/workflows/forceYMLAudit"
+      - ".github/workflows/forceYMLAudit.txt"
 
 jobs:
   lintAllYml:
