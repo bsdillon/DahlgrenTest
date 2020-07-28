@@ -30,7 +30,7 @@ jobs:
         # yamllint disable rule:line-length
         run: |
           curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
+          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors/${{ github.sha }} \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
       - uses: actions/upload-artifact@v1
