@@ -61,3 +61,4 @@ commit["2020-07-21T15:57:37Z"]={"developer": "kkarp9", "message": "removed artif
 commit["2020-07-21T15:59:44Z"]={"developer": "kkarp9", "message": "removed artifact upload", "files": [".github/workflows/contributor.yml"]};
 commit["2020-07-23T16:02:23Z"]={"developer": "bsdillon", "message": "Update ci_report.yml::so it runs on updates to this yml and python script", "files": [".github/workflows/ci_report.yml"]};
 commit["2020-07-25T02:13:43Z"]={"developer": "bsdillon", "message": "Merge pull request #202 from bsdillon/KKBranch::Parsing Docs and Lint Fixes Update", "files": [".github/workflows/WeeklyCommitCount.yml", ".github/workflows/contributor.yml", ".github/workflows/issues_report.yml"]};
+commit["2020-07-28T19:19:29Z"]={"developer": "bsdillon", "message": "Update YmlAudit.yml", "files": [".github/workflows/YmlAudit.yml"]};
