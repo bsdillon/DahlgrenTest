@@ -7,7 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains #Import actions
 from selenium.webdriver.support.ui import Select #Allows to select from normal dropdown menus
 
 #Setup and Screenshot
-driver = webdriver.Chrome(executable_path = 'C:/Users/Lauren Reynolds/Desktop/Webdriver Bin/chromedriver.exe')
+driver = webdriver.Chrome(executable_path = 'C:/Users/Lauren Reynolds/Desktop/Webdriver Bin/chromedriver.exe') #Make sure to change path to wherever you've saved your driver
 actionChains = ActionChains(driver) #Sets up actions to work on Chrome
 driver.get("https://bsdillon.github.io/DahlgrenTest/html/Testing/jsprimary.html#")
 driver.get_screenshot_as_file("screentest.png") #screenshot
