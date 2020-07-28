@@ -33,10 +33,8 @@ jobs:
           --url https://api.github.com/repos/${{ github.repository }}/stats/contributors/${{ github.sha }} \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
-      - uses: actions/upload-artifact@v1
-        with:
-          name: contributor-stats
-          path: contribute.json
+      - name: Check contribute.json
+        run: cat contribute.json
       - name: Run Contributor Stats
         run: python .github/ciPython/contributor_stats.py contribute.json
       - name: Commit daily and total commits
