@@ -1,0 +1,68 @@
+QWidget {
+  background-color: @middle;
+  color: @text_middle;
+}
+
+QLineEdit {
+  background-color: @light;
+  color: @text_light;
+}
+
+QListView {
+  background-color: @light;
+  color: @text_light;
+  selection-background-color: @dark;
+  selection-color: @text_dark;
+}
+
+QFrame#frame {
+  background-color: @dark;
+}
+
+QPushButton {
+  border: 0px solid @dark;
+  border-bottom: 2px solid @dark;
+}
+QPushButton:enabled {
+  background-color: @light;
+  color: @text_light;
+}
+QPushButton:disabled {
+  background-color: @disabled;
+  color: @text_disabled;
+  border-bottom: 2px solid @disabled;
+}
+QPushButton:pressed {
+  background-color: @dark;
+  color: @text_light;
+}
+
+QLabel {
+  border: 0px solid @dark;
+}
+
+QScrollArea QWidget {
+  background-color: @dark;
+  color: @text_dark;
+}
+
+QWidget QScrollBar {
+  border: 1px solid @dark;
+  background: @middle;
+}
+QWidget QScrollBar::add-line, QScrollBar::sub-line {
+  border: none;
+  background: none;
+  width: 0px;
+  height: 0px;
+}
+QWidget QScrollBar::handle {
+  background: @light;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+QDialog QPushButton {
+  min-width: 80;
+  min-height: 22;
+}
