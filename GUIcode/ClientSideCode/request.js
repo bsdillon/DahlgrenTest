@@ -1,6 +1,6 @@
 const solution = function () {
 
-    var request = new XMLHttpRequest()
+    var request = new XMLHttpRequest();
 
     request.open('GET', 'http://localhost:1337/', true);
     request.setRequestHeader('math', 'number');
@@ -10,10 +10,10 @@ const solution = function () {
     };
 
     request.send();
-}
+};
 
 const test = function () {
-    var request = new XMLHttpRequest()
+    var request = new XMLHttpRequest();
 
     request.open('GET', 'http://localhost:1337/', true);
     request.setRequestHeader('hello', 'world');
@@ -23,4 +23,4 @@ const test = function () {
     };
 
     request.send();
-}
+};
