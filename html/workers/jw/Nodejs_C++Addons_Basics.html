@@ -27,16 +27,16 @@
       <ul>
         <li>Download Node.js itself</li>
         <li>Download the Node module Node-gyp by typing in the command terminal<br><br> 
-            &nbsp;<i>>npm install -g node-gyp</i>></li><br>
-      </ul>
+            &nbsp;<i>>npm install -g node-gyp</i>></li>
+      </ul><br>
       <b>Step 2: Write C++ Function</b><br>
       <ul>
         <li>Write your C++ addon in a .cc file</li>
         <li>Be sure to include the Node.js header module in your code<br><br>
-            &nbsp;<i>#include node.h</i> (except with < > around node.h)</li><br>
+            &nbsp;<i>#include node.h</i> (except with carots around node.h)</li><br>
         <li>You can also call functions or objects from the V8 library<br><br>
-            &nbsp;<i>using v8::NameOfImport;</i></li><br>
-      </ul>
+            &nbsp;<i>using v8::NameOfImport;</i></li>
+      </ul><br>
       <b>Step 3: Write binding.gyp File</b><br>
       <ul>
         <li>Create a file named binding.gyp</li>
@@ -48,8 +48,8 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"sources": ["addon.cc"]<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
             &nbsp;&nbsp;&nbsp;&nbsp;]<br>
-            &nbsp;}</i></li><br>
-      </ul>
+            &nbsp;}</i></li>
+      </ul><br>
       <b>Step 4: Require Addon</b><br>
       <ul>
         <li>All that there is left to do now is requiring the addon<br><br>
