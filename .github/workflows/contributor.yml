@@ -22,13 +22,6 @@ jobs:
   FindContributorActivity:
     runs-on: ubuntu-latest
     steps:
-      - name: Begin Setup
-        uses: actions/checkout@master
-        with:
-          # otherwise, the token used is the GITHUB_TOKEN
-          persist-credentials: false
-          # otherwise, you will failed to push refs to dest repo
-          fetch-depth: 0
       - uses: actions/checkout@v1
       - name: Setup python
         uses: actions/setup-python@v1
