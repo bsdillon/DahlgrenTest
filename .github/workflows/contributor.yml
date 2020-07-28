@@ -29,7 +29,7 @@ jobs:
         run: |
           curl \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/stats/contributors \
+          https://api.github.com/repos/bsdillon/DahlgrenTest/stats/contributors
       - name: Run Contributor Stats
         run: python .github/ciPython/contributor_stats.py contribute.json
       - name: Commit daily and total commits
