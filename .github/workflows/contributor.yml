@@ -3,16 +3,7 @@ name: Contributor Activity
 # fix truthy warning per
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
-on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Contributor Stats'
-        required: true
-        default: 'Mona the Octocat'
-      home:
-        description: 'location'
-        required: false
+on: push
 # on:
   # schedule:
     # - cron: '13 6 * * *'
@@ -28,9 +19,9 @@ jobs:
         # yamllint disable rule:line-length
         run: |
           curl \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/${{ github.repository }}/stats/contributors \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com \
+            -H "Accept: application/vnd.github.v3+json" > contribute.json \
+            https://api.github.com/repos/${{ github.repository }}/stats/contributors
       - name: Get stats
         run: cat contribute.json
       - name: Run Contributor Stats
