@@ -27,10 +27,12 @@ jobs:
       - name: Get contributors in json
         # yamllint disable rule:line-length
         run: |
-          curl --request GET \
-          --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          --header 'content-type: application/json' > contribute.json \
+          curl \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/stats/contributors \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com
+      - name: Get stats
+        run: cat contribute.json
       - name: Run Contributor Stats
         run: python .github/ciPython/contributor_stats.py contribute.json
       - name: Commit daily and total commits
