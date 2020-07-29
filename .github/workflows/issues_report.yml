@@ -5,8 +5,8 @@ name: Report Issues
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    # 12:04 AM everynight
-    - cron: '4 0 * * *'
+    # 12:04 AM January 1
+    - cron: '4 0 1 1 1'
 jobs:
   report:
     runs-on: ubuntu-latest
