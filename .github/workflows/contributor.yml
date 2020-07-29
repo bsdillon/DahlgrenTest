@@ -27,10 +27,6 @@ jobs:
           --header 'content-type: application/json' > contribute.json
       - name: Read json
         run: cat contribute.json
-      - uses: actions/upload-artifact@v1
-        with:
-          name: contribute-list
-          path: contribute.json
       - name: Run Contributor Stats
         run: python .github/ciPython/contributor_stats.py contribute.json
       - name: Commit daily and total commits

@@ -25,4 +25,4 @@ while COUNT < len(json_array):
             dates.append(date)
         week_js.write("contributions[\'" + date + "\'].")
         week_js.write(USERNAME+"="+str(w["c"])+";\n")
-        COUNT += 1
+    COUNT += 1
