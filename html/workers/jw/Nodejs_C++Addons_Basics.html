@@ -27,7 +27,7 @@
       <li>Download Node.js itself</li>
       <li>Download the Node module Node-gyp by typing in the command terminal<br><br>
           &nbsp;<i>>npm install -g node-gyp</i></li>
-    </ul>
+    </ul><br>
     <p><b>Step 2: Write C++ Function</b><br></p>
     <ul>
       <li>Write your C++ addon in a .cc file</li>
@@ -35,7 +35,7 @@
       <li>You can also call functions or objects from the V8 library<br><br>
           &nbsp;<i>#include node.h</i> (except with carots around node.h)<br><br>
           &nbsp;<i>using v8::NameOfImport;</i></li>
-    </ul>
+    </ul><br>
     <p><b>Step 3: Write binding.gyp File</b><br></p>
     <ul>
       <li>Create a file named binding.gyp</li>
@@ -48,12 +48,12 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
           &nbsp;&nbsp;&nbsp;&nbsp;]<br>
           &nbsp;}</i></li>
-    </ul>
+    </ul><br>
     <p><b>Step 4: Require Addon</b><br></p>
     <ul>
       <li>All that there is left to do now is requiring the addon<br><br>
           &nbsp;<i>require(nameOfAddon);</i></li>
-    </ul>
+    </ul><br>
     <h3>How C++ Addons Can Be Useful</h3>
     <p>With C++ addons not only can you make JavaScript and C++ code interact, you can also provide an indirect way for HTML and C++ code to interact.</p>
     <ol>
@@ -64,5 +64,19 @@
       <li>Create a simple HTML interface with a button</li>
       <li>Use an XMLHttprequest to get that code on click and display it however you want (alert, paragraph, etc...)</li>
     </ol><br>
+    <h3>Important Links</h3>
+    <ul>
+      <li><a href="https://nodejs.org/api/synopsis.html">Node.js documentation</a></li>
+      <li><a href="https://github.com/nodejs/node-gyp">Node.js Github</a></li>
+      <li><a href="https://www.w3schools.com/nodejs/nodejs_get_started.asp">Node.js w3schools</a></li>
+      <li><a href="https://www.youtube.com/watch?v=O4Rlq_NSkoM&t=523s">C++ addon YouTube tutorial</a></li>
+      <li><a href="https://medium.com/jspoint/a-simple-guide-to-load-c-c-code-into-node-js-javascript-applications-3fcccf54fd32">Simple guide to C++ addons</a></li>
+      <li><a href="https://medium.com/@a7ul/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f">Node-API beginners guide</a></li>
+      <li><a href="https://stackabuse.com/building-a-rest-api-with-node-and-express/">Building a rest API with node</a></li>
+      <li><a href="https://www.youtube.com/watch?v=pP4kjXykbio&t=332s">Node.js modules YouTube tutorial</a></li>
+      <li><a href="https://github.com/charto/nbind">nbinb Github</a></li>
+      <li><a href="https://stackoverflow.com/questions/42283599/node-server-running-but-localhost-refusing-to-connect">Running node server from localhost</a></li>
+      <li><a href="https://stackoverflow.com/questions/1947263/using-an-html-button-to-call-a-javascript-function">Calling JavaScript function with HTML button</a></li>
+    </ul>
   </body>
 </html>
