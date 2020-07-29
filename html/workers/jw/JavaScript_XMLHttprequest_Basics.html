@@ -71,5 +71,31 @@
           &nbsp;&nbsp;&nbsp;&nbsp;Whatever you want the server to do in response;<br>
           &nbsp;}</i></li>
     </ol><br>
+    <h3>If you are having trouble with CORS headers</h3>
+    <p>
+      When sending XMLHttprequests to a simple Node.js server, on the server side add the header:<br><br>
+      &nbsp;<i>res.writeHead(200, { 'Content-Type': 'text/html', "Access-Control-Allow-Origin": "*"});</i>
+    </p>
+    <p>
+      When sending XMLHttprequests to a Node.js server using Express:<br>
+      Enable the CORS npm module using command prompt<br><br>
+      &nbsp;<i>npm install --save cors</i><br><br>
+      And require it in your server code<br><br>
+      &nbsp;<i>var cors = require('cors');</i>
+    </p><br>
+    <h3>Important Links</h3>
+    <ul>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest">Intro to XMLHttprequests</a></li>
+      <li><a href="https://en.ryte.com/wiki/GET_Parameter">GET vs POST requests</a></li>
+      <li><a href="https://stackoverflow.com/questions/8064691/how-do-i-pass-along-variables-with-xmlhttprequest">How to pass variables with XMLHttprequest</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/setRequestHeader">XMLHttprequest.setRequestHeader()</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getResponseHeader">XMLHttprequest.getRequesponseHeader()</a></li>
+      <li><a href="https://www.w3schools.com/xml/dom_http.asp">XMLHttprequest w3schools</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Fetching_data">Indepth about ajax(XMLHttprequest and Fetch API)</a></li>
+      <li><a href="https://medium.com/zero-equals-false/using-cors-in-express-cac7e29b005b">Using CORS in Express</a></li>
+      <li><a href="https://techeplanet.com/express-get-set-headers/">Setting and getting headers using Express</a></li>
+      <li><a href="https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/">Node.js HTTP transaction</a></li>
+      <li><a href="https://stackoverflow.com/questions/7042340/error-cant-set-headers-after-they-are-sent-to-the-client">'Can't set headers after they are sent to client' error</a></li>
+    </ul><br>
   </body>
 </html>
