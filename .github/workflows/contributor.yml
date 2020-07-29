@@ -3,7 +3,10 @@ name: Contributor Activity
 # fix truthy warning per
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
-on: push
+on:
+  push:
+    branches:
+      'master'
 # on:
   # schedule:
     # - cron: '13 6 * * *'
@@ -22,6 +25,8 @@ jobs:
           --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
+      - name: Read json
+        run: cat contribute.json
       - name: Run Contributor Stats
         run: python .github/ciPython/contributor_stats.py contribute.json
       - name: Commit daily and total commits
