@@ -1,8 +1,6 @@
 #include "defaultlistener.h"
-
 #include <memory>
-
-#include "AbstractDriver.h"
+#include "net/abstractdriver.h"
 #include "datamanager.h"
 
 DefaultListener::DefaultListener(DataManager* dataSink, std::string topic, AbstractDriver* factory)
@@ -11,12 +9,12 @@ DefaultListener::DefaultListener(DataManager* dataSink, std::string topic, Abstr
     _topic(topic)
 {}
 
-void DefaultListener::onIssueReceived(const infrastructureservices::common::Message_T * issue, infrastructureservices::pubsub::Subscription_I &) throw()
+void DefaultListener::onIssueReceived(const Message * issue, Subscription_I &) throw()
 {
     _dataManager->addMessage(_topic, std::move(_factory->CreateDriver(issue)));
 }
 
-void DefaultListener::TestReceived(const infrastructureservices::common::Message_T * issue)
+void DefaultListener::TestReceived(const Message * issue)
 {
     _dataManager->addMessage(_topic, std::move(_factory->CreateDriver(issue)));
 }

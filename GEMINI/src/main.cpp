@@ -5,29 +5,30 @@
 #include <QApplication>
 #include <QMetaType>
 #include <QPixmap>
-#include <QSplashScreen>
 #include <QString>
 #include <QThread>
 #include <string>
 
-#include "AbstractDriver.h"
 #include "configureenvironment.h"
 #include "filestatus.h"
-#include "mainwindow.h"
+#include "core/corefunction.h"
+#include "common.h"
 
 int main(int argc, char *argv[])
 {
-    if (argc != 2)
+    if (!(argc == 2 || (argc == 3 && QString::fromStdString(argv[2]).compare("gui"))))
     {
-        std::cout << "Usage: Gemini <config file path>" << std::endl;
+        std::cout << "Usage: Gemini <config file path> [optional: gui]" << std::endl;
         exit(-1);
     }
 
+    //2 args means no GUI.
+    //3 args are passed in the previous conditional check
+    Common::SetHeadless(argc==2);
+
     QApplication a(argc, argv);
 
-    QSplashScreen qss(QPixmap(":/SplashScreen.bmp"));
-    qss.setWindowFlags(qss.windowFlags() | Qt::WindowStaysOnTopHint);
-    qss.show();
+    CoreFunction f;
 
     qRegisterMetaType<PLAMessage>("PLAMessage");
     qRegisterMetaType<FileStatus>("FileStatus");
@@ -37,10 +38,6 @@ int main(int argc, char *argv[])
 
     ConfigureEnvironment::Load(argv[1], a.applicationDirPath());
 
-    MainWindow w;
-    qss.finish(&w);
-    w.Load();
-    w.show();
-
+    f.CompleteStartup();
     return a.exec();
 }

@@ -1,12 +1,11 @@
 #include "subscriptionmanager.h"
 
 #include "common.h"
-#include "DriverFactory.h"
+#include "net/driverfactory.h"
 #include "messagelistener.h"
 
-SubscriptionManager::SubscriptionManager(infrastructureservices::pubsub::PubSubService_I *pss)
-    : _pss(pss),
-      _dataManager(nullptr)
+SubscriptionManager::SubscriptionManager()
+    : _dataManager(nullptr)
 {
     // Set up topic-index map that permits requesting factory instances using
     // topic name
@@ -51,11 +50,13 @@ void SubscriptionManager::receiveTopicList(std::vector<std::string> topics)
         emit UpdateStatus("Creating topic " + std::to_string(createdSoFar) + "/" + std::to_string(total));
         _listenerMap[topic] = std::unique_ptr<DefaultListener>(new DefaultListener(_dataManager.get(), topic, _topicFactories[topic].get()));
         if (!Common::IsDebug()) {
-            _topicMap[topic] = _pss->createTopic(topic);
-            _subscriptionMap[topic] = _pss->createSubscription(*_topicMap[topic], *_listenerMap[topic].get());
+            //TODO Subscript to topic in Network
+            //_topicMap[topic] = _pss->createTopic(topic);
+            //_subscriptionMap[topic] = _pss->createSubscription(*_topicMap[topic], *_listenerMap[topic].get());
         }
     }
-    _pss->enableAllSubscriptions();
+    //TODO turn on subscriptions
+    //_pss->enableAllSubscriptions();
 }
 
 void SubscriptionManager::toggleSubscription(QString topic, bool enable)
@@ -68,7 +69,7 @@ void SubscriptionManager::toggleSubscription(QString topic, bool enable)
     }
 }
 
-void SubscriptionManager::testMessageInDebug(QString topic, infrastructureservices::common::Message_T *message)
+void SubscriptionManager::testMessageInDebug(QString topic, Message *message)
 {
     _listenerMap[topic.toStdString()]->TestReceived(message);
 }
@@ -77,8 +78,9 @@ void SubscriptionManager::cleanUp()
 {
      for (const auto& subscription : _subscriptionMap) {
         auto& subscriptionInterface = subscription.second;
-        subscriptionInterface->disableSubscription(true);
-        _pss->destroySubscription(*subscriptionInterface);
+        //TODO Unsubscribe and remove subscriptions from network
+        //subscriptionInterface->disableSubscription(true);
+        //_pss->destroySubscription(*subscriptionInterface);
     }
     _subscriptionMap.clear();
     _topicFactories.clear();

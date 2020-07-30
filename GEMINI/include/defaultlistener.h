@@ -3,14 +3,15 @@
 
 #include <string>
 
-#include "Message_T.h"
-#include "Subscription_I.h"
-#include "SubscriptionIssueListener_I.h"
+#include "net/message.h"
+#include "net/Subscription_I.h"
+//#include "SubscriptionIssueListener_I.h"
+//TODO setup interfaces for network listener
 
 class AbstractDriver;
 class DataManager;
 
-class DefaultListener : public infrastructureservices::pubsub::SubscriptionIssueListener_I
+class DefaultListener //: public infrastructureservices::pubsub::SubscriptionIssueListener_I
 {
 private:
     DataManager* _dataManager; // Non-owning
@@ -19,8 +20,8 @@ private:
 
 public:
     DefaultListener(DataManager* dataSink, std::string topic, AbstractDriver* factory);
-    void onIssueReceived(const infrastructureservices::common::Message_T *, infrastructureservices::pubsub::Subscription_I &) throw();
-    void TestReceived(const infrastructureservices::common::Message_T * issue);
+    void onIssueReceived(const Message * issue, Subscription_I &) throw();
+    void TestReceived(const Message * issue);
 };
 
 #endif // DEFAULTLISTENER_H

@@ -9,7 +9,7 @@
 #include <QProcessEnvironment>
 
 #include "common.h"
-#include "EmptyDriver.h"
+#include "net/emptydriver.h"
 #include "readmessage.h"
 #include "timeobject.h"
 

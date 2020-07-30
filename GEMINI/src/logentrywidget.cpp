@@ -3,7 +3,7 @@
 
 #include <QDateTime>
 
-#include "stylemanager.h"
+#include "qtgui/stylemanager.h"
 #include "timeobject.h"
 
 LogEntryWidget::LogEntryWidget(QString logMessage, QWidget *parent) :

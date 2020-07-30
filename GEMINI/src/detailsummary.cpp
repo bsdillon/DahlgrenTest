@@ -2,7 +2,7 @@
 #include "ui_detailsummary.h"
 
 #include "readmessage.h"
-#include "stylemanager.h"
+#include "qtgui/stylemanager.h"
 #include "timeobject.h"
 
 DetailSummary::DetailSummary(QWidget *parent) :

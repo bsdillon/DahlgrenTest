@@ -1,5 +1,6 @@
 #include "common.h"
 
+bool Common::headless = true;
 int Common::level = 0;//zero provides no introspection
 
 bool Common::IsTest()//test is more introspective and uses normal functionality to run the program.
@@ -22,4 +23,14 @@ QString Common::ValidateIntrospection(QString l)
         return QString();
     }
     return QString("Invalid introspection level: Valid values=[0=Normal,1=Test,2=Debug]\n");
+}
+
+bool Common::isHeadless()
+{
+    return headless;
+}
+
+void Common::SetHeadless(bool noGUI)
+{
+    headless = noGUI;
 }
