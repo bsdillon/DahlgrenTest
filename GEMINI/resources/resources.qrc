@@ -1,0 +1,9 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+  <file>Filter.bmp</file>
+  <file>Icon.bmp</file>
+  <file>SplashScreen.bmp</file>
+  <file>Unfilter.bmp</file>
+  <file>styleSheet.qss</file>
+</qresource>
+</RCC>

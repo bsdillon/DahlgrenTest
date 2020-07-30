@@ -1,0 +1,22 @@
+---
+name: Report Contributors
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  schedule:
+    # 12:04 AM Janurary 1 that day is a Monday
+    - cron: '4 0 1 1 1'
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Begin Setup
+        uses: actions/checkout@v1
+      - name: Get Users
+        # yamllint disable rule:line-length
+        run: |
+          curl --request GET \
+          --url https://api.github.com/repos/${{ github.repository }}/contributors \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'content-type: application/json' > users.json

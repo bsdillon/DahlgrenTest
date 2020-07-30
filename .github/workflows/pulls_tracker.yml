@@ -5,8 +5,8 @@ name: Pull-Request Report
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    # 12:10 AM everynight
-    - cron: '10 0 * * *'
+    # 12:10 AM January 1
+    - cron: '10 0 1 1 1'
 jobs:
   get_data:
     runs-on: ubuntu-latest

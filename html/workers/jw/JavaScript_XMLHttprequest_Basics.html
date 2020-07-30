@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Basics of XMLHttprequests in JavaScript</title>
+  </head>
+  <body>
+    <h3>What is an XMLHttp Request?</h3>
+    <p>
+      XMLHttprequest is a built-in browser object that allows you to send HTTP requests in JavaScript. 
+      Despite having "XML" in its name these requests can work with data in any format. 
+      They were specifically named XMLHttprequests because at the time they were made XML was the most common data format.
+      <br><br>There is a more moddern format for sending HTTP requests called Fetch, however, XMLHttprequest are still used for several reasons including:<br>
+    </p>
+      <ul>
+        <li>Historical reasons: To support already existing scripts using XMLHttprequests</li>
+        <li>To support older browsers</li>
+        <li>To do somethings that Fetch API cannot yet, like tracking upload progress</li>
+      </ul><br>
+    <h3>How to Make an XMLHttprequest</h3>
+    <p>
+      <b>Step 1: Create a variable to initiate a new XMLHttprequest</b><br><br>
+      &nbsp;<i>var request = new XMLHttpRequest()</i><br><br>
+    </p>
+
+    <p>
+      <b>Step 2: Open the request</b><br><br>
+      &nbsp;<i>request.open('GET', 'http://localhost:1337/', true)</i><br><br>
+      <i>'GET'</i> refers to the operation the request will perform.<br> 
+      There are several different "CRUD" operations you can use in your request to manipulate the data on the website/file you are sending the request to, the most popular being:<br>
+    </p>
+      <ul>
+        <li>GET - used to grab info</li>
+        <li>POST - used to send info</li>
+        <li>PUT - used to update info</li>
+        <li>DELETE - used to delete info</li>
+      </ul>
+    <p>
+      <i>'http://localhost:1337/'</i> refers to the url the request will be sent to.<br> 
+      You can set your url to a variable and include that in the request or you can include the url itself.<br><br>
+      <i>true</i> refers to whether or not the request will be synchronous or asynchronous.<br> 
+      Writing <i>true</i> or leaving that statement blank will set the request to be asynchronous, while writing <i>false</i> will set the request to be synchronous.<br><br>
+    </p>
+      
+    <p>
+      <b>Step 3: Set the response method</b><br><br>
+      &nbsp;<i>request.onload = function () {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;alert(request.response);<br>
+      &nbsp;}</i><br><br>
+      The onload function will run everytime the webpage/file the request is being sent to loads.<br>
+      You can display the response however you wish, whether as an alert, in the console, or in a paragraph.<br><br>
+    </p>
+
+    <p>
+      <b>Step 4: Whatever else you want</b><br><br>
+      At this point you can also add any other code you would like to execute, whether it be adding more to the onload function, making a new function you want to execute, or anything else.<br><br>
+    </p>
+
+    <p>
+      <b>Step 5: Sending the request</b><br><br>
+      &nbsp;<i>request.send()</i><br><br>
+      After you have written all of the code you wish to execute with your request all that is left is to write the command to send it.
+    </p><br>
+    <h3>How to set parameters for an XMLHttp request</h3>
+    <p>(Sepcifically when making a GET requet to an Express.js server)</p>
+    <ol>
+      <li>Set up an XMLHttprequest as explained above</li>
+      <li>After opening the request, set a request header with a name and value of your choice.</li>
+      <li>On the server side, create an if statement that listens for that header and returns something whenever it is recieved.<br><br>
+          &nbsp;<i>request.setRequestHeader('name', 'value');</i><br><br>
+          &nbsp;<i>if (req.headers.name) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Whatever you want the server to do in response;<br>
+          &nbsp;}</i></li>
+    </ol><br>
+    <h3>If you are having trouble with CORS headers</h3>
+    <p>
+      When sending XMLHttprequests to a simple Node.js server, on the server side add the header:<br><br>
+      &nbsp;<i>res.writeHead(200, { 'Content-Type': 'text/html', "Access-Control-Allow-Origin": "*"});</i>
+    </p>
+    <p>
+      When sending XMLHttprequests to a Node.js server using Express:<br>
+      Enable the CORS npm module using command prompt<br><br>
+      &nbsp;<i>npm install --save cors</i><br><br>
+      And require it in your server code<br><br>
+      &nbsp;<i>var cors = require('cors');</i>
+    </p><br>
+    <h3>Important Links</h3>
+    <ul>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest">Intro to XMLHttprequests</a></li>
+      <li><a href="https://en.ryte.com/wiki/GET_Parameter">GET vs POST requests</a></li>
+      <li><a href="https://stackoverflow.com/questions/8064691/how-do-i-pass-along-variables-with-xmlhttprequest">How to pass variables with XMLHttprequest</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/setRequestHeader">XMLHttprequest.setRequestHeader()</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getResponseHeader">XMLHttprequest.getRequesponseHeader()</a></li>
+      <li><a href="https://www.w3schools.com/xml/dom_http.asp">XMLHttprequest w3schools</a></li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Fetching_data">Indepth about ajax(XMLHttprequest and Fetch API)</a></li>
+      <li><a href="https://medium.com/zero-equals-false/using-cors-in-express-cac7e29b005b">Using CORS in Express</a></li>
+      <li><a href="https://techeplanet.com/express-get-set-headers/">Setting and getting headers using Express</a></li>
+      <li><a href="https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/">Node.js HTTP transaction</a></li>
+      <li><a href="https://stackoverflow.com/questions/7042340/error-cant-set-headers-after-they-are-sent-to-the-client">'Can't set headers after they are sent to client' error</a></li>
+    </ul><br>
+  </body>
+</html>
