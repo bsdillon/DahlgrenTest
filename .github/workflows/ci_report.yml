@@ -11,6 +11,7 @@ on:
     paths:
       - ".github/ciPython/ci_report.py"
       - ".github/workflows/ci_report.yml"
+      - ".github/workflows/forceCIReport.txt"
 
 jobs:
   check-quality:
