@@ -21,7 +21,26 @@
     </p>
     <h4>QT Creator</h4>
     <p>QT Creator is an IDE for C++, JavaScript, and QML that simplifies GUI
-      application development. You can install this tool with the following yum command: <code>sudo yum install qt-creator</code>
+      application development. You can install this tool with the following yum command: <code>sudo yum install qt-creator</code>.
+      Note you need to install these following libraries before being able to create a GEMINI workspace in QT Creator using <code>sudo yum install</code>:
+    <ul>
+      <li><code>epel-release</code></li>
+      <li><code>glibc.i686</code></li>
+      <li><code>gcc-c++.x86_64</code></li>
+      <li><code>nss-util.i686</code></li>
+      <li><code>glibc-devel.i686</code></li>
+      <li><code>mesa-libGL-devel.i686</code></li>
+      <li><code>qt-devel.i686</code></li>
+      <li><code>rpm-build.x86_64</code></li>
+      <li><code>libreoffice-writer.x86_64</code></li>
+    </ul>
     </p>
+    <h4>Git</h4>
+    <p>
+      Unfortunately, linux does not support GitHub desktop, so you have to install git with <code>sudo yum install git</code>.
+      Afterwards, clone the repository with <code>git clone url</code> where you get the url from the "Code" drop down button
+      on the "<> Code" tab in the repos. To switch to a specific branch, use <code>git checkout 'existing_branch'</code>.
+    </p>
+
   </body>
 </html>
