@@ -63,8 +63,9 @@ class Parser:
         Helper function that utilizes PyPDF2 to parse pdf file.
         :param pdf_file: pdf file to read
         :param pageNums: list of pages to parse
-        :return processed data - dictionary that contains a list of tables
-                and text parsed from pdfs
+        :return processed data - dictionary that contains a reference library
+                of the title that is referred to by a field character
+                and a list of text parsed from pdfs
         """
         # gets specified page from pdf and writes to another pdf file
         parsed_data = {}
@@ -78,10 +79,11 @@ class Parser:
             pages.append(i)
         with open('output.pdf', 'wb') as outfile:
             writer.write(outfile)
-        tables = self.parse_pdf_table('output.pdf', "all")
+        lib = self.parse_pdf_table('output.pdf', "all")
         text = self.parse_text('output.pdf', pages)
-        if len(tables) > 0:
-            parsed_data.update({"Tables": tables})
+        # checks if dictionary is empty
+        if bool(lib):
+            parsed_data.update({"Reference": lib})
         if len(text) > 0:
             parsed_data.update({"Text": text})
         file.close()
@@ -108,31 +110,49 @@ class Parser:
         Parses pdf table.
         :param table_file: pdf file to parse tables from
         :param page: page number in file to get table; for all pages, put "all"
-        :return: a list of string representations of tables parsed from pdf
+        :return: a dictionary of titles that is represented by a field char
         """
-        parsed_tables = []
-        writer = open(self.message, 'w')
+        fields = {}
         tables = tabula.read_pdf(table_file, pages=page)
+        for i in range(len(tables) - 1):
+            data = tables[i + 1]
+            data = data.fillna('')
+            curr_field = ''
+            # gets a list of the headers of each column in the table
+            headers = data.columns.tolist()
+            for index, row in data.iterrows():
+                # the headers index can be a parameter if we have the pdf
+                field = row[headers[0]]
+                title = row[headers[1]]
+                if len(field) > 0:
+                    curr_field = field[0]
+                    fields.update({curr_field: title})
+                else:
+                    if len(title) > 0:
+                        fields[curr_field] = fields[curr_field] + ' ' + title
+        if len(tables) > 0:
+            assert isinstance(tables[0], pd.core.frame.DataFrame)
+            self.print_table(tables)
+        return fields
+
+    def print_table(self, tables):
+        """
+        Writes the table to a text file.
+        :param tables: table to extract
+        """
+        writer = open(self.message, 'w')
+        # data frame set to display all columns with no line breaks
         for i in range(len(tables)):
             data = tables[i]
             data = data.fillna('')
-            # data frame set to display all columns with no line breaks
-            with pd.option_context('display.max_rows',
-                                   None, 'display.max_columns', None):
-                pd.set_option('display.expand_frame_repr', False)
-            table = data.to_string()
-            parsed_tables.append(table)
-            lines = table.split('\n')
-            for x in range(len(lines)):
-                line = lines[x]
-                writer.write(line[2:] + '\n')
-            if i < len(tables) - 1:
-                writer.write("---------------------------------------------\n")
+            if len(data.to_string().split('\n')) > 2:
+                lines = data.to_string().split('\n')
+                for x in range(len(lines)):
+                    line = lines[x]
+                    writer.write(line[2:] + '\n')
         writer.close()
-        return parsed_tables
-
 
 # test script below
 # parser = Parser()
 # parser.parse_from_url('https://www.jcs.mil/Portals/36/Documents/'
-#                      'Doctrine/Other_Pubs/ms_2525d.pdf', [35])
+# 'Doctrine/Other_Pubs/ms_2525d.pdf', [34, 35, 36])
