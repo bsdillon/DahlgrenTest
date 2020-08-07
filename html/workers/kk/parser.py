@@ -4,7 +4,11 @@ from PyPDF2 import PdfFileReader, PdfFileWriter
 
 import pandas as pd
 
+import random
+
 import requests
+
+import string
 
 import tabula
 
@@ -130,9 +134,9 @@ class Parser:
                 else:
                     if len(title) > 0:
                         fields[curr_field] = fields[curr_field] + ' ' + title
-        if len(tables) > 0:
-            assert isinstance(tables[0], pd.core.frame.DataFrame)
-            self.print_table(tables)
+        # if len(tables) > 0:
+            # assert isinstance(tables[0], pd.core.frame.DataFrame)
+            # self.print_table(tables)
         return fields
 
     def print_table(self, tables):
@@ -152,7 +156,8 @@ class Parser:
                     writer.write(line[2:] + '\n')
         writer.close()
 
-# test script below
-# parser = Parser()
-# parser.parse_from_url('https://www.jcs.mil/Portals/36/Documents/'
-# 'Doctrine/Other_Pubs/ms_2525d.pdf', [34, 35, 36])
+    def get_random_string(self, length):
+        # Random string with the combination of lower and upper case
+        letters = string.ascii_letters
+        result_str = ''.join(random.choice(letters) for i in range(length))
+        return result_str.capitalize()
