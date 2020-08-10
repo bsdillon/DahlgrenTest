@@ -3,10 +3,10 @@ name: Weekly Commit Count Report
 # fix truthy warning per
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
-on: push
-  # schedule:
+on:
+  schedule:
     # every Saturday night at 23:50
-    # - cron: '50 3 * * 6'
+    - cron: '50 3 * * 6'
 jobs:
   get_data:
     runs-on: ubuntu-latest
@@ -33,4 +33,4 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'GEMRefactor'
+          branch: 'master'
