@@ -30,7 +30,7 @@ cpp.write("\tstd::map<char, std::string> reference;\n")
 for key in table_ref:
     cpp.write("\treference[\'" + key + "\'] = \"" + table_ref[key] + "\";\n")
 
-cpp.write("\nint main()\n{\n")
+cpp.write("\nvoid decode()\n{\n")
 cpp.write("\tstd::map<char, string> ref = getMap();\n")
 cpp.write("\tfstream file;\n\tstring word;\n")
 cpp.write("\tfile.open(\"""message.txt""\".c_str());\n")
