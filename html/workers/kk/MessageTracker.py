@@ -46,7 +46,7 @@ cpp.write("\t\t\t\tcout << \"""Title not found. Invalid Key"" << "
 cpp.write("\t\t\t}\n")
 cpp.write("\t\t}\n")
 cpp.write("\t}\n")
-cpp.write("\n\treturn 0;\n}\n")
+cpp.write("}\n")
 # writing cpp ends here
 
 cpp.close()
