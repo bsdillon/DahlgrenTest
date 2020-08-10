@@ -3,10 +3,10 @@ name: Weekly Commit Count Report
 # fix truthy warning per
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
-on:
-  schedule:
+on: push
+  # schedule:
     # every Saturday night at 23:50
-    - cron: '50 3 * * 6'
+    # - cron: '50 3 * * 6'
 jobs:
   get_data:
     runs-on: ubuntu-latest
