@@ -23,7 +23,7 @@
         5.  html_content = requests.get(url).text<br>
         6.  soup = BeautifulSoup(html_content, "lxml")<br>
         7.  print(soup.title.text)<br>
-        8.  table = soup.find("table", attrs={"border": "3})<br>
+        8.  table = soup.find("table", attrs={"border": "3"})<br>
         9.  table_data = table.find_all("tr")<br>
         10. titles = table.findAll('td')<br>
         11. title_list = []<br>
