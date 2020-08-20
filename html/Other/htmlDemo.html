@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>HTML Parse</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+</head>
+<body>
+    <h3>Parsing Data in HTML Example</h3>
+    <p>In this demonstration, the python script below gets the URL of the website and parses the table and prints
+    everything under the header, "Field Name" using these libraries:
+    </p>
+    <ul>
+        <li><code>BeautifulSoup</code></li>
+        <li><code>pandas</code></li>
+        <li><code>requests</code></li>
+    </ul>
+    <h4>Code</h4>
+    <code>
+        1.  from bs4 import BeautifulSoup<br>
+        2.  import pandas as pd<br>
+        3.  import requests
+        4.  url = "http://www.tcpipguide.com/free/t_IPDatagramGeneralFormat.htm"<br>
+        5.  html_content = requests.get(url).text<br>
+        6.  soup = BeautifulSoup(html_content, "lxml")<br>
+        7.  print(soup.title.text)<br>
+        8.  table = soup.find("table", attrs={"border": "3})<br>
+        9.  table_data = table.find_all("tr")<br>
+        10. titles = table.findAll('td')<br>
+        11. title_list = []<br>
+        12. for title in titles:<br>
+        13. &nbsp;&nbsp;&nbsp;title_list.append(title.text)<br>
+        14. field = []<br>
+        15. count = 0<br>
+        16. while count < len(title_list):<br>
+        17. &nbsp;&nbsp;&nbsp;title_list[count] = title_list[count].replace('\n', '').replace('\r', '')<br>
+        18. &nbsp;&nbsp;&nbsp;if count != 0 and count % 3 == 0:<br>
+        19. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field.append(title_list[count])<br>
+        20. &nbsp;&nbsp;&nbsp;count += 1<br>
+        21. print("Number of field names:", len(field))<br>
+        22. df = pd.DataFrame()<br>
+        23. df['Field Names'] = field<br>
+        24. with pd.option_context('display.max_rows', None, 'display.max_columns', None):<br>
+        25. &nbsp;&nbsp;&nbsp;print(df)<br>
+    </code>
+    <h4>Explanation of code</h4>
+    <ol>
+        <li value="5">Requests gets the HTML from the URL returning the raw text of the website.</li>
+        <li value="6">Initiates an object using BeautifulSoup into lxml format.</li>
+        <li value="8">BeautifulSoup has a built-in function that finds tables using a set of parameters
+            specified by the object to find and borders.</li>
+        <li value="9">Gets the precise data from searching "tr" in the raw HTML file.</li>
+        <li value="10">Puts every data in each cell in a list.</li>
+        <li value="12">Puts in only the text of each sell of the table in a list.</li>
+        <li value="16">Iterates through the list of text in each cells and removes unnecessary characters that way each
+            index should only be the title itself with not unwanted characters and spaces.</li>
+        <li value="18">This conditional is utilized to get the header of each row of the table.</li>
+        <li value="22">Creates a pandas DataFrame object and the following line sets up a DataFrame
+            header that contains all Field Names.</li>
+        <li value="24">Pandas has options on how outputting the DataFrame. By default, it outputs a certain number
+        of rows and columns. Here, all rows and columns should be outputted.</li>
+
+    </ol>
+</body>
+</html>
