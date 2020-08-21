@@ -69,12 +69,14 @@ public:
   }
   std::unique_ptr<AbstractDriver> CreateDriver(const Message*)
   {
-    throw DriverException("AbstractDriver has no valid use for CreateDriver()",
+    throw DriverExcepntion("AbstractDriver has no valid use for CreateDriver()",
             DriverException::Level::UnstableProgram);
   }
   long getMessageArrival();
-  int getMethodCount();
-  ReturnTypes* getMethodTypes();
+  ReturnTypes* getMethodTypes()
+  {
+    return signatures;
+  }
   std::string getTypeDescription(ReturnTypes r)
   {
     switch ((int)r) {
@@ -114,6 +116,24 @@ public:
         return "SHORT";
       case ABSTRACTENUMDOUBLEPOINTER:
         return "ENUM[]";
+      case INT8_T:
+        return "SIGNED 8 INT";
+      case INT16_T:
+        return "SIGNED 16 INT";
+      case INT32_T:
+        return "SIGNED 32 INT";
+      case INT64_T:
+        return "SIGNED 64 INT";
+      case UINT8_T:
+        return "UNSIGNED 8 INT";
+      case UINT16_T:
+        return "UNSIGNED 16 INT";
+      case UINT32_T:
+        return "UNSIGNED 32 INT";
+      case UINT64_T:
+        return "UNSIGNED 64 INT";
+      case LONG_DOUBLE:
+        return "LONG DOUBLE";
     }
     std::string msg = "No type description found for";
     msg.append(std::to_string(r));
