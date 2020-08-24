@@ -31,6 +31,14 @@ ExperimentPanel::ExperimentPanel(QWidget *parent) :
     }
 
     ReceiveFileNameStatus({false, ""});
+
+    experimentProxy = new I_Experiment(this);
+    experimentProxy->setTopicsChangedCallback(std::bind(&ExperimentPanel::TopicsChanged, this, std::placeholders::_1));
+    experimentProxy->setFinishedPressedCallback(std::bind(&ExperimentPanel::FinishedPressed, this, std::placeholders::_1));
+    experimentProxy->setReceivedFileNameStatusCallback(std::bind(&ExperimentPanel::ReceiveFileNameStatus, this, std::placeholders::_1));
+    experimentProxy->setDataReceived(std::bind(&ExperimentPanel::DataReceived, this, std::placeholder::_1));
+
+
 }
 
 ExperimentPanel::~ExperimentPanel()

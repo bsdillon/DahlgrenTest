@@ -22,6 +22,11 @@ TestWindow::TestWindow(QWidget *parent) :
     connect(ui->stopButton, &QPushButton::clicked, this, &TestWindow::stopButtonClicked);
     ui->stopButton->setEnabled(false);
     setPublishingIndicator(false);
+
+    testProxy = new I_Test(this);
+    testProxy->setRecieveExperimentRunStatus(std::bind(&TestWindow::receiveExperimentRunStatus, this, std::placeholder::_1));
+    testProxy->setStopPublishingMessages(std::bind(&TestWindow::stopPublishingMessages, this, std::placeholder::_1));
+    testProxy->setReceiveNewTopics(std::bind(&TestWindow::ReceiveNewTopics, this, std::_placeholder::_1));
 }
 
 TestWindow::~TestWindow()

@@ -12,6 +12,9 @@ TopicCounts::TopicCounts(QWidget *parent) :
     _messageListener = new MessageListener(this);
     _messageListener->setMessageCallback(std::bind(&TopicCounts::Message, this, std::placeholders::_1));
     _messageListener->setClearDataCallback(std::bind(&TopicCounts::ClearData, this));
+
+    countPanelProxy = new I_CountPanel;
+    countPanelProxy->setReceiveNewTopicsCallback(std::bind(&TopicCounts::ReceiveNewTopics, this, std::placeholders::_1));
 }
 
 TopicCounts::~TopicCounts()

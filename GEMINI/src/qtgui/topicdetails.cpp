@@ -1,4 +1,4 @@
-#include "topicdetails.h"
+#include "qtgui/topicdetails.h"
 #include "ui_topicdetails.h"
 
 #include <exception>
@@ -24,6 +24,11 @@ TopicDetails::TopicDetails(QWidget *parent) :
     _messageListener->setMessageCallback(std::bind(&TopicDetails::Message, this, std::placeholders::_1));
     _messageListener->setLoggingCallback(std::bind(&TopicDetails::Log, this, std::placeholders::_1));
     _messageListener->setClearDataCallback(std::bind(&TopicDetails::ClearMessages, this));
+
+
+    detailpanelProxy = new I_DetailPanel(this);
+    detailpanelProxy->setClearMessageCallback(std::bind(&TopicDetails::ClearMessages, this, std::placeholders::_1));
+
 }
 
 TopicDetails::~TopicDetails()

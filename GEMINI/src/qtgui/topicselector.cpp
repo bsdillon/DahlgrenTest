@@ -1,4 +1,4 @@
-#include "topicselector.h"
+#include "qtgui/topicselector.h"
 #include "ui_topicselector.h"
 
 #include <QDir>
@@ -56,6 +56,9 @@ TopicSelector::TopicSelector(QWidget *parent) :
     connect(ui->lineEdit_filter_selectedTopics, &QLineEdit::textChanged, this, &TopicSelector::checkSaveButtonState);
 
     checkSaveButtonState();
+
+    topicPanelProxy = new I_TopicPanel(this);
+    topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this, std::placeholder::_1));
 }
 
 TopicSelector::~TopicSelector()
