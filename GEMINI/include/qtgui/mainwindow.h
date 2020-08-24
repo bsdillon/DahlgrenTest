@@ -18,7 +18,7 @@ namespace Ui {
   class MainWindow;
 }
 
-class MainWindow : public QMainWindow, I_Main
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
@@ -37,6 +37,8 @@ private:
     ToggleSwitch* _modeToggle;
 
     void setDebugColoring();
+
+    I_Main* mainProxy;
 };
 
 #endif // MAINWINDOW_H

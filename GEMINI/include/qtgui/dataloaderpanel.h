@@ -8,7 +8,7 @@ namespace Ui {
     class dataLoaderPanel;
 }
 
-class dataLoaderPanel : public QWidget, I_DataLoader
+class dataLoaderPanel : public QWidget
 {
         Q_OBJECT
 

@@ -17,7 +17,7 @@ namespace Ui {
   class ExperimentPanel;
 }
 
-class ExperimentPanel : public QWidget, I_Experiment
+class ExperimentPanel : public QWidget
 {
     Q_OBJECT
 
@@ -56,6 +56,8 @@ private:
     void ApplyState();
     void CheckState();
     void UpdateLastExperimentFile();
+
+    I_Experiment* experimentProxy;
 
 private slots:
     void RecordPressed();

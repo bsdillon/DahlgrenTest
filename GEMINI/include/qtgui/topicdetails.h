@@ -17,7 +17,7 @@ namespace Ui {
     class TopicDetails;
 }
 
-class TopicDetails : public QWidget, I_DetailPanel
+class TopicDetails : public QWidget
 {
     Q_OBJECT
 
@@ -39,6 +39,8 @@ private:
     Ui::TopicDetails *ui;
     std::vector<DetailSummary*> summaryWidgets;
     MessageListener* _messageListener;
+    I_DetailPanel* detailpanelProxy;
+    void ClearMessages();
 
     template<typename T>
     void forEachSummaryWidget(T&& function)

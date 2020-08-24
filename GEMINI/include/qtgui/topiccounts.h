@@ -11,7 +11,7 @@ namespace Ui {
   class TopicCounts;
 }
 
-class TopicCounts : public QWidget, I_CountPanel
+class TopicCounts : public QWidget
 {
     Q_OBJECT
 
@@ -27,9 +27,12 @@ class TopicCounts : public QWidget, I_CountPanel
         void StopAll();
 
 private:
+    void ReceiveNewTopics(std::map<std::string, AbstractDriver*> factories);
+
     Ui::TopicCounts *ui;
     std::unordered_map<std::string, TopicCountSummary*> _summaries;
     MessageListener* _messageListener;
+    I_CountPanel* countPanelProxy;
 
     void ClearData();
 };

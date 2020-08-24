@@ -17,7 +17,7 @@ namespace Ui {
     class TopicSelector;
 }
 
-class TopicSelector : public QWidget, I_TopicPanel
+class TopicSelector : public QWidget
 {
     Q_OBJECT
 
@@ -47,6 +47,8 @@ private:
     void moveTopicsBySelection(QItemSelectionModel *selection, QAbstractItemModel *from, QAbstractItemModel *to);
     void selectListOfTopics(const QStringList &topics);
     void writeSettings(QSettings *settings);
+
+    I_TopicPanel* topicPanelProxy;
 };
 
 #endif // TOPICSELECTOR_H

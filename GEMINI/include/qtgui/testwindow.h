@@ -20,7 +20,7 @@ namespace Ui {
     class TestWindow;
 }
 
-class TestWindow : public QMainWindow, I_Test
+class TestWindow : public QMainWindow
 {
     Q_OBJECT
 
@@ -44,6 +44,8 @@ private:
     void closeEvent(QCloseEvent*);
     void publishMessages(std::pair<std::string, AbstractDriver*> topicFactory, int frequency, int multiplier);
     void setPublishingIndicator(bool publishing);
+
+    I_Test* testProxy;
 };
 
 #endif // TESTWINDOW_H
