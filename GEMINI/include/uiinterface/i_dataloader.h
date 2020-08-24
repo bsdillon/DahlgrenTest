@@ -7,6 +7,14 @@ class I_DataLoader : public QObject
 {
     Q_OBJECT
 
+public:
+    //Constructor
+    I_DataLoader(QObject *parent=0);
+
+    //public signal function
+    void signaLoadData(QString filename);
+    void signalRequestToClearData();
+
 signals:
     void loadDataFrom(QString fileName);
     void requestToClearData();
