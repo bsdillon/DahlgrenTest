@@ -2,12 +2,19 @@
 #define MAINPROXY_H
 
 #include "proxies/AbstractProxy.h"
+#include "uiinterface/i_main.h"
 
 class MainProxy : public QObject
 {
     Q_OBJECT
 public:
     MainProxy();
+
+private:
+    I_Main* mainProxy;
+    void Status(std::string s);
+    void modeSwitchingEnabled(bool enabled);
+    void logEventClicked();
 };
 
 #endif // MAINPROXY_H
