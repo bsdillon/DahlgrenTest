@@ -100,6 +100,7 @@ class ParseClass(AbstractParser):
         for m in self.myObject['properties']['public']:
             if m['name'] == 'resourceKey':
                 # sdflkjdsf = 0
+                #TODO determine if this is a bug and probably remove the entire if statement.
                 continue
             self.Methods.append(
                 Method(self.header_full, m['line_number'], m['raw_type'],

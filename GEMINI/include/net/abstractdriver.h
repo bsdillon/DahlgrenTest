@@ -42,7 +42,16 @@ public:
         ABSTRACTENUMPOINTER,
         ABSTRACTDRIVERPOINTER,
         ABSTRACTDRIVERDOUBLEPOINTER,
-        ABSTRACTENUMDOUBLEPOINTER
+        ABSTRACTENUMDOUBLEPOINTER,
+        INT8_T,
+        INT16_T
+        INT32_T
+        INT64_T
+        UINT8_T
+        UINT16_T
+        UINT32_T
+        UINT64_T
+        LONG_DOUBLE
     };
 
 protected:
@@ -60,12 +69,14 @@ public:
   }
   std::unique_ptr<AbstractDriver> CreateDriver(const Message*)
   {
-    throw DriverException("AbstractDriver has no valid use for CreateDriver()",
+    throw DriverExcepntion("AbstractDriver has no valid use for CreateDriver()",
             DriverException::Level::UnstableProgram);
   }
   long getMessageArrival();
-  int getMethodCount();
-  ReturnTypes* getMethodTypes();
+  ReturnTypes* getMethodTypes()
+  {
+    return signatures;
+  }
   std::string getTypeDescription(ReturnTypes r)
   {
     switch ((int)r) {
@@ -105,6 +116,24 @@ public:
         return "SHORT";
       case ABSTRACTENUMDOUBLEPOINTER:
         return "ENUM[]";
+      case INT8_T:
+        return "SIGNED 8 INT";
+      case INT16_T:
+        return "SIGNED 16 INT";
+      case INT32_T:
+        return "SIGNED 32 INT";
+      case INT64_T:
+        return "SIGNED 64 INT";
+      case UINT8_T:
+        return "UNSIGNED 8 INT";
+      case UINT16_T:
+        return "UNSIGNED 16 INT";
+      case UINT32_T:
+        return "UNSIGNED 32 INT";
+      case UINT64_T:
+        return "UNSIGNED 64 INT";
+      case LONG_DOUBLE:
+        return "LONG DOUBLE";
     }
     std::string msg = "No type description found for";
     msg.append(std::to_string(r));
@@ -123,15 +152,60 @@ public:
     msg.append(std::to_string(index));
 
   }
-  float getFLOATMethod(int);
-  char getCHARMethod(int);
-  long getLONGMethod(int);
-  short getSHORTMethod(int);
-  long long getLONG_LONGMethod(int);
-  unsigned long getUNSIGNED_LONGMethod(int);
-  signed char getSIGNED_CHARMethod(int);
-  double getDOUBLEMethod(int);
-  std::string getSTD_STRINGMethod(int);
+  float getFLOATMethod(int)
+  {
+    std::string msg = "AbstractDriver has no FLOAT method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  char getCHARMethod(int)
+  {
+    std::string msg = "AbstractDriver has no CHAR method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  long getLONGMethod(int)
+  {
+    std::string msg = "AbstractDriver has no LONG method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  short getSHORTMethod(int)
+  {
+    std::string msg = "AbstractDriver has no SHORT method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  long long getLONG_LONGMethod(int)
+  {
+    std::string msg = "AbstractDriver has no LONG LONG method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  unsigned long getUNSIGNED_LONGMethod(int)
+  {
+    std::string msg = "AbstractDriver has no UNSIGNED LONG method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  signed char getSIGNED_CHARMethod(int)
+  {
+    std::string msg = "AbstractDriver has no SIGNED CHAR method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  double getDOUBLEMethod(int)
+  {
+    std::string msg = "AbstractDriver has no DOUBLE method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  std::string getSTD_STRINGMethod(int)
+  {
+    std::string msg = "AbstractDriver has no STD STRING method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
   std::unique_ptr<short[]> getSHORTPOINTERMethod(int);
   std::unique_ptr<char[]> getCHARPOINTERMethod(int);
   AbstractEnum* getABSTRACTENUMPOINTERMethod(int index)
@@ -152,6 +226,11 @@ public:
     throw DriverException(msg, DriverException::Level::UnstableProgram);
   }
   AbstractEnum** getABSTRACTENUMDOUBLEPOINTERMethod(int);
+  {
+    std::string msg = "AbstractDriver has no ABSTRACTENUMDOUBLEPOINTER method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
   int getMethodArrayCount(int) {
     throw DriverException("AbstractDriver has no array counts",
       DriverException::Level::UnstableProgram);
