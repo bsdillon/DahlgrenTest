@@ -44,14 +44,15 @@ public:
         ABSTRACTDRIVERDOUBLEPOINTER,
         ABSTRACTENUMDOUBLEPOINTER,
         INT8_T,
-        INT16_T
-        INT32_T
-        INT64_T
-        UINT8_T
-        UINT16_T
-        UINT32_T
-        UINT64_T
-        LONG_DOUBLE
+        INT16_T,
+        INT32_T,
+        INT64_T,
+        UINT8_T,
+        UINT16_T,
+        UINT32_T,
+        UINT64_T,
+        LONG_DOUBLE,
+        SIGNED_LONG
     };
 
 protected:
@@ -134,6 +135,8 @@ public:
         return "UNSIGNED 64 INT";
       case LONG_DOUBLE:
         return "LONG DOUBLE";
+      case SIGNED_LONG:
+        return "SIGNED LONG"
     }
     std::string msg = "No type description found for";
     msg.append(std::to_string(r));
@@ -235,6 +238,62 @@ public:
     throw DriverException("AbstractDriver has no array counts",
       DriverException::Level::UnstableProgram);
   }
+
+  // New enums getters Kurt added
+  signed long getSIGNED_LONGMethod {
+    std::string msg = "AbstractDriver has no SIGNED LONG method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+
+  int8_t getINT_8Method {
+    std::string msg = "AbstractDriver has no 8 SIGNED INT at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+
+  int16_t getINT_16Method {
+    std::string msg = "AbstractDriver has no 16 SIGNED INT at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+
+  int32_t getINT_32Method {
+    std::string msg = "AbstractDriver has no 32 SIGNED INT at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+
+  int64_t getINT_64Method {
+    std::string msg = "AbstractDriver has no 64 SIGNED INT at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+
+  uint8_t getUINT_8Method {
+    std::string msg = "AbstractDriver has no 8 UNSIGNED INT at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+
+  uint16_t getUINT_16Method {
+    std::string msg = "AbstractDriver has no 16 UNSIGNED INT at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+
+  uint32_t getUINT_32Method {
+    std::string msg = "AbstractDriver has no 32 UNSIGNED INT at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+
+  uint64_t getUINT_64Method {
+    std::string msg = "AbstractDriver has no 64 UNSIGNED INT at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+
+
 
 };
 
