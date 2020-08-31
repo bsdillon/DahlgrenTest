@@ -27,6 +27,9 @@ public:
     ~MainWindow();
     void setupProxies(std::unique_ptr<ProxySet>& ps);
 
+signals:
+    void LogMessage(QString);
+
 private slots:
     void setDataMode(bool savedDataMode);
 

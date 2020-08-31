@@ -32,6 +32,14 @@ public slots:
 signals:
     void FileSelected(QString);
     void StopAll();
+    void ExperimentRunning(bool);
+    void ExperimentDone();
+    void FileNameTextChanged(QString);
+    void TopicsUpdated(std::vector<std::string>);
+    void ClearData();
+    void LogEventClicked();
+    void inCleanState(bool);
+    void UpdateStatus(std::string);
 
 private:
     enum ButtonState

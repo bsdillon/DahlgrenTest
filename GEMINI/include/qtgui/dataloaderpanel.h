@@ -16,12 +16,16 @@ class dataLoaderPanel : public QWidget
         explicit dataLoaderPanel(QWidget *parent = 0);
         ~dataLoaderPanel();
 
+        I_DataLoader* dataloaderProxy;
+
     public slots:
         void loadData();
         void clearData();
 
     signals:
         void inCleanState(bool);
+        void loadDataFrom(QString fileName);
+        void requestToClearData();
 
     private:
         Ui::dataLoaderPanel *ui;

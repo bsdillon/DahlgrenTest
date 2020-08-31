@@ -25,6 +25,10 @@ public:
     explicit TopicSelector(QWidget *parent = 0);
     ~TopicSelector();
 
+signals:
+    void UpdateStatus(std::string);
+    void TopicSelectionChanged(std::vector<std::string>);
+
     public slots:
         void selectionChanged();
 

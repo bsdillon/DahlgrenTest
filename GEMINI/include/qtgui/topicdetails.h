@@ -25,6 +25,9 @@ public:
     explicit TopicDetails(QWidget *parent = 0);
     ~TopicDetails();
 
+signals:
+    void UpdateStatus(std::string);
+
 public slots:
     void Message(const PLAMessage& m);
     void Log(QString logMessage);

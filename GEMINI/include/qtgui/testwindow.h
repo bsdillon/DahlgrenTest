@@ -28,6 +28,9 @@ public:
     explicit TestWindow(QWidget *parent = 0);
     ~TestWindow();
 
+signals:
+    void Message(QString, Message*);
+
 public slots:
     void ButtonClicked();
     void stopButtonClicked();
