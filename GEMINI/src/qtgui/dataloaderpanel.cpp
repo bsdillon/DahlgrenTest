@@ -12,6 +12,11 @@ dataLoaderPanel::dataLoaderPanel(QWidget *parent) :
     connect(ui->pushButton_clearData, &QPushButton::clicked, this, &dataLoaderPanel::clearData);
     ui->lineEdit_currentFile->setEnabled(false);
     ui->pushButton_clearData->setEnabled(false);
+
+    dataloaderProxy = new I_DataLoader(this);
+    //Signal Forwarding
+    connect(this, &dataLoaderPanel::loadDataFrom, dataloaderProxy, &I_DataLoader::loadDataFrom);
+    connect(this, &dataLoaderPanel::requestToClearData, dataLoaderProxy, &I_DataLoader::loadDataFrom);
 }
 
 dataLoaderPanel::~dataLoaderPanel()

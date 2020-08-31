@@ -33,11 +33,20 @@ ExperimentPanel::ExperimentPanel(QWidget *parent) :
     ReceiveFileNameStatus({false, ""});
 
     experimentProxy = new I_Experiment(this);
+
     experimentProxy->setTopicsChangedCallback(std::bind(&ExperimentPanel::TopicsChanged, this, std::placeholders::_1));
     experimentProxy->setFinishedPressedCallback(std::bind(&ExperimentPanel::FinishedPressed, this, std::placeholders::_1));
     experimentProxy->setReceivedFileNameStatusCallback(std::bind(&ExperimentPanel::ReceiveFileNameStatus, this, std::placeholders::_1));
     experimentProxy->setDataReceived(std::bind(&ExperimentPanel::DataReceived, this, std::placeholder::_1));
-
+    //Signal Forwarding
+    connect(this, &ExperimentPanel::ExperimentRunning, experimentProxy, &I_Experiment::ExperimentRunning);
+    connect(this, &ExperimentPanel::ExperimentDone, experimentProxy, &I_Experiment::ExperimentDone);
+    connect(this, &ExperimentPanel::FileNameTextChanged, experimentProxy, &I_Experiment::FileNameTextChanged);
+    connect(this, &ExperimentPanel::TopicsUpdated, experimentProxy, &I_Experiment::TopicsUpdated);
+    connect(this, &ExperimentPanel::ClearData, experimentProxy, &I_Experiment::ClearData);
+    connect(this, &ExperimentPanel::LogEventClicked, experimentProxy, &I_Experiment::LogEventClicked);
+    connect(this, &ExperimentPanel::inCleanState, experimentProxy, &I_Experiment::inCleanState);
+    connect(this, &ExperimentPanel::UpdateStatus, experimentProxy, &I_Experiment::UpdateStatus);
 
 }
 

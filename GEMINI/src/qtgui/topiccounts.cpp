@@ -15,6 +15,11 @@ TopicCounts::TopicCounts(QWidget *parent) :
 
     countPanelProxy = new I_CountPanel;
     countPanelProxy->setReceiveNewTopicsCallback(std::bind(&TopicCounts::ReceiveNewTopics, this, std::placeholders::_1));
+
+    connect(this, &TopicCounts::toggleSubscription, countPanelProxy, &I_CountPanel::toggleSubscription);
+    connect(this, &TopicCounts::UpdateStatus, countPanelProxy, &I_CountPanel::UpdateStatus);
+    connect(this, &TopicCounts::experimentRunning, countPanelProxy, &I_CountPanel::experimentRunning);
+
 }
 
 TopicCounts::~TopicCounts()

@@ -59,6 +59,9 @@ TopicSelector::TopicSelector(QWidget *parent) :
 
     topicPanelProxy = new I_TopicPanel(this);
     topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this, std::placeholder::_1));
+    //Signal Forwarding
+    connect(this, &TopicSelector::UpdateStatus, topicPanelProxy, &I_TopicPanel::UpdateStatus);
+    connect(this, &TopicSelector::TopicSelectionChanged, topicPanelProxy, &I_TopicPanel::TopicSelectionChanged);
 }
 
 TopicSelector::~TopicSelector()

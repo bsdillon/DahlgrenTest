@@ -28,7 +28,8 @@ TopicDetails::TopicDetails(QWidget *parent) :
 
     detailpanelProxy = new I_DetailPanel(this);
     detailpanelProxy->setClearMessageCallback(std::bind(&TopicDetails::ClearMessages, this, std::placeholders::_1));
-
+    //Signal Forwarding
+    connect(this, &TopicDetails::UpdateStatus, detailpanelProxy, &I_DetailPanel::UpdateStatus);
 }
 
 TopicDetails::~TopicDetails()

@@ -50,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
     mainProxy->setStatusCallback(std::bind(&MainWindow::Status, this, std::placeholder::_1));
     mainProxy->setLogEvent(std::bind(&MainWindow::logEventClicked, this, std::placeholder::_1));
     mainProxy->switchingEnabled(std::bind(&MainWindow::modeSwitchingEnabled, this, std::_placeholder::_1));
+    //Signal Forwarding
+    connect(this, &MainWindow::LogMessage, mainProxy, &I_Main::LogMessage);
+
 }
 
 void MainWindow::setupProxies(std::unique_ptr<ProxySet>& ps)
