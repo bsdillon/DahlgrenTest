@@ -12,6 +12,8 @@ MainProxy::MainProxy()
     mainProxy->setStatusCallback(std::bind(&MainProxy::Status, this, std::placeholder::_1));
     mainProxy->setLogEvent(std::bind(&MainProxy::logEventClicked, this, std::placeholder::_1));
     mainProxy->switchingEnabled(std::bind(&MainProxy::modeSwitchingEnabled, this, std::_placeholder::_1));
+
+    connect(this, &MainProxy::LogMessage, mainProxy, &I_Main::LogMessage);
 }
 
 void MainProxy::Status(std::string s){

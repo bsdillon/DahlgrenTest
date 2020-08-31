@@ -3,8 +3,10 @@
 TopicDetailsProxy::TopicDetailsProxy()
 {
 
-    detailpanelProxy = new I_DetailPanel(this);
-    detailpanelProxy->setClearMessageCallback(std::bind(&TopicDetailsProxy::ClearMessage, this, std::placeholders::_1));
+    detailPanelProxy = new I_DetailPanel(this);
+    detailPanelProxy->setClearMessageCallback(std::bind(&TopicDetailsProxy::ClearMessage, this, std::placeholders::_1));
+    //Signal Forwarding
+    connect(this, &TopicDetailsProxy::UpdateStatus, detailPanelProxy, &I_DetailPanel::UpdateStatus);
 }
 
 void TopicDetailsProxy::ClearMessages()
