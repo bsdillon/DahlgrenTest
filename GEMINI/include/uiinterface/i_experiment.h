@@ -26,7 +26,6 @@ public:
     void setReceivedFileNameStatusCallback(std::function<void(FileStatus)> receiveFileNameStatusCallback);
     void setDataReceived(std::function<void()> dataReceivedCallback);
 
-
 signals:
     void ExperimentRunning(bool);
     void ExperimentDone();
