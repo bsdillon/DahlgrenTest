@@ -10,6 +10,9 @@ class MainProxy : public QObject
 public:
     MainProxy();
 
+signals:
+    void LogMessage(QString);
+
 private:
     I_Main* mainProxy;
     void Status(std::string s);

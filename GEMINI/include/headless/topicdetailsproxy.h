@@ -10,8 +10,11 @@ class TopicDetailsProxy : public QObject
 public:
     TopicDetailsProxy();
 
+signals:
+    void UpdateStatus(std::string);
+
 private:
-    I_DetailPanel* detailpanelProxy;
+    I_DetailPanel* detailPanelProxy;
     void ClearMessages();
 };
 

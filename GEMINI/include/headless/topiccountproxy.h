@@ -10,6 +10,12 @@ class TopicCountProxy : public QObject
 public:
     TopicCountProxy();
 
+signals:
+    void StopAll();
+    void toggleSubscription(QString topic, bool enable);
+    void UpdateStatus(std::string);
+    void experimentRunning(bool);
+
 private:
     I_CountPanel* countPanel;
     void ReceiveNewTopics(std::map<std::string, AbstractDriver *> factories);

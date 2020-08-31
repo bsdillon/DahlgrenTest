@@ -11,6 +11,9 @@ public:
     TestWindowProxy();
     void show();
 
+signals:
+    void Message(QString, Message*);
+
 private:
     I_Test* testProxy;
     void receiveExperimentRunStatus(bool status);

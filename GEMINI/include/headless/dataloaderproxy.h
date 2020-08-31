@@ -10,8 +10,12 @@ class DataLoaderProxy : public QObject
 public:
     DataLoaderProxy();
 
+signals:
+    void loadDataFrom(QString fileName);
+    void requestToClearData();
+
 private:
-    I_DataLoader* DataLoaderProxy;
+    I_DataLoader* dataLoaderProxy;
 };
 
 #endif // DATALOADERPROXY_H
