@@ -160,7 +160,13 @@ SOURCES += \
     $${CPP_DIR}/messagelistener.cpp \
     $${CPP_DIR}/messagefield.cpp \
     $${CPP_DIR}/binaryfilehandler.cpp \
-    $${CPP_DIR}/xmlfilehandler.cpp
+    $${CPP_DIR}/xmlfilehandler.cpp \
+    include/uiinterface/i_countpanel.cpp \
+    include/uiinterface/i_dataloader.cpp \
+    include/uiinterface/i_detailpanel.cpp \
+    include/uiinterface/i_experiment.cpp \
+    include/uiinterface/i_test.cpp \
+    include/uiinterface/i_topicpanel.cpp
 
     #$${CPP_DIR}/external/rticonnection.cpp \
     #$${CPP_DIR}/external/rtitester.cpp \
