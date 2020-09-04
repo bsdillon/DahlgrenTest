@@ -16,7 +16,6 @@ signals:
 
 private:
     I_TopicPanel* topicPanelProxy;
-
     void readSettings();
 };
 
