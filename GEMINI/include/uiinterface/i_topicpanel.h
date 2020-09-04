@@ -1,5 +1,5 @@
-#ifndef I_EXPERIMENT_H
-#define I_EXPERIMENT_H
+#ifndef I_TOPICPANEL_H
+#define I_TOPICPANEL_H
 
 #include "qobject.h"
 
@@ -28,4 +28,4 @@ private:
 
 };
 
-#endif // I_EXPERIMENT_H
+#endif // I_TOPICPANEL_H

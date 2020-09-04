@@ -14,17 +14,17 @@ public:
     //Signals
     void signalExperimentRunning(bool run);
     void signalExperimentDone();
-    void signalFileNameTextChange(Qstring filename);
+    void signalFileNameTextChange(QString filename);
     void signalTopicsUpdated(std::vector<std::string> update);
     void signalClearData();
     void signalLogEventClicked();
     void signalInCleanState(bool state);
     void signalUpdateStatus(std::string status);
     //Slot Callback Setters
-    void setTopicsChangedCallback(std::function<void(std::vector<std::string)> topicsChangedCallback);
-    void setFinishedPressedCallback(std::fucntion<void()> finishedPressedCallBack);
-    void setReceivedFileNameStatusCallback(std::function<void(FileStatus)> receiveFileNameStatusCallback);
-    void setDataReceived(std::function<void()> dataReceivedCallback);
+    void setTopicsChangedCallback(std::function<void(std::vector<std::string>)> _topicsChangedCallback);
+    void setFinishedPressedCallback(std::function<void()> _finishedPressedCallBack);
+    void setReceivedFileNameStatusCallback(std::function<void(FileStatus)> _receiveFileNameStatusCallback);
+    void setDataReceived(std::function<void()> _dataReceivedCallback);
 
 signals:
     void ExperimentRunning(bool);
@@ -43,8 +43,8 @@ public slots:
     void DataReceived();
 
 private:
-    std::function<void(std::vector<std::string)> _topicsChangedCallback;
-    std::fucntion<void()> _finishedPressedCallBack;
+    std::function<void(std::vector<std::string>)> _topicsChangedCallback;
+    std::function<void()> _finishedPressedCallBack;
     std::function<void(FileStatus)> _receiveFileNameStatusCallback;
     std::function<void()> _dataReceivedCallback;
 

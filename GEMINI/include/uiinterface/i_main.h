@@ -15,7 +15,7 @@ public:
 
     //Public functions to set callbacks
     void setStatusCallback(std::function<void(QString)> cb);
-    void setLogEvent(std::fucntion<void()> logEvent);
+    void setLogEvent(std::function<void()> logEvent);
     void switchingEnabled(std::function<void(bool)> enabled);
 
     //public signal function
