@@ -1,2 +1,4 @@
 https://github.com/dzhw/metadatamanagement
 Has a pretty extensive base of RF tests. Creates keywords in the .robot files. Seems to be web based.
+https://github.com/helm/acceptance-testing
+Another good example, uses .py files to create keywords.
