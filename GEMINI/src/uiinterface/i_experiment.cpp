@@ -1,4 +1,4 @@
-#include "i_experiment.h"
+#include "uiinterface/i_experiment.h"
 
 I_Experiment::I_Experiment(QObject *parent)
     :QObject(parent),
@@ -52,7 +52,7 @@ void I_Experiment::signalUpdateStatus(std::string status)
 //Slot Callback Setters
 void I_Experiment::setTopicsChangedCallback(std::function<void(std::vector<std::string)> topicsChangedCallback)
 {
-    _topicsChangedCallback = topicsChangedCallback
+    _topicsChangedCallback = topicsChangedCallback;
 }
 void I_Experiment::setFinishedPressedCallback(std::fucntion<void()> finishedPressedCallBack)
 {

@@ -1,4 +1,4 @@
-#include "i_test.h"
+#include "uiinterface/i_test.h"
 
 //Constructor
 I_Test::I_Test(QObject *parent)
@@ -15,17 +15,17 @@ void I_Test::signalMessage(QString s, Message *m)
 }
 
 //Slots Callbacks
-void I_Test::setRecieveExperimentRunStatus(bool status)
+void I_Test::setReceiveExperimentRunStatus(std::function<void(bool)> status)
 {
     _statusCallback = status;
 }
 
-void I_Test::setStopPublishingMessages(bool experimentRunning)
+void I_Test::setStopPublishingMessages(std::function<void(bool)> experimentRunning)
 {
     _experimentRunningCallback = experimentRunning;
 }
 
-void I_Test::setReceiveNewTopics(std::map<std::string, AbstractDriver*> factories)
+void I_Test::setReceiveNewTopics(std::function<void(std::map<std::string, AbstractDriver*>)> factories)
 {
     _receiveNewTopicsCallback = factories;
 }

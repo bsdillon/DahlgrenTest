@@ -1,4 +1,4 @@
-#include "i_detailpanel.h"
+#include "uiinterface/i_detailpanel.h"
 
 //Constructors
 I_DetailPanel::I_DetailPanel(QObject *parent)

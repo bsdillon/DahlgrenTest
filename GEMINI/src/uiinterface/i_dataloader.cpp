@@ -1,4 +1,4 @@
-#include "i_dataloader.h"
+#include "uiinterface/i_dataloader.h"
 
 I_DataLoader::I_DataLoader(QObject *parent)
     :QObject(parent)

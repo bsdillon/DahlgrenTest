@@ -1,4 +1,4 @@
-#include "i_countpanel.h"
+#include "uiinterface/i_countpanel.h"
 
 I_CountPanel::I_CountPanel(QObject *parent)
     :QObject(parent),

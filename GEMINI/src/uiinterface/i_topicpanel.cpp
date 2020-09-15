@@ -1,4 +1,4 @@
-#include "i_topicpanel.h"
+#include "uiinterface/i_topicpanel.h"
 
 I_TopicPanel::I_TopicPanel(QObject *parent)
     :QObject(parent),
