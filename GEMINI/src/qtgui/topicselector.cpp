@@ -6,8 +6,10 @@
 #include <QMessageBox>
 #include <QString>
 
-#include "AbstractDriver.h"
-#include "DriverFactory.h"
+//#include "AbstractDriver.h"
+#include "net/abstractdriver.h"
+//#include "DriverFactory.h"
+#include "net/driverfactory.h"
 
 TopicSelector::TopicSelector(QWidget *parent) :
     QWidget(parent),
@@ -58,7 +60,8 @@ TopicSelector::TopicSelector(QWidget *parent) :
     checkSaveButtonState();
 
     topicPanelProxy = new I_TopicPanel(this);
-    topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this, std::placeholder::_1));
+    //topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this, std::placeholder::_1));
+    topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this));
     //Signal Forwarding
     connect(this, &TopicSelector::UpdateStatus, topicPanelProxy, &I_TopicPanel::UpdateStatus);
     connect(this, &TopicSelector::TopicSelectionChanged, topicPanelProxy, &I_TopicPanel::TopicSelectionChanged);

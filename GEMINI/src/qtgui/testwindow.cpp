@@ -24,9 +24,9 @@ TestWindow::TestWindow(QWidget *parent) :
     setPublishingIndicator(false);
 
     testProxy = new I_Test(this);
-    testProxy->setRecieveExperimentRunStatus(std::bind(&TestWindow::receiveExperimentRunStatus, this, std::placeholder::_1));
-    testProxy->setStopPublishingMessages(std::bind(&TestWindow::stopPublishingMessages, this, std::placeholder::_1));
-    testProxy->setReceiveNewTopics(std::bind(&TestWindow::ReceiveNewTopics, this, std::_placeholder::_1));
+    testProxy->setReceiveExperimentRunStatus(std::bind(&TestWindow::receiveExperimentRunStatus, this, std::placeholders::_1));
+    testProxy->setStopPublishingMessages(std::bind(&TestWindow::stopPublishingMessages, this, std::placeholders::_1));
+    testProxy->setReceiveNewTopics(std::bind(&TestWindow::ReceiveNewTopics, this, std::placeholders::_1));
     //Signal Forward
     connect(this, &TestWindow::Message, testProxy, &I_Test::Message);
 
@@ -193,10 +193,11 @@ void TestWindow::publishMessages(std::pair<std::string, AbstractDriver *> topicF
 
     while (shouldPublish)
     {
-        auto msg = factory->CreateRandom();
+        //auto msg = factory->CreateRandom();
+        auto msg = NULL;
         if (Common::IsDebug())
         {
-            emit Message(topic, msg);
+            //emit Message(topic, msg);
         }
         else
         {

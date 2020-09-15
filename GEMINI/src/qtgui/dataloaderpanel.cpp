@@ -16,7 +16,7 @@ dataLoaderPanel::dataLoaderPanel(QWidget *parent) :
     dataloaderProxy = new I_DataLoader(this);
     //Signal Forwarding
     connect(this, &dataLoaderPanel::loadDataFrom, dataloaderProxy, &I_DataLoader::loadDataFrom);
-    connect(this, &dataLoaderPanel::requestToClearData, dataLoaderProxy, &I_DataLoader::loadDataFrom);
+    connect(this, &dataLoaderPanel::requestToClearData, dataloaderProxy, &I_DataLoader::requestToClearData);
 }
 
 dataLoaderPanel::~dataLoaderPanel()

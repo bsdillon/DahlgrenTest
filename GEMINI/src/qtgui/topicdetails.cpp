@@ -6,7 +6,8 @@
 #include <QDebug>
 #include <QLayoutItem>
 
-#include "AbstractDriver.h"
+//#include "AbstractDriver.h"
+#include "net/abstractdriver.h"
 #include "detailsummary.h"
 #include "logentrywidget.h"
 
@@ -27,7 +28,8 @@ TopicDetails::TopicDetails(QWidget *parent) :
 
 
     detailpanelProxy = new I_DetailPanel(this);
-    detailpanelProxy->setClearMessageCallback(std::bind(&TopicDetails::ClearMessages, this, std::placeholders::_1));
+    //detailpanelProxy->setClearMessageCallback(std::bind(&TopicDetails::ClearMessages, this, std::placeholders::_1));
+    detailpanelProxy->setClearMessageCallback(std::bind(&TopicDetails::ClearMessages, this));
     //Signal Forwarding
     connect(this, &TopicDetails::UpdateStatus, detailpanelProxy, &I_DetailPanel::UpdateStatus);
 }

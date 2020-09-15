@@ -47,9 +47,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->horizontalLayout->insertWidget(0, _liveMode);
 
     mainProxy = new I_Main(this);
-    mainProxy->setStatusCallback(std::bind(&MainWindow::Status, this, std::placeholder::_1));
-    mainProxy->setLogEvent(std::bind(&MainWindow::logEventClicked, this, std::placeholder::_1));
-    mainProxy->switchingEnabled(std::bind(&MainWindow::modeSwitchingEnabled, this, std::_placeholder::_1));
+    mainProxy->setStatusCallback(std::bind(&MainWindow::Status, this, std::placeholders::_1));
+    //mainProxy->setLogEvent(std::bind(&MainWindow::logEventClicked, this, std::placeholders::_1));
+    mainProxy->setLogEvent(std::bind(&MainWindow::logEventClicked, this));
+    mainProxy->switchingEnabled(std::bind(&MainWindow::modeSwitchingEnabled, this, std::placeholders::_1));
+
     //Signal Forwarding
     connect(this, &MainWindow::LogMessage, mainProxy, &I_Main::LogMessage);
 

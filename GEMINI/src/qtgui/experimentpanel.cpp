@@ -13,12 +13,13 @@ ExperimentPanel::ExperimentPanel(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->nameInput, &QLineEdit::textChanged, this, &ExperimentPanel::FileNameTextChanged);
+
     connect(ui->recordButton, &QPushButton::clicked, this, &ExperimentPanel::RecordPressed);
     connect(ui->pauseButton, &QPushButton::clicked, this, &ExperimentPanel::PausePressed);
     connect(ui->stopButton, &QPushButton::clicked, this, &ExperimentPanel::StopPressed);
     connect(ui->errorButton, &QPushButton::clicked, this, &ExperimentPanel::ErrorPressed);
     connect(ui->finishButton, &QPushButton::clicked, this, &ExperimentPanel::FinishPressed);
+    //FinishedPressed is a slot
     connect(ui->updateTopicsButton, &QPushButton::clicked, this, &ExperimentPanel::UpdateTopicsPressed);
     connect(ui->logButton, &QPushButton::clicked, this, &ExperimentPanel::LogEventClicked);
     connect(ui->clearDataButton, &QPushButton::clicked, this, &ExperimentPanel::ClearDataPressed);
@@ -31,17 +32,22 @@ ExperimentPanel::ExperimentPanel(QWidget *parent) :
     }
 
     ReceiveFileNameStatus({false, ""});
+    //RecievedFileNameStatus is a slot
 
     experimentProxy = new I_Experiment(this);
 
     experimentProxy->setTopicsChangedCallback(std::bind(&ExperimentPanel::TopicsChanged, this, std::placeholders::_1));
-    experimentProxy->setFinishedPressedCallback(std::bind(&ExperimentPanel::FinishedPressed, this, std::placeholders::_1));
+    //experimentProxy->setFinishedPressedCallback(std::bind(&ExperimentPanel::FinishedPressed, this, std::placeholders::_1));
+    experimentProxy->setFinishedPressedCallback(std::bind(&ExperimentPanel::FinishedPressed, this));
     experimentProxy->setReceivedFileNameStatusCallback(std::bind(&ExperimentPanel::ReceiveFileNameStatus, this, std::placeholders::_1));
-    experimentProxy->setDataReceived(std::bind(&ExperimentPanel::DataReceived, this, std::placeholder::_1));
+    //experimentProxy->setDataReceived(std::bind(&ExperimentPanel::DataReceived, this, std::placeholders::_1));
+    experimentProxy->setDataReceived(std::bind(&ExperimentPanel::DataReceived, this));
+
     //Signal Forwarding
     connect(this, &ExperimentPanel::ExperimentRunning, experimentProxy, &I_Experiment::ExperimentRunning);
     connect(this, &ExperimentPanel::ExperimentDone, experimentProxy, &I_Experiment::ExperimentDone);
-    connect(this, &ExperimentPanel::FileNameTextChanged, experimentProxy, &I_Experiment::FileNameTextChanged);
+
+    connect(ui->nameInput, &QLineEdit::textChanged, experimentProxy, &I_Experiment::FileNameTextChanged);
     connect(this, &ExperimentPanel::TopicsUpdated, experimentProxy, &I_Experiment::TopicsUpdated);
     connect(this, &ExperimentPanel::ClearData, experimentProxy, &I_Experiment::ClearData);
     connect(this, &ExperimentPanel::LogEventClicked, experimentProxy, &I_Experiment::LogEventClicked);
