@@ -3,7 +3,7 @@
 //Constructors
 I_DetailPanel::I_DetailPanel(QObject *parent)
     :QObject(parent),
-     _clearMessageCallback([]()[])
+     _clearMessageCallback([](){})
 {}
 
 //Signals
@@ -13,9 +13,9 @@ void I_DetailPanel::signalUpdateStatus(std::string status)
 }
 
 //Slot Callback
-void setClearMessageCallback(std::function<void()> clearMessageCallback)
+void I_DetailPanel::setClearMessageCallback(std::function<void()> clearMessage)
 {
-    _clearMessageCallback = clearMessageCallback;
+    _clearMessageCallback = clearMessage;
 }
 
 //Slot

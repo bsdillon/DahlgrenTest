@@ -6,7 +6,7 @@ I_CountPanel::I_CountPanel(QObject *parent)
 {}
 
 //Slot Callback
-I_CountPanel I_CountPanel::setReceiveNewTopicsCallback(std::function<void(std::map<std::string, AbstractDriver *)> receiveNewTopics)
+I_CountPanel I_CountPanel::setReceiveNewTopicsCallback(std::function<void(std::map<std::string, AbstractDriver *>)> receiveNewTopics)
 {
     _receiveNewTopicsCallback = receiveNewTopics;
 }

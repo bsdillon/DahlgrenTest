@@ -2,9 +2,9 @@
 
 I_Main::I_Main(QObject *parent)
     : QObject(parent),
-      statusCallBack([](std::string){}),
+      statusCallback([](std::string){}),
       _enabled([](bool){}),
-      _logedEventClicked([](){})
+      _logEventClicked([](){})
 {}
 
 void I_Main::setStatusCallback(std::function<void(std::string)> cb)

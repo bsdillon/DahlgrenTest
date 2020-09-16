@@ -2,7 +2,7 @@
 
 I_Experiment::I_Experiment(QObject *parent)
     :QObject(parent),
-     _topicsChangedCallBack([](std::vector<std::string>){}),
+     _topicsChangedCallback([](std::vector<std::string>){}),
      _finishedPressedCallBack([](){}),
      _receiveFileNameStatusCallback([](FileStatus){}),
      _dataReceivedCallback([](){})
@@ -19,7 +19,7 @@ void I_Experiment::signalExperimentDone()
     emit ExperimentDone();
 }
 
-void I_Experiment::signalFileNameTextChange(Qstring filename)
+void I_Experiment::signalFileNameTextChange(QString filename)
 {
     emit FileNameTextChanged(filename);
 }
@@ -50,11 +50,11 @@ void I_Experiment::signalUpdateStatus(std::string status)
 }
 
 //Slot Callback Setters
-void I_Experiment::setTopicsChangedCallback(std::function<void(std::vector<std::string)> topicsChangedCallback)
+void I_Experiment::setTopicsChangedCallback(std::function<void(std::vector<std::string>)> topicsChangedCallback)
 {
     _topicsChangedCallback = topicsChangedCallback;
 }
-void I_Experiment::setFinishedPressedCallback(std::fucntion<void()> finishedPressedCallBack)
+void I_Experiment::setFinishedPressedCallback(std::function<void()> finishedPressedCallBack)
 {
     _finishedPressedCallBack = finishedPressedCallBack;
 }
