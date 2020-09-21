@@ -11,7 +11,7 @@ I_Test::I_Test(QObject *parent)
 //Signals
 void I_Test::signalMessage(QString s, Message *m)
 {
-    emit Message(s, m);
+    emit MessagePassing(s, m);
 }
 
 //Slots Callbacks
