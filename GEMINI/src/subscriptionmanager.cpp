@@ -63,9 +63,9 @@ void SubscriptionManager::toggleSubscription(QString topic, bool enable)
 {
     auto subscription = _subscriptionMap[topic.toStdString()];
     if (enable) {
-        subscription->enableSubscription();
+       // subscription->enableSubscription();
     } else {
-        subscription->disableSubscription(false);
+       // subscription->disableSubscription(false);
     }
 }
 
