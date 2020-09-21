@@ -283,3 +283,7 @@ void ExperimentPanel::UpdateLastExperimentFile()
 {
     return;
 }
+
+void ExperimentPanel::FinishedPressed(){
+
+}

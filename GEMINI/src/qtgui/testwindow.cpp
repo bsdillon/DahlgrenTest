@@ -28,7 +28,7 @@ TestWindow::TestWindow(QWidget *parent) :
     testProxy->setStopPublishingMessages(std::bind(&TestWindow::stopPublishingMessages, this, std::placeholders::_1));
     testProxy->setReceiveNewTopics(std::bind(&TestWindow::ReceiveNewTopics, this, std::placeholders::_1));
     //Signal Forward
-    connect(this, &TestWindow::Message, testProxy, &I_Test::Message);
+    connect(this, &TestWindow::MessagePassing, testProxy, &I_Test::MessagePassing);
 
 }
 
