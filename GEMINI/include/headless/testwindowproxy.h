@@ -12,13 +12,18 @@ public:
     void show();
 
 signals:
-    void Message(QString, Message*);
+    void MessagePassing(QString, Message*);
 
-private:
-    I_Test* testProxy;
+public slots:
     void receiveExperimentRunStatus(bool status);
     void stopPublishingMessages(bool experimentRunning);
     void ReceiveNewTopics(std::map<std::string, AbstractDriver*> factories);
+
+private:
+    I_Test* testProxy;
+    //void receiveExperimentRunStatus(bool status);
+    //void stopPublishingMessages(bool experimentRunning);
+    //void ReceiveNewTopics(std::map<std::string, AbstractDriver*> factories);
 };
 
 #endif // TESTWINDOWPROXY_H

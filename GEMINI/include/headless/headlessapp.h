@@ -10,8 +10,9 @@
 #include "headless/topicdetailsproxy.h"
 #include "headless/topicselectorproxy.h"
 
-class HeadlessApp
+class HeadlessApp : public QObject
 {
+    Q_OBJECT
 public:
     HeadlessApp();
     void setupProxies(std::unique_ptr<ProxySet>& ps);
