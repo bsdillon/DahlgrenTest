@@ -8,7 +8,7 @@ class I_CountPanel : public QObject
 {
     Q_OBJECT
 public:    
-    MessageListener* listener() const;
+    MessageListener* listener() const { }
 
     //Constructor
     I_CountPanel(QObject *parent=0);

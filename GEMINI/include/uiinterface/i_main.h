@@ -3,7 +3,6 @@
 
 #include "qobject.h"
 
-//TODO edit to compare with MessageListener for slot/signal functionality
 
 class I_Main : public QObject
 {
@@ -11,10 +10,10 @@ class I_Main : public QObject
 
 public:
     I_Main(QObject *parent=0);
-    void show();
+    void show() { }
 
     //Public functions to set callbacks
-    void setStatusCallback(std::function<void(QString)> cb);
+    void setStatusCallback(std::function<void(std::string)> cb);
     void setLogEvent(std::function<void()> logEvent);
     void switchingEnabled(std::function<void(bool)> enabled);
 
@@ -22,7 +21,7 @@ public:
     void signalLogMessage(QString message);
 
    //public signal function
-   void SignalLogMessage(QString s) { emit LogMessage(s);}
+  // void SignalLogMessage(QString s) { emit LogMessage(s);}
 
 
 public slots:
@@ -34,7 +33,7 @@ signals:
     void LogMessage(QString);
 
 private:
-    std::function<void(QString)> statusCallback;
+    std::function<void(std::string)> statusCallback;
     std::function<void(bool)> _enabled;
     std::function<void()> _logEventClicked;
 

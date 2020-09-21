@@ -21,13 +21,13 @@ public:
     void signalInCleanState(bool state);
     void signalUpdateStatus(std::string status);
     //Slot Callback Setters
-    void setTopicsChangedCallback(std::function<void(std::vector<std::string>)> _topicsChangedCallback);
-    void setFinishedPressedCallback(std::function<void()> _finishedPressedCallBack);
-    void setReceivedFileNameStatusCallback(std::function<void(FileStatus)> _receiveFileNameStatusCallback);
-    void setDataReceived(std::function<void()> _dataReceivedCallback);
+    void setTopicsChangedCallback(std::function<void(std::vector<std::string>)> topicsChangedCallback);
+    void setFinishedPressedCallback(std::function<void()> finishedPressedCallBack);
+    void setReceivedFileNameStatusCallback(std::function<void(FileStatus)> receiveFileNameStatusCallback);
+    void setDataReceived(std::function<void()> dataReceivedCallback);
 
 signals:
-    void ExperimentRunning(bool);
+    void ExperimentRunning(bool run);
     void ExperimentDone();
     void FileNameTextChanged(QString);
     void TopicsUpdated(std::vector<std::string>);

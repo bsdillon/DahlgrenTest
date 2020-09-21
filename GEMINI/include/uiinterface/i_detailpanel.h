@@ -8,7 +8,7 @@ class I_DetailPanel : public QObject
 {
     Q_OBJECT
 public:
-    MessageListener* listener() const;
+    MessageListener* listener() const{ }
 
     //Constructors
     I_DetailPanel(QObject *parent=0);
@@ -17,7 +17,7 @@ public:
     void signalUpdateStatus(std::string status);
 
     //Slot Callback
-    void setClearMessageCallback(std::function<void()> clearMessageCallback);
+    void setClearMessageCallback(std::function<void()> clearMessage);
 
 
 signals:
@@ -26,7 +26,7 @@ public slots:
     void ClearMessages();
 
 private:
-        std::function<void()> _clearMessageCallback;
+    std::function<void()> _clearMessageCallback;
 
 };
 #endif // I_DETAILPANEL_H

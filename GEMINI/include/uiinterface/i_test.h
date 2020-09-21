@@ -1,26 +1,27 @@
 #ifndef I_TEST_H
 #define I_TEST_H
 
+#include "net/message.h"
 #include "qobject.h"
 #include "net/abstractdriver.h"
+
 
 class I_Test : public QObject
 {
     Q_OBJECT
 
 public:
-    void show();
+    void show() { }
     I_Test(QObject *parent=0);
     //Signals
     void signalMessage(QString s, Message* m);
-
     //Slot Callbacks
-    void setRecieveExperimentRunStatus(bool status);
-    void setStopPublishingMessages(bool experimentRunning);
-    void setReceiveNewTopics(std::map<std::string, AbstractDriver*> factories);
+    void setReceiveExperimentRunStatus(std::function<void(bool)> status);
+    void setStopPublishingMessages(std::function<void(bool)> experimentRunning);
+    void setReceiveNewTopics(std::function<void(std::map<std::string, AbstractDriver*>)> factories);
 
 signals:
-    void Message(QString, Message*);
+    void MessagePassing(QString, Message*);
 
 public slots:
     void receiveExperimentRunStatus(bool status);
