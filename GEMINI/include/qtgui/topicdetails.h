@@ -24,6 +24,7 @@ class TopicDetails : public QWidget
 public:
     explicit TopicDetails(QWidget *parent = 0);
     ~TopicDetails();
+    MessageListener* listener() const;
 
 signals:
     void UpdateStatus(std::string);
@@ -31,6 +32,7 @@ signals:
 public slots:
     void Message(const PLAMessage& m);
     void Log(QString logMessage);
+    void ClearMessages();
 
 private slots:
     void expandAllSummaries();
@@ -43,7 +45,7 @@ private:
     std::vector<DetailSummary*> summaryWidgets;
     MessageListener* _messageListener;
     I_DetailPanel* detailpanelProxy;
-    void ClearMessages();
+    //void ClearMessages();
 
     template<typename T>
     void forEachSummaryWidget(T&& function)

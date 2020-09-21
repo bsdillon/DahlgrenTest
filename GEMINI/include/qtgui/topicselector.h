@@ -29,15 +29,16 @@ signals:
     void UpdateStatus(std::string);
     void TopicSelectionChanged(std::vector<std::string>);
 
-    public slots:
-        void selectionChanged();
+public slots:
+    void selectionChanged();
+    void readSettings();
 
-    private slots:
-        void addTopics();
-        void removeTopics();
-        void saveTopicsToFile();
-        void loadTopicsFromFile();
-        void checkSaveButtonState();
+private slots:
+    void addTopics();
+    void removeTopics();
+    void saveTopicsToFile();
+    void loadTopicsFromFile();
+    void checkSaveButtonState();
 
 private:
     Ui::TopicSelector *ui;

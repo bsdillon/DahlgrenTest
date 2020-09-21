@@ -26,6 +26,14 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void setupProxies(std::unique_ptr<ProxySet>& ps);
+    //void Status(std::string s);
+    //void modeSwitchingEnabled(bool enabled);
+    //void logEventClicked();
+
+public slots:
+    void Status(std::string s);
+    void modeSwitchingEnabled(bool enabled);
+    void logEventClicked();
 
 signals:
     void LogMessage(QString);

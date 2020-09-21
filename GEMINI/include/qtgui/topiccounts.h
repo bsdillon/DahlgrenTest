@@ -14,20 +14,21 @@ namespace Ui {
 class TopicCounts : public QWidget
 {
     Q_OBJECT
+public:
+    explicit TopicCounts(QWidget *parent = 0);
+    ~TopicCounts();
+    void Message(const PLAMessage& message);
 
-    public:
-        explicit TopicCounts(QWidget *parent = 0);
-        ~TopicCounts();
-        void Message(const PLAMessage& message);
+    MessageListener* listener() const;
 
-    public slots:
-        void DeleteTopics();
+public slots:
+    void DeleteTopics();
 
-    signals:
-        void StopAll();
-        void toggleSubscription(QString topic, bool enable);
-        void UpdateStatus(std::string);
-        void experimentRunning(bool);
+signals:
+    void StopAll();
+    void toggleSubscription(QString topic, bool enable);
+    void UpdateStatus(std::string);
+    void experimentRunning(bool);
 
 private:
     void ReceiveNewTopics(std::map<std::string, AbstractDriver*> factories);

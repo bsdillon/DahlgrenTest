@@ -29,11 +29,15 @@ public:
     ~TestWindow();
 
 signals:
-    void Message(QString, Message*);
+    void MessagePassing(QString, Message*);
 
 public slots:
     void ButtonClicked();
     void stopButtonClicked();
+
+    void receiveExperimentRunStatus(bool status);
+    void stopPublishingMessages(bool experimentRunning);
+    void ReceiveNewTopics(std::map<std::string, AbstractDriver*> factories);
 
 private:
     Ui::TestWindow *ui;

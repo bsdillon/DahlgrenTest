@@ -25,16 +25,22 @@ public:
     explicit ExperimentPanel(QWidget *parent = 0);
     void CloseDown();
     ~ExperimentPanel();
+    void FinishPressed();
 
 public slots:
     void UpdateTopicsPressed();
+    //Slots form i_experiment.h
+    void TopicsChanged(std::vector<std::string> s); //Need variable names
+    void FinishedPressed();
+    void ReceiveFileNameStatus(FileStatus fs);
+    void DataReceived();
 
 signals:
     void FileSelected(QString);
     void StopAll();
     void ExperimentRunning(bool);
     void ExperimentDone();
-    void FileNameTextChanged(QString);
+    //void FileNameTextChanged(QString);
     void TopicsUpdated(std::vector<std::string>);
     void ClearData();
     void LogEventClicked();
