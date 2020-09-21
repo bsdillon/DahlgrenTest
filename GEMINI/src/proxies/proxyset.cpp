@@ -37,7 +37,7 @@ void ProxySet::setUpConnections(std::unique_ptr<FileQueue>& fq, std::unique_ptr<
     if(Common::IsDebug())
     {
         // Bypass pub/sub by injecting messages directly from TestWindow into DefaultListeners
-        connect((I_Test*)proxies[ProxySet::ProxyTypes::Test]->getWidget(), &I_Test::Message, sm.get(), &SubscriptionManager::testMessageInDebug);
+        connect((I_Test*)proxies[ProxySet::ProxyTypes::Test]->getWidget(), &I_Test::MessagePassing, sm.get(), &SubscriptionManager::testMessageInDebug);
     }
     else
     {
