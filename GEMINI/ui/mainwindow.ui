@@ -277,25 +277,25 @@
   <customwidget>
    <class>TopicSelector</class>
    <extends>QWidget</extends>
-   <header>topicselector.h</header>
+   <header>qtgui/topicselector.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ExperimentPanel</class>
    <extends>QWidget</extends>
-   <header>experimentpanel.h</header>
+   <header>qtgui/experimentpanel.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>TopicCounts</class>
    <extends>QWidget</extends>
-   <header>topiccounts.h</header>
+   <header>qtgui/topiccounts.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>TopicDetails</class>
    <extends>QWidget</extends>
-   <header>topicdetails.h</header>
+   <header>qtgui/topicdetails.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
