@@ -39,7 +39,7 @@ void CoreFunction::CompleteStartup()
     proxies->configureMessageListeners(_listeners);
     _subscriptionManager->addMessageListeners(_listeners);
 
-    proxies->Load();
+    proxies->LoadUI();
 }
 
 void CoreFunction::setUpFileQueue()
