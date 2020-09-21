@@ -3,11 +3,11 @@
 TestWindowProxy::TestWindowProxy()
 {
     testProxy = new I_Test(this);
-    testProxy->setRecieveExperimentRunStatus(std::bind(&TestWindowProxy::receiveExperimentRunStatus, this, std::placeholder::_1));
-    testProxy->setStopPublishingMessages(std::bind(&TestWindowProxy::stopPublishingMessages, this, std::placeholder::_1));
-    testProxy->setReceiveNewTopics(std::bind(&TestWindowProxy::ReceiveNewTopics, this, std::_placeholder::_1));
+    testProxy->setReceiveExperimentRunStatus(std::bind(&TestWindowProxy::receiveExperimentRunStatus, this, std::placeholders::_1));
+    testProxy->setStopPublishingMessages(std::bind(&TestWindowProxy::stopPublishingMessages, this, std::placeholders::_1));
+    testProxy->setReceiveNewTopics(std::bind(&TestWindowProxy::ReceiveNewTopics, this, std::placeholders::_1));
     //Signal Forwarding
-    connect(this, &TestWindowProxy::Message, testProxy, &I_Test::Message);
+    connect(this, &TestWindowProxy::MessagePassing, testProxy, &I_Test::MessagePassing);
 }
 
 void TestWindowProxy::receiveExperimentRunStatus(bool status)

@@ -1,17 +1,12 @@
 #include "headless/experimentproxy.h"
 #include "headless/mainproxy.h"
 
-ExperimentProxy::ExperimentProxy()
-{
-
-}
-
 MainProxy::MainProxy()
 {
     mainProxy = new I_Main(this);
-    mainProxy->setStatusCallback(std::bind(&MainProxy::Status, this, std::placeholder::_1));
-    mainProxy->setLogEvent(std::bind(&MainProxy::logEventClicked, this, std::placeholder::_1));
-    mainProxy->switchingEnabled(std::bind(&MainProxy::modeSwitchingEnabled, this, std::_placeholder::_1));
+    mainProxy->setStatusCallback(std::bind(&MainProxy::Status, this, std::placeholders::_1));
+    mainProxy->setLogEvent(std::bind(&MainProxy::logEventClicked, this));
+    mainProxy->switchingEnabled(std::bind(&MainProxy::modeSwitchingEnabled, this, std::placeholders::_1));
 
     connect(this, &MainProxy::LogMessage, mainProxy, &I_Main::LogMessage);
 }

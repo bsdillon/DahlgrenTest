@@ -30,8 +30,8 @@ void HeadlessApp::setupProxies(std::unique_ptr<ProxySet>& ps)
     if(Common::IsTest())
     {
         TestWindowProxy* tmp = new TestWindowProxy();
-        connect(experiment, &I_Experiment::ExperimentRunning, tmp, &I_Test::receiveExperimentRunStatus);
-        connect(experiment, &I_Experiment::ExperimentRunning, tmp, &I_Test::stopPublishingMessages);
+        connect(experiment, SIGNAL(&I_Experiment::ExperimentRunning), tmp, SLOT(&I_Test::receiveExperimentRunStatus));
+        connect(experiment, SIGNAL(&I_Experiment::ExperimentRunning), tmp, SLOT(&I_Test::stopPublishingMessages));
         ps->add(new AbstractProxy(tmp), ProxySet::ProxyTypes::Test);
     }
 }

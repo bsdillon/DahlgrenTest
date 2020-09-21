@@ -5,9 +5,9 @@ ExperimentProxy::ExperimentProxy()
     experimentProxy = new I_Experiment(this);
 
     experimentProxy->setTopicsChangedCallback(std::bind(&ExperimentProxy::TopicsChanged, this, std::placeholders::_1));
-    experimentProxy->setFinishedPressedCallback(std::bind(&ExperimentProxy::FinishedPressed, this, std::placeholders::_1));
+    experimentProxy->setFinishedPressedCallback(std::bind(&ExperimentProxy::FinishPressed, this));
     experimentProxy->setReceivedFileNameStatusCallback(std::bind(&ExperimentProxy::ReceiveFileNameStatus, this, std::placeholders::_1));
-    experimentProxy->setDataReceived(std::bind(&ExperimentProxy::DataReceived, this, std::placeholder::_1));
+    experimentProxy->setDataReceived(std::bind(&ExperimentProxy::DataReceived, this));
     //Signal Forwarding
     connect(this, &ExperimentProxy::ExperimentRunning, experimentProxy, &I_Experiment::ExperimentRunning);
     connect(this, &ExperimentProxy::ExperimentDone, experimentProxy, &I_Experiment::ExperimentDone);
