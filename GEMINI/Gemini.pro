@@ -66,7 +66,7 @@ HEADERS += \
     $${H_DIR}/qtgui/topicselector.h \
     $${H_DIR}/proxies/proxyset.h \
     $${H_DIR}/core/corefunction.h \
-    $${H_DIR}/proxies/testwindow_proxy.h \
+    # $${H_DIR}/proxies/testwindow_proxy.h \
     $${H_DIR}/headless/headlessapp.h \
     $${H_DIR}/net/abstractdriver.h \
     $${H_DIR}/net/message.h \
@@ -74,12 +74,12 @@ HEADERS += \
     $${H_DIR}/headless/dataloaderproxy.h \
     $${H_DIR}/headless/experimentproxy.h \
     $${H_DIR}/headless/mainproxy.h \
-    $${H_DIR}/headless/testwindow_proxy.h \
+    #  $${H_DIR}/headless/testwindow_proxy.h \
     $${H_DIR}/headless/testwindowproxy.h \
     $${H_DIR}/headless/topiccountproxy.h \
     $${H_DIR}/headless/topicdetailsproxy.h \
     $${H_DIR}/headless/topicselectorproxy.h \
-    $${H_DIR}/proxies/experimentproxy.h \
+    #	$${H_DIR}/proxies/experimentproxy.h \
     $${H_DIR}/uiinterface/i_countpanel.h \
     $${H_DIR}/uiinterface/i_dataloader.h \
     $${H_DIR}/uiinterface/i_detailpanel.h \
@@ -90,7 +90,7 @@ HEADERS += \
     # Not moved
     $${H_DIR}/common.h \
     $${H_DIR}/detailsummary.h \
-    $${H_DIR}/topicdetails.h \
+    #	$${H_DIR}/topicdetails.h \
     $${H_DIR}/defaultlistener.h \
     $${H_DIR}/defaultstatuslistener.h \
     $${H_DIR}/filequeue.h \
@@ -100,14 +100,14 @@ HEADERS += \
     $${H_DIR}/timeobject.h \
     $${H_DIR}/filestatus.h \
     $${H_DIR}/threadworker.h \
-    $${H_DIR}/stylemanager.h \
+    #	$${H_DIR}/stylemanager.h \
     $${H_DIR}/logentrywidget.h \
     $${H_DIR}/plamessage.h \
     $${H_DIR}/datamanager.h \
     $${H_DIR}/subscriptionmanager.h \
     $${H_DIR}/messagefield.h \
     $${H_DIR}/binaryfilehandler.h \
-    $${H_DIR}/dataloaderpanel.h \
+    #	$${H_DIR}/dataloaderpanel.h \
     $${H_DIR}/xmlfilehandler.h \
     $${H_DIR}/filemode.h \
     include/net/Subscription_I.h \
@@ -132,18 +132,18 @@ SOURCES += \
     $${CPP_DIR}/qtgui/testwindow.cpp \
     $${CPP_DIR}/core/corefunction.cpp \
     $${CPP_DIR}/proxies/proxyset.cpp \
-    $${CPP_DIR}/proxies/testwindow_proxy.cpp \
+    #	$${CPP_DIR}/proxies/testwindow_proxy.cpp \
     $${CPP_DIR}/headless/headlessapp.cpp \
     $${CPP_DIR}/net/message.cpp \
     $${CPP_DIR}/headless/dataloaderproxy.cpp \
     $${CPP_DIR}/headless/experimentproxy.cpp \
     $${CPP_DIR}/headless/mainproxy.cpp \
-    $${CPP_DIR}/headless/testwindow_proxy.cpp \
+    #	$${CPP_DIR}/headless/testwindow_proxy.cpp \
     $${CPP_DIR}/headless/testwindowproxy.cpp \
     $${CPP_DIR}/headless/topiccountproxy.cpp \
     $${CPP_DIR}/headless/topicdetailsproxy.cpp \
     $${CPP_DIR}/headless/topicselectorproxy.cpp \
-    $${CPP_DIR}/qtgui/testwindowproxy.cpp \
+    #	$${CPP_DIR}/qtgui/testwindowproxy.cpp \
     #Not moved
     $${CPP_DIR}/common.cpp \
     $${CPP_DIR}/detailsummary.cpp \
@@ -161,12 +161,13 @@ SOURCES += \
     $${CPP_DIR}/messagefield.cpp \
     $${CPP_DIR}/binaryfilehandler.cpp \
     $${CPP_DIR}/xmlfilehandler.cpp \
-    include/uiinterface/i_countpanel.cpp \
-    include/uiinterface/i_dataloader.cpp \
-    include/uiinterface/i_detailpanel.cpp \
-    include/uiinterface/i_experiment.cpp \
-    include/uiinterface/i_test.cpp \
-    include/uiinterface/i_topicpanel.cpp
+    $${CPP_DIR}/uiinterface/i_countpanel.cpp \
+    $${CPP_DIR}/uiinterface/i_dataloader.cpp \
+    $${CPP_DIR}/uiinterface/i_detailpanel.cpp \
+    $${CPP_DIR}/uiinterface/i_experiment.cpp \
+    $${CPP_DIR}/uiinterface/i_main.cpp \
+    $${CPP_DIR}/uiinterface/i_test.cpp \
+    $${CPP_DIR}/uiinterface/i_topicpanel.cpp
 
     #$${CPP_DIR}/external/rticonnection.cpp \
     #$${CPP_DIR}/external/rtitester.cpp \
