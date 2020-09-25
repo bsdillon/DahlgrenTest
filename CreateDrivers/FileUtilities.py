@@ -1,9 +1,8 @@
 import sys
 import re  # regex
 import os
-import re  # regex
 
-from CreateDrivers.DriverParser import DriverParser
+from DriverParser import DriverParser
 
 
 class FileUtilities:

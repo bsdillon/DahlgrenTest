@@ -148,8 +148,16 @@ public:
     msg.append(std::to_string(index));
     throw DriverException(msg, DriverException::Level::UnstableProgram);
   }
-  unsigned short getUNSIGNED_SHORTMethod(int){}
-  unsigned char getUNSIGNED_CHARMethod(int){}
+  unsigned short getUNSIGNED_SHORTMethod(int){
+    std::string msg = "AbstractDriver has no UNSIGNED SHORT method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  unsigned char getUNSIGNED_CHARMethod(int){
+    std::string msg = "AbstractDriver has no UNISGNED CHAR method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
   bool getBOOLMethod(int index) {
     std::string msg = "AbstractDriver has no BOOL method at index ";
     msg.append(std::to_string(index));
@@ -209,7 +217,16 @@ public:
     throw DriverException(msg, DriverException::Level::UnstableProgram);
   }
   std::unique_ptr<short[]> getSHORTPOINTERMethod(int){}
-  std::unique_ptr<char[]> getCHARPOINTERMethod(int){}
+  {
+    std::string msg = "AbstractDriver has no SHORTPOINTER method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
+  std::unique_ptr<char[]> getCHARPOINTERMethod(int){
+    std::string msg = "AbstractDriver has no CHARPOINTER method at index ";
+    msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
+  }
   AbstractEnum* getABSTRACTENUMPOINTERMethod(int index)
   {
     std::string msg = "AbstractDriver has no ABSTRACTENUMPOINTER method at index ";

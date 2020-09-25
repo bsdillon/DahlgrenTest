@@ -1,4 +1,4 @@
-from CreateDrivers.Parsers.abstract_parser import AbstractParser
+from Parsers.abstract_parser import AbstractParser
 
 
 class ParseUnion(AbstractParser):
