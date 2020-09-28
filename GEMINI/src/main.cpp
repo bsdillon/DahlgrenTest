@@ -16,7 +16,7 @@
 
 int main(int argc, char *argv[])
 {
-    if (!(argc == 2 || (argc == 3 && QString::fromStdString(argv[2]).compare("gui"))))
+    if (!(argc == 2 || (argc == 3 && QString::fromStdString(argv[2]).compare("gui") == 0)))
     {
         std::cout << "Usage: Gemini <config file path> [optional: gui]" << std::endl;
         exit(-1);
