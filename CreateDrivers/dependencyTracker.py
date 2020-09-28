@@ -1,16 +1,10 @@
 import os
-
-from CreateDrivers.Parsers.abstract_parser import AbstractParser
-
-from CreateDrivers.Parsers.enum import ParseEnum
-
-from CreateDrivers.Parsers.parseClass import ParseClass
-
-from CreateDrivers.TypeDictionary import TypeDictionary
-
-from CreateDrivers.dependencyFinder import DependencyFinder
-
-from CreateDrivers.primitive import Primitive
+from primitive import Primitive
+from Parsers.enum import ParseEnum
+from Parsers.parseClass import ParseClass
+from dependencyFinder import DependencyFinder
+from Parsers.abstract_parser import AbstractParser
+from TypeDictionary import TypeDictionary
 
 
 class DependencyTracker:
@@ -206,7 +200,8 @@ def WriteFiles(self, driverDirectory):
 
     ParseClass.WriteEmpty(driverDirectory)
     ParseClass.WriteException(driverDirectory)
-    ParseClass.WriteAbstract(driverDirectory, enumTypes)
+    # Abstract Driver class implemented already
+    # ParseClass.WriteAbstract(driverDirectory, enumTypes)
     ParseEnum.WriteAbstract(driverDirectory)
     print
     'Done\n'

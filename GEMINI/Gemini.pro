@@ -48,7 +48,7 @@ QMAKE_CLEAN += -r obj moc ui_generated bin qrc_resources.cpp RunGEMINI
 ###
 # Generate RunGEMINI script in top-level directory
 ###
-linkrunscript.commands = scp scripts/RunGEMINI .
+linkrunscript.commands = scp ../GEMINI/scripts/RunGEMINI .
 first.depends += linkrunscript
 QMAKE_EXTRA_TARGETS += first linkrunscript
 

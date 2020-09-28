@@ -1,10 +1,6 @@
-import sys
-sys.path.append("..") # Adds higher directory to python modules path.
-from CreateDrivers.TypeDictionary import TypeDictionary
-
-from CreateDrivers.Parsers.abstract_parser import AbstractParser
-
-import CreateDrivers.Parsers.parseClass as ParseClass
+from Parsers.abstract_parser import AbstractParser
+from TypeDictionary import TypeDictionary
+import Parsers.parseClass
 
 
 class Method:

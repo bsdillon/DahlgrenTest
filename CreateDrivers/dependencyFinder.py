@@ -3,15 +3,15 @@ import os
 
 import CppHeaderParser  # v2.7.4 must be installed
 
-from CreateDrivers.Parsers.enum import ParseEnum
+from Parsers.enum import ParseEnum
 
-from CreateDrivers.Parsers.parseClass import ParseClass
+from Parsers.parseClass import ParseClass
 
-from CreateDrivers.Parsers.typedef import TypeDef
+from Parsers.typedef import TypeDef
 
-from CreateDrivers.Parsers.union import ParseUnion
+from Parsers.union import ParseUnion
 
-from CreateDrivers.TypeDictionary import TypeDictionary
+from TypeDictionary import TypeDictionary
 
 
 class DependencyFinder:
