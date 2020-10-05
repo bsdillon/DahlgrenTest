@@ -27,11 +27,11 @@ TopicDetails::TopicDetails(QWidget *parent) :
     _messageListener->setClearDataCallback(std::bind(&TopicDetails::ClearMessages, this));
 
 
-    detailpanelProxy = new I_DetailPanel(this);
+    detailPanelProxy = new I_DetailPanel(this);
     //detailpanelProxy->setClearMessageCallback(std::bind(&TopicDetails::ClearMessages, this, std::placeholders::_1));
-    detailpanelProxy->setClearMessageCallback(std::bind(&TopicDetails::ClearMessages, this));
+    detailPanelProxy->setClearMessageCallback(std::bind(&TopicDetails::ClearMessages, this));
     //Signal Forwarding
-    connect(this, &TopicDetails::UpdateStatus, detailpanelProxy, &I_DetailPanel::UpdateStatus);
+    connect(this, &TopicDetails::UpdateStatus, detailPanelProxy, &I_DetailPanel::UpdateStatus);
 }
 
 TopicDetails::~TopicDetails()
