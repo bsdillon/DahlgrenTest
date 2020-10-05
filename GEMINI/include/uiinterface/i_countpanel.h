@@ -13,7 +13,7 @@ public:
     //Constructor
     I_CountPanel(QObject *parent=0);
     //Slot callback setter
-    I_CountPanel setReceiveNewTopicsCallback(std::function<void(std::map<std::string, AbstractDriver *>)> receiveNewTopicsCallback);
+    void setReceiveNewTopicsCallback(std::function<void(std::map<std::string, AbstractDriver *>)> receiveNewTopicsCallback);
 
     //Signals
     void signalToggleSubscription(QString topic, bool enable);

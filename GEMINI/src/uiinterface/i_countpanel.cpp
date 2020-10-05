@@ -2,11 +2,11 @@
 
 I_CountPanel::I_CountPanel(QObject *parent)
     :QObject(parent),
-      _receiveNewTopicsCallback([](std::map<std::string, AbstractDriver *> factories){})
+      _receiveNewTopicsCallback([](std::map<std::string, AbstractDriver *>){})
 {}
 
 //Slot Callback
-I_CountPanel I_CountPanel::setReceiveNewTopicsCallback(std::function<void(std::map<std::string, AbstractDriver *>)> receiveNewTopics)
+void I_CountPanel::setReceiveNewTopicsCallback(std::function<void(std::map<std::string, AbstractDriver *>)> receiveNewTopics)
 {
     _receiveNewTopicsCallback = receiveNewTopics;
 }
