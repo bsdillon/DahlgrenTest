@@ -20,6 +20,7 @@ public:
     void Message(const PLAMessage& message);
 
     MessageListener* listener() const;
+    I_CountPanel* countPanelProxy;
 
 public slots:
     void DeleteTopics();
@@ -36,7 +37,7 @@ private:
     Ui::TopicCounts *ui;
     std::unordered_map<std::string, TopicCountSummary*> _summaries;
     MessageListener* _messageListener;
-    I_CountPanel* countPanelProxy;
+    //I_CountPanel* countPanelProxy;
 
     void ClearData();
 };

@@ -25,6 +25,7 @@ public:
     explicit TopicDetails(QWidget *parent = 0);
     ~TopicDetails();
     MessageListener* listener() const;
+    I_DetailPanel* detailPanelProxy;
 
 signals:
     void UpdateStatus(std::string);
@@ -44,7 +45,7 @@ private:
     Ui::TopicDetails *ui;
     std::vector<DetailSummary*> summaryWidgets;
     MessageListener* _messageListener;
-    I_DetailPanel* detailpanelProxy;
+    //I_DetailPanel* detailPanelProxy;
     //void ClearMessages();
 
     template<typename T>

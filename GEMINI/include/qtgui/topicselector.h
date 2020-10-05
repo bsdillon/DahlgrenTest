@@ -24,6 +24,8 @@ class TopicSelector : public QWidget
 public:
     explicit TopicSelector(QWidget *parent = 0);
     ~TopicSelector();
+    void readSettings();
+    I_TopicPanel* topicPanelProxy;
 
 signals:
     void UpdateStatus(std::string);
@@ -31,7 +33,6 @@ signals:
 
 public slots:
     void selectionChanged();
-    void readSettings();
 
 private slots:
     void addTopics();
@@ -52,8 +53,9 @@ private:
     void moveTopicsBySelection(QItemSelectionModel *selection, QAbstractItemModel *from, QAbstractItemModel *to);
     void selectListOfTopics(const QStringList &topics);
     void writeSettings(QSettings *settings);
+    //void readSettings();
 
-    I_TopicPanel* topicPanelProxy;
+    //I_TopicPanel* topicPanelProxy;
 };
 
 #endif // TOPICSELECTOR_H

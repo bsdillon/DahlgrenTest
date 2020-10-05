@@ -26,6 +26,7 @@ public:
     void CloseDown();
     ~ExperimentPanel();
     void FinishPressed();
+    I_Experiment* experimentProxy;
 
 public slots:
     void UpdateTopicsPressed();
@@ -71,7 +72,7 @@ private:
     void CheckState();
     void UpdateLastExperimentFile();
 
-    I_Experiment* experimentProxy;
+    //I_Experiment* experimentProxy;
 
 private slots:
     void RecordPressed();
