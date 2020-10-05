@@ -7,7 +7,12 @@
 class DriverFactory
 {
 public:
-  static std::vector<std::string> GetTopicList() {}
+  static std::vector<std::string> GetTopicList()
+  {
+      std::vector<std::string> v;
+      return v;
+  }
+
   static std::unique_ptr<AbstractDriver> GetTopicFactory(int) {}
 };
 
