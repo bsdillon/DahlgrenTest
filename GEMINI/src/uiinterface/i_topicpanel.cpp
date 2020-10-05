@@ -6,7 +6,7 @@ I_TopicPanel::I_TopicPanel(QObject *parent)
 {}
 
 //Slot Callback
-void I_TopicPanel::setReadSettingsCallback(std::function<void ()> readSettingsCallback)
+void I_TopicPanel::setReadSettingsCallback(std::function<void()> readSettingsCallback)
 {
     _readSettingsCallback = readSettingsCallback;
 }
