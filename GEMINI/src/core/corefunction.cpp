@@ -40,6 +40,11 @@ void CoreFunction::CompleteStartup()
     _subscriptionManager->addMessageListeners(_listeners);
 
     proxies->LoadUI();
+
+    if(!(Common::isHeadless()))
+    {
+        main->show();
+    }
 }
 
 void CoreFunction::setUpFileQueue()
