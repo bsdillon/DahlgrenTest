@@ -62,6 +62,9 @@ void ConfigureEnvironment::Load(std::string fileName, QString homePath)
     //dependent variables
     QString home(getenv("APPHOME"));
 
+    //Setting homepath == home
+    //home = "/home/cdang/Desktop/Documents/DahlgrenTest/build-Gemini-Desktop-Debug/bin";
+
     //set all variables
     QString verbosity(getenv("VERBOSITY"));
     QString introspection(getenv("INTROSPECTION"));
@@ -109,6 +112,40 @@ void ConfigureEnvironment::Load(std::string fileName, QString homePath)
     tmp = home + "config_data/";
     setenv("CONFIG_DATA_PATH", tmp.toStdString().c_str(), 1);
 
+    /*tmp = home + "config_data/DrsConfigValues.xml";
+    errorMessage.append(FileCheck(tmp));
+    setenv("XML_DRS_CONFIG_FILE", tmp.toStdString().c_str(), 1);*/
+
+    /*tmp = home + "config_data/LoggingServiceConfigValues.xml";
+    errorMessage.append(FileCheck(tmp));
+    setenv("XML_LOGGER_CONFIG_FILE", tmp.toStdString().c_str(), 1);*/
+
+    /*tmp = home + "config_data/PubSubConfigValues.xml";
+    errorMessage.append(FileCheck(tmp));
+    setenv("XML_PUBSUB_CONFIG_FILE", tmp.toStdString().c_str(), 1);*/
+
+   /* tmp = home + "log/QOS_PROFILES.xml";
+    errorMessage.append(FileCheck(tmp));*/
+
+    tmp = "[file://" + tmp + "]";
+    setenv("NDDS_QOS_PROFILES", tmp.toStdString().c_str(), 1);
+
+    tmp = QString::fromStdString(getenv("DOMAINID"));
+    setenv("NDDS_SESSION_DOMAIN", tmp.toStdString().c_str(), 1);
+    setenv("SLOT_ID", tmp.toStdString().c_str(), 1);
+
+    if (errorMessage.length() > 0)
+    {
+        std::cerr << errorMessage.toStdString() << std::endl;
+        exit(-1);
+    }
+}
+
+void xmlConfigFile(){
+    QString tmp = QString("Missing file at ");
+    QString errorMessage;
+    QString home;
+
     tmp = home + "config_data/DrsConfigValues.xml";
     errorMessage.append(FileCheck(tmp));
     setenv("XML_DRS_CONFIG_FILE", tmp.toStdString().c_str(), 1);
@@ -124,16 +161,4 @@ void ConfigureEnvironment::Load(std::string fileName, QString homePath)
     tmp = home + "log/QOS_PROFILES.xml";
     errorMessage.append(FileCheck(tmp));
 
-    tmp = "[file://" + tmp + "]";
-    setenv("NDDS_QOS_PROFILES", tmp.toStdString().c_str(), 1);
-
-    tmp = QString::fromStdString(getenv("DOMAINID"));
-    setenv("NDDS_SESSION_DOMAIN", tmp.toStdString().c_str(), 1);
-    setenv("SLOT_ID", tmp.toStdString().c_str(), 1);
-
-    if (errorMessage.length() > 0)
-    {
-        std::cerr << errorMessage.toStdString() << std::endl;
-        exit(-1);
-    }
 }
