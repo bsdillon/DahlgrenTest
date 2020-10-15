@@ -26,10 +26,19 @@ dependencies {
     testImplementation 'junit:junit:4.13'
 }
 
-application {
-    // Define the main class for the application.
-    mainClassName = 'JavaFXGui.App'
-}
+// Eclipse's gradle plugin throws this error: https://discuss.gradle.org/t/eclipse-and-gradle-4-8-1-and-5-2-1-could-not-find-method-application-for-arguments/31094
+// application {
+//     // Define the main class for the application.
+//     mainClassName = 'JavaFXGui.App'
+// }
+
+// This is more direct (no lambda statement) but I'm cautious...
+//application.mainClassName = 'JavaFXGui.App'
+
+// Assign the main class name directly.
+// The 'java' plugin falls back to this and it
+// lets us keep mainClassName inside the jar { } lambda.
+mainClassName = 'JavaFXGui.App'
 
 sourceSets {
     main {
