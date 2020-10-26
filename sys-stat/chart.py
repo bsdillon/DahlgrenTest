@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
-import sys
 import csv
+import sys
 import datetime
-import pprint
-import random
+# import pprint
+# import random
 
-import matplotlib.pyplot as plt # python3 -m pip install --user matplotlib
 import matplotlib.dates as md
-
-import numpy as np # python3 -m pip install --user numpy
+import matplotlib.pyplot as plt # python3 -m pip install --user matplotlib
 
 import dateutil.parser # python3 -m pip install --user python-dateutil
+
+# import numpy as np # python3 -m pip install --user numpy
 
 if __name__ == '__main__':
     status_csv = "/tmp/status.csv" if len(sys.argv) < 2 else sys.argv[1]
@@ -34,7 +34,7 @@ if __name__ == '__main__':
             # time_epoch_s = int( dateutil.parser.isoparse(row[0]).timestamp() )
             # isoparse misses the 'Z' and sets the local timezone instead of UTC, so we correct by subtracting 4 hours.
             timestamp = dateutil.parser.isoparse(row[0]) - datetime.timedelta(hours=4)
-            time_epoch_s = int( timestamp.timestamp() )
+            time_epoch_s = int(timestamp.timestamp())
             up_or_down = "t" in row[2]
             latency_ms = int(row[3])
 
@@ -46,8 +46,6 @@ if __name__ == '__main__':
                 min_timestamp = time_epoch_s
             if time_epoch_s > max_timestamp:
                 max_timestamp = time_epoch_s
-
-
 
     # debugging
     # pprint.PrettyPrinter(indent=4).pprint(system_data)
