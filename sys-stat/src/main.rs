@@ -1,4 +1,7 @@
 
+// dirs, toml, and humantime are 3rd-party
+// libraries impurted using the [dependencies]
+// section in Cargo.toml
 use dirs;
 use toml;
 use humantime;
@@ -13,6 +16,8 @@ use std::time::{
 };
 use std::{thread, time};
 
+// These lines tell rustc to look
+// at the file config.rs for the `config` module.
 mod config;
 mod check;
 
