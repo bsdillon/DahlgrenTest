@@ -20,5 +20,53 @@ gradle jar
 ./gradlew jar
 ```
 
-The jarfile is produced in `build/libs/JavaFXGui.jar`.
+The jarfile is produced in `build/libs/JavaFXGui.jar`, which itself
+should be able to run with:
+
+```bash
+java -jar build/libs/JavaFXGui.jar
+```
+
+# Gradle
+
+The [gradle](https://gradle.org/) build tool reads build configuration
+written in [groovy](http://groovy-lang.org/), a scripting language
+which runs on the JVM. Gradle provides a number of
+configuration targets and a [plugin system](https://docs.gradle.org/current/userguide/plugins.html).
+
+The `JavaFXGui` app uses this flexibility to include a file from
+another part of the repository and add it to the CLASSPATH at runtime,
+which happens by adding `project.file('../html/Testing/')` to the list
+of source directories for the main build:
+
+```
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", project.file('../html/Testing/') // contains jsprimary.html
+        }
+    }
+}
+```
+
+This lets us put `../html/Testing/jsprimary.html` in a `WebView` without needing to manually copy files in;
+the gradle build script handles that for us.
+
+# Application Assumptions
+
+This program assumes it is running on java 8 and that the host
+has javafx available. 
+Oracle provides [JavaFX install instructions](https://docs.oracle.com/javafx/2/installation/jfxpub-installation.htm)
+but with java 8 they included it in the JVM, which makes it an easy choice for
+older editions of Java.
+
+Modern java (9+) should look at [OpenJFX](https://openjfx.io/), which
+distributes a copy of JavaFX that understand's java 9+'s new module system.
+
+The Java 8 FX and Java 9+ FX builds are different enough that they are
+totally incompatible if you decide to bundle the FX runtime with your app;
+you can either bundle version 8 and run on java 6/7/8 or bundle 9+ and run
+on 11/12/13/14. Right now we sidestep this by assuming the host has javafx available,
+but it is a good point to be aware of.
+
 
