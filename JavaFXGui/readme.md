@@ -54,8 +54,23 @@ the gradle build script handles that for us.
 
 # Application Assumptions
 
-This program assumes it is running on java 8 and that the host
-has javafx available. 
+This program assumes it is running on java 9+.
+
+If this is compiled with an older version of java the following
+error message will be given:
+
+```
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+java.lang.UnsupportedClassVersionError: org/openjfx/gradle/JavaFXPlugin has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+> org/openjfx/gradle/JavaFXPlugin has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+
+```
+
+To build with older versions comment the plugin line `id 'org.openjfx.javafxplugin' version '0.0.9'`
+and the `javafx { }` block in `build.gradle`.
+
 Oracle provides [JavaFX install instructions](https://docs.oracle.com/javafx/2/installation/jfxpub-installation.htm)
 but with java 8 they included it in the JVM, which makes it an easy choice for
 older editions of Java.
