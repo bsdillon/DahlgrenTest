@@ -12,6 +12,11 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application.
     id 'application'
+
+    // This plugin supports JavaFX on VMs version 11+
+    // (See https://github.com/openjfx/javafx-gradle-plugin)
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+
 }
 
 repositories {
@@ -25,6 +30,15 @@ dependencies {
     // Use JUnit test framework
     testImplementation 'junit:junit:4.13'
 }
+
+// The javafx plugin uses jvm 9+ modules, which split the package
+// into smaller components which must be added here if they are used in the app.
+// A full list of modules is listed here: https://openjfx.io/javadoc/11/
+javafx {
+    version = '11'
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.web' ]
+}
+
 
 // Eclipse's gradle plugin throws this error: https://discuss.gradle.org/t/eclipse-and-gradle-4-8-1-and-5-2-1-could-not-find-method-application-for-arguments/31094
 // application {
