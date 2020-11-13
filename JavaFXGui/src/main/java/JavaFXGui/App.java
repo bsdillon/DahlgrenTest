@@ -24,6 +24,17 @@ public class App extends Application {
       webView.getEngine().load(
         App.class.getResource("/jsprimary.html").toString()
       );
+
+      // as an embedded browser, we are responsible for handling a number of JS
+      // functions like console.log(), alert(), and window.open.
+      // See https://stackoverflow.com/questions/16370622/webview-not-opening-the-popup-window-in-javafx
+      webView.getEngine().setCreatePopupHandler(popup_features -> {
+        Stage stage = new Stage(StageStyle.UTILITY);
+        WebView wv2 = new WebView();
+        stage.setScene(new Scene(wv2));
+        stage.show();
+        return wv2.getEngine();
+      });
       
       AnchorPane.setTopAnchor(webView, 0.0);
       AnchorPane.setBottomAnchor(webView, 0.0);
