@@ -1,0 +1,66 @@
+The Format.bat is a windows-based utility to read in an XML file (what 
+appears to be the common file format for much of the UML diagram world) 
+and parse it into a nested-formatted form that is easier to read.
+
+The initial work was done with Cameo System Modeler 
+* SwimlaneDiagram started as a swimlane diagram and its format was investigated
+to find all the most relevant features. From that a file was generated that made
+use of most of these features. This model was successful, but it was still noted
+that CSM reformatted the file visually to meet its own interpretation of locations
+for each block. A standard format was also discovered for this kind of diagram 
+suggesting that there is a body of standard formats somewhere.
+* SequenceDiagram started as an sequence diagram showing interactions 
+between various components. That file was then parsed and formatted manually 
+to discover its structure. The work was never completed, but several 
+important structures were discovered. There are images in the folder showing
+the original model.
+
+Answers to questions from Jeff McAteer.
+
+* Currently the concept is just proposed, however, I have a contact in the LCS program 
+that is willing to give us classified data to evaluate our progress once the MVP is 
+ready. I also have contact at AEGIS who would like to take the output from SQM and 
+generate a Component Diagram or Composite Structure diagram of the components of each 
+class. Either or both could be a selling point to really fund this effort.
+* For objective #1, the only audience/users will be programmers. I don't expect that 
+modelers or management will want to look at the code or the programmatic capabilities. 
+They may be stakeholders in the decision on which tools we can afford to use. For
+objective #2, modelers and management will both be interested. The output there is a
+pretty shiney picture that will captivate their attention.
+* Level of detail is up to us and it depends on the data. If we can find something that 
+meets objective #1 I'll be happy. If we can create an MVP for objective #2 I will be 
+ecstatic. Ultimately the classified code evaluation I referred to above for LCS or AEGIS 
+would be beyond the scope of what they are doing and I may have to finish that work myself.
+As for your question, in general we want to create a model that shows the aspects worth 
+seeing. What aspects are worth seeing depends on the program in question and different
+data can be shown in the same way.
+* I don't foresee this early evaluation reaching a true model-to-code, but if we find
+a good solution to objective #1 we will probably have a tool that can be used to read
+the diagram as well as write it. That means we could take a model and generate code.
+As for what uses we may put that to, consider that a sequence diagram may indicate blocks
+of code interacting through function calls and subject to a standard interface on one 
+end may be used to generate interface Adapter code that matches the standard interface
+and any one of several APIs. That's one example very similar to what GEMINI does, but
+now it would be using a model as input. Eventually, yes, that code would compile. With
+GEMINI, the auto-generated code compiled with the Qt/C++ project without any changes.
+There was a single warning type auto-generated with the rest.
+* No, we are not planning to actually build code out of the M-t-C capability at this time.
+At some later date we may get there, but what we build largely depends on what we are
+supporting. We need that main application so that there is something to build toward.
+* The XPDL standard was the only one I found in my initial investigation, but it wasn't
+intended as a UI tool. This was an XML standard for swim lane diagrams in UML. I'm open
+to any standard that we can use for communicating diagrams to some tool. As you say, 
+the intent was to give the rendering responsiblity (of the model) to a third party libary
+(in this case Cameo System Modeler).
+* Currently all the tools that build code from a model can generate a skeleton at best. If
+ you have really detailed models you might get functions with appropriate parameter lists and
+return types. Not much else. I intend that we can generate a model and seperately develop
+supporting code that can read the model and then implement compilation-ready code that 
+conforms to the model but is interpreted by the code we write. I think you and I have
+to have a longer discussion about GEMINI.
+* At this point, I'm looking for a shotgun approach to finding and evaluating model-writing libraries.
+That is objective #1. If we find something that is super viable, I'd be happy transferring everyone
+to objective #2 and working on actually generating a model from some toy data.
+
+
+
