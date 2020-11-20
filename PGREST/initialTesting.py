@@ -1,4 +1,5 @@
-import json, urllib.request
+import json
+import urllib.request
 
 # sandbox for early python/json/api testing
 
