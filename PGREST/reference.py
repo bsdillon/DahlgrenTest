@@ -1,6 +1,6 @@
 # Program to make a simple
 # login screen
-
+# run this to confirm local environment supports GUI widgets properly
 
 import tkinter as tk
 
