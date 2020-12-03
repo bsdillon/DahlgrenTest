@@ -3,35 +3,45 @@ import requests
 import tkinter as tk
 import urllib
 
+#create root panel
 root=tk.Tk()
 
 # setting the windows size
+# todo: make dynamic window that scales with displayed data
 root.geometry("600x400")
 
-# declaring string variable
-# for storing addr
-addr_var=tk.StringVar()
+# declaring variables
+addr_var=tk.StringVar() # string for storing address
+data = [] # root directory data
 
-# defining function to use address
-def submit():
+# defining function to display data in a root
+def display(extension):
+    print("reached function call")
 
-    addr=addr_entry.get()
-    print("connecting to: " + addr + "...")
-
-    with urllib.request.urlopen(addr) as url:
-        data = json.loads(url.read().decode())
-        # print(type(data))
-        # print(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))) # data dump
-
-        rowBegin = 2
+    with urllib.request.urlopen(addr_entry.get() + extension) as url:
         # 'data' object is a python dictionary of dictionaries
-        for item in data['paths']:
-            # print(item)
-            label = tk.Label(root, text = item)
-            label.grid(row = rowBegin, column = 0)
-            rowBegin = rowBegin + 1
+        displayData = json.loads(url.read().decode())
 
-    addr_var.set("")
+        for item in displayData:
+            print(item)
+
+# defining function to connect to initial address
+def connect():
+    # get data from address
+    with urllib.request.urlopen(addr_entry.get()) as url:
+        # 'data' object is a python dictionary of dictionaries
+        data = json.loads(url.read().decode())
+
+    # establish beginning
+    initCol = 0
+
+    # todo: generate buttons that don't automatically press themselves
+    for item in data['paths']:
+        # don't display root directory as path option
+        if item != "/" :
+            directory = tk.Button(root, text = item, command = display(item))
+            directory.grid(row = 2, column = initCol)
+            initCol += 1
 
 # create label for entry widget
 addr_label = tk.Label(root, text = 'address', font=('calibre', 10, 'bold'))
@@ -39,15 +49,14 @@ addr_label = tk.Label(root, text = 'address', font=('calibre', 10, 'bold'))
 # create entry widget for address
 addr_entry = tk.Entry(root, textvariable = addr_var,font=('calibre',10,'normal'))
 
-# creating a button using the widget
-# Button that will call the submit function
-sub_btn=tk.Button(root,text = 'Submit', command = submit)
+# Button that will call the connect function
+sub_btn=tk.Button(root,text = 'connect', command = connect)
 
-# placing the label and entry in
-# the required position using grid
-# method
+# positioning buttons with grid
+# could switch to pack() in future
 addr_label.grid(row=0, column=0)
 addr_entry.grid(row=0, column=1)
 sub_btn.grid(row=1, column=1)
 
+# end
 root.mainloop()
