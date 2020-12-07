@@ -5,6 +5,7 @@ import urllib
 
 #create root panel
 root=tk.Tk()
+root.title("PGRest GUI v0.01")
 
 # setting the windows size
 # todo: make dynamic window that scales with displayed data
@@ -39,7 +40,10 @@ def connect():
     for item in data['paths']:
         # don't display root directory as path option
         if item != "/" :
-            directory = tk.Button(root, text = item, command = display(item))
+            # important note: creating buttons dynamically, you should pass a function
+            # object instead of a function call. Easy way to do this, is using a lambda
+            # i.e.
+            directory = tk.Button(root, text = item, command =(lambda: display(item)))
             directory.grid(row = 2, column = initCol)
             initCol += 1
 

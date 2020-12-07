@@ -32,9 +32,7 @@ def submit():
 
 # creating a label for
 # name using widget Label
-name_label = tk.Label(root, text = 'Username',
-                      font=('calibre',
-                            10, 'bold'))
+name_label = tk.Label(root, text = 'Username', font=('calibre', 10, 'bold'))
 
 # creating a entry for input
 # name using widget Entry
