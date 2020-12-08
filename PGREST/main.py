@@ -7,25 +7,26 @@ import urllib
 root=tk.Tk()
 root.title("PGRest GUI v0.01")
 
-# setting the windows size
-# todo: make dynamic window that scales with displayed data
-root.geometry("600x400")
-
 # declaring variables
 addr_var=tk.StringVar() # string for storing address
 data = [] # root directory data
 
 # defining function to display data in a root
 def display(extension):
-    print("reached function call")
+    print("CONNECTING TO: "+addr_entry.get() + extension)
 
     with urllib.request.urlopen(addr_entry.get() + extension) as url:
         # 'data' object is a python dictionary of dictionaries
         displayData = json.loads(url.read().decode())
 
+        initRow=3
         for item in displayData:
-            print(item)
-
+            # print(item)
+            returnedText = tk.Label(root, text =item)
+            returnedText.grid(row = initRow, column = 1)
+            returnedText.grid(row = initRow, column = 1)
+            initRow += 1
+#
 # defining function to connect to initial address
 def connect():
     # get data from address
@@ -36,7 +37,6 @@ def connect():
     # establish beginning
     initCol = 0
 
-    # todo: generate buttons that don't automatically press themselves
     for item in data['paths']:
         # don't display root directory as path option
         if item != "/" :
@@ -54,7 +54,7 @@ addr_label = tk.Label(root, text = 'address', font=('calibre', 10, 'bold'))
 addr_entry = tk.Entry(root, textvariable = addr_var,font=('calibre',10,'normal'))
 
 # Button that will call the connect function
-sub_btn=tk.Button(root,text = 'connect', command = connect)
+sub_btn=tk.Button(root,text = 'connect', command =connect)
 
 # positioning buttons with grid
 # could switch to pack() in future
