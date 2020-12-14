@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{mcode}
 \usepackage{xcolor}
+\usepackage{hyperref}
 %
 \begin{document}
 \frontmatter
@@ -21,6 +22,56 @@
 \mainmatter
 %%%%To all editing this report. The format was originally intended as a documentation by date for all of our meetings and the research done by Daniel Sartori. Meeting notes have been omitted and only research results are included here. If any edits or additions are made to this document, please include yourself as one of the authors.%%%%%%%%%%%%
 %%%%% If there are any changes to the way that this document should be designed (because it was originally designed as personal notes), please pass these on to the document creator%%%%%%%%
+%%%%% Entries are in reverse chronological order. %%%%%
+%---------------------------------------------------------------------------
+%%%%%%%%%%%Eclipse a possible avenue for project completion%%%%%%%%%%%%%
+%------------------------------------------------------------------------
+\chapter*{Sunday, 13 Dec 2020}
+\label{121320}
+%
+\section*{Functionality Tests and Eclipse} 
+%
+We are given an Excel file with a decent list of software that could be used for the project, either by performing all or part of what we need directly, or by providing source code that can be used as a base. I have included general information, my findings, links to documentation and guides, and source code where applicable. Umbrello was briefly explored through the provided documentation link, but only a cursory examination was made. If the findings for this week prove to be a dead end, then the plan is to return to Umbrello.\\\\
+%
+\underline{\textbf{ArgoUML}}\\\\
+%
+ArgoUML is not downloadable through the links available on the website, but the source code is available. \\\\
+\url{https://argouml-tigris-org.github.io/}\\\\
+It appears that the original creator of ArgoUML is moving files from the website to GitHub in an attempt to update the software. The source code could provide a valuable structure for the project, but currently it is in flux.\\\\
+%
+\underline{\textbf{StarUML}}\\\\
+%
+StarUML is downloadable, and the application is functioning. There are plenty of extensions supporting many of the project file types, but there appear to be some issues which I outline below. The source code is available on Github: \url{https://github.com/staruml }, as well as a price list: \url{https://staruml.io/buy}. The basic license is free, but there is an upgrade cost of \$99 for a personal license.\\\\
+%
+Several different file types were used when testing this program. The first was an XML file. An available extension can be downloaded through the StarUML GUI.
+%
+\newline\newline\includegraphics[width=140mm,scale=0.9]{Figure1StarUMLExt}\\\\
+%
+The extension manager includes packages for many different programming languages and file types, giving it the potential for project compatibility.
+%
+\newline\newline\includegraphics[width=140mm,scale=0.9]{ExtensionManager}\\\\
+%
+A test file was created using \url{http://www.generatedata.com/}. When attempting to use StarUML to open the file, there is a "fail to load" error message. A little bit of research shows this is a well documented issue. There is a simple fix, originally found in the StackExchange here: \url{https://stackoverflow.com/questions/60250514/how-to-import-any-uml-xmi-files-to-staruml}. A second solution is also in the Github repository \url{https://github.com/staruml }, and was created by directly editing the JavaScript file for the extension. \\\\
+%
+Using Atom, a desktop code editor, I edited the xmi21-reader.js file, which governs the extension, by changing\\
+\mcode{var XMINode = dom.getElementsByTagName('XMI')[0]}\\
+to \mcode{var XMINode = dom.getElementsByTagName('xmi:XMI')[0]}.\\
+Even after this change, the file still fails to load. I made an attempt to open a PostgreSQL file and a UML model with similar results.\\\\
+%
+While it appears to have great compatibility based on the number of extensions available for it, in my opinion it doesn't look like a viable option without more work than is desired. The extensions are written in JavaScript, and error handling here is limited.\\\\
+%
+\underline{\textbf{EclipseUML}}\\\\
+%
+The latest version of the Eclipse IDE can be installed from \url{https://www.eclipse.org/downloads/packages}. The Eclipse IDE has different environments depending on usage. For our purposes the Eclipse Modeling Tools version of the IDE was installed. From here, you can go to the marketplace or download packages directly from certain creator sites to expand the IDE's functionality. \\\\
+Before downloading Eclipse you should have a Java Development Kit (JDK or JRE), as the installation will not complete without detecting a path to the JDK. The JDK can be downloaded from Oracle, \url{https://www.oracle.com/java/technologies/javase-downloads.html}.Java SE 11 is recommended for the newest version of Eclipse , so you may be due for an upgrade if you have a previous version of the JDK. I will be using Java SE 15 for subsequent tests.\\\\
+%
+\includegraphics[width=130mm,scale=0.85]{EclipseOverview}\\\\
+%
+Eclipse comes with many resources that could provide a ready-made solution or at least a base. Tutorials are included for their UML tools, which take you through basic and advanced concepts in the software. It also goes over common concepts, such as reverse engineering code and models, and obtaining code from UML models.\\\\
+%
+\includegraphics[width=150mm,scale=1]{UMLtoCode}\\\\
+In addition to the extensions that are available on the marketplace, it also provides resources to assist in creating your own plug-ins if there is functionality that you are missing. Given that Eclipse is covering the issues we are trying to tackle, it has some potential to be what we are looking for and I plan to research this further in the coming week. 
+%
 %----------------------------------------------------------------------------
 %%%%%%%%%%%%%%%% MSCGEN documentation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %----------------------------------------------------------------------------
