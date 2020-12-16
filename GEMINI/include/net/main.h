@@ -5,8 +5,14 @@
 // #include "AllFields_Driver"
 
 
-int main()
+public int main()
 {
-  AllFields allFields = new AllFields()
-  // Test methods
+
+  return 0;
+}
+
+public void testDriver(AbstractDriver driver) {
+  print(driver.getTypeDescription(INT));
+  print(driver.getTypeDescription(DOUBLE));
+  
 }
