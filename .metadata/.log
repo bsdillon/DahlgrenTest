@@ -1,0 +1,59 @@
+!SESSION 2020-12-18 17:37:20.106 -----------------------------------------------
+eclipse.buildId=4.10.0.I20181206-0815
+java.version=1.8.0_172
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY net.sourceforge.pmd.eclipse.plugin 4 0 2020-12-18 17:37:21.774
+!MESSAGE FrameworkEvent ERROR
+!STACK 0
+org.osgi.framework.BundleException: Could not resolve module: net.sourceforge.pmd.eclipse.plugin [625]
+  Bundle was not resolved because of a uses constraint violation.
+  org.apache.felix.resolver.reason.ReasonException: Uses constraint violation. Unable to resolve resource net.sourceforge.pmd.eclipse.plugin [osgi.identity; type="osgi.bundle"; version:Version="4.0.16.v20180412-0833"; osgi.identity="net.sourceforge.pmd.eclipse.plugin"; singleton:="true"] because it exports package 'org.apache.log4j' and is also exposed to it from resource org.apache.log4j [osgi.identity; type="osgi.bundle"; version:Version="1.2.15.v201012070815"; osgi.identity="org.apache.log4j"] via the following dependency chain:
+
+  net.sourceforge.pmd.eclipse.plugin [osgi.identity; type="osgi.bundle"; version:Version="4.0.16.v20180412-0833"; osgi.identity="net.sourceforge.pmd.eclipse.plugin"; singleton:="true"]
+    require: (&(osgi.wiring.bundle=org.apache.commons.logging)(bundle-version>=1.0.4))
+     |
+    provide: osgi.wiring.bundle; bundle-version:Version="1.2.0.v20180409-1502"; osgi.wiring.bundle="org.apache.commons.logging"
+  org.apache.commons.logging [osgi.identity; type="osgi.bundle"; version:Version="1.2.0.v20180409-1502"; osgi.identity="org.apache.commons.logging"]
+    import: (osgi.wiring.package=org.apache.log4j)
+     |
+    export: osgi.wiring.package: org.apache.log4j
+  org.apache.log4j [osgi.identity; type="osgi.bundle"; version:Version="1.2.15.v201012070815"; osgi.identity="org.apache.log4j"]
+	at org.eclipse.osgi.container.Module.start(Module.java:451)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.incStartLevel(ModuleContainer.java:1783)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.incStartLevel(ModuleContainer.java:1762)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.doContainerStartLevel(ModuleContainer.java:1725)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.dispatchEvent(ModuleContainer.java:1656)
+	at org.eclipse.osgi.container.ModuleContainer$ContainerStartLevel.dispatchEvent(ModuleContainer.java:1)
+	at org.eclipse.osgi.framework.eventmgr.EventManager.dispatchEvent(EventManager.java:233)
+	at org.eclipse.osgi.framework.eventmgr.EventManager$EventThread.run(EventManager.java:343)
+
+!ENTRY org.eclipse.ui 2 0 2020-12-18 17:38:28.124
+!MESSAGE Warnings while parsing the images from the 'org.eclipse.ui.commandImages' extension point.
+!SUBENTRY 1 org.eclipse.ui 2 0 2020-12-18 17:38:28.124
+!MESSAGE Cannot bind to an undefined command: plug-in='com.genuitec.eclipse.theming.ui', id='com.genuitec.myeclipse.help.darktheme.commandid'
+
+!ENTRY com.genuitec.eclipse.theming.ui 1 0 2020-12-18 17:38:29.794
+!MESSAGE A DevStyle Theme is being activated on this workspace; preparing colors and configuration
+
+!ENTRY com.genuitec.eclipse.theming.ui 1 0 2020-12-18 17:38:29.816
+!MESSAGE DevStyle has archived current color configurations to alternate preferences - will be restored when switching out of the DevStyle Theme
+
+!ENTRY org.eclipse.egit.ui 2 0 2020-12-18 17:38:42.993
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\karpi'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.launchbar.core 2 0 2020-12-18 17:38:45.429
+!MESSAGE Enablement expression is missing for descriptor type org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2020-12-18 17:38:45.431
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
+
+!ENTRY org.eclipse.launchbar.core 2 0 2020-12-18 17:38:45.433
+!MESSAGE Enablement expression is missing for config provider for org.eclipse.cdt.debug.core.coreBuildDescriptorType
