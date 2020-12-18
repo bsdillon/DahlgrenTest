@@ -1,0 +1,17 @@
+Using the TestFXLibrary
+Getting the TestFXLibrary jar
+1)	Go to https://github.com/weiqigao/Robot-Framework-Test-FX-Library
+2)	If you wish to alter the code on your machine, you can either clone the repo (git https://github.com/weiqigao/Robot-Framework-Test-FX-Library.git) or just git a zip of it.
+3)	Otherwise, there is a link to the jar in the releases link in the github’s initial README (also displayed on the main page).  I recommend grabbing the jar with dependencies if you do not want to dependency hunt all day.
+
+Preparing the Remote TestFXLibrary
+So, I personally recommend this over trying to get everything working via Jython, as it is just flat out easier to do things this way.  There are three somewhat tedious steps to running this that I recommend putting in a shell script - this will make your life easier.
+1)	export your classpath.  This is literally in the form of (for linux) 
+export CLASSPATH=< APPLICATION _UNDER_ TEST_PATH>:<DEPENDENCIES_NEEDED_IN_CLASSPATH>:<TESTFXLIBRARY_JAR>
+You need to do this because the actual library does NOT actually have the ability to take in java command line options.  This is why the next step exists as well
+2)	Speaking of java options, next we export JAVA_TOOL_OPTIONS!  This is where you put everything from “-Xmx8G” to “--module-path=<MODULES>”.  Anything you need java to have that is not a classpath option will go here.  NOTE:  If you have an argument prefixed with “--“, such as “--add-opens”, you NEED to have a “=” after the option.  For example, “--add-opens=” or “--module-path=<MODULES>”
+3)	Next is just the java command.  I tend to just roll with java -cp <DEPENDENCIES_FORGOTTEN_ABOUT> TestFXLibrary <IP>(defaults to 127.0.0.1)
+
+Why IP?  Because when you set up a remote library, it can actually be totally remote.  As in, if you have you application on a different machine, as well as this library, you should be able to test using <IP>:8720 in your robot file.
+Another note: Usually, libraries being done remote has something like “/keywords” at the end.  In the case of this specific library, you need to go with http://<IP>:8720/ exactly for you to get library access.
+Keywords can be found in a link on the main page for the library, as well as the syntax for setting up the library in your robot file.
