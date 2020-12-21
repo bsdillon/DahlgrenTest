@@ -23,6 +23,46 @@
 %%%%To all editing this report. The format was originally intended as a documentation by date for all of our meetings and the research done by Daniel Sartori. Meeting notes have been omitted and only research results are included here. If any edits or additions are made to this document, please include yourself as one of the authors.%%%%%%%%%%%%
 %%%%% If there are any changes to the way that this document should be designed (because it was originally designed as personal notes), please pass these on to the document creator%%%%%%%%
 %%%%% Entries are in reverse chronological order. %%%%%
+\chapter*{Week of December 14 2020}
+\label{121520}
+%
+Eclipse supports JSON files, CSV files, XML/XMI schema, Java files. Some complications were discovered with UML Designer 8.1. This appears to be a known issue and, based on plug-in reviews, has been in and out of the marketplace:\\ \url{https://marketplace.eclipse.org/content/uml-designer#bootstrap-panel--2}\\\\
+,but there are measures that can be taken to attempt a fix:\\\\ \url{https://github.com/ObeoNetwork/UML-Designer/issues/1062}. \\\\
+%
+After installing Eclipse Modeling Tools, you can explore the marketplace to find different UML tools. The first is UML Designer 8.1, which requires another pug-in, Sirius,to be installed. Sirius should be installed first. \\
+%
+After installing Sirius, there was an issue with installing the UML Designer 8.1 plug-in directly from the marketplace. One suggestion from GitHub was to uninstall Sirius, and attempt to install UML Designer first. Plug-ins that are required, but missing are automatically installed when another plug-in is dependent on them. This suggestion did not fix the problem. \\\\
+%
+Another potential fix is to download it directly from the project website \url{http://www.umldesigner.org/download/}. There are two options here. The first is to go to the "Help" tab in Eclipse. Here you can find the "Install New Software" option.\\\\ 
+%
+\includegraphics[scale=0.7]{InstallNewSoftware}\\\\
+%
+From here you can find the plug-in file that you downloaded from the project website and install it directly from your computer or the website, without going through the marketplace. \\\\
+%
+\includegraphics[scale=0.6]{AddSoftware}\\\\
+%
+The easiest way to add the software is to copy and paste the repository link from the UML Designer download page into the location field.\\\\
+%
+\includegraphics[scale=0.6]{RepositoryLink}\\\\
+%
+This method was also unsuccessful. Another method is to have UML Designer as a separate entity. By doing this, you are able to install and start up the program to explore. I have installed the updated version, UML Designer 9.0. There are some issues with having this kind of setup. I did explore the modeling example that was available and successfully loaded the package hierarchy diagram as outlined in the UML Designer tutorial page, but the sequence diagram never properly loaded. With the errors experienced during testing, I do not believe this to be a viable option at this time. The plug-in, and related projects are regularly updated so this may change in the future. More specific information will be provided on these errors in next weeks report.\\\\
+%
+Another tool listed in the given Excel file is Papyrus, which is also an Eclipse Project. The current version can be downloaded here: \url{https://www.eclipse.org/papyrus/download.html}. While it is related to Eclipse, it runs as a separate entity after download. 
+%
+To start, I experimented with the tutorials and example projects. The first is "Getting Started with UML2", which can be found by going to File $\rightarrow$ New $\rightarrow$ Example $\rightarrow$ UML2 Example Projects $\rightarrow$ Getting Started with UML2.\\\\
+%
+\includegraphics[scale=0.7]{GettingStartedExample}\\\\
+%
+This opens a file with Java code. When the program is run, it generates and saves a UML model for the project. The file for the model can be found in the Papyrus workspace folder. The PNG file of the model can be found in the project explorer on the left. \\\\
+%
+\includegraphics{ModelLocation}\\\\
+%
+By double-clicking the PNG file it will open in Papyrus for viewing.\\\\
+%
+\includegraphics[scale=0.8]{ExampleUMLModel}\\\\
+%
+Papyrus doesn't appear to be as flexible as it does not have its own marketplace, like the general Eclipse IDE, but it does have an option for creating a plug-in project which could be useful for modifying it to our own use. 
+%
 %---------------------------------------------------------------------------
 %%%%%%%%%%%Eclipse a possible avenue for project completion%%%%%%%%%%%%%
 %------------------------------------------------------------------------
