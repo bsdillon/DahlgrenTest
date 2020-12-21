@@ -5,32 +5,32 @@ class Primitive:
     """
 
 
-def __init__(self, type):
-    self.type = type
+    def __init__(self, type):
+        self.type = type
 
 
-# end __init__
+    # end __init__
 
-def GetType(self):
-    return self.type
-
-
-# end getType
-
-def IsArray(self):
-    return False
+    def GetType(self):
+        return self.type
 
 
-def GetValue(self, source, forArray):
-    if forArray:
-        return '({GetType}){source}[i]'.format(GetType=self.GetType(),
-                                               source=source)
-    return '({GetType}){source}'.format(GetType=self.GetType(),
-                                        source=source)
+    # end getType
+
+    def IsArray(self):
+        return False
 
 
-# end GetValue
+    def GetValue(self, source, forArray):
+        if forArray:
+            return '({GetType}){source}[i]'.format(GetType=self.GetType(),
+                                                   source=source)
+        return '({GetType}){source}'.format(GetType=self.GetType(),
+                                            source=source)
 
-def GetAbstractType(self):
-    return self.type
-# end GetAbstractType
+
+    # end GetValue
+
+    def GetAbstractType(self):
+        return self.type
+    # end GetAbstractType

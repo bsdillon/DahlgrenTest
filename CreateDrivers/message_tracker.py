@@ -236,45 +236,45 @@ class MessageTracker:
         self.WriteConfigFile()
 
 
-# end CreateAll
+    # end CreateAll
 
-def WriteConfigFile(self):
-    config = open(MessageTracker.configFile, 'w')
-    print('Finalizing configuration file...', )
-    for topic, message in self.topic_messagedict:
-        config.write('{topic}{mapDelim}{message}{elementDelim}'
-                     .format(topic=topic,
-                             mapDelim=MessageTracker.mapSeparator,
-                             message=message,
-                             elementDelim=MessageTracker
-                             .elementSeparator))
+    def WriteConfigFile(self):
+        config = open(MessageTracker.configFile, 'w')
+        print('Finalizing configuration file...', )
+        for topic, message in self.topic_messagedict:
+            config.write('{topic}{mapDelim}{message}{elementDelim}'
+                         .format(topic=topic,
+                                 mapDelim=MessageTracker.mapSeparator,
+                                 message=message,
+                                 elementDelim=MessageTracker
+                                 .elementSeparator))
 
-    config.write("\n")
-    for pathList in self.driverList:
-        config.write(pathList.ToFile())
+        config.write("\n")
+        for pathList in self.driverList:
+            config.write(pathList.ToFile())
 
-    config.write(MessageTracker.fileSeparator)
+        config.write(MessageTracker.fileSeparator)
 
-    for f in self.AllHeaderFiles:
-        v = self.AllHeaderFiles[f]
-        config.write('{f},{v_0},{v_1}{elementDelim}'
-                     .format(f=f, v_0=v[0], v_1=v[1],
-                             elementDelim=MessageTracker
-                             .elementSeparator))
-    print('Done\n')
-    config.close()
+        for f in self.AllHeaderFiles:
+            v = self.AllHeaderFiles[f]
+            config.write('{f},{v_0},{v_1}{elementDelim}'
+                         .format(f=f, v_0=v[0], v_1=v[1],
+                                 elementDelim=MessageTracker
+                                 .elementSeparator))
+        print('Done\n')
+        config.close()
 
 
-# end WriteConfigFile
+    # end WriteConfigFile
 
-def ProcessCodeBase(self):
-    dependencies = DependencyTracker(self.driverList,
-                                     self.AllHeaderFiles,
-                                     self.driverDirectory)
+    def ProcessCodeBase(self):
+        dependencies = DependencyTracker(self.driverList,
+                                         self.AllHeaderFiles,
+                                         self.driverDirectory)
 
-    # write all driver files
-    dependencies.WriteFiles(self.driverDirectory)
-    dependencies.WriteFactory(self.driverDirectory,
-                              sorted(self.topic_messagedict),
-                              self.driverList)
-# end ParseCodeBase
+        # write all driver files
+        dependencies.WriteFiles(self.driverDirectory)
+        dependencies.WriteFactory(self.driverDirectory,
+                                  sorted(self.topic_messagedict),
+                                  self.driverList)
+    # end ParseCodeBase

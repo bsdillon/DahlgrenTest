@@ -119,186 +119,186 @@ class DependencyTracker:
                 print('.', end=" ")
 
 
-# end AppendNewDependencies
+    # end AppendNewDependencies
 
-def MatchDependencies(self, newIncludeFiles, targetDependencies):
-    # Called for at least one class file which has additional dependencies
-    print
-    'Parsing dependency files...',
-
-    # the first loop partially parses the include files and
-    # then adds the types to the typesFound collection
-    typesFound = {}
-    count = 0
-    for f in newIncludeFiles:
-        count += 1
-        if count % 20 == 0:
-            print
-            '.',
-
-        if '.h' == f[
-                   -2:]:
-            # only bother to parse header files, not standard libraries
-            v = self.allHeaders[f]
-            DependencyFinder(v[0], v[1], self.driverDirectory).AppendTypes(
-                typesFound)
-
-    # the second parsing matches the dependency to the typesFound collection
-    unfoundDependency = []
-    for d in targetDependencies:
-        name = TypeDictionary.ParseLongName(d)
-
-        # skip any already-known types
-        if name in self.permanentDependencies.keys():
-            continue
-
-        count += 1
-        if count % 20 == 0:
-            print
-            '.',
-
-        if name in self.primitives.keys():
-            self.permanentDependencies[name] = self.primitives[name]
-        else:
-            if name not in typesFound:
-                unfoundDependency.append(name)
-            else:
-                self.permanentDependencies[name] = typesFound[name].ParseType(
-                    name)
-    print
-    'Done'
-
-    PrintRemainders(unfoundDependency)
-
-
-# end FindDependencies
-
-def PrintRemainders(self, unfoundDependency):
-    if len(unfoundDependency) > 0:
+    def MatchDependencies(self, newIncludeFiles, targetDependencies):
+        # Called for at least one class file which has additional dependencies
         print
-        '\nDid not discover some required types within dependency files'
-        for d in unfoundDependency:
+        'Parsing dependency files...',
+
+        # the first loop partially parses the include files and
+        # then adds the types to the typesFound collection
+        typesFound = {}
+        count = 0
+        for f in newIncludeFiles:
+            count += 1
+            if count % 20 == 0:
+                print
+                '.',
+
+            if '.h' == f[
+                       -2:]:
+                # only bother to parse header files, not standard libraries
+                v = self.allHeaders[f]
+                DependencyFinder(v[0], v[1], self.driverDirectory).AppendTypes(
+                    typesFound)
+
+        # the second parsing matches the dependency to the typesFound collection
+        unfoundDependency = []
+        for d in targetDependencies:
+            name = TypeDictionary.ParseLongName(d)
+
+            # skip any already-known types
+            if name in self.permanentDependencies.keys():
+                continue
+
+            count += 1
+            if count % 20 == 0:
+                print
+                '.',
+
+            if name in self.primitives.keys():
+                self.permanentDependencies[name] = self.primitives[name]
+            else:
+                if name not in typesFound:
+                    unfoundDependency.append(name)
+                else:
+                    self.permanentDependencies[name] = typesFound[name].ParseType(
+                        name)
+        print
+        'Done'
+
+        PrintRemainders(unfoundDependency)
+
+
+    # end FindDependencies
+
+    def PrintRemainders(self, unfoundDependency):
+        if len(unfoundDependency) > 0:
             print
-            d
-        exit(1)
+            '\nDid not discover some required types within dependency files'
+            for d in unfoundDependency:
+                print
+                d
+            exit(1)
 
 
-def WriteFiles(self, driverDirectory):
-    # gets the type of enumerated signature
-    print
-    'Creating Abstract files...',
-    count = 0
-    enumTypes = []
-    for t in self.permanentDependencies:
-        count += 1
-        if count % 100 == 0:
-            print
-            '.',
-        dep = self.permanentDependencies[t]
-        if isinstance(dep, ParseClass):
-            dep.GetMethodSignatures(enumTypes, self.permanentDependencies)
+    def WriteFiles(self, driverDirectory):
+        # gets the type of enumerated signature
+        print
+        'Creating Abstract files...',
+        count = 0
+        enumTypes = []
+        for t in self.permanentDependencies:
+            count += 1
+            if count % 100 == 0:
+                print
+                '.',
+            dep = self.permanentDependencies[t]
+            if isinstance(dep, ParseClass):
+                dep.GetMethodSignatures(enumTypes, self.permanentDependencies)
 
-    ParseClass.WriteEmpty(driverDirectory)
-    ParseClass.WriteException(driverDirectory)
-    # Abstract Driver class implemented already
-    # ParseClass.WriteAbstract(driverDirectory, enumTypes)
-    ParseEnum.WriteAbstract(driverDirectory)
-    print
-    'Done\n'
+        ParseClass.WriteEmpty(driverDirectory)
+        ParseClass.WriteException(driverDirectory)
+        # Abstract Driver class implemented already
+        # ParseClass.WriteAbstract(driverDirectory, enumTypes)
+        ParseEnum.WriteAbstract(driverDirectory)
+        print
+        'Done\n'
 
-    print
-    'Creating driver files...',
-    count = 0
-    for t in self.permanentDependencies:
-        count += 1
-        if count % 20 == 0:
-            print
-            '.',
-        dep = self.permanentDependencies[t]
-        if isinstance(dep, AbstractParser):
-            dep.WriteHeader(self.permanentDependencies)
-    print
-    'Done\n'
+        print
+        'Creating driver files...',
+        count = 0
+        for t in self.permanentDependencies:
+            count += 1
+            if count % 20 == 0:
+                print
+                '.',
+            dep = self.permanentDependencies[t]
+            if isinstance(dep, AbstractParser):
+                dep.WriteHeader(self.permanentDependencies)
+        print
+        'Done\n'
 
 
-# end WriteFiles
+    # end WriteFiles
 
-def WriteFactory(self, driver_dir, topicMap, drivers):
-    print
-    'Writing factory...',
+    def WriteFactory(self, driver_dir, topicMap, drivers):
+        print
+        'Writing factory...',
 
-    f = open(os.path.join(driver_dir, 'DriverFactory.h'), 'w')
+        f = open(os.path.join(driver_dir, 'DriverFactory.h'), 'w')
 
-    f.write(('#ifndef DRIVERFACTORY_H\n'
-             '#define DRIVERFACTORY_H\n'
-             '\n'
-             '#include <memory>\n'
-             '#include <vector>\n'
-             '\n'
-             '#include "AbstractDriver.h"\n'
-             '#include "DriverException.h"\n'))
+        f.write(('#ifndef DRIVERFACTORY_H\n'
+                 '#define DRIVERFACTORY_H\n'
+                 '\n'
+                 '#include <memory>\n'
+                 '#include <vector>\n'
+                 '\n'
+                 '#include "AbstractDriver.h"\n'
+                 '#include "DriverException.h"\n'))
 
-    count = 0
-    for t in drivers:
-        t.GetFileIncludes(f)
-        count += 1
-        if count % 20 == 0:
-            print
-            '.',
+        count = 0
+        for t in drivers:
+            t.GetFileIncludes(f)
+            count += 1
+            if count % 20 == 0:
+                print
+                '.',
 
-    f.write(('\n'
-             'class DriverFactory\n'
-             '{{\n'
-             '{__}public:\n'
-             # List of topics for the GUI
-             '{__}{__}static int GetTopicCount() {{return {topicMap_len};}}\n'
-             '\n'
-             '{__}{__}static std::vector<std::string> GetTopicList() {{\n'
-             '{__}{__}{__}auto answer = std::vector<std::string>'
-             '({topicMap_len});\n').format(
-        __=AbstractParser.space, topicMap_len=len(topicMap)))
+        f.write(('\n'
+                 'class DriverFactory\n'
+                 '{{\n'
+                 '{__}public:\n'
+                 # List of topics for the GUI
+                 '{__}{__}static int GetTopicCount() {{return {topicMap_len};}}\n'
+                 '\n'
+                 '{__}{__}static std::vector<std::string> GetTopicList() {{\n'
+                 '{__}{__}{__}auto answer = std::vector<std::string>'
+                 '({topicMap_len});\n').format(
+            __=AbstractParser.space, topicMap_len=len(topicMap)))
 
-    index = 0
-    for t in topicMap:
-        f.write('{__}{__}{__}answer[{index}] = "{t_0}";\n'.format(
-            __=AbstractParser.space, index=index, t_0=t[0]))
-        index += 1
-        count += 1
-        if count % 20 == 0:
-            print
-            '.',
-    f.write(('\n'
-             '{__}{__}{__}return answer;\n'
-             '{__}{__}}}\n'
-             '\n'
-             # Get topic reader by index
-             '{__}{__}static std::unique_ptr<AbstractDriver> '
-             'GetTopicFactory(int index) {{\n'
-             '{__}{__}{__}std::unique_ptr<AbstractDriver> answer;\n'
-             '{__}{__}{__}switch '
-             '(index) {{\n').format(__=AbstractParser.space))
+        index = 0
+        for t in topicMap:
+            f.write('{__}{__}{__}answer[{index}] = "{t_0}";\n'.format(
+                __=AbstractParser.space, index=index, t_0=t[0]))
+            index += 1
+            count += 1
+            if count % 20 == 0:
+                print
+                '.',
+        f.write(('\n'
+                 '{__}{__}{__}return answer;\n'
+                 '{__}{__}}}\n'
+                 '\n'
+                 # Get topic reader by index
+                 '{__}{__}static std::unique_ptr<AbstractDriver> '
+                 'GetTopicFactory(int index) {{\n'
+                 '{__}{__}{__}std::unique_ptr<AbstractDriver> answer;\n'
+                 '{__}{__}{__}switch '
+                 '(index) {{\n').format(__=AbstractParser.space))
 
-    index = 0
-    for t in topicMap:
-        driverName = t[1] + '_Driver'
-        f.write(('{__}{__}{__}{__}case {index}:\n'
-                 '{__}{__}{__}{__}{__}answer = std::unique_ptr'
-                 '<AbstractDriver>(new {driverName}());\n'
-                 '{__}{__}{__}{__}'
-                 '{__}break;\n').format(__=AbstractParser.space,
-                                        index=index,
-                                        driverName=driverName))
-        index += 1
-        count += 1
-        if count % 20 == 0:
-            print('.', )
-    f.write(('{__}{__}{__}}}\n'
-             '\n'
-             '{__}{__}{__}return std::move(answer);\n'
-             '{__}{__}}}\n'
-             '}};\n'
-             '#endif\n').format(__=AbstractParser.space))
-    f.close()
+        index = 0
+        for t in topicMap:
+            driverName = t[1] + '_Driver'
+            f.write(('{__}{__}{__}{__}case {index}:\n'
+                     '{__}{__}{__}{__}{__}answer = std::unique_ptr'
+                     '<AbstractDriver>(new {driverName}());\n'
+                     '{__}{__}{__}{__}'
+                     '{__}break;\n').format(__=AbstractParser.space,
+                                            index=index,
+                                            driverName=driverName))
+            index += 1
+            count += 1
+            if count % 20 == 0:
+                print('.', )
+        f.write(('{__}{__}{__}}}\n'
+                 '\n'
+                 '{__}{__}{__}return std::move(answer);\n'
+                 '{__}{__}}}\n'
+                 '}};\n'
+                 '#endif\n').format(__=AbstractParser.space))
+        f.close()
 
-    print('Done\n')
-# end WriteFactory
+        print('Done\n')
+    # end WriteFactory

@@ -62,46 +62,46 @@ class DriverParser:
         return DriverParser.tracker.ValidateDrivers(fileList, driver_dir)
 
 
-# end ValidateDrivers()
+    # end ValidateDrivers()
 
-@staticmethod
-def findCandidates(path, file):
-    """
-    For argument contained_in_file, create a parser
-    to search through the file, find all classes,
-    and track them and the filepath that contains them in a dictionary.
+    @staticmethod
+    def findCandidates(path, file):
+        """
+        For argument contained_in_file, create a parser
+        to search through the file, find all classes,
+        and track them and the filepath that contains them in a dictionary.
 
-    :param path: folder containing the header file
-    :param file: header file name
-    :except CppHeaderParser.CppParseError:
-            Triggers when a file cannot be parsed due
-            to not being a C++ header file or containing
-            C++ conventions CppHeaderParser
-            is unable to handle.
-    :return: None
-    """
-    try:
-        cppHeader = CppHeaderParser.CppHeader(
-            os.path.join(path, file))
-        # parsing the file
-    except CppHeaderParser.CppParseError as e:
-        print('Ignoring file and continuing!\n')
-    else:
-        if len(cppHeader.classes) == 0:
-            # checks the number of classes
-            DriverParser.tracker.AddNonCandidate(path, file)
+        :param path: folder containing the header file
+        :param file: header file name
+        :except CppHeaderParser.CppParseError:
+                Triggers when a file cannot be parsed due
+                to not being a C++ header file or containing
+                C++ conventions CppHeaderParser
+                is unable to handle.
+        :return: None
+        """
+        try:
+            cppHeader = CppHeaderParser.CppHeader(
+                os.path.join(path, file))
+            # parsing the file
+        except CppHeaderParser.CppParseError as e:
+            print('Ignoring file and continuing!\n')
         else:
-            for klasse in cppHeader.classes:
-                # for each of classes, add targeted search, goes to parse all,
-                # checks number of classes, doesn't do anything
-                DriverParser.tracker.AddCandidate(
-                    re.sub(DriverParser.NSPACE_PATTERN, '', klasse),
-                    path, file)
+            if len(cppHeader.classes) == 0:
+                # checks the number of classes
+                DriverParser.tracker.AddNonCandidate(path, file)
+            else:
+                for klasse in cppHeader.classes:
+                    # for each of classes, add targeted search, goes to parse all,
+                    # checks number of classes, doesn't do anything
+                    DriverParser.tracker.AddCandidate(
+                        re.sub(DriverParser.NSPACE_PATTERN, '', klasse),
+                        path, file)
 
 
-# end find_candidate_classes()
+    # end find_candidate_classes()
 
-@staticmethod
-def ParseAll(driver_dir):
-    DriverParser.tracker.CreateAll(driver_dir)
-# end ParseAll
+    @staticmethod
+    def ParseAll(driver_dir):
+        DriverParser.tracker.CreateAll(driver_dir)
+    # end ParseAll

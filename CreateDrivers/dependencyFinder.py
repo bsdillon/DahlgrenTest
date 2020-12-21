@@ -20,82 +20,82 @@ class DependencyFinder:
     """
 
 
-def __init__(self, path, filename, driver_path):
-    self.path = path
-    self.filename = filename
-    self.driver_path = driver_path
-    self.driver_path = driver_path
+    def __init__(self, path, filename, driver_path):
+        self.path = path
+        self.filename = filename
+        self.driver_path = driver_path
+        self.driver_path = driver_path
 
-    try:
-        self.parser = CppHeaderParser.CppHeader(
-            os.path.join(path, filename))
-    except CppHeaderParser.CppParseError as e:
-        print(e)
-        print('Exiting!')
-        exit(1)
+        try:
+            self.parser = CppHeaderParser.CppHeader(
+                os.path.join(path, filename))
+        except CppHeaderParser.CppParseError as e:
+            print(e)
+            print('Exiting!')
+            exit(1)
 
 
-# end __init__
+    # end __init__
 
-def AppendTypes(self, typeList):
-    for t in self.parser.typedefs.keys():
-        name = TypeDictionary.AddTypeName(t, self.parser.typedefs[t])
-        typeList[name.GetName()] = self
-
-    for c in self.parser.classes.keys():
-        cName = c
-        parts = c.split(' ')
-        if len(parts) > 1 and parts[0] == 'union':
-            cName = parts[1]
-        typeList[cName] = self
-        for t in self.parser.classes[c]._public_typedefs:
-            name = TypeDictionary.AddTypeName(t, self.parser.classes[
-                c]._public_typedefs[t])
+    def AppendTypes(self, typeList):
+        for t in self.parser.typedefs.keys():
+            name = TypeDictionary.AddTypeName(t, self.parser.typedefs[t])
             typeList[name.GetName()] = self
-        for e in self.parser.classes[c]['enums']['public']:
+
+        for c in self.parser.classes.keys():
+            cName = c
+            parts = c.split(' ')
+            if len(parts) > 1 and parts[0] == 'union':
+                cName = parts[1]
+            typeList[cName] = self
+            for t in self.parser.classes[c]._public_typedefs:
+                name = TypeDictionary.AddTypeName(t, self.parser.classes[
+                    c]._public_typedefs[t])
+                typeList[name.GetName()] = self
+            for e in self.parser.classes[c]['enums']['public']:
+                typeList[e['name']] = self
+
+        for e in self.parser.enums:
             typeList[e['name']] = self
 
-    for e in self.parser.enums:
-        typeList[e['name']] = self
 
+    # end AppendTypes
 
-# end AppendTypes
+    def ParseType(self, name):
+        for t in self.parser.typedefs.keys():
+            p = TypeDictionary.AddTypeName(t, self.parser.typedefs[t])
+            if p.GetName() == name:
+                return TypeDef(self.path, self.filename, self.driver_path,
+                               p.GetName(), p.GetName())
 
-def ParseType(self, name):
-    for t in self.parser.typedefs.keys():
-        p = TypeDictionary.AddTypeName(t, self.parser.typedefs[t])
-        if p.GetName() == name:
-            return TypeDef(self.path, self.filename, self.driver_path,
-                           p.GetName(), p.GetName())
+        for c in self.parser.classes.keys():
+            parts = c.split(' ')
+            if len(parts) > 1 and parts[0] == 'union' and parts[1] == name:
+                return ParseUnion(self.path, self.filename,
+                                  self.driver_path, c, name)
 
-    for c in self.parser.classes.keys():
-        parts = c.split(' ')
-        if len(parts) > 1 and parts[0] == 'union' and parts[1] == name:
-            return ParseUnion(self.path, self.filename,
-                              self.driver_path, c, name)
+            if c == name:
+                return ParseClass(self.path, self.filename,
+                                  self.driver_path, c, False, c)
 
-        if c == name:
-            return ParseClass(self.path, self.filename,
-                              self.driver_path, c, False, c)
+            for t in self.parser.classes[c]._public_typedefs:
+                p = TypeDictionary.AddTypeName(t, self.parser.classes[
+                    c]._public_typedefs[t])
+                return TypeDef(self.path, self.filename, self.driver_path,
+                               p.GetName(), p.GetName())
 
-        for t in self.parser.classes[c]._public_typedefs:
-            p = TypeDictionary.AddTypeName(t, self.parser.classes[
-                c]._public_typedefs[t])
-            return TypeDef(self.path, self.filename, self.driver_path,
-                           p.GetName(), p.GetName())
+            for e in self.parser.classes[c]['enums']['public']:
+                en = e['name']
+                if en == name:
+                    pe = ParseEnum(self.path, self.filename, self.driver_path,
+                                   en, en)
+                    pe.SetClass(c)
+                    return pe
 
-        for e in self.parser.classes[c]['enums']['public']:
+        for e in self.parser.enums:
             en = e['name']
             if en == name:
-                pe = ParseEnum(self.path, self.filename, self.driver_path,
-                               en, en)
-                pe.SetClass(c)
-                return pe
-
-    for e in self.parser.enums:
-        en = e['name']
-        if en == name:
-            p = ParseEnum(self.path, self.filename, self.driver_path, en,
-                          en)
-            return p
-# end ParseType
+                p = ParseEnum(self.path, self.filename, self.driver_path, en,
+                              en)
+                return p
+    # end ParseType
