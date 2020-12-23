@@ -37,7 +37,7 @@ class DependencyTracker:
         new = len(self.permanentDependencies)
 
         new_count = new - old
-        print('{new_count} new dependencies found\n'.format(new_count))
+        print(str(new_count) + ' new dependencies found')
         old = new
 
         # All the dependency files have been found,
@@ -168,7 +168,7 @@ class DependencyTracker:
         print
         'Done'
 
-        PrintRemainders(unfoundDependency)
+        self.PrintRemainders(unfoundDependency)
 
 
     # end FindDependencies

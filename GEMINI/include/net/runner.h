@@ -1,1 +1,0 @@
-typedef AllFields, AbstractDriver
