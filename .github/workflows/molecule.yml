@@ -1,4 +1,4 @@
-name: Run Ansible Molecule
+name: Molecule CI Test
 
 on:
   push:
@@ -6,12 +6,24 @@ on:
       - GEMRefactor
 
 jobs:
-  build:
+  test:
+    name: Molecule
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Check out codebase.
         uses: actions/checkout@v2
 
-      - name: Run Ansible Molecule
-        uses: hspaans/ansible-molecule-action@v0.1.0
+      - name: Set up Python 3.
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install test dependencies.
+        run: pip3 install molecule[docker] yamllint ansible-lint
+
+      - name: Run Molecule tests.
+        run: molecule test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
