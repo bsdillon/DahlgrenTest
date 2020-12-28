@@ -13,10 +13,6 @@ jobs:
         python-version: [3.6, 3.7]
 
     steps:
-      - name: Setup git credentials
-        uses: fusion-engineering/setup-git-credentials@v2
-          with:
-            credentials: ${{secrets.GIT_CREDENTIALS}}
       - uses: actions/checkout@v2
         with:
           path: molecule_demo
