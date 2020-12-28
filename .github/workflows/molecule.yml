@@ -1,9 +1,6 @@
 name: Molecule CI Test
 
-on:
-  push:
-    branches:
-      - GEMRefactor
+on: [workflow_dispatch]
 
 jobs:
   test:
