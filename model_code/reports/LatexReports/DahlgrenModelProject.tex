@@ -23,6 +23,33 @@
 %%%%To all editing this report. The format was originally intended as a documentation by date for all of our meetings and the research done by Daniel Sartori. Meeting notes have been omitted and only research results are included here. If any edits or additions are made to this document, please include yourself as one of the authors.%%%%%%%%%%%%
 %%%%% If there are any changes to the way that this document should be designed (because it was originally designed as personal notes), please pass these on to the document creator%%%%%%%%
 %%%%% Entries are in reverse chronological order. %%%%%
+%----------------------------------------------------------------------------
+%%%%%%%%%%%%%%%% MSCGEN documentation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------
+\chapter*{Week of Dec 21 2020}
+%
+\textbf{MSCGen Revisited}\\\\
+%
+There is a Javascript port of MSCGen that does not break like the original download. The code is available on GitHub \url{https://github.com/mscgenjs}. Exploring this page, we can find a list of packages in \url{https://github.com/mscgenjs/mscgenjs-core}. Within this list, there is also a link to an online interpreter, a downloadable package that is compatible with Atom, a command line tool, an overview of incorporating MSCGen into HTML, and a list of features for the program. The GitHub page appears to be regularly updated by two listed users. 
+%
+The online interpreter includes a variety of examples, such as this simple Public Key Encryption chart:\\\\
+%
+\begin{center}
+	\includegraphics[scale=0.9]{PKIExampleCode}
+\end{center}
+%
+\begin{center}
+	\includegraphics[scale=0.9]{PKIExample}
+\end{center}
+%
+The link to the command line interface on the core page takes us here:\\ \url{https://www.npmjs.com/package/mscgenjs-cli},\\
+where instructions for download and usage are provided. There is also a link to a tool called RunKit where the interface or other Node.js package can be tested. Once downloaded, the module can be imported in a few different ways listed on the page. It is recommended on the info page that the root module be used. The module is included with the download for Atom. Individual calls can be made to parse and render the steps under special circumstances such as the customization needed for this project. This can be done using the mscgen-js and mscgenjs-inpage script.  It is also possible to transpile between different formats such as msgenny, mscgen, xu, and json using the root module. It can also be used to export to dot and doxygen. \\\\
+%
+In addition to the links and information given, a readme page giving a basic overview of how MSCGen works is also given\\ \url{https://github.com/mscgenjs/mscgenjs-core/blob/master/doc/readme.md},\\
+which could be useful when using or modifying MSCGen for our purposes. With the code available on GitHub, and several ways to use it MSCGen could be a useful tool. \\\\
+%
+Licensing could be an issue depending on how it is integrated, as it is not approved for use in non-free software projects. More information on licensing is listed on the core page at the bottom. The definition of the word non-free could be exploited based on specific usage. It is unclear how far this definition extends into the source of funding for any project where source code is incorporated. Definitely worth a look before considering this as a viable tool.\\\\
+%
 \chapter*{Week of December 14 2020}
 \label{121520}
 %
