@@ -1,7 +1,9 @@
 name: Molecule Test
 on:
   push:
-    
+    branches:
+      - 'GEMRefactor'
+
 jobs:
   build:
     runs-on: ubuntu-latest
