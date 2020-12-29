@@ -12,7 +12,7 @@ class FileUtilities:
     """
 
 
-    dirPattern = r'^(\/[\w^ ]+)+$'
+    dirPattern = r'^(\\[\w^ ]+)+$'
     dirRegEx = re.compile(dirPattern)
     propDelimiter = ':'
 

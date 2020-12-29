@@ -16,7 +16,7 @@ from FileUtilities import FileUtilities
 # from message_tracker import MessageTracker
 
 # EvilGlobalState:
-from pip._vendor.distlib.compat import raw_input
+# from pip._vendor.distlib.compat import raw_input
 
 debug = False
 # currently not used, but has the potential to be implemented as a debug flag
@@ -38,7 +38,7 @@ defaultsChanged = False
 while not validated:
     prompt = 'Enter directory containing source code (or "quit"):[{default_' \
              'source_dir}] '.format(default_source_dir=default_source_dir)
-    source_dir = raw_input(prompt) or default_source_dir
+    source_dir = input(prompt) or default_source_dir
     try:
         source_dir = FileUtilities.validate_dir(source_dir, False)
         defaultsChanged |= source_dir != default_source_dir
@@ -55,7 +55,7 @@ while not validated:
     prompt = \
         'Enter directory containing message/topic definitions (or "quit"):' \
         '[{default_topic_dir}] '.format(default_topic_dir=default_topic_dir)
-    topic_dir = raw_input(prompt) or default_topic_dir
+    topic_dir = input(prompt) or default_topic_dir
     try:
         topic_dir = FileUtilities.validate_dir(topic_dir, False)
         defaultsChanged |= topic_dir != default_topic_dir
@@ -70,7 +70,7 @@ validated = False
 while not validated:
     prompt = 'Enter destination directory for Drivers (or "quit"):[{default_' \
              'driver_dir}] '.format(default_driver_dir=default_driver_dir)
-    driver_dir = raw_input(prompt) or default_driver_dir
+    driver_dir = input(prompt) or default_driver_dir
     try:
         driver_dir = FileUtilities.validate_dir(driver_dir, True)
         defaultsChanged |= driver_dir != default_driver_dir
@@ -82,7 +82,7 @@ while not validated:
 
 while defaultsChanged:
     ans = \
-        raw_input("Values have been updated. Save as defaults? Y/N:[Y]") or 'Y'
+        input("Values have been updated. Save as defaults? Y/N:[Y]") or 'Y'
     if ans == 'Y':
         default_source_dir = source_dir
         default_topic_dir = topic_dir
