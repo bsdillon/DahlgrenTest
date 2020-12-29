@@ -6,7 +6,7 @@ name: Contributor Activity
 on: push
   # schedule:
     # - cron: '55 3 * * 6'
-    # every Saturday night around 11:55 PM EST
+    # every Saturday night around 11:55 PM ES
 
 jobs:
   FindContributorActivity:
