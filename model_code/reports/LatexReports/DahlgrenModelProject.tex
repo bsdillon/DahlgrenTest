@@ -1,0 +1,161 @@
+\documentclass[11pt,oneside,openany,letterpaper]{book}
+\pagestyle{plain}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mcode}
+\usepackage{xcolor}
+\usepackage{hyperref}
+%
+\begin{document}
+\frontmatter
+\title{
+	\begin{center}
+		{\Huge \bfseries Model Coding Project \\[0.5cm] \Large 2020 NREIP Internship}\\[0.4cm] % Degree
+	\end{center}
+}
+\author{\Huge Daniel D. Sartori \\ \\ \LARGE dsartori@uri.edu \\[2cm]}
+\date{Beginning November 16 2020}
+\maketitle
+%----------------------------------------------------------------------------
+%\tableofcontents
+%----------------------------------------------------------------------------
+\mainmatter
+%%%%To all editing this report. The format was originally intended as a documentation by date for all of our meetings and the research done by Daniel Sartori. Meeting notes have been omitted and only research results are included here. If any edits or additions are made to this document, please include yourself as one of the authors.%%%%%%%%%%%%
+%%%%% If there are any changes to the way that this document should be designed (because it was originally designed as personal notes), please pass these on to the document creator%%%%%%%%
+%%%%% Entries are in reverse chronological order. %%%%%
+%----------------------------------------------------------------------------
+%%%%%%%%%%%%%%%% MSCGEN documentation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------
+\chapter*{Week of Dec 21 2020}
+%
+\textbf{MSCGen Revisited}\\\\
+%
+There is a Javascript port of MSCGen that does not break like the original download. The code is available on GitHub \url{https://github.com/mscgenjs}. Exploring this page, we can find a list of packages in \url{https://github.com/mscgenjs/mscgenjs-core}. Within this list, there is also a link to an online interpreter, a downloadable package that is compatible with Atom, a command line tool, an overview of incorporating MSCGen into HTML, and a list of features for the program. The GitHub page appears to be regularly updated by two listed users. 
+%
+The online interpreter includes a variety of examples, such as this simple Public Key Encryption chart:\\\\
+%
+\begin{center}
+	\includegraphics[scale=0.9]{PKIExampleCode}
+\end{center}
+%
+\begin{center}
+	\includegraphics[scale=0.9]{PKIExample}
+\end{center}
+%
+The link to the command line interface on the core page takes us here:\\ \url{https://www.npmjs.com/package/mscgenjs-cli},\\
+where instructions for download and usage are provided. There is also a link to a tool called RunKit where the interface or other Node.js package can be tested. Once downloaded, the module can be imported in a few different ways listed on the page. It is recommended on the info page that the root module be used. The module is included with the download for Atom. Individual calls can be made to parse and render the steps under special circumstances such as the customization needed for this project. This can be done using the mscgen-js and mscgenjs-inpage script.  It is also possible to transpile between different formats such as msgenny, mscgen, xu, and json using the root module. It can also be used to export to dot and doxygen. \\\\
+%
+In addition to the links and information given, a readme page giving a basic overview of how MSCGen works is also given\\ \url{https://github.com/mscgenjs/mscgenjs-core/blob/master/doc/readme.md},\\
+which could be useful when using or modifying MSCGen for our purposes. With the code available on GitHub, and several ways to use it MSCGen could be a useful tool. \\\\
+%
+Licensing could be an issue depending on how it is integrated, as it is not approved for use in non-free software projects. More information on licensing is listed on the core page at the bottom. The definition of the word non-free could be exploited based on specific usage. It is unclear how far this definition extends into the source of funding for any project where source code is incorporated. Definitely worth a look before considering this as a viable tool.\\\\
+%
+\chapter*{Week of December 14 2020}
+\label{121520}
+%
+Eclipse supports JSON files, CSV files, XML/XMI schema, Java files. Some complications were discovered with UML Designer 8.1. This appears to be a known issue and, based on plug-in reviews, has been in and out of the marketplace:\\ \url{https://marketplace.eclipse.org/content/uml-designer#bootstrap-panel--2}\\\\
+,but there are measures that can be taken to attempt a fix:\\\\ \url{https://github.com/ObeoNetwork/UML-Designer/issues/1062}. \\\\
+%
+After installing Eclipse Modeling Tools, you can explore the marketplace to find different UML tools. The first is UML Designer 8.1, which requires another pug-in, Sirius,to be installed. Sirius should be installed first. \\
+%
+After installing Sirius, there was an issue with installing the UML Designer 8.1 plug-in directly from the marketplace. One suggestion from GitHub was to uninstall Sirius, and attempt to install UML Designer first. Plug-ins that are required, but missing are automatically installed when another plug-in is dependent on them. This suggestion did not fix the problem. \\\\
+%
+Another potential fix is to download it directly from the project website \url{http://www.umldesigner.org/download/}. There are two options here. The first is to go to the "Help" tab in Eclipse. Here you can find the "Install New Software" option.\\\\ 
+%
+\includegraphics[scale=0.7]{InstallNewSoftware}\\\\
+%
+From here you can find the plug-in file that you downloaded from the project website and install it directly from your computer or the website, without going through the marketplace. \\\\
+%
+\includegraphics[scale=0.6]{AddSoftware}\\\\
+%
+The easiest way to add the software is to copy and paste the repository link from the UML Designer download page into the location field.\\\\
+%
+\includegraphics[scale=0.6]{RepositoryLink}\\\\
+%
+This method was also unsuccessful. Another method is to have UML Designer as a separate entity. By doing this, you are able to install and start up the program to explore. I have installed the updated version, UML Designer 9.0. There are some issues with having this kind of setup. I did explore the modeling example that was available and successfully loaded the package hierarchy diagram as outlined in the UML Designer tutorial page, but the sequence diagram never properly loaded. With the errors experienced during testing, I do not believe this to be a viable option at this time. The plug-in, and related projects are regularly updated so this may change in the future. More specific information will be provided on these errors in next weeks report.\\\\
+%
+Another tool listed in the given Excel file is Papyrus, which is also an Eclipse Project. The current version can be downloaded here: \url{https://www.eclipse.org/papyrus/download.html}. While it is related to Eclipse, it runs as a separate entity after download. 
+%
+To start, I experimented with the tutorials and example projects. The first is "Getting Started with UML2", which can be found by going to File $\rightarrow$ New $\rightarrow$ Example $\rightarrow$ UML2 Example Projects $\rightarrow$ Getting Started with UML2.\\\\
+%
+\includegraphics[scale=0.7]{GettingStartedExample}\\\\
+%
+This opens a file with Java code. When the program is run, it generates and saves a UML model for the project. The file for the model can be found in the Papyrus workspace folder. The PNG file of the model can be found in the project explorer on the left. \\\\
+%
+\includegraphics{ModelLocation}\\\\
+%
+By double-clicking the PNG file it will open in Papyrus for viewing.\\\\
+%
+\includegraphics[scale=0.8]{ExampleUMLModel}\\\\
+%
+Papyrus doesn't appear to be as flexible as it does not have its own marketplace, like the general Eclipse IDE, but it does have an option for creating a plug-in project which could be useful for modifying it to our own use. 
+%
+%---------------------------------------------------------------------------
+%%%%%%%%%%%Eclipse a possible avenue for project completion%%%%%%%%%%%%%
+%------------------------------------------------------------------------
+\chapter*{Sunday, 13 Dec 2020}
+\label{121320}
+%
+\section*{Functionality Tests and Eclipse} 
+%
+We are given an Excel file with a decent list of software that could be used for the project, either by performing all or part of what we need directly, or by providing source code that can be used as a base. I have included general information, my findings, links to documentation and guides, and source code where applicable. Umbrello was briefly explored through the provided documentation link, but only a cursory examination was made. If the findings for this week prove to be a dead end, then the plan is to return to Umbrello.\\\\
+%
+\underline{\textbf{ArgoUML}}\\\\
+%
+The links available in the Excel file are down, and ArgoUML is not downloadable through the links available on the website, but the source code is available. \\\\
+\url{https://argouml-tigris-org.github.io/}\\\\ %%% I later found a downloadable version through softonic, but the software overall doesn't seem to be very popular.
+It appears that the original creator of ArgoUML is moving files from the website to GitHub in an attempt to update the software. The source code could provide a valuable structure for the project, but currently it is in flux.\\\\
+%
+\underline{\textbf{StarUML}}\\\\
+%
+StarUML is downloadable, and the application is functioning. There are plenty of extensions supporting many of the project file types, but there appear to be some issues which I outline below. The source code is available on Github: \url{https://github.com/staruml }, as well as a price list: \url{https://staruml.io/buy}. The basic license is free, but there is an upgrade cost of \$99 for a personal license.\\\\
+%
+Several different file types were used when testing this program. The first was an XML file. An available extension can be downloaded through the StarUML GUI.
+%
+\newline\newline\includegraphics[width=140mm,scale=0.9]{Figure1StarUMLExt}\\\\
+%
+The extension manager includes packages for many different programming languages and file types, giving it the potential for project compatibility.
+%
+\newline\newline\includegraphics[width=140mm,scale=0.9]{ExtensionManager}\\\\
+%
+A test file was created using \url{http://www.generatedata.com/}. When attempting to use StarUML to open the file, there is a "fail to load" error message. A little bit of research shows this is a well documented issue. There is a simple fix, originally found in the StackExchange here: \url{https://stackoverflow.com/questions/60250514/how-to-import-any-uml-xmi-files-to-staruml}. A second solution is also in the Github repository \url{https://github.com/staruml }, and was created by directly editing the JavaScript file for the extension. \\\\
+%
+Using Atom, a desktop code editor, I edited the xmi21-reader.js file, which governs the extension, by changing\\
+\mcode{var XMINode = dom.getElementsByTagName('XMI')[0]}\\
+to \mcode{var XMINode = dom.getElementsByTagName('xmi:XMI')[0]}.\\
+Even after this change, the file still fails to load. I made an attempt to open a PostgreSQL file and a UML model with similar results.\\\\
+%
+While it appears to have great compatibility based on the number of extensions available for it, in my opinion it doesn't look like a viable option without more work than is desired. The extensions are written in JavaScript, and error handling here is limited.\\\\
+%
+\underline{\textbf{EclipseUML}}\\\\
+%
+The latest version of the Eclipse IDE can be installed from \url{https://www.eclipse.org/downloads/packages}. The Eclipse IDE has different environments depending on usage. For our purposes the Eclipse Modeling Tools version of the IDE was installed. From here, you can go to the marketplace or download packages directly from certain creator sites to expand the IDE's functionality. \\\\
+Before downloading Eclipse you should have a Java Development Kit (JDK or JRE), as the installation will not complete without detecting a path to the JDK. The JDK can be downloaded from Oracle, \url{https://www.oracle.com/java/technologies/javase-downloads.html}.Java SE 11 is recommended for the newest version of Eclipse , so you may be due for an upgrade if you have a previous version of the JDK. I will be using Java SE 15 for subsequent tests.\\\\
+%
+\includegraphics[width=130mm,scale=0.85]{EclipseOverview}\\\\
+%
+Eclipse comes with many resources that could provide a ready-made solution or at least a base. Tutorials are included for their UML tools, which take you through basic and advanced concepts in the software. It also goes over common concepts, such as reverse engineering code and models, and obtaining code from UML models.\\\\
+%
+\includegraphics[width=150mm,scale=1]{UMLtoCode}\\\\
+In addition to the extensions that are available on the marketplace, it also provides resources to assist in creating your own plug-ins if there is functionality that you are missing. Given that Eclipse is covering the issues we are trying to tackle, it has some potential to be what we are looking for and I plan to research this further in the coming week. 
+%
+%----------------------------------------------------------------------------
+%%%%%%%%%%%%%%%% MSCGEN documentation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------------------------------------------
+\chapter*{Sunday, 6 Dec 2020}
+\label{120620}
+%
+\section*{First Research: WireShark and MSCGEN}
+Exploring the DahlgrenTest/model\_code/readme file, interns are provided a high level overview of the project goals covered in the first meeting. Initial examples included are processing message data to generate message type and recipients over time using WireShark.\\\\
+%
+WireShark is a useful network analysis program which enables the user to capture the transfer of packets in a network. A Flow Chart listing the IP-addresses pinged and the direction of information exchanged between the addresses can be generated. One application of such a chart is ensuring proper configuration of a firewall where network segments that should not be communicating information directly can be properly cut off from one another. This is a good example of modeling the flow of data within a network and works well on a Windows system.\\\\
+%
+Another example program is Mscgen. Here we can specify the communication process between any sort of entity as a Message Sequence Chart (MSC) and produce an image that neatly outlines these interactions. The entities represented can be hardware on a system for instance, which can be accessed using an SDL library.\\\\
+%
+After downloading the mscgen executable and completing the setup, the mscgen application does not run. One of the main problems can be seen in the examples included in the application folder. These .msc files are recognized by windows as Microsoft Management Console files (.mmc). Directly changing the application used to open the files is possible, but produces the same result, that is, the mscgen application will not run.\\\\
+%
+Python is compatible with the desired data types (csv, json, xml, etc.), and Sphinx is a documentation compatible with Python with an available extension to allow the inclusion of MSC generated images. So it was thought that Python could be used as a viable workaround to call mscgen and fix the problem. Doxygen is another viable documentation software, however Sphinx was chosen over Doxygen because it was originally written for Python and doesn't require extra packages. Coincidentally Sphinx can also work with PlantUML.\\\\
+%
+As a side note, the latest version of Python 3.9 isn't fully debugged. Python 3.8.6 is the most stable release and has a better package compatibility. Important packages such as pandas used for data analysis and visualization have not yet been updated to run with Python 3.9.\\\\
+% 
+\end{document}
