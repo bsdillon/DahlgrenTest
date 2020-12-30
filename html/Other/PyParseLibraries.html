@@ -31,10 +31,20 @@
     <code>pip install pandas</code><br>
     <p>Pandas is an easy implementation of a data structure that creates DataFrames that outputs a better
     analysis of data. This is quite useful to output tables from several types of files including PDF, CSV, and JSON.
-    DataFrames can also be created by python lists. Documentation of pandas can be found
+    DataFrames can be created by python lists. In parsing PDFs, pandas is useful to display a better representation of DataFrames.
+    There are options to display all or a certain number of rows or columns of the data in the DataFrame.
+    It can also expand the number of frames to be displayed per row. Documentation of pandas can be found
     <a href="https://pandas.pydata.org/docs/">here</a>.</p>
     <p>A demonstration of these three libraries can be found
     <a href="PDFParseEx.html">here</a>.</p>
+
+    <h4>requests</h4>
+    <code>pip install requests</code><br>
+    <p>Requests allows the user to send HTTP requests easily. It grants permission to access urls using <code>requests.get(*url*)</code>. In parsing PDFs,
+      this python library gets access to the data of the pdf through the url instead of including it in a local directory. It iterates through layers of chunks of
+      data of the PDF for parsing or writing purposes. More documentation of requests can be found <a href="https://pypi.org/project/requests/">here</a>.
+    </p>
+
     <h3>Parse from WORD files</h3>
     <h4>Document</h4>
     <code>pip install python-docx</code><br>
