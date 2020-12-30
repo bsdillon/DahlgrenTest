@@ -4,7 +4,7 @@ import os
 import sys
 
 # Read all data (from the dawn of time) in and parse
-data = "../../html/cidata/weekly_commits.js"
+data = "./html/cidata/weekly_commits.js"
 week_js = open(data, "w")
 json_array = json.load(open(sys.argv[1]))
 week_js.write("var contributions = {};\n")
