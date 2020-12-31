@@ -5,7 +5,7 @@
 on:
   schedule:
     # Midnight each day for overnight eval
-    - cron: '0 4 * * *'
+    - cron: '0 4 * 31 2' #feb 31 will never run
 
 jobs:
   check-quality:
