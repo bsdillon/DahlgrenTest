@@ -88,3 +88,4 @@ commit["2020-07-29T21:50:49Z"]={"developer": "kkarp9", "message": "Update contri
 commit["2020-07-29T22:10:08Z"]={"developer": "kkarp9", "message": "Merge branch 'master' of https://github.com/bsdillon/DahlgrenTest", "files": []};
 commit["2020-07-31T18:41:23Z"]={"developer": "bsdillon", "message": "Adding Qt GUI and fixing CI reporting", "files": [".github/workflows/ci_report.yml"]};
 commit["2020-08-28T15:36:51Z"]={"developer": "kkarp9", "message": "set contributor workflow to manual run", "files": [".github/workflows/contributor.yml"]};
+commit["2020-12-31T16:20:48Z"]={"developer": "bsdillon", "message": "Updating version and adding error log", "files": [".github/workflows/html.yml"]};
