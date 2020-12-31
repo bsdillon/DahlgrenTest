@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title id="title">Chart DataSet</title>
+    <title id="title">ACSE - Using Graphs</title>
     <script>
     </script>
     <style>
@@ -21,23 +21,25 @@ The attached library of code has been built using the <a href="https://www.chart
     </p>
     <h3>Goals</h3>
     <p>
-The charting tools are meant to:<br>
+      The charting tools are meant to:<br>
+    </p>
 <ul>
   <li>Provide basic data charting.</li>
   <li>Allow students to practice data formatting.</li>
   <li>Familarize students with functions and parameters.</li>
   <li>Allow teachers and students to interact with code.</li>
 </ul>
-    </p>
     <h2>Table of Contents</h2>
 <ul>
-    <li><a href="#template">Basic Template</a></li>
-    <ul><li><a href="#config">Configurable lines</a></li></ul>
+    <li><a href="#template">Basic Template</a>
+      <ul><li><a href="#config">Configurable lines</a></li></ul>
+    </li>
     <li><a href="#html">Working with HTML Files</a></li>
     <li><a href="#identifiers">Identifiers</a></li>
     <li><a href="#functions">Functions and Parameters</a></li>
-    <li><a href="#types">Types of Charts</a></li>
-    <ul><li><a href="#line">Line</a></li>
+    <li><a href="#types">Types of Charts</a>
+      <ul><li><a href="#line">Line</a></li>
+    </li>
     <li><a href="#area">Area</a></li>
     <li><a href="#vbar">VBar</a></li>
     <li><a href="#hbar">HBar</a></li>
@@ -127,7 +129,7 @@ All charts will start with the template code. To create your chart, you can copy
     <p>
 Once the HTML file has been created, you can double click on the file and it will open in your browser like a web page. It is normal for an HTML file to be opened in a browser by default, but you can also open it with a text editor like notepad. If you want to edit the file, first open notepad and then click <code>File > Open</code>. Select the HTML you created and it will appear in notepad as plain text. <span class="red">WARNING</span> if you change the default program to open HTML files, you may need to correct that setting. Right click on the HTML file and select <code>Open with > Choose another app</code>. In the new window, select your browser of choice (e.g. Chrome). Make sure to check <code>Always use this app to open .html files</code> and hit OK. This should change the default program.
     </p>
-    <img src="files.png"><br>
+    <img src="files.png" alt="GUI buttons to create an HTML file"><br>
     <a name="identifiers"><h2>Identifiers</h2></a>
     <p>
 In programming, identifiers are used to give a name to parts of the program. In the code, they look like plain text, but the computer recognizes each identifier like an address on a letter. Just like the address on your mail or email, if you get even one letter wrong, the mail won't go to the right place. Computers are very specific about capitalization and the order of the letters, so you may create errors if you don't <em>EXACTLY</em> match the identifier is all places. If you create an identifier, like <code>configA</code> below, then you are free to give that part of the program whatever name you want. There are rules to follow, but as long as you use upper and lower case letters (no spaces or special characters) you should be safe. If someone else already created the identifer, like <code>createConfig</code> below, you must use the identifier without change. The <code>createConfig</code> identifier was defined in linechartlibrary.js.<br><br>
@@ -147,7 +149,7 @@ There are nine different kinds of charts that are available in the various libra
 
     <a name="line"><h3>Line</h3></a>
     <p>
-The line chart uses linechartlibrary.js. The line chart starts with the configuration that requires a specific chart type. These chart types must <em>EXACTLY</em match the pre-defined types in linechartlibrary.js. For the line chart use LINE_TYPE. The other configuration parameters put a title over the chart and titles on the x and y axis.<br><br>
+The line chart uses linechartlibrary.js. The line chart starts with the configuration that requires a specific chart type. These chart types must <em>EXACTLY</em> match the pre-defined types in linechartlibrary.js. For the line chart use LINE_TYPE. The other configuration parameters put a title over the chart and titles on the x and y axis.<br><br>
 <code>var config = createConfig(LINE_TYPE, chartTitle,XLabel,YLabel);</code>
     </p>
     <p>
@@ -211,15 +213,16 @@ Scatter charts have an optional feature called a trend line. A trend line uses t
     <a name="pie"><h3>Pie</h3></a>
     <p>
 The configuration function is much simpler for pie charts. This is because the pie chart doesn't contain any axis or series labels and only one dataset can be represented in a single pie chart. The only parameter required is the title for the chart. Like the Line chart there is a <code>setLabels</code> function to put the labels on the pie chart. Colors will automatically be generate for each label in the chart. Because the pie chart only allows one data set at a time, the only parameters to <code>createDataSet</code> is the configuration and data. If you want to show multiple pie charts in the same HTML page you need a different canvas, config, chart, labels, and dataset for each one.<br><br>
+    </p>
 <div class="code">
 <code>var config1 = createConfig(chartTitle1);<br>
 setLabels(config1, labels);<br>
 createDataSet(config1, data1);</code></div>
-    </p>
 
     <a name="datafile"><h2>Data Files</h2></a>
     <p>
 You can create a JavaScript data file just like you create an HTML file. When you save the text, make the file <code>.js</code> instead of HTML. Then you can put the name of your data file into the HTML file. After you have created the file and added it ot the HTML file you can reference any identifier you created in the data file. Some examples are shown below. Each line should start with an identifier and end with a semicolon. The equal sign is an assignment which puts some value into the variable with that identifier.<br><br>
+    </p>
 <div class="code">
 <code>
 chartTitle="Corn growth";<br>
@@ -228,7 +231,6 @@ XData=["31-Oct","1-Nov","2-Nov","3-Nov","4-Nov","5-Nov","6-Nov","7-Nov","8-Nov",
 YData1=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1];
 </code>
 </div>
-    </p>
     <p>Some tips:</p>
 <ul>
   <li>If you want text for a title or x axis data, use double quotes "like this" to surround the text.</li>
@@ -241,6 +243,7 @@ YData1=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1];
     <a name="examples"><h2>Example Charts</h2></a>
     <p>
       A number of example charts and data files have been prepared.<br>
+    </p>
 <ul>
   <li><a href="lineexample.html">Line example</a></li>
   <li><a href="slineexample.html">Stacked line example</a></li>
@@ -250,11 +253,11 @@ YData1=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1];
   <li><a href="pieexample.html">Pie example</a></li>
   <li><a href="scatterexample.html">Scatter example</a></li>
 </ul>
-    </p>
 
     <a name="assignments"><h2>Using Charts in School Assignments</h2></a>
     <p>
 The chart libraries can be used in multiple ways. Teachers and students may consider any of the following or other options:<br><br>
+    </p>
 <ul>
   <li>Teacher assigns each student to create a chart and data fill, submitting both for grading.</li>
   <li>Teacher assigns each student to create a data file with the student name, so the teacher can use one HTML file that references each of the student files. That HTML file can be reused for each assignment that follows that format.</li>
@@ -262,20 +265,19 @@ The chart libraries can be used in multiple ways. Teachers and students may cons
   <li>Teacher assigns the students to generate an HTML-based report. Students add &lt;p&gt;tags with text&lt;p&gt; to the HTML template.</li>
   <li>Teacher assigns the students to "hack" the chart files by doing unexpected things. Generating an error is not the same as hacking. The goal of a hacker is to cause the library to do something different from the normal expected behavior. Try putting numbers where text is required, creating datasets of different sizes, etc.</li>
 </ul>
-    </p>
 
     <a name="trouble"><h2>Troubleshooting</h2></a>
     <p>
 All browsers have developer tools that allow you to read information about the code being displayed. This image shows how to access them on Chrome. Other browsers will use a similar method and you can easily search for details on how to access the developer tools.
     </p>
-<img src="devtools.png"><br>
+<img src="devtools.png" alt="GUI access to developer tools"><br>
     <p>
 The main reason to use the developer tools is to see <em>IF</em> there are any errors and what they are. The most common errors are:<br><br>
 <dl>
-  <dt class="red">someIdentifier is not defined</dt><dl>This error occurs when an identifier does not match. If you mispelled the identifier in some way, computers cannot compensate. It seems silly to a human but "Bob" is not the same as "bob". It can be even worse than that. "ball" is not the same as "ba11". Even though you are smart enough to read the 1 digit as an L, computers are not that smart. The line number on the right tells you where the mismatch is, but it won't tell you how to fix it. Check all the uses of the identifier and make sure they all match.</dl>
-  <dt class="red">Cannot read property 'someProperty' of null</dt><dl>The computer is complaining because something is missing. The computer only realized there was a problem when it tried to access "someProperty". That line number can't tell you where the error occurred, only that there is a missing thing. Under the error is a list of the function calls that led to the error. We can see that some parameter passed along that list was the problem and you can search each of those places for the original problem that led to this error.</dl>
+  <dt class="red">someIdentifier is not defined</dt><dd>This error occurs when an identifier does not match. If you mispelled the identifier in some way, computers cannot compensate. It seems silly to a human but "Bob" is not the same as "bob". It can be even worse than that. "ball" is not the same as "ba11". Even though you are smart enough to read the 1 digit as an L, computers are not that smart. The line number on the right tells you where the mismatch is, but it won't tell you how to fix it. Check all the uses of the identifier and make sure they all match.</dd>
+  <dt class="red">Cannot read property 'someProperty' of null</dt><dd>The computer is complaining because something is missing. The computer only realized there was a problem when it tried to access "someProperty". That line number can't tell you where the error occurred, only that there is a missing thing. Under the error is a list of the function calls that led to the error. We can see that some parameter passed along that list was the problem and you can search each of those places for the original problem that led to this error.</dd>
 </dl>
     </p>
-<img src="errors.png"><br>
+<img src="errors.png" alt="Examples of errors"><br>
   </body>
 </html>
