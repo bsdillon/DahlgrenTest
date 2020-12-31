@@ -14,10 +14,15 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Validate HTML Syntax
-        uses: Cyb3r-Jak3/html5validator-action@v0.3
+        uses: Cyb3r-Jak3/html5validator-action@v0.4.4
         with:
           root: ./html
           css: true
+      - uses: actions/upload-artifact@v2
+        if: failed()
+        with:
+          name: violations
+          path: log.log
 #    - name: Second round of validation
 #      uses: stoe/xo-action@master
 #      with:
