@@ -91,3 +91,4 @@ commit["2020-08-28T15:36:51Z"]={"developer": "kkarp9", "message": "set contribut
 commit["2020-12-31T16:20:48Z"]={"developer": "bsdillon", "message": "Updating version and adding error log", "files": [".github/workflows/html.yml"]};
 commit["2020-12-31T16:23:30Z"]={"developer": "bsdillon", "message": "Fixing syntax", "files": [".github/workflows/html.yml"]};
 commit["2020-12-31T16:26:58Z"]={"developer": "bsdillon", "message": "Fixing function naming error", "files": [".github/workflows/html.yml"]};
+commit["2020-12-31T18:41:40Z"]={"developer": "bsdillon", "message": "Disable CodeInspect.yml", "files": [".github/workflows/CodeInspect.yml"]};
