@@ -38,7 +38,7 @@ The attached library of code has been built using the <a href="https://www.chart
     <li><a href="#identifiers">Identifiers</a></li>
     <li><a href="#functions">Functions and Parameters</a></li>
     <li><a href="#types">Types of Charts</a>
-      <ul><li><a href="#line">Line</a></li>
+      <ul><li><a href="#line">Line</a></li></ul>
     </li>
     <li><a href="#area">Area</a></li>
     <li><a href="#vbar">VBar</a></li>
@@ -273,11 +273,11 @@ All browsers have developer tools that allow you to read information about the c
 <img src="devtools.png" alt="GUI access to developer tools"><br>
     <p>
 The main reason to use the developer tools is to see <em>IF</em> there are any errors and what they are. The most common errors are:<br><br>
+    </p>
 <dl>
   <dt class="red">someIdentifier is not defined</dt><dd>This error occurs when an identifier does not match. If you mispelled the identifier in some way, computers cannot compensate. It seems silly to a human but "Bob" is not the same as "bob". It can be even worse than that. "ball" is not the same as "ba11". Even though you are smart enough to read the 1 digit as an L, computers are not that smart. The line number on the right tells you where the mismatch is, but it won't tell you how to fix it. Check all the uses of the identifier and make sure they all match.</dd>
   <dt class="red">Cannot read property 'someProperty' of null</dt><dd>The computer is complaining because something is missing. The computer only realized there was a problem when it tried to access "someProperty". That line number can't tell you where the error occurred, only that there is a missing thing. Under the error is a list of the function calls that led to the error. We can see that some parameter passed along that list was the problem and you can search each of those places for the original problem that led to this error.</dd>
 </dl>
-    </p>
 <img src="errors.png" alt="Examples of errors"><br>
   </body>
 </html>
