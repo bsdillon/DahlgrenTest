@@ -82,8 +82,8 @@
       web-based application. Within JavaScript, groups of data are bundled together in objects. Objects can also be bundled
       together into other objects like babushka dolls (sometimes called nested Russian dolls). One example might be data about
       a student. Each student has a first name, last name, and a class grade. Then all the students can be bundled together into
-      a description of the class. All of this information is reduced to a few leters and numbers, packaged into quotes, commas,
-      and curly braces. This is the dense, compacted, form of data. This is the tightly bound chromosome, not the loosely flowing 
+      a description of the class. All of this information is reduced to a few letters and numbers, packaged into quotes, commas,
+      and curly braces. This is the dense, compacted form of data. This is the tightly bound chromosome, not the loosely flowing 
       DNA strand. It can still be read by humans, but it lacks all the verbs, articles, adjectives, adverbs, etc. With some practice
       you can read this, but who wants to. This is meant to be used to communicate between computers.
     </p>
@@ -93,13 +93,13 @@
     <p>
       Some services provide public APIs to anyone who wants to use them. These API calls do not require any kind of authority,
       license, or payment. The call can be made by anyone and often written right into the URL line of your browser. One of these
-      APIs somes from <span class="code">https://official-joke-api.appspot.com/</span>. When your browser goes to this site
+      APIs comes from <span class="code">https://official-joke-api.appspot.com/random_joke</span>. When your browser goes to this site
       the API randomly selects a joke and returns the answer in a JSON message. This isn't particularly readable to a human, but
       the same response could be rolled into a simple HTML page to show the result in a more readable way. This button below
       calls the random joke API. You can see a live update!
     </p>
 
-   <p>Whant to hear a Joke?<br><button id="jbutton" onclick="newJoke()">Yes</button><br><span class="red" id="joke"></span></p>
+   <p>Want to hear a Joke?<br><button id="jbutton" onclick="newJoke()">Yes</button><br><span class="red" id="joke"></span></p>
 
     <img src="./unauthorized.png">
 
@@ -116,7 +116,7 @@
 
     <p>
       Authorized user keys are long, random-looking strings of characters. wqenvqor423fg3lk321lkjsdf04fs3 is a pretty good example. 
-      The service provider can randomly select 30 characters and check to see if its already in use. If the key is already used, they just 
+      The service provider can randomly select 30 characters and check to see if it's already in use. If the key is already used, they just 
       try to create a new key. Finding an already-in-use key is rare. If you think about it, that key has 30 characters and there are 36 
       choices (26 letters + 10 digits) for each character. That means that there are about 49,000,000,000,000,000,000,000,000,000,000,000,000,000,000,000.
       That is enough different combinations to give 3700 trillion addresses to each atom of the Earth. Believe me when I say it is rare.
@@ -188,7 +188,7 @@
     <br>
     <p>
       The callback function uses the JSON.parse function on line 8 to read the incoming response. As discussed above, JSON 
-      was originally based on JavaScript objects. The JSON.parse function turns the human-readable text back into an object
+      was originally based on JavaScript objects. The JSON.parse function turns the human-readable text back into an object.
       On lines 9 through 11, the tmp object is used to get the latitude, longitude, and water/land status. If you don't exactly 
       understand the code on these lines, you could simply write <span class="code">output.innerHTML = request.response</span>
       on line 12 and remove lines 8 through 11. That will print the raw JSON object just as shown in the picture below.
