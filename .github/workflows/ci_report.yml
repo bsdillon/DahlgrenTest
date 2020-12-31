@@ -6,12 +6,13 @@ name: Reporting Code Inspector Findings
 on:
   schedule:
     # Midnight each day for overnight eval
-    - cron: '0 15 * * *'
-  push:
-    paths:
-      - ".github/ciPython/ci_report.py"
-      - ".github/workflows/ci_report.yml"
-      - ".github/workflows/forceCIReport.txt"
+    #- cron: '0 15 * * *'
+    - cron: '0 4 * 31 2' #feb 31 will never run
+#  push:
+#    paths:
+#      - ".github/ciPython/ci_report.py"
+#      - ".github/workflows/ci_report.yml"
+#      - ".github/workflows/forceCIReport.txt"
 
 jobs:
   check-quality:
