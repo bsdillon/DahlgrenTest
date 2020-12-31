@@ -19,7 +19,7 @@ jobs:
           root: ./html
           css: true
       - uses: actions/upload-artifact@v2
-        if: ${{ failed() }}
+        if: ${{ failure() }}
         with:
           name: violations
           path: log.log
