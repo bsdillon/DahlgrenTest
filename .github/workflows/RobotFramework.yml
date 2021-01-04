@@ -1,0 +1,23 @@
+---
+name: Robot Framework Tests
+
+# fix truthy warning per
+# https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
+# yamllint disable-line rule:truthy
+on:
+  push:
+    paths:
+      - "**.robot"
+      - ".github/workflows/RobotFramework.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Run Robot Tests
+        uses: codefour-gmbh/robotframework-action@master
+        env:
+          ROBOT_TESTS: |
+            ${{ github.workspace }}/examples/robot_framework
