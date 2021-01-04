@@ -17,7 +17,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
       - name: Setup Chromium
-        run: sudo snap install chromium
+        run: |
+            sudo snap install chromium
+            chromium --version
       - name: Run Robot Tests
         uses: codefour-gmbh/robotframework-action@master
         env:
