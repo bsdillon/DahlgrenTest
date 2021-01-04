@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title id="title">DataSet</title>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="https://bsdillon.github.io/DahlgrenTest/html/graphing/linechartlibrary.js"></script>
+    <script src="./corndata.js"></script>
+    <script>
+      function loadData()
+      {
+         var myType = VBAR_TYPE;
+         var config = createConfig(myType, chartTitle,XLabel,YLabel);
+         var chart = createChart("can",500,500,config);
+         setChartLabels(config,XData);
+         createDataSet(config,seriesTitle1,YData1, myType);
+         createDataSet(config,seriesTitle2,YData2, myType);
+         createDataSet(config,seriesTitle3,YData3, myType);
+         chart.update();
+      }
+    </script>
+  </head>
+  <body onload="loadData()">
+    <p>To view the code behind the examples, right click on the page and select "View page source"</p>
+    <canvas id="can"></canvas>
+  </body>
+</html>

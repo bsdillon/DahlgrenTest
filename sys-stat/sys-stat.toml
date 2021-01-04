@@ -1,0 +1,77 @@
+
+# Example config file
+
+[general]
+# This program is run whenever a [[sys]] is checked and the status is different from before.
+# A simple template language is supported, such that several constants get replaced
+# when used in any string in the command array:
+#  {name} = the name section from the [[sys]] block
+#  {status} = either "good" or "bad". In the future we may also report a "degraded" state.
+#  {reason} = any details known about what occurred, for example an http endpoint may report "returned 404 when"
+on_status_change = [
+  "notify-send", "sys {name} is now {status} because {reason}'",
+]
+# This program is run after on_status_change when {status} == "good"
+on_status_good = [
+  "notify-send", "sys {name} has resumed.",
+]
+# This program is run after on_status_change when {status} == "bad"
+on_status_bad = [
+  "notify-send", "sys {name} has failed!",
+]
+# While running sys-stat prints events to this file in CSV format.
+# The plan is to provide details such as sys latency which can then
+# be graphed to discover when syss are likely to break and if they are
+# nearing capacity limits.
+# Format is:
+#  timestamp, service name, status (true/false), latency (milliseconds)
+log_file = "/tmp/status.csv"
+
+
+# Each [[sys]] block is required to have:
+#  - name - a unique name for the sys
+#  - uri - an http, https, or ftp url.
+#          More protocols will be added later, but this must
+#          describe the host and connection details.
+# 
+# The rest are optional and default to empty strings or some sane default value
+
+[[sys]]
+name = "Example dot org"
+uri = "http://example.org/"
+description = """
+  This system responds to http GET requests with a 200 and a document
+  containing the phrase "This domain is for use in illustrative examples in documents".
+"""
+# If the response does not contain this the status becomes "bad"
+response_must_contain = "This domain is for use in illustrative examples in documents"
+# If the server does not finish replying within this amount of time the status becomes "bad"
+response_must_finish_within = "30s"
+
+check_interval = "5m"
+
+
+[[sys]]
+name = "fast sys"
+uri = "http://example.org/"
+check_interval = "30s"
+
+
+[[sys]]
+name = "high latency system"
+uri = "http://slowwly.robertomurray.co.uk/delay/8000/url/http://example.org"
+response_must_finish_within = "3s"
+check_interval = "30s"
+
+
+[[sys]]
+name = "another high latency system"
+uri = " https://flash.siwalik.in/delay/5000/url/http://example.org"
+response_must_finish_within = "5s"
+check_interval = "30s"
+
+
+
+
+
+

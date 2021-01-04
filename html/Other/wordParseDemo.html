@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>HTML Parse</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+</head>
+<body>
+    <h3>Getting table values in WORD</h3>
+    <p>The code snippet below takes data from tables of each cells and outputs
+    it in a text file.</p>
+    <h4>Code</h4>
+    <code>
+        1. from docx import Document<br>
+        2. out = open('output.txt', 'w')<br>
+        3. doc = Document('Self Critique Sp 3.docx')<br>
+        4. table = doc.tables[0]<br>
+        5. for row in table.rows:<br>
+        6. &nbsp;&nbsp;&nbsp;for cell in row.cells:<br>
+        7. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for paragraph in cell.paragraphs:<br>
+        8. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;out.write(paragraph.text + '\t')<br>
+        9. &nbsp;&nbsp;&nbsp;out.write('\n')<br>
+    </code>
+    <h4>Explanation of code</h4>
+    <ol>
+        <li value="3">Creates a Document object using the WORD file.</li>
+        <li value="4">Document has a built-in function that gets tables in a list and here we are getting
+        the one and only table the Word document has.</li>
+        <li value="5">Iterates through the text in each cell of each row to write it to the output text file.</li>
+    </ol>
+</body>
+</html>

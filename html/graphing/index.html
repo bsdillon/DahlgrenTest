@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title id="title">ACSE - Using Graphs</title>
+    <script>
+    </script>
+    <style>
+      body {width:650px; background-color: #E6E6E6; text-align: justify; text-justify: inter-word;}
+      img {border: solid black 2px; max-width:600px; display: block; margin-left: auto; margin-right: auto;}
+      code {color: navy; font-style: italic; font-weight: bold; background-color: #ddf;}
+      .red {color: red;}
+      .code {background-color: #ddf;}
+      h2{border: solid blue; border-width:2px 0px 2px 0px; background-color:white; text-align:center; font-variant: small-caps; text-transform: capitalize;}
+      h3{border: solid blue; border-width:2px 0px 2px 0px; background-color:white; text-align:center; font-variant: small-caps; text-transform: capitalize;}
+    </style>
+  </head>
+  <body>
+    <h2>ACSE Data Charting Tools</h2>
+    <p>
+The attached library of code has been built using the <a href="https://www.chartjs.org/">Chart.js</a> API. Although anyone can learn to work with the Chart.js code, these libraries have <a href="https://computersciencewiki.org/index.php/Abstraction">abstracted</a> so the beginning student can use the libary more easily. This HTML page will explain all the basic features. 
+    </p>
+    <h3>Goals</h3>
+    <p>
+      The charting tools are meant to:<br>
+    </p>
+<ul>
+  <li>Provide basic data charting.</li>
+  <li>Allow students to practice data formatting.</li>
+  <li>Familarize students with functions and parameters.</li>
+  <li>Allow teachers and students to interact with code.</li>
+</ul>
+    <h2>Table of Contents</h2>
+<ul>
+    <li><a href="#template">Basic Template</a>
+      <ul><li><a href="#config">Configurable lines</a></li></ul>
+    </li>
+    <li><a href="#html">Working with HTML Files</a></li>
+    <li><a href="#identifiers">Identifiers</a></li>
+    <li><a href="#functions">Functions and Parameters</a></li>
+    <li><a href="#types">Types of Charts</a>
+      <ul><li><a href="#line">Line</a></li></ul>
+    </li>
+    <li><a href="#area">Area</a></li>
+    <li><a href="#vbar">VBar</a></li>
+    <li><a href="#hbar">HBar</a></li>
+    <li><a href="#sline">Stacked Line</a></li>
+    <li><a href="#sarea">Stacked Area</a></li>
+    <li><a href="#svbar">Stacked VBar</a></li>
+    <li><a href="#shbar">Stacked HBar</a></li>
+    <li><a href="#scatter">Scatter</a></li>
+    <li><a href="#pie">Pie</a></li>
+    <li><a href="#datafile">Data Files</a></li>
+    <li><a href="#examples">Example Charts</a></li>
+    <li><a href="#assignments">Using Charts in School Assignments</a></li>
+    <li><a href="#trouble">Troubleshooting</a></li>
+</ul>
+
+    <a name="template"><h2>Basic Template</h2></a>
+    <p>
+The chart code is a combination of HTML (Hyper Text Markup Language) and JavaScript. These languages are essential to any web-based program. You won't have to learn HTML or JavaScript, but you will need to use a template of code as a starting point. You will also need to add a few lines that are specific to the data and the kind of chart you want to create.
+    </p>
+<div class="code">
+<code>
+&lt;!DOCTYPE html&gt;<br>
+&lt;html&gt;<br>
+&nbsp;&nbsp;&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title id="<span class="red">::page title::</span>"&gt;&lt;/title&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script src="https://www.chartjs.org/samples/latest/utils.js"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script src="<span class="red">::JavaScript chart file::</span>"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script src="<span class="red">::JavaScript data file::</span>"&gt;&lt;/script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;script&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;function loadData()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var chart = createChart(<span class="red">::canvas identifier::</span>, <span class="red">::width::</span>, <span class="red">::height::</span>, <span class="red">::config identifier::</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="red">::create chart::</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="red">::setup chart from data file::</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chart.update();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/script&gt;<br>
+&nbsp;&nbsp;&lt;/head&gt;<br>
+&nbsp;&nbsp;&lt;body onload="loadData()"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;canvas id="<span class="red">::canvas identifier::</span>"&gt;&lt;/canvas&gt;<br>
+&nbsp;&nbsp;&lt;/body&gt;<br>
+&lt;/html&gt;
+</code>
+</div>
+    <a name="config"><h3>Configurable lines</h3></a>
+    <p>
+Each of these red items in the template need to be updated according to this list.
+    </p>
+    <dl>
+      <dt class="red">::page title::</dt>
+        <dd>The page title is any text description you want at the top of your HTML page. You can use <code>Chart data</code> as a default. Your teacher may ask you to use a standard for each assignment like <code>Greg Smith - Math HW Oct 12</code>. Otherwise, you are free to use any title you like.</dd>
+      <dt class="red">::JavaScript chart file::</dt>
+        <dd>There are three ACSE Data Charting JavaScript libraries. Select the one you want for the specific chart type.<br>
+<ul>
+  <li>https://bsdillon.github.io/DahlgrenTest/html/graphing/linechartlibrary.js</li>
+  <li>https://bsdillon.github.io/DahlgrenTest/html/graphing/scatterchartlibrary.js</li>
+  <li>https://bsdillon.github.io/DahlgrenTest/html/graphing/piechartlibrary.js</li>
+</ul>
+        </dd>
+      <dt class="red">::JavaScript data file::</dt>
+        <dd>You will need to write your own data file. You can reference your data file here.</dd>
+      <dt class="red">::create chart configuration::</dt>
+        <dd>Each charting library has a slightly different configuration required to create the chart. These are explained later.<br>
+<ul>
+  <li><code>var configA = createConfig(myType, chartTitle,XLabel,YLabel);//for line charts</code></li>
+  <li><code>var configB = createConfig(chartTitle,XLabel,YLabel);//for scatter charts</code></li>
+  <li><code>var configC = createConfig(chartTitle);//for pie charts</code></li>
+</ul>
+        </dd>
+      <dt class="red">::canvas identifier::</dt>
+        <dd>This is the only item that appears twice. The identifier for the canvas is used as a parameter to the function that creates the chart. The identifiers must <em>EXACTLY</em> match.</dd>
+      <dt class="red">::width::</dt>
+        <dd>Width is a number of pixels across the chart on the screen. You can experiment with this number to make it the size you want.</dd>
+      <dt class="red">::height::</dt>
+        <dd>Height is a number of pixels down the chart on the screen. You can experiment with this number to make it the size you want.</dd>
+      <dt class="red">::config identifier::</dt>
+        <dd>The config identifier is defined when you create the config (see configA, configB, and configC above). Just like the canvas identifiers, the config identifiers must <em>EXACTLY</em> match.</dd>
+      <dt class="red">::setup chart from data file::</dt>
+        <dd>The exact details of setting up the chart vary a bit from chart to chart. These details are described below.</dd>
+    </dl>
+
+    <a name="html"><h2>Working with HTML Files</h2></a>
+    <p>
+All charts will start with the template code. To create your chart, you can copy this code template directly and paste into notepad. In notepad, click <code>File > Save As...</code>. In the <code>Save As</code> window use the <code>Save as type</code> drop down to select <code>All Files</code>. After that you can select a location and a file name for your chart, but be sure to add <code>.html</code> as the file type. For example, you might save it as "stateprojectdata.html".
+    </p>
+    <p>
+Once the HTML file has been created, you can double click on the file and it will open in your browser like a web page. It is normal for an HTML file to be opened in a browser by default, but you can also open it with a text editor like notepad. If you want to edit the file, first open notepad and then click <code>File > Open</code>. Select the HTML you created and it will appear in notepad as plain text. <span class="red">WARNING</span> if you change the default program to open HTML files, you may need to correct that setting. Right click on the HTML file and select <code>Open with > Choose another app</code>. In the new window, select your browser of choice (e.g. Chrome). Make sure to check <code>Always use this app to open .html files</code> and hit OK. This should change the default program.
+    </p>
+    <img src="files.png" alt="GUI buttons to create an HTML file"><br>
+    <a name="identifiers"><h2>Identifiers</h2></a>
+    <p>
+In programming, identifiers are used to give a name to parts of the program. In the code, they look like plain text, but the computer recognizes each identifier like an address on a letter. Just like the address on your mail or email, if you get even one letter wrong, the mail won't go to the right place. Computers are very specific about capitalization and the order of the letters, so you may create errors if you don't <em>EXACTLY</em> match the identifier is all places. If you create an identifier, like <code>configA</code> below, then you are free to give that part of the program whatever name you want. There are rules to follow, but as long as you use upper and lower case letters (no spaces or special characters) you should be safe. If someone else already created the identifer, like <code>createConfig</code> below, you must use the identifier without change. The <code>createConfig</code> identifier was defined in linechartlibrary.js.<br><br>
+<code>var <span class="red">configA</span> = <span class="red">createConfig</span>(myType, chartTitle, XLabel, YLabel);</code>
+    </p>
+
+    <a name="functions"><h2>Functions and Parameters</h2></a>
+    <p>
+In programming, functions are small sections of code that can be executed to do a specific job. Functions can have parameters that are used to do that job. There are several functions and parameters in the chart libraries. Let's look at one example. In the code below, <code>createConfig</code> is the function identifier. This function is found in linechartlibrary.js. The function has four parameters; <code>XLabel</code> is one of the four. The function uses this parameter to put the x axis label on the chart. <br><br>
+<code>var configA = <span class="red">createConfig</span>(myType, chartTitle, <span class="red">XLabel</span>, YLabel);</code>
+     </p>
+
+    <a name="types"><h2>Types of Charts</h2></a>
+    <p>
+There are nine different kinds of charts that are available in the various libraries. Below are details for setting up the charts. Many of the parameters used in setting up the chart can come directly from the JavaScript data file.
+    </p>
+
+    <a name="line"><h3>Line</h3></a>
+    <p>
+The line chart uses linechartlibrary.js. The line chart starts with the configuration that requires a specific chart type. These chart types must <em>EXACTLY</em> match the pre-defined types in linechartlibrary.js. For the line chart use LINE_TYPE. The other configuration parameters put a title over the chart and titles on the x and y axis.<br><br>
+<code>var config = createConfig(LINE_TYPE, chartTitle,XLabel,YLabel);</code>
+    </p>
+    <p>
+The line chart requires a set of labels for the independent axis, which is usually the x axis. These labels can be words like "Red", "Boys", or "Classroom 5". The labels can be numbers representing things like age, distance, or size. These labels are <em>required</em>. The <code>seChartLabels</code> function also requires the configuration identifier as a parameter.<br><br>
+<code>setChartLabels(config, XData);</code>
+    </p>
+    <p>
+The line chart allows one or more lines to be added to the chart. Each of the lines requires you to use the <code>createDataSet</code> function. The function requires the configuration identifier as a parameter. Each series must have a title that identifies the data ex. "Grade 4". Each series must have a set of data for the line. This data will appear on the y axis. The chart type is required again as a parameter and must match the chart type used to create the config.<br><br>
+<code>createDataSet(config, seriesTitle1, YData1, LINE_TYPE);</code>
+    </p>
+
+    <a name="area"><h3>Area</h3></a>
+    <p>
+The area chart uses linechartlibrary.js and is setup exactly like the Line chart. The only difference is that the chart type is AREA_TYPE.
+    </p>
+
+    <a name="vbar"><h3>VBar</h3></a>
+    <p>
+The vertical bar chart (sometimes called a column chart) uses linechartlibrary.js and is setup exactly like the Line chart. The only difference is that the chart type is VBAR_TYPE. Unlike the line and area charts, when you add multiple datasets to a bar chart, they will appear next to each other. This view allows you to directly compare the data from multiple datasets.
+    </p>
+
+    <a name="hbar"><h3>HBar</h3></a>
+    <p>
+The horizontal bar chart uses linechartlibrary.js and is setup exactly like the Line chart. The only difference is that the chart type is HBAR_TYPE. Unlike the line and area charts, when you add multiple datasets to a bar chart, they will appear next to each other. This view allows you to directly compare the data from multiple datasets.
+    </p>
+
+    <a name="sline"><h3>Stacked Line</h3></a>
+    <p>
+This chart is setup exactly like the Line chart, except the chart type is S_LINE_TYPE. Stacked charts add the values for multiple datasets into a single value. For example, suppose a chart shows the color of socks, shirts, pants, and hats in a classroom. Each type of clothing is a separate dataset. For "Red" there are 2 socks, 5 shirts, 3 pants, and 1 hat, so the lines will stack to show a total of 11 clothes with the color red.
+    </p>
+
+    <a name="sarea"><h3>Stacked Area</h3></a>
+    <p>
+This chart is setup exactly like the Area chart, except the chart type is S_AREA_TYPE. Stacked charts add the values for multiple datasets into a single value. For example, suppose a chart shows the color of socks, shirts, pants, and hats in a classroom. Each type of clothing is a separate dataset. For "Red" there are 2 socks, 5 shirts, 3 pants, and 1 hat, so the lines will stack to show a total of 11 clothes with the color red.
+    </p>
+
+    <a name="svbar"><h3>Stacked VBar</h3></a>
+    <p>
+This chart is setup exactly like the VBar chart, except the chart type is S_VBAR_TYPE. Stacked charts add the values for multiple datasets into a single value. For example, suppose a chart shows the color of socks, shirts, pants, and hats in a classroom. Each type of clothing is a separate dataset. For "Red" there are 2 socks, 5 shirts, 3 pants, and 1 hat, so the lines will stack to show a total of 11 clothes with the color red.
+    </p>
+
+    <a name="shbar"><h3>Stacked HBar</h3></a>
+    <p>
+This chart is setup exactly like the HBar chart, except the chart type is S_HBAR_TYPE. Stacked charts add the values for multiple datasets into a single value. For example, suppose a chart shows the color of socks, shirts, pants, and hats in a classroom. Each type of clothing is a separate dataset. For "Red" there are 2 socks, 5 shirts, 3 pants, and 1 hat, so the lines will stack to show a total of 11 clothes with the color red.
+    </p>
+
+    <a name="scatter"><h3>Scatter</h3></a>
+    <p>
+The scatter chart uses scatterchartlibrary.js. The scatter chart starts with the configuration similar to the Line chart. There is no chart type (because this can only be a scatter chart), but the same chart and axis titles apply.<br><br>
+<code>var config = createConfig(chartTitle,XLabel,YLabel);</code>
+    </p>
+    <p>
+As with the Line chart, a scatter chart allows one or more datasets to be added to the chart. Each of the datasets requires you to use the <code>createDataSet</code> function. The function requires the configuration identifier as a parameter. Each series must have a title that identifies the data ex. "Grade 4". Unlike the Line chart, a scatter chart does not require labels for the x axis. Instead, each data set has numerical data for both x and y axis.<br><br>
+<code>createDataSet(config, seriesTitle1, XData1, YData1);</code>
+    </p>
+    <p>
+Scatter charts have an optional feature called a trend line. A trend line uses the data to predict an equation that relates the x and y variables in a line. It is useful in science investigations involving two variables. The <code>addTrendLine</code> function takes the same parameters as the <code>createDataSet</code> function. The trendline will be added to the chart as a separate function that can be hidden. The trendline name will give you the equation of the line and the R<sup>2</sup> value. The closer R<sup>2</sup> is to 1, the better the x and y variables relate to each other.<br><br>
+<code>addTrendLine(config,seriesTitle1,XData1,YData1);</code>
+    </p>
+
+    <a name="pie"><h3>Pie</h3></a>
+    <p>
+The configuration function is much simpler for pie charts. This is because the pie chart doesn't contain any axis or series labels and only one dataset can be represented in a single pie chart. The only parameter required is the title for the chart. Like the Line chart there is a <code>setLabels</code> function to put the labels on the pie chart. Colors will automatically be generate for each label in the chart. Because the pie chart only allows one data set at a time, the only parameters to <code>createDataSet</code> is the configuration and data. If you want to show multiple pie charts in the same HTML page you need a different canvas, config, chart, labels, and dataset for each one.<br><br>
+    </p>
+<div class="code">
+<code>var config1 = createConfig(chartTitle1);<br>
+setLabels(config1, labels);<br>
+createDataSet(config1, data1);</code></div>
+
+    <a name="datafile"><h2>Data Files</h2></a>
+    <p>
+You can create a JavaScript data file just like you create an HTML file. When you save the text, make the file <code>.js</code> instead of HTML. Then you can put the name of your data file into the HTML file. After you have created the file and added it ot the HTML file you can reference any identifier you created in the data file. Some examples are shown below. Each line should start with an identifier and end with a semicolon. The equal sign is an assignment which puts some value into the variable with that identifier.<br><br>
+    </p>
+<div class="code">
+<code>
+chartTitle="Corn growth";<br>
+YLabel="Height (cm)";<br>
+XData=["31-Oct","1-Nov","2-Nov","3-Nov","4-Nov","5-Nov","6-Nov","7-Nov","8-Nov","9-Nov","10-Nov","11-Nov","12-Nov","13-Nov","14-Nov","15-Nov","16-Nov"];<br>
+YData1=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1];
+</code>
+</div>
+    <p>Some tips:</p>
+<ul>
+  <li>If you want text for a title or x axis data, use double quotes "like this" to surround the text.</li>
+  <li>If you have a data set (either labels, x axis, or y axis) use square brackets around the data set and separate each member of the set with commas ["it", "should", "look", "like", "this"].</li>
+  <li>You can put numbers on the <em>END</em> of the identifier if you have multiple datasets and want similar identifiers.</li>
+  <li>Make sure that your datasets match in length. If you have five labels, you should have five data points.</li>
+  <li>Axis labels may include units in the text.</li>
+</ul>
+
+    <a name="examples"><h2>Example Charts</h2></a>
+    <p>
+      A number of example charts and data files have been prepared.<br>
+    </p>
+<ul>
+  <li><a href="lineexample.html">Line example</a></li>
+  <li><a href="slineexample.html">Stacked line example</a></li>
+  <li><a href="vbarexample.html">VBar example</a></li>
+  <li><a href="svbarexample.html">Stacked VBar example</a></li>
+  <li><a href="hbarexample.html">HBar example</a></li>
+  <li><a href="pieexample.html">Pie example</a></li>
+  <li><a href="scatterexample.html">Scatter example</a></li>
+</ul>
+
+    <a name="assignments"><h2>Using Charts in School Assignments</h2></a>
+    <p>
+The chart libraries can be used in multiple ways. Teachers and students may consider any of the following or other options:<br><br>
+    </p>
+<ul>
+  <li>Teacher assigns each student to create a chart and data fill, submitting both for grading.</li>
+  <li>Teacher assigns each student to create a data file with the student name, so the teacher can use one HTML file that references each of the student files. That HTML file can be reused for each assignment that follows that format.</li>
+  <li>Teacher assigns the students to include a chart in a powerpoint or word report. The student uses the chart libraries to generate a charte and uses a screen grab to put the image in the report.</li>
+  <li>Teacher assigns the students to generate an HTML-based report. Students add &lt;p&gt;tags with text&lt;p&gt; to the HTML template.</li>
+  <li>Teacher assigns the students to "hack" the chart files by doing unexpected things. Generating an error is not the same as hacking. The goal of a hacker is to cause the library to do something different from the normal expected behavior. Try putting numbers where text is required, creating datasets of different sizes, etc.</li>
+</ul>
+
+    <a name="trouble"><h2>Troubleshooting</h2></a>
+    <p>
+All browsers have developer tools that allow you to read information about the code being displayed. This image shows how to access them on Chrome. Other browsers will use a similar method and you can easily search for details on how to access the developer tools.
+    </p>
+<img src="devtools.png" alt="GUI access to developer tools"><br>
+    <p>
+The main reason to use the developer tools is to see <em>IF</em> there are any errors and what they are. The most common errors are:<br><br>
+    </p>
+<dl>
+  <dt class="red">someIdentifier is not defined</dt><dd>This error occurs when an identifier does not match. If you mispelled the identifier in some way, computers cannot compensate. It seems silly to a human but "Bob" is not the same as "bob". It can be even worse than that. "ball" is not the same as "ba11". Even though you are smart enough to read the 1 digit as an L, computers are not that smart. The line number on the right tells you where the mismatch is, but it won't tell you how to fix it. Check all the uses of the identifier and make sure they all match.</dd>
+  <dt class="red">Cannot read property 'someProperty' of null</dt><dd>The computer is complaining because something is missing. The computer only realized there was a problem when it tried to access "someProperty". That line number can't tell you where the error occurred, only that there is a missing thing. Under the error is a list of the function calls that led to the error. We can see that some parameter passed along that list was the problem and you can search each of those places for the original problem that led to this error.</dd>
+</dl>
+<img src="errors.png" alt="Examples of errors"><br>
+  </body>
+</html>

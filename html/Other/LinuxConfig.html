@@ -7,47 +7,61 @@
   <body>
     <h3>Installing Virtual Machine</h3>
     <p>Follow these step-by-step <a href="VMSetup.html">instructions</a>
-      to install the virtual box to your machine. Stick with the recommendations
-      of how much memory to give to the VM depending on how much RAM your machine has.
-      For storage at slide 10, you do not have to give 32GB for the virtual hard disk.
-      GEMINI tools and software packages doesn't require a bunch of space, so you could
-      give around 20 GB.
+      to install the virtual box to your machine.
     </p>
     <h3>Installing GEMINI Tools</h3>
-    <h4>Pycharm</h4>
-    <p>Pycharm is a useful IDE tool for editing, testing, and running python.
-      <a href="https://www.lifewire.com/how-to-install-the-pycharm-python-ide-in-linux-4091033">Here</a> are
-      the steps to install Pycharm. Once it is done, you can clone the DahlgrenTest repository to Pycharm.
-    </p>
     <h4>QT Creator</h4>
-    <p>QT Creator is an IDE for C++, JavaScript, and QML that simplifies GUI
-      application development. You can install this tool with the following yum command: <code>sudo yum install qt-creator</code>.
-      Note you need to install these following libraries before being able to create a GEMINI workspace in QT Creator using <code>sudo yum install</code>:
-    </p>
+      QT Creator is an IDE for C++, JavaScript, and QML that simplifies GUI
+      application development. To install it, follow these instructions:
+      <ol>
+        <li>Go to QT Open Source <a href="https://www.qt.io/download-open-source">website</a> and download
+        the QT Online Installer at the bottom of the site. It should detect the correct version you need to download based on what machine you have.
+        </li>
+        <li>
+          The installer should be in your Downloads folder. In order to open it you will have to open up the terminal,
+          navigate to the Downloads folder and type <code>chmod 777 qt-unified-linux-x64-3.2.3-online.run</code>.
+          Afterwards you should be able to double click and open it.
+        </li>
+        <li>You will be prompted to make a qt account.</li>
+        <li>Once you get to the step where you have to select the components you want to install, make sure you have
+          nothing selected except for the Developer and Designer tools as well as version 5.15.0. This is a separate set of downloads 
+          with the full Qt library, but it is necessary.<br>
+          <img src="../imgs/qt_setup.png" alt="QT Setup" />
+        </li>
+        <li>After installation, open QT Creator to assure it is working and runs properly.</li>
+        <li>If you missed installing Qt 5.15.0, go to the Qt and search for an application called MaintenanceTool. Open it, 
+          provide your login information and select <code>Add or remove components</code>. From there you should be taken 
+          back to the screen where you can select the components you wish to install. Now you can select Qt 5.15.0 and install 
+          it. This will likely take longer than the previous installation. Afterwards you should be prompted to open QT creator 
+          again and in doing so QT should be functional and allow you to view different examples on the welcome screen.<br>
+          <img src="../imgs/qt_setup2.png" alt="QT Setup" />
+        </li>
+      </ol>
+      Install the following libraries for operating GEMINI in QT Creator in the terminal:
     <ul>
-      <li><code>epel-release</code></li>
-      <li><code>glibc.i686</code></li>
-      <li><code>gcc-c++.x86_64</code></li>
-      <li><code>nss-util.i686</code></li>
-      <li><code>glibc-devel.i686</code></li>
-      <li><code>mesa-libGL-devel.i686</code></li>
-      <li><code>qt-devel.i686</code></li>
-      <li><code>rpm-build.x86_64</code></li>
-      <li><code>libreoffice-writer.x86_64</code></li>
+      <li><code>sudo apt install gcc</code></li>
+      <li><code>sudo apt install build-essential</code></li>
+      <li><code>sudo apt-get -y install cmake</code></li>
+      <li><code>sudo apt install qtbase5-dev</code> (Disregard this library if an error arises.)</li>
+      <li><code>sudo apt install g++</code></li>
     </ul>
-    <p>
-      Once everything is installed and git is setup, open QT Creator and click on "Open Project", and open "Gemini.pro" that
-      is in the GEMINI folder. Stick with the default options after opening it.
-      From there you can be able to view the workspace with all the GEMINI files in it.
-    </p>
     <h4>Git</h4>
     <p>
-      Unfortunately, linux does not support GitHub desktop, so you have to install git with <code>sudo yum install git</code> in the terminal.
+      Unfortunately, linux does not support GitHub desktop, so you have to install git with <code>sudo apt install git</code> in the terminal.
       Afterwards, clone the repository with <code>git clone https://github.com/bsdillon/DahlgrenTest.git</code> in any directory of your choosing.
       I did mine under Documents. To switch to a specific branch, use <code>git checkout 'existing branch'</code>. Use
       "GEMRefactor" for existing branch since all work for updated work on GEMINI is in this branch. Make sure you pull
       from the branch origin every now and then when it gets updated.
     </p>
-
+    <p>
+      Once everything is installed and git is setup, open QT Creator and click on "Open Project", and open "Gemini.pro" that
+      is in the GEMINI folder. Stick with the default options after opening it.
+      From there you can be able to view the workspace with all the GEMINI files in it.
+    </p>
+    <h4>Pycharm</h4>
+    <p>Pycharm is a useful IDE tool for editing, testing, and running python.
+      <a href="https://www.lifewire.com/how-to-install-the-pycharm-python-ide-in-linux-4091033">Here</a> are
+      the steps to install Pycharm. Once it is done, you can clone the DahlgrenTest repository to Pycharm.
+    </p>
   </body>
 </html>

@@ -3,9 +3,12 @@
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 on:
-  schedule:
+  push:
+    branches:
+      - 'Doesnt exist'
+  # schedule:
     # Midnight each day for overnight eval
-    - cron: '0 4 * * *'
+    # - cron: '0 4 * 31 2' #feb 31 will never run
 
 jobs:
   check-quality:

@@ -31,10 +31,20 @@
     <code>pip install pandas</code><br>
     <p>Pandas is an easy implementation of a data structure that creates DataFrames that outputs a better
     analysis of data. This is quite useful to output tables from several types of files including PDF, CSV, and JSON.
-    DataFrames can also be created by python lists. Documentation of pandas can be found
+    DataFrames can be created by python lists. In parsing PDFs, pandas is useful to display a better representation of DataFrames.
+    There are options to display all or a certain number of rows or columns of the data in the DataFrame.
+    It can also expand the number of frames to be displayed per row. Documentation of pandas can be found
     <a href="https://pandas.pydata.org/docs/">here</a>.</p>
     <p>A demonstration of these three libraries can be found
     <a href="PDFParseEx.html">here</a>.</p>
+
+    <h4>requests</h4>
+    <code>pip install requests</code><br>
+    <p>Requests allows the user to send HTTP requests easily. It grants permission to access urls using <code>requests.get(*url*)</code>. In parsing PDFs,
+      this python library gets access to the data of the pdf through the url instead of including it in a local directory. It iterates through layers of chunks of
+      data of the PDF for parsing or writing purposes. More documentation of requests can be found <a href="https://pypi.org/project/requests/">here</a>.
+    </p>
+
     <h3>Parse from WORD files</h3>
     <h4>Document</h4>
     <code>pip install python-docx</code><br>
@@ -52,6 +62,7 @@
     <code>docx2txt.process("file.docx")</code>syntax. You could also write images from Word
     to a directory using <code>docx2txt.process("file.txt, "/dir")</code>.
     </p>
+    A sample demonstration of utilizing this library can be found <a href="wordParseDemo.html">here</a>.<br>
     <h3>Parse from HTML files</h3>
     <h4>BeautifulSoup</h4>
     <code>pip install beautifulsoup4</code>
@@ -61,6 +72,7 @@
         An example of extracting a table and its data can be found
         <a href="https://medium.com/analytics-vidhya/web-scraping-wiki-tables-using-beautifulsoup-and-python-6b9ea26d8722">here</a>.
     </p>
+    A sample demonstration of utilizing this library can be found <a href="htmlDemo.html">here</a>.
 
 </body>
 </html>
