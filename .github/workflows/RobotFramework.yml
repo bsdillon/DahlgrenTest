@@ -20,6 +20,7 @@ jobs:
         run: |
             sudo snap install chromium
             chromium --version
+            sudo ln -s /path/to/chromedriver /usr/bin
       - name: Run Robot Tests
         uses: codefour-gmbh/robotframework-action@master
         env:
