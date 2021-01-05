@@ -1,1 +1,0 @@
-Contains log, output, and report files from three different instances - one where most tests fail, one where only one fails, and one where they all pass.
