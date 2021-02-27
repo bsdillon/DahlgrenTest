@@ -48,6 +48,125 @@ def ammend_path(filename, *search_paths):
         return
 
 
+def build_llvm_tool():
+  if not os.path.exists('build'):
+    os.makedirs('build')
+
+  llvm_proj_dir = os.path.join('build', 'llvm')
+  if not os.path.exists(llvm_proj_dir):
+    subprocess.run([
+      'git', 'clone', '--depth', '1', 'https://github.com/llvm/llvm-project.git', llvm_proj_dir,
+    ], check=True)
+
+  llvm_src_dir = os.path.join(llvm_proj_dir, 'llvm')
+  llvm_build_dir = os.path.join('build', 'llvm_build')
+  
+  if not os.path.exists(llvm_build_dir):
+    os.makedirs(llvm_build_dir)
+
+  compile_llvm_step1_flag = os.path.join('build', 'llvm_compile_step1.txt')
+  if not os.path.exists(compile_llvm_step1_flag):
+    subprocess.run([
+      'cmake', '-G', 'Unix Makefiles', '-DLLVM_ALL_TARGETS=X86', '-DLLVM_TARGETS_TO_BUILD=X86', '-DCMAKE_CXX_STANDARD=17', os.path.abspath(llvm_src_dir),
+    ], check=True, cwd=llvm_build_dir)
+
+    subprocess.run([
+      'make', '-j1',
+    ], check=True, cwd=llvm_build_dir)
+
+    pathlib.Path(compile_llvm_step1_flag).touch()
+
+  # Now install ZPassTestModule into the LLVM directory structure by copying
+  # files at the root into build/llvm/
+  zpass_build_dir = os.path.join(llvm_src_dir, 'lib', 'Transforms', 'ZPassTestModule')
+  if not os.path.exists(zpass_build_dir):
+    os.makedirs(zpass_build_dir)
+
+  print('Copying in ZPassTestModule.cpp...')
+  shutil.copy(os.path.join('ZPassTestModule', 'ZPassTestModule.cpp'), os.path.join(zpass_build_dir, 'ZPassTestModule.cpp'))
+  shutil.copy(os.path.join('ZPassTestModule', 'ZPassTestModule.h'), os.path.join(zpass_build_dir, 'ZPassTestModule.h'))
+  # time.sleep(2) # debugging
+
+  llvm_cmakelists = os.path.join(llvm_src_dir, 'lib', 'Transforms', 'CMakeLists.txt')
+
+  llvm_cmakelists_content = ''
+  with open(llvm_cmakelists, 'r') as fd:
+    llvm_cmakelists_content = fd.read()
+  if not 'ZPassTestModule' in llvm_cmakelists_content:
+    with open(llvm_cmakelists, 'w') as fd:
+      fd.write(llvm_cmakelists_content)
+      fd.write(os.linesep)
+      fd.write('add_subdirectory(ZPassTestModule)')
+
+  zpass_cmakelists = os.path.join(zpass_build_dir, 'CMakeLists.txt')
+  with open(zpass_cmakelists, 'w') as fd:
+    fd.write('''
+add_llvm_component_library(LLVMZPassTestModule
+  ZPassTestModule.cpp
+
+  DEPENDS
+  intrinsics_gen
+
+  LINK_COMPONENTS
+  Core
+  Support
+)
+''')
+
+  llvm_cmakelists = os.path.join(llvm_src_dir, 'lib', 'Passes', 'CMakeLists.txt')
+
+  llvm_cmakelists_content = ''
+  with open(llvm_cmakelists, 'r') as fd:
+    llvm_cmakelists_content = fd.read()
+  if not 'ZPassTestModule' in llvm_cmakelists_content:
+    llvm_cmakelists_content = llvm_cmakelists_content.replace('LINK_COMPONENTS', 'LINK_COMPONENTS'+os.linesep+'  ZPassTestModule')
+    with open(llvm_cmakelists, 'w') as fd:
+      fd.write(llvm_cmakelists_content)
+
+  llvm_passbuilder = os.path.join(llvm_src_dir, 'lib', 'Passes', 'PassBuilder.cpp')
+  llvm_passbuilder_content = ''
+  with open(llvm_passbuilder, 'r') as fd:
+    llvm_passbuilder_content = fd.read()
+
+  if not 'ZPassTestModule/ZPassTestModule.h' in llvm_passbuilder_content:
+    llvm_passbuilder_content = llvm_passbuilder_content.replace(
+      '#include "llvm/Transforms/Vectorize/VectorCombine.h"',
+      #'#include "llvm/Transforms/Vectorize/VectorCombine.h"'+os.linesep+'#include "llvm/Transforms/ZPassTestModule/ZPassTestModule.h"'+os.linesep
+      '#include "llvm/Transforms/Vectorize/VectorCombine.h"'+os.linesep+'#include "'+os.path.abspath(os.path.join(llvm_src_dir, 'lib', 'Transforms', 'ZPassTestModule', 'ZPassTestModule.h'))+'"'+os.linesep
+    )
+    with open(llvm_passbuilder, 'w') as fd:
+      fd.write(llvm_passbuilder_content)
+
+  llvm_passreg = os.path.join(llvm_src_dir, 'lib', 'Passes', 'PassRegistry.def')
+  llvm_passreg_content = ''
+  with open(llvm_passreg, 'r') as fd:
+    llvm_passreg_content = fd.read()
+  
+  if not 'ZPassTestModulePass' in llvm_passreg_content:
+    llvm_passreg_content = llvm_passreg_content.replace(
+      '#undef MODULE_PASS',
+      'MODULE_PASS("zpasstestmodule", ZPassTestModulePass())'+os.linesep+'#undef MODULE_PASS'+os.linesep
+    )
+    with open(llvm_passreg, 'w') as fd:
+      fd.write(llvm_passreg_content)
+
+  compile_llvm_step2_flag = os.path.join('build', 'llvm_compile_step2.txt')
+  if not os.path.exists(compile_llvm_step2_flag):
+    subprocess.run([
+      'cmake', '-G', 'Unix Makefiles', '-DLLVM_ALL_TARGETS=X86', '-DLLVM_TARGETS_TO_BUILD=X86', '-DCMAKE_CXX_STANDARD=17', os.path.abspath(llvm_src_dir),
+    ], check=True, cwd=llvm_build_dir)
+
+    subprocess.run([
+      'make', '-j1',
+    ], check=True, cwd=llvm_build_dir)
+
+    pathlib.Path(compile_llvm_step2_flag).touch()
+
+  # LLVM opt.exe has been built, record for SQM to read later:
+
+  os.environ['SQM_LLVM_PASS_OPT_BIN'] = os.path.abspath(os.path.join(llvm_build_dir, 'bin', 'opt'))
+
+
 def main(args=sys.argv):
   # Move to script directory
   os.chdir(os.path.abspath(os.path.dirname(__file__)))
@@ -169,6 +288,9 @@ def main(args=sys.argv):
   os.environ['CLASSPATH'] = os.getenv('CLASSPATH', '') + os.pathsep + os.path.abspath(antlr_jar) + os.pathsep + os.path.abspath(compiled_antlr_grammar_dir)
 
   os.environ['SQM_DATA_DIR'] = os.path.abspath(os.path.join('SoftwareAnalyzer2', 'bin', 'TestAnalysis'))
+
+  # Finally build llvm tool
+  build_llvm_tool()
 
   exec_cmd = []
 

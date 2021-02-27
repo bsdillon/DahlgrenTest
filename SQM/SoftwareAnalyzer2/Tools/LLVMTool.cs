@@ -78,17 +78,58 @@ namespace SoftwareAnalyzer2.Tools
             
             string rootPath = project.GetProperty(ProjectProperties.RootDirectory);
 
-            string llvm_link_out_dir = project.GetProperty(ProjectProperties.FilePath).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar + "llvm_link";
-
-            // llvm_link_out_dir
+            string llvm_link_out_dir = project.GetProperty(ProjectProperties.FilePath).TrimEnd(Path.DirectorySeparatorChar);
 
             Process p = new Process();
-            p.StartInfo.FileName = "opt";
-            p.StartInfo.Arguments = "-";
+            p.StartInfo.FileName = "clang++";
+            p.StartInfo.Arguments = String.Join(" ",
+              "-O0",
+              "-g",
+              "-gcolumn-info",
+              "-Xclang",
+              "-disable-llvm-passes",
+              "-S",
+              "-emit-llvm",
+              "-I"+rootPath
+            );
+
+            foreach (string c_file in Directory.GetFiles(rootPath, "*.c", SearchOption.AllDirectories)) {
+              p.StartInfo.Arguments += " "+Path.GetFullPath(c_file);
+            }
+            foreach (string cpp_file in Directory.GetFiles(rootPath, "*.cpp", SearchOption.AllDirectories)) {
+              p.StartInfo.Arguments += " "+Path.GetFullPath(cpp_file);
+            }
+            
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardInput = true;
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.WorkingDirectory = llvm_link_out_dir;
+            p.Start();
+
+            p.WaitForExit(301000);
+
+            string llvm_link_out_file = llvm_link_out_dir + Path.DirectorySeparatorChar + "ZPassTestModule.ll";
+            if (!File.Exists(llvm_link_out_file)) {
+              string err = "No LLVM bitcode generated! Expected file to exist: "+llvm_link_out_file;
+              errorMessages.Add(err);
+              Console.WriteLine(err);
+              return;
+            }
+
+            p = new Process();
+            p.StartInfo.FileName = Environment.GetEnvironmentVariable("SQM_LLVM_PASS_OPT_BIN") ?? "opt";
+            p.StartInfo.Arguments = String.Join(" ",
+              "-disable-output",
+              llvm_link_out_file,
+              "-passes=zpasstestmodule"
+            );
+            
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.WorkingDirectory = project.GetProperty(ProjectProperties.FilePath).TrimEnd(Path.DirectorySeparatorChar);
             p.Start();
             // Thread p_stdin_t = new Thread(() => {
             //   try {
@@ -103,10 +144,10 @@ namespace SoftwareAnalyzer2.Tools
             // });
             // p_stdin_t.Start();
 
-            // Let llvm churn for max 901 seconds
-            bool process_completed = p.WaitForExit(901000);
+            // Let llvm churn for max 301 seconds
+            bool process_completed = p.WaitForExit(301000);
             if (!process_completed) {
-              Console.WriteLine("[ Warning ] llvm did not complete in 901 seconds.");
+              Console.WriteLine("[ Warning ] llvm did not complete in 301 seconds.");
             }
 
             

@@ -4,6 +4,12 @@ obj/
 out.txt
 c:\\
 
+# Ignore some llvm-generated files
+*.cpp-macros
+*.cpp-preprocessed
+build
+
+
 # Ignore segfault dumps on linux systems
 mono_crash.*
 
