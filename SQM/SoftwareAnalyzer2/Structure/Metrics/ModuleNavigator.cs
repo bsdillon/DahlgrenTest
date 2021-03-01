@@ -1,0 +1,723 @@
+﻿using SoftwareAnalyzer2.Structure.Gephi;
+using SoftwareAnalyzer2.Structure.Graphing;
+using SoftwareAnalyzer2.Structure.Node;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace SoftwareAnalyzer2.Structure.Metrics
+{
+    /// <summary>
+    /// Head class used to navigate the graph and discover all metrics
+    /// </summary>
+    public class ModuleNavigator : IGraphNavigator
+    {
+        // Control communications with the user during work.
+        private Label output;
+        private void SetOutput(string msg)
+        {
+            output.Text = msg;
+            output.Refresh();
+        }
+
+        #region File IO
+        // Defines the valid file type used by this IGraphNavigator
+        private static string nodeSuffix = ".node";
+        public static string FileSuffix
+        {
+            get
+            {
+                return nodeSuffix;
+            }
+        }
+
+        private static string edgeSuffix = ".edge";
+        private string fileStem;
+        #endregion
+
+        public ModuleNavigator(string fileRoot, Label userOutput)
+        {
+            fileStem = fileRoot;
+            output = userOutput;
+        }
+
+        //required functionality under IGraphNavigator
+        public void Navigate(AbbreviatedGraph current)
+        {
+            MetricUtilities.Initialize();
+
+            SetOutput("Looking for graph members");
+            DiscoverAllMembers(current);
+
+            //Create gephi nodes for all type members.
+            foreach(AbbreviatedGraph type in MetricUtilities.AllMembers)
+            {
+                bool isInterface = false;
+
+                if (type.Represented.Node.Equals(Members.INTERFACE))
+                {
+                    isInterface = true;
+                }
+
+                //TODO Reconsider the definition of interface in metrics
+                //At some point I was using an abstract or stateless annotation as 
+                //the sign of an interface. It is completely disabled in the 
+                //current version, but it either needs to used or just removed.
+                AbbreviatedGraph[] annotations = type.GetEdges(Relationship.Annotation).Keys.ToArray();
+                if (annotations.Length > 0)
+                {
+                    foreach (AbbreviatedGraph a in annotations)
+                    {
+                        if (a.Represented.Node.Equals(Members.Abstract))
+                        {
+                            //isInterface = true;
+                            break;
+                        }
+                        else if (a.Represented.Node.Equals(Members.Annotation) && a.Represented.Code.Equals("Stateless"))
+                        {
+                            //isInterface = true;
+                            break;
+                        }
+                    }
+                }
+
+                //TODO consider new means of excluding external nodes
+                //the current metric recognizes that the file was not 
+                //one of those under test so we can ignore it. This
+                //will not be true of the next version of the metric
+                bool externalMember = type.Represented.FileName.Equals("--");
+
+                foreach (AbbreviatedGraph member in MetricUtilities.GetMembersOf(type))//look at all members in that type
+                {
+                    //Determine the initial values of the new node
+                    long myMember = MetricUtilities.GetMemberID(type,member);
+
+                    long module = myMember;
+
+                    bool inQAlgorithm = true;
+                    NodePatterns p = NodePatterns.None;
+                    if (externalMember)
+                    {
+                        p = NodePatterns.External;
+                        inQAlgorithm = false;
+                    }
+                    else if (isInterface)
+                    {
+                        p = NodePatterns.Interface;
+                        inQAlgorithm = false;
+                    }
+
+                    //create the gephi node for this member
+                    MetricUtilities.InitializeGephiNode(myMember, member, type, module, p, AccessPatterns.None, inQAlgorithm);
+                }
+            }
+
+            SetOutput("Creating graph edges");
+            //Create all edges and define weights
+            allSourceMethods = new Dictionary<AbbreviatedGraph, GephiNode>();
+            foreach (AbbreviatedGraph type in MetricUtilities.AllMembers)
+            {
+                foreach (AbbreviatedGraph member in MetricUtilities.GetMembersOf(type))
+                {
+                    //CreateEdges(member, Relationship.ParamLink, 1);
+                    CreateWriteEdges(member, Relationship.WrittenBy, 1);
+                    CreateEdges(member, Relationship.CandidateRead, 1);
+                    CreateEdges(member, Relationship.NewImplementation, 0);
+                }
+            }
+
+            SetOutput("Scanning for known patterns");
+            NodePatternMetrics.FindPatterns();
+            SetOutput("Scanning for unconnected nodes");
+            ConnectivityMetrics.TagLoneNodes();
+            SetOutput("Discovering modules");
+            QAlgorithm.Instance.MainAlgorithm();
+            SetOutput("Identifying API classes");
+            ConnectivityMetrics.FindAPIClasses();
+            SetOutput("Measuring integrity values");
+            IntegrityMetrics.CalculateAllItegrityValues();
+            SetOutput("Scanning for turmors");
+            CancerInvasion.FindCancers();
+            SetOutput("Identifying state members");
+            StateCounter.CountAllStates();
+            SetOutput("Looking for state machines");
+            StatePatternMetrics.FindPatterns();
+            SetOutput("Writing graph files");
+            WriteOutGraph();
+            SetOutput("Writing metric reports");
+            WriteMetricReports();
+            SetOutput("Done");
+        }
+
+        #region Report Writing
+        private void WriteOutGraph()
+        {
+            //output all edges
+            MetricUtilities.WriteEdges(fileStem + edgeSuffix);
+
+            long moduleIndex = 25;//start of separted modules
+            moduleIndex += 25;//moving index for other modules.
+
+            //start all node writers
+            StreamWriter externalWriter = new StreamWriter(fileStem + "_External" + nodeSuffix);
+            StreamWriter interfaceWriter = new StreamWriter(fileStem + "_Interface" + nodeSuffix);
+            StreamWriter loneWriter = new StreamWriter(fileStem + "_Lone" + nodeSuffix);
+            StreamWriter APIWriter = new StreamWriter(fileStem + "_API" + nodeSuffix);
+            StreamWriter separatedWriter = new StreamWriter(fileStem + "_Separated" + nodeSuffix);
+            StreamWriter tumorWriter = new StreamWriter(fileStem + "_Tumor" + nodeSuffix);
+            StreamWriter ModuleWriter = new StreamWriter(fileStem + "_Module" + nodeSuffix);
+
+            //node 0 will be used to define the header of each file
+            //this removes the attributes which do not need to show up
+            //in the file and then writes the header for that node
+            //in each of the files.
+            GephiNode[] nodes = MetricUtilities.AllNodes;
+            nodes[0].RemoveProperty(NodeProperties.QState);
+            nodes[0].RemoveProperty(NodeProperties.ClassIntegrity);
+            nodes[0].RemoveProperty(NodeProperties.ModuleIntegrity);
+            externalWriter.WriteLine(nodes[0].Header);
+            interfaceWriter.WriteLine(nodes[0].Header);
+            loneWriter.WriteLine(nodes[0].Header);
+            APIWriter.WriteLine(nodes[0].Header);
+            separatedWriter.WriteLine(nodes[0].Header);
+            tumorWriter.WriteLine(nodes[0].Header);
+            ModuleWriter.WriteLine(nodes[0].Header);
+
+            //go through each node and put it in the right file
+            foreach (GephiNode n in nodes)
+            {
+                //remove non-reported attributes
+                long module = (long)n.GetProperty(NodeProperties.Module);
+                n.RemoveProperty(NodeProperties.QState);
+                n.RemoveProperty(NodeProperties.ClassIntegrity);
+                n.RemoveProperty(NodeProperties.ModuleIntegrity);
+
+                //this module is pseudo-random based on the Q algorithm and
+                //is ill-suited for a clean file output with consecutive
+                //modules numbers in a given range.
+                long mod = (long)n.GetProperty(NodeProperties.Module);
+
+                //write state-related files
+                StatePatterns sp = (StatePatterns)n.GetProperty(NodeProperties.StateMember);
+                if (sp!=StatePatterns.None)
+                {
+                    bool skip = false;
+                    switch (sp)
+                    {
+                        case StatePatterns.ConstantVariable:
+                            moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                            tumorWriter.WriteLine(n.ToGephiRecord());
+                            skip = true;
+                            break;
+                        case StatePatterns.ConstantLogic:
+                            moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                            tumorWriter.WriteLine(n.ToGephiRecord());
+                            skip = true;
+                            break;
+                        case StatePatterns.UncalledStateMethod:
+                            moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                            tumorWriter.WriteLine(n.ToGephiRecord());
+                            skip = true;
+                            break;
+                        case StatePatterns.UnreadStateField:
+                            moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                            tumorWriter.WriteLine(n.ToGephiRecord());
+                            skip = true;
+                            break;
+                        case StatePatterns.CasualCancer:
+                            moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                            tumorWriter.WriteLine(n.ToGephiRecord());
+                            skip = true;
+                            break;
+                    }
+
+                    if (skip)
+                    {
+                        //State-related members which belong to the cancer group
+                        //will not appear in any other file; skip writing them out
+                        continue;
+                    }
+                }
+
+                //Nodes which were not part of a known state-problem
+                //are added to one of several file types.
+                switch ((NodePatterns)n.GetProperty(NodeProperties.NodePattern))
+                {
+                    case NodePatterns.External:
+                        //module is fixed
+                        externalWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                    case NodePatterns.Interface:
+                        //module is fixed
+                        interfaceWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                    case NodePatterns.APIClass:
+                        //module is fixed
+                        APIWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                    case NodePatterns.LoneNodes:
+                        //module is fixed
+                        loneWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                    case NodePatterns.Separated:
+                        //module is fixed
+                        separatedWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                    case NodePatterns.DysplasiaII:
+                        moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                        tumorWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                    case NodePatterns.DysplasiaI:
+                        moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                        tumorWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                    case NodePatterns.Tumor:
+                        moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                        tumorWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                    default:
+                        moduleIndex = FinalizeModuleNumber(mod, moduleIndex);
+                        ModuleWriter.WriteLine(n.ToGephiRecord());
+                        break;
+                }
+            }
+
+            //close all the file outputs.
+            externalWriter.Close();
+            interfaceWriter.Close();
+            loneWriter.Close();
+            APIWriter.Close();
+            separatedWriter.Close();
+            ModuleWriter.Close();
+            tumorWriter.Close();
+        }
+
+        private void WriteMetricReports()
+        {
+            //prepare the summary file
+            StreamWriter writer = new StreamWriter(fileStem + "_Summary.txt");
+            StringBuilder summary = new StringBuilder();
+            summary.Append("Summary report\r\n");
+
+            //IN each of the following sections a report file will be generated for a
+            //specific metric. As part of that process the number of reports will be
+            //output and THAT will be put into the summary report.
+
+            int reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Constants.txt", StatePatterns.ConstantVariable);
+            summary.Append("Constant Reports: " + reportCount + "\r\n");
+            
+            reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Settings.txt", StatePatterns.SettingVariable);
+            summary.Append("Setting Reports: " + reportCount + "\r\n");
+
+            reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Sources.txt", StatePatterns.SettingSource);
+            summary.Append("Source Object Reports: " + reportCount + "\r\n");
+            
+            reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Unread.txt", StatePatterns.UnreadStateField);
+            summary.Append("Unread State Variable Reports: " + reportCount + "\r\n");
+            
+            reportCount = StateMachineMetrics.CreateReport(fileStem + "State_SuperMethod.txt", StatePatterns.SuperStateMember);
+            summary.Append("Super State Method Reports: " + reportCount + "\r\n");
+            
+            reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Healthy.txt", StatePatterns.StateVariable);
+            summary.Append("Healthy State Reports: " + reportCount + "\r\n");
+            
+            reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Objects.txt", StatePatterns.SomeState);
+            summary.Append("State Object Reports: " + reportCount + "\r\n");
+
+            reportCount = CancerInvasion.ReportTumors(fileStem + "Cancer_Tumor");
+            summary.Append("Tumor Reports: " + reportCount + "\r\n");
+            
+            reportCount = CancerInvasion.ReportDysplasia(fileStem + "Cancer_Dysplasia");
+            summary.Append("Dysplasia Reports: " + reportCount + "\r\n");
+
+            reportCount = CancerInvasion.ReportFeatures(fileStem + "Features");
+            summary.Append("Feature Reports: " + reportCount + "\r\n");
+
+            reportCount = NodePatternMetrics.DecoratorReport(fileStem + "Decorators.txt");
+            summary.Append("Decorator Reports: " + reportCount + "\r\n");
+
+            reportCount = NodePatternMetrics.AccessorReport(fileStem + "GoodAccessors.txt");
+            summary.Append("Good Accessor Reports: " + reportCount + "\r\n");
+
+            reportCount = NodePatternMetrics.BadAccessorReport(fileStem + "BadAccessors.txt");
+            summary.Append("Bad Accessor Reports: " + reportCount + "\r\n");
+
+            reportCount = ConnectivityMetrics.APIReport(fileStem + "_API");
+            summary.Append("API Reports: " + reportCount + "\r\n");
+
+            //write the summary data collected
+            writer.WriteLine(summary.ToString());
+            writer.Close();
+
+            //write the verbose state report
+            writer = new StreamWriter(fileStem + "_VerboseState.txt");
+            writer.WriteLine(StateCounter.StateReport);
+            writer.Close();
+
+            //write the verbose state report
+            StateCounter.GetSummary(fileStem + "_stateSummary.txt");
+
+            //write the aggregated value report for each class
+            StreamWriter allCountWriter = new StreamWriter(fileStem + "_AllCount" + nodeSuffix);
+            CountAll.Count(allCountWriter);
+            allCountWriter.Close();
+
+            //write the graph related to heat values
+            StreamWriter heatMapNodes = new StreamWriter(fileStem + "_heat" + nodeSuffix);
+            StreamWriter heatMapEdges = new StreamWriter(fileStem + "_heat" + edgeSuffix);
+            CountAll.FindPackages(heatMapNodes, heatMapEdges);
+            heatMapEdges.Close();
+            heatMapNodes.Close();
+        }
+
+        /// <summary>
+        /// Compresses all modules into a consecutive set. The
+        /// current module mod will be replaced with a new value
+        /// either derived from the already remapped module number
+        /// OR adding a new module.
+        /// Returns the next maximum
+        /// </summary>
+        /// <param name="mod"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        private long FinalizeModuleNumber(long mod, long max)
+        {
+            if (mod > max)
+            {
+                if (MetricUtilities.ModuleExists(max))
+                {
+                    MetricUtilities.SwitchModules(mod, max);
+                    return max + 1;
+                }
+                else
+                {
+                    //this is from a new module; move all the current members over
+                    foreach (GephiNode member in MetricUtilities.GetModule(mod))
+                    {
+                        MetricUtilities.ChangeModule(member, max);
+                    }
+
+                    //go to the next index
+                    return max + 1;
+                }
+            }
+            return max;
+        }
+        #endregion
+
+        #region GraphCreation
+        //temporary mapping to GephiNode for all edge calculations
+        private Dictionary<AbbreviatedGraph, GephiNode> allSourceMethods;
+
+        /// <summary>
+        /// Creates a group of edges from member following all relationships matching the specification
+        /// </summary>
+        /// <param name="member"></param>
+        /// <param name="r"></param>
+        /// <param name="weightFactor"></param>
+        private void CreateEdges(AbbreviatedGraph member, Relationship r, double weightFactor)
+        {
+            GephiNode edgeSink = MetricUtilities.GephiFromGraph(member);
+
+            //search links to find connections with other types.
+            //count the edges relating some member to another
+            Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> nextEdges = member.GetEdges(r);
+
+            //create edges if they exist
+            if (nextEdges.Keys.Count > 0)
+            {
+                //this collection summarizes the counts for all edges
+                //a method may be linked to member by more than one edge
+                //as in x=y and z=y
+                Dictionary<AbbreviatedGraph, int> sourceMethodWeight = new Dictionary<AbbreviatedGraph, int>();
+
+                //count the links for this one edge as in x=y
+                foreach (AbbreviatedGraph edge in nextEdges.Keys)
+                {
+                    if (edge.Represented.Node.Equals(Members.Literal))
+                    {
+                        //we do not link to literals
+                        continue;
+                    }
+
+                    //the edge may link to a boolean expression or something similar.
+                    //the root is the actual method or field in some class within whose 
+                    //scope this method or field was touched.
+                    AbbreviatedGraph sourceMethod = FindSourceMethod(edge);
+                    List<AbbreviatedGraph> linkableSourceMethods = new List<AbbreviatedGraph>();
+
+                    if (member == sourceMethod)
+                    {
+                        //should have no self-referential connections.
+                        continue;
+                    }
+
+                    if (sourceMethod == null && !edge.Represented.Node.IsClassification)
+                    {
+                        //we don't consider connections to types
+                        continue;
+                    }
+
+                    if (edge.Represented.Node.IsClassification || (sourceMethod.Represented.Node.Equals(Members.Field) && sourceMethod.Represented.Code.Equals(NodeFactory.SelfReference)))
+                    {
+                        //Links from "this" or the static members from class name aren't usable
+                        //we need to link to the method where the member is connected
+                        //nextEdges[edge] is a list of all the statements where the edge
+                        //exists. All of them will be sourced on a method.
+                        foreach (AbbreviatedGraph s in nextEdges[edge])
+                        {
+                            AbbreviatedGraph methodLocation = FindSourceMethod(s);
+
+                            if (methodLocation != null)
+                            {
+                                linkableSourceMethods.Add(methodLocation);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //if the link is a natural one (on a method), we only 
+                        //have the one source to link
+                        linkableSourceMethods.Add(sourceMethod);
+                    }
+
+                    //linkableSourcesMethods are all the methods which link to edge
+                    foreach (AbbreviatedGraph s in linkableSourceMethods)
+                    {
+                        if (member == s)
+                        {
+                            //should have no self-referential connections.
+                            continue;
+                        }
+
+                        if (!sourceMethodWeight.ContainsKey(s))
+                        {
+                            //add a new method linked to member
+                            sourceMethodWeight.Add(s, 0);
+
+                            //globally track all the source objects. This prevents
+                            //the need to create competing Gephi definiitions from 
+                            //the same AbbreviatedGraph
+                            if (!allSourceMethods.ContainsKey(s))
+                            {
+                                if (MetricUtilities.GephiExists(s))
+                                {
+                                    allSourceMethods.Add(s, MetricUtilities.GephiFromGraph(s));
+                                }
+                            }
+                        }
+
+                        //increment the size of the relationship between member and this method
+                        sourceMethodWeight[s]++;
+                    }
+                }
+
+                //create the edges from the weights
+                foreach (AbbreviatedGraph key in sourceMethodWeight.Keys)
+                {
+                    if (allSourceMethods.ContainsKey(key))
+                    {
+                        GephiNode edgeSource = allSourceMethods[key];
+                        double weight = sourceMethodWeight[key] * weightFactor;
+                        bool inQAlgorithm = weightFactor > 0 && !MetricUtilities.IsExternal(edgeSource);
+                        MetricUtilities.CreateSingleEdge(edgeSource, edgeSink, r, weight, inQAlgorithm);
+                    }
+                }
+            }
+        }
+
+        private void CreateWriteEdges(AbbreviatedGraph member, Relationship r, double weightFactor)
+        {
+            GephiNode edgeSink = MetricUtilities.GephiFromGraph(member);
+
+            //search links to find connections with other types.
+            //count the edges relating some member to another
+            Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> nextEdges = member.GetEdges(r);
+
+            //create edges if they exist
+            if (nextEdges.Keys.Count > 0)
+            {
+                //this collection summarizes the counts for all edges
+                //a method may be linked to member by more than one edge
+                //as in x=y and z=y
+                Dictionary<AbbreviatedGraph, int> sourceMethodWeight = new Dictionary<AbbreviatedGraph, int>();
+
+                //count the links for this one edge as in x=y
+                foreach (AbbreviatedGraph edge in nextEdges.Keys)
+                {
+                    //for writes, we don't care WHAT writes to it (that is covered by read if we care at all)
+                    //instead we just want to find out WHERE they took place.
+
+                    //the edge may link to a boolean expression or something similar.
+                    //the root is the actual method or field in some class within whose 
+                    //scope this method or field was touched.
+
+                    List<AbbreviatedGraph> linkableSourceMethods = new List<AbbreviatedGraph>();
+                    foreach (AbbreviatedGraph s in nextEdges[edge])
+                    {
+                        AbbreviatedGraph methodLocation = FindSourceMethod(s);
+                        if (methodLocation != null)
+                        {
+                            linkableSourceMethods.Add(methodLocation);
+                        }
+                    }
+
+                    //linkableSourcesMethods are all the methods which link to edge
+                    foreach (AbbreviatedGraph s in linkableSourceMethods)
+                    {
+                        if (member == s)
+                        {
+                            //should have no self-referential connections.
+                            continue;
+                        }
+
+                        if (s==null)
+                        {
+                            //should have no null connections.
+                            continue;
+                        }
+
+                        if (!sourceMethodWeight.ContainsKey(s))
+                        {
+                            //add a new method linked to member
+                            sourceMethodWeight.Add(s, 0);
+
+                            //globally track all the source objects. This prevents
+                            //the need to create competing Gephi definiitions from 
+                            //the same AbbreviatedGraph
+                            if (!allSourceMethods.ContainsKey(s))
+                            {
+                                AbbreviatedGraph temp = s;
+                                if (!MetricUtilities.GephiExists(temp))
+                                {
+                                    temp = MetricUtilities.FindMethod(s);
+                                    if (temp == null)
+                                    {
+                                        temp = MetricUtilities.FindField(s);
+                                    }
+
+                                    if (temp == null)
+                                    {
+                                        temp = MetricUtilities.FindType(s);
+                                    }
+                                }
+
+                                if (MetricUtilities.GephiExists(temp))
+                                {
+                                    //TODO investigate why there would still be no Gephi
+                                    allSourceMethods.Add(temp, MetricUtilities.GephiFromGraph(temp));
+                                }
+                            }
+                        }
+
+                        //increment the size of the relationship between member and this method
+                        sourceMethodWeight[s]++;
+                    }
+                }
+
+                //create the edges from the weights
+                foreach (AbbreviatedGraph key in sourceMethodWeight.Keys)
+                {
+                    if (allSourceMethods.ContainsKey(key))
+                    {
+                        GephiNode edgeSource = allSourceMethods[key];
+                        double weight = sourceMethodWeight[key] * weightFactor;
+                        bool inQAlgorithm = weightFactor > 0 && !MetricUtilities.IsExternal(edgeSource);
+                        MetricUtilities.CreateSingleEdge(edgeSource, edgeSink, r, weight, inQAlgorithm);
+                    }
+                }
+            }
+        }
+
+        //finds the method where node is in scope or null if there is no method
+        private AbbreviatedGraph FindSourceMethod(AbbreviatedGraph node)
+        {
+            if (node.Represented.Node.IsClassification)
+            {
+                //only occurs for static access of members
+                return null;//no link represented by root.
+            }
+
+            AbbreviatedGraph current = node;
+
+            while (!current.Represented.Node.IsMethodDefinition)
+            {
+                AbbreviatedGraph[] parent = current.GetEdges(Relationship.MemberOf).Keys.ToArray();
+
+                if (parent.Length == 0)
+                {
+                    throw new InvalidOperationException("Search for root from " + node + " was without bound");
+                }
+
+                if (parent[0].Represented.Node.IsClassification)
+                {
+                    //if the parent of a node is the class, then it must be directly parented off of a field on the class.
+                    return current;
+                }
+
+                current = parent[0];
+            }
+
+            //the method on which the node is parented.
+            return current;
+        }
+
+        /// <summary>
+        /// Recursive function which finds all types and then the members within those types
+        /// adding them to the MetricUtilities members set.
+        /// </summary>
+        /// <param name="current"></param>
+        private void DiscoverAllMembers(AbbreviatedGraph current)
+        {
+            if (current.Represented.Node.IsClassification)
+            {
+                Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> members = current.GetEdges(Relationship.Member);
+                foreach (AbbreviatedGraph m in members.Keys)
+                {
+                    if (m.Represented.Node.Equals(Members.Field) && m.Represented.Code.Equals(NodeFactory.SelfReference))
+                    {
+                        continue;
+                    }
+
+                    if (m.Represented.Node.Equals(Members.Field) || m.Represented.Node.IsMethodDefinition || m.Represented.Node.Equals(Members.Value))
+                    {
+                        if (!m.IsSimulated && (m.Represented.Node.Equals(Members.Field) || m.Represented.Node.Equals(Members.Method)))
+                        {
+                            //Console.WriteLine(m.Represented.FileName + "\t" + m.Represented.Node + "\t" + m.Represented.Code + "\t" + m.GetEdges(Relationship.Control).Count);
+                        }
+
+                        //need to add to known members
+                        MetricUtilities.AddMember(current, m);
+                    }
+                    else if (m.Represented.Node.IsClassification)
+                    {
+                        DiscoverAllMembers(m);
+                    }
+                    else if (m.Represented.Node.Equals(Members.ArrayInvoke))
+                    {
+                        //need to add to known members
+                        MetricUtilities.AddMember(current, m);
+                    }
+                    else
+                    {
+                        //throw new InvalidCastException("Unknown type member " + m);
+                    }
+                }
+            }
+            else
+            {
+                Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> nextEdges = current.GetEdges(Relationship.Member);
+
+                foreach (AbbreviatedGraph next in nextEdges.Keys)
+                {
+                    DiscoverAllMembers(next);
+                }
+            }
+        }
+        #endregion
+    }
+}

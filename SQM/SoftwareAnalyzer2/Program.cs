@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using SoftwareAnalyzer2.GUI;
+
+namespace SoftwareAnalyzer2
+{
+    static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            try
+            {
+                Application.Run(new Form1());
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show("Final error in application: " + e.Message + "\n\r" + e.StackTrace);
+            }
+        }
+    }
+}
