@@ -334,13 +334,13 @@ namespace SoftwareAnalyzer2.Tools
         private int findDelimiterInString(string str, char delim, int startIndex)
         {
             int indexDelim = str.IndexOf(delim, startIndex);
-            int indexEscape = str.IndexOf("\\", startIndex);
+            int indexEscape = str.IndexOf(Path.DirectorySeparatorChar, startIndex);
 
             while (indexEscape < indexDelim && indexEscape > -1 && indexDelim > -1)//need to skip any escaped characters
             {
                 startIndex = indexEscape + 2;
                 indexDelim = str.IndexOf(delim, startIndex);
-                indexEscape = str.IndexOf("\\", startIndex);
+                indexEscape = str.IndexOf(Path.DirectorySeparatorChar, startIndex);
             }
 
             //either this is the index of node delimeter or it is node -1 indicating no valid delimeter exists

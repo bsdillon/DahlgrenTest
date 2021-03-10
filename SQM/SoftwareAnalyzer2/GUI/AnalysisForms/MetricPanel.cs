@@ -58,7 +58,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             }
             else
             {
-                visible = File.Exists(directory + "\\" + FileText.Text + endFileName);
+                visible = File.Exists(directory + Path.DirectorySeparatorChar + FileText.Text + endFileName);
             }
 
             fileNameLabel.ForeColor = c;
@@ -70,7 +70,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
         {
             if (FileCheck(ModuleNavigator.FileSuffix))
             {
-                ModuleNavigator mn = new ModuleNavigator(directory + "\\" + FileText.Text, output);
+                ModuleNavigator mn = new ModuleNavigator(directory + Path.DirectorySeparatorChar + FileText.Text, output);
                 AbbreviatedGraph.Navigate(mn);
                 MessageBox.Show(this, "Module file complete");
             }
