@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -31,7 +32,14 @@ namespace SoftwareAnalyzer2.GUI.ProjectForms
             //create project
             string projectName = projectText.Text;
 
-            string dir = "c:\\SoftwareAnalyzer";//System.IO.Path.GetDirectoryName(Application.StartupPath);
+            // We read an env variable to override the windows hard-coded C:\\SoftwareAnalyzer directory.
+            // This lets *nix wrappers put SQM data wherever they like.
+            string dir = Path.Combine("c:\\", "SoftwareAnalyzer");
+            string maybe_dir = Environment.GetEnvironmentVariable("SQM_DATA_DIR");
+            if (maybe_dir != null) {
+                dir = maybe_dir;
+            }
+
             Project project = null;
             try
             {

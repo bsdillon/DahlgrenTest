@@ -31,7 +31,7 @@ namespace SoftwareAnalyzer2.ProjectCoordination
         public static Project GenerateNew(string projectName, string executionPath)
         {
             //BSD
-            string fullPath = executionPath + "\\" + projectName;
+            string fullPath = executionPath + Path.DirectorySeparatorChar + projectName;
             string fileName = projectName + "." + FileExtension;
             if (Directory.Exists(fullPath))
             {
@@ -72,7 +72,7 @@ namespace SoftwareAnalyzer2.ProjectCoordination
                 Directory.CreateDirectory(fullPath);
             }
 
-            string fullFile = fullPath + "\\" + fileName;
+            string fullFile = fullPath + Path.DirectorySeparatorChar + fileName;
             StreamWriter sw = new StreamWriter(File.Create(fullFile));
 
             foreach (string key in properties.Keys)
@@ -146,7 +146,7 @@ namespace SoftwareAnalyzer2.ProjectCoordination
             {
                 string fullPath = GetProperty(ProjectProperties.FilePath);
                 string fileName = GetProperty(PrivateProperties.FileName);
-                return fullPath + "\\" + fileName;
+                return fullPath + Path.DirectorySeparatorChar + fileName;
             }
         }
 
