@@ -17,13 +17,13 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         internal static bool OpenFile(string directory, string fileName)
         {
             bool worked = false;
-            string path = directory + "\\" + fileName + ".gph";
+            string path = directory + Path.DirectorySeparatorChar + fileName + ".gph";
             nodes.Clear();
             indices.Clear();
 
             if (File.Exists(path))
             {
-                StreamReader sr = new StreamReader(directory + "\\" + fileName + ".gph");
+                StreamReader sr = new StreamReader(directory + Path.DirectorySeparatorChar + fileName + ".gph");
                 try
                 {
                     List<object[]> edges = new List<object[]>();

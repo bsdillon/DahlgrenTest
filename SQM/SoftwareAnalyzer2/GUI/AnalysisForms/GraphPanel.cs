@@ -34,7 +34,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             GephiNavigator nav = new GephiNavigator(nodes, edges);
             AbbreviatedGraph.Navigate(nav);
 
-            GephiWriter.WriteFile(directory + "\\" + fileName.Text, nodes, edges);
+            GephiWriter.WriteFile(directory + Path.DirectorySeparatorChar + fileName.Text, nodes, edges);
             MessageBox.Show(this, "Gephi files complete");
         }
 
@@ -71,7 +71,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             }
             else
             {
-                visible = GephiWriter.FileExists(directory + "\\" + fileName.Text);
+                visible = GephiWriter.FileExists(directory + Path.DirectorySeparatorChar + fileName.Text);
             }
 
             fileNameLabel.ForeColor = c;

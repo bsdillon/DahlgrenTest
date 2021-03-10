@@ -70,7 +70,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         public static void Save(string directory, string fileName)
         {
             SaveIndex = 0;
-            graphFile = new StreamWriter(directory + "\\" + fileName + ".gph");
+            graphFile = new StreamWriter(directory + Path.DirectorySeparatorChar + fileName + ".gph");
             nodes = new Dictionary<long, GraphNode>();
             AllowNewID = true;
 
