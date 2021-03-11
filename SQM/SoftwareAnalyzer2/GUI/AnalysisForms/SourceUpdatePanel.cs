@@ -88,7 +88,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             SuspendEnabled(true);
             //first need to update files for all source code
             string dir = currentProject.FilePath;
-            dir = dir.Substring(0, dir.LastIndexOf('\\'));
+            dir = dir.Substring(0, dir.LastIndexOf(Path.DirectorySeparatorChar));
             string name = currentProject.GetProperty(ProjectProperties.ProjectName);
 
             //There are two conditions which force the creation of a new graph.
@@ -167,7 +167,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             tool = ToolManager.GetTool(currentProject.GetProperty(ProjectProperties.Tool));
             rootPath = currentProject.GetProperty(ProjectProperties.RootDirectory);
             analysisPath = currentProject.FilePath;
-            analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf('\\'));
+            analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));
 
             string[] files = Directory.GetFiles(currentProject.GetProperty(ProjectProperties.RootDirectory), lang.FileExtension, SearchOption.AllDirectories);
             totalFiles = files.Length;
@@ -217,7 +217,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             string parseFile = fileName.Replace(rootPath, parsePath);
             string fileRoot = parseFile.Substring(0, parseFile.Length - lang.FileExtension.Length + 1);
             string xmlFile = fileRoot + ".XML";
-            string directory = parseFile.Substring(0, parseFile.LastIndexOf('\\'));
+            string directory = parseFile.Substring(0, parseFile.LastIndexOf(Path.DirectorySeparatorChar));
 
             if (!Directory.Exists(directory))
             {

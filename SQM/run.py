@@ -20,8 +20,8 @@ def main(args=sys.argv):
   # Move to script directory
   os.chdir(os.path.dirname(__file__))
 
-  #profile = 'Debug'
-  profile = 'Release'
+  profile = 'Debug'
+  #profile = 'Release'
 
   # If we have msbuild available, build SoftwareAnalyzer2
   if shutil.which('msbuild'):
