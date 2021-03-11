@@ -18,7 +18,7 @@ import urllib.request
 
 def main(args=sys.argv):
   # Move to script directory
-  os.chdir(os.path.dirname(__file__))
+  os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
   profile = 'Debug'
   #profile = 'Release'
