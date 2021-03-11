@@ -13,6 +13,7 @@ import subprocess
 import sys
 import os
 import shutil
+import glob
 
 import urllib.request
 
@@ -110,6 +111,7 @@ def main(args=sys.argv):
   if not os.path.exists(compiled_antlr_grammar_dir):
     os.makedirs(compiled_antlr_grammar_dir)
 
+  # Generate *.java
   for grammar_path in antlr_grammar_paths:
     subprocess.run([
       'java', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
@@ -117,6 +119,12 @@ def main(args=sys.argv):
       os.path.abspath(grammar_path)
     ], check=True)
 
+  java_src_files = [os.path.abspath(x) for x in glob.glob(os.path.abspath(compiled_antlr_grammar_dir)+os.path.sep+'*.java')]
+  # Compile *.java
+  subprocess.run([
+    'javac', '-cp', os.path.abspath(antlr_jar)+os.pathsep+os.path.abspath(compiled_antlr_grammar_dir),
+    *java_src_files
+  ], check=True)
 
   os.environ['CLASSPATH'] = os.getenv('CLASSPATH', '') + os.pathsep + os.path.abspath(antlr_jar) + os.pathsep + os.path.abspath(compiled_antlr_grammar_dir)
 
