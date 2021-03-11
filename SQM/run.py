@@ -83,7 +83,42 @@ def main(args=sys.argv):
     print('Downloading ANTLR from {antlr_url} to {antlr_jar}'.format(antlr_url=antlr_url, antlr_jar=antlr_jar))
     urllib.request.urlretrieve(antlr_url, antlr_jar)
 
-  os.environ['CLASSPATH'] = os.getenv('CLASSPATH', '') + os.pathsep + os.path.abspath(antlr_jar)
+  # We pull files from https://github.com/antlr/grammars-v4
+  # and put them under build_path.
+  # Remember to put Lexers before Parsers!
+  antlr_grammar_source_stubs = [
+    'java/java/JavaLexer.g4',
+    'java/java/JavaParser.g4',
+    
+    'java/java8/Java8Lexer.g4',
+    'java/java8/Java8Parser.g4',
+  ]
+  antlr_grammar_paths = []
+  base_grammar_url = 'https://raw.githubusercontent.com/antlr/grammars-v4/master/'
+  for g in antlr_grammar_source_stubs:
+    name = os.path.basename(g)
+    grammar_path = os.path.join(build_path, name)
+    antlr_grammar_paths.append(grammar_path)
+
+    if not os.path.exists(grammar_path):
+      url = base_grammar_url+g
+      print('Downloading Grammer from {url} to {grammar_path}'.format(url=url, grammar_path=grammar_path))
+      urllib.request.urlretrieve(url, grammar_path)
+
+  # Now that we have grammars, use ANTLR to compile them
+  compiled_antlr_grammar_dir = os.path.join(build_path, 'compiled-antlr-grammars')
+  if not os.path.exists(compiled_antlr_grammar_dir):
+    os.makedirs(compiled_antlr_grammar_dir)
+
+  for grammar_path in antlr_grammar_paths:
+    subprocess.run([
+      'java', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
+      '-o', compiled_antlr_grammar_dir,
+      os.path.abspath(grammar_path)
+    ], check=True)
+
+
+  os.environ['CLASSPATH'] = os.getenv('CLASSPATH', '') + os.pathsep + os.path.abspath(antlr_jar) + os.pathsep + compiled_antlr_grammar_dir
 
   os.environ['SQM_DATA_DIR'] = os.path.abspath(os.path.join('SoftwareAnalyzer2', 'bin', 'TestAnalysis'))
 
