@@ -113,12 +113,12 @@ def main(args=sys.argv):
   for grammar_path in antlr_grammar_paths:
     subprocess.run([
       'java', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
-      '-o', compiled_antlr_grammar_dir,
+      '-o', os.path.abspath(compiled_antlr_grammar_dir),
       os.path.abspath(grammar_path)
     ], check=True)
 
 
-  os.environ['CLASSPATH'] = os.getenv('CLASSPATH', '') + os.pathsep + os.path.abspath(antlr_jar) + os.pathsep + compiled_antlr_grammar_dir
+  os.environ['CLASSPATH'] = os.getenv('CLASSPATH', '') + os.pathsep + os.path.abspath(antlr_jar) + os.pathsep + os.path.abspath(compiled_antlr_grammar_dir)
 
   os.environ['SQM_DATA_DIR'] = os.path.abspath(os.path.join('SoftwareAnalyzer2', 'bin', 'TestAnalysis'))
 
@@ -134,6 +134,7 @@ def main(args=sys.argv):
   else:
     exec_cmd = [exe_path]
 
+  print('CLASS_PATH={}'.format(os.environ['CLASSPATH']))
   print('Running {exec_cmd}'.format(exec_cmd=exec_cmd))
   subprocess.run(exec_cmd)
 
