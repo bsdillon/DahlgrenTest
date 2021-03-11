@@ -20,7 +20,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 {
     public partial class SourceUpdatePanel : UserControl, IProjectUser
     {
-        private const string ParseFolder = "\\Parse";
+        private const string ParseFolder = "Parse";
 
         private Project currentProject;
         private ILanguage lang;
@@ -213,7 +213,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
         private void ReadFile(object parameters)
         {
             string fileName = (string)parameters;
-            string parsePath = analysisPath + ParseFolder;
+            string parsePath = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
             string parseFile = fileName.Replace(rootPath, parsePath);
             string fileRoot = parseFile.Substring(0, parseFile.Length - lang.FileExtension.Length + 1);
             string xmlFile = fileRoot + ".XML";
@@ -307,7 +307,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
         private void RegisterGraph()
         {
             GraphNode.ClearGraph(lang);
-            string[] files = Directory.GetFiles(analysisPath + ParseFolder, "*.XML", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(analysisPath + Path.DirectorySeparatorChar + ParseFolder, "*.XML", SearchOption.AllDirectories);
             totalFiles = files.Length;
             filesDone = 0;
 
