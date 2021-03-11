@@ -166,7 +166,16 @@ namespace SoftwareAnalyzer2.Language
         {
             get
             {
-                return "javaw";
+                // This is part of .net core (c# v5+)
+                //if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+
+                // Assume the PROGRAMFILES variable will only be defined on windows systems.
+                if (Environment.GetEnvironmentVariable("PROGRAMFILES") == null) {
+                    return "java";
+                }
+                else {
+                    return "javaw";
+                }
             }
         }
 
