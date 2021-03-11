@@ -78,7 +78,7 @@ namespace SoftwareAnalyzer2.Tools
                 //run -tree fileName
                 Process p = new Process();
                 p.StartInfo.FileName = processName;
-                p.StartInfo.Arguments = "org.antlr.v4.runtime.misc.TestRig " + instruction + " -tree \"" + fileName + "\"";
+                p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree \"" + fileName + "\"";
                 p.StartInfo.UseShellExecute = false;
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.RedirectStandardError = true;
@@ -87,7 +87,7 @@ namespace SoftwareAnalyzer2.Tools
                 //run -tokens fileName
                 Process p2 = new Process();
                 p2.StartInfo.FileName = processName;
-                p2.StartInfo.Arguments = "org.antlr.v4.runtime.misc.TestRig " + instruction + " -tokens \"" + fileName + "\"";
+                p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens \"" + fileName + "\"";
                 p2.StartInfo.UseShellExecute = false;
                 p2.StartInfo.RedirectStandardOutput = true;
                 p2.StartInfo.RedirectStandardError = true;
