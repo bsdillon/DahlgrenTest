@@ -16,12 +16,51 @@ import shutil
 
 import urllib.request
 
+def find_under(directory, filename, case_sensitive=False):
+  if not case_sensitive:
+    filename = filename.lower()
+
+  for root, dirs, files in os.walk(directory):
+    if not case_sensitive:
+      files = [x.lower() for x in files]
+
+    if filename in files:
+      return os.path.join(root, filename)
+
+  return None
+
+def ammend_path(filename, *search_paths):
+  for search_p in search_paths:
+    test_path = os.path.join(search_p, filename)
+    if os.path.exists(test_path):
+      # found it, add to PATH
+      os.environ['PATH'] = search_p + os.pathsep + os.getenv('PATH', '')
+      return
+
+    else:
+      # Search nearby
+      test_path = find_under(search_p, filename)
+      if test_path and os.path.exists(test_path):
+        # found it, add to PATH
+        os.environ['PATH'] = os.path.dirname(test_path) + os.pathsep + os.getenv('PATH', '')
+        return
+
+
 def main(args=sys.argv):
   # Move to script directory
   os.chdir(os.path.abspath(os.path.dirname(__file__)))
 
   profile = 'Debug'
   #profile = 'Release'
+
+  # Ammend the system path if we think we're on a windows machine with msbuild.exe
+  # somewhere under Program Files
+  if not 'linux' in sys.platform:
+    ammend_path(
+      'msbuild.exe',
+      'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\MSBuild\\Current\\Bin\\',
+      'C:\\Windows\\Microsoft.NET\\Framework\\',
+    )
 
   # If we have msbuild available, build SoftwareAnalyzer2
   if shutil.which('msbuild'):
