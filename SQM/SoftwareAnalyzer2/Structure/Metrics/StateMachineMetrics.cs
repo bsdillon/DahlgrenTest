@@ -167,7 +167,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             foreach (AbbreviatedGraph a in settingSources.Keys)
             {
                 CountAll.AddSourceObject(a, settingSources[a]);
-                sb.Append("\t" + a + " @ " + a.Represented.FileName+"\r\n");
+                sb.Append("\t" + a + " @ " + a.Represented.FileName+System.Environment.NewLine);
                 count++;
             }
             return count - 1;
@@ -371,31 +371,31 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 CountAll.AddStateObject(so, stateMembers[so].Count); 
                 sb.Append("*************State Object Report ( " + reportCount + " )*************\r\n");
-                sb.Append("\tfor " + so + " @ " + so.Represented.FileName + "\r\n");
+                sb.Append("\tfor " + so + " @ " + so.Represented.FileName + System.Environment.NewLine);
                 sb.Append("**************************************************\r\n");
                 sb.Append("There are " + stateMembers[so].Count + " state variables indentifed in this type.\r\n");
-                sb.Append("\tConstant Variables: " + constant.Count + "\r\n");
+                sb.Append("\tConstant Variables: " + constant.Count + System.Environment.NewLine);
                 foreach (AbbreviatedGraph var in constant)
                 {
-                    sb.Append("\t\t" + var + "\r\n");
+                    sb.Append("\t\t" + var + System.Environment.NewLine);
                 }
 
-                sb.Append("\tUnread Variables  : " + unread.Count + "\r\n");
+                sb.Append("\tUnread Variables  : " + unread.Count + System.Environment.NewLine);
                 foreach (AbbreviatedGraph var in unread)
                 {
-                    sb.Append("\t\t" + var + "\r\n");
+                    sb.Append("\t\t" + var + System.Environment.NewLine);
                 }
 
-                sb.Append("\tSetting Variables : " + setting.Count + "\r\n");
+                sb.Append("\tSetting Variables : " + setting.Count + System.Environment.NewLine);
                 foreach (AbbreviatedGraph var in setting)
                 {
-                    sb.Append("\t\t" + var + "\r\n");
+                    sb.Append("\t\t" + var + System.Environment.NewLine);
                 }
 
-                sb.Append("\tHealthy Variables : " + healthy.Count + "\r\n");
+                sb.Append("\tHealthy Variables : " + healthy.Count + System.Environment.NewLine);
                 foreach (AbbreviatedGraph var in healthy)
                 {
-                    sb.Append("\t\t" + var + "\r\n");
+                    sb.Append("\t\t" + var + System.Environment.NewLine);
                 }
                 sb.Append("**************************************************\r\n");
 
@@ -452,7 +452,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                 }
                                 else
                                 {
-                                    sb.Append(data + t + " @ " + t.Represented.FileName + "\r\n");
+                                    sb.Append(data + t + " @ " + t.Represented.FileName + System.Environment.NewLine);
                                 }
                             }
                         }

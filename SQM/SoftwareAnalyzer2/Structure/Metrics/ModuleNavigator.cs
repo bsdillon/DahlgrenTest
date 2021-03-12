@@ -308,46 +308,46 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             //output and THAT will be put into the summary report.
 
             int reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Constants.txt", StatePatterns.ConstantVariable);
-            summary.Append("Constant Reports: " + reportCount + "\r\n");
+            summary.Append("Constant Reports: " + reportCount + System.Environment.NewLine);
             
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Settings.txt", StatePatterns.SettingVariable);
-            summary.Append("Setting Reports: " + reportCount + "\r\n");
+            summary.Append("Setting Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Sources.txt", StatePatterns.SettingSource);
-            summary.Append("Source Object Reports: " + reportCount + "\r\n");
+            summary.Append("Source Object Reports: " + reportCount + System.Environment.NewLine);
             
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Unread.txt", StatePatterns.UnreadStateField);
-            summary.Append("Unread State Variable Reports: " + reportCount + "\r\n");
+            summary.Append("Unread State Variable Reports: " + reportCount + System.Environment.NewLine);
             
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_SuperMethod.txt", StatePatterns.SuperStateMember);
-            summary.Append("Super State Method Reports: " + reportCount + "\r\n");
+            summary.Append("Super State Method Reports: " + reportCount + System.Environment.NewLine);
             
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Healthy.txt", StatePatterns.StateVariable);
-            summary.Append("Healthy State Reports: " + reportCount + "\r\n");
+            summary.Append("Healthy State Reports: " + reportCount + System.Environment.NewLine);
             
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Objects.txt", StatePatterns.SomeState);
-            summary.Append("State Object Reports: " + reportCount + "\r\n");
+            summary.Append("State Object Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = CancerInvasion.ReportTumors(fileStem + "Cancer_Tumor");
-            summary.Append("Tumor Reports: " + reportCount + "\r\n");
+            summary.Append("Tumor Reports: " + reportCount + System.Environment.NewLine);
             
             reportCount = CancerInvasion.ReportDysplasia(fileStem + "Cancer_Dysplasia");
-            summary.Append("Dysplasia Reports: " + reportCount + "\r\n");
+            summary.Append("Dysplasia Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = CancerInvasion.ReportFeatures(fileStem + "Features");
-            summary.Append("Feature Reports: " + reportCount + "\r\n");
+            summary.Append("Feature Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = NodePatternMetrics.DecoratorReport(fileStem + "Decorators.txt");
-            summary.Append("Decorator Reports: " + reportCount + "\r\n");
+            summary.Append("Decorator Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = NodePatternMetrics.AccessorReport(fileStem + "GoodAccessors.txt");
-            summary.Append("Good Accessor Reports: " + reportCount + "\r\n");
+            summary.Append("Good Accessor Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = NodePatternMetrics.BadAccessorReport(fileStem + "BadAccessors.txt");
-            summary.Append("Bad Accessor Reports: " + reportCount + "\r\n");
+            summary.Append("Bad Accessor Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = ConnectivityMetrics.APIReport(fileStem + "_API");
-            summary.Append("API Reports: " + reportCount + "\r\n");
+            summary.Append("API Reports: " + reportCount + System.Environment.NewLine);
 
             //write the summary data collected
             writer.WriteLine(summary.ToString());

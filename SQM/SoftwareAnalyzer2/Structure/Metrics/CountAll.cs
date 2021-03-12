@@ -144,7 +144,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 tumors += tumorModules.Count;
                 features += featureModules.Count;
 
-                sw.Write(type.Represented.FileName + "\t" + type.Represented.Code + "\t0\t" + settings + "\t" + source  + "\t" + healthy + "\t" + stateObj + "\t" + decorator + "\t" + accessor + "\t" + api + "\t" + unread + "\t" + super + "\t" + tumors + "\t" + dysplasia + "\t" + bigAccess + "\t" + badAccess + "\t" + features + "\r\n");
+                sw.Write(type.Represented.FileName + "\t" + type.Represented.Code + "\t0\t" + settings + "\t" + source  + "\t" + healthy + "\t" + stateObj + "\t" + decorator + "\t" + accessor + "\t" + api + "\t" + unread + "\t" + super + "\t" + tumors + "\t" + dysplasia + "\t" + bigAccess + "\t" + badAccess + "\t" + features + System.Environment.NewLine);
             }
         }
 

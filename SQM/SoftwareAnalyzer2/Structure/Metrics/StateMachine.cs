@@ -69,17 +69,17 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
                 else
                 {
-                    sb.Append("DEFAULT\t" + stateDefault + "\t" + stateDefault.Represented.FileName + "\r\n");
+                    sb.Append("DEFAULT\t" + stateDefault + "\t" + stateDefault.Represented.FileName + System.Environment.NewLine);
                 }
             }
 
             foreach (AbbreviatedGraph v in unusedWrites)
             {
-                sb.Append("UNUSED\t" + v + "\t"+v.Represented.FileName+"\r\n");
+                sb.Append("UNUSED\t" + v + "\t"+v.Represented.FileName+System.Environment.NewLine);
             }
 
             RecursiveWriteTree(sb, primaryField, 0);
-            sb.Append("PRIMARY: " + primaryField + "\t" + primaryField.Represented.FileName + "\r\n");
+            sb.Append("PRIMARY: " + primaryField + "\t" + primaryField.Represented.FileName + System.Environment.NewLine);
 
             RecursiveReadTree(sb, primaryField, 0);
         }
@@ -137,7 +137,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             sb.Append("Related methods indicating state\r\n");
             foreach (AbbreviatedGraph m in superLogic.Keys)
             {
-                sb.Append("\t" + m + "\t" + m.Represented.FileName + "\r\n");
+                sb.Append("\t" + m + "\t" + m.Represented.FileName + System.Environment.NewLine);
 
                 if (superLogic[m].Count > 0)
                 {
@@ -146,7 +146,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 foreach (AbbreviatedGraph l in superLogic[m])
                 {
-                    sb.Append("\t\t" + l + "\t" + l.Represented.FileName + "\r\n");
+                    sb.Append("\t\t" + l + "\t" + l.Represented.FileName + System.Environment.NewLine);
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     sb.Append("\t");
                 }
 
-                sb.Append(n + "\t" + n.Represented.FileName + "\r\n");
+                sb.Append(n + "\t" + n.Represented.FileName + System.Environment.NewLine);
             }
         }
 
@@ -260,7 +260,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 {
                     sb.Append("\t");
                 }
-                sb.Append(n + "\t" + n.Represented.FileName + "\r\n");
+                sb.Append(n + "\t" + n.Represented.FileName + System.Environment.NewLine);
             }
 
             foreach (AbbreviatedGraph n2 in readTree[level][n])
@@ -284,7 +284,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                     else
                     {
-                        sb.Append(lead + "<<+>>" + n2 + "\t" + n2.Represented.FileName + "\r\n");
+                        sb.Append(lead + "<<+>>" + n2 + "\t" + n2.Represented.FileName + System.Environment.NewLine);
                     }
                 }
             }
@@ -372,7 +372,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         internal void WritePrimary(StringBuilder sb)
         {
-            sb.Append("\tfor "+ primaryField + " @ " + primaryField.Represented.FileName + "\r\n");
+            sb.Append("\tfor "+ primaryField + " @ " + primaryField.Represented.FileName + System.Environment.NewLine);
         }
 
         internal void WriteDefaultValue(StringBuilder sb)
@@ -381,11 +381,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             {
                 if (stateDefault.Represented.Equals(Members.Literal) || stateDefault.Represented.Equals(Members.Value))
                 {
-                    sb.Append("Default value: "+stateDefault.Represented.Code + "\r\n");
+                    sb.Append("Default value: "+stateDefault.Represented.Code + System.Environment.NewLine);
                 }
                 else
                 {
-                    sb.Append("Default value set from " + stateDefault + " @ " + stateDefault.Represented.FileName + "\r\n");
+                    sb.Append("Default value set from " + stateDefault + " @ " + stateDefault.Represented.FileName + System.Environment.NewLine);
                 }
             }
         }
@@ -400,7 +400,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 sb.Append("All values written to this variable include:\r\n");
                 foreach (AbbreviatedGraph s in set)
                 {
-                    sb.Append("\t" + s + "\r\n");
+                    sb.Append("\t" + s + System.Environment.NewLine);
                 }
             }
         }
@@ -437,7 +437,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 sb.Append("\r\nThe following methods are used to set the variable, but are uncalled themselves:\r\n");
                 foreach (AbbreviatedGraph v in unusedWrites)
                 {
-                    sb.Append("\t" + v + " @ " + v.Represented.FileName + "\r\n");
+                    sb.Append("\t" + v + " @ " + v.Represented.FileName + System.Environment.NewLine);
                 }
             }
         }
@@ -477,7 +477,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     if (l != Disrupted)
                     {
                         //we only want real terminal ends
-                        sb.Append("\t" + l + "\t" + l.Represented.FileName + "\r\n");
+                        sb.Append("\t" + l + "\t" + l.Represented.FileName + System.Environment.NewLine);
                     }
                 }
             }
@@ -554,7 +554,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         {
             foreach (AbbreviatedGraph m in superLogic.Keys)
             {
-                sb.Append(m + " @ " + m.Represented.FileName + "\r\n");
+                sb.Append(m + " @ " + m.Represented.FileName + System.Environment.NewLine);
 
                 if (superLogic[m].Count > 0)
                 {
@@ -563,7 +563,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 foreach (AbbreviatedGraph l in superLogic[m])
                 {
-                    sb.Append("\t" + l + " @ " + l.Represented.FileName + "\r\n");
+                    sb.Append("\t" + l + " @ " + l.Represented.FileName + System.Environment.NewLine);
                 }
             }
         }

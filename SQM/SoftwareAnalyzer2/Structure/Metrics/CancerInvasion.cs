@@ -517,7 +517,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     sb.Append(t.ToString());
                     foreach (AbbreviatedGraph m in classMembers[t])
                     {
-                        sb.Append("\t" + m + "\r\n");
+                        sb.Append("\t" + m + System.Environment.NewLine);
                     }
                 }
 
@@ -622,10 +622,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 sb.Append("*************Dysplasia Report ( " + count + " )*************\r\n");
                 AbbreviatedGraph[] typeMembers = type.GetEdges(Relationship.Member).Keys.ToArray();
                 int percent = dMembers[l].Count * 100 / typeMembers.Length;
-                sb.Append("Cancer Members - " + percent + "% of " + type + " @ " + type.Represented.FileName + "\r\n");
+                sb.Append("Cancer Members - " + percent + "% of " + type + " @ " + type.Represented.FileName + System.Environment.NewLine);
                 foreach (AbbreviatedGraph m in dMembers[l])
                 {
-                    sb.Append("\t" + m + "\r\n");
+                    sb.Append("\t" + m + System.Environment.NewLine);
                 }
 
                 foreach (AbbreviatedGraph t in classMembers.Keys)
@@ -639,15 +639,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                     if (mems.Length == classMembers[t].Count)
                     {
-                        sb.Append("Non-cancer Members - " + t + " @ " + t.Represented.FileName + "\r\n");
+                        sb.Append("Non-cancer Members - " + t + " @ " + t.Represented.FileName + System.Environment.NewLine);
                     }
                     else
                     {
                         percent = classMembers[t].Count * 100 / mems.Length;
-                        sb.Append("Non-cancer Members - " + percent + "% of " + t + " @ " + t.Represented.FileName + "\r\n");
+                        sb.Append("Non-cancer Members - " + percent + "% of " + t + " @ " + t.Represented.FileName + System.Environment.NewLine);
                         foreach (AbbreviatedGraph m in classMembers[t])
                         {
-                            sb.Append("\t" + m + "\r\n");
+                            sb.Append("\t" + m + System.Environment.NewLine);
                         }
                     }
                 }
@@ -705,8 +705,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             if (tumors.Length > 0)
             {
-                nodes.Append(tumors[0].NodeHeader + "\r\n");
-                edges.Append(tumors[0].EdgeHeader + "\r\n");
+                nodes.Append(tumors[0].NodeHeader + System.Environment.NewLine);
+                edges.Append(tumors[0].EdgeHeader + System.Environment.NewLine);
                 foreach (Tumor tumor in tumors)
                 {
                     tumor.Gephi(nodes, edges, MetricUtilities.NextModule());

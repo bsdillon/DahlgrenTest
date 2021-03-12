@@ -201,22 +201,22 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         {
             foreach (AbbreviatedGraph type in nativeTumor.Keys)
             {
-                sb.Append("\tMember Class: " + type + " @ " + type.Represented.FileName + "\r\n");
+                sb.Append("\tMember Class: " + type + " @ " + type.Represented.FileName + System.Environment.NewLine);
                 foreach (AbbreviatedGraph m in nativeTumor[type])
                 {
-                    sb.Append("\t\t" + m + "\r\n");
+                    sb.Append("\t\t" + m + System.Environment.NewLine);
                 }
-                sb.Append("\r\n");
+                sb.Append(System.Environment.NewLine);
             }
 
             foreach (AbbreviatedGraph type in dysplasia.Keys)
             {
-                sb.Append("\tIntrusion into Class: " + type + " @ " + type.Represented.FileName + "\r\n");
+                sb.Append("\tIntrusion into Class: " + type + " @ " + type.Represented.FileName + System.Environment.NewLine);
                 foreach (AbbreviatedGraph m in dysplasia[type])
                 {
-                    sb.Append("\t\t" + m + "\r\n");
+                    sb.Append("\t\t" + m + System.Environment.NewLine);
                 }
-                sb.Append("\r\n");
+                sb.Append(System.Environment.NewLine);
             }
         }
 
@@ -240,12 +240,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                 }
 
-                nodesOutput.Append(g.ToGephiRecord() + "\r\n");
+                nodesOutput.Append(g.ToGephiRecord() + System.Environment.NewLine);
             }
 
             foreach (GephiEdge ge in edges)
             {
-                edgeOutput.Append(ge.ToString() + "\r\n");
+                edgeOutput.Append(ge.ToString() + System.Environment.NewLine);
             }
         }
     }

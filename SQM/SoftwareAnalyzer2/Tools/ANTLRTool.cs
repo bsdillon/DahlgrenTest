@@ -99,7 +99,7 @@ namespace SoftwareAnalyzer2.Tools
                     //int adlfkj = 0;
                 }
                 //save the output from each process
-                string[] tokens = p2.StandardOutput.ReadToEnd().Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 Console.Out.WriteLine("/t"+fileName);
 
@@ -107,12 +107,12 @@ namespace SoftwareAnalyzer2.Tools
                 string error = p.StandardError.ReadToEnd();
                 if (error.Length > 0)
                 {
-                    errorMessages.Add("ERROR: Error in ANTLR tree: " + error + "\r\n");
+                    errorMessages.Add("ERROR: Error in ANTLR tree: " + error + System.Environment.NewLine);
                 }
                 error = p2.StandardError.ReadToEnd();
                 if (error.Length > 0)
                 {
-                    errorMessages.Add("ERROR: Error in ANTLR tokens: " + error + "\r\n");
+                    errorMessages.Add("ERROR: Error in ANTLR tokens: " + error + System.Environment.NewLine);
                 }
 
                 p.WaitForExit();
@@ -169,7 +169,7 @@ namespace SoftwareAnalyzer2.Tools
             catch (Exception e)
             {
                 //error causes node crash; capture the error and finish
-                errorMessages.Add("FATAL ERROR: File Analysis incomplete:" + e.Message + "\r\n" + e.StackTrace + "\r\n");
+                errorMessages.Add("FATAL ERROR: File Analysis incomplete:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
             }
         }
         #endregion
@@ -257,9 +257,9 @@ namespace SoftwareAnalyzer2.Tools
 
                     if (!decomposeToken(current, sb.ToString(), tokens[tokenIndex++]))
                     {
-                        errorMessages.Add("ERROR: Inconsistency between tree " + i + " and token " + (tokenIndex - 1) + "\r\n");
-                        errorMessages.Add("\tText token in tree: " + sb.ToString() + "\r\n");
-                        errorMessages.Add("\tToken expected: " + tokens[tokenIndex - 1] + "\r\n");
+                        errorMessages.Add("ERROR: Inconsistency between tree " + i + " and token " + (tokenIndex - 1) + System.Environment.NewLine);
+                        errorMessages.Add("\tText token in tree: " + sb.ToString() + System.Environment.NewLine);
+                        errorMessages.Add("\tToken expected: " + tokens[tokenIndex - 1] + System.Environment.NewLine);
                         return false;
                     }
 
@@ -291,9 +291,9 @@ namespace SoftwareAnalyzer2.Tools
                         //salvage the last bit of code
                         if (!decomposeToken(current, tree[i].Substring(0, start), tokens[tokenIndex++]))
                         {
-                            errorMessages.Add("ERROR: Inconsistency between tree " + i + " and token " + (tokenIndex - 1) + "\r\n");
-                            errorMessages.Add("\tSalvaged token in tree: " + tree[i].Substring(0, start) + "\r\n");
-                            errorMessages.Add("\tToken expected: " + tokens[tokenIndex - 1] + "\r\n");
+                            errorMessages.Add("ERROR: Inconsistency between tree " + i + " and token " + (tokenIndex - 1) + System.Environment.NewLine);
+                            errorMessages.Add("\tSalvaged token in tree: " + tree[i].Substring(0, start) + System.Environment.NewLine);
+                            errorMessages.Add("\tToken expected: " + tokens[tokenIndex - 1] + System.Environment.NewLine);
                             return false;
                         }
                     }
@@ -315,9 +315,9 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     if (!decomposeToken(current, tree[i], tokens[tokenIndex++]))
                     {
-                        errorMessages.Add("ERROR: Inconsistency between tree " + i + " and token " + (tokenIndex - 1) + "\r\n");
-                        errorMessages.Add("\tTree: " + tree[i] + "\r\n");
-                        errorMessages.Add("\tToken expected: " + tokens[tokenIndex - 1] + "\r\n");
+                        errorMessages.Add("ERROR: Inconsistency between tree " + i + " and token " + (tokenIndex - 1) + System.Environment.NewLine);
+                        errorMessages.Add("\tTree: " + tree[i] + System.Environment.NewLine);
+                        errorMessages.Add("\tToken expected: " + tokens[tokenIndex - 1] + System.Environment.NewLine);
                         return false;
                     }
                 }
@@ -433,7 +433,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else
             {
-                errorMessages.Add("ERROR: Token expected but not found.\r\n\t" + foundtoken + "\t\t" + candidateToken + "\r\n");
+                errorMessages.Add("ERROR: Token expected but not found.\r\n\t" + foundtoken + "\t\t" + candidateToken + System.Environment.NewLine);
                 return false;
             }
         }
@@ -1163,7 +1163,7 @@ namespace SoftwareAnalyzer2.Tools
 
             if (children.Count != 1)
             {
-                errorMessages.Add("ERROR: Package does not have sufficient children at " + node + "\r\n");
+                errorMessages.Add("ERROR: Package does not have sufficient children at " + node + System.Environment.NewLine);
                 node.PrintTreeText(errorMessages.Add);
             }
 
@@ -1184,7 +1184,7 @@ namespace SoftwareAnalyzer2.Tools
 
             if (children.Count != 1)
             {
-                errorMessages.Add("ERROR: Import does not have sufficient children at " + node + "\r\n");
+                errorMessages.Add("ERROR: Import does not have sufficient children at " + node + System.Environment.NewLine);
                 node.PrintTreeText(errorMessages.Add);
             }
 
@@ -1670,7 +1670,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else
             {
-                errorMessages.Add("ERROR: Not a while, switch, if or synchronized statement at " + node + "\r\n");
+                errorMessages.Add("ERROR: Not a while, switch, if or synchronized statement at " + node + System.Environment.NewLine);
                 node.PrintTreeText(errorMessages.Add);
                 //should never occur. this method parses while, switches, if and if-else
                 //anything else would be caught by this branch and is unexpected.
@@ -3454,7 +3454,7 @@ namespace SoftwareAnalyzer2.Tools
 
             if (lastParam.Count > 1)
             {
-                errorMessages.Add("ERROR: More than one final parameter (i.e. Type ... set) in method " + node.Parent + "\r\n");
+                errorMessages.Add("ERROR: More than one final parameter (i.e. Type ... set) in method " + node.Parent + System.Environment.NewLine);
                 node.Parent.PrintTreeText(errorMessages.Add);
             }
 

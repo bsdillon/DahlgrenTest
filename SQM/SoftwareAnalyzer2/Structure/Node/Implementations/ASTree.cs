@@ -237,7 +237,7 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
             // in the tree) and flags them as errors
             if (Node.IsUnknown)
             {
-                answer.Add("ERROR: Trival layers still exist in the tree: " + this.ToString() + "\r\n");
+                answer.Add("ERROR: Trival layers still exist in the tree: " + this.ToString() + System.Environment.NewLine);
             }
 
             // Checks for the correct configuration of all nodes within a TypeDeclaration
@@ -280,7 +280,7 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
                 {
                     //If one of the required nodes was never found
                     //something is wrong with the type structure
-                    answer.Add("ERROR: Expected major element was not found on " + this.ToString() + "\r\n");
+                    answer.Add("ERROR: Expected major element was not found on " + this.ToString() + System.Environment.NewLine);
                     foreach (NodeType s in expectedElements)
                     {
                         answer.Add("\t Element " + s + " not found\r\n");
@@ -290,7 +290,7 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
                 if (unknownElements.Count > 0)
                 {
                     //Some unexpected node was found; this is an error
-                    answer.Add("ERROR: Unexpected answer found at the level of major elements on " + this.ToString() + "\r\n");
+                    answer.Add("ERROR: Unexpected answer found at the level of major elements on " + this.ToString() + System.Environment.NewLine);
                     foreach (string element in unknownElements)
                     {
                         answer.Add(element);

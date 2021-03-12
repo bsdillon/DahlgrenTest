@@ -334,7 +334,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             foreach (AbbreviatedGraph method in decoratorMethods)
             {
                 sb.Append("*************Decorator Report ( " + count + " )*************\r\n");
-                sb.Append("\t" + method + " @ " + method.Represented.FileName + "\r\n");
+                sb.Append("\t" + method + " @ " + method.Represented.FileName + System.Environment.NewLine);
                 sb.Append("**************************************************\r\n");
                 sb.Append("\r\n\r\n");
                 count++;
@@ -351,7 +351,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StreamWriter writer = new StreamWriter(filename);
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("\r\n");
+            sb.Append(System.Environment.NewLine);
             AbbreviatedGraph[] vars = MetricUtilities.GetAllControlledVariables();
             List<AbbreviatedGraph> singles = new List<AbbreviatedGraph>();
             badReports = new List<AbbreviatedGraph>();
@@ -380,11 +380,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
                 
                 sb.Append("*************Accessor Report ( " + count + " )*************\r\n");
-                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName+"\r\n");
+                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName+System.Environment.NewLine);
                 sb.Append("********************Accessors************************\r\n");
                 foreach (AbbreviatedGraph method in methods)
                 {
-                    sb.Append("\t" + method + "\r\n");
+                    sb.Append("\t" + method + System.Environment.NewLine);
                 }                
                 sb.Append("**************************************************\r\n");
                 sb.Append("\r\n\r\n");
@@ -395,11 +395,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             {
                 AbbreviatedGraph[] methods = MetricUtilities.GetVariableControlMethods(variable);
                 sb.Append("*************Accessor Report ( " + count + " )*************\r\n");
-                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName + "\r\n");
+                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName + System.Environment.NewLine);
                 sb.Append("********************Accessors************************\r\n");
                 foreach (AbbreviatedGraph method in methods)
                 {
-                    sb.Append("\t" + method + "\r\n");
+                    sb.Append("\t" + method + System.Environment.NewLine);
                 }
                 sb.Append("**************************************************\r\n");
                 sb.Append("\r\n\r\n");
@@ -426,7 +426,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             sb.Append("\tby additional accessors which duplicate the functionality or by a\r\n");
             sb.Append("\tmethod which has inappropriate access to the controlled variable.\r\n");
 
-            sb.Append("\r\n");
+            sb.Append(System.Environment.NewLine);
             List<AbbreviatedGraph> singles = new List<AbbreviatedGraph>();
             foreach (AbbreviatedGraph variable in badReports)
             {
@@ -439,16 +439,16 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
 
                 sb.Append("*************Inappropriate Access Report ( " + count + " )*************\r\n");
-                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName + "\r\n");
+                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName + System.Environment.NewLine);
                 sb.Append("********************Accessors************************\r\n");
                 foreach (AbbreviatedGraph method in methods)
                 {
-                    sb.Append("\t" + method + "\r\n");
+                    sb.Append("\t" + method + System.Environment.NewLine);
                 }
                 sb.Append("\t----Inappropriate Access----\r\n");
                 foreach (AbbreviatedGraph ag in inappropriate[variable])
                 {
-                    sb.Append("\t" + ag + " in "+ag.Represented.FileName+"\r\n");
+                    sb.Append("\t" + ag + " in "+ag.Represented.FileName+System.Environment.NewLine);
                 }
                 sb.Append("**************************************************\r\n");
                 sb.Append("\r\n\r\n");
@@ -461,16 +461,16 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 AbbreviatedGraph[] methods = MetricUtilities.GetVariableControlMethods(variable);
 
                 sb.Append("*************Inappropriate Access Report ( " + count + " )*************\r\n");
-                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName + "\r\n");
+                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName + System.Environment.NewLine);
                 sb.Append("********************Accessors************************\r\n");
                 foreach (AbbreviatedGraph method in methods)
                 {
-                    sb.Append("\t" + method + "\r\n");
+                    sb.Append("\t" + method + System.Environment.NewLine);
                 }
                 sb.Append("\t----Inappropriate Access----\r\n");
                 foreach (AbbreviatedGraph ag in inappropriate[variable])
                 {
-                    sb.Append("\t" + ag + " in " + ag.Represented.FileName + "\r\n");
+                    sb.Append("\t" + ag + " in " + ag.Represented.FileName + System.Environment.NewLine);
                 }
                 sb.Append("**************************************************\r\n");
                 sb.Append("\r\n\r\n");
@@ -481,11 +481,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             {
                 AbbreviatedGraph[] methods = MetricUtilities.GetVariableControlMethods(variable);
                 sb.Append("*************Inappropriate Access Report ( " + count + " )*************\r\n");
-                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName + "\r\n");
+                sb.Append("\tfor " + variable + " @ " + variable.Represented.FileName + System.Environment.NewLine);
                 sb.Append("********************Accessors************************\r\n");
                 foreach (AbbreviatedGraph method in methods)
                 {
-                    sb.Append("\t" + method + "\r\n");
+                    sb.Append("\t" + method + System.Environment.NewLine);
                 }
                 sb.Append("**************************************************\r\n");
                 sb.Append("\r\n\r\n");

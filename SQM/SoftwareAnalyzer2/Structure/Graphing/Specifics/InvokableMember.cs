@@ -667,7 +667,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 lock (MatcherLock)
                 {
                     System.Media.SystemSounds.Asterisk.Play();
-                    MethodMatcher matcher = new MethodMatcher(unknownMethod, sb.Replace("\n", "\r\n").ToString(), candidateSignatures);
+                    MethodMatcher matcher = new MethodMatcher(unknownMethod, sb.Replace("\n", System.Environment.NewLine).ToString(), candidateSignatures);
                     Console.WriteLine(unknownMethod);
                     Console.WriteLine(unknownMethod.FileName);
                     Console.WriteLine(sb.ToString());

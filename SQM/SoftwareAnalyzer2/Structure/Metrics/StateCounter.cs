@@ -41,7 +41,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         {
             get
             {
-                return "Target: "+targetNode+"\r\n"+ReportExtra.ToString()+Report.ToString();
+                return "Target: "+targetNode+System.Environment.NewLine+ReportExtra.ToString()+Report.ToString();
             }
         }
 
@@ -50,7 +50,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StreamWriter writer = new StreamWriter(file);
             StringBuilder sb = new StringBuilder();
 
-            sb.Append("nZ\u03c3 Target value:\t" + targetNode+"\r\n");
+            sb.Append("nZ\u03c3 Target value:\t" + targetNode+System.Environment.NewLine);
             sb.Append("*******************Histogram Data*******************\r\n");
             List<int> orderedKeys = new List<int>();
             foreach (int count in histogram.Keys)
@@ -61,7 +61,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             foreach (int k in orderedKeys)
             {
-                sb.Append(k+"\t:\t"+histogram[k]+"\r\n");
+                sb.Append(k+"\t:\t"+histogram[k]+System.Environment.NewLine);
             }
             sb.Append("*******************Histogram Data*******************\r\n\r\n");
 
@@ -329,43 +329,43 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 foreach (AbbreviatedGraph g in stateUses[m].Keys)
                 {
                     stateCount++;
-                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tState\t" + g + "\t" + g.Represented.FileName + "\r\n");
+                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tState\t" + g + "\t" + g.Represented.FileName + System.Environment.NewLine);
                 }
 
                 foreach (AbbreviatedGraph g in eqCheck[m].Keys)
                 {
                     equalCount++;
-                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tEquality\t" + g + "\t" + g.Represented.FileName + "\r\n");
+                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tEquality\t" + g + "\t" + g.Represented.FileName + System.Environment.NewLine);
                 }
 
                 foreach (AbbreviatedGraph g in compBoundary[m].Keys)
                 {
                     compBoundaryCount++;
-                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tBoundary\t" + g + "\t" + g.Represented.FileName + "\r\n");
+                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tBoundary\t" + g + "\t" + g.Represented.FileName + System.Environment.NewLine);
                 }
 
                 foreach (AbbreviatedGraph g in litCheck[m].Keys)
                 {
                     litCheckCount++;
-                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tLiteral\t" + g + "\t" + g.Represented.FileName + "\r\n");
+                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tLiteral\t" + g + "\t" + g.Represented.FileName + System.Environment.NewLine);
                 }
 
                 foreach (AbbreviatedGraph g in litBoundary[m].Keys)
                 {
                     litBoundaryCount++;
-                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tLitBoundary\t" + g + "\t" + g.Represented.FileName + "\r\n");
+                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tLitBoundary\t" + g + "\t" + g.Represented.FileName + System.Environment.NewLine);
                 }
 
                 foreach (AbbreviatedGraph g in nullCheck[m].Keys)
                 {
                     nullCount++;
-                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tNull\t" + g + "\t" + g.Represented.FileName + "\r\n");
+                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tNull\t" + g + "\t" + g.Represented.FileName + System.Environment.NewLine);
                 }
 
                 foreach (AbbreviatedGraph g in typeCheck[m].Keys)
                 {
                     typeCount++;
-                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tType\t" + g + "\t" + g.Represented.FileName + "\r\n");
+                    ReportBody.Append(m + "\t" + m.Represented.FileName + "\tType\t" + g + "\t" + g.Represented.FileName + System.Environment.NewLine);
                 }
 
 
@@ -375,7 +375,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 {
                     ReportHead.Append(m + "\t" + m.Represented.FileName + "\t" + stateCount + "\t" + equalCount + "\t" + compBoundaryCount + "\t" +
                     litCheckCount + "\t" + litBoundaryCount + "\t" + nullCount + "\t" + typeCount +
-                    "\t" + nativeState[m] + "\r\n");
+                    "\t" + nativeState[m] + System.Environment.NewLine);
                 }
             }
 
@@ -507,7 +507,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         reportData[m2].Add(StateReportable.FinalLink, 0);
                         reportData[m2][StateReportable.FinalDecision]=1;
                         MetricUtilities.AddStateMember(m2);
-                        ReportExtra.Append("Added\t" + m2 + "\t" + m2.Represented.FileName + "\r\n");
+                        ReportExtra.Append("Added\t" + m2 + "\t" + m2.Represented.FileName + System.Environment.NewLine);
                         MetricUtilities.GephiFromGraph(m2).SetProperty(NodeProperties.StateMember, (int)StatePatterns.SomeState);
                         someChange = true;
                     }
