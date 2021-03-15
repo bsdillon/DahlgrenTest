@@ -64,9 +64,15 @@ def main(args=sys.argv):
     )
 
   # If we have msbuild available, build SoftwareAnalyzer2
+  build_tool = None
   if shutil.which('msbuild'):
+    build_tool = 'msbuild'
+  elif shutil.which('xbuild'):
+    build_tool = 'xbuild'
+
+  if build_tool:
     subprocess.run([
-      'msbuild', os.path.join('SoftwareAnalyzer2', 'SoftwareAnalyzer2.csproj'),
+      build_tool, os.path.join('SoftwareAnalyzer2', 'SoftwareAnalyzer2.csproj'),
       '/t:Build', '/p:Configuration={profile}'.format(profile=profile),
     ], check=True)
   else:
