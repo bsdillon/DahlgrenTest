@@ -183,7 +183,7 @@ namespace SoftwareAnalyzer2.Language
         {
             get
             {
-                return "CPP14 compilationUnit";
+                return "CPP14 translationUnit";
             }
         }
 
