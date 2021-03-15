@@ -83,6 +83,7 @@ namespace SoftwareAnalyzer2.Tools
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.RedirectStandardError = true;
                 p.Start();
+                Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
 
                 //run -tokens fileName
                 Process p2 = new Process();
@@ -92,6 +93,7 @@ namespace SoftwareAnalyzer2.Tools
                 p2.StartInfo.RedirectStandardOutput = true;
                 p2.StartInfo.RedirectStandardError = true;
                 p2.Start();
+                Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
 
                 Console.Out.WriteLine(fileName);
                 if (fileName.EndsWith("ui\\worldwindmap\\WorldWindMap.java"))
