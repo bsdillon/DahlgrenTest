@@ -30,6 +30,7 @@
         {
             this.LanguagesGroup = new System.Windows.Forms.GroupBox();
             this.JavaRadio = new System.Windows.Forms.RadioButton();
+            this.CPPRadio = new System.Windows.Forms.RadioButton();
             this.ToolsGroup = new System.Windows.Forms.GroupBox();
             this.ANTLRRadio = new System.Windows.Forms.RadioButton();
             this.CreateButton = new System.Windows.Forms.Button();
@@ -48,6 +49,7 @@
             this.LanguagesGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LanguagesGroup.Controls.Add(this.JavaRadio);
+            this.LanguagesGroup.Controls.Add(this.CPPRadio);
             this.LanguagesGroup.Location = new System.Drawing.Point(12, 12);
             this.LanguagesGroup.Name = "LanguagesGroup";
             this.LanguagesGroup.Size = new System.Drawing.Size(304, 89);
@@ -67,6 +69,19 @@
             this.JavaRadio.Tag = "";
             this.JavaRadio.Text = "Java";
             this.JavaRadio.UseVisualStyleBackColor = true;
+            // 
+            // CPPRadio
+            // 
+            this.CPPRadio.AutoSize = true;
+            this.CPPRadio.Checked = true;
+            this.CPPRadio.Location = new System.Drawing.Point(7, 40);
+            this.CPPRadio.Name = "CPPRadio";
+            this.CPPRadio.Size = new System.Drawing.Size(48, 17);
+            this.CPPRadio.TabIndex = 0;
+            this.CPPRadio.TabStop = true;
+            this.CPPRadio.Tag = "";
+            this.CPPRadio.Text = "CPP";
+            this.CPPRadio.UseVisualStyleBackColor = true;
             // 
             // ToolsGroup
             // 
@@ -202,6 +217,7 @@
         private System.Windows.Forms.RadioButton ANTLRRadio;
         private System.Windows.Forms.GroupBox LanguagesGroup;
         private System.Windows.Forms.RadioButton JavaRadio;
+        private System.Windows.Forms.RadioButton CPPRadio;
         private System.Windows.Forms.Label outputLabel;
     }
 }

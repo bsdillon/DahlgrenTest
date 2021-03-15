@@ -93,6 +93,9 @@ def main(args=sys.argv):
     
     'java/java8/Java8Lexer.g4',
     'java/java8/Java8Parser.g4',
+
+    'cpp/CPP14Lexer.g4',
+    'cpp/CPP14Parser.g4',
   ]
   antlr_grammar_paths = []
   base_grammar_url = 'https://raw.githubusercontent.com/antlr/grammars-v4/master/'

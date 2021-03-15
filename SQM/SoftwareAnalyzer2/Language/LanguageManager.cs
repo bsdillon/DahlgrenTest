@@ -8,7 +8,7 @@ namespace SoftwareAnalyzer2.Language
 {
     enum LanguageTypes
     {
-        Java
+        Java, CPP
     }
 
     class LanguageManager
@@ -21,6 +21,9 @@ namespace SoftwareAnalyzer2.Language
             {
                 case LanguageTypes.Java:
                     lang = new JavaLanguage();
+                    break;
+                case LanguageTypes.CPP:
+                    lang = new CPPLanguage();
                     break;
                 default:
                     Exception e = new ArgumentOutOfRangeException("type", "Value of " + type + " has not been implemented and is invalid as an argument at this time");

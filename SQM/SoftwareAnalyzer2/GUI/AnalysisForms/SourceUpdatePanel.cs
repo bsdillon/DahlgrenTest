@@ -146,7 +146,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                 return;
             }
 
-            ParseProgress.Value = (int)(100 * filesDone / totalFiles);
+            ParseProgress.Value = (int)(100 * filesDone / NotZero(totalFiles));
             ParseProgress.Refresh();
 
             newFiles.Text = "" + newFilesFound.Count;
@@ -154,6 +154,13 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
             emptyFiles.Text = "" + emptyFilesFound;
             emptyFiles.Refresh();
+        }
+
+        private int NotZero(int num) {
+            if (num == 0) {
+                return 1;
+            }
+            return num;
         }
 
         /// <summary>
@@ -301,7 +308,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
             filesRegistered.Text = "" + filesDone;
             TotalFilesToRegister.Text = "" + totalFiles;
-            registerProgress.Value = (int)(100 * filesDone / totalFiles);
+            registerProgress.Value = (int)(100 * filesDone / NotZero(totalFiles));
         }
 
         private void RegisterGraph()
@@ -383,7 +390,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                     {
                         total = totalMembers;
                     }
-                    int percent = (int)(100 * e.Done / total);
+                    int percent = (int)(100 * e.Done / NotZero(total));
                     LinkPercent.Text = "" + percent + " %";
                     linkProgress.Value = percent;
                 }
@@ -400,7 +407,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
             InitialLinksDone.Text = "" + filesDone;
             TotalInitialLinks.Text = "" + totalFiles;
-            InitialLinkProgress.Value = (int)(100 * filesDone / totalFiles);
+            InitialLinkProgress.Value = (int)(100 * filesDone / NotZero(totalFiles));
         }
 
         private void LinkGraph()

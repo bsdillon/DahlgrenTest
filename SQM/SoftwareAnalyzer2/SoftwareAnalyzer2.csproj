@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="Language\ILanguage.cs" />
     <Compile Include="Language\JavaLanguage.cs" />
+    <Compile Include="Language\CPPLanguage.cs" />
     <Compile Include="Language\LanguageManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectCoordination\IProjectCoordinator.cs" />
