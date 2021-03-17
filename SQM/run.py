@@ -14,6 +14,7 @@ import sys
 import os
 import shutil
 import glob
+import time
 
 import urllib.request
 
@@ -124,11 +125,16 @@ def main(args=sys.argv):
   # Generate *.java
   for grammar_path in antlr_grammar_paths:
     print('Generating Java for Grammar {}'.format(grammar_path))
-    subprocess.run([
-      'java', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
-      '-o', os.path.abspath(compiled_antlr_grammar_dir),
-      os.path.abspath(grammar_path)
-    ], check=True)
+    try:
+      subprocess.run([
+        'java', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
+        '-o', os.path.abspath(compiled_antlr_grammar_dir),
+        os.path.abspath(grammar_path)
+      ], check=True)
+    except Exception as e:
+      print(e)
+      print('[ WARNING ] Could not generate java for grammar {}'.format(grammar_path))
+      time.sleep(1)
 
   print('Compiling all grammars within {}'.format(compiled_antlr_grammar_dir))
   java_src_files = [os.path.abspath(x) for x in glob.glob(os.path.abspath(compiled_antlr_grammar_dir)+os.path.sep+'*.java')]
