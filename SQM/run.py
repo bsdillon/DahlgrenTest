@@ -124,6 +124,10 @@ def main(args=sys.argv):
 
   # Generate *.java
   for grammar_path in antlr_grammar_paths:
+    grammar_path_completed = grammar_path+".java_gen_complete"
+    if os.path.exists(grammar_path_completed):
+      print('Skipping generation of Java for Grammar {}'.format(grammar_path))
+      continue
     print('Generating Java for Grammar {}'.format(grammar_path))
     try:
       subprocess.run([
@@ -131,6 +135,8 @@ def main(args=sys.argv):
         '-o', os.path.abspath(compiled_antlr_grammar_dir),
         os.path.abspath(grammar_path)
       ], check=True)
+      with open(grammar_path_completed, 'w') as fd:
+        fd.write("done")
     except Exception as e:
       print(e)
       print('[ WARNING ] Could not generate java for grammar {}'.format(grammar_path))
