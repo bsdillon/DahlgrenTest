@@ -71,7 +71,7 @@ def main(args=sys.argv):
   elif shutil.which('xbuild'):
     build_tool = 'xbuild'
 
-  if build_tool:
+  if build_tool and not 'NO_MSBUILD' in os.environ:
     subprocess.run([
       build_tool, os.path.join('SoftwareAnalyzer2', 'SoftwareAnalyzer2.csproj'),
       '/t:Build', '/p:Configuration={profile}'.format(profile=profile),
@@ -123,32 +123,40 @@ def main(args=sys.argv):
     os.makedirs(compiled_antlr_grammar_dir)
 
   # Generate *.java
+  skipped_grammar_javagen = 0
   for grammar_path in antlr_grammar_paths:
     grammar_path_completed = grammar_path+".java_gen_complete"
     if os.path.exists(grammar_path_completed):
       print('Skipping generation of Java for Grammar {}'.format(grammar_path))
+      skipped_grammar_javagen += 1
       continue
+
     print('Generating Java for Grammar {}'.format(grammar_path))
     try:
       subprocess.run([
-        'java', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
+        'java', '-Xint', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
         '-o', os.path.abspath(compiled_antlr_grammar_dir),
         os.path.abspath(grammar_path)
       ], check=True)
-      with open(grammar_path_completed, 'w') as fd:
-        fd.write("done")
     except Exception as e:
       print(e)
       print('[ WARNING ] Could not generate java for grammar {}'.format(grammar_path))
       time.sleep(1)
 
-  print('Compiling all grammars within {}'.format(compiled_antlr_grammar_dir))
-  java_src_files = [os.path.abspath(x) for x in glob.glob(os.path.abspath(compiled_antlr_grammar_dir)+os.path.sep+'*.java')]
-  # Compile *.java
-  subprocess.run([
-    'javac', '-cp', os.path.abspath(antlr_jar)+os.pathsep+os.path.abspath(compiled_antlr_grammar_dir),
-    *java_src_files
-  ], check=True)
+    with open(grammar_path_completed, 'w') as fd:
+        fd.write("done")
+
+  can_skip_java_compile = skipped_grammar_javagen == len(antlr_grammar_paths)
+  if not can_skip_java_compile or 'FORCE_JAVA_COMPILE' in os.environ:
+    print('Compiling all grammars within {}'.format(compiled_antlr_grammar_dir))
+    java_src_files = [os.path.abspath(x) for x in glob.glob(os.path.abspath(compiled_antlr_grammar_dir)+os.path.sep+'*.java')]
+    # Compile *.java
+    subprocess.run([
+      'javac', '-cp', os.path.abspath(antlr_jar)+os.pathsep+os.path.abspath(compiled_antlr_grammar_dir),
+      *java_src_files
+    ], check=True)
+  else:
+    print('We skipped all java source gen, so we are also skipping java class file gen under the assumption it has already been done')
 
   os.environ['CLASSPATH'] = os.getenv('CLASSPATH', '') + os.pathsep + os.path.abspath(antlr_jar) + os.pathsep + os.path.abspath(compiled_antlr_grammar_dir)
 
