@@ -385,6 +385,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <returns></returns>
         private bool decomposeToken(IModifiable node, string foundtoken, string expectedToken)
         {
+            Console.Error.WriteLine("decomposeToken(node="+node+" foundtoken="+foundtoken+" expectedToken="+expectedToken+")");
             //Sample token: [@22,169:169=',',<64>,8:32]
             int token1 = expectedToken.IndexOf('\'');
             if (token1 == -1)
