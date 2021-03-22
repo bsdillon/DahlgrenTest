@@ -194,8 +194,8 @@ namespace SoftwareAnalyzer2
                     {
                         //there are some errors; create a report
                         Console.Error.WriteLine(
-                            "Error in "+fileName.Substring(rootPath.Length)+
-                            ":"+errors
+                            "Error in "+fileName.Substring(rootPath.Length)+": "+System.Environment.NewLine+
+                            String.Join(System.Environment.NewLine, errors)
                         );
 
                         // lock (errorLock)

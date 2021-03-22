@@ -102,6 +102,9 @@ namespace SoftwareAnalyzer2.Tools
                 }
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                // We remove all tokens with "<WS>" (whitespace) and "<COMMENT>"
+                tokens = tokens.Where(t => !(t.Contains("<WS>") || t.Contains("<COMMENT>")) ).ToArray();
+
                 string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 Console.Out.WriteLine("/t"+fileName);
 
@@ -394,6 +397,14 @@ namespace SoftwareAnalyzer2.Tools
                 return false;
             }
 
+            // We need to remove "channel=1" if it exists (possibly a grammar difference?)
+            for (int c=0; c<5; c++) {
+                string unused_token = "channel="+c+",";
+                if (expectedToken.Contains(unused_token)) {
+                    expectedToken = expectedToken.Replace(unused_token, "");
+                }
+            }
+
             //this allows for the possibility of an ' character within the token 
             //and finds the exact bounds of the token by taking that into account
             int token2 = expectedToken.LastIndexOf('\'', expectedToken.Length - 1);
@@ -424,7 +435,8 @@ namespace SoftwareAnalyzer2.Tools
             //contrasts expected and found tokens to ensure match.
             //special circumstances (because of potential for additional whitespace) allow all text to match
             //anything else is node violation
-            if (candidateToken.Equals(foundtoken))
+            //if (candidateToken.Equals(foundtoken))
+            if (candidateToken.Contains(foundtoken) || foundtoken.Contains(candidateToken))
             {
                 node.AddCode(foundtoken, line, charStart);
                 return true;
