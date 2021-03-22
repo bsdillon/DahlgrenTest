@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SoftwareAnalyzer2.GUI;
 
+using System.Threading;
+
 using SoftwareAnalyzer2.ProjectCoordination;
+using SoftwareAnalyzer2.Language;
+using SoftwareAnalyzer2.Tools;
+using SoftwareAnalyzer2.Structure;
+using SoftwareAnalyzer2.Structure.Graphing;
+using SoftwareAnalyzer2.Structure.Node;
 
 namespace SoftwareAnalyzer2
 {
@@ -40,6 +47,8 @@ namespace SoftwareAnalyzer2
             }
         }
 
+        private const string ParseFolder = "Parse";
+
         static void BatchProcess(string language, string src_dir) {
             // We read an env variable to override the windows hard-coded C:\\SoftwareAnalyzer directory.
             // This lets *nix wrappers put SQM data wherever they like.
@@ -67,8 +76,149 @@ namespace SoftwareAnalyzer2
                 p.WriteFile();
             }
 
-            
+            // Much of this logic comes from SourceUpdatePanel.cs;
+            // using the GUI object invoke methods to send state around doesn't fit well
+            // with a cli/batch processing tool.
+            // Begin with InitiateRead:
+
+            ILanguage lang = LanguageManager.GetLanguage(p.GetProperty(ProjectProperties.Language));
+            dir = p.FilePath;
+            dir = dir.Substring(0, dir.LastIndexOf(Path.DirectorySeparatorChar));
+            string name = p.GetProperty(ProjectProperties.ProjectName);
+            if (ParseSource(p) || !AbbreviatedGraph.OpenFile(dir, name)) {
+                Console.Error.WriteLine("TODO implement RegisterGraph and LinkGraph in batch mode");
+                //RegisterGraph();
+                //LinkGraph();
+
+                Thread.Sleep(5000); // why?
+
+                try
+                {
+                    GraphNode.Save(dir, name);
+                }
+                catch (Exception e)
+                {
+                    Console.Error.WriteLine("Could not save file: " + e.Message + "\n\r" + e.StackTrace);
+                    return;
+                }
+                GraphNode.ClearGraph(lang);
+                AbbreviatedGraph.OpenFile(dir, name);
+            }
 
         }
+
+
+        /// <summary>
+        /// Stage one of the source update process. Spawns threads for each of the source code files and produces
+        /// (or accepts) a (previously calculated) parsing saved as an XML file.
+        /// </summary>
+        /// <returns>True if any new files are parsed; false if all files are already set.</returns>
+        private static bool ParseSource(Project p)
+        {
+            ILanguage lang = LanguageManager.GetLanguage(p.GetProperty(ProjectProperties.Language));
+            ITool tool = ToolManager.GetTool(p.GetProperty(ProjectProperties.Tool));
+            string rootPath = p.GetProperty(ProjectProperties.RootDirectory);
+            string analysisPath = p.FilePath;
+            analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));
+
+            string[] files = Directory.GetFiles(p.GetProperty(ProjectProperties.RootDirectory), lang.FileExtension, SearchOption.AllDirectories);
+            int totalFiles = files.Length;
+            int filesDone = 0;
+            List<string> newFilesFound = new List<string>();
+            
+            Console.WriteLine("Checking for updated files in " + p.GetProperty(ProjectProperties.ProjectName));
+
+            //go through all files which match the required extension
+            foreach (string file in files)
+            {
+                ReadFile(p, tool, lang, file);
+            }
+
+            return newFilesFound.Count > 0;
+        }
+
+        private static void ReadFile(Project p, ITool tool, ILanguage lang, string fileName) {
+            string analysisPath = p.FilePath;
+            analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));
+
+            string rootPath = p.GetProperty(ProjectProperties.RootDirectory);
+
+            string parsePath = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
+            string parseFile = fileName.Replace(rootPath, parsePath);
+            string fileRoot = parseFile.Substring(0, parseFile.Length - lang.FileExtension.Length + 1);
+            string xmlFile = fileRoot + ".XML";
+            string directory = parseFile.Substring(0, parseFile.LastIndexOf(Path.DirectorySeparatorChar));
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            ITool myTool = tool.Clone();
+            bool newerCode = true;//assume all code is new (i.e. has never been analyzed before)
+
+            //exclude this code from parsing based on xml which already exists in 
+            //an XML file more recent than the code file
+            if (File.Exists(xmlFile))
+            {
+                DateTime xml = File.GetLastWriteTime(xmlFile);
+                DateTime code = File.GetLastWriteTime(fileName);
+
+                //new code is consistent with the last saved source AND the last verison of tree
+                newerCode = !((xml.Ticks > code.Ticks) && NodeFactory.IsCurrentVersion(xmlFile));
+            }
+
+            if (newerCode)//if the code is in fact newer then we parse the source into an XML tree
+            {
+                myTool.Analyze(fileName, lang);
+
+                List<string> errors = myTool.Errors;
+                if (myTool.NoTreeCreated)
+                {
+                    //we don't track new files if they are empty
+                    //this kind of error occurs when the file did not yield a tree
+                    // lock (emptyFiles)
+                    // {
+                    //     emptyFilesFound++;
+                    // }
+                }
+                else
+                {
+                    //newer file with a non-empty tree. This counts.
+                    // lock (newFiles)
+                    // {
+                    //     newFilesFound.Add(fileRoot);
+                    // }
+
+                    if (errors.Count > 0)
+                    {
+                        //there are some errors; create a report
+                        Console.Error.WriteLine(
+                            "Error in "+fileName.Substring(rootPath.Length)+
+                            ":"+errors
+                        );
+
+                        // lock (errorLock)
+                        // {
+                        //     totalErrors++;
+                        // }
+                    }
+
+                    INode node = myTool.ParsedNode;
+                    if (node != null)
+                    {
+                        NodeFactory.WriteTextFile(node, fileRoot);
+                        NodeFactory.WriteXMLFile(node, xmlFile, parsePath);
+                    }
+                }
+            }
+
+            // lock (ParseProgress)
+            // {
+            //     filesDone++;
+            // }
+
+        }
+
     }
 }

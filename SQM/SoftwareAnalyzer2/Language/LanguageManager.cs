@@ -15,7 +15,7 @@ namespace SoftwareAnalyzer2.Language
     {
         public static ILanguage GetLanguage(string languageDescription)
         {
-            LanguageTypes type = (LanguageTypes)Enum.Parse(typeof(LanguageTypes), languageDescription);
+            LanguageTypes type = (LanguageTypes)Enum.Parse(typeof(LanguageTypes), languageDescription, true);
             ILanguage lang = null;
             switch (type)
             {
