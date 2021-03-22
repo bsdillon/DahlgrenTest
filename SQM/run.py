@@ -174,6 +174,9 @@ def main(args=sys.argv):
   else:
     exec_cmd = [exe_path]
 
+  # Append args to run.py to exec_cmd
+  exec_cmd.extend(args[1:])
+
   print('CLASS_PATH={}'.format(os.environ['CLASSPATH']))
   print('Running {exec_cmd}'.format(exec_cmd=exec_cmd))
   subprocess.run(exec_cmd)
