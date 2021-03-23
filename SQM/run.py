@@ -94,28 +94,34 @@ def main(args=sys.argv):
   # We pull files from https://github.com/antlr/grammars-v4
   # and put them under build_path.
   # Remember to put Lexers before Parsers!
-  antlr_grammar_source_stubs = [
-    'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java/JavaLexer.g4',
-    'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java/JavaParser.g4',
+  antlr_grammar_sources = [
+    #'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java/JavaLexer.g4',
+    #'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java/JavaParser.g4',
     
-    'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java8/Java8Lexer.g4',
-    'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java8/Java8Parser.g4',
+    #'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java8/Java8Lexer.g4',
+    #'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java8/Java8Parser.g4',
+
+    os.path.join('data', 'Java.g4'),
 
     'https://raw.githubusercontent.com/antlr/grammars-v4/master/cpp/CPP14Lexer.g4',
     'https://raw.githubusercontent.com/antlr/grammars-v4/master/cpp/CPP14Parser.g4',
 
-    'https://raw.githubusercontent.com/okellogg/ada_antlr_grammar/master/antlr4/ada.g4'
+    'https://raw.githubusercontent.com/okellogg/ada_antlr_grammar/master/antlr4/ada.g4',
   ]
   antlr_grammar_paths = []
-  for g in antlr_grammar_source_stubs:
+  for g in antlr_grammar_sources:
     name = os.path.basename(g)
     grammar_path = os.path.join(build_path, name)
     antlr_grammar_paths.append(grammar_path)
 
     if not os.path.exists(grammar_path):
-      url = g
-      print('Downloading Grammar from {url} to {grammar_path}'.format(url=url, grammar_path=grammar_path))
-      urllib.request.urlretrieve(url, grammar_path)
+      if g.lower().startswith('http'):
+        url = g
+        print('Downloading Grammar from {url} to {grammar_path}'.format(url=url, grammar_path=grammar_path))
+        urllib.request.urlretrieve(url, grammar_path)
+      else:
+        print('Copying Grammar from {g} to {grammar_path}'.format(g=g, grammar_path=grammar_path))
+        shutil.copy(g, grammar_path)
 
   # Now that we have grammars, use ANTLR to compile them
   compiled_antlr_grammar_dir = os.path.join(build_path, 'compiled-antlr-grammars')
