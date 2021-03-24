@@ -85,12 +85,21 @@ namespace SoftwareAnalyzer2
             dir = p.FilePath;
             dir = dir.Substring(0, dir.LastIndexOf(Path.DirectorySeparatorChar));
             string name = p.GetProperty(ProjectProperties.ProjectName);
-            if (ParseSource(p) || !AbbreviatedGraph.OpenFile(dir, name)) {
-                Console.Error.WriteLine("TODO implement RegisterGraph and LinkGraph in batch mode");
-                //RegisterGraph();
+            
+            string analysisPath = p.FilePath;
+            analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));
+
+            string proj_parse_folder = proj_dir + Path.DirectorySeparatorChar + ParseFolder;
+            if (!Directory.Exists(proj_parse_folder)) {
+                Directory.CreateDirectory(proj_parse_folder);
+            }
+
+            if (ParseSource(p, analysisPath) || !AbbreviatedGraph.OpenFile(dir, name)) {
+                
+                RegisterGraph(p, lang, proj_dir, proj_parse_folder);
                 //LinkGraph();
 
-                Thread.Sleep(5000); // why?
+                Thread.Sleep(1000); // why?
 
                 try
                 {
@@ -107,19 +116,40 @@ namespace SoftwareAnalyzer2
 
         }
 
+        static void RegisterGraph(Project p, ILanguage lang, string proj_dir, string proj_parse_folder)
+        {
+            GraphNode.ClearGraph(lang);
+            string[] files = Directory.GetFiles(proj_parse_folder, "*.XML", SearchOption.AllDirectories);
+            // int totalFiles = files.Length;
+            // int filesDone = 0;
+
+            Console.WriteLine("Registering all members in " + p.GetProperty(ProjectProperties.ProjectName));
+
+            //go through all files which match the required extension
+            foreach (string file in files)
+            {
+                LoadTree(file);
+            }
+
+        }
+
+        static void LoadTree(string file)
+        {
+            //read the parsed file and register it with the graph
+            GraphNode.Register(NodeFactory.ReadXMLTree(file));
+        }
+
 
         /// <summary>
         /// Stage one of the source update process. Spawns threads for each of the source code files and produces
         /// (or accepts) a (previously calculated) parsing saved as an XML file.
         /// </summary>
         /// <returns>True if any new files are parsed; false if all files are already set.</returns>
-        private static bool ParseSource(Project p)
+        private static bool ParseSource(Project p, string analysisPath)
         {
             ILanguage lang = LanguageManager.GetLanguage(p.GetProperty(ProjectProperties.Language));
             ITool tool = ToolManager.GetTool(p.GetProperty(ProjectProperties.Tool));
             string rootPath = p.GetProperty(ProjectProperties.RootDirectory);
-            string analysisPath = p.FilePath;
-            analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));
 
             string[] files = Directory.GetFiles(p.GetProperty(ProjectProperties.RootDirectory), lang.FileExtension, SearchOption.AllDirectories);
             int totalFiles = files.Length;
