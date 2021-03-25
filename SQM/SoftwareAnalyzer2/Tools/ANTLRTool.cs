@@ -96,14 +96,17 @@ namespace SoftwareAnalyzer2.Tools
                 Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
 
                 Console.Out.WriteLine(fileName);
-                if (fileName.EndsWith("ui\\worldwindmap\\WorldWindMap.java"))
-                {
-                    //int adlfkj = 0;
-                }
+                
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 // We remove all tokens with "<WS>" (whitespace) and "<COMMENT>"
-                tokens = tokens.Where(t => !(t.Contains("<WS>") || t.Contains("<COMMENT>")) ).ToArray();
+                tokens = tokens.Where(
+                    t => !(
+                        t.Contains("<WS>") ||
+                        t.Contains("<COMMENT>") ||
+                        t.Contains("<Directive>")
+                    )
+                ).ToArray();
 
                 string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 Console.Out.WriteLine("/t"+fileName);
