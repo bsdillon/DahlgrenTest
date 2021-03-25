@@ -9,11 +9,11 @@ namespace SoftwareAnalyzer2.Language
 {
     class JavaLanguage : ILanguage
     {
-        public string FileExtension
+        public string[] FileExtensionGlobs
         {
             get
             {
-                return "*.java";
+                return new string[]{"*.java"};
             }
         }
 

@@ -9,11 +9,11 @@ namespace SoftwareAnalyzer2.Language
 {
     class CPPLanguage : ILanguage
     {
-        public string FileExtension
+        public string[] FileExtensionGlobs
         {
             get
             {
-                return "*.cpp";
+                return new string[]{"*.cpp", "*.c", "*.hpp", "*.h"};
             }
         }
 

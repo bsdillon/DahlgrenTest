@@ -33,29 +33,31 @@ namespace SoftwareAnalyzer2.GUI.Test
             path += "TestOnly/";
 
             ILanguage lang = new JavaLanguage();
-            string[] files = Directory.GetFiles(path, lang.FileExtension, SearchOption.AllDirectories);
-            int count = 0;
-            foreach (string file in files)
-            {
-                ITool myTool = new ANTLRTool();
-                myTool.Analyze(file, lang);
-
-                string fileName = file.Substring(0, file.Length - 5);
-                List<string> errors = myTool.Errors;
-
-                if (errors.Count > 0)
+            foreach (string lang_ext_glob in lang.FileExtensionGlobs) {
+                string[] files = Directory.GetFiles(path, lang_ext_glob, SearchOption.AllDirectories);
+                int count = 0;
+                foreach (string file in files)
                 {
-                    //there are some errors; create node report
-                    ErrorMessage.Show(fileName, myTool.GetType().ToString(), errors);
+                    ITool myTool = new ANTLRTool();
+                    myTool.Analyze(file, lang);
+
+                    string fileName = file.Substring(0, file.Length - 5);
+                    List<string> errors = myTool.Errors;
+
+                    if (errors.Count > 0)
+                    {
+                        //there are some errors; create node report
+                        ErrorMessage.Show(fileName, myTool.GetType().ToString(), errors);
+                    }
+
+                    INode node = myTool.ParsedNode;
+                    //write out AST to text file
+                    NodeFactory.WriteTextFile(node, fileName + "NEW");
+                    count++;
+
+                    testProgress.Value = 100 * count / files.Length;
+                    //ErrorMessage.Show(fileName, myTool.ToString(), errors);
                 }
-
-                INode node = myTool.ParsedNode;
-                //write out AST to text file
-                NodeFactory.WriteTextFile(node, fileName + "NEW");
-                count++;
-
-                testProgress.Value = 100 * count / files.Length;
-                //ErrorMessage.Show(fileName, myTool.ToString(), errors);
             }
         }
     }

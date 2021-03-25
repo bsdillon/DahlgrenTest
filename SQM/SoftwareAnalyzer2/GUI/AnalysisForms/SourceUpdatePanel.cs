@@ -176,42 +176,46 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             analysisPath = currentProject.FilePath;
             analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));
 
-            string[] files = Directory.GetFiles(currentProject.GetProperty(ProjectProperties.RootDirectory), lang.FileExtension, SearchOption.AllDirectories);
-            totalFiles = files.Length;
-            filesDone = 0;
-            newFilesFound = new List<string>();
-            UpdateParseCounts();
-            SetOutput("Checking for updated files in " + currentProject.GetProperty(ProjectProperties.ProjectName));
+            totalFiles = 0;
 
-            //go through all files which match the required extension
-            foreach (string file in files)
-            {
-                if (!continueRun)
-                {
-                    break;
-                }
-                Thread t = new Thread(ReadFile);
-                t.Name = file;
-
-                while (spawned > MaxThreads)
-                {
-                    Thread.Sleep(250);
-                }
-
-                t.Start(file);
-                ChangeSpawnCount(1);
+            foreach (string lang_ext_glob in lang.FileExtensionGlobs) {
+                string[] files = Directory.GetFiles(currentProject.GetProperty(ProjectProperties.RootDirectory), lang_ext_glob, SearchOption.AllDirectories);
+                totalFiles += files.Length;
+                filesDone = 0;
+                newFilesFound = new List<string>();
                 UpdateParseCounts();
-            }
+                SetOutput("Checking for updated files in " + currentProject.GetProperty(ProjectProperties.ProjectName));
 
-            while (spawned > 0)
-            {
-                Thread.Sleep(500);
-            }
-            UpdateParseCounts();
+                //go through all files which match the required extension
+                foreach (string file in files)
+                {
+                    if (!continueRun)
+                    {
+                        break;
+                    }
+                    Thread t = new Thread(ReadFile);
+                    t.Name = file;
 
-            if (continueRun)
-            {
-                SetOutput("Files parsed: " + totalErrors + " Error(s)");
+                    while (spawned > MaxThreads)
+                    {
+                        Thread.Sleep(250);
+                    }
+
+                    t.Start(new string[]{file, lang_ext_glob});
+                    ChangeSpawnCount(1);
+                    UpdateParseCounts();
+                }
+
+                while (spawned > 0)
+                {
+                    Thread.Sleep(500);
+                }
+                UpdateParseCounts();
+
+                if (continueRun)
+                {
+                    SetOutput("Files parsed: " + totalErrors + " Error(s)");
+                }
             }
 
             return newFilesFound.Count > 0;
@@ -219,10 +223,12 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
         private void ReadFile(object parameters)
         {
-            string fileName = (string)parameters;
+            string[] str_parameters = (string[]) parameters;
+            string fileName = str_parameters[0];
+            string file_extension = str_parameters[1];
             string parsePath = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
             string parseFile = fileName.Replace(rootPath, parsePath);
-            string fileRoot = parseFile.Substring(0, parseFile.Length - lang.FileExtension.Length + 1);
+            string fileRoot = parseFile.Substring(0, parseFile.Length - file_extension.Length + 1);
             string xmlFile = fileRoot + ".XML";
             string directory = parseFile.Substring(0, parseFile.LastIndexOf(Path.DirectorySeparatorChar));
 

@@ -8,7 +8,7 @@ namespace SoftwareAnalyzer2.Language
 {
     public interface ILanguage
     {
-        string FileExtension { get; }
+        string[] FileExtensionGlobs { get; }
         List<string> InitialPackages { get; }
         List<string> NativeClasses { get; }
         List<string> NativeInterfaces { get; }

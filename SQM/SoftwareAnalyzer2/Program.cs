@@ -151,23 +151,29 @@ namespace SoftwareAnalyzer2
             ITool tool = ToolManager.GetTool(p.GetProperty(ProjectProperties.Tool));
             string rootPath = p.GetProperty(ProjectProperties.RootDirectory);
 
-            string[] files = Directory.GetFiles(p.GetProperty(ProjectProperties.RootDirectory), lang.FileExtension, SearchOption.AllDirectories);
-            int totalFiles = files.Length;
+            int totalFiles = 0;
             int filesDone = 0;
             List<string> newFilesFound = new List<string>();
-            
-            Console.WriteLine("Checking for updated files in " + p.GetProperty(ProjectProperties.ProjectName));
 
-            //go through all files which match the required extension
-            foreach (string file in files)
-            {
-                ReadFile(p, tool, lang, file);
+            foreach (string lang_ext_glob in lang.FileExtensionGlobs) {
+                string[] files = Directory.GetFiles(p.GetProperty(ProjectProperties.RootDirectory), lang_ext_glob, SearchOption.AllDirectories);
+                
+                totalFiles += files.Length;
+
+                Console.WriteLine("Checking for updated files in " + p.GetProperty(ProjectProperties.ProjectName));
+
+                //go through all files which match the required extension
+                foreach (string file in files)
+                {
+                    ReadFile(p, tool, lang, lang_ext_glob, file);
+                    newFilesFound.Add(file);
+                }
             }
 
             return newFilesFound.Count > 0;
         }
 
-        private static void ReadFile(Project p, ITool tool, ILanguage lang, string fileName) {
+        private static void ReadFile(Project p, ITool tool, ILanguage lang, string lang_ext_glob, string fileName) {
             string analysisPath = p.FilePath;
             analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));
 
@@ -175,7 +181,7 @@ namespace SoftwareAnalyzer2
 
             string parsePath = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
             string parseFile = fileName.Replace(rootPath, parsePath);
-            string fileRoot = parseFile.Substring(0, parseFile.Length - lang.FileExtension.Length + 1);
+            string fileRoot = parseFile.Substring(0, parseFile.Length - lang_ext_glob.Length + 1);
             string xmlFile = fileRoot + ".XML";
             string directory = parseFile.Substring(0, parseFile.LastIndexOf(Path.DirectorySeparatorChar));
 

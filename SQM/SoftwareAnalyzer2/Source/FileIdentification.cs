@@ -20,23 +20,25 @@ namespace SoftwareAnalyzer2.Source
         internal void Go()
         {
             //find the source code file names in the folder
-            foreach (string file in Directory.GetFiles(Root, Language.FileExtension, SearchOption.AllDirectories))
-            {
-                //read in each file in
-                //read in file for manipulation
-                StreamReader sr = File.OpenText(file);
-                List<string> fileLines = new List<string>();
-                string line = sr.ReadLine();
-                while (line != null)
+            foreach (string lang_ext_glob in Language.FileExtensionGlobs) {
+                foreach (string file in Directory.GetFiles(Root, lang_ext_glob, SearchOption.AllDirectories))
                 {
-                    if (line.Length > 0)
+                    //read in each file in
+                    //read in file for manipulation
+                    StreamReader sr = File.OpenText(file);
+                    List<string> fileLines = new List<string>();
+                    string line = sr.ReadLine();
+                    while (line != null)
                     {
-                        fileLines.Add(line);
-                    }
+                        if (line.Length > 0)
+                        {
+                            fileLines.Add(line);
+                        }
 
-                    line = sr.ReadLine();
+                        line = sr.ReadLine();
+                    }
+                    sr.Close();
                 }
-                sr.Close();
             }
         }
     }
