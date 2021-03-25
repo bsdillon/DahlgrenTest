@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SoftwareAnalyzer2.Structure.Metrics
 {
@@ -542,6 +543,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         internal static void WriteEdges(string fileName)
         {
             StreamWriter edgeWriter = new StreamWriter(fileName);
+            
+            Debug.Assert(edges.Count > 0 , "number of edges is assumed > 0, got edges.Count == "+edges.Count);
+            if (edges.Count <= 0) {
+                return;
+            }
+
             edgeWriter.WriteLine(edges[0].Header);
             foreach (GephiEdge e in edges)
             {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -199,7 +200,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         private Package RecursiveGetPackage(string[] packageParts, int index)
         {
             //end case - Reached the end of the indentifierSet
-            if (packageParts.Length == index)
+            if (index < 0 || index >= packageParts.Length)
             {
                 return this;
             }
@@ -211,6 +212,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                     //this is a package import all
                     return this;
                 }
+                
+                Debug.Assert(index >= 0 && index < packageParts.Length, "index should point to a child of packageParts");
 
                 if (!packages.ContainsKey(packageParts[index]))
                 {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
 {
@@ -65,6 +66,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
 
             foreach (string typeName in lang.DefaultValues.Keys)
             {
+                Debug.Assert(NativeTypes.ContainsKey(typeName), typeName+" (typeName) should appear in NativeTypes");
+                Debug.Assert(lang.DefaultValues.ContainsKey(typeName), typeName+" (typeName) should appear in lang.DefaultValues");
                 NativeTypes[typeName].CreateDefaultValue(lang.DefaultValues[typeName]);
             }
         }

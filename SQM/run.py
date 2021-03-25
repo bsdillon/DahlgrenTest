@@ -183,9 +183,10 @@ def main(args=sys.argv):
   # Append args to run.py to exec_cmd
   exec_cmd.extend(args[1:])
 
-  print('CLASS_PATH={}'.format(os.environ['CLASSPATH']))
-  print('Running {exec_cmd}'.format(exec_cmd=exec_cmd))
-  subprocess.run(exec_cmd)
+  if not 'BUILDONLY' in os.environ:
+    print('CLASS_PATH={}'.format(os.environ['CLASSPATH']))
+    print('Running {exec_cmd}'.format(exec_cmd=exec_cmd))
+    subprocess.run(exec_cmd)
 
 
 if __name__ == '__main__':

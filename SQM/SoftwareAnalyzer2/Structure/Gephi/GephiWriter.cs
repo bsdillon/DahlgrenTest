@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SoftwareAnalyzer2.Structure.Gephi
 {
@@ -27,6 +28,14 @@ namespace SoftwareAnalyzer2.Structure.Gephi
         {
             StreamWriter nodeFile = new StreamWriter(baseFileName + ".nod");
             StreamWriter edgeFile = new StreamWriter(baseFileName + ".edg");
+            Debug.Assert(nodes.Count > 0 , "number of nodes is assumed > 0, got nodes.Count == "+nodes.Count);
+            if (nodes.Count <= 0) {
+                return;
+            }
+            Debug.Assert(edges.Count > 0 , "number of edges is assumed > 0, got edges.Count == "+edges.Count);
+            if (edges.Count <= 0) {
+                return;
+            }
             nodeFile.WriteLine(nodes[0].Header);
             edgeFile.WriteLine(edges[0].Header);
 
