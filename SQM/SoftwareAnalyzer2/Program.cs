@@ -14,6 +14,7 @@ using SoftwareAnalyzer2.Tools;
 using SoftwareAnalyzer2.Structure;
 using SoftwareAnalyzer2.Structure.Graphing;
 using SoftwareAnalyzer2.Structure.Node;
+using SoftwareAnalyzer2.Structure.Gephi;
 
 namespace SoftwareAnalyzer2
 {
@@ -97,9 +98,7 @@ namespace SoftwareAnalyzer2
             if (ParseSource(p, analysisPath) || !AbbreviatedGraph.OpenFile(dir, name)) {
                 
                 RegisterGraph(p, lang, proj_dir, proj_parse_folder);
-                //LinkGraph();
-
-                Thread.Sleep(1000); // why?
+                LinkGraph(p, lang, proj_dir, proj_parse_folder);
 
                 try
                 {
@@ -112,8 +111,45 @@ namespace SoftwareAnalyzer2
                 }
                 GraphNode.ClearGraph(lang);
                 AbbreviatedGraph.OpenFile(dir, name);
+
+                // Now perform graph gen, which in the GUI is another button press
+                List<GephiNode> nodes = new List<GephiNode>();
+                List<GephiEdge> edges = new List<GephiEdge>();
+
+                GephiNavigator nav = new GephiNavigator(nodes, edges);
+                AbbreviatedGraph.Navigate(nav);
+
+                GephiWriter.WriteFile(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name+"_gephi", nodes, edges);
+                Console.WriteLine("Gephi files complete");
+
             }
 
+        }
+
+        static void LinkGraph(Project p, ILanguage lang, string proj_dir, string proj_parse_folder) {
+            Console.WriteLine("Linking all types in " + p.GetProperty(ProjectProperties.ProjectName));
+
+            //find the total number of types
+            List<GraphNode> types = new List<GraphNode>();
+            int totalMembers = GraphNode.GetAllTypes(types);
+            
+            foreach (GraphNode t in types)
+            {
+                //t.InitialLink(p, lang, proj_dir, proj_parse_folder);
+                Console.WriteLine("InitialLink for t="+t);
+                t.InitialLink();
+            }
+
+            //switching gears now. Up until now we have only set up the type linking
+            //now we are going to link the members within the various scopes.
+            //we know how many of them there are so we start counting from here.
+            Console.WriteLine("Linking all members in " + p.GetProperty(ProjectProperties.ProjectName));
+            
+            GraphNode.PrepareForLink(null);
+
+            GraphNode.LinkAll();
+
+            Console.WriteLine("All members linked!");
         }
 
         static void RegisterGraph(Project p, ILanguage lang, string proj_dir, string proj_parse_folder)

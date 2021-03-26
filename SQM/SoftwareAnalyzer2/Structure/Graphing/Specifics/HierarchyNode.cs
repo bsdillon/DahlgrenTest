@@ -45,7 +45,9 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         /// <param name="actionDelegate"></param>
         public static void HubPrepareForLink(Action<object, LinkEventArgs> actionDelegate)
         {
-            LinkProgressChanged += new LinkEventHandler(actionDelegate);
+            if (actionDelegate != null) {
+                LinkProgressChanged += new LinkEventHandler(actionDelegate);
+            }
             allLinking = false;
         }
 
