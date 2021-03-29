@@ -101,7 +101,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 }
 
                 EventCounter++;
-                LinkProgressChanged(new object(), new LinkEventArgs(typesLinked, totalTypes, EventCounter));
+                
+                if (LinkProgressChanged != null) {
+                    LinkProgressChanged(new object(), new LinkEventArgs(typesLinked, totalTypes, EventCounter));
+                }
             }
         }
 
