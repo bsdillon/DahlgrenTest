@@ -119,7 +119,7 @@ namespace SoftwareAnalyzer2
                 GephiNavigator nav = new GephiNavigator(nodes, edges);
                 AbbreviatedGraph.Navigate(nav);
 
-                GephiWriter.WriteFile(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name+"_gephi", nodes, edges);
+                GephiWriter.WriteFile(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name, nodes, edges);
                 Console.WriteLine("Gephi files complete");
 
             }
@@ -132,6 +132,7 @@ namespace SoftwareAnalyzer2
             //find the total number of types
             List<GraphNode> types = new List<GraphNode>();
             int totalMembers = GraphNode.GetAllTypes(types);
+            Console.WriteLine("totalMembers="+totalMembers);
             
             foreach (GraphNode t in types)
             {

@@ -26,57 +26,13 @@ namespace SoftwareAnalyzer2.Language
         static CPPLanguage()
         {
             packages = new List<string>();
-            packages.Add("java");
-            packages.Add("javax");
-            packages.Add("org");
-            packages.Add("com");
-            packages.Add("junit");
-
+            packages.Add("std");
+            
             interfaces = new List<string>();
-            interfaces.Add("java.lang.Appendable");
-            interfaces.Add("java.lang.AutoCloseable");
-            interfaces.Add("java.lang.CharSequence");
-            interfaces.Add("java.lang.Cloneable");
-            interfaces.Add("java.lang.Comparable");
-            interfaces.Add("java.lang.Iterable");
-            interfaces.Add("java.lang.Readable");
-            interfaces.Add("java.lang.Runnable");
-
+            interfaces.Add("std");
+            
             classes = new List<string>();
-            classes.Add("java.lang.Boolean");
-            classes.Add("java.lang.Byte");
-            classes.Add("java.lang.Character");
-            classes.Add("java.lang.Class");
-            classes.Add("java.lang.ClassLoader");
-            classes.Add("java.lang.ClassValue");
-            classes.Add("java.lang.Compiler");
-            classes.Add("java.lang.Double");
-            classes.Add("java.lang.Enum");
-            classes.Add("java.lang.Float");
-            classes.Add("java.lang.InheritableThreadLocal");
-            classes.Add("java.lang.Integer");
-            classes.Add("java.lang.Long");
-            classes.Add("java.lang.Math");
-            classes.Add("java.lang.Number");
-            classes.Add("java.lang.Object");
-            classes.Add("java.lang.Package");
-            classes.Add("java.lang.Process");
-            classes.Add("java.lang.ProcessBuilder");
-            classes.Add("java.lang.Runtime");
-            classes.Add("java.lang.RuntimePermission");
-            classes.Add("java.lang.SecurityManager");
-            classes.Add("java.lang.Short");
-            classes.Add("java.lang.StackTraceElement");
-            classes.Add("java.lang.StrictMath");
-            classes.Add("java.lang.String");
-            classes.Add("java.lang.StringBuffer");
-            classes.Add("java.lang.StringBuilder");
-            classes.Add("java.lang.System");
-            classes.Add("java.lang.Thread");
-            classes.Add("java.lang.ThreadGroup");
-            classes.Add("java.lang.ThreadLocal");
-            classes.Add("java.lang.Throwable");
-            classes.Add("java.lang.Void");
+            
             
             // TODO these are structs OR types in c++/ada/fortran/c/rust/zig/go
             classes.Add("void");
@@ -94,27 +50,7 @@ namespace SoftwareAnalyzer2.Language
             }
 
             mapping = new Dictionary<string, string>();
-            mapping.Add("int", "Integer");
-            mapping.Add("Integer", "Integer");
-            mapping.Add("long", "Long");
-            mapping.Add("Long", "Long");
-            mapping.Add("char", "Character");
-            mapping.Add("Character", "Character");
-            mapping.Add("String", "String");
-            mapping.Add("string", "String");
-            mapping.Add("bool", "Boolean");
-            mapping.Add("boolean", "Boolean");
-            mapping.Add("Boolean", "Boolean");
-            mapping.Add("byte", "Byte");
-            mapping.Add("Byte", "Byte");
-            mapping.Add("double", "Double");
-            mapping.Add("Double", "Double");
-            mapping.Add("Float", "Float");
-            mapping.Add("float", "Float");
-            mapping.Add("short", "Short");
-            mapping.Add("Short", "Short");
-            mapping.Add("Object", "Object");
-            //mapping.Add("", "");
+            
 
             defaultVal = new Dictionary<string, string>();
             defaultVal.Add("int", "0");
@@ -125,7 +61,7 @@ namespace SoftwareAnalyzer2.Language
             defaultVal.Add("double", "0");
             defaultVal.Add("float", "0");
             defaultVal.Add("short", "0");
-            defaultVal.Add("Object", "null");
+            //defaultVal.Add("Object", "null");
         }
 
         public List<string> InitialPackages

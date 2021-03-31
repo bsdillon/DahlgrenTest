@@ -26,8 +26,8 @@ namespace SoftwareAnalyzer2.Structure.Gephi
 
         internal static void WriteFile(string baseFileName, List<GephiNode> nodes, List<GephiEdge> edges)
         {
-            StreamWriter nodeFile = new StreamWriter(baseFileName + ".nod");
-            StreamWriter edgeFile = new StreamWriter(baseFileName + ".edg");
+            StreamWriter nodeFile = new StreamWriter(baseFileName + ".nod.csv");
+            StreamWriter edgeFile = new StreamWriter(baseFileName + ".edg.csv");
             Debug.Assert(nodes.Count > 0 , "number of nodes is assumed > 0, got nodes.Count == "+nodes.Count);
             if (nodes.Count <= 0) {
                 return;
@@ -41,7 +41,7 @@ namespace SoftwareAnalyzer2.Structure.Gephi
 
             foreach (GephiNode n in nodes)
             {
-                nodeFile.WriteLine(n.ToString());
+                nodeFile.WriteLine(n.ToGephiRecord());
             }
 
             foreach (GephiEdge e in edges)
