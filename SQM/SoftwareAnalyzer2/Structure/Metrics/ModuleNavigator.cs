@@ -50,6 +50,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         {
             MetricUtilities.Initialize();
 
+            if (current == null) {
+                // Discovered when loading c++ projects
+                SetOutput("AbbreviatedGraph is null!");
+                return;
+            }
+            
             SetOutput("Looking for graph members");
             DiscoverAllMembers(current);
 
