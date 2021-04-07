@@ -96,41 +96,40 @@ namespace SoftwareAnalyzer2
                 Directory.CreateDirectory(proj_parse_folder);
             }
 
-            if (ParseSource(p, analysisPath) || !AbbreviatedGraph.OpenFile(dir, name)) {
-                
-                RegisterGraph(p, lang, proj_dir, proj_parse_folder);
-                LinkGraph(p, lang, proj_dir, proj_parse_folder);
+            ParseSource(p, analysisPath);
+            AbbreviatedGraph.OpenFile(dir, name);
+            
+            RegisterGraph(p, lang, proj_dir, proj_parse_folder);
+            LinkGraph(p, lang, proj_dir, proj_parse_folder);
 
-                try
-                {
-                    GraphNode.Save(dir, name);
-                }
-                catch (Exception e)
-                {
-                    Console.Error.WriteLine("Could not save file: " + e.Message + "\n\r" + e.StackTrace);
-                    return;
-                }
-                GraphNode.ClearGraph(lang);
-                AbbreviatedGraph.OpenFile(dir, name);
-
-                // Now perform graph gen, which in the GUI is another button press
-                List<GephiNode> nodes = new List<GephiNode>();
-                List<GephiEdge> edges = new List<GephiEdge>();
-
-                GephiNavigator nav = new GephiNavigator(nodes, edges);
-                AbbreviatedGraph.Navigate(nav);
-
-                GephiWriter.WriteFile(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name, nodes, edges);
-                Console.WriteLine("Gephi files complete");
-
-                // Now that we have generated .edg and .nod csv files,
-                // perform the rest of the metric analysis
-                ModuleNavigator mn = new ModuleNavigator(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name + "_metrics", null);
-                AbbreviatedGraph.Navigate(mn);
-
-                Console.WriteLine("Metric reports complete");
-
+            try
+            {
+                GraphNode.Save(dir, name);
             }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine("Could not save file: " + e.Message + "\n\r" + e.StackTrace);
+                return;
+            }
+            GraphNode.ClearGraph(lang);
+            AbbreviatedGraph.OpenFile(dir, name);
+
+            // Now perform graph gen, which in the GUI is another button press
+            List<GephiNode> nodes = new List<GephiNode>();
+            List<GephiEdge> edges = new List<GephiEdge>();
+
+            GephiNavigator nav = new GephiNavigator(nodes, edges);
+            AbbreviatedGraph.Navigate(nav);
+
+            GephiWriter.WriteFile(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name, nodes, edges);
+            Console.WriteLine("Gephi files complete");
+
+            // Now that we have generated .edg and .nod csv files,
+            // perform the rest of the metric analysis
+            ModuleNavigator mn = new ModuleNavigator(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name + "_metrics", null);
+            AbbreviatedGraph.Navigate(mn);
+
+            Console.WriteLine("Metric reports complete");
 
         }
 
