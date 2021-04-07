@@ -20,8 +20,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private Label output;
         private void SetOutput(string msg)
         {
-            output.Text = msg;
-            output.Refresh();
+            if (output != null) {
+                output.Text = msg;
+                output.Refresh();
+            }
         }
 
         #region File IO

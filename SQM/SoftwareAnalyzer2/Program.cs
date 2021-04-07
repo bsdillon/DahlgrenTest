@@ -15,6 +15,7 @@ using SoftwareAnalyzer2.Structure;
 using SoftwareAnalyzer2.Structure.Graphing;
 using SoftwareAnalyzer2.Structure.Node;
 using SoftwareAnalyzer2.Structure.Gephi;
+using SoftwareAnalyzer2.Structure.Metrics;
 
 namespace SoftwareAnalyzer2
 {
@@ -121,6 +122,13 @@ namespace SoftwareAnalyzer2
 
                 GephiWriter.WriteFile(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name, nodes, edges);
                 Console.WriteLine("Gephi files complete");
+
+                // Now that we have generated .edg and .nod csv files,
+                // perform the rest of the metric analysis
+                ModuleNavigator mn = new ModuleNavigator(p.GetProperty(ProjectProperties.FilePath) + Path.DirectorySeparatorChar + proj_name + "_metrics", null);
+                AbbreviatedGraph.Navigate(mn);
+
+                Console.WriteLine("Metric reports complete");
 
             }
 
