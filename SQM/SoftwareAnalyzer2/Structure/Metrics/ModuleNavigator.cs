@@ -24,6 +24,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 output.Text = msg;
                 output.Refresh();
             }
+            else {
+                Console.WriteLine(msg);
+            }
         }
 
         #region File IO
@@ -93,6 +96,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                 }
 
+                Console.WriteLine("type="+type);
+
                 //TODO consider new means of excluding external nodes
                 //the current metric recognizes that the file was not 
                 //one of those under test so we can ignore it. This
@@ -101,6 +106,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 foreach (AbbreviatedGraph member in MetricUtilities.GetMembersOf(type))//look at all members in that type
                 {
+                    
+                    Console.WriteLine("member="+member);
+
                     //Determine the initial values of the new node
                     long myMember = MetricUtilities.GetMemberID(type,member);
 
@@ -681,15 +689,27 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         /// <param name="current"></param>
         private void DiscoverAllMembers(AbbreviatedGraph current)
         {
+            
+            Console.WriteLine("DiscoverAllMembers("+current+") IsClassification="+current.Represented.Node.IsClassification);
+
             if (current.Represented.Node.IsClassification)
             {
                 Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> members = current.GetEdges(Relationship.Member);
                 foreach (AbbreviatedGraph m in members.Keys)
-                {
-                    if (m.Represented.Node.Equals(Members.Field) && m.Represented.Code.Equals(NodeFactory.SelfReference))
-                    {
-                        continue;
-                    }
+                {   
+                    Console.WriteLine(
+                        "m.Represented.Node.Equals(Members.Field)="+m.Represented.Node.Equals(Members.Field)+
+                        "  m.Represented.Code.Equals(NodeFactory.SelfReference)="+m.Represented.Code.Equals(NodeFactory.SelfReference)+
+                        "  m.Represented.Node.IsMethodDefinition="+m.Represented.Node.IsMethodDefinition+
+                        "  m.Represented.Node.Equals(Members.Value)="+m.Represented.Node.Equals(Members.Value)
+                    );
+
+                    // TODO: in C++ scans these 2 properties are always true, making no nodes be reported in the metrics.
+
+                    // if (m.Represented.Node.Equals(Members.Field) && m.Represented.Code.Equals(NodeFactory.SelfReference))
+                    // {
+                    //     continue;
+                    // }
 
                     if (m.Represented.Node.Equals(Members.Field) || m.Represented.Node.IsMethodDefinition || m.Represented.Node.Equals(Members.Value))
                     {
@@ -712,13 +732,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                     else
                     {
-                        //throw new InvalidCastException("Unknown type member " + m);
+                        throw new InvalidCastException("Unknown type member " + m);
                     }
                 }
             }
             else
             {
                 Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> nextEdges = current.GetEdges(Relationship.Member);
+
+                Console.WriteLine("nextEdges.Count = "+nextEdges.Count);
 
                 foreach (AbbreviatedGraph next in nextEdges.Keys)
                 {
