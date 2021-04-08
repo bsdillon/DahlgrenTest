@@ -6,6 +6,9 @@
 #include "func2.hpp"
 
 int main(int argc, char** argv) {
+	
+  int x = 0;
+  int full = 9;
   
   std::cout << "Hello world!" << std::endl;
 
@@ -17,6 +20,11 @@ int main(int argc, char** argv) {
 
   std::cout << "ec.a = " << ec.a << std::endl;
   std::cout << "ec.b = " << ec.b << std::endl;
+  
+  while(x <= full) {
+	x++;
+	std::cout << x << std::endl;
+  }
 
   return 0;
 }
