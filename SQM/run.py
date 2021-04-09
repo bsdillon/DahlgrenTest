@@ -60,6 +60,7 @@ def main(args=sys.argv):
   if not 'linux' in sys.platform:
     ammend_path(
       'msbuild.exe',
+      'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\MSBuild\\Current\\Bin',
       'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\MSBuild\\Current\\Bin\\',
       'C:\\Windows\\Microsoft.NET\\Framework\\',
       'C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\',
