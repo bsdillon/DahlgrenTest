@@ -296,6 +296,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         /// <returns></returns>
         public TypeDefinition RegisterType(TypeDefinition type)
         {
+            if (type.Represented == null) { // TODO 2021-04-09, nullptr when ingesting C++ code
+                Console.WriteLine("type.Represented == null");
+                return type;
+            }
             if (!type.Represented.Node.Equals(Members.TypeDeclaration))
             {
                 throw new InvalidCastException("Package cannot register non-type definitions: " + type.Represented);

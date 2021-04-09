@@ -113,12 +113,12 @@ namespace SoftwareAnalyzer2.Tools
 
                 //capture any process errors
                 string error = p.StandardError.ReadToEnd();
-                if (error.Length > 0)
+                if (error.Length > 0 && !error.Contains("no viable alternative at input"))
                 {
                     errorMessages.Add("ERROR: Error in ANTLR tree: " + error + System.Environment.NewLine);
                 }
                 error = p2.StandardError.ReadToEnd();
-                if (error.Length > 0)
+                if (error.Length > 0 && !error.Contains("no viable alternative at input"))
                 {
                     errorMessages.Add("ERROR: Error in ANTLR tokens: " + error + System.Environment.NewLine);
                 }

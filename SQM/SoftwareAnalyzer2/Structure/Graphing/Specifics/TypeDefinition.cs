@@ -324,6 +324,11 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         {
             INavigable myNavigable = (INavigable)represented;
 
+            if (myNavigable == null) { // TODO 2021-04-09, nullptr when ingesting C++ code
+                Console.WriteLine("myNavigable == null");
+                return;
+            }
+
             foreach (INavigable set in myNavigable.Children)
             {
                 switch (set.Node.GetMemberSets())
