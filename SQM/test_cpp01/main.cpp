@@ -22,9 +22,16 @@ int main(int argc, char** argv) {
   std::cout << "ec.b = " << ec.b << std::endl;
   
   while(x <= full) {
-	x++;
-	std::cout << x << std::endl;
+  	x++;
+  	std::cout << x << std::endl;
   }
+
+  void * vPtr;
+  vPtr = &x;
+  std::cout << "vPtr = " << *(int *)vPtr << std::endl;
+  std::cout << "vPtr = " << *(double *)vPtr << std::endl;
+  vPtr = &full;
+  std::cout << "vPtr = " << *(double *)vPtr << std::endl;
 
   return 0;
 }
