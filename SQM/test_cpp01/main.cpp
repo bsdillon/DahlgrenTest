@@ -21,11 +21,47 @@ int main(int argc, char** argv) {
   std::cout << "ec.a = " << ec.a << std::endl;
   std::cout << "ec.b = " << ec.b << std::endl;
   
+  // While node check
   while(x <= full) {
   	x++;
   	std::cout << x << std::endl;
   }
-
+  
+  // ArrayInvoke node check
+  int array[3]{0,1,2};
+  // For3Loop node check
+  for(int i = 0; i <= 2; i++) {
+  	std::cout << array[i] << std::endl;
+  }
+  // ForEachLoop
+  for (int i : array) {
+	  std::cout << i << std::endl;
+  }
+  
+  int value = 0;
+  // Then, Else node check
+  if (value == 0) {
+	std::cout << "Value is 0" << std::endl;
+  } else if (value == 1) {
+	std::cout << "Value is 1" << std::endl;
+  } else {
+	std::cout << "Value is large or negative!" << std::endl;
+  }
+  // Switch node check
+  switch(value) {
+	case 0 :
+		std::cout << "Value is 0" << std::endl;
+		break;
+	case 1 :
+		std::cout << "Value is 1" << std::endl;
+		break;
+	default :
+		std::cout << "Value is large or negative!" << std::endl;
+  }
+  // Trinary node check
+  std::string result = (value == 0) ? "Value is 0" : "Value isn't 0?!";
+  std::cout << result << std::endl;
+  
   void * vPtr;
   vPtr = &x;
   std::cout << "vPtr = " << *(int *)vPtr << std::endl;
