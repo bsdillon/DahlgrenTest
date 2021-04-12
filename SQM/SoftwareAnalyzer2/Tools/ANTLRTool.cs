@@ -3,6 +3,7 @@ using SoftwareAnalyzer2.Structure;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,49 @@ namespace SoftwareAnalyzer2.Tools
             return new ANTLRTool();
         }
 
+        // This fn is responsible for translating un-parseable code before ANTLR sees it.
+        // Many of the SQM analysis routines do not care about things like pointer dereferences,
+        // only that the data related to the pointer has been read/written to.
+        private void writeFileToANTLR(string filename, ILanguage lang, StreamWriter stdin) {
+            try {
+                stdin.AutoFlush = true;
+
+                using (StreamReader reader = new StreamReader(filename)) {
+                    string line;
+                    while ((line = reader.ReadLine()) != null) {
+                        string translated_line = line;
+                        
+                        if (lang is CPPLanguage) {
+                            // Transform "*(T*)x" into "*((T*)x)", which is accepted by the grammar
+                            // as long as there is a left-hand token (=, <<, etc.) to accept the value.
+                            translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
+
+                            // Transform all primitive T[*][*] into T* because ANTLR
+                            // does not appear to understand array type widths like "int[][3]"
+                            // and they compile to "T*" anyway.
+                            foreach (string type in "int,double,float".Split(',')) {
+                                translated_line = Regex.Replace(translated_line, type+@"\s*([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"*$1");
+                            }
+
+                        }
+
+                        // Additional translations may be added here as we see new parse issues crop up in the field,
+                        // esp. with code that does not compile we can make some decisions to allow the ANTLR
+                        // grammar to parse something useful.
+                        
+                        stdin.WriteLine(translated_line);
+                    }
+                }
+
+                stdin.Flush();
+                stdin.Close();
+            }
+            catch (Exception e)
+            {
+                errorMessages.Add("ERROR: source file i/o:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+            }
+        }
+
         //see implementation in ITool
         public void Analyze(string fileName, ILanguage lang)
         {
@@ -78,22 +122,34 @@ namespace SoftwareAnalyzer2.Tools
                 //run -tree fileName
                 Process p = new Process();
                 p.StartInfo.FileName = processName;
-                p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree \"" + fileName + "\"";
+                //p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree \"" + fileName + "\"";
+                p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree";
                 p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardInput = true;
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.RedirectStandardError = true;
                 p.Start();
                 Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
+                Thread p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
+                p_stdin_t.Start();
+                
 
                 //run -tokens fileName
                 Process p2 = new Process();
                 p2.StartInfo.FileName = processName;
-                p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens \"" + fileName + "\"";
+                //p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens \"" + fileName + "\"";
+                p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens";
                 p2.StartInfo.UseShellExecute = false;
+                p2.StartInfo.RedirectStandardInput = true;
                 p2.StartInfo.RedirectStandardOutput = true;
                 p2.StartInfo.RedirectStandardError = true;
                 p2.Start();
                 Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
+                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
+                p2_stdin_t.Start();
+
+                p.WaitForExit();
+                p2.WaitForExit();
 
                 Console.Out.WriteLine(fileName);
                 
@@ -113,12 +169,12 @@ namespace SoftwareAnalyzer2.Tools
 
                 //capture any process errors
                 string error = p.StandardError.ReadToEnd();
-                if (error.Length > 0 && !error.Contains("no viable alternative at input"))
+                if (error.Length > 0)
                 {
                     errorMessages.Add("ERROR: Error in ANTLR tree: " + error + System.Environment.NewLine);
                 }
                 error = p2.StandardError.ReadToEnd();
-                if (error.Length > 0 && !error.Contains("no viable alternative at input"))
+                if (error.Length > 0)
                 {
                     errorMessages.Add("ERROR: Error in ANTLR tokens: " + error + System.Environment.NewLine);
                 }
