@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.2.2 (Python 3.8.5 on linux)" generated="20210105 10:45:50.929" rpa="false">
+<suite id="s1" name="Testcode" source="/home/laurenr/testcode.robot">
+<test id="s1-t1" name=" Open Site">
+<kw name="kw_testsite_open">
+<kw name="Open Browser" library="SeleniumLibrary">
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<arguments>
+<arg>${SITE URL}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20210105 10:45:51.194" level="INFO">Opening browser 'Firefox' to base url 'https://bsdillon.github.io/DahlgrenTest/html/Testing/jsprimary.html'.</msg>
+<msg timestamp="20210105 10:45:51.197" level="INFO">Firefox driver log is always forced to to: /home/laurenr/geckodriver-28.log</msg>
+<status status="PASS" starttime="20210105 10:45:51.193" endtime="20210105 10:46:00.343"></status>
+</kw>
+<kw name="Title Should Be" library="SeleniumLibrary">
+<doc>Verifies that the current page title equals ``title``.</doc>
+<arguments>
+<arg>JavaScript Test Tool</arg>
+</arguments>
+<msg timestamp="20210105 10:46:00.442" level="INFO">Page title is 'JavaScript Test Tool'.</msg>
+<status status="PASS" starttime="20210105 10:46:00.350" endtime="20210105 10:46:00.446"></status>
+</kw>
+<status status="PASS" starttime="20210105 10:45:51.193" endtime="20210105 10:46:00.447"></status>
+</kw>
+<status status="PASS" starttime="20210105 10:45:51.192" endtime="20210105 10:46:00.447" critical="yes"></status>
+</test>
+<test id="s1-t2" name=" Radio Test">
+<kw name="kw_radios_click">
+<kw name="Click Button" library="SeleniumLibrary">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>Radio5</arg>
+</arguments>
+<msg timestamp="20210105 10:46:00.449" level="INFO">Clicking button 'Radio5'.</msg>
+<kw name="Capture Page Screenshot" library="SeleniumLibrary">
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<msg timestamp="20210105 10:46:00.624" level="INFO" html="yes">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-11.png"&gt;&lt;img src="selenium-screenshot-11.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" starttime="20210105 10:46:00.504" endtime="20210105 10:46:00.624"></status>
+</kw>
+<msg timestamp="20210105 10:46:00.650" level="FAIL">Button with locator 'Radio5' not found.</msg>
+<status status="FAIL" starttime="20210105 10:46:00.449" endtime="20210105 10:46:00.650"></status>
+</kw>
+<status status="FAIL" starttime="20210105 10:46:00.449" endtime="20210105 10:46:00.651"></status>
+</kw>
+<status status="FAIL" starttime="20210105 10:46:00.448" endtime="20210105 10:46:00.651" critical="yes">Button with locator 'Radio5' not found.</status>
+</test>
+<test id="s1-t3" name="Textbox Test">
+<kw name="kw_textbox_input">
+<kw name="Get WebElement" library="SeleniumLibrary">
+<doc>Returns the first WebElement matching the given ``locator``.</doc>
+<arguments>
+<arg>fileName</arg>
+</arguments>
+<status status="PASS" starttime="20210105 10:46:00.652" endtime="20210105 10:46:00.688"></status>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>fileName</arg>
+<arg>textfile3.txt</arg>
+</arguments>
+<msg timestamp="20210105 10:46:00.689" level="INFO">Typing text 'textfile3.txt' into text field 'fileName'.</msg>
+<status status="PASS" starttime="20210105 10:46:00.688" endtime="20210105 10:46:00.838"></status>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<doc>Clicks the button identified by ``locator``.</doc>
+<arguments>
+<arg>openfile</arg>
+</arguments>
+<msg timestamp="20210105 10:46:00.839" level="INFO">Clicking button 'openfile'.</msg>
+<status status="PASS" starttime="20210105 10:46:00.839" endtime="20210105 10:46:01.092"></status>
+</kw>
+<kw name="Element Should Contain" library="SeleniumLibrary">
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<arguments>
+<arg>fileOutput</arg>
+<arg>Value3</arg>
+</arguments>
+<kw name="Capture Page Screenshot" library="SeleniumLibrary">
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<msg timestamp="20210105 10:46:01.185" level="INFO" html="yes">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-12.png"&gt;&lt;img src="selenium-screenshot-12.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" starttime="20210105 10:46:01.131" endtime="20210105 10:46:01.185"></status>
+</kw>
+<msg timestamp="20210105 10:46:01.185" level="FAIL">Element 'fileOutput' should have contained text 'Value3' but its text was 'Error'.</msg>
+<status status="FAIL" starttime="20210105 10:46:01.093" endtime="20210105 10:46:01.185"></status>
+</kw>
+<status status="FAIL" starttime="20210105 10:46:00.652" endtime="20210105 10:46:01.185"></status>
+</kw>
+<status status="FAIL" starttime="20210105 10:46:00.652" endtime="20210105 10:46:01.192" critical="yes">Element 'fileOutput' should have contained text 'Value3' but its text was 'Error'.</status>
+</test>
+<test id="s1-t4" name=" Date Test [Fails]">
+<kw name="kw_calendar_selectdate">
+<kw name="Get WebElement" library="SeleniumLibrary">
+<doc>Returns the first WebElement matching the given ``locator``.</doc>
+<arguments>
+<arg>date</arg>
+</arguments>
+<status status="PASS" starttime="20210105 10:46:01.205" endtime="20210105 10:46:01.217"></status>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<arguments>
+<arg>date</arg>
+<arg>13/12/2020</arg>
+</arguments>
+<msg timestamp="20210105 10:46:01.217" level="INFO">Typing text '13/12/2020' into text field 'date'.</msg>
+<status status="PASS" starttime="20210105 10:46:01.217" endtime="20210105 10:46:01.238"></status>
+</kw>
+<kw name="Element Should Contain" library="SeleniumLibrary">
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<arguments>
+<arg>date</arg>
+<arg>13/12/2020</arg>
+</arguments>
+<kw name="Capture Page Screenshot" library="SeleniumLibrary">
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<msg timestamp="20210105 10:46:01.371" level="INFO" html="yes">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-13.png"&gt;&lt;img src="selenium-screenshot-13.png" width="800px"&gt;&lt;/a&gt;</msg>
+<status status="PASS" starttime="20210105 10:46:01.266" endtime="20210105 10:46:01.375"></status>
+</kw>
+<msg timestamp="20210105 10:46:01.376" level="FAIL">Element 'date' should have contained text '13/12/2020' but its text was ''.</msg>
+<status status="FAIL" starttime="20210105 10:46:01.238" endtime="20210105 10:46:01.376"></status>
+</kw>
+<status status="FAIL" starttime="20210105 10:46:01.204" endtime="20210105 10:46:01.376"></status>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="teardown">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20210105 10:46:01.377" endtime="20210105 10:46:02.740"></status>
+</kw>
+<status status="FAIL" starttime="20210105 10:46:01.195" endtime="20210105 10:46:02.741" critical="yes">Element 'date' should have contained text '13/12/2020' but its text was ''.</status>
+</test>
+<status status="FAIL" starttime="20210105 10:45:50.931" endtime="20210105 10:46:02.744"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="3">Critical Tests</stat>
+<stat pass="1" fail="3">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="3" id="s1" name="Testcode">Testcode</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
