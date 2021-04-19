@@ -72,7 +72,7 @@ namespace SoftwareAnalyzer2
             }
             else {
                 p = Project.GenerateNew(proj_name, dir);
-                p.SetProperty(ProjectProperties.Tool, "ANTLR");
+                p.SetProperty(ProjectProperties.Tool, "DoxygenTool");
                 p.SetProperty(ProjectProperties.Language, language);
                 p.SetProperty(ProjectProperties.RootDirectory, src_dir);
                 p.WriteFile();
@@ -193,6 +193,9 @@ namespace SoftwareAnalyzer2
         {
             ILanguage lang = LanguageManager.GetLanguage(p.GetProperty(ProjectProperties.Language));
             ITool tool = ToolManager.GetTool(p.GetProperty(ProjectProperties.Tool));
+            if (tool is DoxygenTool) {
+                ((DoxygenTool) tool).project = p;
+            }
             string rootPath = p.GetProperty(ProjectProperties.RootDirectory);
 
             int totalFiles = 0;
@@ -247,6 +250,9 @@ namespace SoftwareAnalyzer2
                 //new code is consistent with the last saved source AND the last verison of tree
                 newerCode = !((xml.Ticks > code.Ticks) && NodeFactory.IsCurrentVersion(xmlFile));
             }
+
+            // for batch mode, always analyze
+            newerCode = true;
 
             if (newerCode)//if the code is in fact newer then we parse the source into an XML tree
             {

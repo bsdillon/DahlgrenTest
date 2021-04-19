@@ -8,7 +8,7 @@ namespace SoftwareAnalyzer2.Tools
 {
     enum ToolTypes
     {
-        ANTLR
+        ANTLR, DoxygenTool
     }
 
     class ToolManager
@@ -19,6 +19,9 @@ namespace SoftwareAnalyzer2.Tools
             ITool tool = null;
             switch (type)
             {
+                case ToolTypes.DoxygenTool:
+                    tool = new DoxygenTool();
+                    break;
                 case ToolTypes.ANTLR:
                     tool = new ANTLRTool();
                     break;
