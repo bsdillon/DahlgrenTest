@@ -148,8 +148,11 @@ namespace SoftwareAnalyzer2.Tools
                 Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
                 p2_stdin_t.Start();
 
-                p.WaitForExit();
-                p2.WaitForExit();
+                p.WaitForExit(600);
+                p.Kill();
+
+                p2.WaitForExit(600);
+                p2.Kill();
 
                 Console.Out.WriteLine(fileName);
                 
@@ -178,9 +181,6 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     errorMessages.Add("ERROR: Error in ANTLR tokens: " + error + System.Environment.NewLine);
                 }
-
-                p.WaitForExit();
-                p2.WaitForExit();
 
                 //catch and return if the parser fails
                 if (errorMessages.Count > 0)

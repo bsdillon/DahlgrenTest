@@ -1,0 +1,1328 @@
+THERE_BE_DRAGONS_HERE
+External module not found
+19 April 2021 3:59:55.534339 pm
+
+VM: unix - x86_64 - linux-gnu - CoInterpreter * VMMaker-CompatibleUserName.1580983506 uuid: 7aff73cb-5a2e-5002-a356-37de4e762a49 Feb 12 2020
+StackToRegisterMappingCogit * VMMaker-CompatibleUserName.1580983506 uuid: 7aff73cb-5a2e-5002-a356-37de4e762a49 Feb 12 2020
+VM: 202002121043 https://github.com/pharo-project/opensmalltalk-vm.git Date: Wed Feb 12 11:43:20 2020 CommitHash: 52202d8 Plugins: 202002121043 https://github.com/pharo-project/opensmalltalk-vm.git
+
+Image: Pharo7.0.5 [Build information: Pharo-7.0.5+build.177.sha.fd8c156d959653f52be6fd7f8c71edf8cfb8fe90 (64 Bit)]
+
+ExternalLibraryFunction(Object)>>error:
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		aString: 	'External module not found'
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+ExternalLibraryFunction(Object)>>externalCallFailed
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		errCode: 	15
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+ExternalLibraryFunction(ExternalFunction)>>invokeWithArguments:
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		argArray: 	#()
+		ec: 	38
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+LGitLibrary>>libgit2_init
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+FFICalloutAPI>>function:module:
+	Receiver: a FFICalloutAPI
+	Arguments and temporary variables: 
+		functionSignature: 	#(#int #git_libgit2_init #())
+		moduleNameOrLibrary: 	'libgit2.so'
+		sender: 	LGitLibrary>>libgit2_init
+		ffiMethod: 	LGitLibrary>>#libgit2_init
+		ffiMethodSelector: 	#ffiCall:
+	Receiver's instance variables: 
+		context: 	LGitLibrary>>libgit2_init
+		options: 	#()
+		callingConvention: 	#cdecl
+
+
+LGitLibrary(Object)>>ffiCall:
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+		fnSpec: 	#(#int #git_libgit2_init #())
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+LGitLibrary>>libgit2_init
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+[ self libgit2_init.
+self recordInitializationSuccess ] in LGitLibrary>>initializeLibGit2
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+BlockClosure>>on:do:
+	Receiver: [ self libgit2_init.
+self recordInitializationSuccess ]
+	Arguments and temporary variables: 
+		exception: 	Error
+		handlerAction: 	[ :ex | 
+self recordInitializationFailure.
+ex pass ]
+	Receiver's instance variables: 
+		outerContext: 	LGitLibrary>>initializeLibGit2
+		startpc: 	77
+		numArgs: 	0
+
+
+LGitLibrary>>initializeLibGit2
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+LGitLibrary class>>startUp:
+	Receiver: LGitLibrary
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		superclass: 	FFILibrary
+		methodDict: 	a MethodDictionary(#forgetInitializationState->LGitLibrary>>#forget...etc...
+		format: 	65537
+		layout: 	a FixedLayout
+		organization: 	a ClassOrganization
+		subclasses: 	nil
+		name: 	#LGitLibrary
+		classPool: 	a Dictionary()
+		sharedPools: 	an OrderedCollection()
+		environment: 	a SystemDictionary(lots of globals)
+		category: 	#'LibGit-Core-FFI-Handling'
+		uniqueInstance: 	a LGitLibrary
+
+
+ClassSessionHandler>>startup:
+	Receiver: a ClassSessionHandler(LGitLibrary)
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		registeredClassName: 	#LGitLibrary
+
+
+[ :each | each startup: isImageStarting ] in WorkingSession>>runStartup:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+[ aBlock value: each ] in [ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+BlockClosure>>on:do:
+	Receiver: [ aBlock value: each ]
+	Arguments and temporary variables: 
+		exception: 	Exception
+		handlerAction: 	[ :error | self errorHandler handleError: error ]
+	Receiver's instance variables: 
+		outerContext: 	[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | ...etc...
+		startpc: 	69
+		numArgs: 	0
+
+
+[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(SmallInteger) a Cla...etc...
+	Arguments and temporary variables: 
+		aBlock: 	[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self e...etc...
+		index: 	58
+	Receiver's instance variables: 
+an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(SmallInteger) a Cla...etc...
+
+WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+WorkingSession>>runStartup:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+WorkingSession>>start:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+SessionManager>>launchSnapshot:andQuit:
+	Receiver: a SessionManager
+	Arguments and temporary variables: 
+		save: 	true
+		quit: 	true
+		isImageStarting: 	true
+		snapshotResult: 	true
+	Receiver's instance variables: 
+		currentSession: 	a WorkingSession
+		categories: 	an OrderedCollection(a SessionCategory(System) a SessionCategory(Ne...etc...
+		guiCategory: 	a SessionCategory(Graphical User Interface)
+		toolsCategory: 	a SessionCategory(Tools)
+		networkCategory: 	a SessionCategory(Network)
+		systemCategory: 	a SessionCategory(System)
+		userCategory: 	a SessionCategory(User)
+
+
+[ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ] in SessionManager>>snapshot:andQuit:
+	Receiver: a SessionManager
+	Arguments and temporary variables: 
+		save: 	true
+		quit: 	true
+		wait: 	a Semaphore()
+		isImageStarting: 	nil
+	Receiver's instance variables: 
+		currentSession: 	a WorkingSession
+		categories: 	an OrderedCollection(a SessionCategory(System) a SessionCategory(Ne...etc...
+		guiCategory: 	a SessionCategory(Graphical User Interface)
+		toolsCategory: 	a SessionCategory(Tools)
+		networkCategory: 	a SessionCategory(Network)
+		systemCategory: 	a SessionCategory(System)
+		userCategory: 	a SessionCategory(User)
+
+
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+	Receiver: [ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		outerContext: 	SessionManager>>snapshot:andQuit:
+		startpc: 	135
+		numArgs: 	0
+
+
+
+--- The full stack ---
+ExternalLibraryFunction(Object)>>error:
+ExternalLibraryFunction(Object)>>externalCallFailed
+ExternalLibraryFunction(ExternalFunction)>>invokeWithArguments:
+LGitLibrary>>libgit2_init
+FFICalloutAPI>>function:module:
+LGitLibrary(Object)>>ffiCall:
+LGitLibrary>>libgit2_init
+[ self libgit2_init.
+self recordInitializationSuccess ] in LGitLibrary>>initializeLibGit2
+BlockClosure>>on:do:
+LGitLibrary>>initializeLibGit2
+LGitLibrary class>>startUp:
+ClassSessionHandler>>startup:
+[ :each | each startup: isImageStarting ] in WorkingSession>>runStartup:
+[ aBlock value: each ] in [ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+BlockClosure>>on:do:
+[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+Array(SequenceableCollection)>>do:
+WorkingSession>>runList:do:
+WorkingSession>>runStartup:
+WorkingSession>>start:
+SessionManager>>launchSnapshot:andQuit:
+[ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ] in SessionManager>>snapshot:andQuit:
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+-------------------------------------------------------------------------------
+
+THERE_BE_DRAGONS_HERE
+Error: External module not found
+19 April 2021 3:59:55.615457 pm
+
+VM: unix - x86_64 - linux-gnu - CoInterpreter * VMMaker-CompatibleUserName.1580983506 uuid: 7aff73cb-5a2e-5002-a356-37de4e762a49 Feb 12 2020
+StackToRegisterMappingCogit * VMMaker-CompatibleUserName.1580983506 uuid: 7aff73cb-5a2e-5002-a356-37de4e762a49 Feb 12 2020
+VM: 202002121043 https://github.com/pharo-project/opensmalltalk-vm.git Date: Wed Feb 12 11:43:20 2020 CommitHash: 52202d8 Plugins: 202002121043 https://github.com/pharo-project/opensmalltalk-vm.git
+
+Image: Pharo7.0.5 [Build information: Pharo-7.0.5+build.177.sha.fd8c156d959653f52be6fd7f8c71edf8cfb8fe90 (64 Bit)]
+
+ExternalLibraryFunction(Object)>>error:
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		aString: 	'External module not found'
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+ExternalLibraryFunction(Object)>>externalCallFailed
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		errCode: 	15
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+ExternalLibraryFunction(ExternalFunction)>>invokeWithArguments:
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		argArray: 	#()
+		ec: 	38
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+LGitLibrary>>libgit2_init
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+FFICalloutAPI>>function:module:
+	Receiver: a FFICalloutAPI
+	Arguments and temporary variables: 
+		functionSignature: 	#(#int #git_libgit2_init #())
+		moduleNameOrLibrary: 	'libgit2.so'
+		sender: 	LGitLibrary>>libgit2_init
+		ffiMethod: 	LGitLibrary>>#libgit2_init
+		ffiMethodSelector: 	#ffiCall:
+	Receiver's instance variables: 
+		context: 	LGitLibrary>>libgit2_init
+		options: 	#()
+		callingConvention: 	#cdecl
+
+
+LGitLibrary(Object)>>ffiCall:
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+		fnSpec: 	#(#int #git_libgit2_init #())
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+LGitLibrary>>libgit2_init
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+[ self libgit2_init.
+self recordInitializationSuccess ] in LGitLibrary>>initializeLibGit2
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+BlockClosure>>on:do:
+	Receiver: [ self libgit2_init.
+self recordInitializationSuccess ]
+	Arguments and temporary variables: 
+		exception: 	Error
+		handlerAction: 	[ :ex | 
+self recordInitializationFailure.
+ex pass ]
+	Receiver's instance variables: 
+		outerContext: 	LGitLibrary>>initializeLibGit2
+		startpc: 	77
+		numArgs: 	0
+
+
+LGitLibrary>>initializeLibGit2
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+LGitLibrary class>>startUp:
+	Receiver: LGitLibrary
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		superclass: 	FFILibrary
+		methodDict: 	a MethodDictionary(#forgetInitializationState->LGitLibrary>>#forget...etc...
+		format: 	65537
+		layout: 	a FixedLayout
+		organization: 	a ClassOrganization
+		subclasses: 	nil
+		name: 	#LGitLibrary
+		classPool: 	a Dictionary()
+		sharedPools: 	an OrderedCollection()
+		environment: 	a SystemDictionary(lots of globals)
+		category: 	#'LibGit-Core-FFI-Handling'
+		uniqueInstance: 	a LGitLibrary
+
+
+ClassSessionHandler>>startup:
+	Receiver: a ClassSessionHandler(LGitLibrary)
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		registeredClassName: 	#LGitLibrary
+
+
+[ :each | each startup: isImageStarting ] in WorkingSession>>runStartup:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+[ aBlock value: each ] in [ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+BlockClosure>>on:do:
+	Receiver: [ aBlock value: each ]
+	Arguments and temporary variables: 
+		exception: 	Exception
+		handlerAction: 	[ :error | self errorHandler handleError: error ]
+	Receiver's instance variables: 
+		outerContext: 	[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | ...etc...
+		startpc: 	69
+		numArgs: 	0
+
+
+[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(SmallInteger) a Cla...etc...
+	Arguments and temporary variables: 
+		aBlock: 	[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self e...etc...
+		index: 	58
+	Receiver's instance variables: 
+an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(SmallInteger) a Cla...etc...
+
+WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+WorkingSession>>runStartup:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+WorkingSession>>start:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T15:59:55.156982-04:00
+
+
+SessionManager>>launchSnapshot:andQuit:
+	Receiver: a SessionManager
+	Arguments and temporary variables: 
+		save: 	true
+		quit: 	true
+		isImageStarting: 	true
+		snapshotResult: 	true
+	Receiver's instance variables: 
+		currentSession: 	a WorkingSession
+		categories: 	an OrderedCollection(a SessionCategory(System) a SessionCategory(Ne...etc...
+		guiCategory: 	a SessionCategory(Graphical User Interface)
+		toolsCategory: 	a SessionCategory(Tools)
+		networkCategory: 	a SessionCategory(Network)
+		systemCategory: 	a SessionCategory(System)
+		userCategory: 	a SessionCategory(User)
+
+
+[ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ] in SessionManager>>snapshot:andQuit:
+	Receiver: a SessionManager
+	Arguments and temporary variables: 
+		save: 	true
+		quit: 	true
+		wait: 	a Semaphore()
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		currentSession: 	a WorkingSession
+		categories: 	an OrderedCollection(a SessionCategory(System) a SessionCategory(Ne...etc...
+		guiCategory: 	a SessionCategory(Graphical User Interface)
+		toolsCategory: 	a SessionCategory(Tools)
+		networkCategory: 	a SessionCategory(Network)
+		systemCategory: 	a SessionCategory(System)
+		userCategory: 	a SessionCategory(User)
+
+
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+	Receiver: [ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		outerContext: 	SessionManager>>snapshot:andQuit:
+		startpc: 	135
+		numArgs: 	0
+
+
+
+--- The full stack ---
+ExternalLibraryFunction(Object)>>error:
+ExternalLibraryFunction(Object)>>externalCallFailed
+ExternalLibraryFunction(ExternalFunction)>>invokeWithArguments:
+LGitLibrary>>libgit2_init
+FFICalloutAPI>>function:module:
+LGitLibrary(Object)>>ffiCall:
+LGitLibrary>>libgit2_init
+[ self libgit2_init.
+self recordInitializationSuccess ] in LGitLibrary>>initializeLibGit2
+BlockClosure>>on:do:
+LGitLibrary>>initializeLibGit2
+LGitLibrary class>>startUp:
+ClassSessionHandler>>startup:
+[ :each | each startup: isImageStarting ] in WorkingSession>>runStartup:
+[ aBlock value: each ] in [ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+BlockClosure>>on:do:
+[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+Array(SequenceableCollection)>>do:
+WorkingSession>>runList:do:
+WorkingSession>>runStartup:
+WorkingSession>>start:
+SessionManager>>launchSnapshot:andQuit:
+[ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ] in SessionManager>>snapshot:andQuit:
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+-------------------------------------------------------------------------------
+
+THERE_BE_DRAGONS_HERE
+External module not found
+19 April 2021 4:00:22.055877 pm
+
+VM: unix - x86_64 - linux-gnu - CoInterpreter * VMMaker-CompatibleUserName.1580983506 uuid: 7aff73cb-5a2e-5002-a356-37de4e762a49 Feb 12 2020
+StackToRegisterMappingCogit * VMMaker-CompatibleUserName.1580983506 uuid: 7aff73cb-5a2e-5002-a356-37de4e762a49 Feb 12 2020
+VM: 202002121043 https://github.com/pharo-project/opensmalltalk-vm.git Date: Wed Feb 12 11:43:20 2020 CommitHash: 52202d8 Plugins: 202002121043 https://github.com/pharo-project/opensmalltalk-vm.git
+
+Image: Pharo7.0.5 [Build information: Pharo-7.0.5+build.177.sha.fd8c156d959653f52be6fd7f8c71edf8cfb8fe90 (64 Bit)]
+
+ExternalLibraryFunction(Object)>>error:
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		aString: 	'External module not found'
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+ExternalLibraryFunction(Object)>>externalCallFailed
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		errCode: 	15
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+ExternalLibraryFunction(ExternalFunction)>>invokeWithArguments:
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		argArray: 	#()
+		ec: 	38
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+LGitLibrary>>libgit2_init
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+FFICalloutAPI>>function:module:
+	Receiver: a FFICalloutAPI
+	Arguments and temporary variables: 
+		functionSignature: 	#(#int #git_libgit2_init #())
+		moduleNameOrLibrary: 	'libgit2.so'
+		sender: 	LGitLibrary>>libgit2_init
+		ffiMethod: 	LGitLibrary>>#libgit2_init
+		ffiMethodSelector: 	#ffiCall:
+	Receiver's instance variables: 
+		context: 	LGitLibrary>>libgit2_init
+		options: 	#()
+		callingConvention: 	#cdecl
+
+
+LGitLibrary(Object)>>ffiCall:
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+		fnSpec: 	#(#int #git_libgit2_init #())
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+LGitLibrary>>libgit2_init
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+[ self libgit2_init.
+self recordInitializationSuccess ] in LGitLibrary>>initializeLibGit2
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+BlockClosure>>on:do:
+	Receiver: [ self libgit2_init.
+self recordInitializationSuccess ]
+	Arguments and temporary variables: 
+		exception: 	Error
+		handlerAction: 	[ :ex | 
+self recordInitializationFailure.
+ex pass ]
+	Receiver's instance variables: 
+		outerContext: 	LGitLibrary>>initializeLibGit2
+		startpc: 	77
+		numArgs: 	0
+
+
+LGitLibrary>>initializeLibGit2
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+LGitLibrary class>>startUp:
+	Receiver: LGitLibrary
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		superclass: 	FFILibrary
+		methodDict: 	a MethodDictionary(#forgetInitializationState->LGitLibrary>>#forget...etc...
+		format: 	65537
+		layout: 	a FixedLayout
+		organization: 	a ClassOrganization
+		subclasses: 	nil
+		name: 	#LGitLibrary
+		classPool: 	a Dictionary()
+		sharedPools: 	an OrderedCollection()
+		environment: 	a SystemDictionary(lots of globals)
+		category: 	#'LibGit-Core-FFI-Handling'
+		uniqueInstance: 	a LGitLibrary
+
+
+ClassSessionHandler>>startup:
+	Receiver: a ClassSessionHandler(LGitLibrary)
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		registeredClassName: 	#LGitLibrary
+
+
+[ :each | each startup: isImageStarting ] in WorkingSession>>runStartup:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+[ aBlock value: each ] in [ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+BlockClosure>>on:do:
+	Receiver: [ aBlock value: each ]
+	Arguments and temporary variables: 
+		exception: 	Exception
+		handlerAction: 	[ :error | self errorHandler handleError: error ]
+	Receiver's instance variables: 
+		outerContext: 	[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | ...etc...
+		startpc: 	69
+		numArgs: 	0
+
+
+[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(SmallInteger) a Cla...etc...
+	Arguments and temporary variables: 
+		aBlock: 	[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self e...etc...
+		index: 	58
+	Receiver's instance variables: 
+an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(SmallInteger) a Cla...etc...
+
+WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+WorkingSession>>runStartup:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+WorkingSession>>start:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection([ self new activate ] [ self manag...etc...
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+SessionManager>>launchSnapshot:andQuit:
+	Receiver: a SessionManager
+	Arguments and temporary variables: 
+		save: 	true
+		quit: 	true
+		isImageStarting: 	true
+		snapshotResult: 	true
+	Receiver's instance variables: 
+		currentSession: 	a WorkingSession
+		categories: 	an OrderedCollection(a SessionCategory(System) a SessionCategory(Ne...etc...
+		guiCategory: 	a SessionCategory(Graphical User Interface)
+		toolsCategory: 	a SessionCategory(Tools)
+		networkCategory: 	a SessionCategory(Network)
+		systemCategory: 	a SessionCategory(System)
+		userCategory: 	a SessionCategory(User)
+
+
+[ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ] in SessionManager>>snapshot:andQuit:
+	Receiver: a SessionManager
+	Arguments and temporary variables: 
+		save: 	true
+		quit: 	true
+		wait: 	a Semaphore()
+		isImageStarting: 	nil
+	Receiver's instance variables: 
+		currentSession: 	a WorkingSession
+		categories: 	an OrderedCollection(a SessionCategory(System) a SessionCategory(Ne...etc...
+		guiCategory: 	a SessionCategory(Graphical User Interface)
+		toolsCategory: 	a SessionCategory(Tools)
+		networkCategory: 	a SessionCategory(Network)
+		systemCategory: 	a SessionCategory(System)
+		userCategory: 	a SessionCategory(User)
+
+
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+	Receiver: [ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		outerContext: 	SessionManager>>snapshot:andQuit:
+		startpc: 	135
+		numArgs: 	0
+
+
+
+--- The full stack ---
+ExternalLibraryFunction(Object)>>error:
+ExternalLibraryFunction(Object)>>externalCallFailed
+ExternalLibraryFunction(ExternalFunction)>>invokeWithArguments:
+LGitLibrary>>libgit2_init
+FFICalloutAPI>>function:module:
+LGitLibrary(Object)>>ffiCall:
+LGitLibrary>>libgit2_init
+[ self libgit2_init.
+self recordInitializationSuccess ] in LGitLibrary>>initializeLibGit2
+BlockClosure>>on:do:
+LGitLibrary>>initializeLibGit2
+LGitLibrary class>>startUp:
+ClassSessionHandler>>startup:
+[ :each | each startup: isImageStarting ] in WorkingSession>>runStartup:
+[ aBlock value: each ] in [ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+BlockClosure>>on:do:
+[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+Array(SequenceableCollection)>>do:
+WorkingSession>>runList:do:
+WorkingSession>>runStartup:
+WorkingSession>>start:
+SessionManager>>launchSnapshot:andQuit:
+[ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ] in SessionManager>>snapshot:andQuit:
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+-------------------------------------------------------------------------------
+
+THERE_BE_DRAGONS_HERE
+Error: External module not found
+19 April 2021 4:00:22.141878 pm
+
+VM: unix - x86_64 - linux-gnu - CoInterpreter * VMMaker-CompatibleUserName.1580983506 uuid: 7aff73cb-5a2e-5002-a356-37de4e762a49 Feb 12 2020
+StackToRegisterMappingCogit * VMMaker-CompatibleUserName.1580983506 uuid: 7aff73cb-5a2e-5002-a356-37de4e762a49 Feb 12 2020
+VM: 202002121043 https://github.com/pharo-project/opensmalltalk-vm.git Date: Wed Feb 12 11:43:20 2020 CommitHash: 52202d8 Plugins: 202002121043 https://github.com/pharo-project/opensmalltalk-vm.git
+
+Image: Pharo7.0.5 [Build information: Pharo-7.0.5+build.177.sha.fd8c156d959653f52be6fd7f8c71edf8cfb8fe90 (64 Bit)]
+
+ExternalLibraryFunction(Object)>>error:
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		aString: 	'External module not found'
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+ExternalLibraryFunction(Object)>>externalCallFailed
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		errCode: 	15
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+ExternalLibraryFunction(ExternalFunction)>>invokeWithArguments:
+	Receiver: <cdecl: long 'git_libgit2_init' () module: 'libgit2.so'>
+	Arguments and temporary variables: 
+		argArray: 	#()
+		ec: 	38
+	Receiver's instance variables: 
+		handle: 	@ 16r00000000
+		flags: 	0
+		argTypes: 	an Array(long)
+		name: 	'git_libgit2_init'
+		module: 	'libgit2.so'
+		errorCodeName: 	nil
+
+
+LGitLibrary>>libgit2_init
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+FFICalloutAPI>>function:module:
+	Receiver: a FFICalloutAPI
+	Arguments and temporary variables: 
+		functionSignature: 	#(#int #git_libgit2_init #())
+		moduleNameOrLibrary: 	'libgit2.so'
+		sender: 	LGitLibrary>>libgit2_init
+		ffiMethod: 	LGitLibrary>>#libgit2_init
+		ffiMethodSelector: 	#ffiCall:
+	Receiver's instance variables: 
+		context: 	LGitLibrary>>libgit2_init
+		options: 	#()
+		callingConvention: 	#cdecl
+
+
+LGitLibrary(Object)>>ffiCall:
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+		fnSpec: 	#(#int #git_libgit2_init #())
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+LGitLibrary>>libgit2_init
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+[ self libgit2_init.
+self recordInitializationSuccess ] in LGitLibrary>>initializeLibGit2
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+BlockClosure>>on:do:
+	Receiver: [ self libgit2_init.
+self recordInitializationSuccess ]
+	Arguments and temporary variables: 
+		exception: 	Error
+		handlerAction: 	[ :ex | 
+self recordInitializationFailure.
+ex pass ]
+	Receiver's instance variables: 
+		outerContext: 	LGitLibrary>>initializeLibGit2
+		startpc: 	77
+		numArgs: 	0
+
+
+LGitLibrary>>initializeLibGit2
+	Receiver: a LGitLibrary
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		initialized: 	false
+
+
+LGitLibrary class>>startUp:
+	Receiver: LGitLibrary
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		superclass: 	FFILibrary
+		methodDict: 	a MethodDictionary(#forgetInitializationState->LGitLibrary>>#forget...etc...
+		format: 	65537
+		layout: 	a FixedLayout
+		organization: 	a ClassOrganization
+		subclasses: 	nil
+		name: 	#LGitLibrary
+		classPool: 	a Dictionary()
+		sharedPools: 	an OrderedCollection()
+		environment: 	a SystemDictionary(lots of globals)
+		category: 	#'LibGit-Core-FFI-Handling'
+		uniqueInstance: 	a LGitLibrary
+
+
+ClassSessionHandler>>startup:
+	Receiver: a ClassSessionHandler(LGitLibrary)
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		registeredClassName: 	#LGitLibrary
+
+
+[ :each | each startup: isImageStarting ] in WorkingSession>>runStartup:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+[ aBlock value: each ] in [ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+BlockClosure>>on:do:
+	Receiver: [ aBlock value: each ]
+	Arguments and temporary variables: 
+		exception: 	Exception
+		handlerAction: 	[ :error | self errorHandler handleError: error ]
+	Receiver's instance variables: 
+		outerContext: 	[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | ...etc...
+		startpc: 	69
+		numArgs: 	0
+
+
+[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+		each: 	a ClassSessionHandler(LGitLibrary)
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(SmallInteger) a Cla...etc...
+	Arguments and temporary variables: 
+		aBlock: 	[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self e...etc...
+		index: 	58
+	Receiver's instance variables: 
+an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(SmallInteger) a Cla...etc...
+
+WorkingSession>>runList:do:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		aList: 	an Array(a ClassSessionHandler(GlobalIdentifier) a ClassSessionHandler(S...etc...
+		aBlock: 	[ :each | each startup: isImageStarting ]
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+WorkingSession>>runStartup:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+WorkingSession>>start:
+	Receiver: a WorkingSession
+	Arguments and temporary variables: 
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		manager: 	a SessionManager
+		deferredStartupActions: 	an OrderedCollection()
+		id: 	nil
+		creationTime: 	2021-04-19T16:00:21.994079-04:00
+
+
+SessionManager>>launchSnapshot:andQuit:
+	Receiver: a SessionManager
+	Arguments and temporary variables: 
+		save: 	true
+		quit: 	true
+		isImageStarting: 	true
+		snapshotResult: 	true
+	Receiver's instance variables: 
+		currentSession: 	a WorkingSession
+		categories: 	an OrderedCollection(a SessionCategory(System) a SessionCategory(Ne...etc...
+		guiCategory: 	a SessionCategory(Graphical User Interface)
+		toolsCategory: 	a SessionCategory(Tools)
+		networkCategory: 	a SessionCategory(Network)
+		systemCategory: 	a SessionCategory(System)
+		userCategory: 	a SessionCategory(User)
+
+
+[ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ] in SessionManager>>snapshot:andQuit:
+	Receiver: a SessionManager
+	Arguments and temporary variables: 
+		save: 	true
+		quit: 	true
+		wait: 	a Semaphore()
+		isImageStarting: 	true
+	Receiver's instance variables: 
+		currentSession: 	a WorkingSession
+		categories: 	an OrderedCollection(a SessionCategory(System) a SessionCategory(Ne...etc...
+		guiCategory: 	a SessionCategory(Graphical User Interface)
+		toolsCategory: 	a SessionCategory(Tools)
+		networkCategory: 	a SessionCategory(Network)
+		systemCategory: 	a SessionCategory(System)
+		userCategory: 	a SessionCategory(User)
+
+
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+	Receiver: [ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		outerContext: 	SessionManager>>snapshot:andQuit:
+		startpc: 	135
+		numArgs: 	0
+
+
+
+--- The full stack ---
+ExternalLibraryFunction(Object)>>error:
+ExternalLibraryFunction(Object)>>externalCallFailed
+ExternalLibraryFunction(ExternalFunction)>>invokeWithArguments:
+LGitLibrary>>libgit2_init
+FFICalloutAPI>>function:module:
+LGitLibrary(Object)>>ffiCall:
+LGitLibrary>>libgit2_init
+[ self libgit2_init.
+self recordInitializationSuccess ] in LGitLibrary>>initializeLibGit2
+BlockClosure>>on:do:
+LGitLibrary>>initializeLibGit2
+LGitLibrary class>>startUp:
+ClassSessionHandler>>startup:
+[ :each | each startup: isImageStarting ] in WorkingSession>>runStartup:
+[ aBlock value: each ] in [ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+BlockClosure>>on:do:
+[ :each | 
+[ aBlock value: each ]
+	on: Exception
+	do: [ :error | self errorHandler handleError: error ] ] in WorkingSession>>runList:do:
+Array(SequenceableCollection)>>do:
+WorkingSession>>runList:do:
+WorkingSession>>runStartup:
+WorkingSession>>start:
+SessionManager>>launchSnapshot:andQuit:
+[ isImageStarting := self launchSnapshot: save andQuit: quit.
+wait signal ] in SessionManager>>snapshot:andQuit:
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+-------------------------------------------------------------------------------
+
