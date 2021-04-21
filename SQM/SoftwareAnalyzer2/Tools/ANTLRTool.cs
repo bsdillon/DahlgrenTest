@@ -148,10 +148,10 @@ namespace SoftwareAnalyzer2.Tools
                 Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
                 p2_stdin_t.Start();
 
-                p.WaitForExit(600);
+                p.WaitForExit(3100);
                 p.Kill();
 
-                p2.WaitForExit(600);
+                p2.WaitForExit(250);
                 p2.Kill();
 
                 Console.Out.WriteLine(fileName);
@@ -204,6 +204,16 @@ namespace SoftwareAnalyzer2.Tools
 
                 //we will preclude tree operations for any one of several reasons
                 INavigable firstType = head.GetFirstRecursive("typeDeclaration");
+                if (firstType == null && lang is CPPLanguage) {
+                    firstType = head.GetFirstRecursive("declaration");
+                    if (firstType == null && head.Children.Count > 0) { // found error & tree looks non-trivial
+                        Console.WriteLine("");
+                        Console.WriteLine("Exiting b/c head.GetFirstRecursive(declaration) == null. head="+head);
+                        Console.WriteLine("");
+                        head.PrintTreeText();
+                        System.Environment.Exit(5);
+                    }
+                }
 
                 if (firstType == null)
                 {
@@ -447,7 +457,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <returns></returns>
         private bool decomposeToken(IModifiable node, string foundtoken, string expectedToken)
         {
-            Console.Error.WriteLine("decomposeToken(node="+node+" foundtoken="+foundtoken+" expectedToken="+expectedToken+")");
+            //Console.Error.WriteLine("decomposeToken(node="+node+" foundtoken="+foundtoken+" expectedToken="+expectedToken+")");
             //Sample token: [@22,169:169=',',<64>,8:32]
             int token1 = expectedToken.IndexOf('\'');
             if (token1 == -1)
