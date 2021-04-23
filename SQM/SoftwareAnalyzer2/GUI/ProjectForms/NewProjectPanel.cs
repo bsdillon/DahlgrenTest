@@ -48,7 +48,7 @@ namespace SoftwareAnalyzer2.GUI.ProjectForms
             }
             catch (ArgumentException ae)
             {
-                outputLabel.Text = "Cannot create new project.\n\rDetials: " + ae.Message;
+                outputLabel.Text = "Cannot create new project.\n\rDetails: " + ae.Message;
                 //re-enable everything
                 setAllEnabled(true);
                 return;

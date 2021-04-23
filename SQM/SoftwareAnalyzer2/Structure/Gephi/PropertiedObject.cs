@@ -26,7 +26,9 @@ namespace SoftwareAnalyzer2.Structure.Gephi
         StateMember,
         ClassID,
         Rank,
-        InAppropriateAccess
+        InAppropriateAccess,
+        FileLineRange,
+        MiscData 
     }
 
     /// <summary>

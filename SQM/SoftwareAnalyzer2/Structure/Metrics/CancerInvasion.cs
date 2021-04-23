@@ -698,9 +698,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             writer.WriteLine(sb);
             writer.Close();
 
-            StreamWriter writer2 = new StreamWriter(filename + ".NODE");
+            StreamWriter writer2 = new StreamWriter(filename + ".nod.csv");
             StringBuilder nodes = new StringBuilder();
-            StreamWriter writer3 = new StreamWriter(filename + ".EDGE");
+            StreamWriter writer3 = new StreamWriter(filename + ".edg.csv");
             StringBuilder edges = new StringBuilder();
 
             if (tumors.Length > 0)

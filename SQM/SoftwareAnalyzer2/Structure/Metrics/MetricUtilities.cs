@@ -740,6 +740,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             g.SetProperty(NodeProperties.StateMember, (int)StatePatterns.None);
             g.SetProperty(NodeProperties.ClassID, typeID);
             g.SetProperty(NodeProperties.Rank, -1);
+            g.SetProperty(NodeProperties.FileLineRange, member.Represented.GetFileLineRange());
+            g.SetProperty(NodeProperties.MiscData, "");
 
             if (lastModule < module)
             {

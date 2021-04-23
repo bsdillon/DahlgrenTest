@@ -31,7 +31,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         #region File IO
         // Defines the valid file type used by this IGraphNavigator
-        private static string nodeSuffix = ".node";
+        private static string nodeSuffix = ".nod.csv";
         public static string FileSuffix
         {
             get
@@ -40,14 +40,21 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
-        private static string edgeSuffix = ".edge";
+        private static string edgeSuffix = ".edg.csv";
         private string fileStem;
+        private List<string> csvPaths;
         #endregion
 
         public ModuleNavigator(string fileRoot, Label userOutput)
         {
             fileStem = fileRoot;
             output = userOutput;
+        }
+
+        //accept csv input file from other static analyzers (PMD, KlocWork, etc.) from metrics tab
+        public void SetCsvInput(List<string> csvRecieved)
+        {
+            csvPaths = csvRecieved;
         }
 
         //required functionality under IGraphNavigator
@@ -146,6 +153,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
             }
 
+            //if the user submits csv file(s) to add to the nodes, add them
+            //if matching file/line numbers are found between
+            //csv file and the already create gephinodes, add all csv data to the node
+            LinkCSVMembers();
+
             SetOutput("Scanning for known patterns");
             NodePatternMetrics.FindPatterns();
             SetOutput("Scanning for unconnected nodes");
@@ -164,6 +176,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StatePatternMetrics.FindPatterns();
             SetOutput("Writing graph files");
             WriteOutGraph();
+ 
+            //TODO: find edges related to any csv data entry and trace back to see how they affect other parts of code (tracing data flow)
+            //maybe eventually have each connected node have the attributed of eg. SSF5.4
+
             SetOutput("Writing metric reports");
             WriteMetricReports();
             SetOutput("Done");
@@ -689,7 +705,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         /// <param name="current"></param>
         private void DiscoverAllMembers(AbbreviatedGraph current)
         {
-            
+
             Console.WriteLine("DiscoverAllMembers("+current+") IsClassification="+current.Represented.Node.IsClassification);
 
             if (current.Represented.Node.IsClassification)
@@ -738,13 +754,61 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
             else
             {
+                //dictionary of associated and related items
                 Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> nextEdges = current.GetEdges(Relationship.Member);
 
                 Console.WriteLine("nextEdges.Count = "+nextEdges.Count);
 
+                //discover all members of associated and related items also (recursive)
                 foreach (AbbreviatedGraph next in nextEdges.Keys)
                 {
                     DiscoverAllMembers(next);
+                }
+            }
+        }
+
+        private void LinkCSVMembers()
+        {
+            if(csvPaths == null)
+            {
+                return;
+            }
+
+            GephiNode[] nodes = MetricUtilities.AllNodes;
+            foreach (String csvFile in csvPaths)
+            {
+                foreach (GephiNode n in nodes)
+                {
+                    string nodeFile = (string)n.GetProperty(NodeProperties.File);
+                    string lineCharNums = (string)n.GetProperty(NodeProperties.FileLineRange);
+                    string[] lineNum = lineCharNums.Split(':');
+                    lineNum[0] = lineNum[0].TrimStart('(');
+                    using (var read = new StreamReader(@csvFile))
+                    {
+                        while (!read.EndOfStream)
+                        {
+                            var rLine = read.ReadLine();
+                            var values = rLine.Split(',');
+
+                            //filename: values[0], linenumber: values[1], etc: values[2]
+                            if (values[0] == nodeFile && values[1] == lineNum[0]) 
+                            {
+                                //add attribute to gephi node
+                                if ((string)n.GetProperty(NodeProperties.MiscData) == "")
+                                {
+                                    //created new property in propertiedobject and it is only set if csv files are input
+                                    //TODO: this currently only works for a three column csv. need to add loops for more columns
+                                    //also add bounds checking, modularity, etc. just proof of concept right now
+                                    n.SetProperty(NodeProperties.MiscData, values[2]);
+                                }
+                                else
+                                {
+                                    n.SetProperty(NodeProperties.MiscData, (string)n.GetProperty(NodeProperties.MiscData) + " | " + values[2]);
+                                }
+                            }
+                            
+                        }
+                    }
                 }
             }
         }

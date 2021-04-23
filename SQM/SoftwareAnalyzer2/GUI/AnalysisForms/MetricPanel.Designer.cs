@@ -33,6 +33,11 @@
             this.fileOverwrite = new System.Windows.Forms.Label();
             this.ModuleButton = new System.Windows.Forms.Button();
             this.output = new System.Windows.Forms.Label();
+            this.csvCheckBox = new System.Windows.Forms.CheckBox();
+            this.filePathTextBox = new System.Windows.Forms.TextBox();
+            this.browseButton = new System.Windows.Forms.Button();
+            this.formatExample = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // fileNameLabel
@@ -64,7 +69,7 @@
             // 
             // ModuleButton
             // 
-            this.ModuleButton.Location = new System.Drawing.Point(31, 79);
+            this.ModuleButton.Location = new System.Drawing.Point(29, 224);
             this.ModuleButton.Name = "ModuleButton";
             this.ModuleButton.Size = new System.Drawing.Size(142, 22);
             this.ModuleButton.TabIndex = 4;
@@ -81,10 +86,64 @@
             this.output.Text = "label1";
             this.output.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // csvCheckBox
+            // 
+            this.csvCheckBox.AutoSize = true;
+            this.csvCheckBox.Location = new System.Drawing.Point(8, 69);
+            this.csvCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.csvCheckBox.Name = "csvCheckBox";
+            this.csvCheckBox.Size = new System.Drawing.Size(110, 17);
+            this.csvCheckBox.TabIndex = 6;
+            this.csvCheckBox.Text = "CSV Input File(s)?";
+            this.csvCheckBox.UseVisualStyleBackColor = true;
+            this.csvCheckBox.CheckedChanged += new System.EventHandler(this.csvCheckBox_CheckedChanged);
+            // 
+            // filePathTextBox
+            // 
+            this.filePathTextBox.Location = new System.Drawing.Point(8, 91);
+            this.filePathTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.filePathTextBox.Multiline = true;
+            this.filePathTextBox.Name = "filePathTextBox";
+            this.filePathTextBox.ReadOnly = true;
+            this.filePathTextBox.Size = new System.Drawing.Size(189, 85);
+            this.filePathTextBox.TabIndex = 7;
+            this.filePathTextBox.Visible = false;
+            // 
+            // browseButton
+            // 
+            this.browseButton.Location = new System.Drawing.Point(8, 194);
+            this.browseButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.browseButton.Name = "browseButton";
+            this.browseButton.Size = new System.Drawing.Size(70, 24);
+            this.browseButton.TabIndex = 8;
+            this.browseButton.Text = "Browse";
+            this.browseButton.UseVisualStyleBackColor = true;
+            this.browseButton.Visible = false;
+            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
+            // 
+            // formatExample
+            // 
+            this.formatExample.AutoSize = true;
+            this.formatExample.Location = new System.Drawing.Point(6, 178);
+            this.formatExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.formatExample.Name = "formatExample";
+            this.formatExample.Size = new System.Drawing.Size(95, 13);
+            this.formatExample.TabIndex = 9;
+            this.formatExample.Text = "Format: file, line, ...";
+            this.formatExample.Visible = false;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // MetricPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.formatExample);
+            this.Controls.Add(this.browseButton);
+            this.Controls.Add(this.filePathTextBox);
+            this.Controls.Add(this.csvCheckBox);
             this.Controls.Add(this.output);
             this.Controls.Add(this.ModuleButton);
             this.Controls.Add(this.fileOverwrite);
@@ -104,5 +163,10 @@
         private System.Windows.Forms.Label fileOverwrite;
         private System.Windows.Forms.Button ModuleButton;
         private System.Windows.Forms.Label output;
+        private System.Windows.Forms.CheckBox csvCheckBox;
+        private System.Windows.Forms.TextBox filePathTextBox;
+        private System.Windows.Forms.Button browseButton;
+        private System.Windows.Forms.Label formatExample;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

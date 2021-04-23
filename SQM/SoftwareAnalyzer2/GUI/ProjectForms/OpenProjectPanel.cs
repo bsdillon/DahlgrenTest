@@ -42,7 +42,7 @@ namespace SoftwareAnalyzer2.GUI.ProjectForms
             }
             catch (FormatException fe)
             {
-                outputLabel.Text = "Format error in project file.\nDetials: " + fe.Message;
+                outputLabel.Text = "Format error in project file.\nDetails: " + fe.Message;
                 setAllEnabled(true);
                 return;
             }
