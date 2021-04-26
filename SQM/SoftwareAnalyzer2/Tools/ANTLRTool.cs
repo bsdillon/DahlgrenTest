@@ -148,11 +148,18 @@ namespace SoftwareAnalyzer2.Tools
                 Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
                 p2_stdin_t.Start();
 
-                p.WaitForExit(3100);
-                p.Kill();
-
-                p2.WaitForExit(250);
-                p2.Kill();
+                if (myLang is CPPLanguage) {
+                    // Timeout after ~3 seconds and kill slow/hung processes
+                    p.WaitForExit(3100);
+                    p.Kill();
+                    p2.WaitForExit(250);
+                    p2.Kill();
+                }
+                else {
+                    // Wait indefinitely, ANTLR MUST exit for SQM to continue.
+                    p.WaitForExit();
+                    p2.WaitForExit();
+                }
 
                 Console.Out.WriteLine(fileName);
                 
@@ -531,85 +538,116 @@ namespace SoftwareAnalyzer2.Tools
         /// </summary>
         private void ModifyTree()
         {
-            //rename several nodes to improve readability
-            head.Rename("primitiveType", Members.Primitive);
-            head.Rename("classOrInterfaceModifier", "modifier");
-            head.Rename("variableModifier", "modifier");
-            head.Rename("modifier", "modifier");
+            if (myLang is JavaLanguage) {
+                //rename several nodes to improve readability
+                head.Rename("primitiveType", Members.Primitive);
+                head.Rename("classOrInterfaceModifier", "modifier");
+                head.Rename("variableModifier", "modifier");
+                head.Rename("modifier", "modifier");
 
-            //modify and simplify the structure
-            //Dependencies may exist in this list so order is important
-            head.RootUpModify("classOrInterfaceType", Members.TypeName, TypeNameModifier);
-            head.CodeModify(AssertModifier);
-            head.RootUpModify("literal", Members.Literal, LiteralModifier);
-            head.RootUpModify("annotationTypeDeclaration", "annotationTypeDeclaration", RemoveAnnotationModifier);
-            head.RootUpModify("classBodyDeclaration", "classBodyDeclaration", StaticMethodModifier);
-            head.RootUpModify("classBodyDeclaration", "classBodyDeclaration", InlineCodeModifier);
-            head.RootUpModify("creator", "creator", ClassConstructorModifier);
-            head.RootUpModify("methodBody", "methodBody", HiddenClassModifier);
-            head.RootUpModify("constructorBody", "constructorBody", HiddenClassModifier);
-            head.RootUpModify("classBodyDeclaration", "classBodyDeclaration", EmptyDeclarationModifier);
-            head.RootUpModify("annotation", Members.Annotation, AnnotationModifier);
-            head.RootUpModify("constantDeclarator", "variableDeclarator", ConstantModifier);
-            head.RootUpModify("variableDeclaratorId", Members.Variable, ReparentOnFirstChild);
-            head.RootUpModify("statement", "statement", StatementModifier);
-            head.RootUpModify("compilationUnit", Members.File, Unnatural);
-            head.RootUpModify("packageDeclaration", Members.Package, PackageModifier);
-            head.RootUpModify("importDeclaration", Members.Import, ImportModifier);
-            head.RootUpModify("block", Members.Scope, ClearCode);
-            head.RootUpModify("type", "type", TypeArrayModifier);
-            head.RootUpModify(Members.TypeName, Members.TypeName, TypeArrayModifier);
-            head.RootUpModify("typeArguments", Members.Sub_Type, ClearCode);
-            head.RootUpModify("typeArgument", "typeArgument", GenericTypeModifier);
-            head.RootUpModify("typeArgumentsOrDiamond", "typeArgumentsOrDiamond", ClearCode);
-            head.RootUpModify("formalParameters", Members.ParameterList, ParameterListModifier);
-            head.RootUpModify("variableDeclarators", "variableDeclarators", ReparentChildren);
-            head.RootUpModify("explicitGenericInvocation", "explicitGenericInvocation", GenericInvocationModifier);
-            head.RootUpModify("primary", Members.Variable, NestedExpressionModifier);
-            head.RootUpModify("variableDeclarator", "variableDeclarator", VariableDeclaratorModifier);
-            head.RootUpModify("fieldDeclaration", "fieldDeclaration", FieldModifier);
-            head.RootUpModify("constDeclaration", "constDeclaration", FieldModifier);
-            head.RootUpModify("methodDeclaration", "droppingMethod", ClassMethodModifier);
-            head.RootUpModify("interfaceMethodDeclaration", "droppingMethod", InterfaceMethodModifier);
-            head.CodeModify(staticMethodModifier);
-            head.RootUpModify("constructorDeclaration", "droppingConstructor", ConstructorModifier);
-            head.RootUpModify("enumDeclaration", "droppingType", TypeModifier);
-            head.CodeModify(enumModifier);
-            head.RootUpModify("interfaceDeclaration", "droppingType", TypeModifier);
-            head.RootUpModify("classDeclaration", "droppingType", TypeModifier);
-            head.RootUpModify("innerCreator", Members.ConstructorInvoke, InnerConstructionModifier);
-            head.RootUpModify("localVariableDeclarationStatement", "droppingLocal", LocalVariableModifier);
-            head.RootUpModify("enhancedForControl", "enhancedForControl", ForEachModifier);
-            head.RootUpModify("forControl", "forControl", ForThreePartModifier);
-            head.RootUpModify("parExpression", "parExpression", WhileSwitchIfModifier);
-            head.Collapse("expression");
-            head.LeafDownModify("expression", "expression", ExpressionModifier);
-            head.RootUpModify("creator", Members.ConstructorInvoke, ConstructionModifier);
-            head.RootUpModify("arrayInitializer", Members.Array, ClearCode);
-            head.RootUpModify("superSuffix", "droppingMethod", SuperMethodModifier);
-            head.CodeModify(OtherDotModifier);
+                //modify and simplify the structure
+                //Dependencies may exist in this list so order is important
+                head.RootUpModify("classOrInterfaceType", Members.TypeName, TypeNameModifier);
+                head.CodeModify(AssertModifier);
+                head.RootUpModify("literal", Members.Literal, LiteralModifier);
+                head.RootUpModify("annotationTypeDeclaration", "annotationTypeDeclaration", RemoveAnnotationModifier);
+                head.RootUpModify("classBodyDeclaration", "classBodyDeclaration", StaticMethodModifier);
+                head.RootUpModify("classBodyDeclaration", "classBodyDeclaration", InlineCodeModifier);
+                head.RootUpModify("creator", "creator", ClassConstructorModifier);
+                head.RootUpModify("methodBody", "methodBody", HiddenClassModifier);
+                head.RootUpModify("constructorBody", "constructorBody", HiddenClassModifier);
+                head.RootUpModify("classBodyDeclaration", "classBodyDeclaration", EmptyDeclarationModifier);
+                head.RootUpModify("annotation", Members.Annotation, AnnotationModifier);
+                head.RootUpModify("constantDeclarator", "variableDeclarator", ConstantModifier);
+                head.RootUpModify("variableDeclaratorId", Members.Variable, ReparentOnFirstChild);
+                head.RootUpModify("statement", "statement", StatementModifier);
+                head.RootUpModify("compilationUnit", Members.File, Unnatural);
+                head.RootUpModify("packageDeclaration", Members.Package, PackageModifier);
+                head.RootUpModify("importDeclaration", Members.Import, ImportModifier);
+                head.RootUpModify("block", Members.Scope, ClearCode);
+                head.RootUpModify("type", "type", TypeArrayModifier);
+                head.RootUpModify(Members.TypeName, Members.TypeName, TypeArrayModifier);
+                head.RootUpModify("typeArguments", Members.Sub_Type, ClearCode);
+                head.RootUpModify("typeArgument", "typeArgument", GenericTypeModifier);
+                head.RootUpModify("typeArgumentsOrDiamond", "typeArgumentsOrDiamond", ClearCode);
+                head.RootUpModify("formalParameters", Members.ParameterList, ParameterListModifier);
+                head.RootUpModify("variableDeclarators", "variableDeclarators", ReparentChildren);
+                head.RootUpModify("explicitGenericInvocation", "explicitGenericInvocation", GenericInvocationModifier);
+                head.RootUpModify("primary", Members.Variable, NestedExpressionModifier);
+                head.RootUpModify("variableDeclarator", "variableDeclarator", VariableDeclaratorModifier);
+                head.RootUpModify("fieldDeclaration", "fieldDeclaration", FieldModifier);
+                head.RootUpModify("constDeclaration", "constDeclaration", FieldModifier);
+                head.RootUpModify("methodDeclaration", "droppingMethod", ClassMethodModifier);
+                head.RootUpModify("interfaceMethodDeclaration", "droppingMethod", InterfaceMethodModifier);
+                head.CodeModify(staticMethodModifier);
+                head.RootUpModify("constructorDeclaration", "droppingConstructor", ConstructorModifier);
+                head.RootUpModify("enumDeclaration", "droppingType", TypeModifier);
+                head.CodeModify(enumModifier);
+                head.RootUpModify("interfaceDeclaration", "droppingType", TypeModifier);
+                head.RootUpModify("classDeclaration", "droppingType", TypeModifier);
+                head.RootUpModify("innerCreator", Members.ConstructorInvoke, InnerConstructionModifier);
+                head.RootUpModify("localVariableDeclarationStatement", "droppingLocal", LocalVariableModifier);
+                head.RootUpModify("enhancedForControl", "enhancedForControl", ForEachModifier);
+                head.RootUpModify("forControl", "forControl", ForThreePartModifier);
+                head.RootUpModify("parExpression", "parExpression", WhileSwitchIfModifier);
+                head.Collapse("expression");
+                head.LeafDownModify("expression", "expression", ExpressionModifier);
+                head.RootUpModify("creator", Members.ConstructorInvoke, ConstructionModifier);
+                head.RootUpModify("arrayInitializer", Members.Array, ClearCode);
+                head.RootUpModify("superSuffix", "droppingMethod", SuperMethodModifier);
+                head.CodeModify(OtherDotModifier);
 
-            //catch inversions in the tree for code phrases like "this.thing.secondThing"
-            head.CodeModify(InvertedExpressionModifier);
-            head.CodeModify(SuperTypeModifier);
-            head.RootUpModify(Members.Variable, Members.Variable, ThisModifier);
+                //catch inversions in the tree for code phrases like "this.thing.secondThing"
+                head.CodeModify(InvertedExpressionModifier);
+                head.CodeModify(SuperTypeModifier);
+                head.RootUpModify(Members.Variable, Members.Variable, ThisModifier);
 
-            //collapse unnecessary nodes
-            head.Collapse("blockStatement");
-            head.Collapse("expression");
-            head.Collapse("type");
-            head.Collapse(Members.Variable);
-            head.Collapse("statementExpression");
-            head.Collapse("variableInitializer");
-            head.Collapse("typeArgument");
-            head.Collapse("constantExpression");
-            head.Collapse("typeArgumentsOrDiamond");
-            head.Collapse("statement", ";");
-            head.Collapse("statement", "");
-            head.Collapse("interfaceBodyDeclaration", ";");
+                //collapse unnecessary nodes
+                head.Collapse("blockStatement");
+                head.Collapse("expression");
+                head.Collapse("type");
+                head.Collapse(Members.Variable);
+                head.Collapse("statementExpression");
+                head.Collapse("variableInitializer");
+                head.Collapse("typeArgument");
+                head.Collapse("constantExpression");
+                head.Collapse("typeArgumentsOrDiamond");
+                head.Collapse("statement", ";");
+                head.Collapse("statement", "");
+                head.Collapse("interfaceBodyDeclaration", ";");
 
-            //renumber nodes
-            head.NormalizeLines();
+                //renumber nodes
+                head.NormalizeLines();
+            }
+            else if (myLang is CPPLanguage) {
+                
+                head.Rename("className", "TypeDeclaration");
+                head.Rename("functionDefinition", "Method");
+                head.Rename("translationUnit", "File");
+                
+                head.Collapse("templateArgument");
+                head.Collapse("declSpecifier");
+                head.Collapse("typeSpecifier");
+                head.Collapse("trailingTypeSpecifier");
+                head.Collapse("simpleTypeSpecifier");
+                head.Collapse("theTypeName");
+
+                // Templates have a complex tree, remove the template parameter to simplify graph
+                head.Collapse("TypeDeclaration");
+
+                // head.Rename("modifier", "modifier");
+                // head.Rename("modifier", "modifier");
+                // head.Rename("modifier", "modifier");
+
+                head.NormalizeLines();
+
+                // Throw away "HEAD" and replace with "File" at top of tree
+                head = (IModifiable) head.Children.First();
+
+            }
+            else {
+                Console.WriteLine("Unknown language = "+myLang);
+            }
         }
 
         #region Common Operations
