@@ -10,6 +10,9 @@ on:
   schedule:
     # 01:05 each day
     - cron: '5 5 * * *'
+  push:
+    paths:
+      - ".github/workflows/SLOCReport.yml"
 
 jobs:
   GetAllLineCounts:
