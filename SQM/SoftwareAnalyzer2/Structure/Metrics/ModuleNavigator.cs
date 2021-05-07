@@ -7,7 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+#if ENABLE_GUI
 using System.Windows.Forms;
+#endif
 
 namespace SoftwareAnalyzer2.Structure.Metrics
 {
@@ -17,6 +20,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
     public class ModuleNavigator : IGraphNavigator
     {
         // Control communications with the user during work.
+#if ENABLE_GUI
         private Label output;
         private void SetOutput(string msg)
         {
@@ -28,6 +32,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 Console.WriteLine(msg);
             }
         }
+#else
+        private void SetOutput(string msg) {
+            Console.WriteLine(msg);
+        }
+#endif
 
         #region File IO
         // Defines the valid file type used by this IGraphNavigator
@@ -45,11 +54,19 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private List<string> csvPaths;
         #endregion
 
+#if ENABLE_GUI
         public ModuleNavigator(string fileRoot, Label userOutput)
         {
             fileStem = fileRoot;
             output = userOutput;
         }
+#else
+        public ModuleNavigator(string fileRoot, Object userOutput)
+        {
+            fileStem = fileRoot;
+            // Cannot use userOutput in CLI mode anyway
+        }
+#endif
 
         //accept csv input file from other static analyzers (PMD, KlocWork, etc.) from metrics tab
         public void SetCsvInput(List<string> csvRecieved)

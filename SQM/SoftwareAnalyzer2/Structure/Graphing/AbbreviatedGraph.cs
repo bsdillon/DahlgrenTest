@@ -69,7 +69,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                 }
                 catch (Exception e)
                 {
+#if ENABLE_GUI
                     System.Windows.Forms.MessageBox.Show("Graph file format corrupted: " + e.Message + "\n\r" + e.StackTrace);
+#endif
+                    Console.WriteLine("Graph file format corrupted: " + e.Message + "\n\r" + e.StackTrace);
                     return false;
                 }
                 sr.Close();

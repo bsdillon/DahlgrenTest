@@ -578,7 +578,11 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                 //watch for this line to occur and confirm/deny this
                 Console.WriteLine("ASTree.GetFileLineRange has zero length: " + represented);
                 Console.WriteLine("Revise GraphNode.WriteNode() to accept zero length.");
+#if ENABLE_GUI
                 System.Windows.Forms.Application.Exit();
+#else
+                Environment.Exit(1);
+#endif
 
                 graph += "\t" + represented.FileName + "\t--";
             }

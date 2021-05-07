@@ -5,8 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml;
+
+#if ENABLE_GUI
+using System.Windows.Forms;
+#endif
 
 namespace SoftwareAnalyzer2.Structure.Node.Implementations
 {

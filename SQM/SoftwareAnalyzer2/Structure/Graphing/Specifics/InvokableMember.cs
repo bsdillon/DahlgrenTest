@@ -1,4 +1,8 @@
-﻿using SoftwareAnalyzer2.GUI;
+﻿
+#if ENABLE_GUI
+using SoftwareAnalyzer2.GUI;
+#endif
+
 using SoftwareAnalyzer2.Structure.Node;
 using System;
 using System.Collections.Generic;
@@ -666,6 +670,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             {
                 lock (MatcherLock)
                 {
+#if ENABLE_GUI
                     System.Media.SystemSounds.Asterisk.Play();
                     MethodMatcher matcher = new MethodMatcher(unknownMethod, sb.Replace("\n", System.Environment.NewLine).ToString(), candidateSignatures);
                     Console.WriteLine(unknownMethod);
@@ -680,6 +685,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                     Console.WriteLine(candidateSignatures[matcher.AnswerIndex]);
                     Console.WriteLine();
                     return finalMatches[matcher.AnswerIndex];
+#else
+                    Console.WriteLine("Possible Fatal error: MethodMatcher depends on winforms to operate and we are running in CLI mode.");
+                    return null;
+#endif
                 }
             }
             else

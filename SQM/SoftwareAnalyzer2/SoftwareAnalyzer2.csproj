@@ -1,16 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="Build">
+  <!-- <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" /> -->
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AAE2E120-8E69-4EE4-8B0E-B56FE37E9F56}</ProjectGuid>
     <OutputType>Exe</OutputType>
+    <EntryPointType>Console</EntryPointType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SoftwareAnalyzer2</RootNamespace>
     <AssemblyName>SoftwareAnalyzer2</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <!-- <FileAlignment>512</FileAlignment> -->
+    <PackageId>SoftwareAnalyzer2</PackageId>
+    
+    <!-- Toggle off some things to prevent having to re-write bottom config -->
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,19 +41,29 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <DefineConstants>ENABLE_GUI</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
+    <!-- <Reference Include="Microsoft.CSharp" /> -->
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+
+    <!-- WinForms compat assemblies (does not give us winforms on linux) -->
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.0.0" />
+    <Reference Include="System.Windows.Forms" Version="2.0.0.0"/>
+
   </ItemGroup>
-  <ItemGroup>
+  <!-- Windows-only GUI stuff -->
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT' ">
+    <Reference Include="System.Windows.Forms" />
+
     <Compile Include="GUI\AnalysisForms\GraphPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,6 +136,9 @@
     <Compile Include="GUI\Test\TestReport.Designer.cs">
       <DependentUpon>TestReport.cs</DependentUpon>
     </Compile>
+
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Language\ILanguage.cs" />
     <Compile Include="Language\JavaLanguage.cs" />
     <Compile Include="Language\CPPLanguage.cs" />
@@ -203,12 +226,25 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+
+    <!-- Generated code by run.py + ANTLR -->
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.9.2" />
+    <!-- <Compile Include="bin\Debug\compiled-antlr-grammars\JavaBaseListener.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\JavaLexer.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\JavaListener.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\JavaParser.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\CPP14Lexer.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\CPP14ParserBaseListener.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\CPP14Parser.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\CPP14ParserListener.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\adaLexer.cs" /> -->
+    
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" /> -->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

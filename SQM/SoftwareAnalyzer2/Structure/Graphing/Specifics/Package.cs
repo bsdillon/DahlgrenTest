@@ -377,7 +377,11 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             }
             catch (Exception e)
             {
+#if ENABLE_GUI
                 System.Windows.Forms.MessageBox.Show("Error linking "+this+": " + e.Message + "\n\r" + e.StackTrace);
+#else
+                Console.WriteLine("Error linking "+this+": " + e.Message + "\n\r" + e.StackTrace);
+#endif
             }
         }
 

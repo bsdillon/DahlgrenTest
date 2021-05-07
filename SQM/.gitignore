@@ -2,6 +2,7 @@ bin/
 obj/
 *.exe
 out.txt
+c:\\/
 
 # Ignore segfault dumps on linux systems
 mono_crash.*

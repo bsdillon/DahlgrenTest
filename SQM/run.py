@@ -67,29 +67,31 @@ def main(args=sys.argv):
     )
 
   # If we have msbuild available, build SoftwareAnalyzer2
-  build_tool = None
-  if shutil.which('msbuild'):
-    build_tool = 'msbuild'
-  elif shutil.which('xbuild'):
-    build_tool = 'xbuild'
+  # build_tool = None
+  # if shutil.which('msbuild'):
+  #   build_tool = 'msbuild'
+  # elif shutil.which('xbuild'):
+  #   build_tool = 'xbuild'
 
-  if build_tool and not 'NO_MSBUILD' in os.environ:
-    subprocess.run([
-      build_tool, os.path.join('SoftwareAnalyzer2', 'SoftwareAnalyzer2.csproj'),
-      '/t:Build', '/p:Configuration={profile}'.format(profile=profile),
-    ], check=True)
-  else:
-    print('[warning] msbuild not found, cannot compile SoftwareAnalyzer2. Assuming already compiled on another machine.')
+  # if build_tool and not 'NO_MSBUILD' in os.environ:
+  #   subprocess.run([
+  #     build_tool, os.path.join('SoftwareAnalyzer2', 'SoftwareAnalyzer2.csproj'),
+  #     '/t:Build', '/p:Configuration={profile}'.format(profile=profile),
+  #   ], check=True)
+  # else:
+  #   print('[warning] msbuild not found, cannot compile SoftwareAnalyzer2. Assuming already compiled on another machine.')
 
   build_path = os.path.join('SoftwareAnalyzer2', 'bin', profile)
-  exe_path = os.path.join(build_path, 'SoftwareAnalyzer2.exe')
-  if not os.path.exists(exe_path):
-    print('[error] We expected the following file to be built but it does not exist: {exe_path}'.format(exe_path=exe_path))
-    sys.exit(1)
+  if not os.path.exists(build_path):
+    os.makedirs(build_path)
+  exe_path = os.path.join(build_path, 'netstandard2.0', 'SoftwareAnalyzer2.dll')
+  # if not os.path.exists(exe_path):
+  #   print('[error] We expected the following file to be built but it does not exist: {exe_path}'.format(exe_path=exe_path))
+  #   sys.exit(1)
 
   antlr_jar = os.path.join(build_path, 'antlr-complete.jar')
   if not os.path.exists(antlr_jar):
-    antlr_url = 'https://www.antlr.org/download/antlr-4.9.1-complete.jar'
+    antlr_url = 'https://www.antlr.org/download/antlr-4.9.2-complete.jar'
     print('Downloading ANTLR from {antlr_url} to {antlr_jar}'.format(antlr_url=antlr_url, antlr_jar=antlr_jar))
     urllib.request.urlretrieve(antlr_url, antlr_jar)
 
@@ -130,31 +132,36 @@ def main(args=sys.argv):
   if not os.path.exists(compiled_antlr_grammar_dir):
     os.makedirs(compiled_antlr_grammar_dir)
 
-  # Generate *.java
-  skipped_grammar_javagen = 0
+  # Generate *.cs
+  skipped_grammar_codegen = 0
   for grammar_path in antlr_grammar_paths:
     grammar_path_completed = grammar_path+".java_gen_complete"
     if os.path.exists(grammar_path_completed):
-      print('Skipping generation of Java for Grammar {}'.format(grammar_path))
-      skipped_grammar_javagen += 1
+      print('Skipping generation of C# for Grammar {}'.format(grammar_path))
+      skipped_grammar_codegen += 1
       continue
 
-    print('Generating Java for Grammar {}'.format(grammar_path))
+    print('Generating C# and Java for Grammar {}'.format(grammar_path))
     try:
       subprocess.run([
-        'java', '-Xint', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
+        'java', '-Xint', '-cp', os.path.abspath(antlr_jar), '-Dlanguage=CSharp', 'org.antlr.v4.Tool', '-Dlanguage=CSharp',
+        '-o', os.path.abspath(compiled_antlr_grammar_dir),
+        os.path.abspath(grammar_path)
+      ], check=True)
+      subprocess.run([
+        'java', '-Xint', '-cp', os.path.abspath(antlr_jar), '-Dlanguage=Java', 'org.antlr.v4.Tool', '-Dlanguage=Java',
         '-o', os.path.abspath(compiled_antlr_grammar_dir),
         os.path.abspath(grammar_path)
       ], check=True)
     except Exception as e:
       print(e)
-      print('[ WARNING ] Could not generate java for grammar {}'.format(grammar_path))
+      print('[ WARNING ] Could not generate C# or Java for grammar {}'.format(grammar_path))
       time.sleep(1)
 
     with open(grammar_path_completed, 'w') as fd:
         fd.write("done")
 
-  can_skip_java_compile = skipped_grammar_javagen == len(antlr_grammar_paths)
+  can_skip_java_compile = skipped_grammar_codegen == len(antlr_grammar_paths)
   if not can_skip_java_compile or 'FORCE_JAVA_COMPILE' in os.environ:
     print('Compiling all grammars within {}'.format(compiled_antlr_grammar_dir))
     java_src_files = [os.path.abspath(x) for x in glob.glob(os.path.abspath(compiled_antlr_grammar_dir)+os.path.sep+'*.java')]
@@ -170,11 +177,13 @@ def main(args=sys.argv):
 
   os.environ['SQM_DATA_DIR'] = os.path.abspath(os.path.join('SoftwareAnalyzer2', 'bin', 'TestAnalysis'))
 
+  #exec_cmd = ['dotnet', 'run', '--project', 'SoftwareAnalyzer2', '--']
+  build_cmd = ['dotnet', 'msbuild', '-t:build']
   exec_cmd = []
 
   if 'linux' in sys.platform:
     if not shutil.which('mono'):
-      print('[error] Linux systems need the Mono runtime installed to execute dotnet <v5 binaries!')
+      print('[error] Linux systems need the Mono runtime installed to execute dotnet binaries!')
       sys.exit(1)
 
     exec_cmd = ['mono', exe_path]
@@ -184,6 +193,9 @@ def main(args=sys.argv):
 
   # Append args to run.py to exec_cmd
   exec_cmd.extend(args[1:])
+
+  # Build first
+  subprocess.run(build_cmd)
 
   if not 'BUILDONLY' in os.environ:
     print('CLASS_PATH={}'.format(os.environ['CLASSPATH']))

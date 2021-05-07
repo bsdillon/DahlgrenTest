@@ -3,8 +3,11 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+#if ENABLE_GUI
 using System.Windows.Forms;
 using SoftwareAnalyzer2.GUI;
+#endif
 
 using System.Threading;
 
@@ -36,6 +39,7 @@ namespace SoftwareAnalyzer2
             }
             else {
                 // GUI mode
+#if ENABLE_GUI
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 try
@@ -46,6 +50,9 @@ namespace SoftwareAnalyzer2
                 {
                     System.Windows.Forms.MessageBox.Show("Final error in application: " + e.Message + "\n\r" + e.StackTrace);
                 }
+#else
+                Console.WriteLine("Error: GUI not supported on linux systems.");
+#endif
             }
         }
 

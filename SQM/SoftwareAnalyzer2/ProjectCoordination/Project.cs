@@ -4,7 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+#if ENABLE_GUI
 using System.Windows.Forms;
+#endif
 
 namespace SoftwareAnalyzer2.ProjectCoordination
 {
