@@ -20,6 +20,7 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -232,12 +233,12 @@
     <!-- <Compile Include="bin\Debug\compiled-antlr-grammars\JavaBaseListener.cs" />
     <Compile Include="bin\Debug\compiled-antlr-grammars\JavaLexer.cs" />
     <Compile Include="bin\Debug\compiled-antlr-grammars\JavaListener.cs" />
-    <Compile Include="bin\Debug\compiled-antlr-grammars\JavaParser.cs" />
+    <Compile Include="bin\Debug\compiled-antlr-grammars\JavaParser.cs" /> -->
     <Compile Include="bin\Debug\compiled-antlr-grammars\CPP14Lexer.cs" />
     <Compile Include="bin\Debug\compiled-antlr-grammars\CPP14ParserBaseListener.cs" />
     <Compile Include="bin\Debug\compiled-antlr-grammars\CPP14Parser.cs" />
     <Compile Include="bin\Debug\compiled-antlr-grammars\CPP14ParserListener.cs" />
-    <Compile Include="bin\Debug\compiled-antlr-grammars\adaLexer.cs" /> -->
+    <!-- <Compile Include="bin\Debug\compiled-antlr-grammars\adaLexer.cs" /> -->
     
   </ItemGroup>
   <ItemGroup>

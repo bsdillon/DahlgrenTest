@@ -170,6 +170,24 @@ def main(args=sys.argv):
       'javac', '-cp', os.path.abspath(antlr_jar)+os.pathsep+os.path.abspath(compiled_antlr_grammar_dir),
       *java_src_files
     ], check=True)
+
+
+    print('Post-processing generated c# code (notices use of .compareTo() and not C#s .CompareTo()')
+
+    files_to_post_process = [
+      os.path.join('SoftwareAnalyzer2', 'bin', 'Debug', 'compiled-antlr-grammars', 'CPP14Parser.cs')
+    ]
+    for file in files_to_post_process:
+      csharp_src_s = ''
+      
+      with open(file, 'r') as fd:
+        csharp_src_s = fd.read()
+      
+      csharp_src_s = csharp_src_s.replace('compareTo', 'CompareTo')
+
+      with open(file, 'w') as fd:
+        fd.write(csharp_src_s)
+
   else:
     print('We skipped all java source gen, so we are also skipping java class file gen under the assumption it has already been done')
 
@@ -195,7 +213,8 @@ def main(args=sys.argv):
   exec_cmd.extend(args[1:])
 
   # Build first
-  subprocess.run(build_cmd)
+  subprocess.run(['dotnet', 'build'], check=True)
+  subprocess.run(build_cmd, check=True)
 
   if not 'BUILDONLY' in os.environ:
     print('CLASS_PATH={}'.format(os.environ['CLASSPATH']))

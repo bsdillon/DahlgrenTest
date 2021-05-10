@@ -11,6 +11,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SoftwareAnalyzer2.Language;
 
+using Antlr4.Runtime;
+using Antlr4.Runtime.Atn;
+using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
+
 namespace SoftwareAnalyzer2.Tools
 {
     /// <summary>
@@ -106,6 +111,57 @@ namespace SoftwareAnalyzer2.Tools
             }
         }
 
+        private string readFileAsString(string filename, ILanguage lang) {
+            string s = "";
+            try {
+                using (StreamReader reader = new StreamReader(filename)) {
+                    string line;
+                    while ((line = reader.ReadLine()) != null) {
+                        string translated_line = line;
+                        
+                        if (lang is CPPLanguage) {
+                            // Transform "*(T*)x" into "*((T*)x)", which is accepted by the grammar
+                            // as long as there is a left-hand token (=, <<, etc.) to accept the value.
+                            translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
+
+                            // Transform all primitive T[*][*] into T* because ANTLR
+                            // does not appear to understand array type widths like "int[][3]"
+                            // and they compile to "T*" anyway.
+                            foreach (string type in "int,double,float".Split(',')) {
+                                translated_line = Regex.Replace(translated_line, type+@"\s*([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"*$1");
+                            }
+
+                        }
+                        
+                        s += translated_line;
+                        s += Environment.NewLine;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                errorMessages.Add("ERROR: source file i/o:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+            }
+            return s;
+        }
+
+        class CPP_AntlrListener : CPP14ParserBaseListener {
+            // override default listener behavior
+            void EnterTranslationUnit(CPP14Parser.TranslationUnitContext context) {
+                Console.WriteLine("enter got translation unit = "+context);
+            }
+            void ExitTranslationUnit(CPP14Parser.TranslationUnitContext context) {
+                Console.WriteLine("exit got translation unit = "+context);
+            }
+            void EnterClassName(CPP14Parser.ClassNameContext context) {
+                Console.WriteLine("enter got class name = "+context);
+            }
+            void ExitClassName(CPP14Parser.ClassNameContext context) {
+                Console.WriteLine("exit got class name = "+context);
+            }
+        }
+
         //see implementation in ITool
         public void Analyze(string fileName, ILanguage lang)
         {
@@ -117,96 +173,127 @@ namespace SoftwareAnalyzer2.Tools
             //captured and brought to the user's attention as they are fatal to the process.
             try
             {
-                string processName = lang.ProcessName;
-                string instruction = lang.ANTLRInstruction;
-                //run -tree fileName
-                Process p = new Process();
-                p.StartInfo.FileName = processName;
-                //p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree \"" + fileName + "\"";
-                p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree";
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardInput = true;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.RedirectStandardError = true;
-                p.Start();
-                Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
-                Thread p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
-                p_stdin_t.Start();
-                
-
-                //run -tokens fileName
-                Process p2 = new Process();
-                p2.StartInfo.FileName = processName;
-                //p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens \"" + fileName + "\"";
-                p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens";
-                p2.StartInfo.UseShellExecute = false;
-                p2.StartInfo.RedirectStandardInput = true;
-                p2.StartInfo.RedirectStandardOutput = true;
-                p2.StartInfo.RedirectStandardError = true;
-                p2.Start();
-                Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
-                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
-                p2_stdin_t.Start();
-
                 if (myLang is CPPLanguage) {
-                    // Timeout after ~3 seconds and kill slow/hung processes
-                    p.WaitForExit(3100);
-                    p.Kill();
-                    p2.WaitForExit(250);
-                    p2.Kill();
+                    
+                    Console.Out.WriteLine(fileName);
+
+                    AntlrInputStream inputStream = new AntlrInputStream(readFileAsString(fileName, lang));
+                    CPP14Lexer lexer = new CPP14Lexer(inputStream);
+                    CommonTokenStream commonTokenStream = new CommonTokenStream(lexer);
+                    CPP14Parser parser = new CPP14Parser(commonTokenStream);
+                    parser.BuildParseTree = true;
+                    CPP_AntlrListener listener = new CPP_AntlrListener();
+
+                    ParseTreeWalker.Default.Walk(listener, parser.translationUnit());
+                    parser.Reset();
+                    ParseTreeWalker.Default.Walk(listener, parser.primaryExpression());
+                    parser.Reset();
+                    ParseTreeWalker.Default.Walk(listener, parser.literal());
+                    
+                    Console.WriteLine("parser.translationUnit()="+parser.translationUnit());
+                    Console.WriteLine("parser.primaryExpression()="+parser.primaryExpression());
+                    Console.WriteLine("parser.literal()="+parser.literal());
+
+                    //Console.WriteLine("tree="+tree);
+
+                    // Assign head based on contents of tree
+                    head = (IModifiable) NodeFactory.CreateNode(NodeType.CreateNodeType("HEAD"), "");
+
+                    //catch and return if the parser fails
+                    if (errorMessages.Count > 0)
+                    {
+                        if (errorMessages[0].Contains("no viable alternative at input '<EOF>'"))
+                        {
+                            //occurs only for empty files
+                            NoTreeCreated = true;
+                        }
+                        errorMessages.Add("FATAL ERROR: Could not run tool\r\n");
+                        return;
+                    }
                 }
                 else {
+                    string processName = lang.ProcessName;
+                    string instruction = lang.ANTLRInstruction;
+                    //run -tree fileName
+                    Process p = new Process();
+                    p.StartInfo.FileName = processName;
+                    //p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree \"" + fileName + "\"";
+                    p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree";
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.RedirectStandardInput = true;
+                    p.StartInfo.RedirectStandardOutput = true;
+                    p.StartInfo.RedirectStandardError = true;
+                    p.Start();
+                    Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
+                    Thread p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
+                    p_stdin_t.Start();
+                    
+
+                    //run -tokens fileName
+                    Process p2 = new Process();
+                    p2.StartInfo.FileName = processName;
+                    //p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens \"" + fileName + "\"";
+                    p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens";
+                    p2.StartInfo.UseShellExecute = false;
+                    p2.StartInfo.RedirectStandardInput = true;
+                    p2.StartInfo.RedirectStandardOutput = true;
+                    p2.StartInfo.RedirectStandardError = true;
+                    p2.Start();
+                    Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
+                    Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
+                    p2_stdin_t.Start();
+
                     // Wait indefinitely, ANTLR MUST exit for SQM to continue.
                     p.WaitForExit();
                     p2.WaitForExit();
-                }
 
-                Console.Out.WriteLine(fileName);
-                
-                //save the output from each process
-                string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                // We remove all tokens with "<WS>" (whitespace) and "<COMMENT>"
-                tokens = tokens.Where(
-                    t => !(
-                        t.Contains("<WS>") ||
-                        t.Contains("<COMMENT>") ||
-                        t.Contains("<Directive>")
-                    )
-                ).ToArray();
+                    Console.Out.WriteLine(fileName);
+                    
+                    //save the output from each process
+                    string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    // We remove all tokens with "<WS>" (whitespace) and "<COMMENT>"
+                    tokens = tokens.Where(
+                        t => !(
+                            t.Contains("<WS>") ||
+                            t.Contains("<COMMENT>") ||
+                            t.Contains("<Directive>")
+                        )
+                    ).ToArray();
 
-                string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                Console.Out.WriteLine("/t"+fileName);
+                    string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    Console.Out.WriteLine("/t"+fileName);
 
-                //capture any process errors
-                string error = p.StandardError.ReadToEnd();
-                if (error.Length > 0)
-                {
-                    errorMessages.Add("ERROR: Error in ANTLR tree: " + error + System.Environment.NewLine);
-                }
-                error = p2.StandardError.ReadToEnd();
-                if (error.Length > 0)
-                {
-                    errorMessages.Add("ERROR: Error in ANTLR tokens: " + error + System.Environment.NewLine);
-                }
-
-                //catch and return if the parser fails
-                if (errorMessages.Count > 0)
-                {
-                    if (errorMessages[0].Contains("no viable alternative at input '<EOF>'"))
+                    //capture any process errors
+                    string error = p.StandardError.ReadToEnd();
+                    if (error.Length > 0)
                     {
-                        //occurs only for empty files
-                        NoTreeCreated = true;
+                        errorMessages.Add("ERROR: Error in ANTLR tree: " + error + System.Environment.NewLine);
                     }
-                    errorMessages.Add("FATAL ERROR: Could not run tool\r\n");
-                    return;
-                }
+                    error = p2.StandardError.ReadToEnd();
+                    if (error.Length > 0)
+                    {
+                        errorMessages.Add("ERROR: Error in ANTLR tokens: " + error + System.Environment.NewLine);
+                    }
 
-                //combine the line and character references from the tokens with the structure
-                //again gracefully fail if combination is not possible
-                if (!Combine(tree, tokens))
-                {
-                    errorMessages.Add("FATAL ERROR: Decomposition incomplete\r\n");
-                    return;
+                    //catch and return if the parser fails
+                    if (errorMessages.Count > 0)
+                    {
+                        if (errorMessages[0].Contains("no viable alternative at input '<EOF>'"))
+                        {
+                            //occurs only for empty files
+                            NoTreeCreated = true;
+                        }
+                        errorMessages.Add("FATAL ERROR: Could not run tool\r\n");
+                        return;
+                    }
+
+                    //combine the line and character references from the tokens with the structure
+                    //again gracefully fail if combination is not possible
+                    if (!Combine(tree, tokens))
+                    {
+                        errorMessages.Add("FATAL ERROR: Decomposition incomplete\r\n");
+                        return;
+                    }
                 }
 
                 //we will preclude tree operations for any one of several reasons
