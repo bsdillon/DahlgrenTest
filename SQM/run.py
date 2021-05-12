@@ -68,10 +68,10 @@ def main(args=sys.argv):
 
   # If we have msbuild available, build SoftwareAnalyzer2
   build_tool = None
-  if shutil.which('msbuild'):
-    build_tool = 'msbuild'
-  elif shutil.which('xbuild'):
+  if shutil.which('xbuild'):
     build_tool = 'xbuild'
+  elif shutil.which('msbuild'):
+    build_tool = 'msbuild'
 
   if build_tool and not 'NO_MSBUILD' in os.environ:
     subprocess.run([
