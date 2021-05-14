@@ -43,6 +43,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private static string edgeSuffix = ".edg.csv";
         private string fileStem;
         private List<string> csvPaths;
+        private string csvErrors = "";
         #endregion
 
         public ModuleNavigator(string fileRoot, Label userOutput)
@@ -61,13 +62,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         public void Navigate(AbbreviatedGraph current)
         {
             MetricUtilities.Initialize();
-
             if (current == null) {
                 // Discovered when loading c++ projects
                 SetOutput("AbbreviatedGraph is null!");
                 return;
             }
-            
+
             SetOutput("Looking for graph members");
             DiscoverAllMembers(current);
 
@@ -156,7 +156,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             //if the user submits csv file(s) to add to the nodes, add them
             //if matching file/line numbers are found between
             //csv file and the already create gephinodes, add all csv data to the node
-            LinkCSVMembers();
 
             SetOutput("Scanning for known patterns");
             NodePatternMetrics.FindPatterns();
@@ -174,12 +173,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StateCounter.CountAllStates();
             SetOutput("Looking for state machines");
             StatePatternMetrics.FindPatterns();
+            SetOutput("Checking for any CSV Issues");
+            TraceCSVLinks(current);
+
             SetOutput("Writing graph files");
             WriteOutGraph();
- 
-            //TODO: find edges related to any csv data entry and trace back to see how they affect other parts of code (tracing data flow)
-            //maybe eventually have each connected node have the attributed of eg. SSF5.4
-
             SetOutput("Writing metric reports");
             WriteMetricReports();
             SetOutput("Done");
@@ -380,6 +378,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             reportCount = ConnectivityMetrics.APIReport(fileStem + "_API");
             summary.Append("API Reports: " + reportCount + System.Environment.NewLine);
+
+            summary.Append(csvErrors);
 
             //write the summary data collected
             writer.WriteLine(summary.ToString());
@@ -767,51 +767,115 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
-        private void LinkCSVMembers()
+        private void TraceCSVLinks(AbbreviatedGraph current)
         {
-            if(csvPaths == null)
+            //if there are no csv files, there is nothing to trace
+            if (csvPaths == null)
             {
                 return;
             }
 
-            GephiNode[] nodes = MetricUtilities.AllNodes;
+            Dictionary<string, List<AbbreviatedGraph>> statementDict = current.GetStatementsDict();
+            //foreach csv file entered by the user
+                //for each file in statementDict (statementDict.Keys = filenames. statementDict.Values = statements associated with the file name key.)
+                    //read the csv file
+                        //if filename and line number match
+                            //get all edges from the abbrgraph gephinode and mark them as affected
             foreach (String csvFile in csvPaths)
             {
-                foreach (GephiNode n in nodes)
+                foreach (string fileNameKey in statementDict.Keys)
                 {
-                    string nodeFile = (string)n.GetProperty(NodeProperties.File);
-                    string lineCharNums = (string)n.GetProperty(NodeProperties.FileLineRange);
-                    string[] lineNum = lineCharNums.Split(':');
-                    lineNum[0] = lineNum[0].TrimStart('(');
                     using (var read = new StreamReader(@csvFile))
                     {
                         while (!read.EndOfStream)
                         {
                             var rLine = read.ReadLine();
                             var values = rLine.Split(',');
-
-                            //filename: values[0], linenumber: values[1], etc: values[2]
-                            if (values[0] == nodeFile && values[1] == lineNum[0]) 
+                            int lineNum = -1;
+                            bool lineUsed = false;
+                            
+                            //if filename matches
+                            if (fileNameKey == values[0])
                             {
-                                //add attribute to gephi node
-                                if ((string)n.GetProperty(NodeProperties.MiscData) == "")
+                                //for every abbrGraph with that file name, check the line number
+                                foreach(AbbreviatedGraph statem in statementDict[fileNameKey])
                                 {
-                                    //created new property in propertiedobject and it is only set if csv files are input
-                                    //TODO: this currently only works for a three column csv. need to add loops for more columns
-                                    //also add bounds checking, modularity, etc. just proof of concept right now
-                                    n.SetProperty(NodeProperties.MiscData, values[2]);
+                                    //if line number matches, mark all edges with the miscdata attribute
+                                    if (int.TryParse(values[1], out lineNum))
+                                    {
+                                        if (statem.Represented.GetLineStart() <= lineNum && statem.Represented.GetLineStop() >= lineNum)
+                                        {
+                                            lineUsed = true;
+                                            //what nodes are correlated to edge
+                                            if (MetricUtilities.GephiExists(statem))
+                                            {
+                                                GephiNode geNode = MetricUtilities.GephiFromGraph(statem);
+                                                foreach (GephiEdge e in MetricUtilities.GetEdges(geNode))
+                                                {
+
+                                                    if (!e.GetSource().HasProperty(NodeProperties.MiscData))
+                                                    {
+                                                        e.GetSource().AddProperty(NodeProperties.MiscData);
+                                                    }
+                                                    if (!e.GetSink().HasProperty(NodeProperties.MiscData))
+                                                    {
+                                                        e.GetSink().AddProperty(NodeProperties.MiscData);
+                                                    }
+
+                                                    string srcMiscData = (string)e.GetSource().GetProperty(NodeProperties.MiscData);
+                                                    string snkMiscData = (string)e.GetSink().GetProperty(NodeProperties.MiscData);
+                                                    if (srcMiscData == "")
+                                                    {
+                                                        e.GetSource().SetProperty(NodeProperties.MiscData, values[2]);
+                                                    }
+                                                    else if (srcMiscData == values[2] || srcMiscData.Contains(values[2]))
+                                                    {
+                                                        //no op 
+                                                    }
+                                                    else
+                                                    {
+                                                        e.GetSource().SetProperty(NodeProperties.MiscData, (string)e.GetSource().GetProperty(NodeProperties.MiscData) + "&" + values[2]);
+                                                    }
+
+                                                    if (snkMiscData == "")
+                                                    {
+                                                        e.GetSink().SetProperty(NodeProperties.MiscData, values[2]);
+                                                    }
+                                                    else if (snkMiscData == values[2] || snkMiscData.Contains(values[2]))
+                                                    {
+                                                        //no op 
+                                                    }
+                                                    else
+                                                    {
+                                                        e.GetSink().SetProperty(NodeProperties.MiscData, (string)e.GetSink().GetProperty(NodeProperties.MiscData) + "&" + values[2]);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //matching line/file name found, but no abbr.graph. maybe a branch?
+                                                csvErrors += "Line Number: " + lineNum + "in File: " + statem.Represented.FileName + " has no AbbreviatedGraph." + System.Environment.NewLine;
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            //file name matches, but the line number does not. add to a list of errors for output
+                                            //TODO? maybe unneccesary
+                                        }
+                                    }
                                 }
-                                else
+                                //if a csv input field matched on filename, but the line number was never used, report it
+                                if (!lineUsed)
                                 {
-                                    n.SetProperty(NodeProperties.MiscData, (string)n.GetProperty(NodeProperties.MiscData) + " | " + values[2]);
+                                    csvErrors += "Line Number: " + lineNum + " in File: " + fileNameKey + " not found." + System.Environment.NewLine;
                                 }
                             }
-                            
                         }
                     }
                 }
             }
         }
-        #endregion
-    }
+    }        
+    #endregion
 }

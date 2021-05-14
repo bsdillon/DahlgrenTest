@@ -50,6 +50,8 @@ namespace SoftwareAnalyzer2.Structure.Node
         /// in the file where the for this node code may be found.
         /// </summary>
         string GetFileLineRange();
+        int GetLineStart();
+        int GetLineStop();
 
         /// <summary>
         /// Returns true if the lines match between this and node. This is one condition

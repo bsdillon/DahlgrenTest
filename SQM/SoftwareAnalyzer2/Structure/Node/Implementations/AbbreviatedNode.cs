@@ -62,6 +62,16 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
         {
             return line;
         }
+        //see declaration in INode
+        public int GetLineStart()
+        {
+            return (int)lineStart;
+        }
+        //see declaration in INode
+        public int GetLineStop()
+        {
+            return (int)lineStop;
+        }
 
         //see declaration in INode
         public bool OnSameLineAs(INode representNode)

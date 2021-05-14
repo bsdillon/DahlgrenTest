@@ -13,6 +13,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         private static AbbreviatedGraph root;
         private static Dictionary<long, AbbreviatedGraph> nodes = new Dictionary<long, AbbreviatedGraph>();
         private static Dictionary<AbbreviatedGraph, long> indices = new Dictionary<AbbreviatedGraph, long>();
+        private static Dictionary<string, List<AbbreviatedGraph>> statements = new Dictionary<string, List<AbbreviatedGraph>>();
 
         internal static bool OpenFile(string directory, string fileName)
         {
@@ -50,6 +51,11 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                             if (statementID != -1)
                             {
                                 statement = nodes[statementID];
+                                if (!statements.ContainsKey(statement.Represented.FileName))
+                                {
+                                    statements.Add(statement.Represented.FileName, new List<AbbreviatedGraph>());
+                                }
+                                statements[statement.Represented.FileName].Add(statement);
                             }
 
                             edges.Add(new object[] { nodes[long.Parse(parts[1])], nodes[long.Parse(parts[2])], statement, Enum.Parse(typeof(Relationship), parts[4]) });
@@ -78,7 +84,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         }
 
         private Dictionary<Relationship, Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>>> relationshipsTo = new Dictionary<Relationship, Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>>>();
-
+ 
         private bool simulated = false;
         public bool IsSimulated
         {
@@ -187,6 +193,11 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             {
                 return parents[0].IsChildScopeOf(parentContext);
             }
+        }
+
+        public Dictionary<string, List<AbbreviatedGraph>> GetStatementsDict()
+        {
+            return statements;
         }
     }
 }

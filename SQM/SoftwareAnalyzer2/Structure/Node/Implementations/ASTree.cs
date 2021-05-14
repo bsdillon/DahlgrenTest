@@ -572,6 +572,16 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
             return sb.ToString();
         }
 
+        //see declaration in INode
+        public int GetLineStart()
+        {
+            return lineStart;
+        }
+        public int GetLineStop()
+        {
+            return lineStop;
+        }
+
         //see declaration in IModifiable
         public void SetLine(IModifiable source)
         {
