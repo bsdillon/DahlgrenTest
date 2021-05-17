@@ -7,8 +7,8 @@
       .mobile {position: absolute;}
       .tt {background-color: #ffffff; width: 450px; border-color: black; border-width:3px;}
     </style>
-    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
-    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="../graphing/utils/Chart.min.js"></script>
+    <script src="../graphing/utils/utils.js"></script>
     <script src="./createlinechart.js"></script>
     <script src="./../cidata/yml_history.js"></script>
     <script>
@@ -129,7 +129,7 @@
 
         for (const [file,set] of Object.entries(fileData))
         {
-          createRandomStyleLine(config, file, lineData[file]);  
+          createRandomStyleLine(config, file, lineData[file]);
         }
       }
 
