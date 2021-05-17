@@ -27,17 +27,17 @@ jobs:
         with:
           name: contributors
           path: contribute.json
-      - name: Run Contributor Stats
-        run: python .github/ciPython/contributor_stats.py contribute.json
-      - name: Commit daily and total commits
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub  Action"
-          git add ./html/cidata/weekly_commits.js
-          git commit -m "Daily and Total Contributor Commits" -a
+      #- name: Run Contributor Stats
+      #  run: python .github/ciPython/contributor_stats.py contribute.json
+      #- name: Commit daily and total commits
+      #  run: |
+      #    git config --local user.email "action@github.com"
+      #    git config --local user.name "GitHub  Action"
+      #    git add ./html/cidata/weekly_commits.js
+      #    git commit -m "Daily and Total Contributor Commits" -a
       # yamllint enable rule:line-length
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'master'
+      #- name: Push changes
+      #  uses: ad-m/github-push-action@master
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      #    branch: 'master'
