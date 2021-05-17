@@ -97,3 +97,4 @@ commit["2020-12-31T20:09:33Z"]={"developer": "bsdillon", "message": "Revising sc
 commit["2020-12-31T20:10:41Z"]={"developer": "bsdillon", "message": "Updated the push to disable", "files": [".github/workflows/CodeInspect.yml"]};
 commit["2021-05-04T16:34:42Z"]={"developer": "bsdillon", "message": "Confirm no error in reported data", "files": [".github/workflows/SLOCReport.yml"]};
 commit["2021-05-17T22:13:11Z"]={"developer": "kkarp9", "message": "get contributor artifact for debugging", "files": [".github/workflows/contributor.yml"]};
+commit["2021-05-17T22:25:47Z"]={"developer": "kkarp9", "message": "Update contributor.yml", "files": [".github/workflows/contributor.yml"]};
