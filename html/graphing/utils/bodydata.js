@@ -1,0 +1,12 @@
+chartTitle="Corn growth";
+XLabel="Age (months)";
+YLabel="Height (cm)";
+seriesTitle1="4th Grade";
+XData1 = [108, 109, 110, 111, 112, 113, 114, 115, 116];
+YData1 = [132,135,134,135,137,138,137,139,140];
+seriesTitle2="5th Grade";
+XData2 = [120, 121, 122, 123, 124, 125, 126, 127, 128];
+YData2 = [139,139,139,141,142,142,143,145,143];
+seriesTitle3="6th Grade";
+XData3 = [132, 133, 134, 135, 136, 137, 138, 139, 140];
+YData3 = [146,146,147,149,149,148,151,153,155];
