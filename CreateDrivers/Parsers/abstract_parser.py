@@ -2,9 +2,7 @@ import CppHeaderParser
 import os.path
 
 
-
-
-class AbstractParser:
+class AbstractParser():
     space = '  '
 
     def __repr__(self):

@@ -1,8 +1,6 @@
 import os
-
-from Parsers.Method import Method
-
-from Parsers.abstract_parser import AbstractParser
+from .abstract_parser import AbstractParser
+from .Method import Method
 
 
 class ParseClass(AbstractParser):
@@ -98,10 +96,6 @@ class ParseClass(AbstractParser):
 
     def ParseMethods(self):
         for m in self.myObject['properties']['public']:
-            if m['name'] == 'resourceKey':
-                # sdflkjdsf = 0
-                #TODO determine if this is a bug and probably remove the entire if statement.
-                continue
             self.Methods.append(
                 Method(self.header_full, m['line_number'], m['raw_type'],
                        m['name']))

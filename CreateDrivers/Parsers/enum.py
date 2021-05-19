@@ -1,5 +1,5 @@
 import os
-from Parsers.abstract_parser import AbstractParser
+from .abstract_parser import AbstractParser
 
 
 class ParseEnum(AbstractParser):

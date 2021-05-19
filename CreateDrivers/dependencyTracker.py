@@ -17,13 +17,16 @@ class DependencyTracker:
                            'char': Primitive('char'),
                            'double': Primitive('double'),
                            'float': Primitive('float'),
+                           'int': Primitive('int'),
                            'long': Primitive('long'),
                            'long long': Primitive('long long'),
                            'short': Primitive('short'),
                            'signed char': Primitive('signed char'),
                            'unsigned long': Primitive('unsigned long'),
                            'unsigned char': Primitive('unsigned char'),
-                           'unsigned short': Primitive('unsigned short')}
+                           'unsigned short': Primitive('unsigned short'),
+                           # added primititives (not sure if they should be added here yet)
+                           'int8_t': Primitive('int8_t')}
         IncludeFiles = []
         tempDependencies = []
 
@@ -232,11 +235,12 @@ class DependencyTracker:
         f.write(('#ifndef DRIVERFACTORY_H\n'
                  '#define DRIVERFACTORY_H\n'
                  '\n'
-                 '#include <memory>\n'
-                 '#include <vector>\n'
-                 '\n'
+                 #'#include <memory>\n'
+                 #'#include <vector>\n'
+                 #'\n'
                  '#include "AbstractDriver.h"\n'
-                 '#include "DriverException.h"\n'))
+                 '#include "DriverException.h"\n'
+                 '#include "FactoryInterface.h"\n'))
 
         count = 0
         for t in drivers:
@@ -247,7 +251,7 @@ class DependencyTracker:
                 '.',
 
         f.write(('\n'
-                 'class DriverFactory\n'
+                 'class DriverFactory: public virtual FactoryInterface\n'
                  '{{\n'
                  '{__}public:\n'
                  # List of topics for the GUI

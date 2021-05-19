@@ -3,7 +3,9 @@
 
 #include "AllFields.h"
 
-typedef AllFields;
+namespace reader_space {
+    typedef AllFields tmp;
+}
 
 
 #endif

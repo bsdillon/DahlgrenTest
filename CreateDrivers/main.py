@@ -16,7 +16,6 @@ from FileUtilities import FileUtilities
 # from message_tracker import MessageTracker
 
 # EvilGlobalState:
-# from pip._vendor.distlib.compat import raw_input
 
 debug = False
 # currently not used, but has the potential to be implemented as a debug flag

@@ -1,6 +1,5 @@
-from Parsers.abstract_parser import AbstractParser
+from .abstract_parser import AbstractParser
 from TypeDictionary import TypeDictionary
-import Parsers.parseClass
 
 
 class Method:
@@ -65,6 +64,7 @@ class Method:
         return 'get_{getName}()'.format(getName=self.details.GetName())
 
     def WriteMethod(self, file, dependencies):
+        from .parseClass import ParseClass
         returnD = dependencies[self.details.GetType()]
         returnType = returnD.GetAbstractType()
         if self.details.IsArray():

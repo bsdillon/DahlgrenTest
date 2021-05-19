@@ -1,4 +1,4 @@
-import sys
+
 import re  # regex
 import os
 

@@ -9,6 +9,7 @@ from Parsers.parseClass import ParseClass
 from dependencyTracker import DependencyTracker
 
 
+
 class MessageTracker:
     DriverFileEnd = '_Driver.h'
     configFile = 'Drivers.config'
