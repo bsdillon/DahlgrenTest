@@ -12,7 +12,6 @@ class AllFields
  long myLong;
  char myChar;
  int myInt;
- int8_t my8int;
 
 }
 

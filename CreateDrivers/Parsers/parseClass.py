@@ -189,7 +189,7 @@ class ParseClass(AbstractParser):
         includeList.append('<memory>')
         includeList.append('<string>')
         includeList.append('"AbstractEnum.h"')
-        includeList.append('"AbstractDriver.h"')
+        includeList.append('"../source/abstractdriver.h"')
         includeList.append('"DriverException.h"')
         includeList.append(
             '"{header_filename}"'.format(header_filename=self.header_filename))
