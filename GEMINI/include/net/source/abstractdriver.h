@@ -1,7 +1,7 @@
 #ifndef ABSTRACTDRIVER_H
 #define ABSTRACTDRIVER_H
 
-#include "qstring.h"
+//#include "qstring.h"
 #include "../drivers/DriverException.h"
 #include "../drivers/AbstractEnum.h"
 #include "memory"

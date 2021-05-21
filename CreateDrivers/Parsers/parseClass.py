@@ -481,7 +481,7 @@ class ParseClass(AbstractParser):
         f.write(('#ifndef EMPTYDRIVER_H\n'
                  '#define EMPTYDRIVER_H\n'
                  '\n'
-                 '#include "AbstractDriver.h"\n'
+                 '#include "../source/abstractdriver.h"\n'
                  '\n'
                  'class EmptyDriver: public AbstractDriver\n'
                  '{{\n'

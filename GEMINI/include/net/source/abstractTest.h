@@ -4,33 +4,24 @@
 #include "AllFields.h"
 #include <cassert>
 #include <iostream>
+#include <string>
 // #include "AllFields_Driver"
 
 
-class AbstractDriverTest() {
+class AbstractDriverTest {
 
 public:
   void testAbstractDriver() {
-    auto description = getTypeDescription(STD_STRING);
-    assert(description == "STRING");
+    AbstractDriver ab;
 
-    auto description2 = getTypeDescription(DOUBLE);
-    assert(description2 == "DOUBLE");
-
-    bool exceptionThrown = false;
-    try {
-      getMethodName(0);
-    }
-    catch (ExceptionType&) {
-      exceptionThrown = true;
-    }
-    assert(exceptionThrown);
+    assert(ab.getTypeDescription(ab.BOOL).compare("BOOL") == 0);
+    assert(ab.getTypeDescription(ab.INT8_T).compare("SIGNED 8 INT") == 0);
 
     bool boolThrown = false;
     try {
-      getBOOLMethod(1);
+      ab.getBOOLMethod(1);
     }
-    catch (ExceptionType&) {
+    catch (DriverException &e) {
       boolThrown = true;
     }
     assert(boolThrown);
@@ -38,6 +29,6 @@ public:
     std::cout << "Done Testing! AbstractDriver is all good!\n";
   }
 
-}
+};
 
 #endif
