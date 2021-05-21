@@ -5,9 +5,9 @@
 #include <memory>
 #include <string>
 #include "AbstractEnum.h"
-#include "AbstractDriver.h"
+#include "../source/abstractdriver.h"
 #include "DriverException.h"
-#include "AllFields.h"
+#include "../source/AllFields.h"
 
 class AllFields_Driver: public virtual AbstractDriver
 {
@@ -36,14 +36,6 @@ class AllFields_Driver: public virtual AbstractDriver
       return (char)source.myChar;
     }
 
-    int get_myInt() {
-      return (int)source.myInt;
-    }
-
-    int8_t get_my8int() {
-      return (int8_t)source.my8int;
-    }
-
   public:
     AllFields_Driver() {factory = true;}
 
@@ -54,7 +46,7 @@ class AllFields_Driver: public virtual AbstractDriver
       return std::move(std::unique_ptr<AbstractDriver>(new AllFields_Driver(p)));
     }
 
-    std::unique_ptr<AbstractDriver> CreateDriver(const infrastructureservices::common::Message_T* p) {
+    std::unique_ptr<AbstractDriver> CreateDriver(const Message* p) {
       if (!factory) {
         throw DriverException("CreateDriver() is only valid from factory instances of AllFields_Driver", DriverException::Level::UnstableProgram);
       }
@@ -66,21 +58,19 @@ class AllFields_Driver: public virtual AbstractDriver
     AllFields_Driver(AllFields s) {
       factory = false;
       source = s;
-      signatures = std::vector<AbstractDriver::ReturnTypes>(7);
+      signatures = std::vector<AbstractDriver::ReturnTypes>(5);
       signatures[0] = DOUBLE;
       signatures[1] = BOOL;
       signatures[2] = SHORT;
       signatures[3] = LONG;
       signatures[4] = CHAR;
-      signatures[5] = INT;
-      signatures[6] = INT8_T;
 
-      methodCount = 7;
+      methodCount = 5;
     }
 
     ~AllFields_Driver() { }
 
-    infrastructureservices::common::Message_T* CreateRandom() {
+    AllFields* CreateRandom() {
       if (!factory) {
         throw DriverException("CreateDriver() is only valid from factory instances of AllFields_Driver", DriverException::Level::UnstableProgram);
       }
@@ -146,26 +136,6 @@ class AllFields_Driver: public virtual AbstractDriver
       throw DriverException(msg, DriverException::Level::DataLoss);
     }
 
-    int getINTMethod(int index) {
-      switch (index) {
-        case 5:
-          return get_myInt();
-      }
-      std::string msg = "AllFields_Driver has no INT method at index ";
-      msg.append(std::to_string(index));
-      throw DriverException(msg, DriverException::Level::DataLoss);
-    }
-
-    int8_t getINT8_TMethod(int index) {
-      switch (index) {
-        case 6:
-          return get_my8int();
-      }
-      std::string msg = "AllFields_Driver has no INT8_T method at index ";
-      msg.append(std::to_string(index));
-      throw DriverException(msg, DriverException::Level::DataLoss);
-    }
-
     std::string getMethodName(int index) {
       switch (index) {
         case 0:
@@ -178,10 +148,6 @@ class AllFields_Driver: public virtual AbstractDriver
           return "myLong";
         case 4:
           return "myChar";
-        case 5:
-          return "myInt";
-        case 6:
-          return "my8int";
       }
       std::string msg = "AllFields_Driver has no member at index ";
       msg.append(std::to_string(index));

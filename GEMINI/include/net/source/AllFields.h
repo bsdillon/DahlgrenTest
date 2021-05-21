@@ -11,8 +11,7 @@ class AllFields
  short myShort;
  long myLong;
  char myChar;
- int myInt;
 
-}
+};
 
 #endif

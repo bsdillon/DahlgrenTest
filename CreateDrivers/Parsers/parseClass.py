@@ -192,7 +192,7 @@ class ParseClass(AbstractParser):
         includeList.append('"../source/abstractdriver.h"')
         includeList.append('"DriverException.h"')
         includeList.append(
-            '"{header_filename}"'.format(header_filename=self.header_filename))
+            '"../source/{header_filename}"'.format(header_filename=self.header_filename))
         for incl in self.parser.includes:
             includeList.append(incl)
         for m in self.Methods:
@@ -251,7 +251,7 @@ class ParseClass(AbstractParser):
         if self.IsOriginal:
             f.write((
                         '{__}{__}std::unique_ptr<AbstractDriver> CreateDriver'
-                        '(const infrastructureservices::common::Message_T* p) '
+                        '(const Message* p) '
                         '{{\n'
                         '{__}{__}{__}if (!factory) {{\n'
                         '{__}{__}{__}{__}'
@@ -314,10 +314,10 @@ class ParseClass(AbstractParser):
                  '\n'
                  '{__}{__}~{target}_Driver() {{ }}\n\n').format(
             __=AbstractParser.space, mCount=mCount, target=self.target))
-
+        # SET TO ALLFIELDS FOR NOW, ORIGINALLY MESSAGE*
         if self.IsOriginal:
             f.write((
-                        '{__}{__}infrastructureservices::common::Message_T* '
+                        '{__}{__}{fullSourceName}* '
                         'CreateRandom() {{\n'
                         '{__}{__}{__}if (!factory) {{\n'
                         '{__}{__}{__}{__}'

@@ -1,18 +1,20 @@
 #ifndef ABSTRACTDRIVER_H
 #define ABSTRACTDRIVER_H
 
-#include "qstring.h"
-#include "net/drivers/DriverException.h"
+//#include "qstring.h"
+#include "../drivers/DriverException.h"
 #include "memory"
 
 #include "vector"
-#include "net/topics/message.h"
+#include "../topics/message.h"
 
+/*
 class AbstractEnum
 {
 public:
     std::string MapEnum(){}
 };
+*/
 
 class AbstractDriver
 {
@@ -56,9 +58,9 @@ public:
     };
 
 protected:
- // std::vector<ReturnTypes> signatures;
+  std::vector<ReturnTypes> signatures;
   int methodCount;
-  ReturnTypes* signatures;
+  // ReturnTypes* signatures;
 
 public:
  // const std::vector<ReturnTypes>& getMethodTypes() {return signatures;}
@@ -75,8 +77,10 @@ public:
     throw DriverException("AbstractDriver has no valid use for CreateDriver()",
             DriverException::Level::UnstableProgram);
   }
-  long getMessageArrival(){}
-  ReturnTypes* getMethodTypes() {return signatures;}
+  // added temp return value
+  long getMessageArrival(){return 0;}
+  std::vector<ReturnTypes> getMethodTypes() {return signatures;}
+  // ReturnTypes* getMethodTypes() {return signatures;}
 
   std::string getTypeDescription(ReturnTypes r)
   {
@@ -161,6 +165,7 @@ public:
   bool getBOOLMethod(int index) {
     std::string msg = "AbstractDriver has no BOOL method at index ";
     msg.append(std::to_string(index));
+    throw DriverException(msg, DriverException::Level::UnstableProgram);
   }
   float getFLOATMethod(int index)
   {
