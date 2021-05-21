@@ -111,10 +111,35 @@ HEADERS += \
     $${H_DIR}/xmlfilehandler.h \
     $${H_DIR}/filemode.h \
     include/net/Subscription_I.h \
+    include/net/Subscription_I.h \
     include/net/Topic_I.h \
-    include/net/driverexception.h \
+    include/net/Topic_I.h \
+    include/net/Workspace/AbstractEnum.h \
+    include/net/Workspace/DriverException.h \
+    include/net/Workspace/DriverFactory.h \
+    include/net/Workspace/EmptyDriver.h \
+    include/net/Workspace/source/AllFields.h \
+    include/net/Workspace/source/abstractdriver.h \
+    include/net/Workspace/topics/Subscription_I.h \
+    include/net/Workspace/topics/message.h \
+    include/net/Workspace/topics/runner.h \
     include/net/driverfactory.h \
-    include/net/emptydriver.h
+    include/net/drivers/AbstractEnum.h \
+    include/net/drivers/AllFields_Driver.h \
+    include/net/drivers/DriverException.h \
+    include/net/drivers/DriverFactory.h \
+    include/net/drivers/EmptyDriver.h \
+    include/net/drivers/FactoryInterface.h \
+    include/net/message.h \
+    include/net/source/AllFields.h \
+    include/net/source/AllFieldsDriver_Test.h \
+    include/net/source/abstractTest.h \
+    include/net/source/abstractdriver.h \
+    include/net/source/enum.h \
+    include/net/topics/Subscription_I.h \
+    include/net/topics/Topic_I.h \
+    include/net/topics/message.h \
+    include/net/topics/runner.h
     #$${H_DIR}/external/rticonnection.h \
     #$${H_DIR}/external/rtitester.h \
 
@@ -167,7 +192,8 @@ SOURCES += \
     $${CPP_DIR}/uiinterface/i_experiment.cpp \
     $${CPP_DIR}/uiinterface/i_main.cpp \
     $${CPP_DIR}/uiinterface/i_test.cpp \
-    $${CPP_DIR}/uiinterface/i_topicpanel.cpp
+    $${CPP_DIR}/uiinterface/i_topicpanel.cpp \
+    include/net/source/testDriver.cpp
 
     #$${CPP_DIR}/external/rticonnection.cpp \
     #$${CPP_DIR}/external/rtitester.cpp \
@@ -189,3 +215,8 @@ INCLUDEPATH += \
     $${WORKSPACE}/Drivers
 
 LIBS +=\
+
+DISTFILES += \
+    ../../../Downloads/ui_mainwindow.py \
+    ui/experimentpanel_test.py \
+    ui/test.py

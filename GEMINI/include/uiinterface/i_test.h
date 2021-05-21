@@ -1,9 +1,9 @@
 #ifndef I_TEST_H
 #define I_TEST_H
 
-#include "net/message.h"
+#include "net/topics/message.h"
 #include "qobject.h"
-#include "net/abstractdriver.h"
+#include "net/source/abstractdriver.h"
 
 
 class I_Test : public QObject

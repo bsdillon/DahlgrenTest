@@ -7,7 +7,7 @@
 #include <QTreeWidgetItem>
 #include <QWidget>
 
-#include "net/abstractdriver.h"
+#include "net/source/abstractdriver.h"
 #include "plamessage.h"
 
 namespace Ui {

@@ -4,7 +4,7 @@
 #include <memory>
 #include <QString>
 
-#include "net/abstractdriver.h"
+#include "net/source/abstractdriver.h"
 #include "messagefield.h"
 
 struct PLAMessage

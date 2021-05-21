@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "net/message.h"
-#include "net/Subscription_I.h"
+#include "net/topics/message.h"
+#include "net/topics/Subscription_I.h"
 //#include "SubscriptionIssueListener_I.h"
 //TODO setup interfaces for network listener
 

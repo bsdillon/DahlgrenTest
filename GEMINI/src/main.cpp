@@ -13,6 +13,7 @@
 #include "filestatus.h"
 #include "core/corefunction.h"
 #include "common.h"
+#include "qtgui/experimentpanel.h"
 
 int main(int argc, char *argv[])
 {
@@ -39,5 +40,12 @@ int main(int argc, char *argv[])
     ConfigureEnvironment::Load(argv[1], a.applicationDirPath());
 
     f.CompleteStartup();
+
+    //QApplication a(argc, argv);
+    //QWidget widget;
+    //Ui::ExperimentPanel ui;
+    //ui.setupUi(&widget);
+    ExperimentPanel e;
+    e.show();
     return a.exec();
 }

@@ -5,13 +5,13 @@
 #include <QString>
 #include <unordered_map>
 
-#include "net/abstractdriver.h"
+#include "net/source/abstractdriver.h"
 #include "datamanager.h"
 #include "defaultlistener.h"
 #include "threadworker.h"
-#include "net/message.h"
-#include "net/Subscription_I.h"
-#include "net/Topic_I.h"
+#include "net/topics/message.h"
+#include "net/topics/Subscription_I.h"
+#include "net/topics/Topic_I.h"
 
 class MessageListener;
 

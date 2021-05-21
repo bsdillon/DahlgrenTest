@@ -7,9 +7,9 @@
 #include <QString>
 
 //#include "AbstractDriver.h"
-#include "net/abstractdriver.h"
+#include "net/source/abstractdriver.h"
 //#include "DriverFactory.h"
-#include "net/driverfactory.h"
+#include "net/drivers/DriverFactory.h"
 
 TopicSelector::TopicSelector(QWidget *parent) :
     QWidget(parent),

@@ -10,7 +10,7 @@
 #include <QVBoxLayout>
 #include <string>
 #include <thread>
-#include "net/message.h"
+#include "net/topics/message.h"
 #include "defaultstatuslistener.h"
 #include "uiinterface/i_test.h"
 

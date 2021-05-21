@@ -1,7 +1,7 @@
 #include "subscriptionmanager.h"
 
 #include "common.h"
-#include "net/driverfactory.h"
+#include "net/drivers/DriverFactory.h"
 #include "messagelistener.h"
 
 SubscriptionManager::SubscriptionManager()

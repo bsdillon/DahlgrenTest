@@ -80,6 +80,8 @@ private slots:
     void StopPressed();
     void ErrorPressed();
     void ClearDataPressed();
+    void on_errorButton_clicked();
+    void TestMessage();
 };
 
 #endif // EXPERIMENTPANEL_H

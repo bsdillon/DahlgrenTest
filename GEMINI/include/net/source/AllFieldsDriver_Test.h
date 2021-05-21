@@ -11,6 +11,7 @@
 using namespace std;
 
 class AllFieldsDriver_Test {
+    /*
     public:
       void testAllFieldsDriver() {
           // AllFields Test
@@ -39,6 +40,7 @@ class AllFieldsDriver_Test {
 
           std::cout << "Finished testing!\n";
       }
+      */
 };
 
 #endif

@@ -6,7 +6,7 @@
 #include <QGraphicsDropShadowEffect>
 #include <QToolButton>
 
-#include "net/abstractdriver.h"
+#include "net/source/abstractdriver.h"
 #include "common.h"
 #include "qtgui/stylemanager.h"
 

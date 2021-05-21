@@ -7,7 +7,7 @@
 #include <QLayoutItem>
 
 //#include "AbstractDriver.h"
-#include "net/abstractdriver.h"
+#include "net/source/abstractdriver.h"
 #include "detailsummary.h"
 #include "logentrywidget.h"
 

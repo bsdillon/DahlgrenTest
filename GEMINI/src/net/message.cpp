@@ -1,4 +1,4 @@
-#include "net/message.h"
+#include "net/topics/message.h"
 
 Message::Message()
 {

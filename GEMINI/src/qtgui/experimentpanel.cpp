@@ -1,8 +1,10 @@
-#include "qtgui/experimentpanel.h"
+#include <QString>
+#include "../../include/qtgui/experimentpanel.h"
 #include "ui_experimentpanel.h"
 #include <exception>
 #include <QDebug>
 #include "common.h"
+#include <QMessageBox>
 
 ExperimentPanel::ExperimentPanel(QWidget *parent) :
     QWidget(parent),
@@ -286,4 +288,14 @@ void ExperimentPanel::UpdateLastExperimentFile()
 
 void ExperimentPanel::FinishedPressed(){
 
+}
+
+void ExperimentPanel::TestMessage()
+{
+    QMessageBox::information(this,"Title Here","It worked!");
+}
+
+void ExperimentPanel::on_errorButton_clicked()
+{
+    TestMessage();
 }
