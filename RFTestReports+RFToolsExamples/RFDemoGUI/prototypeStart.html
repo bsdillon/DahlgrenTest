@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Test Demo</title>
     <style>
       table.standard td {width:25px; height: 25px;}
-    </style>
-    <script src="demodataII.js"></script>
-    <script src="demodata.js"></script>
+    </style>   
+    <script id = "dataSourceFile" src="demodata.js"></script>
     <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
     <script src="https://bsdillon.github.io/DahlgrenTest/html/graphing/piechartlibrary.js"></script>
     <script>
@@ -35,17 +34,20 @@
         function generateHeatMapColumns(table, data){
           for (i = 0; i < table.rows.length; i++) {
             cell = table.rows[i+1].insertCell(table.rows[i+1].cells.length);
-            cell.style.background = "blue";
             let element = data[i];
             var status = element.Status;
             if(status == 'Pass') {
               cell.style.backgroundColor = "green";
             }else if(status == 'Fail') {
               cell.style.backgroundColor = "red";
+            }else{
+              cell.style.backgroundColor = "blue";
             }
+            if (i === 4) { break;}
+          }
          }
-        }
-        function totalStatus(data, stat){
+
+        function totalStatus(data, stat){ <!-- Figure out how to use this to generate status text in GUI -->
           var pass = 0;
           var fail = 0;
           for(let element of data){
@@ -65,29 +67,55 @@
 
      function oqe(x){
       var link = "jshtmlExample"+ x +".html";
-      var windowFeatures = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
+      var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
       var newWindow = null;
       window.open(link, newWindow, windowFeatures);
      }
+
+     function generateHeatMap(){
+      var heatMap = document.getElementById("heatmap");
+      var data = Object.keys(testCases.testCase[0]);
+      generateHeatMapHead(heatMap,data);
+      generateHeatMapRows(heatMap, testCases.testCase);
+      var testRuns = 3; 
+      for(j=1; j<testRuns; j++){
+        var array = testCases["testCase" + j];
+        generateHeatMapColumns(heatMap, array);
+       }
+      setTimeout(function(){ timedUpdate(); }, 5000);
+      alert("running timedUpdate");
+      setTimeout(500);
+       
+     }
+
+     function timedUpdate(table) {
+       document.getElementById("dataSourceFile").remove();
+       alert("demodata removed");
+       var table = document.getElementById("heatmap");
+       alert(table);
+       table.deleteTHead();
+       table.innerHTML = "";
+       alert("table emptied");
+       var head= document.getElementsByTagName('head')[0];
+       alert("head found");       
+       var script= document.createElement('script');
+       alert("script created");
+       script.src= "demodata.js";
+       alert("script sourced");
+       script.id='dataSourceFile';
+       alert("id set");
+       head.appendChild(script);
+       alert("script added to head");
+       generateHeatMap();
+     }
+     
     </script>
 </head>
-<body>
+<body onload = "generateHeatMap()">
   <table id="heatmap" class ="standard"></table>
-  <table id="heatmapII" class="standard"></table>
   <h2> Tests </h2>
   <p> Test Run 1   Pass   <button onClick="oqe(1)"> OQE</button></p>
   <p> Test Run 2   Fail   <button onClick="oqe(2)"> OQE</button></p>
   <p> Test Run 3   Running... <button onClick="oqe(3)">OQE</button></p>
-
-  <script>
-    let heatMap = document.getElementById("heatmap");
-    let heatMapII = document.getElementById("heatmapII");
-    let data = Object.keys(testCases[0]);
-    let dataII = Object.keys(testCasesII[0]);
-    generateHeatMapHead(heatMap,data);
-    generateHeatMapRows(heatMap, testCases);
-    generateHeatMapColumns(heatMap, testCasesII);
-    generateHeatMapColumns(heatMap, testCasesIII);
-  </script>
 </body>
 </html>
