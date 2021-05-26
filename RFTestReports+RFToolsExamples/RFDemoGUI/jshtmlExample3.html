@@ -1,30 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Test Results III</title>
-  <style>
+    <meta charset="UTF-8">
+    <title>Test Results</title>
+    <style>
       table.standard td {width:25px; height: 25px;}
-  </style>
-  <script src="demodataIII.js"></script>
-  <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
-  <script src="https://bsdillon.github.io/DahlgrenTest/html/graphing/piechartlibrary.js"></script>
+    </style>
+    <script id="dataSourceFile" src="demodata.js"></script>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+    <script src="https://bsdillon.github.io/DahlgrenTest/html/graphing/piechartlibrary.js"></script>
+    <script>
+
+       function loadData(){
+          var config1 = createConfig("Pass vs. Fail");
+          var chart1 = createChart("canvas", 350,350,config1);
+          let labels =['Fail','Pass', 'Not Run'];
+          setLabels(config1, labels);
+          var pass = 0;
+          var fail = 0;
+          var norun = 0;
+          for(let element of testCases.testCase2){
+           if(element.Status == 'Pass') {
+            pass = pass + 1;
+           } else if(element.Status == 'Fail'){
+            fail = fail + 1;
+           }else{
+            norun = norun + 1;
+           }
+          }
+          data1 = [fail, pass, norun];
+          console.log(data1);
+          createDataSet(config1, data1);
+          chart1.update();
+          var suiteResult ='';
+          if(pass > fail){
+             suiteResult = 'Pass';
+          }else{
+             suiteResult = 'Fail';
+          }
+          console.log(suiteResult);
+      }
+      
+ </script>
 </head>
 <body onload = "loadData()">
-<h1>Test Results</h1><br>
-<table id="demo" border="5"></table>
-<br>
-<h2>Pass/Fail Graphic</h2>
-<table id="heatmap" class = "standard"></table>
-<canvas id="canvas"></canvas>
-<script> <!-- Calling Functions for Squares/Table -->
+ <h1>Test Results</h1><br>
+ <table id="demo" border="5"></table>
+ <br>
+ <h2>Pass/Fail Graphic</h2>
+ <table id="heatmap" class = "standard"></table>
+ <canvas id="canvas"></canvas>
+ <script> <!-- Calling Functions for Squares/Table -->
   let table = document.getElementById("demo");
-  let data = Object.keys(testCasesIII[0]);
+  let data = Object.keys(testCases.testCase2[0]);
   let heatMap = document.getElementById("heatmap");
   generateTableHead(table, data);
-  generateTable(table, testCasesIII);
+  generateTable(table, testCases.testCase2);
   generateHeatMapHead(heatMap,data);
-  generateHeatMap(heatMap);
+  generateHeatMap(heatMap, testCases.testCase2);
  </script>
 </body>
 </html>
