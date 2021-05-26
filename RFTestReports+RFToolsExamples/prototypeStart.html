@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      table.standard td {width:25px; height: 25px;}
+    </style>
+    <script src="demodataII.js"></script>
+    <script src="demodata.js"></script>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+    <script src="https://bsdillon.github.io/DahlgrenTest/html/graphing/piechartlibrary.js"></script>
+    <script>
+        function generateHeatMapHead(table, data) {
+         let thead = table.createTHead();
+         let row = thead.insertRow();
+        }
+        function generateHeatMapRows(table, data){
+          for(let element of data) {
+            let row = table.insertRow();
+            let cell = row.insertCell()
+            let text = document.createTextNode("");
+            cell.appendChild(text);
+            cell.style.backgroundColor = "blue";
+            status = element.Status;
+            if(status == 'Pass') {
+              cell.style.backgroundColor = "green";
+            }else if(status == 'Fail') {
+              cell.style.backgroundColor = "red";
+            }
+          }
+        }
+
+
+        function generateHeatMapColumns(table, data){
+          for (i = 0; i < table.rows.length; i++) {
+            cell = table.rows[i+1].insertCell(table.rows[i+1].cells.length);
+            cell.style.background = "blue";
+            let element = data[i];
+            var status = element.Status;
+            if(status == 'Pass') {
+              cell.style.backgroundColor = "green";
+            }else if(status == 'Fail') {
+              cell.style.backgroundColor = "red";
+            }
+         }
+        }
+        function totalStatus(data, stat){
+          var pass = 0;
+          var fail = 0;
+          for(let element of data){
+            if(element.Status == 'Pass') {
+              pass = pass + 1;
+            } else if(element.Status == 'Fail'){
+              fail = fail + 1;
+            }
+          }
+         if(pass > fail){
+           stat = 'Pass';
+         }else{
+           stat = 'Fail';
+         }
+         console.log(stat);
+        }
+
+     function oqe(x){
+      var link = "jshtmlExample"+ x +".html";
+      var windowFeatures = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
+      var newWindow = null;
+      window.open(link, newWindow, windowFeatures);
+     }
+    </script>
+</head>
+<body>
+  <table id="heatmap" class ="standard"></table>
+  <table id="heatmapII" class="standard"></table>
+  <h2> Tests </h2>
+  <p> Test Run 1   Pass   <button onClick="oqe(1)"> OQE</button></p>
+  <p> Test Run 2   Fail   <button onClick="oqe(2)"> OQE</button></p>
+  <p> Test Run 3   Running... <button onClick="oqe(3)">OQE</button></p>
+
+  <script>
+    let heatMap = document.getElementById("heatmap");
+    let heatMapII = document.getElementById("heatmapII");
+    let data = Object.keys(testCases[0]);
+    let dataII = Object.keys(testCasesII[0]);
+    generateHeatMapHead(heatMap,data);
+    generateHeatMapRows(heatMap, testCases);
+    generateHeatMapColumns(heatMap, testCasesII);
+    generateHeatMapColumns(heatMap, testCasesIII);
+  </script>
+</body>
+</html>
