@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Results III</title>
+  <style>
+      table.standard td {width:25px; height: 25px;}
+  </style>
+  <script src="demodataIII.js"></script>
+  <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+  <script src="https://bsdillon.github.io/DahlgrenTest/html/graphing/piechartlibrary.js"></script>
+</head>
+<body onload = "loadData()">
+<h1>Test Results</h1><br>
+<table id="demo" border="5"></table>
+<br>
+<h2>Pass/Fail Graphic</h2>
+<table id="heatmap" class = "standard"></table>
+<canvas id="canvas"></canvas>
+<script> <!-- Calling Functions for Squares/Table -->
+  let table = document.getElementById("demo");
+  let data = Object.keys(testCasesIII[0]);
+  let heatMap = document.getElementById("heatmap");
+  generateTableHead(table, data);
+  generateTable(table, testCasesIII);
+  generateHeatMapHead(heatMap,data);
+  generateHeatMap(heatMap);
+ </script>
+</body>
+</html>
