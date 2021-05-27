@@ -31,12 +31,6 @@
           }
          }
 
-     function oqe(x){
-      var link = "jshtmlExample"+ x +".html";
-      var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
-      var newWindow = null;
-      window.open(link, newWindow, windowFeatures);
-     }
 
      function generateHeatMap(){
       var heatMap = document.getElementById('heatmap');
@@ -46,12 +40,14 @@
         var array = testCases["testCase" + j];
         generateHeatMapColumns(heatMap, array);
       }
-      setTimeout(function(){ updateHeatMap(heatMap); }, 5000);    
+      setTimeout(function(){ timedUpdate(heatMap); }, 5000);    
      }
 
-     function updateHeatMap(table) {
+     function timedUpdate(table) {
       document.getElementById("dataSourceFile").remove();
       table.innerHTML = "";
+      var paragraphs = document.getElementsByTagName('paragraph');
+ 
       var head= document.getElementsByTagName('head')[0];
       var script= document.createElement('script');
       script.src= 'demodata.js';
@@ -68,34 +64,67 @@
      }
      
      
-      function totalStatus(data){ <!-- Figure out how to use this to generate status text in GUI -->
+      function totalStatus(data, paragraph){ <!-- Figure out how to use this to generate status text in GUI -->
           var pass = 0;
           var fail = 0;
+          var other = 0;
           var stat = '';
           for(let element of data){
             if(element.Status == 'Pass') {
               pass = pass + 1;
+              
             } else if(element.Status == 'Fail'){
               fail = fail + 1;
+   
             } else {
-              stat = 'Running ...';
-              break;
-            }
-            if(pass > fail){
-             stat = 'Pass';
-            }else{
-             stat = 'Fail';
+              other = other + 1;
             }
           }
-         alert(stat);
-       }     
+         if (other != 0){
+          stat = 'Running ...';
+         }else if(pass > fail){
+          stat = 'Pass';
+         }else{
+          stat= 'Fail';
+         }
+         var text = document.createTextNode(stat + "    ");
+         var paragraph = document.getElementById(paragraph);
+         paragraph.appendChild(text);
+       }   
+       
+       function oqe(x){
+        var link = "jshtmlExample"+ x +".html";
+        var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
+        var newWindow = null;
+        window.open(link, newWindow, windowFeatures);
+       }  
+      
+       function generateStatus(data){
+        var length = Object.keys(data).length;
+        for(var i=0; i<length; i++){
+         var para = document.createElement("P");
+         para.id = 'status'+ i;
+         document.body.appendChild(para);
+         var test = document.createTextNode("Test Run " + i + "    ");
+         para.appendChild(test);
+         var actualdata = testCases["testCase" + i];
+         totalStatus(actualdata, para.id);
+         var button = document.createElement("BUTTON")
+         button.id = 'oqe' + i;
+         button.onclick = (function(i){ return function(){oqe(i+1);}})(i);
+         button.innerHTML = 'OQE';
+         para.appendChild(button);
+         setTimeout(function(){ timedUpdate(heatMap,); }, 5000); 
+        }
+       }
+       
+       
+    
     </script>
 </head>
 <body onload = "generateHeatMap()">
   <table id="heatmap" class ="standard"></table>
-  <h2> Tests </h2>
-  <p> Test Run 1   Pass<button onClick="oqe(1)"> OQE</button></p>
-  <p> Test Run 2   Fail   <button onClick="oqe(2)"> OQE</button></p>
-  <p> Test Run 3   Running... <button onClick="oqe(3)">OQE</button></p>
+  <h2> Tests </h2>  
+  <script>generateStatus(testCases);</script>
 </body>
 </html>
