@@ -25,7 +25,7 @@ class DependencyTracker:
                            'unsigned long': Primitive('unsigned long'),
                            'unsigned char': Primitive('unsigned char'),
                            'unsigned short': Primitive('unsigned short'),
-                           # added primititives (not sure if they should be added here yet)
+                           # more added below
                            'int8_t': Primitive('int8_t')}
         IncludeFiles = []
         tempDependencies = []
@@ -109,7 +109,7 @@ class DependencyTracker:
 
         # the second parsing matches the
         # dependency to the typesFound collection
-        unfoundDependency = []
+        # unfoundDependency = []
         for d in targetDependencies:
             name = TypeDictionary.ParseLongName(d)
 
@@ -120,7 +120,6 @@ class DependencyTracker:
             count += 1
             if count % 20 == 0:
                 print('.', end=" ")
-
 
     # end AppendNewDependencies
 
@@ -228,8 +227,9 @@ class DependencyTracker:
 
     def WriteFactory(self, driver_dir, topicMap, drivers):
         print
-        'Writing factory...',
+        'Writing DriverFactory...',
 
+        # Begin of Driver Factory
         f = open(os.path.join(driver_dir, 'DriverFactory.h'), 'w')
 
         f.write(('#ifndef DRIVERFACTORY_H\n'
@@ -239,8 +239,7 @@ class DependencyTracker:
                  #'#include <vector>\n'
                  #'\n'
                  '#include "../source/abstractdriver.h"\n'
-                 '#include "DriverException.h"\n'
-                 '#include "FactoryInterface.h"\n'))
+                 '#include "DriverException.h"\n'))
 
         count = 0
         for t in drivers:
@@ -251,7 +250,7 @@ class DependencyTracker:
                 '.',
 
         f.write(('\n'
-                 'class DriverFactory: public virtual FactoryInterface\n'
+                 'class DriverFactory\n'
                  '{{\n'
                  '{__}public:\n'
                  # List of topics for the GUI
@@ -304,5 +303,83 @@ class DependencyTracker:
                  '#endif\n').format(__=AbstractParser.space))
         f.close()
 
+        # End of Driver Factory
+
+        # Beginning of FactoryInterfaceImpl
+        g = open(os.path.join(driver_dir, 'FactoryInterfaceImpl.h'), 'w')
+
+        # Factory Interface Implementation
+
+        g.write('#ifndef FACTORYINTERFACEIMPL_H\n'
+                '#define FACTORYINTERFACEIMPL_H\n'
+                '\n'
+                '#include "../source/abstractdriver.h"\n'
+                '#include "DriverException.h"\n'
+                '#include "../source/FactoryInterface.h"\n'
+                )
+        count = 0
+        for t in drivers:
+            t.GetFileIncludes(g)
+            count += 1
+            if count % 20 == 0:
+                print
+                '.',
+
+        g.write(('\n'
+                 'class FactoryInterfaceImpl: public virtual FactoryInterface\n'
+                 '{{\n'
+                 '{__}public:\n'
+                 # List of topics for the GUI
+                 '{__}{__}virtual int GetTopicCount() {{return {topicMap_len};}}\n'
+                 '\n'
+                 '{__}{__}virtual std::vector<std::string> GetTopicList() {{\n'
+                 '{__}{__}{__}auto answer = std::vector<std::string>'
+                 '({topicMap_len});\n').format(
+            __=AbstractParser.space, topicMap_len=len(topicMap)))
+
+        index = 0
+        for t in topicMap:
+            g.write('{__}{__}{__}answer[{index}] = "{t_0}";\n'.format(
+                __=AbstractParser.space, index=index, t_0=t[0]))
+            index += 1
+            count += 1
+            if count % 20 == 0:
+                print
+                '.',
+
+        g.write(('\n'
+                 '{__}{__}{__}return answer;\n'
+                 '{__}{__}}}\n'
+                 '\n'
+                 # Get vector list of Topic Factories
+                 '{__}{__}virtual std::vector<std::unique_ptr<AbstractDriver>> '
+                 'GetTopicFactories() {{\n'
+                 '{__}{__}{__}auto factories = '
+                 'std::vector<std::unique_ptr<AbstractDriver>>'
+                 '({topicMap_len});\n').format(__=AbstractParser.space,
+                                        topicMap_len=len(topicMap)))
+
+        index = 0
+        for t in topicMap:
+            driverName = t[1] + '_Driver'
+            g.write('{__}{__}{__}factories[{index}] = '
+                    'std::move(std::unique_ptr<AbstractDriver>'
+                    '(new '
+                    '{driverName}()));\n'.format(__=AbstractParser.space,
+                                                 index=index,
+                                                 driverName=driverName))
+            index += 1
+            count += 1
+            if count % 20 == 0:
+                print
+                '.',
+        g.write(('\n'
+                 '{__}{__}{__}return factories;\n'
+                 '{__}{__}}}\n'
+                 '}};\n'
+                 '#endif\n').format(__=AbstractParser.space))
+        g.close()
+
+        # End of FactoryInterfaceImpl
         print('Done\n')
     # end WriteFactory
