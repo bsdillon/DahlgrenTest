@@ -40,27 +40,6 @@
         var array = testCases["testCase" + j];
         generateHeatMapColumns(heatMap, array);
       }
-      setTimeout(function(){ timedUpdate(heatMap); }, 5000);    
-     }
-
-     function timedUpdate(table) {
-      document.getElementById("dataSourceFile").remove();
-      table.innerHTML = "";
-      var paragraphs = document.getElementsByTagName('paragraph');
- 
-      var head= document.getElementsByTagName('head')[0];
-      var script= document.createElement('script');
-      script.src= 'demodata.js';
-      script.id='dataSourceFile';
-      head.appendChild(script);
-      var heatMap = document.getElementById('heatmap');
-      generateHeatMapRows(heatMap, testCases.testCase0);
-      var testRuns = 3;
-      for(var j=0; j<testRuns; j++){
-        var array = testCases["testCase" + j];
-        generateHeatMapColumns(heatMap, array);
-      }
-      setTimeout(function(){ timedUpdate(heatMap); }, 5000);       
      }
      
      
@@ -101,10 +80,13 @@
       
        function generateStatus(data){
         var length = Object.keys(data).length;
+        var div =document.createElement('div');
+        div.id = 'statusText';
+        document.body.appendChild(div);
         for(var i=0; i<length; i++){
          var para = document.createElement("P");
          para.id = 'status'+ i;
-         document.body.appendChild(para);
+         div.appendChild(para);
          var test = document.createTextNode("Test Run " + i + "    ");
          para.appendChild(test);
          var actualdata = testCases["testCase" + i];
@@ -114,17 +96,41 @@
          button.onclick = (function(i){ return function(){oqe(i+1);}})(i);
          button.innerHTML = 'OQE';
          para.appendChild(button);
-         setTimeout(function(){ timedUpdate(heatMap,); }, 5000); 
         }
+        setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
        }
        
-       
-    
+       function timedUpdate(tableid) {
+         document.getElementById("dataSourceFile").remove();
+         var table = document.getElementById(tableid);
+         table.innerHTML = "";
+         var elem = document.getElementById("statusText");
+         elem.remove();
+         var head= document.getElementsByTagName('head')[0];
+         var script= document.createElement('script');
+         script.src= 'demodata.js';
+         script.id='dataSourceFile';
+         head.appendChild(script);
+         var heatMap = document.getElementById('heatmap');
+         generateHeatMapRows(heatMap, testCases.testCase0);
+         var testRuns = 3;
+         for(var j=0; j<testRuns; j++){
+           var array = testCases["testCase" + j];
+           generateHeatMapColumns(heatMap, array);
+         }   
+         generateStatus(testCases);   
+       } 
+      
+       function start(){
+        generateHeatMap();
+        generateStatus(testCases);
+        setTimeout(function(){ timedUpdate('heatmap'); }, 5000); 
+       }    
+           
     </script>
 </head>
-<body onload = "generateHeatMap()">
+<body onload = "start()">
   <table id="heatmap" class ="standard"></table>
-  <h2> Tests </h2>  
-  <script>generateStatus(testCases);</script>
+  <h2> Tests - Cumulative Results: <button onclick="oqe('total')">OQE</button></h2>  
 </body>
 </html>
