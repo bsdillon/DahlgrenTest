@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using SoftwareAnalyzer2.ProjectCoordination;
+using SoftwareAnalyzer2.Structure.Gephi;
 using System.IO;
 using SoftwareAnalyzer2.Structure.Metrics;
 using SoftwareAnalyzer2.Structure.Graphing;
@@ -114,8 +115,79 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                 csvPaths.Clear();
                 foreach (string fName in openFileDialog1.FileNames)
                 {
-                    //add all file paths that the user selected
-                    csvPaths.Add(fName);
+                    bool fileError = false;
+                    //need to verify that each file has "file, line number, error name, property, etc." as the header
+                    //must check fName for null so empty filenames don't cause a crash
+                    if(fName != "")
+                    {
+                        using (var read = new StreamReader(@fName))
+                        {
+                            if (!read.EndOfStream)
+                            {
+                                var rLine = read.ReadLine();
+                                var values = rLine.Split(',');
+                                //files must contain headers with "file, line, error, property as the first four columns
+                                //some variations of those header names are accounted for in this logic
+                                if ((values[0] == "file" || values[0] == "File" || values[0] == "Filename" || values[0] == "File name")
+                                    && (values[1] == "line" || values[1] == "Line" || values[1] == "Line Number" || values[1] == "Line number")
+                                    && (values[2] == "error" || values[2] == "Error" || values[2] == "Error Details" || values[2] == "Error details")
+                                    && (values[3] == "property" || values[3] == "Property" || values[3] == "Error Property" || values[3] == "Error property"))
+                                {
+
+                                    //no errors so far, continue
+                                }
+                                else
+                                {
+                                    //one or more of the column headers does not match, error
+                                    MessageBox.Show(this, fName + "does not follow the required format. Each file must have a header that contains these values: \"file, line, error, property\"", "File Format Issue");
+                                    fileError = true;
+                                }
+
+                                //if all header names are correct, continue
+                                //else, there will be a popup box for the user to deal with
+                                if (!fileError)
+                                {
+                                    string propErrors = "";
+                                    while (!read.EndOfStream)
+                                    {
+                                        rLine = read.ReadLine();
+                                        values = rLine.Split(',');
+
+                                        foreach (string p in Enum.GetNames(typeof(NodeProperties)))
+                                        {
+                                            //check each row in the property column for entries that match the preset properties
+                                            //the preset properties can be found in PropertiedObject.cs in the NodeProperties enum
+                                            if (values[3] == p)
+                                            {
+                                                //if a property matches, add it to the list of illegal properties
+                                                if (propErrors == "")
+                                                {
+                                                    propErrors += "\"" + p + "\"";
+                                                }
+                                                else
+                                                {
+                                                    propErrors += ", " + "\"" + p + "\"";
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                    //if there are any illegal properties, show the user a messagebox with which ones they need to fix
+                                    if (propErrors != "")
+                                    {
+                                        MessageBox.Show(this, propErrors + " within " + fName + " are pre-allocated property names that cannot be used. File was not added to list.", "Duplicate Property");
+
+                                    }
+                                    //else, if the file had the appropriate headers and no illegal properties, add it to the list
+                                    //all of the logic is to prevent any bad files from being processed
+                                    else
+                                    {
+                                        csvPaths.Add(fName);
+                                    }
+                                }
+                            }
+                        }
+                    }    
                 }
             }
             //display the filepath(s) the user selected

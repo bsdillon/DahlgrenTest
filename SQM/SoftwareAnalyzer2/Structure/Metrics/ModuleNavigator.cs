@@ -175,7 +175,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StatePatternMetrics.FindPatterns();
             SetOutput("Checking for any CSV Issues");
             TraceCSVLinks(current);
-
             SetOutput("Writing graph files");
             WriteOutGraph();
             SetOutput("Writing metric reports");
@@ -202,20 +201,23 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StreamWriter ModuleWriter = new StreamWriter(fileStem + "_Module" + nodeSuffix);
 
             //node 0 will be used to define the header of each file
+            //*update* - node[0] is used to call the static dictionary of properties to obtain the header
             //this removes the attributes which do not need to show up
             //in the file and then writes the header for that node
             //in each of the files.
-            GephiNode[] nodes = MetricUtilities.AllNodes;
+            GephiNode[] nodes = MetricUtilities.AllNodes;            
             nodes[0].RemoveProperty(NodeProperties.QState);
             nodes[0].RemoveProperty(NodeProperties.ClassIntegrity);
             nodes[0].RemoveProperty(NodeProperties.ModuleIntegrity);
-            externalWriter.WriteLine(nodes[0].Header);
-            interfaceWriter.WriteLine(nodes[0].Header);
-            loneWriter.WriteLine(nodes[0].Header);
-            APIWriter.WriteLine(nodes[0].Header);
-            separatedWriter.WriteLine(nodes[0].Header);
-            tumorWriter.WriteLine(nodes[0].Header);
-            ModuleWriter.WriteLine(nodes[0].Header);
+
+            string nodeHeader = nodes[0].getHeader();
+            externalWriter.WriteLine(nodeHeader);
+            interfaceWriter.WriteLine(nodeHeader);
+            loneWriter.WriteLine(nodeHeader);
+            APIWriter.WriteLine(nodeHeader);
+            separatedWriter.WriteLine(nodeHeader);
+            tumorWriter.WriteLine(nodeHeader);
+            ModuleWriter.WriteLine(nodeHeader);
 
             //go through each node and put it in the right file
             foreach (GephiNode n in nodes)
@@ -793,6 +795,18 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             var values = rLine.Split(',');
                             int lineNum = -1;
                             bool lineUsed = false;
+                            string errorProp = values[3];
+
+                            //check that each property within the csv is not found in the NodeProperties enum.
+                            //this was already checked for, so it should not be an issue.
+                            //if this is found, crash the program with an error
+                            foreach(string enumProp in Enum.GetNames(typeof(NodeProperties)))
+                            {
+                                if(errorProp == enumProp)
+                                {
+                                    throw new InvalidDataException("Error property: " + errorProp + " cannot be used.");
+                                }
+                            }
                             
                             //if filename matches
                             if (fileNameKey == values[0])
@@ -800,10 +814,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                 //for every abbrGraph with that file name, check the line number
                                 foreach(AbbreviatedGraph statem in statementDict[fileNameKey])
                                 {
-                                    //if line number matches, mark all edges with the miscdata attribute
+                                    //if line number matches, mark all edges with the attribute
                                     if (int.TryParse(values[1], out lineNum))
                                     {
-                                        if (statem.Represented.GetLineStart() <= lineNum && statem.Represented.GetLineStop() >= lineNum)
+                                        if (statem.Represented.GetLineStart() == lineNum )
                                         {
                                             lineUsed = true;
                                             //what nodes are correlated to edge
@@ -812,21 +826,20 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                                 GephiNode geNode = MetricUtilities.GephiFromGraph(statem);
                                                 foreach (GephiEdge e in MetricUtilities.GetEdges(geNode))
                                                 {
-
-                                                    if (!e.GetSource().HasProperty(NodeProperties.MiscData))
+                                                    if (!e.GetSource().HasProperty(errorProp))
                                                     {
-                                                        e.GetSource().AddProperty(NodeProperties.MiscData);
+                                                        e.GetSource().AddProperty(errorProp, "");
                                                     }
-                                                    if (!e.GetSink().HasProperty(NodeProperties.MiscData))
+                                                    if (!e.GetSink().HasProperty(errorProp))
                                                     {
-                                                        e.GetSink().AddProperty(NodeProperties.MiscData);
+                                                        e.GetSink().AddProperty(errorProp, "");
                                                     }
 
-                                                    string srcMiscData = (string)e.GetSource().GetProperty(NodeProperties.MiscData);
-                                                    string snkMiscData = (string)e.GetSink().GetProperty(NodeProperties.MiscData);
+                                                    string srcMiscData = (string)e.GetSource().GetProperty(errorProp);
+                                                    string snkMiscData = (string)e.GetSink().GetProperty(errorProp);
                                                     if (srcMiscData == "")
                                                     {
-                                                        e.GetSource().SetProperty(NodeProperties.MiscData, values[2]);
+                                                        e.GetSource().SetProperty(errorProp, values[2]);
                                                     }
                                                     else if (srcMiscData == values[2] || srcMiscData.Contains(values[2]))
                                                     {
@@ -834,12 +847,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                                     }
                                                     else
                                                     {
-                                                        e.GetSource().SetProperty(NodeProperties.MiscData, (string)e.GetSource().GetProperty(NodeProperties.MiscData) + "&" + values[2]);
+                                                        e.GetSource().SetProperty(errorProp, (string)e.GetSource().GetProperty(errorProp) + "&" + values[2]);
                                                     }
 
                                                     if (snkMiscData == "")
                                                     {
-                                                        e.GetSink().SetProperty(NodeProperties.MiscData, values[2]);
+                                                        e.GetSink().SetProperty(errorProp, values[2]);
                                                     }
                                                     else if (snkMiscData == values[2] || snkMiscData.Contains(values[2]))
                                                     {
@@ -847,7 +860,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                                     }
                                                     else
                                                     {
-                                                        e.GetSink().SetProperty(NodeProperties.MiscData, (string)e.GetSink().GetProperty(NodeProperties.MiscData) + "&" + values[2]);
+                                                        e.GetSink().SetProperty(errorProp, (string)e.GetSink().GetProperty(errorProp) + "&" + values[2]);
                                                     }
                                                 }
                                             }
@@ -860,7 +873,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                         }
                                         else
                                         {
-                                            //file name matches, but the line number does not. add to a list of errors for output
+                                            //file name matches, but the line number does not. this will happen a lot...
                                             //TODO? maybe unneccesary
                                         }
                                     }

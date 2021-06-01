@@ -76,7 +76,7 @@ namespace SoftwareAnalyzer2.Structure.Gephi
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("Source,Target,Label");
-                foreach (NodeProperties n in this.GetProperties())
+                foreach (string n in this.GetProperties())
                 {
                     sb.Append(',');
                     sb.Append(n);
@@ -105,7 +105,7 @@ namespace SoftwareAnalyzer2.Structure.Gephi
             //needing to define new weights for specific outputs.
             //We may consider the need for EdgeWeights[type] and EdgeCategory[type] later
 
-            foreach (NodeProperties n in this.GetProperties())
+            foreach (string n in this.GetProperties())
             {
                 sb.Append(',');
                 sb.Append(GetProperty(n));
