@@ -27,23 +27,23 @@
             }else{
               cell.style.backgroundColor = "blue";
             }
-            if (i === 4) { break;}
+            if (i === 5) { break;}
           }
          }
 
 
      function generateHeatMap(){
       var heatMap = document.getElementById('heatmap');
-      generateHeatMapRows(heatMap, testCases.testCase0);
-      var testRuns = 3;
-      for(var j=0; j<testRuns; j++){
-        var array = testCases["testCase" + j];
+      generateHeatMapRows(heatMap, testRuns.testRun0);
+      var runs = 4;
+      for(var j=0; j<runs; j++){
+        var array = testRuns["testRun" + j];
         generateHeatMapColumns(heatMap, array);
       }
      }
      
      
-      function totalStatus(data, paragraph){ <!-- Figure out how to use this to generate status text in GUI -->
+      function totalStatus(data, paragraph){ 
           var pass = 0;
           var fail = 0;
           var other = 0;
@@ -72,7 +72,7 @@
        }   
        
        function oqe(x){
-        var link = "jshtmlExample"+ x +".html";
+        var link = x +".html";
         var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
         var newWindow = null;
         window.open(link, newWindow, windowFeatures);
@@ -89,11 +89,12 @@
          div.appendChild(para);
          var test = document.createTextNode("Test Run " + i + "    ");
          para.appendChild(test);
-         var actualdata = testCases["testCase" + i];
+         var actualdata = testRuns["testRun" + i];
          totalStatus(actualdata, para.id);
          var button = document.createElement("BUTTON")
          button.id = 'oqe' + i;
-         button.onclick = (function(i){ return function(){oqe(i+1);}})(i);
+         var link = "testRun" + i;
+         button.onclick = (function(link){ return function(){oqe(link);}})(link);
          button.innerHTML = 'OQE';
          para.appendChild(button);
         }
@@ -112,18 +113,18 @@
          script.id='dataSourceFile';
          head.appendChild(script);
          var heatMap = document.getElementById('heatmap');
-         generateHeatMapRows(heatMap, testCases.testCase0);
-         var testRuns = 3;
-         for(var j=0; j<testRuns; j++){
-           var array = testCases["testCase" + j];
+         generateHeatMapRows(heatMap, testRuns.testRun0);
+         var runs = 4;
+         for(var j=0; j<runs; j++)
+           var array = testRuns["testRun" + j];
            generateHeatMapColumns(heatMap, array);
          }   
-         generateStatus(testCases);   
+         generateStatus(testRuns);   
        } 
       
        function start(){
         generateHeatMap();
-        generateStatus(testCases);
+        generateStatus(testRuns);
         setTimeout(function(){ timedUpdate('heatmap'); }, 5000); 
        }    
            
