@@ -43,7 +43,7 @@
      }
      
      
-      function totalStatus(data, paragraph){ 
+      function totalStatus(data, paragraph){ <!-- Figure out how to use this to generate status text in GUI -->
           var pass = 0;
           var fail = 0;
           var other = 0;
@@ -93,8 +93,8 @@
          totalStatus(actualdata, para.id);
          var button = document.createElement("BUTTON")
          button.id = 'oqe' + i;
-         var link = "testRun" + i;
-         button.onclick = (function(link){ return function(){oqe(link);}})(link);
+         var buttonLink = "testRun" + i;
+         button.onclick = (function(buttonLink){ return function(){oqe(buttonLink);}})(buttonLink);
          button.innerHTML = 'OQE';
          para.appendChild(button);
         }
@@ -115,7 +115,7 @@
          var heatMap = document.getElementById('heatmap');
          generateHeatMapRows(heatMap, testRuns.testRun0);
          var runs = 4;
-         for(var j=0; j<runs; j++)
+         for(var j=0; j<runs; j++){
            var array = testRuns["testRun" + j];
            generateHeatMapColumns(heatMap, array);
          }   
