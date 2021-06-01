@@ -93,7 +93,7 @@ namespace SoftwareAnalyzer2.Structure.Gephi
                 StringBuilder sb = new StringBuilder();
                 sb.Append("Id,Label,Category");
 
-                foreach (NodeProperties p in GetProperties())
+                foreach (string p in GetProperties())
                 {
                     sb.Append(',');
                     sb.Append(p);
@@ -112,8 +112,16 @@ namespace SoftwareAnalyzer2.Structure.Gephi
             sb.Append(',');
             sb.Append(type);
 
-            foreach (NodeProperties p in GetProperties())
+            //checking each property in the static list of properties (superset of all properties that exist within all nodes)
+            foreach (string p in GetAllProps())
             {
+                //current solution for the node[0] property header issue:
+                //if the node does not have a given property, output a  comma and move to the next property
+                if (!HasProperty(p))
+                {
+                    sb.Append(',');
+                    continue;
+                }
                 sb.Append(',');
                 sb.Append(GetProperty(p));
             }
@@ -131,7 +139,7 @@ namespace SoftwareAnalyzer2.Structure.Gephi
             sb.Append("   Type: ");
             sb.Append(type);
 
-            foreach (NodeProperties p in GetProperties())
+            foreach (string p in GetProperties())
             {
                 sb.Append("   ");
                 sb.Append(p);

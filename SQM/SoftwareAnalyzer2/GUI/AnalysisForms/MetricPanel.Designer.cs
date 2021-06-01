@@ -90,7 +90,7 @@
             // 
             this.csvCheckBox.AutoSize = true;
             this.csvCheckBox.Location = new System.Drawing.Point(8, 69);
-            this.csvCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.csvCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.csvCheckBox.Name = "csvCheckBox";
             this.csvCheckBox.Size = new System.Drawing.Size(110, 17);
             this.csvCheckBox.TabIndex = 6;
@@ -101,7 +101,7 @@
             // filePathTextBox
             // 
             this.filePathTextBox.Location = new System.Drawing.Point(8, 91);
-            this.filePathTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.filePathTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.filePathTextBox.Multiline = true;
             this.filePathTextBox.Name = "filePathTextBox";
             this.filePathTextBox.ReadOnly = true;
@@ -112,7 +112,7 @@
             // browseButton
             // 
             this.browseButton.Location = new System.Drawing.Point(8, 194);
-            this.browseButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.browseButton.Margin = new System.Windows.Forms.Padding(2);
             this.browseButton.Name = "browseButton";
             this.browseButton.Size = new System.Drawing.Size(70, 24);
             this.browseButton.TabIndex = 8;
@@ -127,9 +127,9 @@
             this.formatExample.Location = new System.Drawing.Point(6, 178);
             this.formatExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.formatExample.Name = "formatExample";
-            this.formatExample.Size = new System.Drawing.Size(95, 13);
+            this.formatExample.Size = new System.Drawing.Size(166, 13);
             this.formatExample.TabIndex = 9;
-            this.formatExample.Text = "Format: file, line, ...";
+            this.formatExample.Text = "Format: file, line, error, property, ...";
             this.formatExample.Visible = false;
             // 
             // openFileDialog1
