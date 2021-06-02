@@ -61,24 +61,24 @@
       }
     }
 
-    function loadData(){
-     var length = Object.keys(testRuns).length;
-     //length = length -1;
-     var breakElement = 'testRun' + length-1;
-     console.log(breakElement);
-     loadPieChart(breakElement);
-     loadLineChart(breakElement);
-     //setTimeout(function(){ timedUpdate('total'); }, 5000);
-    }
-
-     function loadLineChart(breakElement){
+     function loadData(){
+      var length = Object.keys(testRuns).length;
+      var breakElement = 'testRun' + length-1;
       var config2 = createLineConfig(LINE_TYPE, "Pass/Fail Percentage vs. Test Run", "Test Run", "Percentage");
       var chart2 = createChart("canvas2", 350, 350, config2);
       chart2.id = 'chart2';
       var XData = Object.keys(testRuns);
       setLineChartLabels(config2, XData);
+      var config1 = createConfig("Pass vs. Fail");
+      var chart1 = createChart("canvas1", 350,350,config1);
+      chart1.id = 'chart1';
+      let labels =['Fail','Pass', 'Not Run'];
+      setLabels(config1, labels);
       var passPercent =[];
       var failPercent =[];
+      var failA = [];
+      var passA = [];
+      var otherA = [];
       var data = Object.keys(testRuns);
       for(let element of data){
         console.log(element);
@@ -96,47 +96,34 @@
             other = other + 1;
           }
         }
+        if(other!=0 && fail == 0 && pass ==0){
+            break;
+        }
+        passA.push(pass);
+        failA.push(fail);
+        otherA.push(other);
         var passP = (pass / (pass + fail + other))*100;
         var failP = (fail /(pass + fail + other))*100;
         passPercent.push(passP);
         failPercent.push(failP);
         if(element == breakElement){break;}
       }
+      data1 = [sumArray(failA), sumArray(passA), sumArray(otherA)];
+      createDataSet(config1, data1);
+      chart1.update();
       createLineDataSet(config2, "Pass Percentage", passPercent, LINE_TYPE);
       createLineDataSet(config2, "Fail Percentage", failPercent, LINE_TYPE);
       chart2.update();
+    //  setTimeout(function(){ timedUpdate('total'); }, 5000);
      }
 
-
-
-     function loadPieChart(breakElement){
-       var config1 = createConfig("Pass vs. Fail");
-       var chart1 = createChart("canvas1", 350,350,config1);
-       chart1.id = 'chart1';
-       let labels =['Fail','Pass', 'Not Run'];
-       setLabels(config1, labels);
-       var pass = 0;
-       var fail = 0;
-       var other = 0;
-       var data = Object.keys(testRuns);
-       for(let element of data){
-         var subdata = testRuns[element];
-         var length = Object.keys(subdata).length;
-         for(var i=0; i<length; i++) {
-           if(subdata[i].Status == 'Pass') {
-            pass = pass + 1;
-           } else if(subdata[i].Status == 'Fail'){
-            fail = fail + 1;
-           }else{
-            other = other + 1;
-           }
-         }
-         data1 = [fail, pass, other];
-         if(element == breakElement){break;}
-        }
-       createDataSet(config1, data1);
-       chart1.update();
-    }
+     function sumArray(a, total){
+       var total=0;
+       for(var i in a) {
+         total += a[i];
+       }
+       return total;
+     }
 
     function timedUpdate(tableid) {
      document.getElementById("dataSourceFile").remove();
@@ -165,4 +152,3 @@
 <canvas id="canvas2"></canvas>
 </body>
 </html>
-
