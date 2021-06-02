@@ -18,7 +18,7 @@
           var pass = 0;
           var fail = 0;
           var norun = 0;
-          for(let element of testCases.testCase1){
+          for(let element of testRuns.testRun1){
            if(element.Status == 'Pass') {
             pass = pass + 1;
            } else if(element.Status == 'Fail'){
@@ -51,12 +51,12 @@
 <canvas id="canvas"></canvas>
 <script> <!-- Calling Functions for Squares/Table -->
   let table = document.getElementById("demo");
-  let data = Object.keys(testCases.testCase1[0]);
+  let data = Object.keys(testRuns.testRun1[0]);
   let heatMap = document.getElementById("heatmap");
   generateTableHead(table, data);
-  generateTable(table, testCases.testCase1);
+  generateTable(table, testRuns.testRun1);
   generateHeatMapHead(heatMap,data);
-  generateHeatMap(heatMap, testCases.testCase1);
+  generateHeatMap(heatMap, testRuns.testRun1);
  </script>
 </body>
 </html>
