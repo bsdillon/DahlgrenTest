@@ -3,7 +3,7 @@
 
 CoreFunction::CoreFunction()
 {
-    if(!Common::isHeadless())
+    if(Common::isHeadless())
     {
         qss = new QSplashScreen(QPixmap(":/SplashScreen.bmp"));
         qss->setWindowFlags(qss->windowFlags() | Qt::WindowStaysOnTopHint);
@@ -22,7 +22,7 @@ void CoreFunction::CompleteStartup()
     setUpSubscriptionManager();
     this->proxies = std::unique_ptr<ProxySet>(new ProxySet());
 
-    if(!Common::isHeadless())
+    if(Common::isHeadless())
     {
         main = new MainWindow();
         main->setupProxies(proxies);
@@ -41,7 +41,7 @@ void CoreFunction::CompleteStartup()
 
     proxies->LoadUI();
 
-    if(!(Common::isHeadless()))
+    if(Common::isHeadless())
     {
         main->show();
     }
