@@ -1,1 +1,3 @@
 Folder contains files for prototype of RFU Demo GUI
+Notes on Data: 
+- Right now, data in demodata.js file is information that can be derived from any output.xml of a RF test run. The data is an object containing arrays, with each array conrresponding to a different run of the same five tests. This format could be edited, so that each array corresponds to a different set of tests, potentially sorted by tags within RobotFramework, within the same run, and the GUI is updating only in regards to the progression of one test run, instead of showing data over several test runs. This could be more useful for test runs in which tens or hundreds of tests have to be run.
