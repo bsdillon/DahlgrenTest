@@ -1,0 +1,1024 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MagicDrawProfile="http://www.omg.org/spec/UML/20131001/MagicDrawProfile" xmlns:ValidationProfile="http://UML_Standard_Profile/Validation_Profile/_11_5_f720368_1159529670215_231387_1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.omg.org/spec/UML/20131001/MagicDrawProfile UML_Standard_Profile.MagicDraw_Profile.profile.uml#_1HhlOoZrEeqK_OYXLUrfkw http://UML_Standard_Profile/Validation_Profile/_11_5_f720368_1159529670215_231387_1 UML_Standard_Profile.Validation_Profile.profile.uml#_1HrLZ4ZrEeqK_OYXLUrfkw">
+  <uml:Profile xmi:id="_16_8beta_8740266_1261484630687_217688_1428" name="BPMN2 Constraints" visibility="public" URI="" metamodelReference="_16_8beta_8740266_1261484630702_381873_1429">
+    <eAnnotations xmi:id="_1HhW0IZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <contents xmi:type="ecore:EPackage" xmi:id="_1HhW0YZrEeqK_OYXLUrfkw" name="BPMN2Constraints" nsURI="http://BPMN2_Constraints/_16_8beta_8740266_1261484630687_217688_1428" nsPrefix="BPMN2Constraints">
+        <eAnnotations xmi:id="_1HhW0oZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details xmi:id="_1HhW04ZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Constraints"/>
+        </eAnnotations>
+        <eSubpackages xmi:id="_1HhW1IZrEeqK_OYXLUrfkw" name="BPMN2Correctnessactive" nsURI="http:///BPMN2Constraints/BPMN2Correctnessactive.ecore" nsPrefix="BPMN2Constraints.BPMN2Correctnessactive">
+          <eAnnotations xmi:id="_1HhW1YZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1HhW1oZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Correctness (active)"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1HhW14ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/4.0.0/UML" references="_16_8beta_8740266_1262704511362_448707_1335"/>
+        </eSubpackages>
+        <eSubpackages xmi:id="_1HhW2IZrEeqK_OYXLUrfkw" name="BPMN2Completeness" nsURI="http:///BPMN2Constraints/BPMN2Completeness.ecore" nsPrefix="BPMN2Constraints.BPMN2Completeness">
+          <eAnnotations xmi:id="_1HhW2YZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1HhW2oZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Completeness"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1HhW24ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/4.0.0/UML" references="_16_6_8f90291_1260873077597_315253_5751"/>
+          <eAnnotations xmi:id="_1HhW3IZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_1HhW3YZrEeqK_OYXLUrfkw" key="documentation" value="self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)) and self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))&#xD;&#xA;self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)) and self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))&#xD;&#xA;self.outgoing->notEmpty()&#xD;&#xA;(not self.triggeredByEvent.oclIsUndefined()) and (self.triggeredByEvent)  &#xA;implies&#xA;self.ownedElement->select(s|s.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::StartEvent))->size()=1&#xA;&#xD;&#xA;self.oclAsType(UML2_Metamodel::ActivityNode).outgoing -> select(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))->size()>1&#xA;&#xD;&#xA;not (self.errorRef.errorCode='')&#xD;&#xA;self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))&#xA;&#xD;&#xA;self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))&#xA;&#xD;&#xA; self.resources -> notEmpty()&#xD;&#xA;self.owner.oclIsTypeOf(AdHocSubProcess) or (self.outgoing->notEmpty() and self.incoming->notEmpty())&#xD;&#xA;self.name.size() >0&#xD;&#xA;not self.type.oclIsUndefined()&#xD;&#xA;not self.type.oclIsUndefined()&#xD;&#xA;not self.type.oclIsUndefined()&#xD;&#xA;not self.represents.oclIsUndefined()&#xD;&#xA;not self.type.oclIsUndefined()&#xD;&#xA;self.ownedComment->notEmpty()&#xD;&#xA;not self.messageRef.oclIsUndefined()&#xD;&#xA;self.ownedComment->notEmpty()"/>
+          </eAnnotations>
+        </eSubpackages>
+        <eSubpackages xmi:id="_1HhW3oZrEeqK_OYXLUrfkw" name="BPMN2Correctness" nsURI="http:///BPMN2Constraints/BPMN2Correctness.ecore" nsPrefix="BPMN2Constraints.BPMN2Correctness">
+          <eAnnotations xmi:id="_1HhW34ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1HhW4IZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Correctness"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1HhW4YZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/4.0.0/UML" references="_16_6_8f90291_1260450122720_625918_5353"/>
+          <eAnnotations xmi:id="_1HhW4oZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_1HhW44ZrEeqK_OYXLUrfkw" key="documentation" value="(self.triggeredByEvent and not self.triggeredByEvent.oclIsUndefined()) implies&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#xA;((not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))  and &#xA;(not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))))&#xA;&#x9; &#xA;&#xA; &#xA; &#xA; &#xA;&#xD;&#xA;(self.gatewayDirection=GatewayDirection::Converging) implies &#xA;self.oclAsType(UML2_Metamodel::ActivityNode).outgoing -> select(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)) -> size() &lt; 2&#xD;&#xA;(self.gatewayDirection=GatewayDirection::Diverging) implies false&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#xA;--self.oclAsType(UML2_Metamodel::ActivityNode).incoming -> select(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)) -> size() &lt; 2&#xA;&#xD;&#xA;not self.minimum.oclIsUndefined() implies (self.minimum = 0) or (self.minimum > 1)&#xD;&#xA;not self.maximum.oclIsUndefined() implies (self.maximum = 0) or (self.maximum > 1)&#xD;&#xA;(self.oclIsKindOf(UML2_Metamodel::StructuredActivityNode) or&#xA;self.oclIsKindOf(UML2_Metamodel::Action)) implies&#xA;self.startQuantity > 0&#xD;&#xA;(self.oclIsKindOf(UML2_Metamodel::StructuredActivityNode) or&#xA;self.oclIsKindOf(UML2_Metamodel::Action)) implies&#xA;self.completionQuantity > 0&#xD;&#xA;not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::Process::Data::DataAssociation))&#xD;&#xA;not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::Process::Data::DataAssociation))&#xD;&#xA;self.isForCompensation=true implies&#xA;not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))&#xD;&#xA;self.source.oclIsKindOf(StartEvent) implies &#xA;self.oclAsType(UML2_Metamodel::ActivityEdge).guard.oclIsUndefined()&#xD;&#xA;self.oclAsType(UML2_Metamodel::NamedElement)._informationFlowOfInformationTarget->select(c|c.oclIsKindOf(BPMN2_Profile::MessageFlow)) -> size() > 0 implies &#xA;self.oclIsKindOf(MessageStartEvent) or self.oclIsKindOf(MultipleStartEvent)&#x9;&#xA;&#xA;&#x9;&#x9;&#xD;&#xA;self.oclAsType(UML2_Metamodel::NamedElement)._informationFlowOfInformationTarget->select(c|c.oclIsKindOf(BPMN2_Profile::MessageFlow)) -> size() >1 implies &#xA;self.oclIsKindOf(MultipleStartEvent)&#x9;&#xA;&#xA;&#x9;&#x9;&#xD;&#xA;self.attachedToRef.oclIsKindOf(BPMN2_Profile::Process::Activities::Transaction)&#x9;&#xA;&#xA;&#x9;&#x9;&#xD;&#xA;not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))&#x9;&#xA;&#xA;&#x9;&#x9;&#xD;&#xA;not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))&#x9;&#xA;&#xA;&#x9;&#x9;&#xD;&#xA;(not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))&#x9;or&#xA;(not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))&#xA;&#xA;&#x9;&#x9;&#xD;&#xA;self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::SubProcess) or self.owner.oclIsKindOf(BPMN2_Profile::Choreography::ChoreographyActivities::SubChoreography)&#xD;&#xA;self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::Transaction)&#xD;&#xA;(self.source.oclIsKindOf(BPMN2_Profile::Process::Activities::BPMNActivity) and&#xA;(not self.source.oclAsType(BPMN2_Profile::Process::Activities::BPMNActivity).default.oclIsUndefined()) and&#x9;&#x9;&#xA;(self.source.oclAsType(BPMN2_Profile::Process::Activities::BPMNActivity).default = self))  or&#xA;(self.source.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Gateways::InclusiveGateway) and&#xA;(not self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::InclusiveGateway).default.oclIsUndefined()) and&#x9;&#x9;&#xA;(self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::InclusiveGateway).default = self)) or &#xA;(self.source.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Gateways::ComplexGateway) and&#xA;(not self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::ComplexGateway).default.oclIsUndefined()) and&#x9;&#x9;&#xA;(self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::ComplexGateway).default = self)) or&#xA;(self.source.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Gateways::ExclusiveGateway) and&#xA;(not self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::ExclusiveGateway).default.oclIsUndefined()) and&#x9;&#x9; &#xA;(self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::ExclusiveGateway).default = self))&#x9;&#xA;implies &#x9;&#x9; &#xA;self.oclAsType(UML2_Metamodel::ActivityEdge).guard.oclIsUndefined()&#xD;&#xA;not((self.triggeredByEvent and not(self.triggeredByEvent.oclIsUndefined()))&#xA;and&#xA;(self.ownedElement -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::NoneStartEvent))))&#xD;&#xA;self.source.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Gateways::EventBasedGateway)&#xA;implies &#x9;&#x9; &#xA;self.oclAsType(UML2_Metamodel::ActivityEdge).guard.oclIsUndefined()&#xD;&#xA;(&#xA;(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::EscalationStartEvent) and &#xA;self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::EscalationStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_escalation::encoded66alse)&#xA;or&#xA;(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::TimerStartEvent) and &#xA;self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::TimerStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_timer::encoded66alse)&#xA;or&#xA;(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::SignalStartEvent) and &#xA;self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::SignalStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_signal::encoded66alse)&#xA;or&#xA;(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::ParallelMultipleStartEvent) and &#xA;self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::ParallelMultipleStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_parallelMultiple::encoded66alse)&#xA;or&#xA;(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::MultipleStartEvent) and &#xA;self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::MultipleStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_multiple::encoded66alse)&#xA;or&#xA;(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::MessageStartEvent) and &#xA;self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::MessageStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_message::encoded66alse)&#xA;or&#xA;(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::ConditionalStartEvent) and &#xA;self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::ConditionalStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_conditional::encoded66alse)&#xA;)&#xA; implies&#xA;(&#xA;self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::SubProcess) and&#xA;self.owner.oclAsType(BPMN2_Profile::Process::Activities::SubProcess).triggeredByEvent&#xA;)&#xA;&#xD;&#xA;self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::SubProcess) &#xA;or &#xA;self.owner.oclIsKindOf(BPMN2_Profile::Choreography::ChoreographyActivities::SubChoreography)&#xD;&#xA;self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::SubProcess) &#xA;or &#xA;self.owner.oclIsKindOf(BPMN2_Profile::Choreography::ChoreographyActivities::SubChoreography)&#xD;&#xA;(not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))&#x9;or&#xA;(not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))&#xA;&#xA;&#x9;&#x9;"/>
+          </eAnnotations>
+        </eSubpackages>
+        <eSubpackages xmi:id="_1HhW5IZrEeqK_OYXLUrfkw" name="BPMN2ExportCompleteness" nsURI="http:///BPMN2Constraints/BPMN2ExportCompleteness.ecore" nsPrefix="BPMN2Constraints.BPMN2ExportCompleteness">
+          <eAnnotations xmi:id="_1HhW5YZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1HhW5oZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Export Completeness"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1HhW54ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/4.0.0/UML" references="_17_0_2beta_133803de_1335344854765_334057_9239"/>
+          <eAnnotations xmi:id="_1HhW6IZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_1HhW6YZrEeqK_OYXLUrfkw" key="documentation" value="not self.from.oclIsUndefined()&#xD;&#xA;not self.to.oclIsUndefined()&#xD;&#xA;not self.initiatingParticipantRef.oclIsUndefined()&#xD;&#xA;not self.messageFlow->oclIsUndefined()&#xD;&#xA;not self.condition.oclIsUndefined()&#xD;&#xA;not self.innerConversationNodeRef.oclIsUndefined()&#xD;&#xA;not self.outerConversationNodeRef->isEmpty()&#xD;&#xA;self.correlationPropertyRetievalExpression -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::CorrelationPropertyRetrievalExpression))&#xD;&#xA;not self.correlationPropertyRef.oclIsUndefined()&#xD;&#xA;not self.dataPathBody.oclIsUndefined()&#xD;&#xA;not self.messagePathBody.oclIsUndefined()&#xD;&#xA;not self.messageRef.oclIsUndefined()&#xD;&#xA;not self.correlationKeyRef.oclIsUndefined()&#xD;&#xA;not self.importType.oclIsUndefined()&#xD;&#xA;not self.location.oclIsUndefined()&#xD;&#xA;not self.namespace.oclIsUndefined()&#xD;&#xA;self.inputSets -> exists(c|c.oclIsKindOf(BPMN2_Profile::Process::Data::InputSet))&#xD;&#xA;self.outputSets -> exists(c|c.oclIsKindOf(BPMN2_Profile::Process::Data::OutputSet))&#xD;&#xA;not self.inMessageRef.oclIsUndefined()&#xD;&#xA;not self.expression.oclIsUndefined()&#xD;&#xA;not self.expression.oclIsUndefined()&#xD;&#xA;not self.parameterRef.oclIsUndefined()&#xD;&#xA;not (self.name = '')&#xD;&#xA;not (self.name = '')&#xD;&#xA;not (self.name = '')&#xD;&#xA;not(self.name='')&#xD;&#xA;not(self.name='')&#xD;&#xA;self.ownedElement->select(s|s.oclIsKindOf(BPMN2_Profile::CoreStructure::Service::BPMNOperation))->size()>=1&#xD;&#xA;not self.targetNamespace.oclIsUndefined()&#xD;&#xA;self.participantRefs->size()>1"/>
+          </eAnnotations>
+        </eSubpackages>
+      </contents>
+    </eAnnotations>
+    <packageImport xmi:id="_16_8beta_8740266_1261484630702_381873_1429">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_METAMODELS/UML.metamodel.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0primitiveTypesBPMN2_Constraints">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0javaPrimitiveTypesBPMN2_Constraints">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_8beta_8740266_1262704511362_448707_1335" name="BPMN2 Correctness (active)" visibility="public" URI="">
+      <ownedRule xmi:id="_16_8beta_641020e_1262706339031_581567_1277" name="A Sequence Flow cannot cross the Pool Boundary" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262706339086_592881_1279" annotatedElement="_16_8beta_641020e_1262706339031_581567_1277" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ControlFlow"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262706339085_252264_1278" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262771718307_272912_1308" name="A Sequence Flow cannot connect the elements inside a SubProcess to the elements outside the SubProcess" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262771718316_108764_1310" annotatedElement="_16_8beta_641020e_1262771718307_272912_1308" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ControlFlow"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262771718308_301252_1309" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262857656653_496445_1254" name="A Message Flow must connect two separate Pools or elements in separate pools" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262857656707_957880_1256" annotatedElement="_16_8beta_641020e_1262857656653_496445_1254" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_3750177_1237716788859_965438_1398"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262857656707_413596_1255" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262857852564_257271_2023" name="A Conversation Link can be from a Participant to a Communication, a SubConversation, or to a CallConversation. It can also be from a Communication, a SubConversation, or a CallConversation to a Participant" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262857852576_975174_2025" annotatedElement="_16_8beta_641020e_1262857852564_257271_2023" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Dependency"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262857852568_903182_2024" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262862737317_468193_2799" name="An Ad Hoc SubProcess may not have a Start Event" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262862737318_655217_2801" annotatedElement="_16_8beta_641020e_1262862737317_468193_2799" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#InitialNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262862737318_254364_2800" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262862926846_880399_3191" name="An Ad Hoc SubProcess may not have an End Event" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262862926847_307325_3193" annotatedElement="_16_8beta_641020e_1262862926846_880399_3191" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityFinalNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262862926847_245413_3192" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262863650610_852725_3984" name="A Message Start Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262863650611_314165_3986" annotatedElement="_16_8beta_641020e_1262863650610_852725_3984" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#InitialNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262863650611_608706_3985" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262863937148_119637_5176" name="An Error Start Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262863937149_2608_5178" annotatedElement="_16_8beta_641020e_1262863937148_119637_5176" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#InitialNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262863937148_709177_5177" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262864363200_91985_5989" name="An Error Boundary Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262864363219_924124_5991" annotatedElement="_16_8beta_641020e_1262864363200_91985_5989" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#AcceptEventAction"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262864363218_302046_5990" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262864510194_745525_6405" name="A Message End Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262864510196_974526_6407" annotatedElement="_16_8beta_641020e_1262864510194_745525_6405" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityFinalNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262864510195_180851_6406" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262864779289_834213_6824" name="An Error End Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262864779290_490415_6826" annotatedElement="_16_8beta_641020e_1262864779289_834213_6824" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityFinalNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262864779290_533489_6825" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262865173395_825431_7246" name="An Escalation End Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262865173396_443961_7248" annotatedElement="_16_8beta_641020e_1262865173395_825431_7246" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityFinalNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262865173396_328347_7247" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262865313028_339615_7671" name="A Cancel End Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262865313030_53341_7673" annotatedElement="_16_8beta_641020e_1262865313028_339615_7671" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityFinalNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262865313029_11057_7672" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262865511350_579222_8109" name="A Compensation End Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262865511351_347675_8111" annotatedElement="_16_8beta_641020e_1262865511350_579222_8109" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityFinalNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262865511350_631052_8110" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262865735751_983233_8540" name="A Signal End Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262865735752_852701_8542" annotatedElement="_16_8beta_641020e_1262865735751_983233_8540" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityFinalNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262865735752_336306_8541" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8beta_641020e_1262865969456_745311_8974" name="A Multiple End Event cannot be used in a Choreography diagram" visibility="public">
+        <ownedComment xmi:id="_16_8beta_641020e_1262865969457_750183_8976" annotatedElement="_16_8beta_641020e_1262865969456_745311_8974" body="Can not inherit additional classes from a leaf"/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityFinalNode"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8beta_641020e_1262865969457_250128_8975" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1312362165643_512449_8637" name="A BPMN Process diagram should be owned by a BPMN Process or SubProcess" visibility="public">
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Element"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1312362165643_598651_8638" name="" visibility="public"/>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_5beta_8c6027f_1372253753384_783765_11915" name="Resources assigned to the Activity do not correspond with the Activity representation on the diagram" visibility="public">
+        <ownedComment xmi:id="_17_0_5beta_8c6027f_1372253753386_695762_11917" annotatedElement="_17_0_5beta_8c6027f_1372253753384_783765_11915" body="Resources assigned to activity do not correspond with activity representation in diagram."/>
+        <constrainedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Action"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_5beta_8c6027f_1372253753385_780833_11916" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_6_8f90291_1260873077597_315253_5751" name="BPMN2 Completeness" visibility="public" URI="">
+      <ownedRule xmi:id="_16_6_8f90291_1260872691303_223763_5742" name="An Intermediate Throw Event should have both (incoming and outgoing) Sequence Flows." visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641818676_907233_2828"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260872691303_565872_5744" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)) and self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260871968662_181324_5810" name="An Intermediate Catch Event should have both (incoming and outgoing) Sequence Flows." visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641702347_201837_2747"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260871968662_486784_5812" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)) and self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260872058476_25392_5838" name="An Intermediate Boundary Event should have an outgoing Sequence Flow" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641748331_422070_2771"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260872058476_729093_5840" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.outgoing->notEmpty()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260869923599_565237_5567" name="An Event SubProcess must have one Start Event" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637230677_443629_742"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260869923599_196388_5569" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(not self.triggeredByEvent.oclIsUndefined()) and (self.triggeredByEvent)  
+implies
+self.ownedElement->select(s|s.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::StartEvent))->size()=1
+</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260873868804_391571_5756" name="An Event-Based Gateway should have two or more outgoing Sequence Flows" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Gateways.profile.uml#_16_0_8740266_1237640390385_971187_2253"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260873868804_149496_5758" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.oclAsType(UML2_Metamodel::ActivityNode).outgoing -> select(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))->size()>1
+</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260874292417_355793_5739" name="An Error Code should be specified for an Error End Event" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246519803348_782204_2197"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260874292417_359490_5741" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not (self.errorRef.errorCode='')</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260870927176_290455_5766" name="A Start Event shall have at least one outgoing Sequence Flow" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641513455_437029_2675"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260870927176_929049_5768" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))
+</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1396941701558_50998_13942" name="An End Event shall have at least one incoming Sequence Flow" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641843863_109333_2853"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1396941701558_482342_13943" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))
+</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1396942335684_579329_13957" name="A Task shall have assigned resource" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637282350_943197_790"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1396942335685_694548_13958" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body> self.resources -> notEmpty()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1396964304681_983481_14191" name=" A Task shall have incoming and outgoing flows" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637282350_943197_790"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1396964304681_24232_14192" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.owner.oclIsTypeOf(AdHocSubProcess) or (self.outgoing->notEmpty() and self.incoming->notEmpty())</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397568885305_370511_14123" name="A Task name shall have specified name" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637282350_943197_790"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397568885307_167112_14124" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.name.size() >0</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397571686980_316317_14158" name="A Data Object shall have specified type" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_0_8740266_1237639175315_584999_1860"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397571686980_99289_14159" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.type.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397634276195_98748_14143" name="A Data Input should have specified type" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1245911208343_668975_884"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397634276195_913101_14144" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.type.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397634365099_986463_14164" name="A Data Store should have specified type" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1245224704021_236537_2940"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397634365099_400449_14165" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.type.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397634433762_551383_14179" name="A Lane should have specified Representer" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.profile.uml#_16_0_8740266_1237639222128_122072_1919"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397634433763_838627_14180" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.represents.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397634307166_699836_14155" name="A Data Output should have specified type" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_6_8740266_1256021393710_905436_1051"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397634307166_802389_14156" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.type.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397635083408_936813_14207" name="A Documentation should be specified for BPMN Activities " visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637296819_637466_814"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397635083408_215200_14208" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.ownedComment->notEmpty()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397636451911_512382_14231" name="A Message should be referenced by Message Flow" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_3750177_1237716788859_965438_1398"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397636451911_345312_14232" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.messageRef.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0beta_9150291_1397637280031_387742_14253" name="A Documentation should be specified for a Resource" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_5_8740266_1244704337563_107675_861"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0beta_9150291_1397637280032_981850_14254" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.ownedComment->notEmpty()</body>
+        </specification>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_6_8f90291_1260450122720_625918_5353" name="BPMN2 Correctness" visibility="public" URI="">
+      <ownedRule xmi:id="_16_6_8f90291_1260450140033_67586_5355" name="An Event SubProcess cannot have any incoming or outgoing Sequence Flows" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637230677_443629_742"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260450140033_554417_5356" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(self.triggeredByEvent and not self.triggeredByEvent.oclIsUndefined()) implies								 
+((not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))  and 
+(not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))))
+	 
+
+ 
+ 
+ 
+</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260461593449_213965_5635" name="A Converging Gateway should not have more than one outgoing Sequence Flow" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Gateways.profile.uml#_16_0_8740266_1237638566061_987566_1696"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260461593449_563266_5637" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(self.gatewayDirection=GatewayDirection::Converging) implies 
+self.oclAsType(UML2_Metamodel::ActivityNode).outgoing -> select(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)) -> size() &lt; 2</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260462194452_936208_5653" name="A Diverging Gateway should not have more than one incoming Sequence Flow" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Gateways.profile.uml#_16_0_8740266_1237638566061_987566_1696"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260462194468_32025_5655" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(self.gatewayDirection=GatewayDirection::Diverging) implies false								 
+--self.oclAsType(UML2_Metamodel::ActivityNode).incoming -> select(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)) -> size() &lt; 2
+</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260532238570_498913_5424" name="A Participant’s multiplicity minimum value must be 0 for an unspecified multiplicity or >=2 when the multiplicity minimum value is specified." visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_8740266_1237649802864_474179_6348"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260532238570_80475_5426" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.minimum.oclIsUndefined() implies (self.minimum = 0) or (self.minimum > 1)</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260533438478_277087_5457" name="A Participant’s multiplicity maximum value must be 0 for an unspecified multiplicity or >=2 when the multiplicity maximum value is specified." visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_8740266_1237649802864_474179_6348"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260533438478_863649_5459" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.maximum.oclIsUndefined() implies (self.maximum = 0) or (self.maximum > 1)</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260533551549_99625_5469" name="The start quantity of an Activity should be one (1) or greater" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637296819_637466_814"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260533551549_726065_5471" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(self.oclIsKindOf(UML2_Metamodel::StructuredActivityNode) or
+self.oclIsKindOf(UML2_Metamodel::Action)) implies
+self.startQuantity > 0</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260534288864_818075_5582" name="The completion quantity of an Activity should be one (1) or greater" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637296819_637466_814"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260534288864_580706_5584" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(self.oclIsKindOf(UML2_Metamodel::StructuredActivityNode) or
+self.oclIsKindOf(UML2_Metamodel::Action)) implies
+self.completionQuantity > 0</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260534575891_711496_6020" name="A Data Input cannot have an incoming Data Association" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1245911208343_668975_884"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260534575891_986375_6022" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::Process::Data::DataAssociation))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260534914924_586113_6108" name="A Data Output cannot have an outgoing Data Association" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_6_8740266_1256021393710_905436_1051"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260534914924_388649_6110" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::Process::Data::DataAssociation))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260535231767_770756_6158" name="A Compensation Activity cannot have any incoming Sequence Flows" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637296819_637466_814"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260535231767_913619_6160" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.isForCompensation=true implies
+not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260537310029_940191_5719" name="A Condition cannot be specified for an outgoing Sequence Flow from a Start Event." visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_3750177_1237715949968_954009_1021"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260537310029_286691_5721" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.source.oclIsKindOf(StartEvent) implies 
+self.oclAsType(UML2_Metamodel::ActivityEdge).guard.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260538177753_13843_5893" name="Only Message and Multiple Start Events can have incoming Message Flows" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641513455_437029_2675"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260538177753_954931_5895" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.oclAsType(UML2_Metamodel::NamedElement)._informationFlowOfInformationTarget->select(c|c.oclIsKindOf(BPMN2_Profile::MessageFlow)) -> size() > 0 implies 
+self.oclIsKindOf(MessageStartEvent) or self.oclIsKindOf(MultipleStartEvent)	
+
+		</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260803036349_992977_6001" name="Only Multiple Start Events can have multiple incoming Message Flows" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641513455_437029_2675"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260803036349_133910_6003" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.oclAsType(UML2_Metamodel::NamedElement)._informationFlowOfInformationTarget->select(c|c.oclIsKindOf(BPMN2_Profile::MessageFlow)) -> size() >1 implies 
+self.oclIsKindOf(MultipleStartEvent)	
+
+		</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260803427882_159416_6117" name="A Cancel Event can only be attached to a Transaction SubProcess boundary." visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246526443697_924464_3907"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260803427882_780946_6119" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.attachedToRef.oclIsKindOf(BPMN2_Profile::Process::Activities::Transaction)	
+
+		</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260803794649_338519_6166" name="An Intermediate Boundary Event cannot have an incoming Sequence Flow" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641748331_422070_2771"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260803794649_182305_6168" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))	
+
+		</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260804299093_444743_5524" name="A Compensation Boundary Event cannot have an outgoing Sequence Flow" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246526460915_53157_3931"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260804299093_610984_5526" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow))	
+
+		</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260804657750_496494_5702" name="A Link Intermediate Event can have either an incoming or outgoing Sequence Flow. It cannot contain both" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246522054443_63738_3202"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260804657750_826076_5704" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))	or
+(not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))
+
+		</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260804968561_20751_5775" name="A Compensation Start Event should not be used with a top-level Process" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246518892677_943805_2024"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260804968561_481200_5777" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::SubProcess) or self.owner.oclIsKindOf(BPMN2_Profile::Choreography::ChoreographyActivities::SubChoreography)</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260805440754_845247_5803" name="A Cancel End Event can only be used within a Transaction SubProcess" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246519803786_397754_2243"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260805440754_816653_5805" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::Transaction)</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260866204198_815220_5533" name="A default Sequence Flow should not have a conditionExpression" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_3750177_1237715949968_954009_1021"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260866204198_384425_5535" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(self.source.oclIsKindOf(BPMN2_Profile::Process::Activities::BPMNActivity) and
+(not self.source.oclAsType(BPMN2_Profile::Process::Activities::BPMNActivity).default.oclIsUndefined()) and		
+(self.source.oclAsType(BPMN2_Profile::Process::Activities::BPMNActivity).default = self))  or
+(self.source.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Gateways::InclusiveGateway) and
+(not self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::InclusiveGateway).default.oclIsUndefined()) and		
+(self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::InclusiveGateway).default = self)) or 
+(self.source.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Gateways::ComplexGateway) and
+(not self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::ComplexGateway).default.oclIsUndefined()) and		
+(self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::ComplexGateway).default = self)) or
+(self.source.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Gateways::ExclusiveGateway) and
+(not self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::ExclusiveGateway).default.oclIsUndefined()) and		 
+(self.source.oclAsType(BPMN2_Profile::CoreStructure::Common::Gateways::ExclusiveGateway).default = self))	
+implies 		 
+self.oclAsType(UML2_Metamodel::ActivityEdge).guard.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260805731610_375958_5690" name="A None Start Event cannot be used with an Event Sub-Process" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637230677_443629_742"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260805731610_7109_5692" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not((self.triggeredByEvent and not(self.triggeredByEvent.oclIsUndefined()))
+and
+(self.ownedElement -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::NoneStartEvent))))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_6_8f90291_1260869434499_268443_8098" name="A Sequence Flow outgoing from an Event Gateway should not have a conditionExpression" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_3750177_1237715949968_954009_1021"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_6_8f90291_1260869434499_356525_8100" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.source.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Gateways::EventBasedGateway)
+implies 		 
+self.oclAsType(UML2_Metamodel::ActivityEdge).guard.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_16_8_8f90291_1276703910553_690047_7089" name="A Non-Interrupting Start Event can only be used inside an Event SubProcess" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641513455_437029_2675"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_16_8_8f90291_1276703910553_582685_7090" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(
+(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::EscalationStartEvent) and 
+self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::EscalationStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_escalation::encoded66alse)
+or
+(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::TimerStartEvent) and 
+self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::TimerStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_timer::encoded66alse)
+or
+(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::SignalStartEvent) and 
+self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::SignalStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_signal::encoded66alse)
+or
+(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::ParallelMultipleStartEvent) and 
+self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::ParallelMultipleStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_parallelMultiple::encoded66alse)
+or
+(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::MultipleStartEvent) and 
+self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::MultipleStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_multiple::encoded66alse)
+or
+(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::MessageStartEvent) and 
+self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::MessageStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_message::encoded66alse)
+or
+(self.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::Events::ConditionalStartEvent) and 
+self.oclAsType(BPMN2_Profile::CoreStructure::Common::Events::ConditionalStartEvent).isInterrupting = BPMN2_Profile::Supplementary::isInterrupting_conditional::encoded66alse)
+)
+ implies
+(
+self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::SubProcess) and
+self.owner.oclAsType(BPMN2_Profile::Process::Activities::SubProcess).triggeredByEvent
+)
+</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310048078796_990513_8382" name="A Task may not be displayed in Choreography Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637282350_943197_790"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310048078796_568287_8383" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310050684260_782093_8472" name="A SubProcess cannot be displayed in the Choreography Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637230677_443629_742"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310050684260_805747_8473" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310050780444_556755_8496" name="A CallActivity cannot be displayed in the Choreography Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637271037_718299_766"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310050780444_289124_8497" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310050879050_431195_8515" name="A ChoreographyTask cannot be displayed in the BPMN Process Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Choreography.profile.uml#_16_0_8740266_1237649070656_245387_6057"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310050879050_432608_8516" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310051228227_989869_8536" name="A SubChoreography cannot be displayed in the BPMN Process Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Choreography.profile.uml#_16_0_8740266_1237649089094_776879_6081"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310051228227_13854_8537" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310051321395_751448_8559" name="A CallChoreography cannot be displayed in the BPMN Process Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Choreography.profile.uml#_16_0_8740266_1237649035344_424713_6033"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310051321395_866340_8560" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310051395237_790405_8580" name="A Conversation cannot be displayed in the BPMN Process Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.Conversation.profile.uml#_16_5_3_8740266_1250093475752_159892_1269"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310051395237_337035_8581" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310051457125_404367_8598" name="A SubConversation cannot be displayed in the BPMN Process Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.Conversation.profile.uml#_16_5_3_8740266_1250093722366_460707_1277"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310051457125_147259_8599" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1310051524389_302459_8618" name="A CallConversation cannot be displayed in the BPMN Process Diagram" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.Conversation.profile.uml#_16_5_3_8740266_1250097243506_237187_1697"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1310051524389_997023_8619" name="" visibility="public">
+          <language>Binary</language>
+          <body></body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_1beta2_8740266_1312369881239_519547_8644" name="A Data Association should not be connected between Data Object and Gatewa" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_0_8740266_1237636522548_366795_447"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_1beta2_8740266_1312369881239_368783_8645" name="" visibility="public"/>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2_133803de_1340332387234_237292_9785" name="An Error Start Event should not be used with a top-level Process" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246518584108_967193_1913"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2_133803de_1340332387250_24202_9787" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::SubProcess) 
+or 
+self.owner.oclIsKindOf(BPMN2_Profile::Choreography::ChoreographyActivities::SubChoreography)</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2_133803de_1340332387234_620640_9786" name="An Escalation Start Event should not be used with a top-level Process" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246518425973_301754_1853"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2_133803de_1340332387250_842880_9789" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.owner.oclIsKindOf(BPMN2_Profile::Process::Activities::SubProcess) 
+or 
+self.owner.oclIsKindOf(BPMN2_Profile::Choreography::ChoreographyActivities::SubChoreography)</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_4_8740266_1367917751850_836954_11528" name="A Link Intermediate Event can have either an incoming or outgoing Sequence Flow. It cannot contain both " visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246522030615_769733_3170"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_4_8740266_1367917751850_565063_11529" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>(not self.incoming -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))	or
+(not self.outgoing -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::SequenceFlow)))
+
+		</body>
+        </specification>
+      </ownedRule>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_17_0_2beta_133803de_1335344854765_334057_9239" name="BPMN2 Export Completeness" visibility="public" URI="">
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_378261_9240" name="An Assignment should have a from value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1246255710774_776142_891"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_260815_9270" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.from.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_579990_9241" name="An Assignment should have a to value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1246255710774_776142_891"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_131553_9272" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.to.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_210917_9242" name="A ChoreograhpyActivity should have an initiatingParticipantRef value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Choreography.profile.uml#_16_0_8740266_1237648955390_220706_6006"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_467479_9274" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.initiatingParticipantRef.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_885226_9243" name="A ChoreograhpyTask should have a messageFlow value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Choreography.profile.uml#_16_0_8740266_1237649070656_245387_6057"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_778188_9276" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.messageFlow->oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_861388_9244" name="A ComplexBehaviorDefinition should have a condition value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_6_8740266_1256803489470_298197_472"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_838185_9278" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.condition.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_562352_9245" name="A ConversationAssociation should have an innerConversationNodeRef value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.Conversation.profile.uml#_16_5_3_8740266_1250098665960_19441_1770"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_926467_9280" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.innerConversationNodeRef.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_321609_9246" name="A ConversationAssociation should have an outerConversationNodeRef value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.Conversation.profile.uml#_16_5_3_8740266_1250098665960_19441_1770"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_741951_9282" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.outerConversationNodeRef->isEmpty()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_798362_9247" name="A CorrelationProperty should have a CorrelationPropertyRetrievalExpression at least one" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283774573583_426500_2333"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_845630_9284" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.correlationPropertyRetievalExpression -> exists(c|c.oclIsKindOf(BPMN2_Profile::CoreStructure::Common::CorrelationPropertyRetrievalExpression))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_223549_9248" name="A CorrelationPropertyBinding should have a correlationPropertyRef value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283759839383_722581_1624"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_408047_9286" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.correlationPropertyRef.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_857640_9249" name="A CorrelationPropertyBinding should have a dataPathBody value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283759839383_722581_1624"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_33675_9288" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.dataPathBody.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_915955_9250" name="A CorrelationPropertyRetrievalExpression should have a messagePathBody value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283775910566_736272_2583"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_332790_9290" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.messagePathBody.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_523735_9251" name="A CorrelationPropertyRetrievalExpression  should have a messageRef value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283775910566_736272_2583"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_760516_9292" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.messageRef.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_385491_9252" name="A CorrelationSubscription should have a correlationKeyRef value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283759706321_4893_1531"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_538816_9294" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.correlationKeyRef.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_65878_9253" name="A BPMNImport should have an importType value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Infrastructure.profile.uml#_16_0_1_8740266_1240209882161_737679_671"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_420619_9296" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.importType.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_591575_9254" name="A BPMNImport should have a location value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Infrastructure.profile.uml#_16_0_1_8740266_1240209882161_737679_671"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_799311_9298" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.location.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_447623_9255" name="A BPMNImport should have a namespace value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Infrastructure.profile.uml#_16_0_1_8740266_1240209882161_737679_671"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_567816_9300" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.namespace.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_506702_9256" name="An InputOutputSpecification should have an inputSets value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_3_8740266_1250511912448_199968_2191"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_999207_9302" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.inputSets -> exists(c|c.oclIsKindOf(BPMN2_Profile::Process::Data::InputSet))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_855388_9257" name="An InputOutputSpecification should have an outputSets value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_3_8740266_1250511912448_199968_2191"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_267726_9304" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.outputSets -> exists(c|c.oclIsKindOf(BPMN2_Profile::Process::Data::OutputSet))</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_704419_9258" name="An Operation should have an inMessageRef value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Service.profile.uml#_16_5_2_8740266_1246957723113_847110_1849"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_521212_9306" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.inMessageRef.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_450317_9259" name="A ResourceAssignmentExpression should have an expression value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_5_3_8740266_1250576896044_364496_3071"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_322112_9308" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.expression.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_509426_9260" name="A ResourceParameterBinding should have an expression value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_5_3_8740266_1250576684998_224045_2925"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_916569_9310" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.expression.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_401794_9261" name="A ResourceParameterBinding should have a parameterRef value1" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_5_3_8740266_1250576684998_224045_2925"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_994733_9312" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.parameterRef.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_765520_9262" name="An Operation should have a name value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Service.profile.uml#_16_5_2_8740266_1246957723113_847110_1849"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_148805_9314" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not (self.name = '')</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_187781_9263" name="A BPMNInterface should have a name value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Service.profile.uml#_16_5_3_8740266_1250510480248_660744_2183"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_99682_9316" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not (self.name = '')</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_137495_9264" name="A Resource should have a name value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_5_8740266_1244704337563_107675_861"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_383266_9318" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not (self.name = '')</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_116196_9265" name="A LinkCatchIntermediateEvent should have a name value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246522030615_769733_3170"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_700893_9320" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not(self.name='')</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_446002_9266" name="A LinkThrowIntermediateEvent should have a name value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_5_2_8740266_1246522054443_63738_3202"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_636067_9322" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not(self.name='')</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_381541_9267" name="A BPMNInterface should have at least one operation" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Service.profile.uml#_16_5_3_8740266_1250510480248_660744_2183"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_215461_9324" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.ownedElement->select(s|s.oclIsKindOf(BPMN2_Profile::CoreStructure::Service::BPMNOperation))->size()>=1</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_17_0_2beta_133803de_1335344854765_946131_9268" name="A Definitions should have a targetNamespace value" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Infrastructure.profile.uml#_16_0_1_8740266_1240209875771_947625_441"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_17_0_2beta_133803de_1335344854781_593164_9326" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>not self.targetNamespace.oclIsUndefined()</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_18_0_9150291_1398760240068_906220_14464" name="A ChoreograhpyActivity should have at least two participants" visibility="public">
+        <constrainedElement xmi:type="uml:Stereotype" href="BPMN2_Profile.Choreography.profile.uml#_16_0_8740266_1237648955390_220706_6006"/>
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_18_0_9150291_1398760240069_742413_14465" name="" visibility="public">
+          <language>OCL2.0</language>
+          <body>self.participantRefs->size()>1</body>
+        </specification>
+      </ownedRule>
+    </packagedElement>
+    <profileApplication xmi:id="_11_5_f720368_1159529670215_231387_1profileApplicationBPMN2_Constraints">
+      <eAnnotations xmi:id="_8ygq8YZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.Validation_Profile.profile.uml#_1HrLZ4ZrEeqK_OYXLUrfkw"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.Validation_Profile.profile.uml#_11_5_f720368_1159529670215_231387_1"/>
+    </profileApplication>
+    <profileApplication xmi:id="_be00301_1073394351331_445580_2profileApplicationBPMN2_Constraints">
+      <eAnnotations xmi:id="_89ZFMoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_1HhlOoZrEeqK_OYXLUrfkw"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_be00301_1073394351331_445580_2"/>
+    </profileApplication>
+  </uml:Profile>
+  <ValidationProfile:validationSuite xmi:id="_8yqb4IZrEeqK_OYXLUrfkw" base_Package="_17_0_2beta_133803de_1335344854765_334057_9239"/>
+  <ValidationProfile:validationSuite xmi:id="_8yqb4YZrEeqK_OYXLUrfkw" base_Package="_16_6_8f90291_1260450122720_625918_5353"/>
+  <ValidationProfile:validationSuite xmi:id="_8yqb4oZrEeqK_OYXLUrfkw" base_Package="_16_6_8f90291_1260873077597_315253_5751"/>
+  <ValidationProfile:validationRule xmi:id="_8zHH7IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310050684260_782093_8472" implementation="com.nomagic.magicdraw.cbm.activevalidation.SubProcessUsageValidationRuleImpl" abbreviation="COR3045" errorMessage="A SubProcess cannot be displayed in the Choreography Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH7YZrEeqK_OYXLUrfkw" base_Constraint="_18_0_9150291_1398760240068_906220_14464" abbreviation="COM3106" errorMessage="A ChoreograhpyActivity should have at least 2 participants."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH7oZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_946131_9268" abbreviation="COM3117" errorMessage="A Definitions should have a targetNamespace value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH74ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_381541_9267" abbreviation="COM3104" errorMessage="A BPMNInterface should have at least one operation"/>
+  <ValidationProfile:validationRule xmi:id="_8zHH8IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_446002_9266" abbreviation="COM3119" errorMessage="A Link Intermediate Event should have a name value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH8YZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_116196_9265" abbreviation="COM3118" errorMessage="A Link Intermediate Event should have a name value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH8oZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_137495_9264" abbreviation="COM3120" errorMessage="A Resource should have a name value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH84ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_187781_9263" abbreviation="COM3103" errorMessage="A BPMNInterface should have a name value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH9IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_765520_9262" abbreviation="COM3128" errorMessage="An Operation should have a name value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH9YZrEeqK_OYXLUrfkw" base_Constraint="_17_0_4_8740266_1367917751850_836954_11528" abbreviation="COR3036" errorMessage="A Link Intermediate Event can have either an incoming or outgoing Sequence Flow. It cannot contain both." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zHH9oZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_401794_9261" abbreviation="COM3122" errorMessage="A ResourceParameterBinding should have a parameterRef value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH94ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_509426_9260" abbreviation="COM3123" errorMessage="A ResourceParameterBinding should have an expression value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH-IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_450317_9259" abbreviation="COM3121" errorMessage="A ResourceAssignmentExpression should have an expression value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH-YZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_704419_9258" abbreviation="COM3129" errorMessage="An Operation should have an inMessageRef value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH-oZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_855388_9257" abbreviation="COM3127" errorMessage="An InputOutputSpecification should have an outputSets value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH-4ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_506702_9256" abbreviation="COM3126" errorMessage="An InputOutputSpecification should have an inputSets value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH_IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_447623_9255" abbreviation="COM3101" errorMessage="A BPMNImport should have a namespace value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH_YZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_591575_9254" abbreviation="COM3100" errorMessage="A BPMNImport should have a location value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH_oZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_65878_9253" abbreviation="COM3102" errorMessage="A BPMNImport should have an importType value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHH_4ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_385491_9252" abbreviation="COM3116" errorMessage="A CorrelationSubscription should have a correlationKeyRef value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHIAIZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_523735_9251" abbreviation="COM3114" errorMessage="A CorrelationPropertyRetrievalExpression  should have a messageRef value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHIAYZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_915955_9250" abbreviation="COM3115" errorMessage="A CorrelationPropertyRetrievalExpression should have a messagePathBody value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHIAoZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_857640_9249" abbreviation="COM3113" errorMessage="A CorrelationPropertyBinding should have a dataPathBody value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHIA4ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_223549_9248" abbreviation="COM3112" errorMessage="A CorrelationPropertyBinding should have a correlationPropertyRef value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHIBIZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_798362_9247" abbreviation="COM3111" errorMessage="A CorrelationProperty should have a CorrelationPropertyRetrievalExpression at least one."/>
+  <ValidationProfile:validationRule xmi:id="_8zHIBYZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_321609_9246" abbreviation="COM3110" errorMessage="A ConversationAssociation should have an outerConversationNodeRef value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHIBoZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_378261_9240" abbreviation="COM3124" errorMessage="An Assignment should have a from value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHIB4ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_562352_9245" abbreviation="COM3109" errorMessage="A ConversationAssociation should have an innerConversationNodeRef value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHICIZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_861388_9244" abbreviation="COM3108" errorMessage="A ComplexBehaviorDefinition should have a condition value."/>
+  <ValidationProfile:validationRule xmi:id="_8zHICYZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_885226_9243" abbreviation="COM3107" errorMessage="A ChoreograhpyTask should have a messageFlow value."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ40IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_210917_9242" abbreviation="COM3105" errorMessage="A ChoreograhpyActivity should have an initiatingParticipantRef value."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ40YZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2beta_133803de_1335344854765_579990_9241" abbreviation="COM3125" errorMessage="An Assignment should have a to value."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ40oZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2_133803de_1340332387234_620640_9786" abbreviation="COR3050" errorMessage="An Escalation Start Event should not be used with a top-level Process."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ404ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_2_133803de_1340332387234_237292_9785" abbreviation="COR3049" errorMessage="An Error Start Event should not be used with a top-level Process." severity="info"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ41IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1312369881239_519547_8644" implementation="com.nomagic.magicdraw.cbm.activevalidation.DataAssociationToGatewayValidationRule" abbreviation="COR3031" errorMessage="A Data Association should not be connected between Data Object and Gateway." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ41YZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310051524389_302459_8618" implementation="com.nomagic.magicdraw.cbm.activevalidation.CallConversationUsageValidationRuleImpl" abbreviation="COR3021" errorMessage="CallConversation cannot be displayed in the BPMN Process Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ41oZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310051457125_404367_8598" implementation="com.nomagic.magicdraw.cbm.activevalidation.SubConversationUsageValidationRuleImpl" abbreviation="COR3044" errorMessage="A SubConversation cannot be displayed in the BPMN Process Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ414ZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310051395237_790405_8580" implementation="com.nomagic.magicdraw.cbm.activevalidation.CommunicationUsageValidationRuleImpl" abbreviation="COR3030" errorMessage="A Conversation cannot be displayed in the BPMN Process Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ42IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310051321395_751448_8559" implementation="com.nomagic.magicdraw.cbm.activevalidation.CallChoreographyUsageValidationRuleImpl" abbreviation="COR3020" errorMessage="A CallChoreography cannot be displayed in the BPMN Process Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ42YZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310051228227_989869_8536" implementation="com.nomagic.magicdraw.cbm.activevalidation.SubChoreographyUsageValidationRuleImpl" abbreviation="COR3043" errorMessage="A SubChoreography cannot be displayed in the BPMN Process Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ42oZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310050879050_431195_8515" implementation="com.nomagic.magicdraw.cbm.activevalidation.ChoreographyTaskUsageValidationRuleImpl" abbreviation="COR3024" errorMessage="A ChoreographyTask cannot be displayed in the BPMN Process Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ424ZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262865511350_579222_8109" implementation="com.nomagic.magicdraw.cbm.activevalidation.CompensationEndEventUsageValidationRuleImpl" abbreviation="COR3003" errorMessage="A Compensation End Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ43IZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310050780444_556755_8496" implementation="com.nomagic.magicdraw.cbm.activevalidation.CallActivityUsageValidationRuleImpl" abbreviation="COR3019" errorMessage="A CallActivity cannot be displayed in the Choreography Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ43YZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1310048078796_990513_8382" implementation="com.nomagic.magicdraw.cbm.activevalidation.TaskUsageValidationRuleImpl" abbreviation="COR3046" errorMessage="A Task cannot be displayed in the Choreography Diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ43oZrEeqK_OYXLUrfkw" base_Constraint="_16_8_8f90291_1276703910553_690047_7089" abbreviation="COR3038" errorMessage="A Non-Interrupting Start Event can only be used inside an Event SubProcess." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ434ZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260869434499_268443_8098" abbreviation="COR3042" errorMessage="A Sequence Flow outgoing from an Event Gateway should not have a conditionExpression." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ44IZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260805731610_375958_5690" abbreviation="COR3039" errorMessage="A None Start Event cannot be used with an Event Sub-Process." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ44YZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260866204198_815220_5533" abbreviation="COR3034" errorMessage="A default Sequence Flow should not have a conditionExpression." severity="info"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ44oZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260805440754_845247_5803" abbreviation="COR3022" errorMessage="A Cancel End Event can only be used within a Transaction SubProcess." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ444ZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260804968561_20751_5775" abbreviation="COR3027" errorMessage="A Compensation Start Event should not be used with a top-level Process." severity="info"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ45IZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260804657750_496494_5702" abbreviation="COR3037" errorMessage="A Link Intermediate Event can have either an incoming or outgoing Sequence Flow. It cannot contain both." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ45YZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260803794649_338519_6166" abbreviation="COR3052" errorMessage="An Intermediate Boundary Event cannot have an incoming Sequence Flow." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ45oZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260804299093_444743_5524" abbreviation="COR3026" errorMessage="A Compensation Boundary Event cannot have an outgoing Sequence Flow."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ454ZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260803427882_159416_6117" abbreviation="COR3023" errorMessage="A Cancel Event can only be attached to a Transaction SubProcess boundary." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ46IZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262771718307_272912_1308" implementation="com.nomagic.magicdraw.cbm.activevalidation.SequenceFlowSubProcessValidationRuleImpl" abbreviation="COR3009" errorMessage="A Sequence Flow cannot connect the elements inside a SubProcess to the elements outside the SubProcess."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ46YZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260803036349_992977_6001" abbreviation="COR3054" errorMessage="Only Multiple Start Events can have multiple incoming Message Flows." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ46oZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260537310029_940191_5719" abbreviation="COR3028" errorMessage="A Condition cannot be specified for an outgoing Sequence Flow from a Start Event." severity="info"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ464ZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260538177753_13843_5893" abbreviation="COR3053" errorMessage="Only Message and Multiple Start Events can have incoming Message Flows." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ47IZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260535231767_770756_6158" abbreviation="COR3025" errorMessage="A Compensation Activity cannot have any incoming Sequence Flows." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ47YZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260534914924_586113_6108" abbreviation="COR3033" errorMessage="A Data Output cannot have an outgoing Data Association." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ47oZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260534575891_711496_6020" abbreviation="COR3032" errorMessage="A Data Input cannot have an incoming Data Association." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ474ZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260534288864_818075_5582" abbreviation="COR3055" errorMessage="The completion quantity of an Activity should be one (1) or greater." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ48IZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260533438478_277087_5457" abbreviation="COR3040" errorMessage="A Participant’s multiplicity maximum value must be 0 for an unspecified multiplicity or >=2 when the multiplicity maximum value is specified." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ48YZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260533551549_99625_5469" abbreviation="COR3056" errorMessage="The start quantity of an Activity should be one (1) or greater." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ48oZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260532238570_498913_5424" abbreviation="COR3041" errorMessage="A Participant’s multiplicity minimum value must be 0 for an unspecified multiplicity or >=2&#xA;when the multiplicity minimum value is specified." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ484ZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260462194452_936208_5653" abbreviation="COR3035" errorMessage="A Diverging Gateway should not have more than one incoming Sequence Flow." severity="info"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ49IZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260461593449_213965_5635" abbreviation="COR3029" errorMessage="A Converging Gateway should not have more than one outgoing Sequence Flow." severity="info"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ49YZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260450140033_67586_5355" abbreviation="COR3051" errorMessage="An Event SubProcess cannot have any incoming or outgoing Sequence Flows." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ49oZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397637280031_387742_14253" abbreviation="COM3014" errorMessage="Documentation is missing. Each Resource element should be documented in the model. Element documentation is used for model reports." severity="info"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ494ZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397636451911_512382_14231" abbreviation="COM3015" errorMessage="A Message is missing. Each Message Flow relationship should reference a Message. " severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ4-IZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397635083408_936813_14207" abbreviation="COM3014" errorMessage="Documentation is missing. Each BPMN activity and Resource element should be documented in the model. Element documentation is used for model reports." severity="info"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ4-YZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397634307166_699836_14155" abbreviation="COM3012" errorMessage="A Type is missing. Each Data Output elements should have assigned Type." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ4-oZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397634433762_551383_14179" abbreviation="COM3013" errorMessage="Representer is missing for a Lane. Each Lane should have specified Resource as Lane Representer." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ4-4ZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397634365099_986463_14164" abbreviation="COM3012" errorMessage="A Type is missing. Each Data Store elements should have assigned Type." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ4_IZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397634276195_98748_14143" abbreviation="COM3012" errorMessage="A Type is missing. Each Data Input elements should have assigned Type." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ4_YZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397571686980_316317_14158" abbreviation="COM3012" errorMessage="A Type is missing. Each Data Object elements should have assigned Type." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ4_oZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1397568885305_370511_14123" abbreviation="COM3011" errorMessage="Name is missing for the Task element. It is recommended to name all Task elements." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ4_4ZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1396964304681_983481_14191" abbreviation="COM3010" errorMessage="Incoming/outgoing Sequence Flow is missing for a Task. A Task that is not defined within an Ad Hoc SubProcess should have incoming and outgoing Sequence Flows. " severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5AIZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1396942335684_579329_13957" abbreviation="COM3009" errorMessage="Resource is not defined for a Task. Task should have a defined Resource." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5AYZrEeqK_OYXLUrfkw" base_Constraint="_18_0beta_9150291_1396941701558_50998_13942" abbreviation="COM3001" errorMessage="An end event is detected without the connected incoming sequence flow. Each end event should have at least one incoming sequence flow." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5AoZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260870927176_290455_5766" abbreviation="COM3008" errorMessage="Outgoing Sequence Flow is not defined for a Start Event. Each Start Event should have at least one outgoing Sequence Flow." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5A4ZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260874292417_355793_5739" abbreviation="COM3002" errorMessage="An Error Code is not specified for an Error that is defined (or Error is not defined) for an Error End Event." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5BIZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260873868804_391571_5756" abbreviation="COM3003" errorMessage="Too few outgoing Sequence Flows are detected for an Event-Based Gateway. An Event-Based Gateway should have two or more outgoing Sequence Flows." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5BYZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260869923599_565237_5567" abbreviation="COM3004" errorMessage="A Start Event is not defined for an Event SubProcess (a Start Event must be defined within each Event SubProcess). " severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5BoZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260872058476_25392_5838" abbreviation="COM3005" errorMessage="An Intermediate Boundary Event without outgoing Sequence Flow is detected. An Intermediate Boundary Event should have at least one outgoing Sequence Flow. " severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5B4ZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260871968662_181324_5810" abbreviation="COM3006" errorMessage="Incoming/outgoing Sequence Flow is missing for an Intermediate Catch Event. An Intermediate Catch Event should have both (incoming and outgoing) Sequence Flows." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5CIZrEeqK_OYXLUrfkw" base_Constraint="_16_6_8f90291_1260872691303_223763_5742" abbreviation="COM3007" errorMessage="Incoming/outgoing Sequence Flow is missing for an Intermediate Throw Event. An Intermediate Throw Event should have both (incoming and outgoing) Sequence Flows." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5CYZrEeqK_OYXLUrfkw" base_Constraint="_17_0_5beta_8c6027f_1372253753384_783765_11915" implementation="com.nomagic.magicdraw.cbm.activevalidation.ActivityResourceValidationRuleImpl" abbreviation="COR3018" errorMessage="Resources assigned to the Activity do not correspond with the Activity representation on the diagram." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5CoZrEeqK_OYXLUrfkw" base_Constraint="_17_0_1beta2_8740266_1312362165643_512449_8637" implementation="com.nomagic.magicdraw.cbm.activevalidation.BPMNProcessOwnershipValidationRule" abbreviation="COR3001" errorMessage="A BPMN Process diagram should be owned by a BPMN Process or SubProcess."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5C4ZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262865969456_745311_8974" implementation="com.nomagic.magicdraw.cbm.activevalidation.MultipleEndEventUsageValidationRuleImpl" abbreviation="COR3008" errorMessage="A Multiple End Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5DIZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262865735751_983233_8540" implementation="com.nomagic.magicdraw.cbm.activevalidation.SignalEndEventUsageValidationRuleImpl" abbreviation="COR3011" errorMessage="A Signal End Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5DYZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262706339031_581567_1277" implementation="com.nomagic.magicdraw.cbm.activevalidation.SequenceFlowPartitionValidationRuleImpl" abbreviation="COR3010" errorMessage="A Sequence Flow cannot cross the Pool Boundary."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5DoZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262865313028_339615_7671" implementation="com.nomagic.magicdraw.cbm.activevalidation.CancelEndEventUsageValidationRuleImpl" abbreviation="COR3002" errorMessage="A Cancel End Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5D4ZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262865173395_825431_7246" implementation="com.nomagic.magicdraw.cbm.activevalidation.EscalationEndEventUsageValidationRuleImpl" abbreviation="COR3017" errorMessage="An Escalation End Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5EIZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262864779289_834213_6824" implementation="com.nomagic.magicdraw.cbm.activevalidation.ErrorEndEventUsageValidationRuleImpl" abbreviation="COR3015" errorMessage="An Error End Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5EYZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262864510194_745525_6405" implementation="com.nomagic.magicdraw.cbm.activevalidation.MessageEndEventUsageValidationRuleImpl" abbreviation="COR3005" errorMessage="A Message End Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5EoZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262864363200_91985_5989" implementation="com.nomagic.magicdraw.cbm.activevalidation.ErrorBoundaryEventUsageValidationRuleImpl" abbreviation="COR3014" errorMessage="An Error Boundary Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5E4ZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262863650610_852725_3984" implementation="com.nomagic.magicdraw.cbm.activevalidation.MessageStartEventUsageValidationRuleImpl" abbreviation="COR3007" errorMessage="A Message Start Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5FIZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262863937148_119637_5176" implementation="com.nomagic.magicdraw.cbm.activevalidation.ErrorStartEventUsageValidationRuleImpl" abbreviation="COR3016" errorMessage="An Error Start Event cannot be used in a Choreography diagram."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5FYZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262862926846_880399_3191" implementation="com.nomagic.magicdraw.cbm.activevalidation.EndEventOwnershipValidationRuleImpl" abbreviation="COR3013" errorMessage="An Ad Hoc SubProcess may not have an End Event." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5FoZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262862737317_468193_2799" implementation="com.nomagic.magicdraw.cbm.activevalidation.StartEventOwnershipValidationRuleImpl" abbreviation="COR3012" errorMessage="An Ad Hoc SubProcess may not have a Start Event." severity="warning"/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5F4ZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262857852564_257271_2023" implementation="com.nomagic.magicdraw.cbm.activevalidation.ConversationLinkParticipantValidationRuleImpl" abbreviation="COR3004" errorMessage="A Conversation Link can be from a Participant to a Communication, a SubConversation, or to a CallConversation. It can also be from a Communication, a SubConversation, or a CallConversation to a Participant."/>
+  <ValidationProfile:validationRule xmi:id="_8zQ5GIZrEeqK_OYXLUrfkw" base_Constraint="_16_8beta_641020e_1262857656653_496445_1254" implementation="com.nomagic.magicdraw.cbm.activevalidation.MessageFlowPartitionValidationRuleImpl" abbreviation="COR3006" errorMessage="A Message Flow must connect two separate Pools or elements in separate pools."/>
+  <ValidationProfile:activeValidationSuite xmi:id="_80dLp4ZrEeqK_OYXLUrfkw" base_Package="_16_8beta_8740266_1262704511362_448707_1335"/>
+  <MagicDrawProfile:auxiliaryResource xmi:id="_89ZFM4ZrEeqK_OYXLUrfkw" base_Element="_16_8beta_8740266_1261484630687_217688_1428"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAKYZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262865511350_579222_8109"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAKoZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262771718307_272912_1308"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAK4ZrEeqK_OYXLUrfkw" base_Element="_17_0_5beta_8c6027f_1372253753384_783765_11915"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sALIZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262865969456_745311_8974"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sALYZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262865735751_983233_8540"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sALoZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262706339031_581567_1277"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAL4ZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262865313028_339615_7671"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAMIZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262865173395_825431_7246"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAMYZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262864779289_834213_6824"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAMoZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262864510194_745525_6405"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAM4ZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262864363200_91985_5989"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sANIZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262863650610_852725_3984"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sANYZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262863937148_119637_5176"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sANoZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262862926846_880399_3191"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAN4ZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262862737317_468193_2799"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAOIZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262857852564_257271_2023"/>
+  <MagicDrawProfile:InvisibleStereotype xmi:id="_89sAOYZrEeqK_OYXLUrfkw" base_Element="_16_8beta_641020e_1262857656653_496445_1254"/>
+  <MagicDrawProfile:Info xmi:id="_8-SdF4ZrEeqK_OYXLUrfkw" base_Package="_17_0_2beta_133803de_1335344854765_334057_9239" author="NoMagic"/>
+  <MagicDrawProfile:Info xmi:id="_8-SdGIZrEeqK_OYXLUrfkw" base_Package="_16_6_8f90291_1260450122720_625918_5353" author="NoMagic"/>
+  <MagicDrawProfile:Info xmi:id="_8-SdGYZrEeqK_OYXLUrfkw" base_Package="_16_6_8f90291_1260873077597_315253_5751" author="NoMagic"/>
+  <MagicDrawProfile:Info xmi:id="_8-SdGoZrEeqK_OYXLUrfkw" base_Package="_16_8beta_8740266_1262704511362_448707_1335" author="NoMagic"/>
+</xmi:XMI>

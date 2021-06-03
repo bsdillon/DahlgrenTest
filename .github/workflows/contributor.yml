@@ -3,11 +3,11 @@ name: Contributor Activity
 # fix truthy warning per
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
-on: push
-# on:
+on:
+  workflow_dispatch
   # schedule:
-    # - cron: '13 6 * * *'
-    # every night at 6:13am Zulu (about 2am EST)
+    # - cron: '55 3 * * 6'
+    # every Saturday night around 11:55 PM EST
 
 jobs:
   FindContributorActivity:
@@ -22,19 +22,22 @@ jobs:
           --url https://api.github.com/repos/${{ github.repository }}/stats/contributors \
           --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           --header 'content-type: application/json' > contribute.json
-      - name: Read
-        run: cat contribute.json
-      - name: Run Contributor Stats
-        run: python .github/ciPython/contributor_stats.py contribute.json
-      - name: Commit daily and total commits
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub  Action"
-          git add ./html/cidata/weekly_commits.js
-          git commit -m "Daily and Total Contributor Commits" -a
-      # yamllint enable rule:line-length
-      - name: Push changes
-        uses: ad-m/github-push-action@master
+      - name: Get contributor.json artifact
+        uses: actions/upload-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'master'
+          name: contributors
+          path: contribute.json
+      #- name: Run Contributor Stats
+      #  run: python .github/ciPython/contributor_stats.py contribute.json
+      #- name: Commit daily and total commits
+      #  run: |
+      #    git config --local user.email "action@github.com"
+      #    git config --local user.name "GitHub  Action"
+      #    git add ./html/cidata/weekly_commits.js
+      #    git commit -m "Daily and Total Contributor Commits" -a
+      # yamllint enable rule:line-length
+      #- name: Push changes
+      #  uses: ad-m/github-push-action@master
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      #    branch: 'master'

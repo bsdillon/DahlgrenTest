@@ -1,0 +1,35 @@
+
+# Software Analyzer
+
+# Development dependencies
+
+ - .net 4
+
+# Runtime dependencies
+
+ - .net 4 (mono will work fine on linux boxes)
+ - java 8+ (`java.exe` must appear on `%PATH%`)
+ - ANTLR (https://www.antlr.org/download.html, d/l the item under "Complete ANTLR 4.9.1 Java binaries jar")
+
+
+## Windows compile + run commands
+
+```
+msbuild SoftwareAnalyzer2\SoftwareAnalyzer2.csproj
+set CLASSPATH=C:\path\to\antlr-4.1-complete.jar
+.\SoftwareAnalyzer2\bin\Debug\SoftwareAnalyzer2.exe
+```
+
+## Linux compile + run commands
+
+```bash
+msbuild SoftwareAnalyzer2/SoftwareAnalyzer2.csproj
+export CLASSPATH='/path/to/antlr-4.1-complete.jar'
+mono SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe
+```
+
+# Known Bugs
+
+ - [ ] File paths on linux do not work b/c of `\\` characters are used to separate directories.
+
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title id="title">DataSet</title>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="https://bsdillon.github.io/DahlgrenTest/html/graphing/scatterchartlibrary.js"></script>
+    <script src="./bodydata.js"></script>
+    <script>
+      function loadData()
+      {
+         var config = createConfig(chartTitle,XLabel,YLabel);
+         var chart = createChart("can",100,100,config);
+         createDataSet(config,seriesTitle1,XData1,YData1);
+         createDataSet(config,seriesTitle2,XData2,YData2);
+         createDataSet(config,seriesTitle3,XData3,YData3);
+
+         addTrendLine(config,seriesTitle1,XData1,YData1);
+         addTrendLine(config,seriesTitle1,XData2,YData2);
+         addTrendLine(config,seriesTitle1,XData3,YData3);
+         chart.update();
+      }
+    </script>
+  </head>
+  <body onload="loadData()">
+    <p>To view the code behind the examples, right click on the page and select "View page source"</p>
+    <canvas id="can"></canvas>
+  </body>
+</html>

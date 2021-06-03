@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://www.wfmc.org/2009/XPDL2.2" xmlns:ns2="http://www.wfmc.org/2002/XPDL1.0" Id="package1" Name="test1" xmlns:cbm="http://www.nomagic.com/cbm">
+    <PackageHeader>
+        <XPDLVersion>2.2</XPDLVersion>
+        <Vendor>GEMINI-Model</Vendor>
+        <Created>20-04-18T01:01:01</Created>
+        <ModificationDate>20-04-18T01:01:01</ModificationDate>
+        <LayoutInfo PixelsPerMillimeter="2.8346457"/>
+    </PackageHeader>
+    <RedefinableHeader>
+        <Author>GEMINI-Model</Author>
+        <Version>1</Version>
+        <Codepage>1</Codepage>
+        <Countrykey>US</Countrykey>
+    </RedefinableHeader>
+    <ConformanceClass GraphConformance="NON_BLOCKED" BPMNModelPortabilityConformance="NONE"/>
+    <Script Type="text/javascript"/>
+    <Pages>
+        <Page Name="TCP Model" Id="page1" Height="239.0" Width="1228.0"/>
+    </Pages>
+    <Pools>
+        <Pool Id="page1_pool1" Name="should be blue on blue pool" Orientation="HORIZONTAL" Process="page1_pool1_proc" BoundaryVisible="true" MainPool="false">
+            <Lanes>
+                <Lane Id="page1_pool1_lane1" Name="Should be red on red lane" ParentPool="page1_pool1">
+                    <NodeGraphicsInfos>
+                        <NodeGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" Height="240.0" Width="1470.0" BorderColor="#FF0000" FillColor="#FFAAAA">
+                            <Coordinates XCoordinate="25.0" YCoordinate="5.0"/>
+                        </NodeGraphicsInfo>
+                    </NodeGraphicsInfos>
+                </Lane>
+            </Lanes>
+            <NodeGraphicsInfos>
+                <NodeGraphicsInfo xmlns:cbm="http://www.nomagic.com/cbm" ToolId="CBM" IsVisible="true" PageId="page1" Height="250.0" Width="1500.0" BorderColor="#0000FF" FillColor="#AAAAFF" cbm:suppress_content="false">
+                    <Coordinates XCoordinate="0.0" YCoordinate="0.0"/>
+                </NodeGraphicsInfo>
+            </NodeGraphicsInfos>
+        </Pool>
+    </Pools>
+    <WorkflowProcesses>
+        <WorkflowProcess Id="page1_pool1_proc" Name="should be blue on blue pool" AccessLevel="PUBLIC" ProcessType="None" Status="None" SuppressJoinFailure="false" EnableInstanceCompensation="false" AdHoc="false" AdHocOrdering="Parallel">
+            <ProcessHeader>
+                <Created>20-04-18T01:01:01</Created>
+            </ProcessHeader>
+            <Activities>
+                <Activity Id="activity1" IsForCompensation="false" Name="Computer 1" StartActivity="false" Status="None" StartQuantity="1" CompletionQuantity="1">
+                    <Limit/>
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <NodeGraphicsInfos>
+                        <NodeGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" LaneId="page1_pool1_lane1" Height="30.0" Width="50.0" BorderColor="#000000" FillColor="#AAAAFF">
+                            <Coordinates XCoordinate="35.0" YCoordinate="110.0"/>
+                        </NodeGraphicsInfo>
+                    </NodeGraphicsInfos>
+                </Activity>
+                <Activity Id="activity2" IsForCompensation="false" Name="Switch 1" StartActivity="false" Status="None" StartQuantity="1" CompletionQuantity="1">
+                    <Limit/>
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Split Type="Inclusive">
+                                <TransitionRefs>
+                                    <TransitionRef Id="transition2_6"/>
+                                    <TransitionRef Id="transition2_3"/>
+                                </TransitionRefs>
+                            </Split>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <NodeGraphicsInfos>
+                        <NodeGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" LaneId="page1_pool1_lane1" Height="30.0" Width="50.0" BorderColor="#000000" FillColor="#AAAAFF">
+                            <Coordinates XCoordinate="215.0" YCoordinate="110.0"/>
+                        </NodeGraphicsInfo>
+                    </NodeGraphicsInfos>
+                </Activity>
+                <Activity Id="activity3" IsForCompensation="false" Name="Router" StartActivity="false" Status="None" StartQuantity="1" CompletionQuantity="1">
+                    <Limit/>
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Split Type="Inclusive">
+                                <TransitionRefs>
+                                    <TransitionRef Id="transition3_6"/>
+                                    <TransitionRef Id="transition3_4"/>
+                                </TransitionRefs>
+                            </Split>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <NodeGraphicsInfos>
+                        <NodeGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" LaneId="page1_pool1_lane1" Height="30.0" Width="50.0" BorderColor="#000000" FillColor="#AAAAFF">
+                            <Coordinates XCoordinate="400.0" YCoordinate="110.0"/>
+                        </NodeGraphicsInfo>
+                    </NodeGraphicsInfos>
+                </Activity>
+                <Activity Id="activity4" IsForCompensation="false" Name="Switch 2" StartActivity="false" Status="None" StartQuantity="1" CompletionQuantity="1">
+                    <Limit/>
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <TransitionRestrictions>
+                        <TransitionRestriction>
+                            <Split Type="Inclusive">
+                                <TransitionRefs>
+                                    <TransitionRef Id="transition4_6"/>
+                                    <TransitionRef Id="transition4_5"/>
+                                </TransitionRefs>
+                            </Split>
+                        </TransitionRestriction>
+                    </TransitionRestrictions>
+                    <NodeGraphicsInfos>
+                        <NodeGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" LaneId="page1_pool1_lane1" Height="30.0" Width="50.0" BorderColor="#000000" FillColor="#AAAAFF">
+                            <Coordinates XCoordinate="600.0" YCoordinate="110.0"/>
+                        </NodeGraphicsInfo>
+                    </NodeGraphicsInfos>
+                </Activity>
+                <Activity Id="activity5" IsForCompensation="false" Name="Computer 2" StartActivity="false" Status="None" StartQuantity="1" CompletionQuantity="1">
+                    <Limit/>
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <NodeGraphicsInfos>
+                        <NodeGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" LaneId="page1_pool1_lane1" Height="30.0" Width="50.0" BorderColor="#000000" FillColor="#AAAAFF">
+                            <Coordinates XCoordinate="755.0" YCoordinate="110.0"/>
+                        </NodeGraphicsInfo>
+                    </NodeGraphicsInfos>
+                </Activity>
+                <Activity Id="activity6" IsForCompensation="false" Name="Packet Lost" StartActivity="false" Status="None" StartQuantity="1" CompletionQuantity="1">
+                    <Limit/>
+                    <Implementation>
+                        <No/>
+                    </Implementation>
+                    <NodeGraphicsInfos>
+                        <NodeGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" LaneId="page1_pool1_lane1" Height="30.0" Width="50.0" BorderColor="#000000" FillColor="#FF7F20">
+                            <Coordinates XCoordinate="755.0" YCoordinate="150.0"/>
+                        </NodeGraphicsInfo>
+                    </NodeGraphicsInfos>
+                </Activity>
+            </Activities>
+            <Transitions>
+                <Transition Id="transition1_2" From="activity1" To="activity2" Name="">
+                    <Condition Type="CONDITION">
+                        <Expression>status == "Send"</Expression>
+                    </Condition>
+                    <ConnectorGraphicsInfos>
+                        <ConnectorGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" BorderColor="#00FF00" FillColor="#FFFFFF">
+                            <Coordinates XCoordinate="85.0" YCoordinate="125.0"/> 
+                            <Coordinates XCoordinate="115.0" YCoordinate="125.0"/> 
+                        </ConnectorGraphicsInfo>
+                    </ConnectorGraphicsInfos>
+                </Transition>
+                <Transition Id="transition2_6" From="activity2" To="activity6" Name="">
+                    <Condition Type="CONDITION">
+                        <Expression>status == "Lost"</Expression>
+                    </Condition>
+                    <ConnectorGraphicsInfos>
+                        <ConnectorGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" BorderColor="#FF0000" FillColor="#FFFFFF">
+                           <Coordinates XCoordinate="140.0" YCoordinate="140.0"/> 
+                           <Coordinates XCoordinate="140.0" YCoordinate="165.0"/> 
+                           <Coordinates XCoordinate="195.0" YCoordinate="165.0"/> 
+                        </ConnectorGraphicsInfo>
+                    </ConnectorGraphicsInfos>
+                </Transition>
+                <Transition Id="transition2_3" From="activity2" To="activity3" Name="">
+                    <Condition Type="CONDITION">
+                        <Expression>status == "Send"</Expression>
+                    </Condition>
+                    <ConnectorGraphicsInfos>
+                        <ConnectorGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" BorderColor="#00FF00" FillColor="#FFFFFF">
+                           <Coordinates XCoordinate="165.0" YCoordinate="125.0"/> 
+                           <Coordinates XCoordinate="195.0" YCoordinate="125.0"/> 
+                        </ConnectorGraphicsInfo>
+                    </ConnectorGraphicsInfos>
+                </Transition>
+                <Transition Id="transition3_6" From="activity3" To="activity6" Name="">
+                    <Condition Type="CONDITION">
+                        <Expression>status == "Lost"</Expression>
+                    </Condition>
+                    <ConnectorGraphicsInfos>
+                        <ConnectorGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" BorderColor="#FF0000" FillColor="#FFFFFF">
+                           <Coordinates XCoordinate="220.0" YCoordinate="140.0"/> 
+                           <Coordinates XCoordinate="220.0" YCoordinate="165.0"/> 
+                           <Coordinates XCoordinate="195.0" YCoordinate="165.0"/> 
+                        </ConnectorGraphicsInfo>
+                    </ConnectorGraphicsInfos>
+                </Transition>
+                <Transition Id="transition3_4" From="activity3" To="activity4" Name="">
+                    <Condition Type="CONDITION">
+                        <Expression>status == "Send"</Expression>
+                    </Condition>
+                    <ConnectorGraphicsInfos>
+                        <ConnectorGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" BorderColor="#00FF00" FillColor="#FFFFFF">
+                           <Coordinates XCoordinate="245.0" YCoordinate="125.0"/> 
+                           <Coordinates XCoordinate="275.0" YCoordinate="125.0"/> 
+                        </ConnectorGraphicsInfo>
+                    </ConnectorGraphicsInfos>
+                </Transition>
+                <Transition Id="transition4_6" From="activity4" To="activity6" Name="">
+                    <Condition Type="CONDITION">
+                        <Expression>status == "Lost"</Expression>
+                    </Condition>
+                    <ConnectorGraphicsInfos>
+                        <ConnectorGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" BorderColor="#FF0000" FillColor="#FFFFFF">
+                           <Coordinates XCoordinate="300.0" YCoordinate="140.0"/> 
+                           <Coordinates XCoordinate="300.0" YCoordinate="165.0"/> 
+                           <Coordinates XCoordinate="195.0" YCoordinate="165.0"/> 
+                        </ConnectorGraphicsInfo>
+                    </ConnectorGraphicsInfos>
+                </Transition>
+                <Transition Id="transition4_5" From="activity4" To="activity5" Name="">
+                    <Condition Type="CONDITION">
+                        <Expression>status == "Send"</Expression>
+                    </Condition>
+                    <ConnectorGraphicsInfos>
+                        <ConnectorGraphicsInfo ToolId="CBM" IsVisible="true" PageId="page1" BorderColor="#00FF00" FillColor="#FFFFFF">
+                           <Coordinates XCoordinate="325.0" YCoordinate="125.0"/> 
+                           <Coordinates XCoordinate="355.0" YCoordinate="125.0"/> 
+                        </ConnectorGraphicsInfo>
+                    </ConnectorGraphicsInfos>
+                </Transition>
+            </Transitions>
+        </WorkflowProcess>
+    </WorkflowProcesses>
+    <ExtendedAttributes>
+        <ExtendedAttribute Name="System" Value="Do these matter"/>
+        <ExtendedAttribute Name="Creator" Value="Probably not"/>
+    </ExtendedAttributes>
+</Package>

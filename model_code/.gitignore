@@ -1,0 +1,14 @@
+# Ignore python caches + compiled code
+__pycache__/
+*.py[cod]
+.Python
+
+# Ignore common build directories
+build/
+bin/
+out/
+artifacts/
+
+# Ignore IDE user settings (see https://www.toptal.com/developers/gitignore)
+.idea/
+.vs/

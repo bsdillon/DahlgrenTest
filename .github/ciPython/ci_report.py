@@ -1,6 +1,16 @@
 import datetime
 import sys
 
+def print_dictionary(dct,level):
+    for outer_key, outer_value in dct.items():
+        print(outer_key+":")
+        if type(outer_value) == dict:
+            print_dictionary(outer_value,level+1)
+        else:
+            for i in range(level):
+                print("\t", end=" ")
+            print(outer_value)
+
 # https://sgqlc.readthedocs.io/en/latest/sgqlc.endpoint.http.html#synchronous-http-endpoint
 from sgqlc.endpoint.http import HTTPEndpoint
 
@@ -27,15 +37,10 @@ dups = data_set['duplicated_lines']
 comps = data_set['complexFunctions']
 longF = data_set['longFunctions']
 
-QUERY = "{project(id: 9280){lastAnalysis{violations("
-QUERY += "howmany:'+str(v_count)+', skip:0){filename"
-QUERY += "severity category} complexFunctions(howmany:"
+QUERY = "{project(id: 9280){lastAnalysis{violations(howmany:"+str(v_count)
+QUERY += ", skip:0){filename severity category} complexFunctions(howmany: "
 QUERY += str(comps)+" skip:0){filename}}}}"
 data2 = endpoint(QUERY, variables)
-
-print(data2['data'])
-print(data2['data']['project'])
-print(data2['data']['project']['lastAnalysis'])
 
 v_set = data2['data']['project']['lastAnalysis']['violations']
 c_set = data2['data']['project']['lastAnalysis']['complexFunctions']

@@ -1,0 +1,10 @@
+chartTitle="Corn growth";
+XLabel="Date";
+YLabel="Height (cm)";
+XData=["31-Oct","1-Nov","2-Nov","3-Nov","4-Nov","5-Nov","6-Nov","7-Nov","8-Nov","9-Nov","10-Nov","11-Nov","12-Nov","13-Nov","14-Nov","15-Nov","16-Nov"];
+seriesTitle1="No water";
+YData1=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1];
+seriesTitle2="Little water";
+YData2=[0,0,0,1,1,2,2,2,2,3,4,5,5,5,6,6,7];
+seriesTitle3="Lots of water";
+YData3=[0,0,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4];

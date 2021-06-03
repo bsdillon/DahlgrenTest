@@ -1,0 +1,187 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SoftwareAnalyzer2.Structure
+{
+    public enum MemberSets
+    {
+        ModifierSet,
+        Classification,
+        SuperTypes,
+        Enumerations,
+        Constructors,
+        Methods,
+        Types,
+        Values,
+        Fields,
+        Inlines
+    }
+
+    public enum ClearCodeOptions
+    {
+        ClearAll,
+        KeepLine,
+        KeepAll
+    }
+
+    public enum Members
+    {
+        Abstract,
+        Annotation,
+        AnonymousLink,
+        ANONYMOUS,
+        Array,
+        ArrayInvoke,
+        Assertion,
+        Block,
+        Blocks,
+        Boolean,
+        Boolean_And,
+        Boolean_Equal,
+        Boolean_GreaterThan,
+        Boolean_GreaterThanEqual,
+        Boolean_LessThan,
+        Boolean_LessThanEqual,
+        Boolean_Not,
+        Boolean_NotEqual,
+        Boolean_Or,
+        Branch,
+        Break,
+        Cast,
+        CatchScope,
+        CLASS,
+        Constructor,
+        ConstructorInvoke,
+        Continue,
+        DotOperator,
+        DoWhile,
+        Default,
+        Else,
+        ElseScope,
+        ENUM,
+        Enumerator,
+        Exception,
+        Exceptions,
+        Field,
+        File,
+        Final,
+        Finally,
+        For3Loop,
+        ForEachLoop,
+        ForInitial,
+        Generic,
+        Import,
+        Index,
+        Inline,
+        INTERFACE,
+        Label,
+        LanguageTypeCheck,
+        Literal,
+        Lock,
+        Method,
+        MethodInvoke,
+        MethodScope,
+        Native,
+        Null,
+        Operator,
+        Package,
+        Parameter,
+        ParameterList,
+        Primitive,
+        Private,
+        Protected,
+        Public,
+        Return,
+        ReturnType,
+        RightScope,
+        Root,
+        Scope,
+        SelfConstructorInvoke,
+        SelfReference,
+        Statement,
+        Static,
+        Sub_Type,
+        SuperConstructorInvoke,
+        SuperReference,
+        SuperType,
+        Switch,
+        SynchBlock,
+        Synchronized,
+        Then,
+        Transient,
+        Trinary,
+        TrinaryScope,
+        TryScope,
+        Try_Catch,
+        Type,
+        TypeDeclaration,
+        TypeName,
+        Update,
+        Value,
+        Variable,
+        Volatile,
+        While,
+        Write,
+        WrongScope,
+        MappedSuperclass,
+        XmlAccessorType,
+        XmlType,
+        Override,
+        PreUpdate,
+        PrePersist
+    }
+
+    public enum ApprovedLiterals
+    {
+        Integer,
+        Long,
+        Character,
+        String,
+        Boolean,
+        Byte,
+        Double,
+        Enum,
+        Short,
+        Float
+    }
+
+    public enum Relationship
+    {
+        Accesses,
+        CandidateRead,
+        WrittenBy,
+        Control,
+
+        ChildType,
+        ParentType,
+        FileUp,
+        FileDown,
+        Imports,
+        DefinitionOf,
+        SubDefinitionOf,
+        Member,
+        MemberOf,
+        SubDefinition,
+        InstanceOf,
+        SubInstanceOf,
+
+        ReturnType,
+        NewImplementation,
+        OverridesImplementation,
+        FormalParameter,
+        ReturnValue,
+
+
+        Annotation,
+
+        NullCheck,
+        LiteralCheck,
+        EqualityCheck,
+        TypeCheck,
+        LiteralBoundary,
+        CompareBoundary
+    }
+}

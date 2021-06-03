@@ -19,15 +19,18 @@
       <img alt="Code inspector percent badge" src="https://www.code-inspector.com/project/9280/score/svg" /><br>
     </p>
     <p>
-      Current statistics on the use of these actions is shown in the two graphics below. These
-      were <em>LAST UPDATED 7/2/2020</em>. The data shows that we are generating several working 
+      Current statistics on the use of these actions is shown in the three graphics below. These
+      were <em>LAST UPDATED 7/31/2020</em>. The data shows that we are generating several working 
       days worth of automated actions at a cost of very few dollars. This graph is in actual dollars
       <b>NOT</b> thousands. The GitHub site offers up to 3000 minutes (~6 working days) for "free".
-      The cost of minutes above that follows these numbers.<br>
+      At this scale the cost and time graphs are synchronized. At this scale the use of costly iOS
+      and Windows runners can be seen in June. Linux-based runners have a minimal cost which is the
+      baseline for all actions. Windows and iOS are more expensive, presumably because fewer of 
+      these runners are available.<br>
       <img alt="action costs" src="./../imgs/usagecosts.png">
     </p>
     <p>
-      The other grahic shows the relative frequency of uses. More than half of the actions are used
+      Another grahic shows the relative frequency of uses. More than half of the actions are used
       for "lint"-ing. Lint-ers are static analysis tools that focus on syntax-level reviews of the
       source code. Frequent checks on Lint results helps to maintain a basic level of uniformity in
       the code style and format. Continuous Integration reporting is the next-most frequent use. CI
@@ -35,6 +38,18 @@
       uses are investigations into basic testing in different languages. Up to this date, no 
       requirements-based testing has occurred.<br>
       <img alt="action costs" src="./../imgs/usagetypes.png">
+    </p>
+    <p>
+      One final graphic indicates that these uses have time-based trends. Each of several areas
+      was investigated for a time and then work stoped. Other uses of automated actions become a
+      dedicated activity that has a definitive continuous cost. Currently, the two trends with
+      the clearest trends are Lint and CI Reporting. CI Reporting has a fixed cost and periodicity
+      that only alters the trend when the new CI reports are added. Linting, however, is based on
+      developer activity. For that reason, it shows a rapid increase in the month of June when
+      there was the most activity and a less energetic growth in late July when there was more
+      research and fewer commits. As long as the codebase is active, the Linting activities will
+      register some level of growth.<br>
+      <img alt="action costs" src="./../imgs/usagetypescumm.png">
     </p>
     <p>
       The other metrics are the result of data pushed from a GitHub worklow. After performing some

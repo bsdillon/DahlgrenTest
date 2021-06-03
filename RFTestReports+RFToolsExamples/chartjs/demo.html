@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title id="title">DataSet</title>
+    <script src="./Chart.min.js"></script>
+    <script src="./utils.js"></script>
+    <script src="./linechartlibrary.js"></script>
+    <script src="./scatterchartlibrary.js"></script>
+    <script src="./piechartlibrary.js"></script>
+    <script id="dataSourceFile" src="./demo.js"></script>
+    <script>
+      var keys=[];
+      var dLat=[];
+      var dLon=[];
+      var times=[];
+      var dkMeters=[];
+      var charts=[];
+
+      function loadData()
+      {
+        charts=[];
+        keys=[];
+        dLat=[];
+        dLon=[];
+        times={};
+        var timeKeys=[];
+        dkMeters=[];
+        var badDist = [[],[]];
+        var goodDist = [[],[]];
+
+        for (const [key, value] of Object.entries(eventData))
+        {
+          // check if the property/key is defined in the object itself, not in parent
+          if(!keys.includes(key))
+          {
+              keys.push(key);//record all unique event keys
+              dLt=eventData[key].Lat_Orig-eventData[key].Lat_Final;
+              dLn=eventData[key].Lon_Orig-eventData[key].Lon_Final;
+              var t=dLt*1.11/.00001;
+              var n=dLn*1.11/.00001;
+              dLat.push(t/1000);
+              dLon.push(n/1000);
+              dm = Math.floor(Math.sqrt((t*t)+(n*n)))/1000;
+              dkMeters.push(dm);
+              if(dm<2.25)
+              {
+                goodDist[0].push(t/1000);
+                goodDist[1].push(n/1000);
+              }
+              else
+              {
+                badDist[0].push(t/1000);
+                badDist[1].push(n/1000);
+              }
+              var tmp=[eventData[key].event2-eventData[key].event1,eventData[key].event3-eventData[key].event2]
+              var total=tmp[0]+tmp[1];
+              times[total]=tmp;
+              timeKeys.push(total);
+          }
+        }
+
+        var bothDist = [badDist,goodDist];
+        var bothLabels = ["Excess error","Acceptable"];
+        scatterChart("can1","Accumulated Error", bothLabels, bothDist, "Lat Error (km)","Lon Error (km)")
+        dkMeters.sort((a,b) => a-b);
+        histogram("can2","Accumulated Error (km)",dkMeters,"");
+
+        var runs = [];
+        var t1 = [];
+        var t2 = [];
+        for(let i=0;i<timeKeys.length;i++)
+        {
+          i%10==9 ? runs.push(""+i) : runs.push("");
+          t1.push(times[timeKeys[i]][0]);
+          t2.push(times[timeKeys[i]][1]);
+        }
+        stackBarChart("can3","Raw Times",runs,"Runs",t1,t2,"Interval 1->2","Interval 2->3","Time (ms)");
+
+        timeKeys.sort((a,b) => a-b);
+        t1 = [];
+        t2 = [];
+        for(let i=0;i<timeKeys.length;i++)
+        {
+          t1.push(times[timeKeys[i]][0]);
+          t2.push(times[timeKeys[i]][1]);
+        }
+        stackBarChart("can4","Sorted Times",runs,"Runs",t1,t2,"Interval 1->2","Interval 2->3","Time (ms)");
+
+        histogram("can5","Interval 1->2 (ms)",t1,"");
+        histogram("can6","Interval 2->3 (ms)",t2,"");
+
+        setTimeout(function(){ timedUpdate(); }, 10000);
+      }
+
+      function histogram(tagID,title,data,label)
+      {
+        var max = Number.MIN_VALUE;
+        var min = Number.MAX_SAFE_INTEGER;
+        for(let i=0;i<data.length;i++)
+        {
+          max = data[i]>max ? data[i] : max;
+          min = data[i]<min ? data[i] : min;
+        }
+
+        var range = max-min;
+        var bucket = range/20;
+        var start = min-(bucket/2);
+        var sigma = 0;
+        var dataset = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        var xLabels = [];
+        for(let i=0;i<19;i++)
+        {
+          xLabels[i]="["+(Math.floor((start+(i*bucket))*100)/100.0)+", "+(Math.floor((start+((i+1)*bucket))*100)/100.0)+")";
+        }
+
+        for(let i=0;i<data.length;i++)
+        {
+          var b = Math.floor((data[i]-start)/bucket);
+          dataset[b]+=1.0/data.length;
+        }
+
+        var myType = S_AREA_TYPE;
+        clearLineGroupIndex();
+        var config = createLineConfig(myType, title,label,"Frequency (%)");
+        var chart = createLineChart(tagID,300,300,config);
+        setLineChartLabels(config,xLabels);
+        createLineGroupStyleArea(config,"Distribution function",dataset, 0,0);
+        chart.update();
+      }
+
+      function scatterChart(tagID,title,allDataLabels,allDataSets,xlabel,ylabel)
+      {
+         var config = createScatterConfig(title,xlabel,ylabel);
+         var chart = createScatterChart(tagID,300,300,config);
+         for(let i=0;i<allDataLabels.length;i++)
+         {
+           createScatterDataSet(config,allDataLabels[i],allDataSets[i][0],allDataSets[i][1], i*2);
+         }
+         chart.update();
+      }
+
+      function stackBarChart(tagID,title,xdata,xLabel,dataset1,dataset2,label1,label2,yLabel)
+      {
+         var myType = S_VBAR_TYPE;
+         var config = createLineConfig(myType,title,xLabel,yLabel);
+         var chart = createLineChart(tagID,300,300,config);
+         setLineChartLabels(config,xdata);
+         createLineGroupStyleArea(config,label1,dataset1, 0, 0);
+         createLineGroupStyleArea(config,label2,dataset2, 3, 0);
+         chart.update();
+      }
+
+      function timedUpdate()
+      {
+        document.getElementById("dataSourceFile").remove();
+        clearLineGroupIndex();
+        for(let i=0;i<charts.length;i++)
+        {
+          charts[i].destroy();
+        }
+        var head= document.getElementsByTagName('head')[0];
+        var script= document.createElement('script');
+        script.src= './demo.js';
+        script.id='dataSourceFile';
+        head.appendChild(script);
+        loadData();
+      }
+    </script>
+  </head>
+  <body onload="loadData()">
+    <table>
+      <tr><td><canvas id="can1"></canvas></td><td><canvas id="can2"></canvas></td></tr>
+      <tr><td><canvas id="can3"></canvas></td><td><canvas id="can4"></canvas></td></tr>
+      <tr><td><canvas id="can5"></canvas></td><td><canvas id="can6"></canvas></td></tr>
+    </table>
+    <p id="output"></p>
+  </body>
+</html>

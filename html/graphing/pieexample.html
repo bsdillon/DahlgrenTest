@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title id="title">DataSet</title>
+    <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="https://bsdillon.github.io/DahlgrenTest/html/graphing/piechartlibrary.js"></script>
+    <script src="./coindata.js"></script>
+    <script>
+      function loadData()
+      {
+         //Each pie chart requires a separate set of code
+         var config1 = createConfig(chartTitle+" - "+seriesTitle1);
+         var chart1 = createChart("can1", 150,150,config1);
+         setLabels(config1, labels);
+         createDataSet(config1, data1);
+         chart1.update();
+
+         var config2 = createConfig(chartTitle+" - "+seriesTitle2);
+         var chart2 = createChart("can2",150,150,config2);
+         setLabels(config2, labels);
+         createDataSet(config2, data2);
+         chart2.update();
+
+         var config3 = createConfig(chartTitle+" - "+seriesTitle3);
+         var chart3 = createChart("can3",150,150,config3);
+         setLabels(config3, labels);
+         createDataSet(config3, data3);
+         chart3.update();
+      }
+    </script>
+  </head>
+  <body onload="loadData()">
+    <p>To view the code behind the examples, right click on the page and select "View page source"</p>
+    <canvas id="can1"></canvas><br>
+    <canvas id="can2"></canvas><br>
+    <canvas id="can3"></canvas>
+  </body>
+</html>
