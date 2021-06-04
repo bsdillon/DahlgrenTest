@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QString>
+#include<QMessageBox>
 
 //#include "AbstractDriver.h"
 #include "net/source/abstractdriver.h"
@@ -128,6 +129,7 @@ void TopicSelector::loadTopicsFromFile()
         auto savedTopics = settings->value("TopicSelector/SelectedTopics").toStringList();
         selectListOfTopics(savedTopics);
     }
+    QMessageBox::information(this, "Title","Success!");
 }
 
 void TopicSelector::addTopics()

@@ -21,6 +21,8 @@ WORKSPACESOURCE = $${WORKSPACE}/source
 WORKSPACETOOLS = $${WORKSPACE}/tools
 
 QT += core gui
+QT += websockets
+
 CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Gemini
@@ -193,7 +195,6 @@ SOURCES += \
     $${CPP_DIR}/uiinterface/i_main.cpp \
     $${CPP_DIR}/uiinterface/i_test.cpp \
     $${CPP_DIR}/uiinterface/i_topicpanel.cpp \
-    include/net/source/testDriver.cpp
 
     #$${CPP_DIR}/external/rticonnection.cpp \
     #$${CPP_DIR}/external/rtitester.cpp \

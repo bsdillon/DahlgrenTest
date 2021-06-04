@@ -41,11 +41,7 @@ int main(int argc, char *argv[])
 
     f.CompleteStartup();
 
-    //QApplication a(argc, argv);
-    //QWidget widget;
-    //Ui::ExperimentPanel ui;
-    //ui.setupUi(&widget);
-    ExperimentPanel e;
-    e.show();
+    HeadlessApp h(1337, false, nullptr);
+
     return a.exec();
 }
