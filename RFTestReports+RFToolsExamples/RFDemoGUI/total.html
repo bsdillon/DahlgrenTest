@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Total Results</title>
+
     <style>
         table.hidden {display: none;}
         table.show {border: 1px solid black;}
@@ -11,144 +13,16 @@
     <script src="piechartlibrary.js"></script>
     <script src="https://github.com/bsdillon/DahlgrenTest/blob/master/RFTestReports%2BRFToolsExamples/chartjs/utils.js"></script>
     <script src="linechartlibrary.js"></script>
-    <script>
-    function oqe(x){
-      var link = x +".html";
-      var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
-      var newWindow = null;
-      window.open(link, newWindow, windowFeatures);
-    }
-
-    function loadTable(){
-     var table = document.getElementById("total");
-     var data = Object.keys(testRuns);
-     let thead = table.createTHead();
-     let row = thead.insertRow();
-     let title = document.createTextNode("Test Runs");
-     let cell = row.insertCell();
-     cell.appendChild(title);
-     for(let element of data){
-      let row = table.insertRow();
-      let cell = row.insertCell();
-      let text = document.createTextNode(element + "  ");
-      var oqeLink = document.createElement("BUTTON");
-      oqeLink.onclick =  (function(element){ return function(){oqe(element);}})(element);
-      oqeLink.innerHTML = 'OQE';
-      cell.appendChild(text);
-      cell.appendChild(oqeLink);
-      var expand = document.createElement("BUTTON");
-      expand.onclick = function(element){ return function(){ expandTable(element);}}(element);
-      expand.innerHTML = ' + ';
-      cell.appendChild(expand);
-      var actualdata = testRuns[element];
-      var data1 = Object.keys(actualdata[0]);
-      var subtable = document.createElement("TABLE");
-      subtable.id = "sub" + element;
-      subtable.setAttribute('class','hidden');
-      generateTableHead(subtable, data1);
-      generateTable(subtable, actualdata);
-      cell.appendChild(subtable);
-     }
-    }
-
-    function expandTable(element) {
-      var hiddenTable = document.getElementById("sub" + element);
-      console.log(hiddenTable.id);
-      if(hiddenTable.className == 'hidden'){
-       hiddenTable.setAttribute('class', 'show');
-      }else if(hiddenTable.className == 'show'){
-       hiddenTable.setAttribute('class', 'hidden');
-      }
-    }
-
-     function loadData(){
-      var length = Object.keys(testRuns).length;
-      var breakElement = 'testRun' + length-1;
-      var config2 = createLineConfig(LINE_TYPE, "Pass/Fail Percentage vs. Test Run", "Test Run", "Percentage");
-      var chart2 = createChart("canvas2", 350, 350, config2);
-      chart2.id = 'chart2';
-      var XData = Object.keys(testRuns);
-      setLineChartLabels(config2, XData);
-      var config1 = createConfig("Pass vs. Fail");
-      var chart1 = createChart("canvas1", 350,350,config1);
-      chart1.id = 'chart1';
-      let labels =['Fail','Pass', 'Not Run'];
-      setLabels(config1, labels);
-      var passPercent =[];
-      var failPercent =[];
-      var failA = [];
-      var passA = [];
-      var otherA = [];
-      var data = Object.keys(testRuns);
-      for(let element of data){
-        console.log(element);
-        var subdata = testRuns[element];
-        var length = Object.keys(subdata).length;
-        var pass = 0;
-        var fail = 0;
-        var other = 0;
-        for(var i=0; i<length; i++) {
-          if(subdata[i].Status == 'Pass') {
-            pass = pass + 1;
-          } else if(subdata[i].Status == 'Fail'){
-            fail = fail + 1;
-          }else{
-            other = other + 1;
-          }
-        }
-        if(other!=0 && fail == 0 && pass ==0){
-            break;
-        }
-        passA.push(pass);
-        failA.push(fail);
-        otherA.push(other);
-        var passP = (pass / (pass + fail + other))*100;
-        var failP = (fail /(pass + fail + other))*100;
-        passPercent.push(passP);
-        failPercent.push(failP);
-        if(element == breakElement){break;}
-      }
-      data1 = [sumArray(failA), sumArray(passA), sumArray(otherA)];
-      createDataSet(config1, data1);
-      chart1.update();
-      createLineDataSet(config2, "Pass Percentage", passPercent, LINE_TYPE);
-      createLineDataSet(config2, "Fail Percentage", failPercent, LINE_TYPE);
-      chart2.update();
-    //  setTimeout(function(){ timedUpdate('total'); }, 5000);
-     }
-
-     function sumArray(a, total){
-       var total=0;
-       for(var i in a) {
-         total += a[i];
-       }
-       return total;
-     }
-
-    function timedUpdate(tableid) {
-     document.getElementById("dataSourceFile").remove();
-     var table = document.getElementById(tableid);
-     table.innerHTML = "";
-     var head= document.getElementsByTagName('head')[0];
-     var script= document.createElement('script');
-     script.src= 'demodata.js';
-     script.id='dataSourceFile';
-     head.appendChild(script);
-     startData();
-    }
-    function startData(){
-     loadTable();
-     loadData();
-    }
-  </script>
+    <script src = "demoGUI.js"></script>
 </head>
 <body onload = "startData()">
-<table id="total" border="5"></table>
-<br>
-<h2>Overall Test Breakdown</h2>
-<canvas id="canvas1"></canvas>
-<br>
-<h2> Performance Over Time </h2>
-<canvas id="canvas2"></canvas>
+  <h1>Total Results</h1>
+  <table id="total" border="5"></table>
+  <br>
+  <h2>Overall Test Breakdown</h2>
+  <canvas id="canvas1"></canvas>
+  <br>
+  <h2> Performance Over Time </h2>
+  <canvas id="canvas2"></canvas>
 </body>
 </html>
