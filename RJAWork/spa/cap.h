@@ -8,6 +8,26 @@
 
 #include <sys/types.h>
 
+#define MAX_FRAMENUM_BYTES 10
+#define MAX_PORT_BYTES 10
+#define MAX_IP_BYTES 16
+
+/*
+ * The frame struct holds the information retrieved from tshark. Each frame has
+ * a pointer to the next frame for easy sequential access.
+ */
+typedef struct frame
+{
+	char framenum[MAX_FRAMENUM_BYTES];
+	char srcip[MAX_IP_BYTES];
+	char srcport_tcp[MAX_PORT_BYTES];
+	char srcport_udp[MAX_PORT_BYTES];
+	char destip[MAX_IP_BYTES];
+	char destport_tcp[MAX_PORT_BYTES];
+	char destport_udp[MAX_PORT_BYTES];
+	struct frame *next;
+} frame;
+
 /* 
  * This function returns a file descriptor of a pipe read end to an instance
  * of tshark. Returns -1 if there was a failure.
@@ -19,5 +39,11 @@ int gettsharkinstance(char *args);
  * sending signals to the process.
  */
 pid_t gettsharkpid();
+
+/*
+ * This function parses a line from tshark's curated output and returns a
+ * pointer to a frame with the line's information parsed.
+ */
+frame * parseline(char line[]);
 
 #endif

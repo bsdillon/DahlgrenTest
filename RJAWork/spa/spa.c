@@ -1,3 +1,9 @@
+/*
+ * This is the main code for the SIMPLE Packet Associator project. This
+ * application makes use of tshark and editcap to add information about
+ * which process a packet is going to or coming from.
+ */
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -5,6 +11,8 @@
 #include <stdlib.h>
 #include <signal.h>
 #include "cap.h"
+
+#define LINE_BUF_SIZE 256
 
 pid_t tspid;
 int capture;
@@ -37,7 +45,7 @@ int main(void)
 	int fd = gettsharkinstance("");
 	tspid = gettsharkpid();
 	FILE *tsfile = fdopen(fd, "r");
-	char buf[256] = {0}; //Change hard-coded size value
+	char buf[LINE_BUF_SIZE] = {0};
 	signal(SIGINT, handle_signals);
 	capture = 1;
 	
@@ -45,7 +53,20 @@ int main(void)
 	
 	while(fgets(buf, sizeof(buf), tsfile) != NULL)
 	{
+		//Temp code for ensuring the frame is filled properly
 		printf("%s",buf);
+		frame *f = parseline(buf);
+		
+		printf("Frame:%s\n"
+				   "\tSrcIp:%s\n"
+				   "\tSrcPrtTcp:%s\n"
+				   "\tSrcPrtUDP:%s\n"
+				   "\tDestIp:%s\n"
+				   "\tDestPrtTCP:%s\n"
+				   "\tDestPrtUDP:%s\n", 
+				   f->framenum, 
+				   f->srcip, f->srcport_tcp, f->srcport_udp,
+				   f->destip,f->destport_tcp,f->destport_udp);
 	}
 	
 	fclose(tsfile);

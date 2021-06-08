@@ -1,6 +1,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "cap.h"
 
 pid_t pid;
@@ -43,4 +45,53 @@ int gettsharkinstance(char *args)
 pid_t gettsharkpid()
 {
 	return pid;
+}
+
+frame * parseline(char line[])
+{
+	char *bufstart = line;
+	frame *newframe = malloc(sizeof(frame));
+	char *token = strsep(&bufstart, ",");
+	if (token != NULL)
+		strcpy(newframe->framenum, token);
+	else
+		strcpy(newframe->framenum, "");
+	
+	token = strsep(&bufstart, ",");
+	if (token != NULL)
+		strcpy(newframe->srcip, token);
+	else
+		strcpy(newframe->srcip, "");
+	
+	token = strsep(&bufstart, ",");
+	if (token != NULL)
+		strcpy(newframe->srcport_tcp, token);
+	else
+		strcpy(newframe->srcport_tcp, "");
+	
+	token = strsep(&bufstart, ",");
+	if (token != NULL)
+		strcpy(newframe->srcport_udp, token);
+	else
+		strcpy(newframe->srcport_udp, "");
+	
+	token = strsep(&bufstart, ",");
+	if (token != NULL)
+		strcpy(newframe->destip, token);
+	else
+		strcpy(newframe->destip, "");
+	
+	token = strsep(&bufstart, ",");
+	if (token != NULL)
+		strcpy(newframe->destport_tcp, token);
+	else
+		strcpy(newframe->destport_tcp, "");
+	
+	token = strsep(&bufstart, ",");
+	if (token != NULL)
+		strcpy(newframe->destport_udp, token);
+	else
+		strcpy(newframe->destport_udp, "");
+		
+	return newframe;
 }
