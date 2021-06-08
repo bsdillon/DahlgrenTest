@@ -31,12 +31,13 @@ static void handle_signals(int signum)
 }
 
 /* main() is in WIP status and subject to frequent change */
-int main(void){
+int main(void)
+{
 	int status;
 	int fd = gettsharkinstance("");
 	tspid = gettsharkpid();
 	FILE *tsfile = fdopen(fd, "r");
-	char buf[256] = {0}; //Change hard-coded value
+	char buf[256] = {0}; //Change hard-coded size value
 	signal(SIGINT, handle_signals);
 	capture = 1;
 	

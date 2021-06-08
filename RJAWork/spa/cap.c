@@ -11,12 +11,15 @@ int gettsharkinstance(char *args)
 		"tshark", "-T", "fields",
 		"-e", "frame.number", "-e", "ip.src", "-e", "tcp.srcport", "-e", "udp.srcport",
 		"-e", "ip.dst", "-e", "tcp.dstport", "-e", "udp.dstport",
-		"-E", "separator=,", "-l", "-p", "-n", "-QP", args, NULL
+		"-E", "separator=,", "-l", "-p", "-n", "-QP", NULL
 		};
 	int tspipe[2] = {-1, -1};
-	pipe(tspipe);
 	
+	//TODO: fix passing args to function (need to add them to arglist)
+	
+	pipe(tspipe);
 	pid = fork();
+	
 	if (pid < 0)
 	{
 		perror("cannot fork");
