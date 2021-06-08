@@ -1,0 +1,43 @@
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include "cap.h"
+
+pid_t pid;
+
+int gettsharkinstance(char *args)
+{
+	char *arglist[] = {
+		"tshark", "-T", "fields",
+		"-e", "frame.number", "-e", "ip.src", "-e", "tcp.srcport", "-e", "udp.srcport",
+		"-e", "ip.dst", "-e", "tcp.dstport", "-e", "udp.dstport",
+		"-E", "separator=,", "-l", "-p", "-n", "-QP", args, NULL
+		};
+	int tspipe[2] = {-1, -1};
+	pipe(tspipe);
+	
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("cannot fork");
+		return 1;
+	}
+	if (pid == 0)
+	{
+		dup2(tspipe[1], STDOUT_FILENO); //need to check for error here
+		close(tspipe[1]);
+		close(tspipe[0]);
+		execvp("tshark", arglist);
+	} 
+	else
+	{
+		close(tspipe[1]);
+		return(tspipe[0]);
+	}
+	return -1;
+}
+
+pid_t gettsharkpid()
+{
+	return pid;
+}
