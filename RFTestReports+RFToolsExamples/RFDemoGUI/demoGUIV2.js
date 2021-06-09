@@ -1,3 +1,5 @@
+
+
 //Home Page
  function generateHeatMapRows(table, data){
    for(let element of data) {
@@ -53,23 +55,6 @@
    }
    return stat;
  }
-
- function oqe(x){
-     var link = x +".html";
-     var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
-     var newWindow = null;
-     if(x == 'total'){
-        window.open(link, newWindow, windowFeatures);
-     }else{
-        var chartData = testRuns[x];
-        var newWindow = window.open('individualOQE.html', '_blank', windowFeatures);   
-        let doc = newWindow.document; 
-        var table = doc.getElementById('demo');
-        newWindow.addEventListener('load', loadOQEChart(chartData, table, doc), false);
-        
-     }      
- }
-
 
 
 function createButton(name, func, inner, element, parent, align){
@@ -151,27 +136,64 @@ function sortResults(data){
     return data1;
 }
 
+ function oqe(x){
+     var link = x +".html";
+     var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
+     var newWindow = null;
+     if(x == 'total'){
+        window.open(link, newWindow, windowFeatures);
+     }else{
+        var chartData = testRuns[x];
+        var win = window.open('', newWindow, windowFeatures); 
+        //var doc = win.document; 
+        //loadOQEChart(chartData, win);
+        win.location.assign('individualOQE.html');
+        win.addEventListener('load', loadOQEChart(chartData, win), false);
+        
+     }      
+ }
 //Individual OQE Metrics
- function loadOQEChart(data, table, doc){
-   var dataKeys = Object.keys(data[0]);
-   //generateTableHead(table, dataKeys, doc);
-   //generateTable(table, data, doc);
+ function loadOQEChart(data, win){
+   //win.alert('starting');
+   //var dataKeys = Object.keys(data[0]);
+   //var table = win.document.getElementById("demo");
+   //generateTableHead(table, dataKeys);
+   //generateTable(table, data);
    data1 = sortResults(data);
-   alert(data1);
+   win.alert(data1);
    var config1 = createConfig("Pass vs. Fail");
-   var chart1 = createChart("canvas", 350,350,config1);
-   alert('here?');
+   var chart1 = createChart("canvas", 350,350,config1, win);
+   win.alert(chart1);
    let labels =['Fail','Pass', 'Not Run'];
    setLabels(config1, labels);
    createDataSet(config1, data1);
    chart1.update();
-   var suiteResult ='';
-   if(data1[2] > data1[1]){
-     suiteResult = 'Pass';
-   }else{
-     suiteResult = 'Fail';
-   }
+   alert(data1);
  }
+
+ function generateTableHead(table, data) {
+  alert('something');
+  var thead = table.createTHead();
+  alert('here');
+  var row = thead.insertRow();
+  for (let key of dataKeys) {
+    var th = win.document.createElement("th");
+    var text = win.document.createTextNode(key);
+    th.appendChild(text);
+    row.appendChild(th);
+  }
+}
+
+ function generateTable(table, data) {
+  for (let element of data) {
+    var row = table.insertRow();
+    for (key in element) {
+      var cell = row.insertCell();
+      var text = win.document.createTextNode(element[key]);
+      cell.appendChild(text);
+    }
+  }
+}
 
  function timedUpdateExample(){
    document.getElementById("dataSourceFile").remove();
@@ -183,29 +205,6 @@ function sortResults(data){
    script.id='dataSourceFile';
    head.appendChild(script);
    loadOQEChart(data);
-}
-
- function generateTableHead(table, data, doc) {
-  let thead = table.createTHead();
-  alert('here');
-  let row = thead.insertRow();
-  for (let key of dataKeys) {
-    let th = doc.createElement("th");
-    let text = doc.createTextNode(key);
-    th.appendChild(text);
-    row.appendChild(th);
-  }
-}
-
- function generateTable(table, data, doc) {
-  for (let element of data) {
-    let row = table.insertRow();
-    for (key in element) {
-      let cell = row.insertCell();
-      let text = doc.createTextNode(element[key]);
-      cell.appendChild(text);
-    }
-  }
 }
 
 //Cumulative OQE Metrics
