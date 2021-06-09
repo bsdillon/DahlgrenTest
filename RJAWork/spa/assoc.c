@@ -2,7 +2,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "assoc.h"
+
+#define SS_LINE_BUFFER 128
+#define WRITE_CHUNK_SIZE 50
 
 /*
  * Notes on current implementation:
@@ -19,7 +23,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 {
 	char *cmdfmt = "ss -tanpH '( sport = :%s or dport = :%s )"
 				   " and ( dport = :%s or sport = :%s )'"
-				   " | awk '{print $6}'";
+				   " | awk '{gsub(/\"/, \"\"); print $6}'";
 	char *cmdstr;
 	if (0 > asprintf(&cmdstr, cmdfmt, sport, sport, dport, dport))
 	{
@@ -27,7 +31,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 		exit(1);
 	}
 	
-	char *buf = malloc(sizeof(char) * 128); //TODO: set up constant for line buffer
+	char *buf = malloc(sizeof(char) * SS_LINE_BUFFER);
 	FILE *fp;
 
 	if((fp=popen(cmdstr, "r"))==NULL)
@@ -36,7 +40,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 		return "ERR";
 	}
 
-	while (fgets(buf, 128, fp) != NULL) 
+	while (fgets(buf, SS_LINE_BUFFER, fp) != NULL) 
 	{
         //TODO: Right now this assumes there is only one line of ss output
 		//		Update this behavior to reflect possibility of multiple lines
@@ -48,4 +52,30 @@ char * get_proc_info_tcp(char *sport, char *dport)
     }
 	
 	return buf;
+}
+
+int write_info_to_file(char *outfile, frame **listhead)
+{
+	//printf("Writing to file %s\n", outfile);
+	frame *currframe = *listhead;
+	int namelen = strlen(outfile);
+	char *cmdbuf;
+	while (currframe != NULL)
+	{
+		cmdbuf = malloc(sizeof(char) * (20 + MAX_FRAMENUM_BYTES 
+										+ SS_LINE_BUFFER
+										+ namelen*2));
+		strncpy(cmdbuf, "editcap -a ", 12);
+		strncat(cmdbuf, currframe->framenum, MAX_FRAMENUM_BYTES);
+		strncat(cmdbuf, ":\"", 3);
+		strncat(cmdbuf, currframe->procinfo, SS_LINE_BUFFER); //Do we need to add a -1 for null?
+		strncat(cmdbuf, "\" ", 3);
+		strncat(cmdbuf, outfile, namelen);
+		strncat(cmdbuf, " ", 2);
+		strncat(cmdbuf, outfile, namelen);
+		system(cmdbuf);
+		free(cmdbuf);
+		currframe = currframe->next;
+	}
+	return 0;
 }

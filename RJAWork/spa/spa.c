@@ -45,26 +45,28 @@ static void handle_signals(int signum)
 	return;
 }
 
-/* main() is in WIP status and subject to frequent change */
-int main(void)
+/*
+ * Takes file descriptor to tshark pipe and returns the number of captured
+ * packets
+ */
+int capture_frames(int fd, frame **listhead)
 {
-	int status;
-	int fd = get_tshark_instance("");
-	tspid = get_tshark_pid();
 	FILE *tsfile = fdopen(fd, "r");
 	char buf[LINE_BUF_SIZE] = {0};
 	signal(SIGINT, handle_signals);
 	capture = 1;
+	frame *prevframe = NULL;
 	
 	printf("Started tshark with pid %d\n",tspid);
 	
 	int numframes = 0;
-	
 	while(fgets(buf, sizeof(buf), tsfile) != NULL)
 	{
-		//Temp code for ensuring the frame is filled properly
-		//printf("%s",buf);
 		frame *f = parse_line(buf);
+		if (*listhead == NULL)
+		{
+			*listhead = f;
+		}
 		
 		if(strcmp(f->srcport_tcp, "") !=0)
 		{
@@ -76,34 +78,58 @@ int main(void)
 			f->procinfo = "Info unavailable";
 		}
 		
+		if (prevframe == NULL)
+		{
+			prevframe = f;
+		}
+		else
+		{
+			prevframe->next = f;
+			prevframe = f;
+		}
+		
 		numframes++;
 		
-		/*printf("Frame:%s\n"
-				   "\tSrcIp:%s\n"
-				   "\tSrcPrtTcp:%s\n"
-				   "\tSrcPrtUDP:%s\n"
-				   "\tDestIp:%s\n"
-				   "\tDestPrtTCP:%s\n"
-				   "\tDestPrtUDP:%s\n"
-				   "\tProcInfo:%s\n", 
-				   f->framenum, 
-				   f->srcip, f->srcport_tcp, f->srcport_udp,
-				   f->destip,f->destport_tcp,f->destport_udp,
-				   f->procinfo);*/
 	}
 	
 	fclose(tsfile);
-	close(fd);
 	
+	return numframes;
+}
+
+/* Helper function to see inside frame */
+void printframe(frame *f)
+{
+	printf("Frame:%s\n"
+			"\tSrcIp:%s\n"
+			"\tSrcPrtTcp:%s\n"
+			"\tSrcPrtUDP:%s\n"
+			"\tDestIp:%s\n"
+			"\tDestPrtTCP:%s\n"
+			"\tDestPrtUDP:%s\n"
+			"\tProcInfo:%s\n", 
+			f->framenum, 
+			f->srcip, f->srcport_tcp, f->srcport_udp,
+			f->destip,f->destport_tcp,f->destport_udp,
+			f->procinfo);
+}
+
+/* main() is in WIP status and subject to frequent change */
+int main(void)
+{
+	int status;
+	int fd = get_tshark_instance("");
+	tspid = get_tshark_pid();
+	
+	frame *list = NULL;
+	int numframes = capture_frames(fd, &list);
+	close(fd);
 	wait(&status);
 	
 	printf("Captured %d frames\n", numframes);
 	
-	/*waitpid(tspid, &status, 0);
-	if(WIFSIGNALED(status))
-	{
-		capture = 0;
-	}; */
+	write_info_to_file("/tmp/spa.pcapng", &list);
+	
 	
 	printf("Exiting main program\n");
 	

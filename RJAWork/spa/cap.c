@@ -51,6 +51,8 @@ frame * parse_line(char line[])
 {
 	char *bufstart = line;
 	frame *newframe = malloc(sizeof(frame));
+	newframe->next = NULL;
+	newframe->procinfo = NULL;
 	char *token = strsep(&bufstart, ",");
 	if (token != NULL)
 		strcpy(newframe->framenum, token);
