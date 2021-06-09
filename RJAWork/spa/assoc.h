@@ -7,7 +7,7 @@
 #define ASSOC_H
 
 /* Returns process name and pid associated to TCP port*/
-char * getprocinfotcp(char *sport, char *dport);
+char * get_proc_info_tcp(char *sport, char *dport);
 
 /* Returns process name and pid associated to UDP port*/
 //char * getprocinfoudp(char *sport, char *dport);

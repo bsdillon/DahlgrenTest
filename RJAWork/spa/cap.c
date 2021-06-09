@@ -7,7 +7,7 @@
 
 pid_t pid;
 
-int gettsharkinstance(char *args)
+int get_tshark_instance(char *args)
 {
 	char *arglist[] = {
 		"tshark", "-T", "fields",
@@ -42,12 +42,12 @@ int gettsharkinstance(char *args)
 	return -1;
 }
 
-pid_t gettsharkpid()
+pid_t get_tshark_pid()
 {
 	return pid;
 }
 
-frame * parseline(char line[])
+frame * parse_line(char line[])
 {
 	char *bufstart = line;
 	frame *newframe = malloc(sizeof(frame));

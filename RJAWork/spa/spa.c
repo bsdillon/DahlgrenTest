@@ -49,8 +49,8 @@ static void handle_signals(int signum)
 int main(void)
 {
 	int status;
-	int fd = gettsharkinstance("");
-	tspid = gettsharkpid();
+	int fd = get_tshark_instance("");
+	tspid = get_tshark_pid();
 	FILE *tsfile = fdopen(fd, "r");
 	char buf[LINE_BUF_SIZE] = {0};
 	signal(SIGINT, handle_signals);
@@ -64,11 +64,11 @@ int main(void)
 	{
 		//Temp code for ensuring the frame is filled properly
 		//printf("%s",buf);
-		frame *f = parseline(buf);
+		frame *f = parse_line(buf);
 		
 		if(strcmp(f->srcport_tcp, "") !=0)
 		{
-			char *info = getprocinfotcp(f->srcport_tcp, f->destport_tcp);
+			char *info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
 			f->procinfo = info;
 		}
 		if (f->procinfo == NULL)

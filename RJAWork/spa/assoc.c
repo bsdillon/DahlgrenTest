@@ -15,7 +15,7 @@
  *	 (Build in a more proper way to check packet direction and verify whether
  *	  it belongs to this machine)
  */
-char * getprocinfotcp(char *sport, char *dport)
+char * get_proc_info_tcp(char *sport, char *dport)
 {
 	char *cmdfmt = "ss -tanpH '( sport = :%s or dport = :%s )"
 				   " and ( dport = :%s or sport = :%s )'"

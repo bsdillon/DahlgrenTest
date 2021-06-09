@@ -33,18 +33,18 @@ typedef struct frame
  * This function returns a file descriptor of a pipe read end to an instance
  * of tshark. Returns -1 if there was a failure.
  */
-int gettsharkinstance(char *args);
+int get_tshark_instance(char *args);
 
 /* 
  * This function returns the pid of the tshark instance, which is useful for
  * sending signals to the process.
  */
-pid_t gettsharkpid();
+pid_t get_tshark_pid();
 
 /*
  * This function parses a line from tshark's curated output and returns a
  * pointer to a frame with the line's information parsed.
  */
-frame * parseline(char line[]);
+frame * parse_line(char line[]);
 
 #endif
