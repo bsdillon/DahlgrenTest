@@ -16,7 +16,6 @@ class HeadlessApp : public QObject
 {
     Q_OBJECT
 public:
-    HeadlessApp();
     HeadlessApp(quint16 port, bool debug = false, QObject *parent = nullptr);
     ~HeadlessApp();
     void setupProxies(std::unique_ptr<ProxySet>& ps);
@@ -28,7 +27,7 @@ public slots:
 
 signals:
     void closed();
-    void testSignal();
+    void messageSignal();
 
 private:
     DataLoaderProxy* dataloader;

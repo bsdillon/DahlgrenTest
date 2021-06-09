@@ -1,4 +1,5 @@
 #include "headless/topicselectorproxy.h"
+#include "../../include/qtgui/topicselector.h"
 
 TopicSelectorProxy::TopicSelectorProxy()
 {
@@ -12,4 +13,9 @@ TopicSelectorProxy::TopicSelectorProxy()
 void TopicSelectorProxy::readSettings()
 {
 
+}
+
+void TopicSelectorProxy::onMessage(){
+    TopicSelector* topicSelect = new TopicSelector();
+    topicSelect->loadTopicsFromFile();
 }

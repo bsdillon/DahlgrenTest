@@ -30,7 +30,7 @@ void CoreFunction::CompleteStartup()
     }
     else
     {
-        headless = new HeadlessApp();
+        headless = new HeadlessApp(1337);
         headless->setupProxies(proxies);
         //TODO setup feedback equivalent to splash screen
     }

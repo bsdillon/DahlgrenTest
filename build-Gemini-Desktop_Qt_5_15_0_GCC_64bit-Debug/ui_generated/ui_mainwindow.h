@@ -17,7 +17,6 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
@@ -50,7 +49,6 @@ public:
     QGridLayout *gridLayout_2;
     TopicCounts *countPanel;
     TopicDetails *detailPanel;
-    QPushButton *pushButton;
     QFrame *modeSelectorFrame;
     QGridLayout *gridLayout_4;
     QHBoxLayout *horizontalLayout;
@@ -183,9 +181,6 @@ public:
         sizePolicy4.setHeightForWidth(detailPanel->sizePolicy().hasHeightForWidth());
         detailPanel->setSizePolicy(sizePolicy4);
         detailPanel->setMinimumSize(QSize(500, 0));
-        pushButton = new QPushButton(detailPanel);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(20, 100, 121, 41));
         splitter->addWidget(detailPanel);
 
         verticalLayout_2->addWidget(splitter);
@@ -231,7 +226,6 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "GEMINI", nullptr));
         actionCreate_manual_event->setText(QCoreApplication::translate("MainWindow", "Create manual event", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "Test", nullptr));
     } // retranslateUi
 
 };

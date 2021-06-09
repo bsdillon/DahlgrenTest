@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_HeadlessApp_t {
     QByteArrayData data[8];
-    char stringdata0[84];
+    char stringdata0[87];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,14 +35,14 @@ static const qt_meta_stringdata_HeadlessApp_t qt_meta_stringdata_HeadlessApp = {
 QT_MOC_LITERAL(0, 0, 11), // "HeadlessApp"
 QT_MOC_LITERAL(1, 12, 6), // "closed"
 QT_MOC_LITERAL(2, 19, 0), // ""
-QT_MOC_LITERAL(3, 20, 10), // "testSignal"
-QT_MOC_LITERAL(4, 31, 15), // "onNewConnection"
-QT_MOC_LITERAL(5, 47, 18), // "socketDisconnected"
-QT_MOC_LITERAL(6, 66, 9), // "onMessage"
-QT_MOC_LITERAL(7, 76, 7) // "message"
+QT_MOC_LITERAL(3, 20, 13), // "messageSignal"
+QT_MOC_LITERAL(4, 34, 15), // "onNewConnection"
+QT_MOC_LITERAL(5, 50, 18), // "socketDisconnected"
+QT_MOC_LITERAL(6, 69, 9), // "onMessage"
+QT_MOC_LITERAL(7, 79, 7) // "message"
 
     },
-    "HeadlessApp\0closed\0\0testSignal\0"
+    "HeadlessApp\0closed\0\0messageSignal\0"
     "onNewConnection\0socketDisconnected\0"
     "onMessage\0message"
 };
@@ -89,7 +89,7 @@ void HeadlessApp::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->closed(); break;
-        case 1: _t->testSignal(); break;
+        case 1: _t->messageSignal(); break;
         case 2: _t->onNewConnection(); break;
         case 3: _t->socketDisconnected(); break;
         case 4: _t->onMessage((*reinterpret_cast< const QString(*)>(_a[1]))); break;
@@ -106,7 +106,7 @@ void HeadlessApp::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         }
         {
             using _t = void (HeadlessApp::*)();
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&HeadlessApp::testSignal)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&HeadlessApp::messageSignal)) {
                 *result = 1;
                 return;
             }
@@ -161,7 +161,7 @@ void HeadlessApp::closed()
 }
 
 // SIGNAL 1
-void HeadlessApp::testSignal()
+void HeadlessApp::messageSignal()
 {
     QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
 }

@@ -10,7 +10,8 @@
 //#include "AbstractDriver.h"
 #include "net/source/abstractdriver.h"
 //#include "DriverFactory.h"
-#include "net/drivers/DriverFactory.h"
+//#include "net/drivers/DriverFactory.h"
+#include "net/drivers/FactoryInterfaceImpl.h"
 
 TopicSelector::TopicSelector(QWidget *parent) :
     QWidget(parent),
@@ -25,8 +26,9 @@ TopicSelector::TopicSelector(QWidget *parent) :
     connect(ui->pushButton_deselectTopics, &QPushButton::clicked, this, &TopicSelector::removeTopics);
     connect(ui->pushButton_2_saveTopics, &QPushButton::clicked, this, &TopicSelector::saveTopicsToFile);
     connect(ui->pushButton_loadTopics, &QPushButton::clicked, this, &TopicSelector::loadTopicsFromFile);
+    FactoryInterfaceImpl impl;
 
-    auto stdTopicNames = DriverFactory::GetTopicList();
+    auto stdTopicNames = impl.GetTopicList();
     auto allTopics = QStringList{};
     for (const auto& topic : stdTopicNames) {
         allTopics.append(QString::fromStdString(topic));
@@ -129,7 +131,8 @@ void TopicSelector::loadTopicsFromFile()
         auto savedTopics = settings->value("TopicSelector/SelectedTopics").toStringList();
         selectListOfTopics(savedTopics);
     }
-    QMessageBox::information(this, "Title","Success!");
+
+    //QMessageBox::information(this, "Title","Success!");
 }
 
 void TopicSelector::addTopics()

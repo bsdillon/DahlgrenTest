@@ -26,6 +26,7 @@ public:
     ~TopicSelector();
     void readSettings();
     I_TopicPanel* topicPanelProxy;
+    void loadTopicsFromFile();
 
 signals:
     void UpdateStatus(std::string);
@@ -38,7 +39,7 @@ private slots:
     void addTopics();
     void removeTopics();
     void saveTopicsToFile();
-    void loadTopicsFromFile();
+
     void checkSaveButtonState();
 
 private:

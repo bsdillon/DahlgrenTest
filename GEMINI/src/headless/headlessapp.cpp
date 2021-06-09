@@ -10,15 +10,29 @@
 #include "QtWebSockets/qwebsocketserver.h"
 #include "QtWebSockets/qwebsocket.h"
 #include <QtWebSockets/QtWebSockets>
+#include <iostream>
+#include <QMessageBox>
 
-HeadlessApp::HeadlessApp()
+HeadlessApp::HeadlessApp(uint16_t port, bool debug, QObject *parent):
+    QObject(parent),
+    m_pWebSocketServer(new QWebSocketServer(QStringLiteral("Backend Server"), QWebSocketServer::NonSecureMode, this)), m_debug(debug)
 {
+    if (m_pWebSocketServer->listen(QHostAddress::Any, port)){
+        connect(m_pWebSocketServer, &QWebSocketServer::newConnection, this, &HeadlessApp::onNewConnection);
+        connect(m_pWebSocketServer, &QWebSocketServer::closed, this, &HeadlessApp::closed);
+    }
+
     dataloader = new DataLoaderProxy();
     experiment = new ExperimentProxy();
     main = new MainProxy();
     countPanel = new TopicCountProxy();
     detailPanel = new TopicDetailsProxy();
     topicPanel = new TopicSelectorProxy();
+}
+
+HeadlessApp::~HeadlessApp(){
+    m_pWebSocketServer->close();
+    qDeleteAll(m_clients.begin(), m_clients.end());
 }
 
 void HeadlessApp::setupProxies(std::unique_ptr<ProxySet>& ps)
@@ -37,21 +51,6 @@ void HeadlessApp::setupProxies(std::unique_ptr<ProxySet>& ps)
         connect(experiment, SIGNAL(&I_Experiment::ExperimentRunning), tmp, SLOT(&I_Test::stopPublishingMessages));
         ps->add(new AbstractProxy(tmp), ProxySet::ProxyTypes::Test);
     }
-}
-
-HeadlessApp::HeadlessApp(uint16_t port, bool debug, QObject *parent):
-    QObject(parent),
-    m_pWebSocketServer(new QWebSocketServer(QStringLiteral("Backend Server"), QWebSocketServer::NonSecureMode, this)), m_debug(debug)
-{
-    if (m_pWebSocketServer->listen(QHostAddress::Any, port)){
-        connect(m_pWebSocketServer, &QWebSocketServer::newConnection, this, &HeadlessApp::onNewConnection);
-        connect(m_pWebSocketServer, &QWebSocketServer::closed, this, &HeadlessApp::closed);
-    }
-}
-
-HeadlessApp::~HeadlessApp(){
-    m_pWebSocketServer->close();
-    qDeleteAll(m_clients.begin(), m_clients.end());
 }
 
 void HeadlessApp::onNewConnection(){
@@ -77,16 +76,23 @@ void HeadlessApp::socketDisconnected(){
 }
 
 void HeadlessApp::onMessage(const QString &message){
-    QWebSocket *pClient = qobject_cast<QWebSocket *>(sender());
+    //QWebSocket *pClient = qobject_cast<QWebSocket *>(sender());
 
-    if (pClient){
+    /*if (pClient){
         pClient->sendTextMessage(message);
-    }
+    }*/
 
-    if (message == "Testing!"){
-        emit testSignal();
+    QStringList fctLis = message.split(":");
+    QString fct = fctLis[1];
+
+    QJsonObject mesJson;
+    mesJson["function:"] = fct;
+
+    if (mesJson.contains("function:") && mesJson["function:"] == "loadTopicsFromFile"){
+        //emit messageSignal();
+        topicPanel->onMessage();
     }
 
     qDebug() << "Message Received:";
-    pClient->sendTextMessage("Got your message!");
+    //pClient->sendTextMessage("Got your message!");
 }
