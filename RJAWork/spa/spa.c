@@ -2,21 +2,29 @@
  * This is the main code for the SIMPLE Packet Associator project. This
  * application makes use of tshark and editcap to add information about
  * which process a packet is going to or coming from.
+ *
+ * Current Limitations:
+ * 	-will capture any packets tshark will capture
+ *	-will only associate ipv4 TCP/UDP packets to processes
+ *	-when run as root, pcapng file may not be able to be saved in home dir
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <signal.h>
 #include "cap.h"
+#include "assoc.h"
 
 #define LINE_BUF_SIZE 256
 
 pid_t tspid;
 int capture;
 
+/* Handle Ctrl+C to allow stopping tshark */
 static void handle_signals(int signum)
 {
 	switch (signum)
@@ -25,7 +33,6 @@ static void handle_signals(int signum)
 			if (capture != 0)
 			{
 				kill(tspid, SIGINT);
-				capture = 0;
 			}
 			else 
 			{
@@ -51,28 +58,52 @@ int main(void)
 	
 	printf("Started tshark with pid %d\n",tspid);
 	
+	int numframes = 0;
+	
 	while(fgets(buf, sizeof(buf), tsfile) != NULL)
 	{
 		//Temp code for ensuring the frame is filled properly
-		printf("%s",buf);
+		//printf("%s",buf);
 		frame *f = parseline(buf);
 		
-		printf("Frame:%s\n"
+		if(strcmp(f->srcport_tcp, "") !=0)
+		{
+			char *info = getprocinfotcp(f->srcport_tcp, f->destport_tcp);
+			f->procinfo = info;
+		}
+		if (f->procinfo == NULL)
+		{
+			f->procinfo = "Info unavailable";
+		}
+		
+		numframes++;
+		
+		/*printf("Frame:%s\n"
 				   "\tSrcIp:%s\n"
 				   "\tSrcPrtTcp:%s\n"
 				   "\tSrcPrtUDP:%s\n"
 				   "\tDestIp:%s\n"
 				   "\tDestPrtTCP:%s\n"
-				   "\tDestPrtUDP:%s\n", 
+				   "\tDestPrtUDP:%s\n"
+				   "\tProcInfo:%s\n", 
 				   f->framenum, 
 				   f->srcip, f->srcport_tcp, f->srcport_udp,
-				   f->destip,f->destport_tcp,f->destport_udp);
+				   f->destip,f->destport_tcp,f->destport_udp,
+				   f->procinfo);*/
 	}
 	
 	fclose(tsfile);
 	close(fd);
 	
 	wait(&status);
+	
+	printf("Captured %d frames\n", numframes);
+	
+	/*waitpid(tspid, &status, 0);
+	if(WIFSIGNALED(status))
+	{
+		capture = 0;
+	}; */
 	
 	printf("Exiting main program\n");
 	

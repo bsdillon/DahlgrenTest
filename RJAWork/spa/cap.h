@@ -25,6 +25,7 @@ typedef struct frame
 	char destip[MAX_IP_BYTES];
 	char destport_tcp[MAX_PORT_BYTES];
 	char destport_udp[MAX_PORT_BYTES];
+	char *procinfo;
 	struct frame *next;
 } frame;
 
