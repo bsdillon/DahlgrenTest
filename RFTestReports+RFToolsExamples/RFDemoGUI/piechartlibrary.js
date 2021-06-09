@@ -11,6 +11,7 @@ function createConfig(title)
     },
     options:
     {
+      animation: false,
       responsive: false,
       legend:
       {
