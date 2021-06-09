@@ -41,11 +41,14 @@ function createConfig(title)
   return config;
 }
 
-function createChart(canvasID, width, height, config, win)
+function createChart(canvasID, width, height, config, wind)
 {
-  win.alert('running');
-  var myCanvas = win.document.get.ElementById(canvasID);
-  win.alert(myCanvas);
+  if(wind == 'window'){
+    var myCanvas = document.getElementById(canvasID);
+  }else{
+    var myCanvas = wind.document.createElement("CANVAS");
+    wind.document.body.append(myCanvas);
+  }
   var ctx = myCanvas.getContext("2d");
   myCanvas.width = width;
   myCanvas.height = width;
