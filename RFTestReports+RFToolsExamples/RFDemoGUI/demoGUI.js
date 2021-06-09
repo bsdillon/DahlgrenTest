@@ -1,29 +1,43 @@
 //Home Page
  function generateHeatMapRows(table, data){
+  table.insertRow();
    for(let element of data) {
      table.insertRow();
    }
  }
 
- function generateHeatMapColumns(table, data){
+ function generateHeatMapColumns(table, data, j){
    for (var i = 0; i < table.rows.length; i++) {
      cell = table.rows[i].insertCell(table.rows[i].cells.length);
-     cell.setAttribute('class','tooltip');
-     var popUp = document.createElement("SPAN");
-     popUp.setAttribute('class','tooltiptext');
-     let element = data[i];
-     var popText = document.createTextNode(element.Test + ":  " + element.Message);
-     popUp.appendChild(popText);
-     cell.appendChild(popUp);
-     var status = element.Status;
-     if(status == 'Pass') {
-       cell.style.backgroundColor = "green";
-     }else if(status == 'Fail') {
-       cell.style.backgroundColor = "red";
+     if(i == 0){
+      var label = document.createTextNode("Test Run " + j);
+      cell.appendChild(label);
+      cell.style.color = "white";
+      cell.style.backgroundColor = "Gray"
      }else{
-       cell.style.backgroundColor = "CadetBlue";
-     }
-     if (i === data.length) { break;}
+      cell.setAttribute('class','tooltip');
+      var popUp = document.createElement("SPAN");
+      popUp.setAttribute('class','tooltiptext');
+      let element = data[i-1];
+      var popText = document.createTextNode(element.Test + ":  " + element.Message);
+      popUp.appendChild(popText);
+      cell.appendChild(popUp);
+      var status = element.Status;
+      if(status == 'Pass') {
+        cell.style.backgroundColor = "green";
+      }else if(status == 'Fail') {
+        cell.style.backgroundColor = "red";
+      }else if(status == 'Running'){
+        var image = document.createElement('img');
+        image.src = "clockimage.png";
+        image.height = '35';
+        image.width = '35';
+        cell.appendChild(image);
+        cell.style.backgroundColor = "CadetBlue";
+      }else{
+        cell.style.backgroundColor = "CadetBlue";
+      }
+    }
    }
  }
 
@@ -33,7 +47,7 @@
    var runs = Object.keys(data).length;
    for(var j=0; j<runs; j++){
      var array = data["testRun" + j];
-     generateHeatMapColumns(heatMap, array);
+     generateHeatMapColumns(heatMap, array, j);
    }
 }
 
@@ -54,11 +68,13 @@
    return stat;
  }
 
- function oqe(x){
-        var link = x +".html";
-        var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
-        var newWindow = null;
-        window.open(link, newWindow, windowFeatures);
+
+function createButton(name, func, inner, element, parent, align){
+   var name = document.createElement("BUTTON");
+   name.onclick = function(element){ return function(){ func(element);}}(element);
+   name.innerHTML = inner;
+   name.style.cssFloat = align;
+   parent.appendChild(name);
  }
 
  function generateStatus(data){
@@ -84,15 +100,15 @@
                span.style.color = 'red';
              }
              para.appendChild(span);
-             var buttonLink = "testRun" + i;
-             createButton('button', 'oqe', 'OQE', buttonLink, para, '');
-             var button = document.createElement("BUTTON");
+             buttonLink = 'testRun' + i;
+             createButton('button', oqe,'OQE', buttonLink, para, '');
+
           }else{
              para.innerHTML = " ";
           }
         }
-        setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
  }
+
 
  function timedUpdate(tableid) {
          document.getElementById("dataSourceFile").remove();
@@ -105,13 +121,13 @@
          script.src= 'demodata.js';
          script.id='dataSourceFile';
          head.appendChild(script);
-         generateHeatMap(testRuns);
-         generateStatus(testRuns);
+         start();
  }
 
+
  function start(){
-        generateHeatMap(testRuns);
         generateStatus(testRuns);
+        generateHeatMap(testRuns);
         setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
  }
 
@@ -131,27 +147,72 @@ function sortResults(data){
     data1 = [fail, pass, norun];
     return data1;
 }
+
+ function oqe(x){
+     var link = x +".html";
+     var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
+     var newWindow = null;
+     if(x == 'total'){
+        var winTotal = window.open(link, newWindow, windowFeatures);
+        if( win != null){win.close();}
+     }else{
+        var chartData = testRuns[x];
+        var win = window.open('', newWindow, windowFeatures);
+        win.addEventListener('load', loadOQEChart(chartData, win), false);
+
+     }
+ }
 //Individual OQE Metrics
- function loadOQEChart(data){
+ function loadOQEChart(data, win){
+   win.document.body.innerHTML = '';
+   win.document.title = 'Individual OQE';
+   var header1 = win.document.createElement("H1");
+   header1.innerHTML = "Test Results";
+   win.document.body.appendChild(header1);
+   var buttonParent = win.document.createElement("H2");
+   createButton('totalOQE', oqe, 'Total OQE', 'total', buttonParent, '');
+   win.document.body.appendChild(buttonParent);
+   var dataKeys = Object.keys(data[0]);
+   var table = win.document.createElement('TABLE');
+   table.id = 'demo2';
+   table.setAttribute('border', '5px solid black');
+   console.log(table);
+   win.document.body.appendChild(table);
+   generateTableHead(table, dataKeys, win);
+   generateTable(table, data, win);
+   var header2 = win.document.createElement("H2");
+   header2.innerHTML = "Pass/Fail Graphic";
+   win.document.body.appendChild(header2);
+   data1 = sortResults(data);
    var config1 = createConfig("Pass vs. Fail");
-   var chart1 = createChart("canvas", 350,350,config1);
+   var chart1 = createChart("canvas", 350,350,config1, win);
    let labels =['Fail','Pass', 'Not Run'];
    setLabels(config1, labels);
-   data1 = sortResults(data);
    createDataSet(config1, data1);
    chart1.update();
-   var suiteResult ='';
-   if(data1[2] > data1[1]){
-     suiteResult = 'Pass';
-   }else{
-     suiteResult = 'Fail';
-   }
-   let table = document.getElementById("demo");
-   let dataKeys = Object.keys(data[0]);
-   let heatMap = document.getElementById("heatmap");
-   generateTableHead(table, dataKeys);
-   generateTable(table, data);
  }
+
+ function generateTableHead(table, data, win) {
+  var thead = table.createTHead();
+  var row = thead.insertRow();
+  for (let key of data) {
+    var th = win.document.createElement("th");
+    var text = win.document.createTextNode(key);
+    th.appendChild(text);
+    row.appendChild(th);
+  }
+}//
+
+ function generateTable(table, data, win) {
+  for (let element of data) {
+    var row = table.insertRow();
+    for (key in element) {
+      var cell = row.insertCell();
+      var text = win.document.createTextNode(element[key]);
+      cell.appendChild(text);
+    }
+  }
+}
 
  function timedUpdateExample(){
    document.getElementById("dataSourceFile").remove();
@@ -165,39 +226,8 @@ function sortResults(data){
    loadOQEChart(data);
 }
 
- function generateTableHead(table, data) {
-  let thead = table.createTHead();
-  let row = thead.insertRow();
-  for (let key of data) {
-    let th = document.createElement("th");
-    let text = document.createTextNode(key);
-    th.appendChild(text);
-    row.appendChild(th);
-  }
-}
-
- function generateTable(table, data) {
-  for (let element of data) {
-    let row = table.insertRow();
-    for (key in element) {
-      let cell = row.insertCell();
-      let text = document.createTextNode(element[key]);
-      cell.appendChild(text);
-    }
-  }
-}
-
 //Cumulative OQE Metrics
- function generateTableHead(table, data) {
-   let thead = table.createTHead();
-   let row = thead.insertRow();
-   for (let key of data) {
-     let th = document.createElement("th");
-     let text = document.createTextNode(key);
-     th.appendChild(text);
-     row.appendChild(th);
-   }
- }
+
 
  function loadTable(object, subclass){
      var j = 0;
@@ -220,21 +250,13 @@ function sortResults(data){
       var subtable = document.createElement("TABLE");
       subtable.id = "sub" + element;
       subtable.setAttribute('class', subclass[j]);
-      generateTableHead(subtable, data1);
-      generateTable(subtable, actualdata);
+      generateTableHead(subtable, data1, window);
+      generateTable(subtable, actualdata, window);
       cell.appendChild(subtable);
       j = j + 1;
      }
     }
 
- function createButton(name, func, inner, element, cell, align){
-   var name = document.createElement("BUTTON");
-   name.onclick = function(element){ return function(){ func(element);}}(element);
-   name.innerHTML = inner;
-   name.style.cssFloat = align;
-   cell.appendChild(name);
-   return name;
- }
 
  function expandTable(element) {
       var hiddenTable = document.getElementById("sub" + element);
@@ -273,12 +295,12 @@ function sortResults(data){
       var length = Object.keys(object).length;
       var breakElement = 'testRun' + length-1;
       var config2 = createLineConfig(LINE_TYPE, "Pass/Fail Percentage vs. Test Run", "Test Run", "Percentage");
-      var chart2 = createChart("canvas2", 350, 350, config2);
+      var chart2 = createLineChart("canvas2", 350, 350, config2);
       chart2.id = 'chart2';
       var XData = Object.keys(object);
       setLineChartLabels(config2, XData);
       var config1 = createConfig("Pass vs. Fail");
-      var chart1 = createChart("canvas1", 350,350,config1);
+      var chart1 = createChart("canvas1", 350,350, config1, 'window');
       chart1.id = 'chart1';
       let labels =['Fail','Pass'];
       setLabels(config1, labels);
@@ -291,7 +313,6 @@ function sortResults(data){
       chart2.update();
       setTimeout(function(){ timedTotalUpdate('total', testRuns); }, 5000);
      }
-
 
 
  function sumArray(a, total){
