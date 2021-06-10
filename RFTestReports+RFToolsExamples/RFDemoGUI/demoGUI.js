@@ -1,54 +1,55 @@
 //Home Page
- function generateHeatMapRows(table, data){
-  table.insertRow();
-   for(let element of data) {
-     table.insertRow();
-   }
- }
-
- function generateHeatMapColumns(table, data, j){
-   for (var i = 0; i <(data.length+1); i++) {
-       cell = table.rows[i].insertCell(table.rows[i].cells.length);
-     if(i == 0){
-      var label = document.createTextNode("Test Run " + j);
-      cell.appendChild(label);
-      cell.style.color = "white";
-      cell.style.backgroundColor = "Gray"
-     }else{
-      cell.setAttribute('class','tooltip');
-      var popUp = document.createElement("SPAN");
-      popUp.setAttribute('class','tooltiptext');
-      let element = data[i-1];
-      var popText = document.createTextNode(element.Test + ":  " + element.Message);
-      popUp.appendChild(popText);
-      cell.appendChild(popUp);
-      var status = element.Status;
+ 
+ function generateHeatMap(data, length){
+    var heatMap = document.getElementById('heatmap');
+    for(var j=0; j<length; j++){
+     var row = heatMap.insertRow();
+     var labelCell = row.insertCell();
+     var label = document.createTextNode("Test Run " + j);
+     labelCell.appendChild(label);
+     labelCell.style.color = "white";
+     labelCell.style.backgroundColor = "Gray"
+     var array = data["testRun"+j]; 
+     for(let element of array){
+       cell = row.insertCell();
+       toolText = element.Test + ":  " + element.Message;
+       toolTip(cell, toolText);
+       var status = element.Status;
       if(status == 'Pass') {
         cell.style.backgroundColor = "green";
       }else if(status == 'Fail') {
         cell.style.backgroundColor = "red";
-      }else if(status == 'Running'){
+      }else{
         var image = document.createElement('img');
         image.src = "clockimage.png";
         image.height = '35';
         image.width = '35';
-        cell.appendChild(image);
-        cell.style.backgroundColor = "CadetBlue";
-      }else{
+        var runLabel = 'Test Run ' + j;
+        labelCell.innerHTML = '';
+        labelCell.appendChild(image);
+        toolTip(labelCell, runLabel);
         cell.style.backgroundColor = "CadetBlue";
       }
-    }
+     }
+     alert(Object.keys(array));
+     for(var i=0; i<heatMap.rows.length; i++){ 
+        cellNumber = Object.keys(array).length +1; 
+        cellCheck = heatMap.rows[i].cells[cellNumber].style.backgroundColor;
+        if( cellCheck != 'green' && cellCheck != 'red' && cellCheck != 'CadetBlue'){ 
+          cell1 = heatMap.rows[i].insertCell();
+          cell1.style.backgroundColor = 'Gray';
+        }
+     }
    }
- }
+}
 
- function generateHeatMap(data){
-   var heatMap = document.getElementById('heatmap');
-   generateHeatMapRows(heatMap, data.testRun0);
-   var runs = Object.keys(data).length;
-   for(var j=0; j<runs; j++){
-     var array = data["testRun" + j];
-     generateHeatMapColumns(heatMap, array, j);
-   }
+function toolTip(parent, text){
+   parent.setAttribute('class','tooltip');
+   var popUp = document.createElement("SPAN");
+   popUp.setAttribute('class','tooltiptext');
+   var popText = document.createTextNode(text);
+   popUp.appendChild(popText);
+   parent.appendChild(popUp);
 }
 
  function totalStatus(data){
@@ -77,8 +78,7 @@ function createButton(name, func, inner, element, parent, align){
    parent.appendChild(name);
  }
 
- function generateStatus(data){
-        var length = Object.keys(data).length;
+ function generateStatus(data, length){
         var div =document.createElement('div');
         div.id = 'statusText';
         document.body.appendChild(div);
@@ -124,20 +124,11 @@ function createButton(name, func, inner, element, parent, align){
          start();
  }
 
-function generateData(){
- $.get("testRun0.csv", function( data ) {
-    alert(data);
-    var csv = require('jquery-csv');
-    var testRuns = $.csv.toObjects(data);
- });
- return testRuns;
-}
 
  function start(){
-        var testRuns = generateData();
-        //alert(testRuns);
-        generateStatus(testRuns);
-        generateHeatMap(testRuns);
+        var length = Object.keys(testRuns).length;
+        generateStatus(testRuns, length);
+        generateHeatMap(testRuns, length);
         setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
  }
 
@@ -353,7 +344,12 @@ function sortResults(data){
  }
 
  function startData(){
-      var initSubClass = ['hidden', 'hidden', 'hidden', 'hidden'];
+      var initSubClass = [''];
+      for(let element of testRuns){
+         class = 'hidden';
+         initSubClass.push(class);
+         alert(initSubClass);
+      }
       loadTable(testRuns, initSubClass);
       loadTotalData(testRuns);
     }
