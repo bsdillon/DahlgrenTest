@@ -8,8 +8,6 @@ name: SLOC Reporter
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - master
     # 01:05 each day
     #- cron: '5 5 * * *'
 
