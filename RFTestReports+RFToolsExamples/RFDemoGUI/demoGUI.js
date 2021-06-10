@@ -7,8 +7,8 @@
  }
 
  function generateHeatMapColumns(table, data, j){
-   for (var i = 0; i < table.rows.length; i++) {
-     cell = table.rows[i].insertCell(table.rows[i].cells.length);
+   for (var i = 0; i <(data.length+1); i++) {
+       cell = table.rows[i].insertCell(table.rows[i].cells.length);
      if(i == 0){
       var label = document.createTextNode("Test Run " + j);
       cell.appendChild(label);
@@ -124,8 +124,18 @@ function createButton(name, func, inner, element, parent, align){
          start();
  }
 
+function generateData(){
+ $.get("testRun0.csv", function( data ) {
+    alert(data);
+    var csv = require('jquery-csv');
+    var testRuns = $.csv.toObjects(data);
+ });
+ return testRuns;
+}
 
  function start(){
+        var testRuns = generateData();
+        //alert(testRuns);
         generateStatus(testRuns);
         generateHeatMap(testRuns);
         setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
