@@ -1,5 +1,5 @@
 CFLAGS  = -g -Wall
-LDFLAGS =  -lpthread
+LDFLAGS =  
 CC	= gcc
 LD	= gcc
 

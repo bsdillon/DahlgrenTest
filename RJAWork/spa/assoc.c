@@ -24,7 +24,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	char *cmdfmt = "ss -tanpH '( sport = :%s or dport = :%s )"
 				   " and ( dport = :%s or sport = :%s )'"
 				   " | awk '{gsub(/\"/, \"\"); print $6}'";
-	char *cmdstr;
+	char *cmdstr; //TODO: Memory leaks here?
 	if (0 > asprintf(&cmdstr, cmdfmt, sport, sport, dport, dport))
 	{
 		fprintf(stderr, "Problem making command string\n");
@@ -46,27 +46,36 @@ char * get_proc_info_tcp(char *sport, char *dport)
 		//		Update this behavior to reflect possibility of multiple lines
     }
 
-    if(pclose(fp))  {
+    if(pclose(fp))  
+	{
         printf("Problem running ss\n");
         return "ERR";
     }
+	
+	if (strcmp(buf, "\n") == 0)
+	{
+		return "No socket info";
+	}
 	
 	return buf;
 }
 
 int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes)
 {
-	//TODO: Return -1 on failure, make system() call in batches
 	frame *currframe = *listhead;
 	int iflen = strlen(infile);
 	int oflen = strlen(outfile);
 	
 	size_t numchars = 8 + (11 + MAX_FRAMENUM_BYTES + SS_LINE_BUFFER)
-					  *numframes
+					  * numframes
 					  + iflen + oflen + 4;
 	
 	char *cmdbuf;
 	cmdbuf = malloc(sizeof(char) * numchars);
+	if (cmdbuf == NULL)
+	{
+		return -1;
+	}
 	strncpy(cmdbuf, "editcap", 8);
 
 	while (currframe != NULL)
@@ -83,8 +92,6 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 			strncat(cmdbuf, " ", 2);
 			strncat(cmdbuf, outfile, oflen + 1);
 			system(cmdbuf);
-			//cmdbuf = realloc(cmdbuf, sizeof(char) * numchars);
-			//strncpy(cmdbuf, "editcap", 8);
 		}
 		currframe = currframe->next;
 	}

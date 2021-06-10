@@ -11,6 +11,7 @@
 #define MAX_FRAMENUM_BYTES 10
 #define MAX_PORT_BYTES 10
 #define MAX_IP_BYTES 16
+#define MAX_IP_6_BYTES 46
 #define TMP_FILE_LOC "/tmp/spa.pcapng"
 
 /*
@@ -21,9 +22,11 @@ typedef struct frame
 {
 	char framenum[MAX_FRAMENUM_BYTES];
 	char srcip[MAX_IP_BYTES];
+	char srcip6[MAX_IP_6_BYTES];
 	char srcport_tcp[MAX_PORT_BYTES];
 	char srcport_udp[MAX_PORT_BYTES];
 	char destip[MAX_IP_BYTES];
+	char destip6[MAX_IP_6_BYTES];
 	char destport_tcp[MAX_PORT_BYTES];
 	char destport_udp[MAX_PORT_BYTES];
 	char *procinfo;

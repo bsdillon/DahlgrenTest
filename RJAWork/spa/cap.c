@@ -25,7 +25,7 @@ int get_tshark_instance(char *args)
 	if (pid < 0)
 	{
 		perror("cannot fork");
-		return 1;
+		return -1;
 	}
 	if (pid == 0)
 	{
