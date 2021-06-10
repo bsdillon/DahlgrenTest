@@ -33,6 +33,7 @@ static void handle_signals(int signum)
 			if (capture != 0)
 			{
 				kill(tspid, SIGINT);
+				capture = 0;
 			}
 			else 
 			{
@@ -128,7 +129,7 @@ int main(void)
 	
 	printf("Captured %d frames\n", numframes);
 	
-	write_info_to_file("/tmp/spa.pcapng", &list);
+	write_info_to_file(TMP_FILE_LOC, "spa.pcapng", &list, numframes);
 	
 	
 	printf("Exiting main program\n");

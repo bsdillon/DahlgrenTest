@@ -54,28 +54,41 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	return buf;
 }
 
-int write_info_to_file(char *outfile, frame **listhead)
+int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes)
 {
-	//printf("Writing to file %s\n", outfile);
+	//TODO: Return -1 on failure, make system() call in batches
 	frame *currframe = *listhead;
-	int namelen = strlen(outfile);
+	int iflen = strlen(infile);
+	int oflen = strlen(outfile);
+	
+	size_t numchars = 8 + (11 + MAX_FRAMENUM_BYTES + SS_LINE_BUFFER)
+					  *numframes
+					  + iflen + oflen + 4;
+	
 	char *cmdbuf;
+	cmdbuf = malloc(sizeof(char) * numchars);
+	strncpy(cmdbuf, "editcap", 8);
+
 	while (currframe != NULL)
 	{
-		cmdbuf = malloc(sizeof(char) * (20 + MAX_FRAMENUM_BYTES 
-										+ SS_LINE_BUFFER
-										+ namelen*2));
-		strncpy(cmdbuf, "editcap -a ", 12);
+		strncat(cmdbuf, " -a ", 5);
 		strncat(cmdbuf, currframe->framenum, MAX_FRAMENUM_BYTES);
 		strncat(cmdbuf, ":\"", 3);
 		strncat(cmdbuf, currframe->procinfo, SS_LINE_BUFFER); //Do we need to add a -1 for null?
 		strncat(cmdbuf, "\" ", 3);
-		strncat(cmdbuf, outfile, namelen);
-		strncat(cmdbuf, " ", 2);
-		strncat(cmdbuf, outfile, namelen);
-		system(cmdbuf);
-		free(cmdbuf);
+		
+		if (currframe->next == NULL)
+		{
+			strncat(cmdbuf, infile, iflen + 1);
+			strncat(cmdbuf, " ", 2);
+			strncat(cmdbuf, outfile, oflen + 1);
+			system(cmdbuf);
+			//cmdbuf = realloc(cmdbuf, sizeof(char) * numchars);
+			//strncpy(cmdbuf, "editcap", 8);
+		}
 		currframe = currframe->next;
 	}
+	
+	free(cmdbuf);
 	return 0;
 }

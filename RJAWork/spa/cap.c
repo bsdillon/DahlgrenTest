@@ -13,7 +13,7 @@ int get_tshark_instance(char *args)
 		"tshark", "-T", "fields",
 		"-e", "frame.number", "-e", "ip.src", "-e", "tcp.srcport", "-e", "udp.srcport",
 		"-e", "ip.dst", "-e", "tcp.dstport", "-e", "udp.dstport",
-		"-E", "separator=,", "-l", "-p", "-n", "-QP", "-w", "/tmp/spa.pcapng", NULL
+		"-E", "separator=,", "-l", "-p", "-n", "-QP", "-w", TMP_FILE_LOC, NULL
 		};
 	int tspipe[2] = {-1, -1};
 	

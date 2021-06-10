@@ -18,6 +18,6 @@ char * get_proc_info_tcp(char *sport, char *dport);
  * Uses editcap to write comments to outfile in chunks of WRITE_CHUNK_SIZE at a
  * time. Returns 0 on success, -1 on failure.
  */
-int write_info_to_file(char *outfile, frame **listhead);
+int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes);
 
 #endif

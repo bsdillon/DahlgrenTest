@@ -11,6 +11,7 @@
 #define MAX_FRAMENUM_BYTES 10
 #define MAX_PORT_BYTES 10
 #define MAX_IP_BYTES 16
+#define TMP_FILE_LOC "/tmp/spa.pcapng"
 
 /*
  * The frame struct holds the information retrieved from tshark. Each frame has
