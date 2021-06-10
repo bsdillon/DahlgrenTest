@@ -99,3 +99,4 @@ commit["2021-05-04T16:34:42Z"]={"developer": "bsdillon", "message": "Confirm no 
 commit["2021-05-17T22:13:11Z"]={"developer": "kkarp9", "message": "get contributor artifact for debugging", "files": [".github/workflows/contributor.yml"]};
 commit["2021-05-17T22:25:47Z"]={"developer": "kkarp9", "message": "Update contributor.yml", "files": [".github/workflows/contributor.yml"]};
 commit["2021-06-10T15:23:00Z"]={"developer": "kkarp9", "message": "test SLOC workflow", "files": [".github/workflows/SLOCReport.yml"]};
+commit["2021-06-10T15:31:30Z"]={"developer": "kkarp9", "message": "set SLOCReport workflow back on cron schedule", "files": [".github/workflows/SLOCReport.yml"]};
