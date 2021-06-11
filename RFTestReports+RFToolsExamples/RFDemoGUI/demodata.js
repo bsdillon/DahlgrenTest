@@ -35,15 +35,8 @@ testRun3 : [
   { Test: "Date Test", Status: "Fail", Message: "Element 'date' should have contained text '13/12/2020' but its text was ' '." },
   { Test: "Slider Test", Status: "Pass", Message:" "},
   { Test: "Checkbox Test", Status: "Fail", Message:"No Element Found "}
-],
+], 
 
-testRun4 : [
-  { Test: "Open Site", Status: "Pass", Message: "" },
-  { Test: "Radio Test", Status: "Pass", Message: "Refused to run" },
-  { Test: "Textbox Test", Status: "Fail", Message: "Just didn't work" },
-  { Test: "Date Test", Status: "Fail", Message: "Element 'date' should have contained text '13/12/2020' but its text was ' '." },
-  { Test: "Slider Test", Status: "Running", Message:" "},
-  { Test: "Checkbox Test", Status: "Running", Message:"No Element Found "}
-],
 };
+
 
