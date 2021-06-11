@@ -60,6 +60,21 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	return buf;
 }
 
+int associate_packet(frame *f)
+{
+	if(strcmp(f->srcport_tcp, "") !=0)
+	{
+		char *info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
+		f->procinfo = info;
+	}
+	if (f->procinfo == NULL)
+	{
+		f->procinfo = "Info unavailable";
+		return 1;
+	}
+	return 0;
+}
+
 int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes)
 {
 	frame *currframe = *listhead;

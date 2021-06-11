@@ -8,6 +8,11 @@
 
 #include "cap.h"
 
+/* Associates a packet to a program by inspecting the owner of the socket 
+ * it came in on using ss
+ */
+int associate_packet(frame *f);
+
 /* Returns process name and pid associated to TCP port*/
 char * get_proc_info_tcp(char *sport, char *dport);
 

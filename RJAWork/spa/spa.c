@@ -69,15 +69,7 @@ int capture_frames(int fd, frame **listhead)
 			*listhead = f;
 		}
 		
-		if(strcmp(f->srcport_tcp, "") !=0)
-		{
-			char *info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
-			f->procinfo = info;
-		}
-		if (f->procinfo == NULL)
-		{
-			f->procinfo = "Info unavailable";
-		}
+		associate_packet(f);
 		
 		if (prevframe == NULL)
 		{
