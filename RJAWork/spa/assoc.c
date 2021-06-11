@@ -52,7 +52,13 @@ char * get_proc_info_tcp(char *sport, char *dport)
         return "ERR";
     }
 	
-	if (strcmp(buf, "\n") == 0)
+	int j = strlen(buf) - 1;
+	if (buf[j] == '\n')
+	{
+		buf[j] = '\0';
+	}
+	
+	if (strcmp(buf, "\n") == 0 || strcmp(buf, "") == 0)
 	{
 		return "No socket info";
 	}

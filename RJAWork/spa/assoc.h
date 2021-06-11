@@ -8,15 +8,16 @@
 
 #include "cap.h"
 
-/* Associates a packet to a program by inspecting the owner of the socket 
- * it came in on using ss
+/* 
+ * Associates a packet to a program by inspecting the owner of the socket 
+ * it came in on using ss. Returns 0 on success, 1 on failure to associate. 
  */
 int associate_packet(frame *f);
 
-/* Returns process name and pid associated to TCP port*/
+/* Returns process name and pid associated to TCP port */
 char * get_proc_info_tcp(char *sport, char *dport);
 
-/* Returns process name and pid associated to UDP port*/
+/* Returns process name and pid associated to UDP port */
 //char * get_proc_info_udp(char *sport, char *dport);
 
 /*

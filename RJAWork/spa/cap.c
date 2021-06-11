@@ -7,13 +7,73 @@
 
 pid_t pid;
 
+enum fieldenum {FRAMENUM,ETHTYPE,IPSRC,IPDST,IPPROTO,IP6SRC,IP6DST,IP6NXT,
+				TCPSPORT,UDPSPORT,TCPDPORT,UDPDPORT};
+				
+char * field_num_to_member(int num, frame *f)
+{
+	switch(num)
+	{
+		case FRAMENUM:
+			return f->framenum;
+			break;
+		case ETHTYPE:
+			return NULL;
+			break;
+		case IPSRC:
+			return f->srcip;
+			break;
+		case IPDST:
+			return f->destip;
+			break;
+		case IPPROTO:
+			return NULL;
+			break;
+		case IP6SRC:
+			return f->srcip6;
+			break;
+		case IP6DST:
+			return f->destip6;
+			break;
+		case IP6NXT:
+			return NULL;
+			break;
+		case TCPSPORT:
+			return f->srcport_tcp;
+			break;
+		case UDPSPORT:
+			return f->srcport_udp;
+			break;	
+		case TCPDPORT:
+			return f->destport_tcp;
+			break;
+		case UDPDPORT:
+			return f->destport_udp;
+			break;
+		default:
+			return NULL;
+			break;
+	}
+}
+
 int get_tshark_instance(char *args)
 {
 	char *arglist[] = {
 		"tshark", "-T", "fields",
-		"-e", "frame.number", "-e", "ip.src", "-e", "tcp.srcport", "-e", "udp.srcport",
-		"-e", "ip.dst", "-e", "tcp.dstport", "-e", "udp.dstport",
-		"-E", "separator=,", "-l", "-p", "-n", "-QP", "-w", TMP_FILE_LOC, NULL
+		"-e", "frame.number", 
+		"-e", "eth.type", 
+		"-e", "ip.src", 
+		"-e", "ip.dst",
+		"-e", "ip.proto",
+		"-e", "ipv6.src", 
+		"-e", "ipv6.dst",
+		"-e", "ipv6.nxt",
+		"-e", "tcp.srcport", 
+		"-e", "udp.srcport",		
+		"-e", "tcp.dstport", 
+		"-e", "udp.dstport",
+		"-E", "separator=,", 
+		"-l", "-p", "-n", "-QP", "-w", TMP_FILE_LOC, NULL
 		};
 	int tspipe[2] = {-1, -1};
 	
@@ -53,47 +113,35 @@ frame * parse_line(char line[])
 	frame *newframe = malloc(sizeof(frame));
 	newframe->next = NULL;
 	newframe->procinfo = NULL;
-	char *token = strsep(&bufstart, ",");
-	if (token != NULL)
-		strcpy(newframe->framenum, token);
-	else
-		strcpy(newframe->framenum, "");
-	
-	token = strsep(&bufstart, ",");
-	if (token != NULL)
-		strcpy(newframe->srcip, token);
-	else
-		strcpy(newframe->srcip, "");
-	
-	token = strsep(&bufstart, ",");
-	if (token != NULL)
-		strcpy(newframe->srcport_tcp, token);
-	else
-		strcpy(newframe->srcport_tcp, "");
-	
-	token = strsep(&bufstart, ",");
-	if (token != NULL)
-		strcpy(newframe->srcport_udp, token);
-	else
-		strcpy(newframe->srcport_udp, "");
-	
-	token = strsep(&bufstart, ",");
-	if (token != NULL)
-		strcpy(newframe->destip, token);
-	else
-		strcpy(newframe->destip, "");
-	
-	token = strsep(&bufstart, ",");
-	if (token != NULL)
-		strcpy(newframe->destport_tcp, token);
-	else
-		strcpy(newframe->destport_tcp, "");
-	
-	token = strsep(&bufstart, ",");
-	if (token != NULL)
-		strcpy(newframe->destport_udp, token);
-	else
-		strcpy(newframe->destport_udp, "");
+	char *token;
+	for (int i = FRAMENUM; i<=UDPDPORT; i++)
+	{
+		token = strsep(&bufstart, ",");
+		if (i != ETHTYPE && i != IPPROTO && i != IP6NXT)
+		{
+			if (token != NULL)
+				strcpy(field_num_to_member(i, newframe), token);
+			else
+				strcpy(field_num_to_member(i, newframe), "");
+		}
+		else
+		{
+			switch (i)
+			{
+				case ETHTYPE:
+					newframe->ethtype = strtol(token, NULL, 16);
+					break;
+				case IPPROTO:
+					newframe->ipproto = atoi(token);
+					break;
+				case IP6NXT:
+					newframe->ipproto = atoi(token);
+					break;
+				default:
+					break;
+			}
+		}
+	}
 		
 	return newframe;
 }

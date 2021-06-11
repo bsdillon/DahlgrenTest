@@ -107,9 +107,23 @@ void printframe(frame *f)
 			f->procinfo);
 }
 
+void free_list(frame **list)
+{
+	frame *curr = *list;
+	frame *next = (*list)->next;
+	while (next != NULL)
+	{
+		free(curr);
+		curr = next;
+		next = next->next;
+	}
+	if (curr != NULL)
+		free(curr);
+}
+
 /* main() is in WIP status and subject to frequent change */
 int main(void)
-{
+{	
 	int status;
 	int fd = get_tshark_instance("");
 	tspid = get_tshark_pid();
@@ -123,6 +137,8 @@ int main(void)
 	
 	write_info_to_file(TMP_FILE_LOC, "spa.pcapng", &list, numframes);
 	
+	if (numframes > 0)
+		free_list(&list);
 	
 	printf("Exiting main program\n");
 	

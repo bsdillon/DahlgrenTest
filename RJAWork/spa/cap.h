@@ -21,12 +21,14 @@
 typedef struct frame
 {
 	char framenum[MAX_FRAMENUM_BYTES];
+	int  ethtype;
 	char srcip[MAX_IP_BYTES];
+	char destip[MAX_IP_BYTES];
 	char srcip6[MAX_IP_6_BYTES];
+	char destip6[MAX_IP_6_BYTES];
+	int  ipproto; //TODO: Constant?
 	char srcport_tcp[MAX_PORT_BYTES];
 	char srcport_udp[MAX_PORT_BYTES];
-	char destip[MAX_IP_BYTES];
-	char destip6[MAX_IP_6_BYTES];
 	char destport_tcp[MAX_PORT_BYTES];
 	char destport_udp[MAX_PORT_BYTES];
 	char *procinfo;
