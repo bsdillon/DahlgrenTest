@@ -2,45 +2,65 @@
  
  function generateHeatMap(data, length){
     var heatMap = document.getElementById('heatmap');
-    for(var j=0; j<length; j++){
+    for(var j=0; j<length+1; j++){
      var row = heatMap.insertRow();
      var labelCell = row.insertCell();
-     var label = document.createTextNode("Test Run " + j);
+     var label = document.createTextNode(j);
      labelCell.appendChild(label);
      labelCell.style.color = "white";
-     labelCell.style.backgroundColor = "Gray"
+     labelCell.style.backgroundColor = "Gray";
      var array = data["testRun"+j]; 
-     for(let element of array){
-       cell = row.insertCell();
-       toolText = element.Test + ":  " + element.Message;
-       toolTip(cell, toolText);
-       var status = element.Status;
-      if(status == 'Pass') {
-        cell.style.backgroundColor = "green";
-      }else if(status == 'Fail') {
-        cell.style.backgroundColor = "red";
-      }else{
-        var image = document.createElement('img');
-        image.src = "clockimage.png";
-        image.height = '35';
-        image.width = '35';
-        var runLabel = 'Test Run ' + j;
-        labelCell.innerHTML = '';
-        labelCell.appendChild(image);
-        toolTip(labelCell, runLabel);
-        cell.style.backgroundColor = "CadetBlue";
+     if(!array){
+      var image = document.createElement('img');
+      image.src = "clockimage.png";
+      image.height = '35';
+      image.width = '35';
+      var runLabel = 'Test Run ' + j;
+      labelCell.innerHTML = '';
+      labelCell.appendChild(image);
+      toolTip(labelCell, runLabel);
+      var loadCells = heatMap.rows[j-1].cells.length-1;
+      for(var i=0; i<loadCells; i++){
+        cell = row.insertCell();
+        cell.style.backgroundColor = 'CadetBlue';
       }
-     }
-     alert(Object.keys(array));
-     for(var i=0; i<heatMap.rows.length; i++){ 
-        cellNumber = Object.keys(array).length +1; 
-        cellCheck = heatMap.rows[i].cells[cellNumber].style.backgroundColor;
-        if( cellCheck != 'green' && cellCheck != 'red' && cellCheck != 'CadetBlue'){ 
-          cell1 = heatMap.rows[i].insertCell();
-          cell1.style.backgroundColor = 'Gray';
+      break;
+     }else{
+      for(let element of array){
+        cell = row.insertCell();
+        toolText = element.Test + ":  " + element.Message;
+        toolTip(cell, toolText);
+        var status = element.Status;
+        if(status == 'Pass') {
+          cell.style.backgroundColor = "green";
+        }else if(status == 'Fail') {
+          cell.style.backgroundColor = "red";
         }
+       }
+     }
+     targetNum = Object.keys(array).length;
+     if(!data["testRun" + (j-1)]){
+       targetNum = targetNum;
+     }else{
+       prevNum = Object.keys(data["testRun" + (j-1)]).length;  
+       if(targetNum < prevNum){
+         targetNum = prevNum; 
+       }
+      }
+     for(var i=0; i<heatMap.rows.length; i++){
+       if(typeof heatMap.rows[i].cells[targetNum] === "undefined") {
+         bufferCell = heatMap.rows[i].insertCell(heatMap.rows[i].cells.length);
+         bufferCell.style.backgroundColor = "Gray";
+       }
      }
    }
+   var rowspan = heatMap.rows.length; 
+   var headerRuns = heatMap.rows[0].insertCell(heatMap.rows[0].cells[0]);
+   headerRuns.rowSpan = rowspan;
+   headerRuns.style.backgroundColor = "DimGray";
+   headerRuns.style.color = "white";
+   var header = document.createTextNode("Test Runs"); 
+   headerRuns.appendChild(header);  
 }
 
 function toolTip(parent, text){
@@ -52,16 +72,11 @@ function toolTip(parent, text){
    parent.appendChild(popUp);
 }
 
+
  function totalStatus(data){
    var stat = '';
    var data1 = sortResults(data);
-   if (data1[2] != 0){
-     if(data1[1] == 0 && data1[0] ==0){
-        stat = 'Not Run';
-     }else{
-        stat = 'Running...';
-     }
-   }else if(data1[1] > data1[0]){
+   if(data1[1] > data1[0]){
      stat = 'Pass';
    }else{
      stat= 'Fail';
@@ -78,39 +93,39 @@ function createButton(name, func, inner, element, parent, align){
    parent.appendChild(name);
  }
 
+
  function generateStatus(data, length){
         var div =document.createElement('div');
         div.id = 'statusText';
         document.body.appendChild(div);
-        for(var i=0; i<length; i++){
+        for(var i=0; i<length+1; i++){
           var para = document.createElement("P");
           para.id = 'status'+ i;
           div.appendChild(para);
           var test = document.createTextNode("Test Run " + i + "    ");
           para.appendChild(test);
           var actualdata = testRuns["testRun" + i];
-          var stat = totalStatus(actualdata);
-          if(stat != 'Not Run'){
-             var text = document.createTextNode(stat + "    ");
-             var span = document.createElement('span');
-             span.appendChild(text);
-             if(stat == 'Pass'){
-               span.style.color = 'green';
-             }else if (stat == 'Fail'){
-               span.style.color = 'red';
-             }
-             para.appendChild(span);
-             buttonLink = 'testRun' + i;
-             createButton('button', oqe,'OQE', buttonLink, para, '');
-
+          if(!actualdata){
+           var stat = 'Running...';
           }else{
-             para.innerHTML = " ";
+           var stat = totalStatus(actualdata);
           }
-        }
+          var text = document.createTextNode(stat + "    ");
+          var span = document.createElement('span');
+          span.appendChild(text);
+          if(stat == 'Pass'){
+            span.style.color = 'green';
+          }else if (stat == 'Fail'){
+            span.style.color = 'red';
+          }
+          para.appendChild(span);
+          buttonLink = 'testRun' + i;
+          createButton('button', oqe,'OQE', buttonLink, para, '');
+     }
  }
 
-
- function timedUpdate(tableid) {
+ 
+function timedUpdate(tableid) {
          document.getElementById("dataSourceFile").remove();
          var table = document.getElementById(tableid);
          table.innerHTML = "";
@@ -124,7 +139,6 @@ function createButton(name, func, inner, element, parent, align){
          start();
  }
 
-
  function start(){
         var length = Object.keys(testRuns).length;
         generateStatus(testRuns, length);
@@ -135,17 +149,14 @@ function createButton(name, func, inner, element, parent, align){
 function sortResults(data){
    var pass = 0;
    var fail = 0;
-   var norun = 0;
    for(let element of data){
      if(element.Status == 'Pass') {
        pass = pass + 1;
      } else if(element.Status == 'Fail'){
        fail = fail + 1;
-     }else{
-       norun = norun + 1;
      }
    }
-    data1 = [fail, pass, norun];
+    data1 = [fail, pass];
     return data1;
 }
 
@@ -187,7 +198,7 @@ function sortResults(data){
    data1 = sortResults(data);
    var config1 = createConfig("Pass vs. Fail");
    var chart1 = createChart("canvas", 350,350,config1, win);
-   let labels =['Fail','Pass', 'Not Run'];
+   let labels =['Fail','Pass'];
    setLabels(config1, labels);
    createDataSet(config1, data1);
    chart1.update();
@@ -282,8 +293,8 @@ function sortResults(data){
        passA.push(data1[1]);
        failA.push(data1[0]);
        otherA.push(data1[2]);
-       var passP = (data1[1] / (data1[1] + data1[0] + data1[2]))*100;
-       var failP = (data1[0] /(data1[1] + data1[0] + data1[2]))*100;
+       var passP = (data1[1] / (data1[1] + data1[0]))*100;
+       var failP = (data1[0] /(data1[1] + data1[0]))*100;
        passPercent.push(passP);
        failPercent.push(failP);
        if(element == breakElement){break;}
@@ -291,6 +302,14 @@ function sortResults(data){
     var returnArray = [passPercent, failPercent, failA, passA, otherA];
     return returnArray;
   }
+
+ function sumArray(a, total){
+       var total=0;
+       for(var i in a) {
+         total += a[i];
+       }
+       return total;
+     }
 
  function loadTotalData(object){
       var length = Object.keys(object).length;
@@ -316,14 +335,6 @@ function sortResults(data){
      }
 
 
- function sumArray(a, total){
-       var total=0;
-       for(var i in a) {
-         total += a[i];
-       }
-       return total;
-     }
-
  function timedTotalUpdate(tableid, object) {
       var data = Object.keys(object);
       var previousClass =[];
@@ -344,11 +355,10 @@ function sortResults(data){
  }
 
  function startData(){
-      var initSubClass = [''];
-      for(let element of testRuns){
-         class = 'hidden';
-         initSubClass.push(class);
-         alert(initSubClass);
+      var initSubClass = [];
+      for(var i=0; i<Object.keys(testRuns).length; i++){
+         var initClass = "hidden";
+         initSubClass.push(initClass);
       }
       loadTable(testRuns, initSubClass);
       loadTotalData(testRuns);
