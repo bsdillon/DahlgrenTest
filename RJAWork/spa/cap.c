@@ -113,11 +113,12 @@ frame * parse_line(char line[])
 	frame *newframe = malloc(sizeof(frame));
 	newframe->next = NULL;
 	newframe->procinfo = NULL;
+	int protoset = 0;
 	char *token;
 	for (int i = FRAMENUM; i<=UDPDPORT; i++)
 	{
 		token = strsep(&bufstart, ",");
-		if (i != ETHTYPE && i != IPPROTO && i != IP6NXT)
+		if (i != ETHTYPE && i != IPPROTO && i != IP6NXT) //int fields
 		{
 			if (token != NULL)
 				strcpy(field_num_to_member(i, newframe), token);
@@ -126,16 +127,21 @@ frame * parse_line(char line[])
 		}
 		else
 		{
-			switch (i)
+			switch (i) //set int fields
 			{
 				case ETHTYPE:
 					newframe->ethtype = strtol(token, NULL, 16);
 					break;
 				case IPPROTO:
-					newframe->ipproto = atoi(token);
+					if (token != NULL)
+					{
+						newframe->ipproto = atoi(token);
+						protoset = 1;
+					}
 					break;
 				case IP6NXT:
-					newframe->ipproto = atoi(token);
+					if(protoset != 1)
+						newframe->ipproto = atoi(token);
 					break;
 				default:
 					break;

@@ -26,7 +26,7 @@ typedef struct frame
 	char destip[MAX_IP_BYTES];
 	char srcip6[MAX_IP_6_BYTES];
 	char destip6[MAX_IP_6_BYTES];
-	int  ipproto; //TODO: Constant?
+	int  ipproto; 
 	char srcport_tcp[MAX_PORT_BYTES];
 	char srcport_udp[MAX_PORT_BYTES];
 	char destport_tcp[MAX_PORT_BYTES];

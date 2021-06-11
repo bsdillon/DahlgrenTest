@@ -8,6 +8,14 @@
 #define SS_LINE_BUFFER 128
 #define WRITE_CHUNK_SIZE 50
 
+/* Transport protocol definitions (for deciding how to associate) */
+#define PROTO_TCP 6
+#define PROTO_UDP 17
+
+/* Eth type definitions (for deciding if packet is ip or ipv6) */
+#define ETH_IP 0x0800
+#define ETH_IP6 0x86DD
+
 /*
  * Notes on current implementation:
  * 	-Right now this naively assumes there is only one line of ss output. It
@@ -68,15 +76,42 @@ char * get_proc_info_tcp(char *sport, char *dport)
 
 int associate_packet(frame *f)
 {
-	if(strcmp(f->srcport_tcp, "") !=0)
+	char *info;
+	switch (f->ethtype)
 	{
-		char *info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
-		f->procinfo = info;
-	}
-	if (f->procinfo == NULL)
-	{
-		f->procinfo = "Info unavailable";
-		return 1;
+		case ETH_IP:
+			switch(f->ipproto)
+			{
+				case PROTO_TCP:
+					info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
+					f->procinfo = info;
+					break;
+				case PROTO_UDP:
+					f->procinfo = "UDP Support coming";
+					break;
+				default:
+					f->procinfo = "Unsupported transport protocol";
+					return 1;
+			}
+			break;
+		case ETH_IP6:
+			switch(f->ipproto)
+			{
+				case PROTO_TCP:
+					info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
+					f->procinfo = info;
+					break;
+				case PROTO_UDP:
+					f->procinfo = "UDP Support coming";
+					break;
+				default:
+					f->procinfo = "Unsupported transport protocol";
+					return 1;
+			}
+			break;
+		default:
+			f->procinfo = "Unsupported ethtype";
+			return 1;
 	}
 	return 0;
 }
