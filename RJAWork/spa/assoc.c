@@ -68,7 +68,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	
 	if (strcmp(buf, "\n") == 0 || strcmp(buf, "") == 0)
 	{
-		return "No socket info";
+		return "Failed to get socket info";
 	}
 	
 	return buf;

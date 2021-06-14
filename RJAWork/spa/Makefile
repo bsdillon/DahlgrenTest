@@ -7,6 +7,8 @@ TARG	= spa
 
 OBJS    = cap.o assoc.o spa.o
 
+TEST = tests
+
 
 $(TARG): $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(TARG)
@@ -15,4 +17,4 @@ $(TARG): $(OBJS)
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -f *.o $(TARG) a.out 
+	rm -f *.o $(TARG) a.out *.pcapng

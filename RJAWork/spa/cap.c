@@ -118,7 +118,7 @@ frame * parse_line(char line[])
 	for (int i = FRAMENUM; i<=UDPDPORT; i++)
 	{
 		token = strsep(&bufstart, ",");
-		if (i != ETHTYPE && i != IPPROTO && i != IP6NXT) //int fields
+		if (i != ETHTYPE && i != IPPROTO && i != IP6NXT) //ignore int fields
 		{
 			if (token != NULL)
 				strcpy(field_num_to_member(i, newframe), token);
@@ -150,4 +150,40 @@ frame * parse_line(char line[])
 	}
 		
 	return newframe;
+}
+
+int capture_frames(int fd, frame **listhead)
+{
+	FILE *tsfile = fdopen(fd, "r");
+	char buf[LINE_BUF_SIZE] = {0};
+	frame *prevframe = NULL;
+	
+	int numframes = 0;
+	while(fgets(buf, sizeof(buf), tsfile) != NULL)
+	{
+		frame *f = parse_line(buf);
+		if (*listhead == NULL)
+		{
+			*listhead = f;
+		}
+		
+		associate_packet(f);
+		
+		if (prevframe == NULL)
+		{
+			prevframe = f;
+		}
+		else
+		{
+			prevframe->next = f;
+			prevframe = f;
+		}
+		
+		numframes++;
+		
+	}
+	
+	fclose(tsfile);
+	
+	return numframes;
 }

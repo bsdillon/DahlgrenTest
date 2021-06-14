@@ -6,7 +6,7 @@
 #ifndef ASSOC_H
 #define ASSOC_H
 
-#include "cap.h"
+#include "spa.h"
 
 /* 
  * Associates a packet to a program by inspecting the owner of the socket 

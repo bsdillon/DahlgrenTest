@@ -16,10 +16,9 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <signal.h>
+#include "spa.h"
 #include "cap.h"
 #include "assoc.h"
-
-#define LINE_BUF_SIZE 256
 
 pid_t tspid;
 int capture;
@@ -44,50 +43,6 @@ static void handle_signals(int signum)
 			break;
 	}
 	return;
-}
-
-/*
- * Takes file descriptor to tshark pipe and returns the number of captured
- * packets
- */
-int capture_frames(int fd, frame **listhead)
-{
-	FILE *tsfile = fdopen(fd, "r");
-	char buf[LINE_BUF_SIZE] = {0};
-	signal(SIGINT, handle_signals);
-	capture = 1;
-	frame *prevframe = NULL;
-	
-	printf("Started tshark with pid %d\n",tspid);
-	
-	int numframes = 0;
-	while(fgets(buf, sizeof(buf), tsfile) != NULL)
-	{
-		frame *f = parse_line(buf);
-		if (*listhead == NULL)
-		{
-			*listhead = f;
-		}
-		
-		associate_packet(f);
-		
-		if (prevframe == NULL)
-		{
-			prevframe = f;
-		}
-		else
-		{
-			prevframe->next = f;
-			prevframe = f;
-		}
-		
-		numframes++;
-		
-	}
-	
-	fclose(tsfile);
-	
-	return numframes;
 }
 
 /* Helper function to see inside frame */
@@ -127,8 +82,12 @@ int main(void)
 	int status;
 	int fd = get_tshark_instance("");
 	tspid = get_tshark_pid();
+	printf("Started tshark with pid %d\n",tspid);
+	
+	signal(SIGINT, handle_signals);
 	
 	frame *list = NULL;
+	capture = 1;
 	int numframes = capture_frames(fd, &list);
 	close(fd);
 	wait(&status);
