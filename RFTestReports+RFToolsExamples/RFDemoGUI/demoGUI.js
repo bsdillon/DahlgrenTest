@@ -38,11 +38,11 @@
         }
        }
      }
-     targetNum = Object.keys(array).length;
+     var targetNum = Object.keys(array).length;
      if(!data["testRun" + (j-1)]){
        targetNum = targetNum;
      }else{
-       prevNum = Object.keys(data["testRun" + (j-1)]).length;
+       prevNum = heatMap.rows[j-1].cells.length-1;
        if(targetNum < prevNum){
          targetNum = prevNum;
        }
@@ -83,11 +83,12 @@
    return stat;
  }
 
- function createButton(name, func, inner, element, window, parent, align){
+ function createButton(name, func, inner, element, window, parent, align, buttonid){
    var name = window.document.createElement("BUTTON");
    name.onclick = function(element){ return function(){ func(element);}}(element);
    name.innerHTML = inner;
    name.style.cssFloat = align;
+   name.id = buttonid;
    parent.appendChild(name);
  }
 
@@ -117,7 +118,7 @@
           }
           para.appendChild(span);
           buttonLink = 'testRun' + i;
-          createButton('button', oqe,'OQE', buttonLink, window, para, '');
+          createButton('button', oqe,'OQE', buttonLink, window, para, '', 'statOQE');
      }
  }
 
@@ -203,7 +204,7 @@
       expand.innerHTML = ' + ';
       expand.style.cssFloat = "right";
       cell.appendChild(expand);
-      createButton('oqeLink', oqe, 'OQE', element, win, cell, "right");
+      createButton('oqeLink', oqe, 'OQE', element, win, cell, "right", 'indOQE');
       var actualdata = object[element];
       var data1 = Object.keys(actualdata[0]);
       var subtable = win.document.createElement("TABLE");
@@ -305,13 +306,17 @@
       var data = Object.keys(object);
       var previousClass =[];
       const isClosed = win.closed;
-      if(!isClosed){
-      for (let element of data){
-          var table = win.document.getElementById("sub" + element).className;
-          previousClass.push(table);
-       }
-       loadTable(testRuns, previousClass, win);
-       loadTotalData(testRuns, win);
+      if(!isClosed && !win.document.getElementById("totalPage")){
+        for (let element of data){
+           if(!win.document.getElementById("sub" + element)){
+             previousClass.push('hidden');
+           }else{
+             var table = win.document.getElementById("sub" + element).className;
+             previousClass.push(table);
+           }
+        }
+        loadTable(testRuns, previousClass, win);
+        loadTotalData(testRuns, win);
       }
  }
 
@@ -328,7 +333,7 @@
    win.document.title = 'Individual OQE';
    createHeaders('header1', 'Test Results', '1', win);
    var buttonParent = win.document.createElement("H2");
-   createButton('totalOQE', oqe, 'Total OQE', 'total',win, buttonParent, '');
+   createButton('totalOQE', oqe, 'Total OQE', 'total',win, buttonParent, '', "totalPage");
    win.document.body.appendChild(buttonParent);
    var dataKeys = Object.keys(data[0]);
    var table = initTable(win);
@@ -377,3 +382,4 @@
    head.appendChild(script);
    loadOQEChart(data);
 }
+
