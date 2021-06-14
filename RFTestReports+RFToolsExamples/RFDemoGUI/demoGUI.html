@@ -1,4 +1,3 @@
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +5,8 @@
     <title>Test Demo</title>
 
     <style>
-      .rotated {
-        transform: rotate(90deg); 
-      }
+      table.hidden {display: none;}
+      table.show {border: 1px solid black;}
       td img{
         display: block;
         margin-left: auto;
@@ -42,10 +40,9 @@
        }
     </style>
     <script id = "dataSourceFile" src="demodata.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://d3js.org/d3.v5.js"></script>
     <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
     <script src= "piechartlibrary.js"></script>
+    <script src="linechartlibrary.js"></script>
     <script id = "scriptSourceFile" src = "demoGUI.js"></script>
 </head>
 <body onload = "start()">
