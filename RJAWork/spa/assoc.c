@@ -12,7 +12,7 @@
 #define PROTO_TCP 6
 #define PROTO_UDP 17
 
-/* Eth type definitions (for deciding if packet is ip or ipv6) */
+/* Eth type definitions (for deciding if packet is ip, ipv6, etc) */
 #define ETH_IP 0x0800
 #define ETH_IP6 0x86DD
 

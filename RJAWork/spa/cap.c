@@ -111,6 +111,8 @@ frame * parse_line(char line[])
 {
 	char *bufstart = line;
 	frame *newframe = malloc(sizeof(frame));
+	if (!newframe)
+		return NULL;
 	newframe->next = NULL;
 	newframe->procinfo = NULL;
 	int protoset = 0;

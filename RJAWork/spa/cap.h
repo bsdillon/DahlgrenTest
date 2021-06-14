@@ -24,7 +24,8 @@ pid_t get_tshark_pid();
 
 /*
  * This function parses a line from tshark's curated output and returns a
- * pointer to a frame with the line's information parsed.
+ * pointer to a frame with the line's information parsed. Returns NULL on
+ * error.
  */
 frame * parse_line(char line[]);
 
