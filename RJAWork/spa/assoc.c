@@ -46,7 +46,8 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	if((fp=popen(cmdstr, "r"))==NULL)
 	{
 		printf("Error opening pipe!\n");
-		return "ERR";
+		strncpy(buf, "ERR", SS_LINE_BUFFER);
+        return buf;
 	}
 
 	free(cmdstr);
@@ -60,7 +61,8 @@ char * get_proc_info_tcp(char *sport, char *dport)
     if(pclose(fp))  
 	{
         printf("Problem running ss\n");
-        return "ERR";
+		strncpy(buf, "ERR", SS_LINE_BUFFER);
+        return buf;
     }
 	
 	int j = strlen(buf) - 1;
