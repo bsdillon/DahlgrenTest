@@ -73,7 +73,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	
 	if (strcmp(buf, "\n") == 0 || strcmp(buf, "") == 0)
 	{
-		return "Failed to get socket info";
+		strncpy(buf, "Failed to get socket info", SS_LINE_BUFFER);
 	}
 	
 	return buf;
@@ -81,7 +81,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 
 int associate_packet(frame *f)
 {
-	char *info;
+	char *info = NULL;
 	switch (f->ethtype)
 	{
 		case ETH_IP:
@@ -118,7 +118,8 @@ int associate_packet(frame *f)
 			strncpy(f->procinfo, "Unsupported ethtype", SS_LINE_BUFFER);
 			return 1;
 	}
-	free(info);
+	if(info != NULL)
+		free(info);
 	return 0;
 }
 
