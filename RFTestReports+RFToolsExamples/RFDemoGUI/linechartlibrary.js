@@ -119,9 +119,10 @@ function createLineConfig(cType, title, xLabel, yLabel)
   return config;
 }
 
-function createLineChart(canvasID, width, height, config)
+function createLineChart(canvasID, width, height, config, win)
 {
-  var myCanvas = document.getElementById(canvasID);
+  var myCanvas = win.document.createElement("CANVAS");
+  win.document.body.appendChild(myCanvas);
   var ctx = myCanvas.getContext("2d");
   myCanvas.width = width;
   myCanvas.height = height;
