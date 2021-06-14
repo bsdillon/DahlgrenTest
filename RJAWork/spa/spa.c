@@ -73,7 +73,9 @@ void free_list(frame **list)
 		next = next->next;
 	}
 	if (curr != NULL)
+	{
 		free(curr);
+	}
 }
 
 /* main() is in WIP status and subject to frequent change */

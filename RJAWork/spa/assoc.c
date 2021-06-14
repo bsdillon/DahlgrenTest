@@ -32,7 +32,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	char *cmdfmt = "ss -tanpH '( sport = :%s or dport = :%s )"
 				   " and ( dport = :%s or sport = :%s )'"
 				   " | awk '{gsub(/\"/, \"\"); print $6}'";
-	char *cmdstr; //TODO: Memory leaks here?
+	char *cmdstr;
 	if (0 > asprintf(&cmdstr, cmdfmt, sport, sport, dport, dport))
 	{
 		fprintf(stderr, "Problem making command string\n");
@@ -40,6 +40,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	}
 	
 	char *buf = malloc(sizeof(char) * SS_LINE_BUFFER);
+	buf[0] = '\0';
 	FILE *fp;
 
 	if((fp=popen(cmdstr, "r"))==NULL)
@@ -47,6 +48,8 @@ char * get_proc_info_tcp(char *sport, char *dport)
 		printf("Error opening pipe!\n");
 		return "ERR";
 	}
+
+	free(cmdstr);
 
 	while (fgets(buf, SS_LINE_BUFFER, fp) != NULL) 
 	{
@@ -61,6 +64,8 @@ char * get_proc_info_tcp(char *sport, char *dport)
     }
 	
 	int j = strlen(buf) - 1;
+	if(j == -1)
+		j=0;
 	if (buf[j] == '\n')
 	{
 		buf[j] = '\0';
@@ -84,13 +89,13 @@ int associate_packet(frame *f)
 			{
 				case PROTO_TCP:
 					info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
-					f->procinfo = info;
+					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
-					f->procinfo = "UDP Support coming";
+					strncpy(f->procinfo, "UDP Support coming", SS_LINE_BUFFER);
 					break;
 				default:
-					f->procinfo = "Unsupported transport protocol";
+					strncpy(f->procinfo, "Unsupported transport protocol", SS_LINE_BUFFER);
 					return 1;
 			}
 			break;
@@ -99,20 +104,21 @@ int associate_packet(frame *f)
 			{
 				case PROTO_TCP:
 					info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
-					f->procinfo = info;
+					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
-					f->procinfo = "UDP Support coming";
+					strncpy(f->procinfo, "UDP Support coming", SS_LINE_BUFFER);
 					break;
 				default:
-					f->procinfo = "Unsupported transport protocol";
+					strncpy(f->procinfo, "Unsupported transport protocol", SS_LINE_BUFFER);
 					return 1;
 			}
 			break;
 		default:
-			f->procinfo = "Unsupported ethtype";
+			strncpy(f->procinfo, "Unsupported ethtype", SS_LINE_BUFFER);
 			return 1;
 	}
+	free(info);
 	return 0;
 }
 

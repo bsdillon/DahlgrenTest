@@ -114,7 +114,6 @@ frame * parse_line(char line[])
 	if (!newframe)
 		return NULL;
 	newframe->next = NULL;
-	newframe->procinfo = NULL;
 	int protoset = 0;
 	char *token;
 	for (int i = FRAMENUM; i<=UDPDPORT; i++)
@@ -150,7 +149,7 @@ frame * parse_line(char line[])
 			}
 		}
 	}
-		
+	
 	return newframe;
 }
 
