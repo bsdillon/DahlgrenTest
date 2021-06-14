@@ -382,4 +382,3 @@
    head.appendChild(script);
    loadOQEChart(data);
 }
-
