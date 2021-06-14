@@ -135,7 +135,7 @@ frame * parse_line(char line[])
 					newframe->ethtype = strtol(token, NULL, 16);
 					break;
 				case IPPROTO:
-					if (token != NULL)
+					if (token[0] != '\0')
 					{
 						newframe->ipproto = atoi(token);
 						protoset = 1;

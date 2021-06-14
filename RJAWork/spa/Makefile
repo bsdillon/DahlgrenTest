@@ -19,6 +19,6 @@ $(TARG): $(OBJS)
 clean:
 	rm -f *.o $(TARG) a.out *.pcapng $(TEST)/test
 	
-test: 
+test: clean
 	$(CC) $(CFLAGS) $(TESTCANDS) $(TEST)/ftest.c -o $(TEST)/test -lcriterion
 	./$(TEST)/test
