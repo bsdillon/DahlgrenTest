@@ -18,7 +18,7 @@ int associate_packet(frame *f);
 char * get_proc_info_tcp(char *sport, char *dport);
 
 /* Returns process name and pid associated to UDP port */
-//char * get_proc_info_udp(char *sport, char *dport);
+char * get_proc_info_udp(char *sport, char *dport);
 
 /*
  * Uses editcap to write comments to outfile in chunks of WRITE_CHUNK_SIZE at a

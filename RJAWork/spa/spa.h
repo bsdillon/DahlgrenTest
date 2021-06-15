@@ -14,7 +14,10 @@
  
  /*
  * The frame struct holds the information retrieved from tshark. Each frame has
- * a pointer to the next frame for easy sequential access.
+ * a pointer to the next frame for easy sequential access. ethtype and ipproto
+ * are ints for (hopefully) faster comparisons, while port numbers etc are
+ * strings because they are sometimes added to strings (and conversion to int
+ * would provide little benefit)
  */
 typedef struct frame
 {

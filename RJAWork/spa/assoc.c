@@ -143,6 +143,63 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	}
 }
 
+char * get_proc_info_udp(char *sport, char *dport)
+{
+	char *cmdfmt = "ss -uanpH '( sport = :%s and dport = :%s )"
+				   " or ( sport = :%s and dport = :%s )'"
+				   " | awk '{gsub(/\"/, \"\"); gsub(/users:/, \"\"); print $6}'";
+	char *cmdstr;
+	if (0 > asprintf(&cmdstr, cmdfmt, sport, dport, dport, sport))
+	{
+		fprintf(stderr, "Problem making command string\n");
+		exit(1);
+	}
+	
+	char *buf = malloc(sizeof(char) * SS_LINE_BUFFER);
+	buf[0] = '\0';
+	FILE *fp;
+
+	if((fp=popen(cmdstr, "r"))==NULL)
+	{
+		printf("Error opening pipe!\n");
+		strncpy(buf, "ERR", SS_LINE_BUFFER);
+        return buf;
+	}
+
+	free(cmdstr);
+
+	while (fgets(buf, SS_LINE_BUFFER, fp) != NULL) 
+	{
+        //TODO: Right now this assumes there is only one line of ss output
+		//		Update this behavior to reflect possibility of multiple lines
+    }
+
+    if(pclose(fp))  
+	{
+        printf("Problem running ss\n");
+		strncpy(buf, "ERR", SS_LINE_BUFFER);
+        return buf;
+    }
+	
+	int j = strlen(buf) - 1;
+	if(j == -1)
+		j=0;
+	if (buf[j] == '\n')
+	{
+		buf[j] = '\0';
+	}
+	
+	if (strcmp(buf, "\n") == 0 || strcmp(buf, "") == 0)
+	{
+		strncpy(buf, "Failed to get socket info", SS_LINE_BUFFER);
+		return buf;
+	} 
+	else 
+	{
+		return ss_out_to_procinfo_fmt(buf);
+	}
+}
+
 int associate_packet(frame *f)
 {
 	char *info = NULL;
@@ -156,7 +213,8 @@ int associate_packet(frame *f)
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
-					strncpy(f->procinfo, "UDP Support coming", SS_LINE_BUFFER);
+					info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
+					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				default:
 					strncpy(f->procinfo, "Unsupported transport protocol", SS_LINE_BUFFER);
@@ -171,7 +229,8 @@ int associate_packet(frame *f)
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
-					strncpy(f->procinfo, "UDP Support coming", SS_LINE_BUFFER);
+					info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
+					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				default:
 					strncpy(f->procinfo, "Unsupported transport protocol", SS_LINE_BUFFER);
