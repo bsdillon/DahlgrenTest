@@ -1,5 +1,6 @@
+//Set Total Number of Test Runs
+ var totalRuns = 6;
 //Home Page
-
  function generateHeatMap(data, length){
     var heatMap = document.getElementById('heatmap');
     for(var j=0; j<length+1; j++){
@@ -10,7 +11,7 @@
      labelCell.style.color = "white";
      labelCell.style.backgroundColor = "Gray";
      var array = data["testRun"+j];
-     if(!array){
+     if(!array && j!= totalRuns){
       var image = document.createElement('img');
       image.src = "clockimage.png";
       image.height = '35';
@@ -19,11 +20,19 @@
       labelCell.innerHTML = '';
       labelCell.appendChild(image);
       toolTip(labelCell, runLabel);
-      var loadCells = heatMap.rows[j-1].cells.length-1;
-      for(var i=0; i<loadCells; i++){
-        cell = row.insertCell();
-        cell.style.backgroundColor = 'CadetBlue';
+      if(typeof heatMap.rows[j-1] === "undefined"){
+       break;
+      }else{
+       var loadCells = heatMap.rows[j-1].cells.length-1;
+       for(var i=0; i<loadCells; i++){
+         cell = row.insertCell();
+         cell.style.backgroundColor = 'CadetBlue';
+       }
       }
+      break;
+     }else if (j == totalRuns){
+      labelCell.innerHTML = 'End';
+      labelCell.colSpan = heatMap.rows[j-1].cells.length;
       break;
      }else{
       for(let element of array){
@@ -103,8 +112,11 @@
           var test = document.createTextNode("Test Run " + i + "    ");
           para.appendChild(test);
           var actualdata = testRuns["testRun" + i];
-          if(!actualdata){
+          if(!actualdata && i != totalRuns){
            var stat = 'Running...';
+          }else if(i == totalRuns){
+           para.innerHTML = '';
+           break;
           }else{
            var stat = totalStatus(actualdata);
           }
