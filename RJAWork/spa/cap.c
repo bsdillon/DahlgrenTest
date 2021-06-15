@@ -7,9 +7,17 @@
 
 pid_t pid;
 
+/* 
+ * This enum is supposed to match the output order of tshark. Violating the 
+ * order will cause undefined behavior.
+ */
 enum fieldenum {FRAMENUM,ETHTYPE,IPSRC,IPDST,IPPROTO,IP6SRC,IP6DST,IP6NXT,
 				TCPSPORT,UDPSPORT,TCPDPORT,UDPDPORT};
-				
+
+/* 
+ * This helper function translates the field number to the field's pointer
+ * in the frame. Returns NULL for int fields and for numbers outside fieldenum.
+ */				
 char * field_num_to_member(int num, frame *f)
 {
 	switch(num)

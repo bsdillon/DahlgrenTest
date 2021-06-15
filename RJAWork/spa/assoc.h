@@ -14,10 +14,18 @@
  */
 int associate_packet(frame *f);
 
-/* Returns process name and pid associated to TCP port */
+/* 
+ * Returns process name(s) and pid(s) associated to TCP ports. Both ports are
+ * used as a way to uniquely identify the socket the packet is destined for.
+ * The user(s) of the socket is/are determined using ss. 
+ */
 char * get_proc_info_tcp(char *sport, char *dport);
 
-/* Returns process name and pid associated to UDP port */
+/* 
+ * Returns process name(s) and pid(s) associated to UDP ports. Both ports are
+ * used as a way to uniquely identify the socket the packet is destined for.
+ * The user(s) of the socket is/are determined using ss. 
+ */
 char * get_proc_info_udp(char *sport, char *dport);
 
 /*
