@@ -17,6 +17,65 @@
 #define ETH_IP6 0x86DD
 
 /*
+ * Helper function to convert output of ss to frame procinfo format. ss output
+ * comes in the form of "((<procname>,<pidinfo>,<fdinfo>))" or like
+ * "((<procname>,<pidinfo>,<fdinfo>),(<procname>,<pidinfo>,<fdinfo>),...)"
+ */
+char * ss_out_to_procinfo_fmt(char *ssline)
+{
+	char *buf = malloc(sizeof(char)*SS_LINE_BUFFER*2);
+	char *pidbuf = malloc(sizeof(char)*80); //just needs to hold some pids
+	char *procbuf = malloc(sizeof(char)*SS_LINE_BUFFER); //temp hold names
+	pidbuf[0] = '\0';
+	procbuf[0] = '\0';
+	strcpy(buf, "spaprocnames=(");
+	
+	char *token = strtok(ssline, ")(,");
+	int index = 0;
+	while (token != NULL)
+	{
+		if (index%3==0)
+		{
+			strcat(procbuf, token); //maybe use strncat
+			strcat(procbuf, ",");
+			token = strtok(NULL, ")(,");
+			index++;
+		} 
+		else if (index%3==1) 
+		{
+			strcat(pidbuf, token);
+			strcat(pidbuf, ",");
+			token = strtok(NULL, ")(,");
+			index++;
+		}
+		else
+		{
+			token = strtok(NULL, ")(,");
+			index++;
+		}
+	}
+	
+	int j = strlen(procbuf);
+	if (procbuf[j-1] == ',')
+		procbuf[j-1] = '\0';
+		
+	j = strlen(pidbuf);
+	if (pidbuf[j-1] == ',')
+		pidbuf[j-1] = '\0';
+	
+	strcat(buf, procbuf);
+	strcat(buf, ") spapids=(");
+	strcat(buf, pidbuf);
+	strcat(buf, ")");
+	
+	free(ssline);
+	free(procbuf);
+	free(pidbuf);
+	
+	return buf;
+}
+
+/*
  * Notes on current implementation:
  * 	-Right now this naively assumes there is only one line of ss output. It
  *	 will only capture the final line of output in its current state.
@@ -29,11 +88,11 @@
  */
 char * get_proc_info_tcp(char *sport, char *dport)
 {
-	char *cmdfmt = "ss -tanpH '( sport = :%s or dport = :%s )"
-				   " and ( dport = :%s or sport = :%s )'"
-				   " | awk '{gsub(/\"/, \"\"); print $6}'";
+	char *cmdfmt = "ss -tanpH '( sport = :%s and dport = :%s )"
+				   " or ( sport = :%s and dport = :%s )'"
+				   " | awk '{gsub(/\"/, \"\"); gsub(/users:/, \"\"); print $6}'";
 	char *cmdstr;
-	if (0 > asprintf(&cmdstr, cmdfmt, sport, sport, dport, dport))
+	if (0 > asprintf(&cmdstr, cmdfmt, sport, dport, dport, sport))
 	{
 		fprintf(stderr, "Problem making command string\n");
 		exit(1);
@@ -76,9 +135,12 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	if (strcmp(buf, "\n") == 0 || strcmp(buf, "") == 0)
 	{
 		strncpy(buf, "Failed to get socket info", SS_LINE_BUFFER);
+		return buf;
+	} 
+	else 
+	{
+		return ss_out_to_procinfo_fmt(buf);
 	}
-	
-	return buf;
 }
 
 int associate_packet(frame *f)
