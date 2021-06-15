@@ -48,10 +48,10 @@
        }
       }
      for(var i=0; i<heatMap.rows.length; i++){
-       if(typeof heatMap.rows[i].cells[targetNum] === "undefined") {
-         bufferCell = heatMap.rows[i].insertCell(heatMap.rows[i].cells.length);
-         bufferCell.style.backgroundColor = "Gray";
-       }
+        while(typeof heatMap.rows[i].cells[targetNum] === "undefined"){
+           bufferCell = heatMap.rows[i].insertCell(heatMap.rows[i].cells.length);
+           bufferCell.style.backgroundColor = "Gray";
+         }
      }
    }
    var rowspan = heatMap.rows.length;
