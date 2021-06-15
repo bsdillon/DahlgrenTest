@@ -11,7 +11,7 @@
      labelCell.style.color = "white";
      labelCell.style.backgroundColor = "Gray";
      var array = data["testRun"+j];
-     if(!array && j!= totalRuns){
+     if(!array && j!= totalRuns){ //Case where test run is in progress
       var image = document.createElement('img');
       image.src = "clockimage.png";
       image.height = '35';
@@ -20,21 +20,23 @@
       labelCell.innerHTML = '';
       labelCell.appendChild(image);
       toolTip(labelCell, runLabel);
-      if(typeof heatMap.rows[j-1] === "undefined"){
+      if(typeof heatMap.rows[j-1] === "undefined"){ //Case where no previous test runs have completed
+       cell = row.insertCell();
+       cell.style.backgroundColor = 'CadetBlue';
        break;
-      }else{
+      }else{ //Generates in progress cells
        var loadCells = heatMap.rows[j-1].cells.length-1;
        for(var i=0; i<loadCells; i++){
          cell = row.insertCell();
          cell.style.backgroundColor = 'CadetBlue';
        }
       }
-      break;
-     }else if (j == totalRuns){
+      break; //Ends loop
+     }else if (j == totalRuns){ //End of all test runs case
       labelCell.innerHTML = 'End';
       labelCell.colSpan = heatMap.rows[j-1].cells.length;
       break;
-     }else{
+     }else{ //Case where test run has been completed and test data is available
       for(let element of array){
         cell = row.insertCell();
         toolText = element.Test + ":  " + element.Message;
@@ -56,6 +58,7 @@
          targetNum = prevNum;
        }
       }
+     //Create Buffer Cells
      for(var i=0; i<heatMap.rows.length; i++){
         while(typeof heatMap.rows[i].cells[targetNum] === "undefined"){
            bufferCell = heatMap.rows[i].insertCell(heatMap.rows[i].cells.length);
@@ -63,6 +66,7 @@
          }
      }
    }
+   //Create Test Runs Header
    var rowspan = heatMap.rows.length;
    var headerRuns = heatMap.rows[0].insertCell(heatMap.rows[0].cells[0]);
    headerRuns.rowSpan = rowspan;
@@ -199,38 +203,50 @@
      win.document.body.innerHTML = '';
      win.document.title = 'Total OQE Results';
      createHeaders('totalHeader', 'Total OQE Results', '1', win);
+     //Initialize Table
      var table = initTable(win);
      var data = Object.keys(object);
      let thead = table.createTHead();
+     //Create Table Title
      let row = thead.insertRow();
      let title = win.document.createTextNode("Test Runs");
      let cell = row.insertCell();
      cell.appendChild(title);
+     //Populate Table w/ Each Test Run
      for(let element of data){
+      //Create Test Run Label
       let row = table.insertRow();
       let cell = row.insertCell();
       let text = win.document.createTextNode("Test Run " + j + "\u00A0");
       cell.appendChild(text);
+      //Create Expansion Button
       var expand = win.document.createElement("BUTTON");
       expand.onclick = function(element, win){ return function(){ expandTable(element, win);}}(element, win);
       expand.innerHTML = ' + ';
       expand.style.cssFloat = "right";
       cell.appendChild(expand);
+      //Link to Individual OQE
       createButton('oqeLink', oqe, 'OQE', element, win, cell, "right", 'indOQE');
-      var actualdata = object[element];
-      var data1 = Object.keys(actualdata[0]);
-      var subtable = win.document.createElement("TABLE");
-      win.document.body.appendChild(subtable);
-      subtable.id = "sub" + element;
-      createStyle('hidden', win, 'display: none;');
-      createStyle('show', win, 'border: 1px solid black;');
-      subtable.className = subclass[j];
-      generateTableHead(subtable, data1, win);
-      generateTable(subtable, actualdata, win);
+      //Subtables
+      var subtable = createSubTable(object, element, win, j, subclass);
       cell.appendChild(subtable);
       j = j + 1;
      }
     }
+
+  function createSubTable(object, element, win, j, subclass){
+    var actualdata = object[element];
+    var data1 = Object.keys(actualdata[0]);
+    var subtable = win.document.createElement("TABLE");
+    win.document.body.appendChild(subtable);
+    subtable.id = "sub" + element;
+    createStyle('hidden', win, 'display: none;');
+    createStyle('show', win, 'border: 1px solid black;');
+    subtable.className = subclass[j];
+    generateTableHead(subtable, data1, win);
+    generateTable(subtable, actualdata, win);
+    return subtable;
+  }
 
  function initTable(win){
   var table = win.document.createElement("TABLE");
@@ -370,7 +386,7 @@
     th.appendChild(text);
     row.appendChild(th);
   }
-}//
+}
 
  function generateTable(table, data, win) {
   for (let element of data) {
@@ -381,16 +397,4 @@
       cell.appendChild(text);
     }
   }
-}
-
- function timedUpdateExample(){
-   document.getElementById("dataSourceFile").remove();
-   clearLineGroupIndex();
-   chart1.destroy();
-   var head= document.getElementsByTagName('head')[0];
-   var script= document.createElement('script');
-   script.src= 'demodata.js';
-   script.id='dataSourceFile';
-   head.appendChild(script);
-   loadOQEChart(data);
 }
