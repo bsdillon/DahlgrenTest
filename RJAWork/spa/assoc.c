@@ -220,12 +220,13 @@ int associate_packet(frame *f)
 
 int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes)
 {
+	if(*listhead == NULL)
+		return -1;
 	frame *currframe = *listhead;
 	int iflen = strlen(infile);
 	int oflen = strlen(outfile);
 	
-	size_t numchars = 8 + (11 + MAX_FRAMENUM_BYTES + SS_LINE_BUFFER)
-					  * numframes
+	size_t numchars = 8 + (11 + MAX_FRAMENUM_BYTES + SS_LINE_BUFFER) * numframes
 					  + iflen + oflen + 4;
 	
 	char *cmdbuf;

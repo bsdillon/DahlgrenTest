@@ -66,6 +66,11 @@ char * field_num_to_member(int num, frame *f)
 
 int get_tshark_instance(char *args)
 {
+	/* 
+	 * WARNING: If you change the ordering of fields here, make sure you change
+	 * the fieldenum above to reflect the order, since filling the frame struct
+	 * with info requires that the orders match.
+	 */
 	char *arglist[] = {
 		"tshark", "-T", "fields",
 		"-e", "frame.number", 
