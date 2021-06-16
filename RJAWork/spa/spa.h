@@ -10,7 +10,7 @@
 #define MAX_IP_BYTES 16
 #define MAX_IP_6_BYTES 46
 #define TMP_FILE_LOC "/tmp/spa.pcapng"
-#define LINE_BUF_SIZE 256
+#define LINE_BUF_SIZE 2048
  
  /*
  * The frame struct holds the information retrieved from tshark. Each frame has

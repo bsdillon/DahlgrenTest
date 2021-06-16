@@ -76,6 +76,94 @@ Test(utests, parsegoodip6udp) {
 	cr_expect_str_eq(f->destport_udp,"25565","The destport_udp is not correct");
 }
 
+/* Make sure we handle overflows in parsing in case tshark output is unexpected */
+Test(utests, poverflow_framenum) {
+	char line[LINE_BUF_SIZE] = "morethantenbytes,,,,,,,,,,,";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->framenum, "morethant", "Overflow not handled");
+	cr_expect_str_neq(f->framenum, "morethantenbytes", "Overflow not handled");
+}
+
+Test(utests, poverflow_srcip) {
+	char line[LINE_BUF_SIZE] = ",,morethansixteenbytes,,,,,,,,,";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->srcip, "morethansixteen", "Overflow not handled");
+	cr_expect_str_neq(f->srcip, "morethansixteenbytes", "Overflow not handled");
+}
+
+Test(utests, poverflow_destip) {
+	char line[LINE_BUF_SIZE] = ",,,morethansixteenbytes,,,,,,,,";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->destip, "morethansixteen", "Overflow not handled");
+	cr_expect_str_neq(f->destip, "morethansixteenbytes", "Overflow not handled");
+}
+
+Test(utests, poverflow_srcip6) {
+	char line[LINE_BUF_SIZE] = 
+		",,,,,morethanfortysixbytesmorethanfortysixbytesmorethanfortysixbytes,,,,,,";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->srcip6, 
+		"morethanfortysixbytesmorethanfortysixbytesmor", 
+		"Overflow not handled");
+	cr_expect_str_neq(f->srcip6, 
+		"morethanfortysixbytesmorethanfortysixbytesmorethanfortysixbytes", 
+		"Overflow not handled");
+}
+
+Test(utests, poverflow_destip6) {
+	char line[LINE_BUF_SIZE] = 
+		",,,,,,morethanfortysixbytesmorethanfortysixbytesmorethanfortysixbytes,,,,,";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->destip6, 
+		"morethanfortysixbytesmorethanfortysixbytesmor", 
+		"Overflow not handled");
+	cr_expect_str_neq(f->destip6, 
+		"morethanfortysixbytesmorethanfortysixbytesmorethanfortysixbytes", 
+		"Overflow not handled");
+}
+
+Test(utests, poverflow_srcport_tcp) {
+	char line[LINE_BUF_SIZE] = ",,,,,,,,morethantenbytes,,,";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->srcport_tcp, "morethant", "Overflow not handled");
+	cr_expect_str_neq(f->srcport_tcp, "morethantenbytes", "Overflow not handled");
+}
+
+Test(utests, poverflow_srcport_udp) {
+	char line[LINE_BUF_SIZE] = ",,,,,,,,,morethantenbytes,,";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->srcport_udp, "morethant", "Overflow not handled");
+	cr_expect_str_neq(f->srcport_udp, "morethantenbytes", "Overflow not handled");
+}
+
+Test(utests, poverflow_destport_tcp) {
+	char line[LINE_BUF_SIZE] = ",,,,,,,,,,morethantenbytes,";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->destport_tcp, "morethant", "Overflow not handled");
+	cr_expect_str_neq(f->destport_tcp, "morethantenbytes", "Overflow not handled");
+}
+
+Test(utests, poverflow_destport_udp) {
+	char line[LINE_BUF_SIZE] = ",,,,,,,,,,,morethantenbytes";
+	frame *f = parse_line(line);
+	cr_expect_str_eq(f->destport_udp, "morethant", "Overflow not handled");
+	cr_expect_str_neq(f->destport_udp, "morethantenbytes", "Overflow not handled");
+}
+
+/*
+ * Make sure non-numbers in ipproto location don't break it (although 
+ * it will be useless info there)
+ */
+Test(utests, nonumipproto) {
+	char line[LINE_BUF_SIZE] = ",,,,word,,,word2,,,,";
+	frame *f = parse_line(line);
+	cr_expect_eq(f->ipproto, 0, "Unexpected ipproto value");
+}
+
+/*
+ * Helper function because cr_expect_file_contents_eq apparently does not 
+ * exist, even though it is documented
+ */
 int compare_files(FILE *f1, FILE *f2)
 {
 	char c1 = getc(f1);
@@ -102,6 +190,7 @@ Test(utests, filewritegood) {
 	frame *prev = NULL;
 	for (int i=1;i<=52;i++)
 	{
+		//dummy line with no real connection to any packets
 		sprintf(line, "%d,0x00000800,192.168.1.10,192.168.1.3,6,,,,22,,12345,", i);
 		frame *t = parse_line(line);
 		sprintf(t->procinfo, "spaprocnames=(dummy) spapids=(%d)", i);

@@ -14,56 +14,6 @@ pid_t pid;
 enum fieldenum {FRAMENUM,ETHTYPE,IPSRC,IPDST,IPPROTO,IP6SRC,IP6DST,IP6NXT,
 				TCPSPORT,UDPSPORT,TCPDPORT,UDPDPORT};
 
-/* 
- * This helper function translates the field number to the field's pointer
- * in the frame. Returns NULL for int fields and for numbers outside fieldenum.
- */				
-char * field_num_to_member(int num, frame *f)
-{
-	switch(num)
-	{
-		case FRAMENUM:
-			return f->framenum;
-			break;
-		case ETHTYPE:
-			return NULL;
-			break;
-		case IPSRC:
-			return f->srcip;
-			break;
-		case IPDST:
-			return f->destip;
-			break;
-		case IPPROTO:
-			return NULL;
-			break;
-		case IP6SRC:
-			return f->srcip6;
-			break;
-		case IP6DST:
-			return f->destip6;
-			break;
-		case IP6NXT:
-			return NULL;
-			break;
-		case TCPSPORT:
-			return f->srcport_tcp;
-			break;
-		case UDPSPORT:
-			return f->srcport_udp;
-			break;	
-		case TCPDPORT:
-			return f->destport_tcp;
-			break;
-		case UDPDPORT:
-			return f->destport_udp;
-			break;
-		default:
-			return NULL;
-			break;
-	}
-}
-
 int get_tshark_instance(char *args)
 {
 	/* 
@@ -120,6 +70,20 @@ pid_t get_tshark_pid()
 	return pid;
 }
 
+void cpy_to_member(char *member, char *srcstr, int maxsize)
+{
+	if (srcstr != NULL)
+	{
+		strncpy(member, srcstr, maxsize);
+		if (maxsize > 0)
+			member[maxsize-1] = '\0'; //make sure we don't overflow members
+	} 
+	else
+	{
+		strcpy(member, "");
+	}
+}
+
 frame * parse_line(char line[])
 {
 	char *bufstart = line;
@@ -132,35 +96,54 @@ frame * parse_line(char line[])
 	for (int i = FRAMENUM; i<=UDPDPORT; i++)
 	{
 		token = strsep(&bufstart, ",");
-		if (i != ETHTYPE && i != IPPROTO && i != IP6NXT) //ignore int fields
+		
+		switch (i)
 		{
-			if (token != NULL)
-				strcpy(field_num_to_member(i, newframe), token);
-			else
-				strcpy(field_num_to_member(i, newframe), "");
+			case FRAMENUM:
+				cpy_to_member(newframe->framenum, token, MAX_FRAMENUM_BYTES);
+				break;
+			case ETHTYPE:
+				newframe->ethtype = strtol(token, NULL, 16);
+				break;
+			case IPSRC:
+				cpy_to_member(newframe->srcip, token, MAX_IP_BYTES);
+				break;
+			case IPDST:
+				cpy_to_member(newframe->destip, token, MAX_IP_BYTES);
+				break;
+			case IPPROTO:
+				if (token[0] != '\0')
+				{
+					newframe->ipproto = atoi(token);
+					protoset = 1;
+				}
+				break;
+			case IP6SRC:
+				cpy_to_member(newframe->srcip6, token, MAX_IP_6_BYTES);
+				break;
+			case IP6DST:
+				cpy_to_member(newframe->destip6, token, MAX_IP_6_BYTES);
+				break;
+			case IP6NXT:
+				if(protoset != 1)
+					newframe->ipproto = atoi(token);
+				break;
+			case TCPSPORT:
+				cpy_to_member(newframe->srcport_tcp, token, MAX_PORT_BYTES);
+				break;
+			case TCPDPORT:
+				cpy_to_member(newframe->destport_tcp, token, MAX_PORT_BYTES);
+				break;
+			case UDPSPORT:
+				cpy_to_member(newframe->srcport_udp, token, MAX_PORT_BYTES);
+				break;
+			case UDPDPORT:
+				cpy_to_member(newframe->destport_udp, token, MAX_PORT_BYTES);
+				break;
+			default:
+				break;
 		}
-		else
-		{
-			switch (i) //set int fields
-			{
-				case ETHTYPE:
-					newframe->ethtype = strtol(token, NULL, 16);
-					break;
-				case IPPROTO:
-					if (token[0] != '\0')
-					{
-						newframe->ipproto = atoi(token);
-						protoset = 1;
-					}
-					break;
-				case IP6NXT:
-					if(protoset != 1)
-						newframe->ipproto = atoi(token);
-					break;
-				default:
-					break;
-			}
-		}
+		
 	}
 	
 	return newframe;
