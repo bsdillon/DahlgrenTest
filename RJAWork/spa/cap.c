@@ -103,7 +103,16 @@ frame * parse_line(char line[])
 				cpy_to_member(newframe->framenum, token, MAX_FRAMENUM_BYTES);
 				break;
 			case ETHTYPE:
-				newframe->ethtype = strtol(token, NULL, 16);
+				if(token != NULL)
+				{
+					newframe->ethtype = strtol(token, NULL, 16);
+				}
+				else //this means the line from tshark is likely bad
+				{
+					free(newframe);
+					fprintf(stderr, "Bad line from tshark.\n");
+					return NULL;
+				}
 				break;
 			case IPSRC:
 				cpy_to_member(newframe->srcip, token, MAX_IP_BYTES);
@@ -112,10 +121,13 @@ frame * parse_line(char line[])
 				cpy_to_member(newframe->destip, token, MAX_IP_BYTES);
 				break;
 			case IPPROTO:
-				if (token[0] != '\0')
-				{
-					newframe->ipproto = atoi(token);
-					protoset = 1;
+				if (token != NULL)
+				{	
+					if (token[0] != '\0')
+					{
+						newframe->ipproto = atoi(token);
+						protoset = 1;
+					}
 				}
 				break;
 			case IP6SRC:
@@ -126,7 +138,10 @@ frame * parse_line(char line[])
 				break;
 			case IP6NXT:
 				if(protoset != 1)
-					newframe->ipproto = atoi(token);
+				{
+					if(token != NULL)
+						newframe->ipproto = atoi(token);
+				}
 				break;
 			case TCPSPORT:
 				cpy_to_member(newframe->srcport_tcp, token, MAX_PORT_BYTES);
@@ -159,25 +174,27 @@ int capture_frames(int fd, frame **listhead)
 	while(fgets(buf, sizeof(buf), tsfile) != NULL)
 	{
 		frame *f = parse_line(buf);
-		if (*listhead == NULL)
+		if (f != NULL)
 		{
-			*listhead = f;
+			if (*listhead == NULL)
+			{
+				*listhead = f;
+			}
+		
+			associate_packet(f);
+		
+			if (prevframe == NULL)
+			{
+				prevframe = f;
+			}
+			else
+			{
+				prevframe->next = f;
+				prevframe = f;
+			}
+		
+			numframes++;
 		}
-		
-		associate_packet(f);
-		
-		if (prevframe == NULL)
-		{
-			prevframe = f;
-		}
-		else
-		{
-			prevframe->next = f;
-			prevframe = f;
-		}
-		
-		numframes++;
-		
 	}
 	
 	fclose(tsfile);

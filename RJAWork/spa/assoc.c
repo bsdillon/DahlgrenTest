@@ -136,7 +136,7 @@ char * get_ss_output(char *cmdfmt, char *sport, char *dport)
  */
 char * get_proc_info_tcp(char *sport, char *dport)
 {
-	char *cmdfmt = "ss -tanpH '( sport = :%s and dport = :%s )"
+	char *cmdfmt = "ss -tnpH '( sport = :%s and dport = :%s )"
 				   " or ( sport = :%s and dport = :%s )'"
 				   " | awk '{gsub(/\"/, \"\"); gsub(/users:/, \"\"); print $6}'";
 	
@@ -155,7 +155,7 @@ char * get_proc_info_tcp(char *sport, char *dport)
 
 char * get_proc_info_udp(char *sport, char *dport)
 {
-	char *cmdfmt = "ss -uanpH '( sport = :%s and dport = :%s )"
+	char *cmdfmt = "ss -unpH '( sport = :%s and dport = :%s )"
 				   " or ( sport = :%s and dport = :%s )'"
 				   " | awk '{gsub(/\"/, \"\"); gsub(/users:/, \"\"); print $6}'";
 	

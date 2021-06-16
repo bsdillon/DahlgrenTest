@@ -160,6 +160,12 @@ Test(utests, nonumipproto) {
 	cr_expect_eq(f->ipproto, 0, "Unexpected ipproto value");
 }
 
+Test(utests, nullifnocommas) {
+	char line[LINE_BUF_SIZE] = "this line has no commas!";
+	frame *f = parse_line(line);
+	cr_expect_null(f, "Frame was not null!");
+}
+
 /*
  * Helper function because cr_expect_file_contents_eq apparently does not 
  * exist, even though it is documented
