@@ -9,6 +9,22 @@
         border: 1px solid LightGray;
         border-radius: 8px;
       }
+      table.legend td {
+        margin: 5px 5px 5px 5px;
+        width: 25px; height: 25px;
+        border: 1px solid GhostWhite;
+        border-radius: 8px;
+        margin: auto;
+      }
+
+      table.legend {
+        color: rgb(0,59,79);
+        border-radius: 15px;
+        border:6px solid GhostWhite;
+        box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.25) inset,
+                  -4px -4px 12px 0 rgba(255, 255, 255, 0)inset;
+
+      }
       .tooltip {position: relative;}
       .tooltip .tooltiptext {
          font-weight: normal;
