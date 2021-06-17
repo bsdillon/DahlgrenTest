@@ -7,6 +7,7 @@
 #include "../assoc.h"
 #include "../cap.h"
 #include "../spa.h"
+#include "../ht.h"
 
 /* Make sure good line for ipv4 tcp works */
 Test(utests, parsegoodip4tcp) {
@@ -218,4 +219,15 @@ Test(utests, filewritegood) {
 	cr_expect_eq(compare_files(exfile, chkfile),0,"The files do not match");
 	fclose(exfile);
 	fclose(chkfile);
+}
+
+Test(utests, hashtableworks) {
+	hash_table *ht = create_ht();
+	ht_add(ht, "Camaro", "Chevy");
+	ht_add(ht, "Ranger", "Ford");
+	ht_add(ht, "Viper", "Dodge");
+	cr_expect_str_eq(ht_get(ht, "Camaro"), "Chevy", "Strings not equal in ht");
+	cr_expect_str_eq(ht_get(ht, "Ranger"), "Ford", "Strings not equal in ht");
+	cr_expect_str_eq(ht_get(ht, "Viper"), "Dodge", "Strings not equal in ht");
+	cr_expect_null(ht_get(ht, "Santa Cruz"), "Not null in ht");
 }

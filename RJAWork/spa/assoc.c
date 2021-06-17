@@ -4,8 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "assoc.h"
+#include "ht.h"
 
-#define SS_LINE_BUFFER 128
+#define SS_LINE_BUFFER 512
 #define WRITE_CHUNK_SIZE 50
 
 /* Transport protocol definitions (for deciding how to associate) */
@@ -15,6 +16,9 @@
 /* Eth type definitions (for deciding if packet is ip, ipv6, etc) */
 #define ETH_IP 0x0800
 #define ETH_IP6 0x86DD
+
+hash_table *tcptable = NULL;
+hash_table *udptable = NULL;
 
 /*
  * Helper function to convert output of ss to frame procinfo format. ss output
@@ -82,10 +86,18 @@ char * ss_out_to_procinfo_fmt(char *ssline)
 char * get_ss_output(char *cmdfmt, char *sport, char *dport)
 {
 	char *cmdstr;
-	if (0 > asprintf(&cmdstr, cmdfmt, sport, dport, dport, sport))
+	if (sport != NULL && dport != NULL)
 	{
-		fprintf(stderr, "Problem making command string\n");
-		exit(1);
+		if (0 > asprintf(&cmdstr, cmdfmt, sport, dport, dport, sport))
+		{
+			fprintf(stderr, "Problem making command string\n");
+			exit(1);
+		}
+	}
+	else
+	{
+		cmdstr = malloc(strlen(cmdfmt)+1);
+		strcpy(cmdstr, cmdfmt);
 	}
 	
 	char *buf = malloc(sizeof(char) * SS_LINE_BUFFER);
@@ -123,6 +135,71 @@ char * get_ss_output(char *cmdfmt, char *sport, char *dport)
 	return buf;
 }
 
+FILE * get_ss_instance(char *cmd)
+{
+	FILE *fp;
+	if((fp=popen(cmd, "r"))==NULL)
+	{
+		fprintf(stderr, "Error opening ss pipe!\n");
+	}
+	
+	return fp;
+}
+
+void init_tables(void)
+{
+	tcptable = create_ht();
+	udptable = create_ht();
+}
+
+void update_tcp_table(void)
+{
+	//TODO: TCP Hash table info
+	if (tcptable == NULL)
+		init_tables();
+		
+	char *buf = malloc(sizeof(char) * SS_LINE_BUFFER);
+	buf[0] = '\0';
+	
+	char local[MAX_IP_6_BYTES + MAX_PORT_BYTES + 1];
+	char remote[MAX_IP_6_BYTES + MAX_PORT_BYTES + 1]; 
+	char userstr[128]; //TODO: Constant?
+	
+	FILE *fp = get_ss_instance("ss -tanpH | awk '{ gsub(/\"/, \"\"); gsub(/users:/, \"\"); print $4, $5, $6 }'");
+	
+	while(fgets(buf, SS_LINE_BUFFER, fp) != NULL)
+	{
+		if (fscanf(fp, "%s%s%s", local, remote, userstr) == 3)
+		{
+			char *key = malloc(strlen(local) + strlen(remote) + 1);
+			strcpy(key, local);
+			strcat(key, remote);
+			if(ht_get(tcptable, key) == NULL){ //TODO: need to check if value has changed
+				//printf("Adding key: %s\n", key);
+				ht_add(tcptable, key, userstr);
+				//print_ht(tcptable);
+			}
+			free(key);
+		}
+		
+	}
+	free(buf);
+}
+
+void update_udp_table(void)
+{
+	//TODO: UDP Hash table info
+	if (udptable == NULL)
+		init_tables();
+}
+
+void update_tables(void)
+{
+	update_tcp_table();
+	update_udp_table();
+}
+
+
 /*
  * Notes on current implementation:
  * 	-Right now this naively assumes there is only one line of ss output. It
@@ -150,6 +227,53 @@ char * get_proc_info_tcp(char *sport, char *dport)
 	else 
 	{
 		return ss_out_to_procinfo_fmt(buf);
+	}
+}
+
+char * get_proc_info_tcp4_alt(frame *f)
+{
+	char *key = malloc(strlen(f->srcip)+strlen(f->srcport_tcp)
+					   +strlen(f->destip)+strlen(f->destport_tcp)+3); //3 for null and 2 colons
+	strcpy(key, f->srcip);
+	strcat(key, ":");
+	strcat(key, f->srcport_tcp);
+	strcat(key, f->destip);
+	strcat(key, ":");
+	strcat(key, f->destport_tcp);
+	//printf("Trying key: %s\n", key);
+	char *info = ht_get(tcptable, key);
+	char *ret = malloc(SS_LINE_BUFFER);
+	if (info != NULL)
+	{
+		strcpy(ret, info);
+		free(key);
+		//return info;
+		return ss_out_to_procinfo_fmt(ret);
+	}
+	else
+	{
+		strcpy(key, f->destip);
+		strcat(key, ":");
+		strcat(key, f->destport_tcp);
+		strcat(key, f->srcip);
+		strcat(key, ":");
+		strcat(key, f->srcport_tcp);
+		//printf("Trying alt key: %s\n", key);
+		info = ht_get(tcptable, key);
+		//printf("Key used: %s\n", key);
+		if (info == NULL)
+		{
+			free(ret);
+			free(key);
+			return "Failed to get socket information";
+		}
+		else
+		{
+			strcpy(ret, info);
+			free(key);
+			//return info;
+			return ss_out_to_procinfo_fmt(ret);
+		}
 	}
 }
 
@@ -181,7 +305,8 @@ int associate_packet(frame *f)
 			switch(f->ipproto)
 			{
 				case PROTO_TCP:
-					info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
+					//info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
+					info = get_proc_info_tcp4_alt(f);
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
@@ -213,8 +338,8 @@ int associate_packet(frame *f)
 			strncpy(f->procinfo, "Unsupported ethtype", SS_LINE_BUFFER);
 			return 1;
 	}
-	if(info != NULL)
-		free(info);
+	//if(info != NULL)
+		//free(info);
 	return 0;
 }
 

@@ -34,4 +34,9 @@ char * get_proc_info_udp(char *sport, char *dport);
  */
 int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes);
 
+/*
+ * Updates hashtables of socket information.
+ */
+void update_tables(void);
+
 #endif

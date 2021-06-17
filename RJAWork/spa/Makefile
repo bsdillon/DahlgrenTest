@@ -5,10 +5,10 @@ LD	= gcc
 
 TARG	= spa
 
-OBJS    = cap.o assoc.o spa.o
+OBJS    = cap.o assoc.o ht.o spa.o
 
 TEST = tests
-TESTCANDS = assoc.c cap.c
+TESTCANDS = assoc.c cap.c ht.c
 
 $(TARG): $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(TARG)

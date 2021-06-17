@@ -173,6 +173,7 @@ int capture_frames(int fd, frame **listhead)
 	int numframes = 0;
 	while(fgets(buf, sizeof(buf), tsfile) != NULL)
 	{
+		update_tables();
 		frame *f = parse_line(buf);
 		if (f != NULL)
 		{
@@ -180,7 +181,7 @@ int capture_frames(int fd, frame **listhead)
 			{
 				*listhead = f;
 			}
-		
+			
 			associate_packet(f);
 		
 			if (prevframe == NULL)
