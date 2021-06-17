@@ -1,0 +1,89 @@
+/* Style for Colored Square Grid */
+      td img{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      table.standard td {
+        width:50px; height: 50px;
+        border: 1px solid LightGray;
+        border-radius: 8px;
+      }
+      .tooltip {position: relative;}
+      .tooltip .tooltiptext {
+         font-weight: normal;
+         font-size: 15px;
+         visibility: hidden;
+         width: 120px;
+         background-color: #555;
+         color: #fff;
+         text-align: center;
+         border-radius: 6px;
+         padding: 5px 0;
+         position: absolute;
+         z-index: 1;
+         top: 125%;
+         left: 50%;
+         margin-left: -60px;
+         opacity: 0;
+         transition: opacity 0.3s;
+       }
+      .tooltip:hover .tooltiptext {
+        font-weight: normal;
+         visibility: visible;
+         opacity: 1;
+       }
+
+ .background{
+    background-color: rgb(0,59,79);
+
+  }
+ .div {
+   background-color: GhostWhite;
+   border-radius: 10px;
+   margin: 5px;
+   box-shadow:
+       12px 12px 16px 0 rgba(255, 255, 255, 0.5) inset,
+       -18px -18px 22px 0 rgba(0, 0, 0, .15) inset;
+  }
+ .rotate {
+    transform: translateX(-50%) translateY(-50%);
+    transform: rotate(-180deg);
+    writing-mode: vertical-lr;
+ }
+
+ table{
+  margin: 5px;
+  margin-top: 10px;
+  font-family: helvetica;
+  font-weight: bold;
+  border-radius: 10px;
+  border:6px solid GhostWhite;
+  box-shadow:
+          12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+          -8px -8px 12px 0 rgba(255, 255, 255, 0);
+ }
+
+ p, h1, h2 { color: rgb(0,59,79); font-family: helvetica;}
+
+ button {
+  font-size: 18px;
+  font-family: helvetica;
+  font-weight: bold;
+  color: rgb(0,59,79);
+  border-radius: 5px;
+  border: none;
+  width: 55px;
+  height: 30px;
+  background-color: GhostWhite;
+  box-shadow:
+      3px 3px 6px 0 rgba(0, 0, 0, 0.25),
+      -4px -4px 8px 0 rgba(255, 255, 255, 0);
+ }
+
+ button:hover{
+
+   box-shadow:
+       2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset,
+       -4px -4px 8px 0 rgba(0, 0, 0, .25) inset;
+ }
