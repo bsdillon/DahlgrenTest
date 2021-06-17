@@ -11,7 +11,7 @@ function createConfig(title)
     },
     options:
     {
-      animation: false,
+      //animation: false,
       responsive: false,
       legend:
       {
@@ -41,23 +41,19 @@ function createConfig(title)
   return config;
 }
 
-function createChart(canvasID, width, height, config, wind)
+function createChart(canvasID, width, height, config, win)
 {
-  if(wind == 'window'){
-    var myCanvas = document.getElementById(canvasID);
-  }else{
-    var myCanvas = wind.document.createElement("CANVAS");
-    wind.document.body.append(myCanvas);
-  }
+  var myCanvas = win.document.createElement("CANVAS");
+  win.document.body.append(myCanvas);
   var ctx = myCanvas.getContext("2d");
   myCanvas.width = width;
   myCanvas.height = width;
   var chart = new Chart(ctx, config);
-  myCanvas.style.backgroundColor = 'rgb(255,255,255)';
+  myCanvas.style.backgroundColor = 'GhostWhite';
   return chart;
 }
 
-var colors = ["rgb(252,86,74)","rgb(129,237,99)","rgb(111,175,198)","rgb(163,91,52)","rgb(148,67,139)","rgb(157,145,169)","rgb(221,26,143)","rgb(78,114,5)","rgb(77,3,36)","rgb(187,41,213)","rgb(155,191,255)","rgb(87,245,150)","rgb(118,7,228)","rgb(143,59,31)","rgb(11,116,221)","rgb(214,239,182)","rgb(242,39,129)","rgb(180,174,68)","rgb(112,21,104)"];
+var colors = ["rgb(0,59,79)","rgb(232, 176, 15)","rgb(111,175,198)","rgb(163,91,52)","rgb(148,67,139)","rgb(157,145,169)","rgb(221,26,143)","rgb(78,114,5)","rgb(77,3,36)","rgb(187,41,213)","rgb(155,191,255)","rgb(87,245,150)","rgb(118,7,228)","rgb(143,59,31)","rgb(11,116,221)","rgb(214,239,182)","rgb(242,39,129)","rgb(180,174,68)","rgb(112,21,104)"];
 
 function setLabels(config, labels)
 {
