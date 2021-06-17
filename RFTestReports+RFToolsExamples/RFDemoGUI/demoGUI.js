@@ -194,6 +194,7 @@
         setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
  }
 
+
  function headerLogo(){
    var logo = document.createElement('img');
    logo.id = "mainLogo";
@@ -514,16 +515,4 @@ function isEven(value) {
     }
     b = b + 1;
   }
-}
-
- function timedUpdateExample(){
-   document.getElementById("dataSourceFile").remove();
-   clearLineGroupIndex();
-   chart1.destroy();
-   var head= document.getElementsByTagName('head')[0];
-   var script= document.createElement('script');
-   script.src= 'demodata.js';
-   script.id='dataSourceFile';
-   head.appendChild(script);
-   loadOQEChart(data);
 }
