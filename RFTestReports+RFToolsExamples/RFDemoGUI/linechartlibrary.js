@@ -46,7 +46,7 @@ function createLineConfig(cType, title, xLabel, yLabel)
     },
     options:
     {
-      animation: false,
+      //animation: false,
       responsive: false,
       legend:
       {
@@ -127,7 +127,7 @@ function createLineChart(canvasID, width, height, config, win)
   myCanvas.width = width;
   myCanvas.height = height;
   var chart = new Chart(ctx, config);
-  myCanvas.style.backgroundColor = 'rgb(255,255,255)';
+  myCanvas.style.backgroundColor = 'GhostWhite';
   return chart;
 }
 
@@ -233,8 +233,8 @@ function createAllLineStyle(config, seriesName, linedata, random, fill, group, c
   var radius = 5;
   if(!random)
   {
-    c1 = 'rgb(129,237,99)';
-    c2 = 'rgb(252,86,74)';
+    c1 = 'rgb(0,59,79)';
+    c2 = 'rgb(232, 176, 15)';
     radius = 5;
     primaryID = group;
     secondaryID = cat;
