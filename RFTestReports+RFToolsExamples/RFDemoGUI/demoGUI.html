@@ -1,53 +1,22 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Test Demo</title>
-
-    <style>
-      table.hidden {display: none;}
-      table.show {border: 1px solid black;}
-      td img{
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      table.standard td {width:50px; height: 50px;}
-      .tooltip {
-        position: relative;
-      }
-
-       .tooltip .tooltiptext {
-         visibility: hidden;
-         width: 120px;
-         background-color: #555;
-         color: #fff;
-         text-align: center;
-         border-radius: 6px;
-         padding: 5px 0;
-         position: absolute;
-         z-index: 1;
-         top: 125%;
-         left: 50%;
-         margin-left: -60px;
-         opacity: 0;
-         transition: opacity 0.3s;
-       }
-
-       .tooltip:hover .tooltiptext {
-         visibility: visible;
-         opacity: 1;
-       }
-    </style>
+    <link href = "demostyle.css" rel = "stylesheet">
     <script id = "dataSourceFile" src="demodata.js"></script>
     <script src="https://www.chartjs.org/dist/2.9.3/Chart.min.js"></script>
     <script src= "piechartlibrary.js"></script>
     <script src="linechartlibrary.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script id = "scriptSourceFile" src = "demoGUI.js"></script>
 </head>
-<body onload = "start()">
-
-<table id="heatmap" class ="standard"></table>
-<h2> Tests - Cumulative Results: <button onclick="oqe('total')">OQE</button></h2>
+<body onload = "start()" class = "background"  id="body">
+<div id = "header"></div>
+<div id = "main" class = "div">
+  <br>
+  <table id="heatmap" class ="standard"></table>
+  <br>
+  <h2 style = "margin: 10px 10px 10px 10px;"> Tests - Cumulative Results: <button onclick="oqe('total')">OQE</button></h2>
+</div>
 </body>
 </html>
