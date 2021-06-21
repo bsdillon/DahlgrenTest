@@ -395,16 +395,7 @@
  function loadTotalData(object, win){
       var length = Object.keys(object).length;
       var breakElement = 'testRun' + length-1;
-      //Pie Chart
-      createHeaders('firstheader', 'Overall Test Breakdown', '2', win);
-      var config1 = createConfig("Pass vs. Fail");
-      var chart1 = createChart("canvas", 350,350,config1, win);
-      let labels =['Fail','Pass'];
-      setLabels(config1, labels);
       var sortedData = sortData(object, breakElement);
-      data2 = [sumArray(sortedData[2]), sumArray(sortedData[3])];
-      createDataSet(config1, data2);
-      chart1.update();
       //Line Chart
       createHeaders('secondheader', "Performance Over Time", '2', win);
       var config2 = createLineConfig(LINE_TYPE, "Pass/Fail Percentage vs. Test Run", "Test Run", "Percentage");
@@ -415,8 +406,18 @@
       createLineDataSet(config2, "Pass Percentage", sortedData[0], LINE_TYPE);
       createLineDataSet(config2, "Fail Percentage", sortedData[1], LINE_TYPE);
       chart2.update();
+      //Pie Chart
+      createHeaders('firstheader', 'Overall Test Breakdown', '2', win);
+      var config1 = createConfig("Pass vs. Fail");
+      var chart1 = createChart("canvas", 350,350,config1, win);
+      let labels =['Fail','Pass'];
+      setLabels(config1, labels);
+      data2 = [sumArray(sortedData[2]), sumArray(sortedData[3])];
+      createDataSet(config1, data2);
+      chart1.update();
       setTimeout(function(){ timedTotalUpdate('total', testRuns, win); }, 5000);
      }
+
 
  function timedTotalUpdate(tableid, object, win) {
       var data = Object.keys(object);
