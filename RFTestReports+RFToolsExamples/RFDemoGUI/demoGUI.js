@@ -6,11 +6,10 @@
     heatMap.style.margin = "10px 10px 10px 10px";
     for(var j=0; j<length+1; j++){
      var row = heatMap.insertRow();
-     var labelCell = row.insertCell();
+     var labelCell = initCell(row, "Gray", '');
      var label = document.createTextNode(j);
      labelCell.appendChild(label);
      labelCell.style.color = "white";
-     labelCell.style.backgroundColor = "Gray";
      var array = data["testRun"+j];
      if(!array && j!= totalRuns){ //Case where test run is in progress
       var image = document.createElement('img');
@@ -22,14 +21,12 @@
       labelCell.appendChild(image);
       toolTip(labelCell, runLabel);
       if(typeof heatMap.rows[j-1] === "undefined"){ //Case where no previous test runs have completed
-       cell = row.insertCell();
-       cell.style.backgroundColor = 'rgb(198, 204, 208)';
+       initCell(row, 'rgb(198, 204, 208)', '');
        break;
       }else{ //Generates in progress cells
        var loadCells = heatMap.rows[j-1].cells.length-1;
        for(var i=0; i<loadCells; i++){
-         cell = row.insertCell();
-         cell.style.backgroundColor = "rgb(198, 204, 208)";
+         initCell(row, "rgb(198, 204, 208)", row.cells.length);
        }
       }
       break; //Ends loop
@@ -65,14 +62,18 @@
      //Create Buffer Cells
      for(var i=0; i<heatMap.rows.length; i++){
         while(typeof heatMap.rows[i].cells[targetNum] === "undefined"){
-           bufferCell = heatMap.rows[i].insertCell(heatMap.rows[i].cells.length);
-           bufferCell.style.backgroundColor = "Gray";
+           initCell(heatMap.rows[i], "Gray", heatMap.rows[i].cells.length);
          }
      }
    }
    //Create Test Runs Header
    createTotalHeader(heatMap);
 }
+ function initCell(row, color, spec){
+   cell = row.insertCell(spec);
+   cell.style.backgroundColor = color;
+   return cell;
+ }
 
  function hoverStyle(cell, color1, color2){
    cell.onmouseover = function(cell){ return function(){
@@ -192,7 +193,6 @@
         setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
  }
 
-
  function headerLogo(){
    var logo = document.createElement('img');
    logo.id = "mainLogo";
@@ -265,9 +265,8 @@
      for(let element of data){
       //Create Test Run Label
       let row = table.insertRow();
-      let cell = row.insertCell();
+      initCell(row, "GhostWhite", '');
       cell.style.borderRadius = "5px";
-      cell.style.backgroundColor = "GhostWhite";
       cell.style.fontWeight = 'bolder';
       let text = win.document.createTextNode("Test Run " + j + "\u00A0");
       cell.appendChild(text);
@@ -366,7 +365,7 @@
     var otherA = [];
     var data = Object.keys(object);
     for(let element of data){
-       var subdata = testRuns[element];
+       var subdata = object[element];
        var length = Object.keys(subdata).length;
        data1 = sortResults(subdata);
        passA.push(data1[1]);
@@ -415,7 +414,6 @@
       chart1.update();
       setTimeout(function(){ timedTotalUpdate('total', testRuns, win); }, 5000);
      }
-
 
  function timedTotalUpdate(tableid, object, win) {
       var data = Object.keys(object);
@@ -481,7 +479,7 @@
   }
 }
 
-function isEven(value) {
+ function isEven(value) {
 	if (value%2 == 0)
 		return true;
 	else
@@ -504,4 +502,3 @@ function isEven(value) {
     b = b + 1;
   }
 }
-
