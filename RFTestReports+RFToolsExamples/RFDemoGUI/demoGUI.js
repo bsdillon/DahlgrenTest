@@ -198,23 +198,12 @@
  function headerLogo(){
    var logo = document.createElement('img');
    logo.id = "mainLogo";
-   logo.src = "dahlgrenlogo.jpg";
-   logo.width = "125";
+   logo.src = "totallogo.png";
+   logo.width = "200";
    logo.height = "75";
-   var backing = document.getElementById('header');
-    logo.onmouseover = function(logo){ return function(){
-      logo.style.boxShadow =  "2px 2px 6px 0 rgba(255, 255, 255, 0.3), -4px -4px 8px 0 rgba(0, 0, 0, .25)";
-    }}(logo);
-    logo.onmouseout = function(logo){ return function(){
-      logo.style.boxShadow = "";
-    }}(logo);
-   logo.onclick = function(){logoMap(backing);};
-   backing.appendChild(logo);
- }
 
- function logoMap(backing){
-   console.log('clicked');
-   backing.height = "1000";
+   var backing = document.getElementById('header');
+   backing.appendChild(logo);
  }
 
  function sortResults(data){
@@ -516,3 +505,4 @@ function isEven(value) {
     b = b + 1;
   }
 }
+
