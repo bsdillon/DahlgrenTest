@@ -61,8 +61,16 @@ void print_ht(hash_table *table)
 
 int hash(char *key)
 {
-	//TODO: Implement hash function
-	return 0;
+	//TODO: Implement better hash function
+	
+	long int sum = 0;
+	for (int i=0;i<strlen(key);i++)
+	{
+		sum = sum + key[i];
+	}
+	
+	int ret = sum * 53 % TABLE_SIZE;
+	return ret;
 }
 
 //TODO: Add checks and return -1 on failure
@@ -102,6 +110,9 @@ int ht_add(hash_table *table, char *key, char *value)
 
 char * ht_get(hash_table *table, char *key)
 {
+	if(key == NULL)
+		return NULL;
+	
 	int pos = hash(key);
 	
 	tab_entry *entry = table->entries[pos];

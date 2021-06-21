@@ -3,8 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <arpa/inet.h>
 #include "assoc.h"
 #include "ht.h"
+#include "sockinfo.h"
 
 #define SS_LINE_BUFFER 512
 #define WRITE_CHUNK_SIZE 50
@@ -19,6 +21,8 @@
 
 hash_table *tcptable = NULL;
 hash_table *udptable = NULL;
+extern hash_table *pidprocname;
+extern hash_table *inodepid;
 
 /*
  * Helper function to convert output of ss to frame procinfo format. ss output
@@ -158,32 +162,58 @@ void update_tcp_table(void)
 	if (tcptable == NULL)
 		init_tables();
 		
-	char *buf = malloc(sizeof(char) * SS_LINE_BUFFER);
-	buf[0] = '\0';
-	
-	char local[MAX_IP_6_BYTES + MAX_PORT_BYTES + 1];
-	char remote[MAX_IP_6_BYTES + MAX_PORT_BYTES + 1]; 
-	char userstr[128]; //TODO: Constant?
-	
-	FILE *fp = get_ss_instance("ss -tanpH | awk '{ gsub(/\"/, \"\"); gsub(/users:/, \"\"); print $4, $5, $6 }'");
-	
-	while(fgets(buf, SS_LINE_BUFFER, fp) != NULL)
+	FILE *fp = fopen("/proc/net/tcp", "r");
+	if(fp == NULL)
 	{
-		if (fscanf(fp, "%s%s%s", local, remote, userstr) == 3)
+		fprintf(stderr, "Issue reading /proc/net/tcp\n");
+		exit(1);
+	}
+	char line[4096];
+	
+	fgets(line, sizeof(line), fp); //read header line
+	
+	while(fgets(line, sizeof(line), fp) != NULL)
+	{
+		unsigned int localadd;
+		unsigned int remoteadd;
+		int localport;
+		int remoteport;
+		char inode[20];
+		char locals[MAX_IP_BYTES];
+		char remotes[MAX_IP_BYTES];
+		
+		sscanf(line, "%*d: %X:%X %X:%X %*X %*X:%*X %*X:%*X %*X %*d %*d %s %*512s\n",
+				&localadd, &localport, &remoteadd, &remoteport, inode);
+				
+		struct in_addr local;
+		struct in_addr remote;
+		local.s_addr = localadd;  //NOTE: May need to call htonl here?
+		remote.s_addr = remoteadd;//NOTE: May need to call htonl here?
+		
+		strcpy(locals, inet_ntoa(local));
+		strcpy(remotes, inet_ntoa(remote));
+		
+		char key[MAX_IP_BYTES*2 + MAX_PORT_BYTES*2 + 3];
+		snprintf(key, sizeof(key), "%s:%d%s:%d", locals, localport, remotes, remoteport);
+		
+		if(ht_get(tcptable, key) == NULL)
 		{
-			char *key = malloc(strlen(local) + strlen(remote) + 1);
-			strcpy(key, local);
-			strcat(key, remote);
-			if(ht_get(tcptable, key) == NULL){ //TODO: need to check if value has changed
-				//printf("Adding key: %s\n", key);
-				ht_add(tcptable, key, userstr);
-				//print_ht(tcptable);
+			ht_add(tcptable, key, inode);
+			//printf("======NEW TABLE======\n");
+			//print_ht(tcptable);
+		} 
+		else 
+		{
+			if(strcmp(ht_get(tcptable, key), inode) != 0 && strcmp(inode, "0") != 0)
+			{
+				ht_add(tcptable, key, inode);
+				printf("Updated %s->%s\n", key, inode);
 			}
-			free(key);
 		}
 		
+		
 	}
-	free(buf);
+	fclose(fp);
 }
 
 void update_udp_table(void)
@@ -195,6 +225,7 @@ void update_udp_table(void)
 
 void update_tables(void)
 {
+	si_update_tables();
 	update_tcp_table();
 	update_udp_table();
 }
@@ -241,16 +272,16 @@ char * get_proc_info_tcp4_alt(frame *f)
 	strcat(key, ":");
 	strcat(key, f->destport_tcp);
 	//printf("Trying key: %s\n", key);
-	char *info = ht_get(tcptable, key);
+	char *inode = ht_get(tcptable, key);
 	char *ret = malloc(SS_LINE_BUFFER);
-	if (info != NULL)
+	if(inode != NULL)
 	{
-		strcpy(ret, info);
-		free(key);
-		//return info;
-		return ss_out_to_procinfo_fmt(ret);
+		char *pid = ht_get(inodepid, inode);
+		char *procname = ht_get(pidprocname, pid);
+		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+		return ret;
 	}
-	else
+	else //try key other way around
 	{
 		strcpy(key, f->destip);
 		strcat(key, ":");
@@ -258,23 +289,21 @@ char * get_proc_info_tcp4_alt(frame *f)
 		strcat(key, f->srcip);
 		strcat(key, ":");
 		strcat(key, f->srcport_tcp);
-		//printf("Trying alt key: %s\n", key);
-		info = ht_get(tcptable, key);
-		//printf("Key used: %s\n", key);
-		if (info == NULL)
+		inode = ht_get(tcptable, key);
+		if (inode != NULL)
 		{
-			free(ret);
-			free(key);
-			return "Failed to get socket information";
+			char *pid = ht_get(inodepid, inode);
+			char *procname = ht_get(pidprocname, pid);
+			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+			return ret;
 		}
 		else
 		{
-			strcpy(ret, info);
-			free(key);
-			//return info;
-			return ss_out_to_procinfo_fmt(ret);
+			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
+			return ret;
 		}
 	}
+	
 }
 
 char * get_proc_info_udp(char *sport, char *dport)

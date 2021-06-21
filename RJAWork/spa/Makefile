@@ -5,7 +5,7 @@ LD	= gcc
 
 TARG	= spa
 
-OBJS    = cap.o assoc.o ht.o spa.o
+OBJS    = cap.o assoc.o ht.o spa.o sockinfo.o
 
 TEST = tests
 TESTCANDS = assoc.c cap.c ht.c
