@@ -119,16 +119,6 @@
    return stat;
  }
 
- function createButton(name, func, inner, element, window, parent, align, buttonid){
-   var name = window.document.createElement("BUTTON");
-   name.onclick = function(element){ return function(){ func(element);}}(element);
-   name.innerHTML = inner;
-   name.style.cssFloat = align;
-   buttonStyle(name);
-   name.id = buttonid;
-   parent.appendChild(name);
- }
-
  function generateStatus(data, length){
         var div =document.createElement('div');
         div.id = 'statusText';
@@ -163,7 +153,7 @@
           }
           para.appendChild(span);
           buttonLink = 'testRun' + i;
-          createButton('button', oqe,'OQE', buttonLink, window, para, '', 'statOQE');
+          createButton('button', oqe,'OQE', buttonLink, window, para, '', 'statOQE', '');
      }
      var breakSpace = document.createElement("BR");
      breakSpace.id = "spacer";
@@ -265,26 +255,29 @@
      for(let element of data){
       //Create Test Run Label
       let row = table.insertRow();
-      initCell(row, "GhostWhite", '');
+      let cell = initCell(row, "GhostWhite", row.cells.length);
       cell.style.borderRadius = "5px";
       cell.style.fontWeight = 'bolder';
       let text = win.document.createTextNode("Test Run " + j + "\u00A0");
       cell.appendChild(text);
-      //Create Expansion Button
-      var expand = win.document.createElement("BUTTON");
-      expand.onclick = function(element, win){ return function(){ expandTable(element, win);}}(element, win);
-      expand.innerHTML = ' + ';
-      expand.style.cssFloat = "right";
-      buttonStyle(expand);
-      cell.appendChild(expand);
-      //Link to Individual OQE
-      createButton('oqeLink', oqe, 'OQE', element, win, cell, "right", 'indOQE');
+      createButton('expand', expandTable, ' + ', element, win, cell, 'right', 'expnd', win);
+      createButton('oqeLink', oqe, 'OQE', element, win, cell, "right", 'indOQE', '');
       //Subtables
       var subtable = createSubTable(object, element, win, j, subclass);
       cell.appendChild(subtable);
       j = j + 1;
      }
  }
+
+ function createButton(name, func, inner, element, window, parent, align, buttonid, element2){
+    var name = window.document.createElement("BUTTON");
+    name.onclick = function(element, element2){ return function(){ func(element, element2);}}(element, element2);
+    name.innerHTML = inner;
+    name.style.cssFloat = align;
+    buttonStyle(name);
+    name.id = buttonid;
+    parent.appendChild(name);
+  }
 
  function tableStyle(table){
   table.style.borderRadius = "10px";
@@ -449,7 +442,7 @@
    win.document.title = 'Individual OQE';
    createHeaders('header1', 'Test Results', '1', win);
    var buttonParent = win.document.createElement("H2");
-   createButton('totalOQE', oqe, 'Total OQE', 'total',win, buttonParent, '', "totalPage");
+   createButton('totalOQE', oqe, 'Total OQE', 'total',win, buttonParent, '', "totalPage", '');
    win.document.body.appendChild(buttonParent);
    var dataKeys = Object.keys(data[0]);
    var table = initTable(win);
