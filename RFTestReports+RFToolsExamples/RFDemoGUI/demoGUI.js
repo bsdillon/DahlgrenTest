@@ -40,29 +40,15 @@
      }else{ //Case where test run has been completed and test data is available
       for(let element of array){
         cell = row.insertCell();
+        var status = element.Status;
         toolText = element.Test + ":  " + element.Message;
         toolTip(cell, toolText);
-        var status = element.Status;
         if(status == 'Pass') {
-           cell.style.backgroundColor = "CadetBlue";
-           cell.onmouseover = function(cell){ return function(){
-               cell.style.backgroundColor = "rgb(95,150,160)";
-               cell.style.boxShadow =  "2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset, -4px -4px 8px 0 rgba(0, 0, 0, .25) inset";
-               }}(cell);
-           cell.onmouseout = function(cell){ return function(){
-             cell.style.backgroundColor = "CadetBlue";
-             cell.style.boxShadow = "";
-             }}(cell);
+          cell.style.backgroundColor = "CadetBlue";
+          hoverStyle(cell, "CadetBlue", 'rgb(95, 150, 160');
         }else if(status == 'Fail') {
           cell.style.backgroundColor = "rgb(0,59,79)";
-          cell.onmouseover = function(cell){ return function(){
-            cell.style.backgroundColor = "rgb(0,50,79)";
-            cell.style.boxShadow =  "2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset, -4px -4px 8px 0 rgba(0, 0, 0, .25) inset";
-          }}(cell);
-          cell.onmouseout = function(cell){ return function(){
-            cell.style.backgroundColor = "rgb(0,59,79)";
-            cell.style.boxShadow = "";
-          }}(cell);
+          hoverStyle(cell, 'rgb(0, 59, 79)', 'rgb(0, 50, 59)');
         }
        }
      }
@@ -87,6 +73,18 @@
    //Create Test Runs Header
    createTotalHeader(heatMap);
 }
+
+ function hoverStyle(cell, color1, color2){
+   cell.onmouseover = function(cell){ return function(){
+      cell.style.backgroundColor = color2;
+      cell.style.boxShadow =  "2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset, -4px -4px 8px 0 rgba(0, 0, 0, .25) inset";
+   }}(cell);
+   cell.onmouseout = function(cell){ return function(){
+      cell.style.backgroundColor = color1;
+      cell.style.boxShadow = "";
+   }}(cell);
+
+ }
 
  function createTotalHeader(heatMap){
    var rowspan = heatMap.rows.length;
