@@ -23,7 +23,7 @@
       toolTip(labelCell, runLabel);
       if(typeof heatMap.rows[j-1] === "undefined"){ //Case where no previous test runs have completed
        cell = row.insertCell();
-       cell.style.backgroundColor = 'CadetBlue';
+       cell.style.backgroundColor = 'rgb(198, 204, 208)';
        break;
       }else{ //Generates in progress cells
        var loadCells = heatMap.rows[j-1].cells.length-1;
