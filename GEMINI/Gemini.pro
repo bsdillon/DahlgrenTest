@@ -220,5 +220,6 @@ LIBS +=\
 DISTFILES += \
     ../../../Downloads/ui_mainwindow.py \
     ../../../TopicSelectorClient.html \
+    ui/TopicSelectorClient.txt \
     ui/experimentpanel_test.py \
     ui/test.py
