@@ -1,5 +1,7 @@
 /*
- * Socket info code
+ * Socket info code. Some code inspired by nethogs. See 
+ * https://github.com/raboof/nethogs for more information. I don't think it's
+ * similar enough to cause licensing issues.
  */
  
 #include <stdio.h>
@@ -10,6 +12,7 @@
 #include <ctype.h>
 #include "ht.h"
 #include "sockinfo.h"
+#include "spa.h"
 
 #define MAX_PID_BYTES 20
 #define MAX_FD_BYTES 10
@@ -24,6 +27,11 @@ void si_init_tables(void)
 	si_update_tables();
 }
 
+/*
+ * Reads /proc/<pid>/cmdline for process name. Adds pid->process name mapping
+ * to pidprocname. Returns process name on success, NULL on failure. Call free
+ * on return value.
+ */
 char * get_proc_name(char *pid)
 {
 	if (pid == NULL)
@@ -36,9 +44,9 @@ char * get_proc_name(char *pid)
 	FILE *fp = fopen(path, "r");
 	if (fp == NULL)
 	{
-		fprintf(stderr, "Problem opening /proc/%s/cmdline\n", pid);
-		//exit(1);
-		return NULL; //TODO: Handle issues better here
+		if(DEBUG)
+			fprintf(stderr, "Problem opening /proc/%s/cmdline\n", pid);
+		return NULL; //TODO: Handle issues better here?
 	}
 	
 	char *procname = malloc(MAX_CMDLINE_BYTES);
@@ -49,13 +57,14 @@ char * get_proc_name(char *pid)
 	char *test = ht_get(pidprocname, pid);
 	if (test == NULL || strcmp(procname, "") != 0)
 	{	
-		ht_add(pidprocname, pid, procname); //Call this in caller maybe?
+		ht_add(pidprocname, pid, procname);
 	}
 	
 	return procname;
 	
 }
 
+/* Iterates through /proc/<pid>/fd and adds inode->pid mapping to inodepid */
 void get_pid_inodes(char *pid)
 {
 	if (pid == NULL)
@@ -69,7 +78,8 @@ void get_pid_inodes(char *pid)
 	
 	if(!dir)
 	{
-		fprintf(stderr, "Issue opening process directory for pid %s\n", pid);
+		if(DEBUG)
+			fprintf(stderr, "Issue opening process directory for pid %s\n", pid);
 		return;
 	}
 	
@@ -85,17 +95,17 @@ void get_pid_inodes(char *pid)
 		
 		snprintf(fname, flen, "%s/%s", dirname, entry->d_name);
 		
-		int llen = 80;
-		char lname[llen];
-		int used = readlink(fname, lname, llen-1);
-		if (used == 0)
-			continue;
-		lname[used] = '\0';
+		int buflen = 80;
+		char buf[buflen];
+		int bytes = readlink(fname, buf, buflen-1);
+		if (bytes == 0)
+			continue; //If readlink() doesn't put anything into buf
+		buf[bytes] = '\0'; //Make sure string terminates
 		
-		if(strncmp(lname, "socket:[", 8) == 0)
+		if(strncmp(buf, "socket:[", 8) == 0)
 		{
 			char sock[MAX_PID_BYTES];
-			sscanf(lname, "socket:[%[^]]", sock);
+			sscanf(buf, "socket:[%[^]]", sock);
 			ht_add(inodepid, sock, pid);
 		}
 	}
@@ -117,17 +127,19 @@ int isnum(char *str)
 	return 1;
 }
 
+/* Function for updating tables */
 void si_update_tables(void)
 {
 	if(inodepid == NULL)
 	{
-		si_init_tables(); //TODO: move somewhere else so check isn't done each frame
+		si_init_tables();
 	}
 	
 	DIR *dir = opendir("/proc");
 	if (!dir)
 	{
-		fprintf(stderr, "Could not open /proc\n");
+		if(DEBUG)
+			fprintf(stderr, "Could not open /proc\n");
 	}
 	
 	struct dirent *entry;
@@ -142,7 +154,8 @@ void si_update_tables(void)
 		
 		get_pid_inodes(entry->d_name);
 		char *proc = get_proc_name(entry->d_name);
-		free(proc);
+		if (proc != NULL)
+			free(proc);
 	}
 	closedir(dir);
 }

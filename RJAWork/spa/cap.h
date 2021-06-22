@@ -16,11 +16,13 @@
  */
 int get_tshark_instance(char *args);
 
+
 /* 
  * This function returns the pid of the tshark instance, which is useful for
  * sending signals to the process.
  */
 pid_t get_tshark_pid();
+
 
 /*
  * This function parses a line from tshark's curated output and returns a
@@ -29,10 +31,14 @@ pid_t get_tshark_pid();
  */
 frame * parse_line(char line[]);
 
+
 /*
  * Takes file descriptor to tshark pipe and returns the number of captured
- * packets
+ * packets. Calls association code on each packet, and updates tables. Uses
+ * fgets() on a non-blocking fd in order to be able to update tables without
+ * waiting for a packet to come in.
  */
 int capture_frames(int fd, frame **listhead);
+
 
 #endif

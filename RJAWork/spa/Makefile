@@ -8,7 +8,7 @@ TARG	= spa
 OBJS    = cap.o assoc.o ht.o spa.o sockinfo.o
 
 TEST = tests
-TESTCANDS = assoc.c cap.c ht.c
+TESTCANDS = assoc.c cap.c ht.c sockinfo.c
 
 $(TARG): $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(TARG)

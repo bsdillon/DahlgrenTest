@@ -1,5 +1,3 @@
-#define _GNU_SOURCE /* need for asprintf */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,134 +19,8 @@
 
 hash_table *tcptable = NULL;
 hash_table *udptable = NULL;
-extern hash_table *pidprocname;
-extern hash_table *inodepid;
-
-/*
- * Helper function to convert output of ss to frame procinfo format. ss output
- * comes in the form of "((<procname>,<pidinfo>,<fdinfo>))" or like
- * "((<procname>,<pidinfo>,<fdinfo>),(<procname>,<pidinfo>,<fdinfo>),...)"
- */
-char * ss_out_to_procinfo_fmt(char *ssline)
-{
-	char *buf = malloc(sizeof(char)*SS_LINE_BUFFER*2);
-	char *pidbuf = malloc(sizeof(char)*80); //just needs to hold some pids
-	char *procbuf = malloc(sizeof(char)*SS_LINE_BUFFER); //temp hold names
-	pidbuf[0] = '\0';
-	procbuf[0] = '\0';
-	strcpy(buf, "spaprocnames=(");
-	
-	char *token = strtok(ssline, ")(,");
-	int index = 0;
-	while (token != NULL)
-	{
-		if (index%3==0)
-		{
-			strcat(procbuf, token); //maybe use strncat (other places too)
-			strcat(procbuf, ",");
-			token = strtok(NULL, ")(,");
-			index++;
-		} 
-		else if (index%3==1) 
-		{
-			strcat(pidbuf, token);
-			strcat(pidbuf, ",");
-			token = strtok(NULL, ")(,");
-			index++;
-		}
-		else
-		{
-			token = strtok(NULL, ")(,");
-			index++;
-		}
-	}
-	
-	int j = strlen(procbuf);
-	if (procbuf[j-1] == ',')
-		procbuf[j-1] = '\0';
-		
-	j = strlen(pidbuf);
-	if (pidbuf[j-1] == ',')
-		pidbuf[j-1] = '\0';
-	
-	strcat(buf, procbuf);
-	strcat(buf, ") spapids=(");
-	strcat(buf, pidbuf);
-	strcat(buf, ")");
-	
-	free(ssline);
-	free(procbuf);
-	free(pidbuf);
-	
-	return buf;
-}
-
-/*
- * Helper function for calling ss to get owner of tcp/udp socket. Expects a 
- * format string with 4 %s spots, since sport and dport are each used twice.
- */
-char * get_ss_output(char *cmdfmt, char *sport, char *dport)
-{
-	char *cmdstr;
-	if (sport != NULL && dport != NULL)
-	{
-		if (0 > asprintf(&cmdstr, cmdfmt, sport, dport, dport, sport))
-		{
-			fprintf(stderr, "Problem making command string\n");
-			exit(1);
-		}
-	}
-	else
-	{
-		cmdstr = malloc(strlen(cmdfmt)+1);
-		strcpy(cmdstr, cmdfmt);
-	}
-	
-	char *buf = malloc(sizeof(char) * SS_LINE_BUFFER);
-	buf[0] = '\0';
-	FILE *fp;
-
-	if((fp=popen(cmdstr, "r"))==NULL)
-	{
-		fprintf(stderr, "Error opening pipe!\n");
-		strncpy(buf, "ERR", SS_LINE_BUFFER);
-        return buf;
-	}
-
-	free(cmdstr);
-
-	fgets(buf, SS_LINE_BUFFER, fp);
-	//TODO: Right now this assumes there is only one line of ss output
-	//		Update this behavior to reflect possibility of multiple lines
-
-    if(pclose(fp))  
-	{
-        fprintf(stderr, "Problem running ss\n");
-		strncpy(buf, "ERR", SS_LINE_BUFFER);
-        return buf;
-    }
-	
-	int j = strlen(buf) - 1;
-	if(j == -1)
-		j=0;
-	if (buf[j] == '\n')
-	{
-		buf[j] = '\0';
-	}
-	
-	return buf;
-}
-
-FILE * get_ss_instance(char *cmd)
-{
-	FILE *fp;
-	if((fp=popen(cmd, "r"))==NULL)
-	{
-		fprintf(stderr, "Error opening ss pipe!\n");
-	}
-	
-	return fp;
-}
+extern hash_table *pidprocname; //In sockinfo.h
+extern hash_table *inodepid; //In sockinfo.h
 
 void init_tables(void)
 {
@@ -156,11 +28,17 @@ void init_tables(void)
 	udptable = create_ht();
 }
 
-void update_ip4_table_generic(hash_table *table, char *fileloc)
+/*
+ * Updates connection->inode mapping in tcptable by reading and parsing
+ * /proc/net/tcp. Connections are uniquely identified as a combination of
+ * srcip + srcport + destip + destport.
+ */
+void update_tcp_table(void)
 {
-	if (table == NULL)
+	if (tcptable == NULL)
 		init_tables();
-		
+	
+	char *fileloc = "/proc/net/tcp";
 	FILE *fp = fopen(fileloc, "r");
 	if(fp == NULL)
 	{
@@ -195,40 +73,85 @@ void update_ip4_table_generic(hash_table *table, char *fileloc)
 		char key[MAX_IP_BYTES*2 + MAX_PORT_BYTES*2 + 3];
 		snprintf(key, sizeof(key), "%s:%d%s:%d", locals, localport, remotes, remoteport);
 		
-		if(ht_get(table, key) == NULL)
+		if(ht_get(tcptable, key) == NULL)
 		{
-			ht_add(table, key, inode);
+			ht_add(tcptable, key, inode);
 			//printf("======NEW TABLE======\n");
 			//print_ht(table);
 		} 
 		else 
 		{
-			if(strcmp(ht_get(table, key), inode) != 0 && strcmp(inode, "0") != 0)
+			if(strcmp(ht_get(tcptable, key), inode) != 0 && strcmp(inode, "0") != 0)
 			{
-				ht_add(table, key, inode);
-				printf("Updated %s->%s\n", key, inode);
+				ht_add(tcptable, key, inode);
+				if(DEBUG)
+					printf("Updated %s->%s\n", key, inode);
 			}
 		}
-		
-		
 	}
 	fclose(fp);
 }
 
-void update_tcp_table(void)
-{
-	if (tcptable == NULL)
-		init_tables();
-	update_ip4_table_generic(tcptable, "/proc/net/tcp");
-}
-
-void update_udp_table(void)
+void update_udp_table(void) //TODO: Make UDP keys work correctly (adjust to connectionless)
 {
 	if (udptable == NULL)
 		init_tables();
-	update_ip4_table_generic(udptable, "/proc/net/udp");
+	
+	char *fileloc = "/proc/net/udp";
+	FILE *fp = fopen(fileloc, "r");
+	if(fp == NULL)
+	{
+		fprintf(stderr, "Issue reading %s\n", fileloc);
+		exit(1);
+	}
+	char line[4096];
+	
+	fgets(line, sizeof(line), fp); //read header line
+	
+	while(fgets(line, sizeof(line), fp) != NULL)
+	{
+		unsigned int localadd;
+		unsigned int remoteadd;
+		int localport;
+		int remoteport;
+		char inode[20];
+		char locals[MAX_IP_BYTES];
+		char remotes[MAX_IP_BYTES];
+		
+		sscanf(line, "%*d: %X:%X %X:%X %*X %*X:%*X %*X:%*X %*X %*d %*d %s %*512s\n",
+				&localadd, &localport, &remoteadd, &remoteport, inode);
+				
+		struct in_addr local;
+		struct in_addr remote;
+		local.s_addr = localadd;  //NOTE: May need to call htonl here?
+		remote.s_addr = remoteadd;//NOTE: May need to call htonl here?
+		
+		strcpy(locals, inet_ntoa(local));
+		strcpy(remotes, inet_ntoa(remote));
+		
+		char key[MAX_IP_BYTES*2 + MAX_PORT_BYTES*2 + 3];
+		snprintf(key, sizeof(key), "%s:%d%s:%d", locals, localport, remotes, remoteport);
+		
+		if(ht_get(udptable, key) == NULL)
+		{
+			ht_add(udptable, key, inode);
+			//printf("======NEW TABLE======\n");
+			//print_ht(table);
+		} 
+		else 
+		{
+			if(strcmp(ht_get(udptable, key), inode) != 0 && strcmp(inode, "0") != 0)
+			{
+				ht_add(udptable, key, inode);
+				if(DEBUG)
+					printf("Updated %s->%s\n", key, inode);
+			}
+		}
+	}
+	fclose(fp);
 }
 
+/* Helper function to call all the table update functions */
 void update_tables(void)
 {
 	si_update_tables();
@@ -236,38 +159,7 @@ void update_tables(void)
 	update_udp_table();
 }
 
-
-/*
- * Notes on current implementation:
- * 	-Right now this naively assumes there is only one line of ss output. It
- *	 will only capture the final line of output in its current state.
- *	 (Update this behavior to reflect possibility of multiple lines)
- * 	-If tshark captures a packet whose source and destination are both not the
- *	 current machine, but the current machine has the same port numbers in use,
- *	 it will falsely associate the packet to a process
- *	 (Build in a more proper way to check packet direction and verify whether
- *	  it belongs to this machine)
- */
-char * get_proc_info_tcp(char *sport, char *dport)
-{
-	char *cmdfmt = "ss -tnpH '( sport = :%s and dport = :%s )"
-				   " or ( sport = :%s and dport = :%s )'"
-				   " | awk '{gsub(/\"/, \"\"); gsub(/users:/, \"\"); print $6}'";
-	
-	char *buf = get_ss_output(cmdfmt, sport, dport);
-	
-	if (strcmp(buf, "\n") == 0 || strcmp(buf, "") == 0)
-	{
-		strncpy(buf, "Failed to get socket info", SS_LINE_BUFFER);
-		return buf;
-	} 
-	else 
-	{
-		return ss_out_to_procinfo_fmt(buf);
-	}
-}
-
-char * get_proc_info_tcp4_alt(frame *f)
+char * get_proc_info_tcp4(frame *f)
 {
 	char *key = malloc(strlen(f->srcip)+strlen(f->srcport_tcp)
 					   +strlen(f->destip)+strlen(f->destport_tcp)+3); //3 for null and 2 colons
@@ -317,7 +209,7 @@ char * get_proc_info_tcp4_alt(frame *f)
 	
 }
 
-char * get_proc_info_udp4_alt(frame *f)
+char * get_proc_info_udp4(frame *f)
 {
 	char *key = malloc(strlen(f->srcip)+strlen(f->srcport_udp)
 					   +strlen(f->destip)+strlen(f->destport_udp)+3); //3 for null and 2 colons
@@ -367,25 +259,6 @@ char * get_proc_info_udp4_alt(frame *f)
 	
 }
 
-char * get_proc_info_udp(char *sport, char *dport)
-{
-	char *cmdfmt = "ss -unpH '( sport = :%s and dport = :%s )"
-				   " or ( sport = :%s and dport = :%s )'"
-				   " | awk '{gsub(/\"/, \"\"); gsub(/users:/, \"\"); print $6}'";
-	
-	char *buf = get_ss_output(cmdfmt, sport, dport);
-	
-	if (strcmp(buf, "\n") == 0 || strcmp(buf, "") == 0)
-	{
-		strncpy(buf, "Failed to get socket info", SS_LINE_BUFFER);
-		return buf;
-	} 
-	else 
-	{
-		return ss_out_to_procinfo_fmt(buf);
-	}
-}
-
 int associate_packet(frame *f)
 {
 	char *info = NULL;
@@ -396,12 +269,12 @@ int associate_packet(frame *f)
 			{
 				case PROTO_TCP:
 					//info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
-					info = get_proc_info_tcp4_alt(f);
+					info = get_proc_info_tcp4(f);
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
 					//info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
-					info = get_proc_info_udp4_alt(f);
+					info = get_proc_info_udp4(f);
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				default:
@@ -413,12 +286,12 @@ int associate_packet(frame *f)
 			switch(f->ipproto)
 			{
 				case PROTO_TCP:
-					info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
-					strncpy(f->procinfo, info, SS_LINE_BUFFER);
+					//info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
+					//strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
-					info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
-					strncpy(f->procinfo, info, SS_LINE_BUFFER);
+					//info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
+					//strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				default:
 					strncpy(f->procinfo, "Unsupported transport protocol", SS_LINE_BUFFER);

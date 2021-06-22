@@ -54,7 +54,7 @@ int get_tshark_instance(char *args)
 	}
 	if (pid == 0)
 	{
-		dup2(tspipe[1], STDOUT_FILENO); //need to check for error here
+		dup2(tspipe[1], STDOUT_FILENO); //need to check for error here?
 		close(tspipe[1]);
 		close(tspipe[0]);
 		execvp("tshark", arglist);
@@ -72,6 +72,11 @@ pid_t get_tshark_pid()
 	return pid;
 }
 
+/*
+ * Helper function to try to make parse_line() cleaner. Copies srcstr into
+ * member with a max number of bytes of maxsize. Adds a null terminator to
+ * end of member to help protect against overflow.
+ */
 void cpy_to_member(char *member, char *srcstr, int maxsize)
 {
 	if (srcstr != NULL)
@@ -112,7 +117,8 @@ frame * parse_line(char line[])
 				else //this means the line from tshark is likely bad
 				{
 					free(newframe);
-					fprintf(stderr, "Bad line from tshark.\n");
+					if (DEBUG)
+						fprintf(stderr, "Bad line from tshark.\n");
 					return NULL;
 				}
 				break;
@@ -210,6 +216,37 @@ int capture_frames(int fd, frame **listhead)
 			update_tables();
 		}
 	}
+	
+	//See if there's data still in the pipe
+	while (fgets(buf, sizeof(buf), tsfile) != NULL)
+	{
+		if (DEBUG)
+			printf("Packets in pipe after close!\n");
+		frame *f = parse_line(buf);
+		if (f != NULL)
+		{
+			if (*listhead == NULL)
+			{
+				*listhead = f;
+			}
+			
+			//update_tables();
+			associate_packet(f);
+	
+			if (prevframe == NULL)
+			{
+				prevframe = f;
+			}
+			else
+			{
+				prevframe->next = f;
+				prevframe = f;
+			}
+	
+			numframes++;
+		}
+	}
+	
 	
 	fclose(tsfile);
 	

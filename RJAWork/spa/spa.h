@@ -11,6 +11,8 @@
 #define MAX_IP_6_BYTES 46
 #define TMP_FILE_LOC "/tmp/spa.pcapng"
 #define LINE_BUF_SIZE 2048
+
+#define DEBUG 1 //0 for false
  
  /*
  * The frame struct holds the information retrieved from tshark. Each frame has
@@ -36,6 +38,6 @@ typedef struct frame
 	struct frame *next;
 } frame;
 
-int capture;
+int capture; //Keep track of whether tshark is open or not
 
 #endif

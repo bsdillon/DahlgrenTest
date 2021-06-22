@@ -1,3 +1,8 @@
+/*
+ * Code for obtaining information on sockets, inodes, and their corresponding
+ * process(es).
+ */
+
 #ifndef SOCKINFO_H
 #define SOCKINFO_H
 

@@ -5,8 +5,10 @@
  *
  * Current Limitations:
  * 	-will capture any packets tshark will capture
- *	-will only associate ipv4 TCP/UDP packets to processes
+ *	-will only associate ipv4 TCP/UDP packets to processes (UDP still spotty)
  *	-when run as root, pcapng file may not be able to be saved in home dir
+ *   (the workaround for this is that the capture file is stored in /tmp/ and
+ *    then copied to the working directory after comments are added)
  */
 
 #include <stdio.h>
@@ -32,6 +34,8 @@ static void handle_signals(int signum)
 			if (capture != 0)
 			{
 				kill(tspid, SIGINT);
+				int wstatus = 0;
+				wait(&wstatus);
 				capture = 0;
 			}
 			else 
@@ -49,16 +53,22 @@ static void handle_signals(int signum)
 void printframe(frame *f)
 {
 	printf("Frame:%s\n"
+			"\tEthType:%d\n"
 			"\tSrcIp:%s\n"
+			"\tDestIp:%s\n"
+			"\tSrcIp6:%s\n"
+			"\tDestIp6:%s\n"
+			"\tIpProto:%d\n"
 			"\tSrcPrtTcp:%s\n"
 			"\tSrcPrtUDP:%s\n"
-			"\tDestIp:%s\n"
 			"\tDestPrtTCP:%s\n"
 			"\tDestPrtUDP:%s\n"
 			"\tProcInfo:%s\n", 
 			f->framenum, 
-			f->srcip, f->srcport_tcp, f->srcport_udp,
-			f->destip,f->destport_tcp,f->destport_udp,
+			f->ethtype, f->srcip, f->destip,
+			f->srcip6, f->destip6, f->ipproto,
+			f->srcport_tcp, f->srcport_udp,
+			f->destport_tcp,f->destport_udp,
 			f->procinfo);
 }
 
@@ -84,7 +94,8 @@ int main(void)
 	int status;
 	int fd = get_tshark_instance("");
 	tspid = get_tshark_pid();
-	printf("Started tshark with pid %d\n",tspid);
+	if(DEBUG)
+		printf("Started tshark with pid %d\n",tspid);
 	
 	signal(SIGINT, handle_signals);
 	
@@ -101,7 +112,8 @@ int main(void)
 	if (numframes > 0)
 		free_list(&list);
 	
-	printf("Exiting main program\n");
+	if(DEBUG)
+		printf("Exiting main program\n");
 	
 	return 0;
 }

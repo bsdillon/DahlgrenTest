@@ -14,29 +14,30 @@
  */
 int associate_packet(frame *f);
 
-/* 
- * Returns process name(s) and pid(s) associated to TCP ports. Both ports are
- * used as a way to uniquely identify the socket the packet is destined for.
- * The user(s) of the socket is/are determined using ss. 
- */
-char * get_proc_info_tcp(char *sport, char *dport);
-
-/* 
- * Returns process name(s) and pid(s) associated to UDP ports. Both ports are
- * used as a way to uniquely identify the socket the packet is destined for.
- * The user(s) of the socket is/are determined using ss. 
- */
-char * get_proc_info_udp(char *sport, char *dport);
 
 /*
- * Uses editcap to write comments to outfile in chunks of WRITE_CHUNK_SIZE at a
- * time. Returns 0 on success, -1 on failure.
+ * Returns process info for ipv4 tcp frame. Uses combination of srcip + srcport
+ * and destip + destport to uniquely identify a socket. Makes use of table
+ * information.
+ */
+char * get_proc_info_tcp4(frame *f);
+
+
+/* WIP */
+char * get_proc_info_udp4(frame *f);
+
+
+/*
+ * Uses editcap to write comments to outfile. Returns 0 on success, -1 on 
+ * failure.
  */
 int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes);
+
 
 /*
  * Updates hashtables of socket information.
  */
 void update_tables(void);
+
 
 #endif
