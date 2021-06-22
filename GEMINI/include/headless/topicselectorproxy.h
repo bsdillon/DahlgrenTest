@@ -4,6 +4,7 @@
 #include "proxies/AbstractProxy.h"
 #include "uiinterface/i_topicpanel.h"
 #include "../qtgui/topicselector.h"
+#include <QDir>
 
 class TopicSelectorProxy : public QObject
 {
@@ -13,16 +14,20 @@ public:
 
 public slots:
     void onMessage();
+    void requestSavedTopicLists();
+    void loadSaveFile(const QString &fileName);
 
 signals:
     void UpdateStatus(std::string);
     void TopicSelectionChanged(std::vector<std::string>);
-    //void messageReceived();
+    void sendingMessage(const QString &message);
+    void selectTopicList(const QStringList savedTopics);
 
 private:
     I_TopicPanel* topicPanelProxy;
     TopicSelector topicSelect;
     void readSettings();
+    QDir createDirectory();
 };
 
 #endif // TOPICSELECTORPROXY_H

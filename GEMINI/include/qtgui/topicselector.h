@@ -27,6 +27,7 @@ public:
     void readSettings();
     I_TopicPanel* topicPanelProxy;
     void loadTopicsFromFile();
+    void selectListOfTopics(const QStringList &topics);
 
 signals:
     void UpdateStatus(std::string);
@@ -52,7 +53,6 @@ private:
 
     void moveTopicByIndex(QModelIndex index, QAbstractItemModel *from, QAbstractItemModel *to);
     void moveTopicsBySelection(QItemSelectionModel *selection, QAbstractItemModel *from, QAbstractItemModel *to);
-    void selectListOfTopics(const QStringList &topics);
     void writeSettings(QSettings *settings);
     //void readSettings();
 

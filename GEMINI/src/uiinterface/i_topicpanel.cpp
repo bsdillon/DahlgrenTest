@@ -1,4 +1,5 @@
 #include "uiinterface/i_topicpanel.h"
+#include <QMessageBox>
 
 I_TopicPanel::I_TopicPanel(QObject *parent)
     :QObject(parent),
@@ -25,4 +26,9 @@ void I_TopicPanel::signalUpdateStatus(std::string status)
 void I_TopicPanel::signalTopicSelectionChanged(std::vector<std::string> v)
 {
     emit TopicSelectionChanged(v);
+}
+
+void I_TopicPanel::signalSelectListOfTopics(const QStringList& topics){
+    emit selectTopicList(topics);
+    QMessageBox::information(nullptr, "title", "signalSelectListOfTopics");
 }

@@ -2434,6 +2434,8 @@ moc/moc_corefunction.cpp: ../GEMINI/include/core/corefunction.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QStringListModel \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qstringlistmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/QWebSocketServer \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsocketserver.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsockets_global.h \
@@ -2630,6 +2632,8 @@ moc/moc_headlessapp.cpp: ../GEMINI/include/headless/headlessapp.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/QWebSocketServer \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsocketserver.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsockets_global.h \
@@ -3168,6 +3172,9 @@ moc/moc_topicselectorproxy.cpp: ../GEMINI/include/headless/topicselectorproxy.h 
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
 		moc/moc_predefs.h \
 		../../../Qt/5.15.0/gcc_64/bin/moc
 	/home/jennifer/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/jennifer/repo/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Profile/moc/moc_predefs.h -I/home/jennifer/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/jennifer/repo/DahlgrenTest/GEMINI -I/home/jennifer/repo/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/jennifer/Qt/5.15.0/gcc_64/include -I/home/jennifer/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/jennifer/Qt/5.15.0/gcc_64/include/QtGui -I/home/jennifer/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/jennifer/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/jennifer/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/headless/topicselectorproxy.h -o moc/moc_topicselectorproxy.cpp
@@ -4901,6 +4908,8 @@ obj/main.o: ../GEMINI/src/main.cpp ../../../Qt/5.15.0/gcc_64/include/QtWidgets/Q
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QStringListModel \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qstringlistmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/QWebSocketServer \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsocketserver.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsockets_global.h \
@@ -6234,6 +6243,9 @@ obj/topicselector.o: ../GEMINI/src/qtgui/topicselector.cpp ../GEMINI/include/qtg
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../GEMINI/include/uiinterface/i_topicpanel.h \
 		ui_generated/ui_topicselector.h \
+		../GEMINI/include/headless/topicselectorproxy.h \
+		../GEMINI/include/proxies/AbstractProxy.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
@@ -6247,7 +6259,8 @@ obj/topicselector.o: ../GEMINI/src/qtgui/topicselector.cpp ../GEMINI/include/qtg
 		../GEMINI/include/net/drivers/DriverException.h \
 		../GEMINI/include/net/drivers/AbstractEnum.h \
 		../GEMINI/include/net/topics/message.h \
-		../GEMINI/include/net/drivers/DriverFactory.h \
+		../GEMINI/include/net/drivers/FactoryInterfaceImpl.h \
+		../GEMINI/include/net/source/FactoryInterface.h \
 		../GEMINI/include/net/drivers/AllFields_Driver.h \
 		../GEMINI/include/net/source/AllFields.h \
 		../GEMINI/include/net/drivers/TestFields_Driver.h \
@@ -6572,6 +6585,8 @@ obj/corefunction.o: ../GEMINI/src/core/corefunction.cpp ../GEMINI/include/core/c
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QStringListModel \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qstringlistmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/QWebSocketServer \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsocketserver.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsockets_global.h \
@@ -6865,6 +6880,8 @@ obj/headlessapp.o: ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/include/head
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/QWebSocketServer \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsocketserver.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsockets_global.h \
@@ -6930,7 +6947,6 @@ obj/headlessapp.o: ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/include/head
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdeadlinetimer.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qelapsedtimer.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdiriterator.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qeasingcurve.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qendian.h \
@@ -7057,7 +7073,10 @@ obj/headlessapp.o: ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/include/head
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qmaskgenerator.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qwebsocketcorsauthenticator.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QScopedPointer \
-		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qtwebsocketsversion.h
+		../../../Qt/5.15.0/gcc_64/include/QtWebSockets/qtwebsocketsversion.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QMessageBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qmessagebox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/headlessapp.o ../GEMINI/src/headless/headlessapp.cpp
 
 obj/message.o: ../GEMINI/src/net/message.cpp ../GEMINI/include/net/topics/message.h
@@ -7559,7 +7578,15 @@ obj/topicselectorproxy.o: ../GEMINI/src/headless/topicselectorproxy.cpp ../GEMIN
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfile.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QMessageBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qmessagebox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/topicselectorproxy.o ../GEMINI/src/headless/topicselectorproxy.cpp
 
 obj/common.o: ../GEMINI/src/common.cpp ../GEMINI/include/common.h \
@@ -9260,7 +9287,60 @@ obj/i_topicpanel.o: ../GEMINI/src/uiinterface/i_topicpanel.cpp ../GEMINI/include
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QMessageBox \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qmessagebox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qrect.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qsize.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpalette.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qcolor.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qrgb.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qrgba64.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qbrush.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qmatrix.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpolygon.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qregion.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdatastream.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qline.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtransform.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qimage.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qhash.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qfont.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qfontinfo.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qcursor.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qkeysequence.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qevent.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qmap.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qset.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qurl.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qfile.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/i_topicpanel.o ../GEMINI/src/uiinterface/i_topicpanel.cpp
 
 obj/qrc_resources.o: qrc_resources.cpp 

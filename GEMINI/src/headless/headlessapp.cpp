@@ -58,6 +58,7 @@ void HeadlessApp::onNewConnection(){
 
     connect(pSocket, &QWebSocket::disconnected, this, &HeadlessApp::socketDisconnected);
     connect(pSocket, &QWebSocket::textMessageReceived, this, &HeadlessApp::onMessage);
+    connect(topicPanel, &TopicSelectorProxy::sendingMessage, pSocket, &QWebSocket::sendTextMessage);
 
     m_clients << pSocket;
 
@@ -82,17 +83,27 @@ void HeadlessApp::onMessage(const QString &message){
         pClient->sendTextMessage(message);
     }*/
 
-    QStringList fctLis = message.split(":");
-    QString fct = fctLis[1];
-
-    QJsonObject mesJson;
-    mesJson["function:"] = fct;
-
-    if (mesJson.contains("function:") && mesJson["function:"] == "loadTopicsFromFile"){
-        //emit messageSignal();
-        topicPanel->onMessage();
-    }
-
     qDebug() << "Message Received:";
-    //pClient->sendTextMessage("Got your message!");
+
+    if (message.contains("Function:")){
+        QStringList fctLis = message.split(":");
+        QString fct = fctLis[1];
+
+        QJsonObject mesJson;
+        mesJson["function:"] = fct;
+
+        if (mesJson["function:"] == "loadTopicsFromFile"){
+            topicPanel->onMessage();
+        }else if (mesJson["function:"] == "requestSavedTopicLists"){
+            topicPanel->requestSavedTopicLists();
+        }
+    }else if (message.contains("loadSaveFile:")){
+        QStringList fctLis = message.split(":");
+        QString fct = fctLis[1];
+
+        QJsonObject mesJson;
+        mesJson["loadSaveFile:"] = fct;
+
+        topicPanel->loadSaveFile(fct);
+    }
 }

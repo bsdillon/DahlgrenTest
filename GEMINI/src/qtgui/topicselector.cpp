@@ -1,5 +1,6 @@
 #include "qtgui/topicselector.h"
 #include "ui_topicselector.h"
+#include "../../include/headless/topicselectorproxy.h"
 
 #include <QDir>
 #include <QFileDialog>
@@ -68,6 +69,8 @@ TopicSelector::TopicSelector(QWidget *parent) :
     //Signal Forwarding
     connect(this, &TopicSelector::UpdateStatus, topicPanelProxy, &I_TopicPanel::UpdateStatus);
     connect(this, &TopicSelector::TopicSelectionChanged, topicPanelProxy, &I_TopicPanel::TopicSelectionChanged);
+    connect(this, &TopicSelector::selectListOfTopics, topicPanelProxy, &I_TopicPanel::selectTopicList);
+
 }
 
 TopicSelector::~TopicSelector()
@@ -77,17 +80,19 @@ TopicSelector::~TopicSelector()
 
 void TopicSelector::selectionChanged()
 {
+    //QMessageBox::information(nullptr, "title", "selectionChanged");
     auto selectedTopics = std::vector<std::string>{};
     for (const auto& topic : _selectedTopicsModel->stringList()) {
         selectedTopics.push_back(topic.toStdString());
     }
-    emit TopicSelectionChanged(selectedTopics);
+    //emit TopicSelectionChanged(selectedTopics);
     writeSettings(_settings);
     checkSaveButtonState();
 }
 
 void TopicSelector::writeSettings(QSettings* settings)
 {
+    //QMessageBox::information(nullptr, "title", "writeSettings");
     settings->setValue("TopicSelector/SelectedTopics", _selectedTopicsModel->stringList());
 }
 
@@ -116,6 +121,7 @@ void TopicSelector::saveTopicsToFile()
 
 void TopicSelector::loadTopicsFromFile()
 {
+    //QMessageBox::information(nullptr, "title", "loadTopicsFromFile");
     auto dirName = getenv("APPHOME") + QString("/savedTopicLists");
     QDir dir(dirName);
     if (!dir.exists())
@@ -125,11 +131,13 @@ void TopicSelector::loadTopicsFromFile()
     auto fileName = QFileDialog::getOpenFileName(this, tr("Load Topic List"),
                                                  dir.absolutePath(),
                                                  tr("GEMINI Topic Files (*.gii)"));
-    if (!fileName.length() == 0)
+    if (!(fileName.length() == 0))
     {
+        QMessageBox::information(nullptr, "title", "valid file name");
         auto settings = new QSettings(fileName, QSettings::IniFormat);
         auto savedTopics = settings->value("TopicSelector/SelectedTopics").toStringList();
         selectListOfTopics(savedTopics);
+        //QMessageBox::information(nullptr, "title", "finished file if statement");
     }
 
     //QMessageBox::information(this, "Title","Success!");
@@ -153,25 +161,31 @@ void TopicSelector::readSettings()
 
 void TopicSelector::selectListOfTopics(const QStringList& topics)
 {
+    //QMessageBox::information(nullptr, "title", "selectListOfTopics");
     auto unfoundTopicsList = QStringList{};
     bool topicMovedFromAvailable = false;
     for (const auto& topic : topics)
     {
+        //QMessageBox::information(nullptr, "text", "for loop");
         auto matchesSelected = _selectedTopicsModel->match(_selectedTopicsModel->index(0), Qt::DisplayRole, topic);
         if (!matchesSelected.empty())
         {
+            QMessageBox::information(nullptr, "text", "topic already selected");
             // Topic already selected, do nothing
         }
         else
         {
+            QMessageBox::information(nullptr, "text", "topic not already selected");
             auto matchesAvailable = _allTopicsModel->match(_allTopicsModel->index(0), Qt::DisplayRole, topic);
             if (!matchesAvailable.empty())
             {
+                QMessageBox::information(nullptr, "title", "topic file found");
                 moveTopicByIndex(matchesAvailable.front(), _allTopicsModel, _selectedTopicsModel);
                 topicMovedFromAvailable = true;
             }
             else
             {
+                QMessageBox::information(nullptr, "title", "topic file not found");
                 unfoundTopicsList.append(topic);
             }
         }
@@ -179,6 +193,7 @@ void TopicSelector::selectListOfTopics(const QStringList& topics)
     _selectedTopicsModel->sort(0);
     if (topicMovedFromAvailable)
     {
+        QMessageBox::information(nullptr, "title", "topic(s) successfully moved");
         selectionChanged();
     }
 
@@ -197,6 +212,7 @@ void TopicSelector::checkSaveButtonState()
 
 void TopicSelector::moveTopicByIndex(QModelIndex index, QAbstractItemModel* from, QAbstractItemModel* to)
 {
+    QMessageBox::information(nullptr, "title", "topic moved");
     auto topic = from->data(index, Qt::DisplayRole).toString();
     from->removeRow(index.row());
     to->insertRow(to->rowCount());

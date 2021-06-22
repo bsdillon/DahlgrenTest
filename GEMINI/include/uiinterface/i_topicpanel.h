@@ -15,6 +15,7 @@ public:
     //Signals
     void signalUpdateStatus(std::string status);
     void signalTopicSelectionChanged(std::vector<std::string> v);
+    void signalSelectListOfTopics(const QStringList& topics);
 
 public slots:
     void readSettings();
@@ -22,6 +23,7 @@ public slots:
 signals:
     void UpdateStatus(std::string);
     void TopicSelectionChanged(std::vector<std::string>);
+    void selectTopicList(const QStringList& topics);
 
 private:
     std::function<void()> _readSettingsCallback;
