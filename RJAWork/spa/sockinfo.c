@@ -37,7 +37,8 @@ char * get_proc_name(char *pid)
 	if (fp == NULL)
 	{
 		fprintf(stderr, "Problem opening /proc/%s/cmdline\n", pid);
-		exit(1);
+		//exit(1);
+		return NULL; //TODO: Handle issues better here
 	}
 	
 	char *procname = malloc(MAX_CMDLINE_BYTES);
@@ -45,8 +46,11 @@ char * get_proc_name(char *pid)
 	fscanf(fp, "%127s", procname); //might end up with args appended?
 	fclose(fp);
 
-	
-	ht_add(pidprocname, pid, procname); //Call this in caller maybe?
+	char *test = ht_get(pidprocname, pid);
+	if (test == NULL || strcmp(procname, "") != 0)
+	{	
+		ht_add(pidprocname, pid, procname); //Call this in caller maybe?
+	}
 	
 	return procname;
 	

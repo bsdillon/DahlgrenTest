@@ -21,7 +21,7 @@
 #include "assoc.h"
 
 pid_t tspid;
-int capture;
+extern int capture;
 
 /* Handle Ctrl+C to allow stopping tshark */
 static void handle_signals(int signum)

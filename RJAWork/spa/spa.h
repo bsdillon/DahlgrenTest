@@ -36,4 +36,6 @@ typedef struct frame
 	struct frame *next;
 } frame;
 
+int capture;
+
 #endif

@@ -3,9 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include "cap.h"
 
 pid_t pid;
+extern int capture;
 
 /* 
  * This enum is supposed to match the output order of tshark. Violating the 
@@ -166,35 +168,46 @@ frame * parse_line(char line[])
 
 int capture_frames(int fd, frame **listhead)
 {
+	update_tables();
+	int flags = fcntl(fd, F_GETFL, 0);
+	flags |= O_NONBLOCK;
+	fcntl(fd, F_SETFL, flags);
 	FILE *tsfile = fdopen(fd, "r");
 	char buf[LINE_BUF_SIZE] = {0};
 	frame *prevframe = NULL;
 	
 	int numframes = 0;
-	while(fgets(buf, sizeof(buf), tsfile) != NULL)
+	while(capture != 0)
 	{
-		update_tables();
-		frame *f = parse_line(buf);
-		if (f != NULL)
+		if(fgets(buf, sizeof(buf), tsfile) != NULL)
 		{
-			if (*listhead == NULL)
+			frame *f = parse_line(buf);
+			if (f != NULL)
 			{
-				*listhead = f;
-			}
+				if (*listhead == NULL)
+				{
+					*listhead = f;
+				}
 			
-			associate_packet(f);
+				//update_tables();
+				associate_packet(f);
 		
-			if (prevframe == NULL)
-			{
-				prevframe = f;
-			}
-			else
-			{
-				prevframe->next = f;
-				prevframe = f;
-			}
+				if (prevframe == NULL)
+				{
+					prevframe = f;
+				}
+				else
+				{
+					prevframe->next = f;
+					prevframe = f;
+				}
 		
-			numframes++;
+				numframes++;
+			}
+		}
+		else
+		{
+			update_tables();
 		}
 	}
 	

@@ -156,16 +156,15 @@ void init_tables(void)
 	udptable = create_ht();
 }
 
-void update_tcp_table(void)
+void update_ip4_table_generic(hash_table *table, char *fileloc)
 {
-	//TODO: TCP Hash table info
-	if (tcptable == NULL)
+	if (table == NULL)
 		init_tables();
 		
-	FILE *fp = fopen("/proc/net/tcp", "r");
+	FILE *fp = fopen(fileloc, "r");
 	if(fp == NULL)
 	{
-		fprintf(stderr, "Issue reading /proc/net/tcp\n");
+		fprintf(stderr, "Issue reading %s\n", fileloc);
 		exit(1);
 	}
 	char line[4096];
@@ -196,17 +195,17 @@ void update_tcp_table(void)
 		char key[MAX_IP_BYTES*2 + MAX_PORT_BYTES*2 + 3];
 		snprintf(key, sizeof(key), "%s:%d%s:%d", locals, localport, remotes, remoteport);
 		
-		if(ht_get(tcptable, key) == NULL)
+		if(ht_get(table, key) == NULL)
 		{
-			ht_add(tcptable, key, inode);
+			ht_add(table, key, inode);
 			//printf("======NEW TABLE======\n");
-			//print_ht(tcptable);
+			//print_ht(table);
 		} 
 		else 
 		{
-			if(strcmp(ht_get(tcptable, key), inode) != 0 && strcmp(inode, "0") != 0)
+			if(strcmp(ht_get(table, key), inode) != 0 && strcmp(inode, "0") != 0)
 			{
-				ht_add(tcptable, key, inode);
+				ht_add(table, key, inode);
 				printf("Updated %s->%s\n", key, inode);
 			}
 		}
@@ -216,11 +215,18 @@ void update_tcp_table(void)
 	fclose(fp);
 }
 
+void update_tcp_table(void)
+{
+	if (tcptable == NULL)
+		init_tables();
+	update_ip4_table_generic(tcptable, "/proc/net/tcp");
+}
+
 void update_udp_table(void)
 {
-	//TODO: UDP Hash table info
 	if (udptable == NULL)
 		init_tables();
+	update_ip4_table_generic(udptable, "/proc/net/udp");
 }
 
 void update_tables(void)
@@ -271,8 +277,13 @@ char * get_proc_info_tcp4_alt(frame *f)
 	strcat(key, f->destip);
 	strcat(key, ":");
 	strcat(key, f->destport_tcp);
-	//printf("Trying key: %s\n", key);
+	
 	char *inode = ht_get(tcptable, key);
+	if (inode == NULL)
+	{
+		update_tcp_table();
+		inode = ht_get(tcptable, key);
+	}
 	char *ret = malloc(SS_LINE_BUFFER);
 	if(inode != NULL)
 	{
@@ -290,6 +301,56 @@ char * get_proc_info_tcp4_alt(frame *f)
 		strcat(key, ":");
 		strcat(key, f->srcport_tcp);
 		inode = ht_get(tcptable, key);
+		if (inode != NULL)
+		{
+			char *pid = ht_get(inodepid, inode);
+			char *procname = ht_get(pidprocname, pid);
+			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+			return ret;
+		}
+		else
+		{
+			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
+			return ret;
+		}
+	}
+	
+}
+
+char * get_proc_info_udp4_alt(frame *f)
+{
+	char *key = malloc(strlen(f->srcip)+strlen(f->srcport_udp)
+					   +strlen(f->destip)+strlen(f->destport_udp)+3); //3 for null and 2 colons
+	strcpy(key, f->srcip);
+	strcat(key, ":");
+	strcat(key, f->srcport_udp);
+	strcat(key, f->destip);
+	strcat(key, ":");
+	strcat(key, f->destport_udp);
+	
+	char *inode = ht_get(udptable, key);
+	if (inode == NULL)
+	{
+		update_udp_table();
+		inode = ht_get(udptable, key);
+	}
+	char *ret = malloc(SS_LINE_BUFFER);
+	if(inode != NULL)
+	{
+		char *pid = ht_get(inodepid, inode);
+		char *procname = ht_get(pidprocname, pid);
+		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+		return ret;
+	}
+	else //try key other way around
+	{
+		strcpy(key, f->destip);
+		strcat(key, ":");
+		strcat(key, f->destport_udp);
+		strcat(key, f->srcip);
+		strcat(key, ":");
+		strcat(key, f->srcport_udp);
+		inode = ht_get(udptable, key);
 		if (inode != NULL)
 		{
 			char *pid = ht_get(inodepid, inode);
@@ -339,7 +400,8 @@ int associate_packet(frame *f)
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
-					info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
+					//info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
+					info = get_proc_info_udp4_alt(f);
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				default:
