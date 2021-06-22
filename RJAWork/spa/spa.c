@@ -22,6 +22,8 @@
 #include "cap.h"
 #include "assoc.h"
 
+#define MAX_TSHARK_ARGS 20 //No good reason to be 20, just seems reasonable
+
 pid_t tspid;
 extern int capture;
 
@@ -50,7 +52,7 @@ static void handle_signals(int signum)
 }
 
 /* Helper function to see inside frame */
-void printframe(frame *f)
+void print_frame(frame *f)
 {
 	printf("Frame:%s\n"
 			"\tEthType:%d\n"
@@ -89,10 +91,30 @@ void free_list(frame **list)
 }
 
 /* main() is in WIP status and subject to frequent change */
-int main(void)
+int main(int argc, char *argv[])
 {	
+	int opt;
+	char **tsargs = malloc(sizeof(char *)*MAX_TSHARK_ARGS);
+	int numargs = 0;
+	while ((opt = getopt(argc, argv, "i:")) != -1)
+	{
+		switch(opt)
+		{
+			case 'i':
+				tsargs[numargs] = malloc(sizeof(char)*(strlen("-i")+1));
+				strcpy(tsargs[numargs], "-i");
+				numargs++;
+				tsargs[numargs] = malloc(sizeof(char)*(strlen(optarg)+1));
+				strcpy(tsargs[numargs], optarg);
+				numargs++;
+				break;
+			default:
+				break;
+		}
+	}
+	
 	int status;
-	int fd = get_tshark_instance("");
+	int fd = get_tshark_instance(tsargs, numargs);
 	tspid = get_tshark_pid();
 	if(DEBUG)
 		printf("Started tshark with pid %d\n",tspid);

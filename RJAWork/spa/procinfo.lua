@@ -15,9 +15,14 @@ function procinfo_proto.dissector(tvb, pinfo, tree)
 
 	local subtree = tree:add(procinfo_proto)
 	
-	local pidstring = string.match(frame_comment_field().value, "spapids=%((.*)%)")
-	local procstring = string.match(frame_comment_field().value, "spaprocnames=%(([^%)]*)%)")
+	local pidstring = nil
+	local procstring = nil
 	
+	if frame_comment_field() ~= nil then 
+		pidstring = string.match(frame_comment_field().value, "spapids=%((.*)%)")
+		procstring = string.match(frame_comment_field().value, "spaprocnames=%(([^%)]*)%)")
+	end 
+		
 	if pidstring == nil then
 		pidstring = "No info"
 	end

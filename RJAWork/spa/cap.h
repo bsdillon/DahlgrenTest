@@ -14,7 +14,7 @@
  * This function returns a file descriptor of a pipe read end to an instance
  * of tshark. Returns -1 if there was a failure.
  */
-int get_tshark_instance(char *args);
+int get_tshark_instance(char *args[], int numargs);
 
 
 /* 

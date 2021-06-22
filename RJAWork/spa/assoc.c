@@ -136,7 +136,7 @@ void update_udp_table(void) //TODO: Make UDP keys work correctly (adjust to conn
 		{
 			ht_add(udptable, key, inode);
 			//printf("======NEW TABLE======\n");
-			//print_ht(table);
+			//print_ht(udptable);
 		} 
 		else 
 		{

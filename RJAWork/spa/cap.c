@@ -7,7 +7,7 @@
 #include "cap.h"
 
 pid_t pid;
-extern int capture;
+extern int capture; //in spa.h 
 
 /* 
  * This enum is supposed to match the output order of tshark. Violating the 
@@ -16,14 +16,14 @@ extern int capture;
 enum fieldenum {FRAMENUM,ETHTYPE,IPSRC,IPDST,IPPROTO,IP6SRC,IP6DST,IP6NXT,
 				TCPSPORT,UDPSPORT,TCPDPORT,UDPDPORT};
 
-int get_tshark_instance(char *args)
+char ** construct_args(char *args[], int numargs)
 {
 	/* 
 	 * WARNING: If you change the ordering of fields here, make sure you change
 	 * the fieldenum above to reflect the order, since filling the frame struct
 	 * with info requires that the orders match.
 	 */
-	char *arglist[] = {
+	char *defarglist[] = {
 		"tshark", "-T", "fields",
 		"-e", "frame.number", 
 		"-e", "eth.type", 
@@ -38,8 +38,40 @@ int get_tshark_instance(char *args)
 		"-e", "tcp.dstport", 
 		"-e", "udp.dstport",
 		"-E", "separator=,", 
-		"-l", "-p", "-n", "-QP", "-w", TMP_FILE_LOC, NULL
+		"-l", "-p", "-n", "-QP", "-w", TMP_FILE_LOC
 		};
+		
+	char **ret = malloc(sizeof(defarglist)+(sizeof(char *)*(numargs+1)));
+	char *tmp;
+	int nsize = sizeof(defarglist)/sizeof(char *);
+	for (int i=0; i<(numargs + nsize); i++)
+	{
+		if (i < nsize)
+		{
+			tmp = malloc(strlen(defarglist[i])*sizeof(char)+1);
+			strcpy(tmp, defarglist[i]);
+			ret[i] = tmp;
+		}
+		else
+		{
+			if (i == numargs + nsize)
+			{
+				ret[i] = NULL;
+			}
+			else
+			{
+				tmp = malloc(strlen(args[i-nsize])*sizeof(char)+1);
+				strcpy(tmp, args[i-nsize]);
+				ret[i] = tmp;
+			}
+		}
+	}
+	return ret;
+}
+
+int get_tshark_instance(char *args[], int numargs)
+{
+	char **arglist = construct_args(args, numargs);
 	int tspipe[2] = {-1, -1};
 	
 	//TODO: fix passing args to function (need to add them to arglist)
@@ -57,7 +89,9 @@ int get_tshark_instance(char *args)
 		dup2(tspipe[1], STDOUT_FILENO); //need to check for error here?
 		close(tspipe[1]);
 		close(tspipe[0]);
-		execvp("tshark", arglist);
+		int err = execvp("tshark", arglist);
+		if(err == -1)
+			fprintf(stderr, "Error running tshark\n");
 	} 
 	else
 	{
@@ -84,6 +118,9 @@ void cpy_to_member(char *member, char *srcstr, int maxsize)
 		strncpy(member, srcstr, maxsize);
 		if (maxsize > 0)
 			member[maxsize-1] = '\0'; //make sure we don't overflow members
+		char *rep = strchr(member, '\n');
+		if (rep != NULL)
+			*rep = '\0';
 	} 
 	else
 	{
