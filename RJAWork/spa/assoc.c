@@ -166,7 +166,7 @@ void update_udp_table(void) //TODO: Test no-connection udp data
 		fprintf(stderr, "Issue reading %s\n", fileloc);
 		exit(1);
 	}
-	char line[4096];
+	char line[LINE_BUF_SIZE];
 	
 	fgets(line, sizeof(line), fp); //read header line
 	
@@ -289,22 +289,24 @@ void free_tables(void)
 	si_free_tables();
 }
 
-char * get_proc_info_tcp4(frame *f)
+char * get_proc_info_generic(char *srcipfield, char *destipfield, 
+								char *srcportfield, char *destportfield, 
+								hash_table *table)
 {
-	char *key = malloc(strlen(f->srcip)+strlen(f->srcport_tcp)
-					   +strlen(f->destip)+strlen(f->destport_tcp)+3); //3 for null and 2 colons
-	strcpy(key, f->srcip);
+	char *key = malloc(strlen(srcipfield)+strlen(srcportfield)
+					   +strlen(destipfield)+strlen(destportfield)+3); //3 for null and 2 colons
+	strcpy(key, srcipfield);
 	strcat(key, ":");
-	strcat(key, f->srcport_tcp);
-	strcat(key, f->destip);
+	strcat(key, srcportfield);
+	strcat(key, destipfield);
 	strcat(key, ":");
-	strcat(key, f->destport_tcp);
+	strcat(key, destportfield);
 	
-	char *inode = ht_get(tcptable, key);
+	char *inode = ht_get(table, key);
 	if (inode == NULL)
 	{
-		update_tcp_table();
-		inode = ht_get(tcptable, key);
+		update_tables();
+		inode = ht_get(table, key);
 	}
 	char *ret = malloc(SS_LINE_BUFFER);
 	if(inode != NULL)
@@ -317,13 +319,13 @@ char * get_proc_info_tcp4(frame *f)
 	}
 	else //try key other way around
 	{
-		strcpy(key, f->destip);
+		strcpy(key, destipfield);
 		strcat(key, ":");
-		strcat(key, f->destport_tcp);
-		strcat(key, f->srcip);
+		strcat(key, destportfield);
+		strcat(key, srcipfield);
 		strcat(key, ":");
-		strcat(key, f->srcport_tcp);
-		inode = ht_get(tcptable, key);
+		strcat(key, srcportfield);
+		inode = ht_get(table, key);
 		if (inode != NULL)
 		{
 			char *pid = ht_get(inodepid, inode);
@@ -339,164 +341,42 @@ char * get_proc_info_tcp4(frame *f)
 			return ret;
 		}
 	}	
+}
+
+char * get_proc_info_tcp4(frame *f)
+{
+	if (tcptable == NULL)
+		init_tables();
+	char *ret = get_proc_info_generic(f->srcip, f->destip, 
+							f->srcport_tcp, f->destport_tcp, tcptable);
+	return ret;	
 }
 
 char * get_proc_info_tcp6(frame *f)
 {
-	char *key = malloc(strlen(f->srcip6)+strlen(f->srcport_tcp)
-					   +strlen(f->destip6)+strlen(f->destport_tcp)+3); //3 for null and 2 colons
-	strcpy(key, f->srcip6);
-	strcat(key, ":");
-	strcat(key, f->srcport_tcp);
-	strcat(key, f->destip6);
-	strcat(key, ":");
-	strcat(key, f->destport_tcp);
-	
-	char *inode = ht_get(tcptable, key);
-	if (inode == NULL)
-	{
-		update_tcp6_table();
-		inode = ht_get(tcptable, key);
-	}
-	char *ret = malloc(SS_LINE_BUFFER);
-	if(inode != NULL)
-	{
-		char *pid = ht_get(inodepid, inode);
-		char *procname = ht_get(pidprocname, pid);
-		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
-		free(key);
-		return ret;
-	}
-	else //try key other way around
-	{
-		strcpy(key, f->destip6);
-		strcat(key, ":");
-		strcat(key, f->destport_tcp);
-		strcat(key, f->srcip6);
-		strcat(key, ":");
-		strcat(key, f->srcport_tcp);
-		inode = ht_get(tcptable, key);
-		if (inode != NULL)
-		{
-			char *pid = ht_get(inodepid, inode);
-			char *procname = ht_get(pidprocname, pid);
-			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
-			free(key);
-			return ret;
-		}
-		else
-		{
-			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
-			free(key);
-			return ret;
-		}
-	}	
+	if (tcptable == NULL)
+		init_tables();
+	char *ret = get_proc_info_generic(f->srcip6, f->destip6, 
+							f->srcport_tcp, f->destport_tcp, tcptable);
+	return ret;
 }
 
 char * get_proc_info_udp4(frame *f)
 {
-	char *key = malloc(strlen(f->srcip)+strlen(f->srcport_udp)
-					   +strlen(f->destip)+strlen(f->destport_udp)+3); //3 for null and 2 colons
-	strcpy(key, f->srcip);
-	strcat(key, ":");
-	strcat(key, f->srcport_udp);
-	strcat(key, f->destip);
-	strcat(key, ":");
-	strcat(key, f->destport_udp);
-	
-	char *inode = ht_get(udptable, key);
-	if (inode == NULL)
-	{
-		update_udp_table();
-		inode = ht_get(udptable, key);
-	}
-	char *ret = malloc(SS_LINE_BUFFER);
-	if(inode != NULL)
-	{
-		char *pid = ht_get(inodepid, inode);
-		char *procname = ht_get(pidprocname, pid);
-		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
-		free(key);
-		return ret;
-	}
-	else //try key other way around
-	{
-		strcpy(key, f->destip);
-		strcat(key, ":");
-		strcat(key, f->destport_udp);
-		strcat(key, f->srcip);
-		strcat(key, ":");
-		strcat(key, f->srcport_udp);
-		inode = ht_get(udptable, key);
-		if (inode != NULL)
-		{
-			char *pid = ht_get(inodepid, inode);
-			char *procname = ht_get(pidprocname, pid);
-			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
-			free(key);
-			return ret;
-		}
-		else
-		{
-			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
-			free(key);
-			return ret;
-		}
-	}
-	
+	if (udptable == NULL)
+		init_tables();
+	char *ret = get_proc_info_generic(f->srcip, f->destip, 
+							f->srcport_udp, f->destport_udp, udptable);
+	return ret;
 }
 
 char * get_proc_info_udp6(frame *f)
 {
-	char *key = malloc(strlen(f->srcip6)+strlen(f->srcport_udp)
-					   +strlen(f->destip6)+strlen(f->destport_udp)+3); //3 for null and 2 colons
-	strcpy(key, f->srcip6);
-	strcat(key, ":");
-	strcat(key, f->srcport_udp);
-	strcat(key, f->destip6);
-	strcat(key, ":");
-	strcat(key, f->destport_udp);
-	
-	char *inode = ht_get(udptable, key);
-	if (inode == NULL)
-	{
-		update_udp6_table();
-		inode = ht_get(udptable, key);
-	}
-	char *ret = malloc(SS_LINE_BUFFER);
-	if(inode != NULL)
-	{
-		char *pid = ht_get(inodepid, inode);
-		char *procname = ht_get(pidprocname, pid);
-		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
-		free(key);
-		return ret;
-	}
-	else //try key other way around
-	{
-		strcpy(key, f->destip6);
-		strcat(key, ":");
-		strcat(key, f->destport_udp);
-		strcat(key, f->srcip6);
-		strcat(key, ":");
-		strcat(key, f->srcport_udp);
-		inode = ht_get(udptable, key);
-		if (inode != NULL)
-		{
-			char *pid = ht_get(inodepid, inode);
-			char *procname = ht_get(pidprocname, pid);
-			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
-			free(key);
-			return ret;
-		}
-		else
-		{
-			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
-			free(key);
-			return ret;
-		}
-	}
-	
+	if (udptable == NULL)
+		init_tables();
+	char *ret = get_proc_info_generic(f->srcip6, f->destip6, 
+							f->srcport_udp, f->destport_udp, udptable);
+	return ret;
 }
 
 int associate_packet(frame *f)
