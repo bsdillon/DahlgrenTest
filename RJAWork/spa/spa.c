@@ -5,7 +5,7 @@
  *
  * Current Limitations:
  * 	-will capture any packets tshark will capture
- *	-will only associate ipv4 TCP/UDP packets to processes (UDP still spotty)
+ *	-will only associate ipv4 TCP/UDP packets to processes
  *	-when run as root, pcapng file may not be able to be saved in home dir
  *   (the workaround for this is that the capture file is stored in /tmp/ and
  *    then copied to the working directory after comments are added)
@@ -23,6 +23,7 @@
 #include "assoc.h"
 
 #define MAX_TSHARK_ARGS 20 //No good reason to be 20, just seems reasonable
+#define MAX_FNAME_BYTES 32
 
 pid_t tspid;
 extern int capture;
@@ -95,29 +96,51 @@ int main(int argc, char *argv[])
 {	
 	int opt;
 	char **tsargs = malloc(sizeof(char *)*MAX_TSHARK_ARGS);
+	memset(tsargs, 0, sizeof(char *)*MAX_TSHARK_ARGS);
 	int numargs = 0;
-	while ((opt = getopt(argc, argv, "i:")) != -1)
+	char *outfile = malloc(sizeof(char)*(MAX_FNAME_BYTES+1));
+	strcpy(outfile, "spa.pcapng");
+	if(argc > 1)
 	{
-		switch(opt)
+		while ((opt = getopt(argc, argv, "Di:w:")) != -1)
 		{
-			case 'i':
-				tsargs[numargs] = malloc(sizeof(char)*(strlen("-i")+1));
-				strcpy(tsargs[numargs], "-i");
-				numargs++;
-				tsargs[numargs] = malloc(sizeof(char)*(strlen(optarg)+1));
-				strcpy(tsargs[numargs], optarg);
-				numargs++;
-				break;
-			default:
-				break;
+			switch(opt)
+			{
+				case 'i':
+					tsargs[numargs] = malloc(sizeof(char)*(strlen("-i")+1));
+					strcpy(tsargs[numargs], "-i");
+					numargs++;
+					tsargs[numargs] = malloc(sizeof(char)*(strlen(optarg)+1));
+					strcpy(tsargs[numargs], optarg);
+					numargs++;
+					break;
+				case 'D':
+					system("tshark -D");
+					exit(0);
+				case 'w':
+					if(strlen(optarg) > MAX_FNAME_BYTES)
+					{
+						printf("File name must be under %d characters. "
+							"Defaulting to \"spa.pcapng\"\n", MAX_FNAME_BYTES);
+						break;
+					}
+					else
+					{
+						strncpy(outfile, optarg, MAX_FNAME_BYTES);
+						outfile[MAX_FNAME_BYTES] = '\0';
+					}
+					break;
+				default:
+					printf("Usage: \n");
+					exit(1);
+			}
 		}
 	}
 	
 	int status;
 	int fd = get_tshark_instance(tsargs, numargs);
 	tspid = get_tshark_pid();
-	if(DEBUG)
-		printf("Started tshark with pid %d\n",tspid);
+	printf("Started tshark with pid %d\n",tspid);
 	
 	signal(SIGINT, handle_signals);
 	
@@ -126,10 +149,21 @@ int main(int argc, char *argv[])
 	int numframes = capture_frames(fd, &list);
 	close(fd);
 	wait(&status);
+	capture = 0;
 	
-	printf("Captured %d frames\n", numframes);
+	printf("\nCaptured %d packets\n", numframes);
 	
-	write_info_to_file(TMP_FILE_LOC, "spa.pcapng", &list, numframes);
+	write_info_to_file(TMP_FILE_LOC, outfile, &list, numframes);
+	
+	free(outfile);
+	for (int i=0; i<MAX_TSHARK_ARGS; i++)
+	{
+		if (tsargs[i] != NULL)
+		{
+			free(tsargs[i]);
+		}
+	}
+	free(tsargs);
 	
 	if (numframes > 0)
 		free_list(&list);

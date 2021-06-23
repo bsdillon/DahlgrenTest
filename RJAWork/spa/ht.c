@@ -132,3 +132,38 @@ char * ht_get(hash_table *table, char *key)
 	
 	return NULL; //In case entry wasn't in chain
 }
+
+void ht_free(hash_table *table)
+{
+	for (int i=0;i<TABLE_SIZE;i++)
+	{
+		if (table->entries[i] != NULL)
+		{
+			free(table->entries[i]->key);
+			free(table->entries[i]->value);
+			tab_entry *next = table->entries[i]->next;
+			if (next != NULL)
+			{
+				tab_entry *curr = next;
+				tab_entry *nnext = curr->next;
+				while (nnext != NULL)
+				{
+					free(curr->key);
+					free(curr->value);
+					free(curr);
+					curr = nnext;
+					nnext = nnext->next;
+				}
+				if (curr != NULL)
+				{
+					free(curr->key);
+					free(curr->value);
+					free(curr);
+				}
+			}
+			free(table->entries[i]);
+		}
+	}
+	free(table->entries);
+	free(table);
+}

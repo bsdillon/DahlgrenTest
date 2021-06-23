@@ -27,6 +27,12 @@ void si_init_tables(void)
 	si_update_tables();
 }
 
+void si_free_tables(void)
+{
+	ht_free(inodepid);
+	ht_free(pidprocname);
+}
+
 /*
  * Reads /proc/<pid>/cmdline for process name. Adds pid->process name mapping
  * to pidprocname. Returns process name on success, NULL on failure. Call free
@@ -97,6 +103,7 @@ void get_pid_inodes(char *pid)
 		
 		int buflen = 80;
 		char buf[buflen];
+		memset(buf, '\0', buflen);
 		int bytes = readlink(fname, buf, buflen-1);
 		if (bytes == 0)
 			continue; //If readlink() doesn't put anything into buf

@@ -23,6 +23,8 @@ int ht_add(hash_table *table, char *key, char *value);
 
 char * ht_get(hash_table *table, char *key);
 
+void ht_free(hash_table *table);
+
 void print_ht(hash_table *table);
  
  #endif

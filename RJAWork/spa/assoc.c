@@ -45,7 +45,7 @@ void update_tcp_table(void)
 		fprintf(stderr, "Issue reading %s\n", fileloc);
 		exit(1);
 	}
-	char line[4096];
+	char line[LINE_BUF_SIZE];
 	
 	fgets(line, sizeof(line), fp); //read header line
 	
@@ -159,6 +159,13 @@ void update_tables(void)
 	update_udp_table();
 }
 
+void free_tables(void)
+{
+	ht_free(tcptable);
+	ht_free(udptable);
+	si_free_tables();
+}
+
 char * get_proc_info_tcp4(frame *f)
 {
 	char *key = malloc(strlen(f->srcip)+strlen(f->srcport_tcp)
@@ -182,6 +189,7 @@ char * get_proc_info_tcp4(frame *f)
 		char *pid = ht_get(inodepid, inode);
 		char *procname = ht_get(pidprocname, pid);
 		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+		free(key);
 		return ret;
 	}
 	else //try key other way around
@@ -198,11 +206,13 @@ char * get_proc_info_tcp4(frame *f)
 			char *pid = ht_get(inodepid, inode);
 			char *procname = ht_get(pidprocname, pid);
 			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+			free(key);
 			return ret;
 		}
 		else
 		{
 			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
+			free(key);
 			return ret;
 		}
 	}
@@ -232,6 +242,7 @@ char * get_proc_info_udp4(frame *f)
 		char *pid = ht_get(inodepid, inode);
 		char *procname = ht_get(pidprocname, pid);
 		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+		free(key);
 		return ret;
 	}
 	else //try key other way around
@@ -248,11 +259,13 @@ char * get_proc_info_udp4(frame *f)
 			char *pid = ht_get(inodepid, inode);
 			char *procname = ht_get(pidprocname, pid);
 			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+			free(key);
 			return ret;
 		}
 		else
 		{
 			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
+			free(key);
 			return ret;
 		}
 	}
@@ -268,12 +281,10 @@ int associate_packet(frame *f)
 			switch(f->ipproto)
 			{
 				case PROTO_TCP:
-					//info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
 					info = get_proc_info_tcp4(f);
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
-					//info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
 					info = get_proc_info_udp4(f);
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
@@ -302,8 +313,8 @@ int associate_packet(frame *f)
 			strncpy(f->procinfo, "Unsupported ethtype", SS_LINE_BUFFER);
 			return 1;
 	}
-	//if(info != NULL)
-		//free(info);
+	if(info != NULL)
+		free(info);
 	return 0;
 }
 
@@ -320,6 +331,7 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 	
 	char *cmdbuf;
 	cmdbuf = malloc(sizeof(char) * numchars);
+	memset(cmdbuf, '\0', sizeof(char) * numchars);
 	if (cmdbuf == NULL)
 	{
 		return -1;
@@ -345,5 +357,6 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 	}
 	
 	free(cmdbuf);
+	free_tables();
 	return 0;
 }

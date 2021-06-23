@@ -42,6 +42,7 @@ char ** construct_args(char *args[], int numargs)
 		};
 		
 	char **ret = malloc(sizeof(defarglist)+(sizeof(char *)*(numargs+1)));
+	memset(ret, 0, sizeof(defarglist)+(sizeof(char *)*(numargs+1)));
 	char *tmp;
 	int nsize = sizeof(defarglist)/sizeof(char *);
 	for (int i=0; i<(numargs + nsize); i++)
@@ -96,6 +97,13 @@ int get_tshark_instance(char *args[], int numargs)
 	else
 	{
 		close(tspipe[1]);
+		int i=0;
+		while (arglist[i] != NULL)
+		{
+			free(arglist[i]);
+			i++;
+		}
+		free(arglist);
 		return(tspipe[0]);
 	}
 	return -1;
@@ -135,6 +143,7 @@ frame * parse_line(char line[])
 	if (!newframe)
 		return NULL;
 	newframe->next = NULL;
+	memset(newframe->procinfo, '\0', sizeof(char)*LINE_BUF_SIZE);
 	int protoset = 0;
 	char *token;
 	for (int i = FRAMENUM; i<=UDPDPORT; i++)
