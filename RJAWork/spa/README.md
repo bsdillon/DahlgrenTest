@@ -20,11 +20,11 @@ The underlying use of tshark while running as root causes tshark to warn the use
 ## Overview of How it Functions
 TODO: Add overview
 ## Task List
--[x] Get pipe to tshark working
--[x] Get ipv4 tcp association working
--[x] Get ipv4 udp association working
--[x] Get ipv6 tcp association working
--[x] Get ipv6 udp association working
--[ ] Write tests to prove functionality (WIP)
--[ ] Get documentation done
+- [x] Get pipe to tshark working
+- [x] Get ipv4 tcp association working
+- [x] Get ipv4 udp association working
+- [x] Get ipv6 tcp association working
+- [x] Get ipv6 udp association working
+- [ ] Write tests to prove functionality (WIP)
+- [ ] Get documentation done
 TODO: Add more tasks
