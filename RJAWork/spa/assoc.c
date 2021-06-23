@@ -228,8 +228,10 @@ void update_tables(void)
 
 void free_tables(void)
 {
-	ht_free(tcptable);
-	ht_free(udptable);
+	if (tcptable != NULL)
+		ht_free(tcptable);
+	if (udptable != NULL)
+		ht_free(udptable);
 	si_free_tables();
 }
 
@@ -392,7 +394,6 @@ char * get_proc_info_udp4(frame *f)
 
 int associate_packet(frame *f)
 {
-	print_frame(f);
 	char *info = NULL;
 	switch (f->ethtype)
 	{

@@ -114,6 +114,29 @@ pid_t get_tshark_pid()
 	return pid;
 }
 
+/* Helper function to see inside frame */
+void print_frame(frame *f)
+{
+	printf("Frame:%s\n"
+			"\tEthType:%d\n"
+			"\tSrcIp:%s\n"
+			"\tDestIp:%s\n"
+			"\tSrcIp6:%s\n"
+			"\tDestIp6:%s\n"
+			"\tIpProto:%d\n"
+			"\tSrcPrtTcp:%s\n"
+			"\tSrcPrtUDP:%s\n"
+			"\tDestPrtTCP:%s\n"
+			"\tDestPrtUDP:%s\n"
+			"\tProcInfo:%s\n", 
+			f->framenum, 
+			f->ethtype, f->srcip, f->destip,
+			f->srcip6, f->destip6, f->ipproto,
+			f->srcport_tcp, f->srcport_udp,
+			f->destport_tcp,f->destport_udp,
+			f->procinfo);
+}
+
 /*
  * Helper function to try to make parse_line() cleaner. Copies srcstr into
  * member with a max number of bytes of maxsize. Adds a null terminator to

@@ -52,29 +52,6 @@ static void handle_signals(int signum)
 	return;
 }
 
-/* Helper function to see inside frame */
-void print_frame(frame *f)
-{
-	printf("Frame:%s\n"
-			"\tEthType:%d\n"
-			"\tSrcIp:%s\n"
-			"\tDestIp:%s\n"
-			"\tSrcIp6:%s\n"
-			"\tDestIp6:%s\n"
-			"\tIpProto:%d\n"
-			"\tSrcPrtTcp:%s\n"
-			"\tSrcPrtUDP:%s\n"
-			"\tDestPrtTCP:%s\n"
-			"\tDestPrtUDP:%s\n"
-			"\tProcInfo:%s\n", 
-			f->framenum, 
-			f->ethtype, f->srcip, f->destip,
-			f->srcip6, f->destip6, f->ipproto,
-			f->srcport_tcp, f->srcport_udp,
-			f->destport_tcp,f->destport_udp,
-			f->procinfo);
-}
-
 void free_list(frame **list)
 {
 	frame *curr = *list;

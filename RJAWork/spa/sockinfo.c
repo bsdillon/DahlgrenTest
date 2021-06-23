@@ -29,8 +29,10 @@ void si_init_tables(void)
 
 void si_free_tables(void)
 {
-	ht_free(inodepid);
-	ht_free(pidprocname);
+	if (inodepid != NULL)
+		ht_free(inodepid);
+	if (pidprocname != NULL)
+		ht_free(pidprocname);
 }
 
 /*
