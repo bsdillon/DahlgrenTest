@@ -76,8 +76,6 @@ void update_tcp_table(void)
 		if(ht_get(tcptable, key) == NULL)
 		{
 			ht_add(tcptable, key, inode);
-			//printf("======NEW TABLE======\n");
-			//print_ht(table);
 		} 
 		else 
 		{
@@ -137,8 +135,6 @@ void update_tcp6_table(void)
 		if(ht_get(tcptable, key) == NULL)
 		{
 			ht_add(tcptable, key, inode);
-			//printf("======NEW TABLE======\n");
-			//print_ht(table);
 		} 
 		else 
 		{
@@ -201,8 +197,65 @@ void update_udp_table(void) //TODO: Test no-connection udp data
 		if(ht_get(udptable, key) == NULL)
 		{
 			ht_add(udptable, key, inode);
-			//printf("======NEW TABLE======\n");
-			//print_ht(udptable);
+		} 
+		else 
+		{
+			if(strcmp(ht_get(udptable, key), inode) != 0 && strcmp(inode, "0") != 0)
+			{
+				ht_add(udptable, key, inode);
+				if(DEBUG)
+					printf("Updated %s->%s\n", key, inode);
+			}
+		}
+	}
+	fclose(fp);
+}
+
+void update_udp6_table(void)
+{
+	if (udptable == NULL)
+		init_tables();
+	
+	char *fileloc = "/proc/net/udp6";
+	FILE *fp = fopen(fileloc, "r");
+	if(fp == NULL)
+	{
+		fprintf(stderr, "Issue reading %s\n", fileloc);
+		exit(1);
+	}
+	char line[LINE_BUF_SIZE];
+	
+	fgets(line, sizeof(line), fp); //read header line
+	
+	while(fgets(line, sizeof(line), fp) != NULL)
+	{
+		int localport;
+		int remoteport;
+		char inode[20];
+		char locals[INET6_ADDRSTRLEN];
+		char remotes[INET6_ADDRSTRLEN];
+		
+		struct in6_addr local;
+		struct in6_addr remote;
+		
+		//ipv6 addresses are weird in the file 
+		sscanf(line, "%*d: %08X%08X%08X%08X:%X %08X%08X%08X%08X:%X %*X %*X:%*X %*X:%*X %*X %*d %*d %s %*512s\n",
+				&local.s6_addr32[0], &local.s6_addr32[1], &local.s6_addr32[2], &local.s6_addr32[3],
+				&localport, 
+				&remote.s6_addr32[0], &remote.s6_addr32[1], &remote.s6_addr32[2], &remote.s6_addr32[3],
+				&remoteport, inode);
+				
+		//TODO: Check for ipv4-compatible ipv6 address?
+		
+		inet_ntop(AF_INET6, &local, locals, INET6_ADDRSTRLEN);
+		inet_ntop(AF_INET6, &remote, remotes, INET6_ADDRSTRLEN);
+		
+		char key[INET6_ADDRSTRLEN*2 + INET6_ADDRSTRLEN*2 + 3];
+		snprintf(key, sizeof(key), "%s:%d%s:%d", locals, localport, remotes, remoteport);
+		
+		if(ht_get(udptable, key) == NULL)
+		{
+			ht_add(udptable, key, inode);
 		} 
 		else 
 		{
@@ -224,6 +277,7 @@ void update_tables(void)
 	update_tcp_table();
 	update_tcp6_table();
 	update_udp_table();
+	update_udp6_table();
 }
 
 void free_tables(void)
@@ -392,6 +446,59 @@ char * get_proc_info_udp4(frame *f)
 	
 }
 
+char * get_proc_info_udp6(frame *f)
+{
+	char *key = malloc(strlen(f->srcip6)+strlen(f->srcport_udp)
+					   +strlen(f->destip6)+strlen(f->destport_udp)+3); //3 for null and 2 colons
+	strcpy(key, f->srcip6);
+	strcat(key, ":");
+	strcat(key, f->srcport_udp);
+	strcat(key, f->destip6);
+	strcat(key, ":");
+	strcat(key, f->destport_udp);
+	
+	char *inode = ht_get(udptable, key);
+	if (inode == NULL)
+	{
+		update_udp6_table();
+		inode = ht_get(udptable, key);
+	}
+	char *ret = malloc(SS_LINE_BUFFER);
+	if(inode != NULL)
+	{
+		char *pid = ht_get(inodepid, inode);
+		char *procname = ht_get(pidprocname, pid);
+		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+		free(key);
+		return ret;
+	}
+	else //try key other way around
+	{
+		strcpy(key, f->destip6);
+		strcat(key, ":");
+		strcat(key, f->destport_udp);
+		strcat(key, f->srcip6);
+		strcat(key, ":");
+		strcat(key, f->srcport_udp);
+		inode = ht_get(udptable, key);
+		if (inode != NULL)
+		{
+			char *pid = ht_get(inodepid, inode);
+			char *procname = ht_get(pidprocname, pid);
+			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+			free(key);
+			return ret;
+		}
+		else
+		{
+			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
+			free(key);
+			return ret;
+		}
+	}
+	
+}
+
 int associate_packet(frame *f)
 {
 	char *info = NULL;
@@ -421,8 +528,8 @@ int associate_packet(frame *f)
 					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
-					//info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);
-					//strncpy(f->procinfo, info, SS_LINE_BUFFER);
+					info = get_proc_info_udp6(f);
+					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				default:
 					strncpy(f->procinfo, "Unsupported transport protocol", SS_LINE_BUFFER);
