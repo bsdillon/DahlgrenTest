@@ -90,6 +90,11 @@ void update_tcp_table(void)
 	fclose(fp);
 }
 
+/*
+ * Updates connection->inode mapping in tcptable by reading and parsing
+ * /proc/net/tcp6. Connections are uniquely identified as a combination of
+ * srcip + srcport + destip + destport.
+ */
 void update_tcp6_table(void)
 {
 	if (tcptable == NULL)
@@ -154,7 +159,7 @@ void update_tcp6_table(void)
  * /proc/net/udp. Connections are uniquely identified as a combination of
  * srcip + srcport + destip + destport.
  */
-void update_udp_table(void) //TODO: Test no-connection udp data
+void update_udp_table(void)
 {
 	if (udptable == NULL)
 		init_tables();
@@ -211,6 +216,11 @@ void update_udp_table(void) //TODO: Test no-connection udp data
 	fclose(fp);
 }
 
+/*
+ * Updates connection->inode mapping in udptable by reading and parsing
+ * /proc/net/udp6. Connections are uniquely identified as a combination of
+ * srcip + srcport + destip + destport.
+ */
 void update_udp6_table(void)
 {
 	if (udptable == NULL)
@@ -289,6 +299,13 @@ void free_tables(void)
 	si_free_tables();
 }
 
+/* 
+ * This function is a helper to make the code more readable by avoiding major 
+ * sections of identical code. This function works by creating a key in the form 
+ * of srcipfield:srcportfielddestipfield:destportfield (or switching the src and
+ * dest fields), looking up the key->inode mapping in table, and finding the
+ * process info based on the inode. 
+ */
 char * get_proc_info_generic(char *srcipfield, char *destipfield, 
 								char *srcportfield, char *destportfield, 
 								hash_table *table)
@@ -343,6 +360,7 @@ char * get_proc_info_generic(char *srcipfield, char *destipfield,
 	}	
 }
 
+/* IPv4 tcp process info */
 char * get_proc_info_tcp4(frame *f)
 {
 	if (tcptable == NULL)
@@ -352,6 +370,7 @@ char * get_proc_info_tcp4(frame *f)
 	return ret;	
 }
 
+/* IPv6 tcp process info */
 char * get_proc_info_tcp6(frame *f)
 {
 	if (tcptable == NULL)
@@ -361,6 +380,7 @@ char * get_proc_info_tcp6(frame *f)
 	return ret;
 }
 
+/* IPv4 udp process info */
 char * get_proc_info_udp4(frame *f)
 {
 	if (udptable == NULL)
@@ -370,6 +390,7 @@ char * get_proc_info_udp4(frame *f)
 	return ret;
 }
 
+/* IPv6 udp process info */
 char * get_proc_info_udp6(frame *f)
 {
 	if (udptable == NULL)

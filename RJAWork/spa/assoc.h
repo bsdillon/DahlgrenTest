@@ -16,18 +16,6 @@ int associate_packet(frame *f);
 
 
 /*
- * Returns process info for ipv4 tcp frame. Uses combination of srcip + srcport
- * and destip + destport to uniquely identify a socket. Makes use of table
- * information.
- */
-char * get_proc_info_tcp4(frame *f);
-
-
-/* WIP */
-char * get_proc_info_udp4(frame *f);
-
-
-/*
  * Uses editcap to write comments to outfile. Returns 0 on success, -1 on 
  * failure.
  */
