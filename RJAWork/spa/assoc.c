@@ -92,7 +92,73 @@ void update_tcp_table(void)
 	fclose(fp);
 }
 
-void update_udp_table(void) //TODO: Make UDP keys work correctly (adjust to connectionless)
+void update_tcp6_table(void)
+{
+	if (tcptable == NULL)
+		init_tables();
+	
+	char *fileloc = "/proc/net/tcp6";
+	FILE *fp = fopen(fileloc, "r");
+	if(fp == NULL)
+	{
+		fprintf(stderr, "Issue reading %s\n", fileloc);
+		exit(1);
+	}
+	char line[LINE_BUF_SIZE];
+	
+	fgets(line, sizeof(line), fp); //read header line
+	
+	while(fgets(line, sizeof(line), fp) != NULL)
+	{
+		int localport;
+		int remoteport;
+		char inode[20];
+		char locals[INET6_ADDRSTRLEN];
+		char remotes[INET6_ADDRSTRLEN];
+		
+		struct in6_addr local;
+		struct in6_addr remote;
+		
+		//ipv6 addresses are weird in the file 
+		sscanf(line, "%*d: %08X%08X%08X%08X:%X %08X%08X%08X%08X:%X %*X %*X:%*X %*X:%*X %*X %*d %*d %s %*512s\n",
+				&local.s6_addr32[0], &local.s6_addr32[1], &local.s6_addr32[2], &local.s6_addr32[3],
+				&localport, 
+				&remote.s6_addr32[0], &remote.s6_addr32[1], &remote.s6_addr32[2], &remote.s6_addr32[3],
+				&remoteport, inode);
+				
+		//TODO: Check for ipv4-compatible ipv6 address?
+		
+		inet_ntop(AF_INET6, &local, locals, INET6_ADDRSTRLEN);
+		inet_ntop(AF_INET6, &remote, remotes, INET6_ADDRSTRLEN);
+		
+		char key[INET6_ADDRSTRLEN*2 + INET6_ADDRSTRLEN*2 + 3];
+		snprintf(key, sizeof(key), "%s:%d%s:%d", locals, localport, remotes, remoteport);
+		
+		if(ht_get(tcptable, key) == NULL)
+		{
+			ht_add(tcptable, key, inode);
+			//printf("======NEW TABLE======\n");
+			//print_ht(table);
+		} 
+		else 
+		{
+			if(strcmp(ht_get(tcptable, key), inode) != 0 && strcmp(inode, "0") != 0)
+			{
+				ht_add(tcptable, key, inode);
+				if(DEBUG)
+					printf("Updated %s->%s\n", key, inode);
+			}
+		}
+	}
+	fclose(fp);
+}
+
+/*
+ * Updates connection->inode mapping in udptable by reading and parsing
+ * /proc/net/udp. Connections are uniquely identified as a combination of
+ * srcip + srcport + destip + destport.
+ */
+void update_udp_table(void) //TODO: Test no-connection udp data
 {
 	if (udptable == NULL)
 		init_tables();
@@ -156,6 +222,7 @@ void update_tables(void)
 {
 	si_update_tables();
 	update_tcp_table();
+	update_tcp6_table();
 	update_udp_table();
 }
 
@@ -215,8 +282,59 @@ char * get_proc_info_tcp4(frame *f)
 			free(key);
 			return ret;
 		}
-	}
+	}	
+}
+
+char * get_proc_info_tcp6(frame *f)
+{
+	char *key = malloc(strlen(f->srcip6)+strlen(f->srcport_tcp)
+					   +strlen(f->destip6)+strlen(f->destport_tcp)+3); //3 for null and 2 colons
+	strcpy(key, f->srcip6);
+	strcat(key, ":");
+	strcat(key, f->srcport_tcp);
+	strcat(key, f->destip6);
+	strcat(key, ":");
+	strcat(key, f->destport_tcp);
 	
+	char *inode = ht_get(tcptable, key);
+	if (inode == NULL)
+	{
+		update_tcp6_table();
+		inode = ht_get(tcptable, key);
+	}
+	char *ret = malloc(SS_LINE_BUFFER);
+	if(inode != NULL)
+	{
+		char *pid = ht_get(inodepid, inode);
+		char *procname = ht_get(pidprocname, pid);
+		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+		free(key);
+		return ret;
+	}
+	else //try key other way around
+	{
+		strcpy(key, f->destip6);
+		strcat(key, ":");
+		strcat(key, f->destport_tcp);
+		strcat(key, f->srcip6);
+		strcat(key, ":");
+		strcat(key, f->srcport_tcp);
+		inode = ht_get(tcptable, key);
+		if (inode != NULL)
+		{
+			char *pid = ht_get(inodepid, inode);
+			char *procname = ht_get(pidprocname, pid);
+			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+			free(key);
+			return ret;
+		}
+		else
+		{
+			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
+			free(key);
+			return ret;
+		}
+	}	
 }
 
 char * get_proc_info_udp4(frame *f)
@@ -274,6 +392,7 @@ char * get_proc_info_udp4(frame *f)
 
 int associate_packet(frame *f)
 {
+	print_frame(f);
 	char *info = NULL;
 	switch (f->ethtype)
 	{
@@ -297,8 +416,8 @@ int associate_packet(frame *f)
 			switch(f->ipproto)
 			{
 				case PROTO_TCP:
-					//info = get_proc_info_tcp(f->srcport_tcp, f->destport_tcp);
-					//strncpy(f->procinfo, info, SS_LINE_BUFFER);
+					info = get_proc_info_tcp6(f);
+					strncpy(f->procinfo, info, SS_LINE_BUFFER);
 					break;
 				case PROTO_UDP:
 					//info = get_proc_info_udp(f->srcport_tcp, f->destport_tcp);

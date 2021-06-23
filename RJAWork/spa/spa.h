@@ -40,4 +40,7 @@ typedef struct frame
 
 int capture; //Keep track of whether tshark is open or not
 
+/* Helper function to see inside frame */
+void print_frame(frame *f);
+
 #endif
