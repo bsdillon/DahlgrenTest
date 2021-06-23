@@ -186,11 +186,6 @@ int compare_files(FILE *f1, FILE *f2)
 	return 0;
 }
 
-/*
- * WARNING: This test requires pcapng files that are not distributed with the
- * source as they contained private ip address information. Feel free to create
- * example files that can be distributed and update the test accordingly.
- */
 Test(utests, filewritegood) {
 	char line[LINE_BUF_SIZE] = {0};
 	frame *f = NULL;

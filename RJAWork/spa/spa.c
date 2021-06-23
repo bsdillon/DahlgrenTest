@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
 					numargs++;
 					break;
 				case 'D':
-					system("tshark -D");
+					system("tshark -D"); //using system() as root may be bad (see man system(3))
 					exit(0);
 				case 'w':
 					if(strlen(optarg) > MAX_FNAME_BYTES)
