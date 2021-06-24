@@ -282,6 +282,8 @@ int capture_frames(int fd, frame **listhead)
 		}
 		else
 		{
+			if(feof(tsfile))
+				capture = 0;
 			update_tables();
 		}
 	}

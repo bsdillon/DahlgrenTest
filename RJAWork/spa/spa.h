@@ -12,7 +12,7 @@
 #define TMP_FILE_LOC "/tmp/spa.pcapng"
 #define LINE_BUF_SIZE 2048
 
-#define DEBUG 0 //0 for false
+#define DEBUG 1 //0 for false
  
  /*
  * The frame struct holds the information retrieved from tshark. Each frame has

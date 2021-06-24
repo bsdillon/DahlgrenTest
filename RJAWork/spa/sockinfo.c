@@ -153,12 +153,12 @@ void si_update_tables(void)
 	
 	struct dirent *entry;
 	
-	while ((entry=readdir(dir)))
+	while ((entry=readdir(dir))) //iterate through /proc
 	{
-		if (entry->d_type != DT_DIR)
+		if (entry->d_type != DT_DIR) //if not a directory
 			continue;
 		
-		if (isnum(entry->d_name) == 0)
+		if (isnum(entry->d_name) == 0) //if not a pid 
 			continue;
 		
 		get_pid_inodes(entry->d_name);

@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	strcpy(outfile, "spa.pcapng");
 	if(argc > 1)
 	{
-		while ((opt = getopt(argc, argv, "Di:w:")) != -1)
+		while ((opt = getopt(argc, argv, "Di:w:c:")) != -1)
 		{
 			switch(opt)
 			{
@@ -107,6 +107,14 @@ int main(int argc, char *argv[])
 						outfile[MAX_FNAME_BYTES] = '\0';
 					}
 					break;
+				case 'c':
+					tsargs[numargs] = malloc(sizeof(char)*(strlen("-c")+1));
+					strcpy(tsargs[numargs], "-c");
+					numargs++;
+					tsargs[numargs] = malloc(sizeof(char)*(strlen(optarg)+1));
+					strcpy(tsargs[numargs], optarg);
+					numargs++;
+					break;
 				default:
 					printf("Usage: \n");
 					exit(1);
@@ -130,7 +138,11 @@ int main(int argc, char *argv[])
 	
 	printf("\nCaptured %d packets\n", numframes);
 	
-	write_info_to_file(TMP_FILE_LOC, outfile, &list, numframes);
+	int w = write_info_to_file(TMP_FILE_LOC, outfile, &list, numframes);
+	if(w == -1)
+	{
+		fprintf(stderr, "Issue writing frame info to file\n");
+	}
 	
 	free(outfile);
 	for (int i=0; i<MAX_TSHARK_ARGS; i++)
