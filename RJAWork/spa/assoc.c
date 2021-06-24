@@ -306,9 +306,7 @@ void free_tables(void)
  * dest fields), looking up the key->inode mapping in table, and finding the
  * process info based on the inode. 
  */
-char * get_proc_info_generic(char *srcipfield, char *destipfield, 
-								char *srcportfield, char *destportfield, 
-								hash_table *table)
+char * get_proc_info_generic(char *srcipfield, char *destipfield, char *srcportfield, char *destportfield, hash_table *table)
 {
 	char *key = malloc(strlen(srcipfield)+strlen(srcportfield)
 					   +strlen(destipfield)+strlen(destportfield)+3); //3 for null and 2 colons
@@ -330,7 +328,10 @@ char * get_proc_info_generic(char *srcipfield, char *destipfield,
 	{
 		char *pid = ht_get(inodepid, inode);
 		char *procname = ht_get(pidprocname, pid);
-		snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+		if (pid != NULL && procname != NULL)
+			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+		else
+			snprintf(ret, SS_LINE_BUFFER, "spa: Could not associate");
 		free(key);
 		return ret;
 	}
@@ -347,13 +348,16 @@ char * get_proc_info_generic(char *srcipfield, char *destipfield,
 		{
 			char *pid = ht_get(inodepid, inode);
 			char *procname = ht_get(pidprocname, pid);
-			snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+			if (pid != NULL && procname != NULL)
+				snprintf(ret, SS_LINE_BUFFER, "spaprocnames=(%s) spapids=(%s)", procname, pid);
+			else
+				snprintf(ret, SS_LINE_BUFFER, "spa: Could not associate");
 			free(key);
 			return ret;
 		}
 		else
 		{
-			snprintf(ret, SS_LINE_BUFFER, "Failed to get info");
+			snprintf(ret, SS_LINE_BUFFER, "spa: Could not associate");
 			free(key);
 			return ret;
 		}
