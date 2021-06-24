@@ -16,10 +16,10 @@ def start_suite(name, attrs):
 def end_test(name, attrs):
     testname = attrs['originalname']
     status = attrs['status']
-    message = attrs['message']
+    message = '"' + attrs['message'] + '"'
     timepassed = attrs['elapsedtime']
     with open("demodata.js", 'a') as file:
-        file.write("{ Test: '" + testname +"', Status: '" + status +"', Message: '" + message +"'}, \n")
+        file.write("{ Test: '" + testname +"', Status: '" + status +"', Message: " + message +"'}, \n")
 
 def end_suite(name, attrs):
     with open("demodata.js", 'a') as file:
