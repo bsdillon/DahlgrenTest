@@ -1,16 +1,21 @@
+-- Get fields to 'dissect'
 local frame_num_field = Field.new("frame.number")
 local frame_comment_field = Field.new("frame.comment")
 
+-- Create a 'protocol' to be able to register 
 local procinfo_proto = Proto("procinfo", "Process info")
 
+-- Create fields for the protocol 
 local process_name = ProtoField.string("procinfo.procname","Process Name(s)")
 local pid		   = ProtoField.string("procinfo.pid","PID(s)")
 
+-- Set protocol fields
 procinfo_proto.fields = {
 	process_name,
 	pid
 }
 
+-- Dissector function
 function procinfo_proto.dissector(tvb, pinfo, tree)
 
 	local subtree = tree:add(procinfo_proto)
@@ -35,4 +40,5 @@ function procinfo_proto.dissector(tvb, pinfo, tree)
 	
 end
 
+-- Register protocol as postdissector (so it's run after other dissectors)
 register_postdissector(procinfo_proto)
