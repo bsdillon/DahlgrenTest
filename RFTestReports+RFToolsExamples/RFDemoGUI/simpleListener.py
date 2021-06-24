@@ -2,7 +2,7 @@ ROBOT_LISTENER_API_VERSION = 2
 
 
 def start_suite(name, attrs):
-    testrun = attrs['longname'] + attrs['starttime']
+    testrun = attrs['longname']
     with open("demodata.js", 'r') as file:
         lines = file.readlines()
         new_last_line = " "
@@ -23,4 +23,4 @@ def end_test(name, attrs):
 
 def end_suite(name, attrs):
     with open("demodata.js", 'a') as file:
-        file.write("], \n }")
+        file.write("], \n };")
