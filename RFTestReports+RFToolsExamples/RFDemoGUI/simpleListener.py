@@ -2,7 +2,7 @@ ROBOT_LISTENER_API_VERSION = 2
 
 
 def start_suite(name, attrs):
-    testrun = attrs['starttime']
+    testrun = '"' + attrs['starttime'] + '"'
     with open("demodata.js", 'r') as file:
         lines = file.readlines()
         new_last_line = " "
