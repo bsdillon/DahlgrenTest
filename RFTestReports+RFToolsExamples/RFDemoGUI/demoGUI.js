@@ -1,7 +1,7 @@
 //Set Total Number of Test Runs
  var totalRuns = 6;
 //Home Page
- function generateHeatMap(data, length){
+ function generateHeatMap(data, length, totalData){
     var heatMap = document.getElementById('heatmap');
     heatMap.style.margin = "10px 10px 10px 10px";
     for(var j=0; j<length+1; j++){
@@ -10,7 +10,7 @@
      var label = document.createTextNode(j);
      labelCell.appendChild(label);
      labelCell.style.color = "white";
-     var array = data["testRun"+j];
+     var array = data[totalData[j]];
      if(!array && j!= totalRuns){ //Case where test run is in progress
       var image = document.createElement('img');
       image.src = "spinningclock.gif";
@@ -40,10 +40,10 @@
         var status = element.Status;
         toolText = element.Test + ":  " + element.Message;
         toolTip(cell, toolText);
-        if(status == 'Pass') {
+        if(status == 'PASS') {
           cell.style.backgroundColor = "CadetBlue";
           hoverStyle(cell, "CadetBlue", 'rgb(95, 150, 160');
-        }else if(status == 'Fail') {
+        }else if(status == 'FAIL') {
           cell.style.backgroundColor = "rgb(0,59,79)";
           hoverStyle(cell, 'rgb(0, 59, 79)', 'rgb(0, 50, 59)');
         }
@@ -51,7 +51,7 @@
      }
      //Establish target number for buffer cells
      var targetNum = Object.keys(array).length;
-     if(!data["testRun" + (j-1)]){
+     if(!data[totalData[j-1]]){
        targetNum = targetNum;
      }else{
        prevNum = heatMap.rows[j-1].cells.length-1;
@@ -119,7 +119,7 @@
    return stat;
  }
 
- function generateStatus(data, length){
+ function generateStatus(data, length, totalData){
         var div =document.createElement('div');
         div.id = 'statusText';
         div.style.margin = "10px 10px 10px 20px";
@@ -134,7 +134,7 @@
           div.appendChild(para);
           var test = document.createTextNode("Test Run " + i + "    ");
           para.appendChild(test);
-          var actualdata = testRuns["testRun" + i];
+          var actualdata = data[totalData[i]];
           if(!actualdata && i != totalRuns){
            var stat = 'Running...';
           }else if(i == totalRuns){
@@ -152,7 +152,7 @@
             span.style.color = 'red';
           }
           para.appendChild(span);
-          buttonLink = 'testRun' + i;
+          buttonLink = totalData[i];
           createButton('button', oqe,'OQE', buttonLink, window, para, '', 'statOQE', '');
      }
      var breakSpace = document.createElement("BR");
@@ -176,10 +176,11 @@
  }
 
  function start(){
+        var totalData = Object.keys(testRuns);
         var length = Object.keys(testRuns).length;
         headerLogo();
-        generateStatus(testRuns, length);
-        generateHeatMap(testRuns, length);
+        generateStatus(testRuns, length, totalData);
+        generateHeatMap(testRuns, length, totalData);
         setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
  }
 
@@ -198,9 +199,9 @@
    var pass = 0;
    var fail = 0;
    for(let element of data){
-     if(element.Status == 'Pass') {
+     if(element.Status == 'PASS') {
        pass = pass + 1;
-     } else if(element.Status == 'Fail'){
+     } else if(element.Status == 'FAIL'){
        fail = fail + 1;
      }
    }
@@ -209,7 +210,7 @@
  }
 
  function oqe(x){
-     var link = x +".html";
+     //var link = x +".html";
      var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
      var newWindow = null;
      if(x != 'total'){
@@ -391,7 +392,11 @@
       var config2 = createLineConfig(LINE_TYPE, "Pass/Fail Percentage vs. Test Run", "Test Run", "Percentage");
       var chart2 = createLineChart("canvas2", 350, 350, config2, win);
       chart2.id = 'chart2';
-      var XData = Object.keys(object);
+      var XData = []
+      var length = Object.keys(object).length;
+      for(var i=0; i<length; i++){
+        XData.push("Test Run " + i);
+      }
       setLineChartLabels(config2, XData);
       createLineDataSet(config2, "Pass Percentage", sortedData[0], LINE_TYPE);
       createLineDataSet(config2, "Fail Percentage", sortedData[1], LINE_TYPE);
