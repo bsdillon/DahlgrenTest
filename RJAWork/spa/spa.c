@@ -72,14 +72,16 @@ void free_list(frame **list)
 int main(int argc, char *argv[])
 {	
 	int opt;
+	WRITE_CHUNK_SIZE = 500;
 	char **tsargs = malloc(sizeof(char *)*MAX_TSHARK_ARGS);
 	memset(tsargs, 0, sizeof(char *)*MAX_TSHARK_ARGS);
-	int numargs = 0;
+	char *dumpfile = malloc(MAX_FNAME_BYTES*sizeof(char));
+	int numargs = 0, dump = 0;
 	char *outfile = malloc(sizeof(char)*(MAX_FNAME_BYTES+1));
 	strcpy(outfile, "spa.pcapng");
 	if(argc > 1)
 	{
-		while ((opt = getopt(argc, argv, "Di:w:c:")) != -1)
+		while ((opt = getopt(argc, argv, "Di:w:c:d:")) != -1)
 		{
 			switch(opt)
 			{
@@ -115,6 +117,11 @@ int main(int argc, char *argv[])
 					strcpy(tsargs[numargs], optarg);
 					numargs++;
 					break;
+				case 'd':
+					dump = 1;
+					strncpy(dumpfile, optarg, MAX_FNAME_BYTES-1);
+					dumpfile[MAX_FNAME_BYTES-1] = '\0';
+					break;
 				default:
 					printf("Usage: \n");
 					exit(1);
@@ -138,6 +145,13 @@ int main(int argc, char *argv[])
 	
 	printf("\nCaptured %d packets\n", numframes);
 	
+	if(dump)
+	{	
+		printf("Dumping process info to %s\n", dumpfile);
+		dump_frame_info(dumpfile, &list);
+	}
+	
+	printf("Writing process info to pcap file...\n");
 	int w = write_info_to_file(TMP_FILE_LOC, outfile, &list, numframes);
 	if(w == -1)
 	{
@@ -153,6 +167,8 @@ int main(int argc, char *argv[])
 		}
 	}
 	free(tsargs);
+	
+	free_tables();
 	
 	if (numframes > 0)
 		free_list(&list);

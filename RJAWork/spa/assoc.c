@@ -7,7 +7,7 @@
 #include "sockinfo.h"
 
 #define SS_LINE_BUFFER 512
-#define WRITE_CHUNK_SIZE 50
+extern int WRITE_CHUNK_SIZE; //spa.h 
 
 /* Transport protocol definitions (for deciding how to associate) */
 #define PROTO_TCP 6
@@ -452,43 +452,94 @@ int associate_packet(frame *f)
 
 int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes)
 {
-	if(*listhead == NULL)
-		return -1;
+	int numcycles = numframes / WRITE_CHUNK_SIZE;
+	int finalcyclecount = numframes % WRITE_CHUNK_SIZE;
+	int maxtempfile = 128;
 	frame *currframe = *listhead;
-	int iflen = strlen(infile);
-	int oflen = strlen(outfile);
+	char *linbuf = malloc(sizeof(char)*maxtempfile);
+	char *loutbuf = malloc(sizeof(char)*maxtempfile);
+	char *lastbuf = malloc(sizeof(char)*maxtempfile);
+	memset(linbuf, '\0', sizeof(char)*maxtempfile);
+	memset(loutbuf, '\0', sizeof(char)*maxtempfile);
+	memset(lastbuf, '\0', sizeof(char)*maxtempfile);
+	int cmdbuflen = 8 + (11 + MAX_FRAMENUM_BYTES + LINE_BUF_SIZE) * numframes + maxtempfile*2 + 4;
+	char *cmdbuf = malloc(sizeof(char) * cmdbuflen);
 	
-	size_t numchars = 8 + (11 + MAX_FRAMENUM_BYTES + SS_LINE_BUFFER) * numframes
-					  + iflen + oflen + 4;
-	
-	char *cmdbuf;
-	cmdbuf = malloc(sizeof(char) * numchars);
-	memset(cmdbuf, '\0', sizeof(char) * numchars);
-	if (cmdbuf == NULL)
+	strcpy(linbuf, infile);
+	for (int i=1; i<=numcycles; i++)
 	{
-		return -1;
-	}
-	strncpy(cmdbuf, "editcap", 8);
-
-	while (currframe != NULL)
-	{
-		strncat(cmdbuf, " -a ", 5);
-		strncat(cmdbuf, currframe->framenum, MAX_FRAMENUM_BYTES);
-		strncat(cmdbuf, ":\"", 3);
-		strncat(cmdbuf, currframe->procinfo, SS_LINE_BUFFER); //Do we need to add a -1 for null?
-		strncat(cmdbuf, "\" ", 3);
-		
-		if (currframe->next == NULL) //we're one before the end of the list
+		memset(cmdbuf, '\0', sizeof(char)*cmdbuflen);
+		strcpy(cmdbuf, "editcap");
+		for (int j=0; j<WRITE_CHUNK_SIZE; j++)
 		{
-			strncat(cmdbuf, infile, iflen + 1);
-			strncat(cmdbuf, " ", 2);
-			strncat(cmdbuf, outfile, oflen + 1);
-			system(cmdbuf); //using system() as root may be bad (see man system(3))
+			strncat(cmdbuf, " -a ", 5);
+			strncat(cmdbuf, currframe->framenum, MAX_FRAMENUM_BYTES);
+			strncat(cmdbuf, ":\"", 3);
+			strncat(cmdbuf, currframe->procinfo, LINE_BUF_SIZE); //Do we need to add a -1 for null?
+			strncat(cmdbuf, "\" ", 3);
+			currframe = currframe->next;
 		}
-		currframe = currframe->next;
+		if (i == 1)
+		{
+			snprintf(loutbuf, maxtempfile, "/tmp/spa%d.pcapng", i);
+		}
+		strcat(cmdbuf, linbuf);
+		strcat(cmdbuf, " ");
+		strcat(cmdbuf, loutbuf);
+		system(cmdbuf);
+		strcpy(lastbuf, linbuf);
+		if (i != 1)
+			remove(lastbuf);
+		strcpy(linbuf, loutbuf);
+		snprintf(loutbuf, maxtempfile, "/tmp/spa%d.pcapng", i+1);
 	}
 	
+	strcpy(loutbuf, outfile);
+	
+	if (finalcyclecount > 0)
+	{
+		for (int k=0; k<finalcyclecount; k++)
+		{
+			memset(cmdbuf, '\0', sizeof(char)*cmdbuflen);
+			strcpy(cmdbuf, "editcap");
+			strncat(cmdbuf, " -a ", 5);
+			strncat(cmdbuf, currframe->framenum, MAX_FRAMENUM_BYTES);
+			strncat(cmdbuf, ":\"", 3);
+			strncat(cmdbuf, currframe->procinfo, LINE_BUF_SIZE); //Do we need to add a -1 for null?
+			strncat(cmdbuf, "\" ", 3);
+			currframe = currframe->next;
+		}
+		
+		strcat(cmdbuf, linbuf);
+		strcat(cmdbuf, " ");
+		strcat(cmdbuf, loutbuf);
+		system(cmdbuf);
+	}
+	else 
+	{
+		sprintf(cmdbuf, "cp %s %s", linbuf, loutbuf);
+		system(cmdbuf);
+	}
+	
+	remove(linbuf);
+	
+	free(linbuf);
+	free(loutbuf);
+	free(lastbuf);
 	free(cmdbuf);
-	free_tables();
+	
 	return 0;
+}
+
+void dump_frame_info(char *fname, frame **list)
+{
+	frame *f = *list;
+	
+	FILE *file = fopen(fname, "w");
+	while (f != NULL)
+	{
+		fprintf(file, "%s,%s\n", f->framenum, f->procinfo);
+		f = f->next;
+	}
+	fclose(file);
 }

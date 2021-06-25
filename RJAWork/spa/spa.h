@@ -39,5 +39,6 @@ typedef struct frame
 } frame;
 
 int capture; //Keep track of whether tshark is open or not
+int WRITE_CHUNK_SIZE;
 
 #endif

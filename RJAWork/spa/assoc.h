@@ -22,10 +22,19 @@ int associate_packet(frame *f);
 int write_info_to_file(char *infile, char *outfile, frame **listhead, int numframes);
 
 
+/* 
+ * Dump frame number and process information out to file 
+ */
+void dump_frame_info(char *fname, frame **list);
+
+
 /*
  * Updates hashtables of socket information.
  */
 void update_tables(void);
+
+
+void free_tables(void);
 
 
 #endif
