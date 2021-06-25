@@ -158,6 +158,7 @@ namespace SoftwareAnalyzer2.Tools
                 else {
                     // Wait indefinitely, ANTLR MUST exit for SQM to continue.
                     p.WaitForExit();
+                    //p2 (-tokens) is where the hanging happens...
                     p2.WaitForExit();
                 }
 
