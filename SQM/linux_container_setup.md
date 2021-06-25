@@ -5,7 +5,7 @@
 
 ```bash
 # JDK
-sudo  apt install -y openjdk-11-jdk
+sudo  apt install -y openjdk-8-jdk
 
 # Mono build for C# compilation (see https://www.mono-project.com/download/stable/)
 sudo apt install gnupg ca-certificates
