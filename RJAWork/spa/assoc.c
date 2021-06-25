@@ -498,10 +498,10 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 	
 	if (finalcyclecount > 0)
 	{
+		memset(cmdbuf, '\0', sizeof(char)*cmdbuflen);
+		strcpy(cmdbuf, "editcap");
 		for (int k=0; k<finalcyclecount; k++)
 		{
-			memset(cmdbuf, '\0', sizeof(char)*cmdbuflen);
-			strcpy(cmdbuf, "editcap");
 			strncat(cmdbuf, " -a ", 5);
 			strncat(cmdbuf, currframe->framenum, MAX_FRAMENUM_BYTES);
 			strncat(cmdbuf, ":\"", 3);

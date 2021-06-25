@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
 	strcpy(outfile, "spa.pcapng");
 	if(argc > 1)
 	{
-		while ((opt = getopt(argc, argv, "Di:w:c:d:")) != -1)
+		while ((opt = getopt(argc, argv, "Di:w:c:d:s:")) != -1)
 		{
 			switch(opt)
 			{
@@ -121,6 +121,9 @@ int main(int argc, char *argv[])
 					dump = 1;
 					strncpy(dumpfile, optarg, MAX_FNAME_BYTES-1);
 					dumpfile[MAX_FNAME_BYTES-1] = '\0';
+					break;
+				case 's':
+					WRITE_CHUNK_SIZE = atoi(optarg);
 					break;
 				default:
 					printf("Usage: \n");
