@@ -139,7 +139,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                                 else
                                 {
                                     //one or more of the column headers does not match, error
-                                    MessageBox.Show(this, fName + "does not follow the required format. Each file must have a header that contains these values: \"file, line, error, property\"", "File Format Issue");
+                                    MessageBox.Show(this, fName + " does not follow the required format. Each file must have a header that contains these values: \"file, line, error, property\"", "File Format Issue");
                                     fileError = true;
                                 }
 
