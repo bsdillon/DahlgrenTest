@@ -1,16 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head> 
-     <title>Azure Virtual Machine Configuration</title>
-     <link rel="stylesheet" type="text/css" href="../common.css">
-  </head> 
-  <body> 
-    <h3>Logging onto Azure</h3> 
-     <p> Go to this link: <a href = "https://portal.azure.com/#home">Azure Home</a>. 
-       If you are working on NMCI, you may have to open an inPrivate window so that it allows you to chose which account to sign in with.
-     </p>
-     <img src="../imgs/azureDocs/AzureLogin.png" alt = "Login Page"></img>
-     <p> Log on with your temporary password, then follow prompting to create a new one </p>
-   
-  </body> 
+<head>
+    <title>Azure Virtual Machine Configuration</title>
+    <link rel="stylesheet" type="text/css" href="../common.css">
+</head>
+<body>
+<h3>Logging onto Azure</h3>
+<p> Go to this link: <a href = "https://portal.azure.com/#home">Azure Home</a>.
+    If you are working on NMCI, you may have to open an inPrivate window so that it allows you to chose which account to sign in with.
+</p>
+<img src="../imgs/azureDocs/AzureLogin.png" alt = "Login Page">
+<p> Log on with your temporary password, then follow prompting to create a new one </p>
+<h3>Creating Your Virtual Machine</h3>
+<p>On the home page, click on the "Virtual Machines" Icon, then click on the plus button on the left side of the page and select "Create New Machine"</p>
+<img src = "" alt = "VM Button">
+<img src = "" alt = "Create VM Button">
+<p>For much of the VM configuration, the default options are correct. The following settings need to be set correctly: </p>
+<ul>
+<li>Resource Group: 'Admins-Group-1' should be selected as the resource group
+    <img src = "" alt="Resource Group Selection">
+</li>
+
+<li>Image: Ubuntu Server 20.04 LTS - Gen 1
+    <img src = "" alt="Image Selection">
+</li>
+<li>Size: Standard_B4ms - 4 vcpus, 16 GiB memory($121.8/month)
+    <img src = "" alt="Size Selection">
+</li>
+
+<li>Authentication Type: SSH public key
+    <img src = "" alt="Key Selection">
+</li>
+
+<li>Inbound Port Rules: Allow SSH 22
+    <img src = "" alt= "Port Rules">
+</li>
+<li>Networking/ Virtual Network: Admins-Group-1-vnet
+    <img src = "" alt="Network Selection">
+</li>
+<li>Management: Enable Auto-Shutdown <br> Set time to two hours after when you normally stop working.
+    <img src = "" alt="Time Selection">
+</li>
+</ul>
+</body>
 </html>
