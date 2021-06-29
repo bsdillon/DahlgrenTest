@@ -22,7 +22,7 @@
 #include "cap.h"
 #include "assoc.h"
 
-#define MAX_TSHARK_ARGS 20 //No good reason to be 20, just seems reasonable
+#define MAX_TSHARK_ARGS 128
 #define MAX_FNAME_BYTES 32
 
 pid_t tspid;
@@ -98,12 +98,20 @@ int main(int argc, char *argv[])
 			switch(opt)
 			{
 				case 'i':
-					tsargs[numargs] = malloc(sizeof(char)*(strlen("-i")+1));
-					strcpy(tsargs[numargs], "-i");
-					numargs++;
-					tsargs[numargs] = malloc(sizeof(char)*(strlen(optarg)+1));
-					strcpy(tsargs[numargs], optarg);
-					numargs++;
+					if(numargs + 2 < MAX_TSHARK_ARGS - 1)
+					{
+						tsargs[numargs] = malloc(sizeof(char)*(strlen("-i")+1));
+						strcpy(tsargs[numargs], "-i");
+						numargs++;
+						tsargs[numargs] = malloc(sizeof(char)*(strlen(optarg)+1));
+						strcpy(tsargs[numargs], optarg);
+						numargs++;
+					}
+					else
+					{
+						fprintf(stderr, "Too many arguments!\n");
+						exit(1);
+					}
 					break;
 				case 'D':
 					system("tshark -D"); //using system() as root may be bad (see man system(3))
@@ -122,12 +130,20 @@ int main(int argc, char *argv[])
 					}
 					break;
 				case 'c':
-					tsargs[numargs] = malloc(sizeof(char)*(strlen("-c")+1));
-					strcpy(tsargs[numargs], "-c");
-					numargs++;
-					tsargs[numargs] = malloc(sizeof(char)*(strlen(optarg)+1));
-					strcpy(tsargs[numargs], optarg);
-					numargs++;
+					if(numargs + 2 < MAX_TSHARK_ARGS - 1)
+					{
+						tsargs[numargs] = malloc(sizeof(char)*(strlen("-c")+1));
+						strcpy(tsargs[numargs], "-c");
+						numargs++;
+						tsargs[numargs] = malloc(sizeof(char)*(strlen(optarg)+1));
+						strcpy(tsargs[numargs], optarg);
+						numargs++;
+					}
+					else
+					{
+						fprintf(stderr, "Too many arguments!\n");
+						exit(1);
+					}
 					break;
 				case 'd':
 					dump = 1;
@@ -189,6 +205,7 @@ int main(int argc, char *argv[])
 	}
 	
 	free(outfile);
+	free(dumpfile);
 	for (int i=0; i<MAX_TSHARK_ARGS; i++)
 	{
 		if (tsargs[i] != NULL)
