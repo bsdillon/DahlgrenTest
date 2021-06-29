@@ -83,7 +83,7 @@ void free_list(frame **list)
 /* main() is in WIP status and subject to frequent change */
 int main(int argc, char *argv[])
 {	
-	int opt;
+	int opt, newsize;
 	WRITE_CHUNK_SIZE = 500;
 	char **tsargs = malloc(sizeof(char *)*MAX_TSHARK_ARGS);
 	memset(tsargs, 0, sizeof(char *)*MAX_TSHARK_ARGS);
@@ -135,7 +135,15 @@ int main(int argc, char *argv[])
 					dumpfile[MAX_FNAME_BYTES-1] = '\0';
 					break;
 				case 's':
-					WRITE_CHUNK_SIZE = atoi(optarg);
+					newsize = atoi(optarg);
+					if (newsize > 0)
+						WRITE_CHUNK_SIZE = newsize;
+					else
+					{
+						fprintf(stderr, "Size must be greater than 0\n");
+						print_usage(argv[0]);
+						exit(1);
+					}
 					break;
 				case 'h':
 					print_usage(argv[0]);
