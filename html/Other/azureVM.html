@@ -60,5 +60,9 @@
 <img src="../imgs/azureDocs/vmDesktop.png" alt="VM Desktop">
 <br>
 <p>After setting up the machine and installing the desktop, only the last step will be necessary to connect to your VM in the future.</p>
+<p>Note if you have trouble connecting via SSH, connecting with RDP is another simple option. First follow all the steps in the link above (<a href = "https://docs.microsoft.com/en-us/azure/virtual-machines/linux/use-remote-desktop">Using RDP with Linux VM</a>). After setting a local user account password, click on "RDP" under Connect at the main page of your VM and download the RDP file.</p>
+<img src="../imgs/azureDocs/rdpConnect.JPG" alt="RDP Page">
+<p>Opening that file will prompt you to a login page where you use <code>azureuser</code> as the username and the password set from the RDP instructions. Afterwards you will see the VM desktop shown above. That .rdp file will always be the connection to your VM, so keep track of that file.</p>
+<img src="../imgs/azureDocs/rdpLogin.JPG" alt="RDP Page">
 </body>
 </html>
