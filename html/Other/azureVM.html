@@ -53,7 +53,7 @@
 <p>You should now be connected to the command line interface of your virtual machine, and see something like the image below.</p>
 <img src = "../imgs/azureDocs/sshConnect.png" alt ="Successful Connection">
 <p>Before installing anything onto your VM, you need to make sure you have Azure CLI installed. Follow the instructions <a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli">here</a> to install and log on using the command below.</p>
-<img src="../imgs/azureDocs/azCommand.png" alt="Az Login">
+<code>az login --use-device-code</code>
 <p>Microsoft has good documentation on installing the desktop here: <a href = "https://docs.microsoft.com/en-us/azure/virtual-machines/linux/use-remote-desktop">Using RDP with Linux VM</a></p>
 <p>Remote Desktop Connection should be automatically set up if you have a Windows operating system, but if it isn't it can be configured using <a href="https://support.microsoft.com/en-us/windows/how-to-use-remote-desktop-5fe128d5-8fb1-7a23-3b8a-41e636865e8c">these instructions.</a></p>
 <p>Enter the IP address of your VM, log on with the credentials you created, and you should end up with the screen below</p>
