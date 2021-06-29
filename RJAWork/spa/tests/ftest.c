@@ -187,7 +187,8 @@ int compare_files(FILE *f1, FILE *f2)
 }
 
 Test(utests, filewritegood) {
-	char line[LINE_BUF_SIZE] = {0};
+	WRITE_CHUNK_SIZE = 500;
+	char *line = malloc(LINE_BUF_SIZE);
 	frame *f = NULL;
 	frame *prev = NULL;
 	for (int i=1;i<=52;i++)
