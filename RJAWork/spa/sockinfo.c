@@ -1,7 +1,7 @@
 /*
- * Socket info code. Some code inspired by nethogs. See 
+ * Socket info code. Some techniques inspired by nethogs. See 
  * https://github.com/raboof/nethogs for more information. I don't think it's
- * similar enough to cause licensing issues.
+ * similar enough to require a license notice.
  */
  
 #include <stdio.h>

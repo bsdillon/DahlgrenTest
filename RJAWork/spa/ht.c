@@ -1,5 +1,6 @@
 /*
- * Adapted from https://github.com/engineer-man/youtube/blob/master/077/hashtable.c
+ * Adapted from technique demonstrated in 
+ * https://github.com/engineer-man/youtube/blob/master/077/hashtable.c
  */
 
 #include <string.h>
@@ -61,7 +62,7 @@ void print_ht(hash_table *table)
 
 int hash(char *key)
 {
-	//TODO: Implement better hash function
+	//TODO: Implement better hash function?
 	
 	long int sum = 0;
 	for (int i=0;i<strlen(key);i++)

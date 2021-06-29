@@ -10,7 +10,7 @@
 
 /* 
  * Associates a packet to a program by inspecting the owner of the socket 
- * it came in on using ss. Returns 0 on success, 1 on failure to associate. 
+ * it came in on. Returns 0 on success, 1 on failure to associate. 
  */
 int associate_packet(frame *f);
 

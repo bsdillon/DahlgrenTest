@@ -52,6 +52,18 @@ static void handle_signals(int signum)
 	return;
 }
 
+void print_usage(char *progname)
+{
+	printf("Usage: %s <options>\n\n", progname);
+	printf("Options list:\n");
+	printf(" -c <count>\t\tLimit capture to <count> packets\n");
+	printf(" -d <file>\t\tDump packet number and process info to file\n");
+	printf(" -D\t\t\tDisplay interfaces available for capture\n");
+	printf(" -i <interface>\t\tSpecify interface to capture on\n");
+	printf(" -s <limit>\t\tSpecify the number of packets to write at a time\n");
+	printf(" -w <file>\t\tSpecify the file to write out to\n");
+}
+
 void free_list(frame **list)
 {
 	frame *curr = *list;
@@ -81,7 +93,7 @@ int main(int argc, char *argv[])
 	strcpy(outfile, "spa.pcapng");
 	if(argc > 1)
 	{
-		while ((opt = getopt(argc, argv, "Di:w:c:d:s:")) != -1)
+		while ((opt = getopt(argc, argv, "Di:w:c:d:s:h")) != -1)
 		{
 			switch(opt)
 			{
@@ -125,8 +137,11 @@ int main(int argc, char *argv[])
 				case 's':
 					WRITE_CHUNK_SIZE = atoi(optarg);
 					break;
+				case 'h':
+					print_usage(argv[0]);
+					exit(0);
 				default:
-					printf("Usage: \n");
+					print_usage(argv[0]);
 					exit(1);
 			}
 		}
@@ -154,11 +169,15 @@ int main(int argc, char *argv[])
 		dump_frame_info(dumpfile, &list);
 	}
 	
-	printf("Writing process info to pcap file...\n");
-	int w = write_info_to_file(TMP_FILE_LOC, outfile, &list, numframes);
-	if(w == -1)
+	if (numframes > 0)
 	{
-		fprintf(stderr, "Issue writing frame info to file\n");
+		printf("Writing process info to pcap file...\n");
+		dump_frame_info("/tmp/spa.backup", &list);
+		int w = write_info_to_file(TMP_FILE_LOC, outfile, &list, numframes);
+		if(w == -1)
+		{
+			fprintf(stderr, "Issue writing frame info to file\n");
+		}
 	}
 	
 	free(outfile);
@@ -177,7 +196,7 @@ int main(int argc, char *argv[])
 		free_list(&list);
 	
 	if(DEBUG)
-		printf("Exiting main program\n");
+		printf("Done!\n");
 	
 	return 0;
 }

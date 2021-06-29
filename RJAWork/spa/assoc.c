@@ -521,7 +521,8 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 		system(cmdbuf);
 	}
 	
-	remove(linbuf);
+	if (strcmp(linbuf, infile) != 0)
+		remove(linbuf);
 	
 	free(linbuf);
 	free(loutbuf);
