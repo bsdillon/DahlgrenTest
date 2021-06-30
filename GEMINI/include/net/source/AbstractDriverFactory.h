@@ -4,8 +4,10 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <stdio.h>
 
 #include "../drivers/FactoryInterfaceImpl.h"
+#include "../../plugin.h"
 
 // gets factory interface impl, updates topic count, topic factory,
 class AbstractDriverFactory
@@ -28,6 +30,21 @@ class AbstractDriverFactory
         int GetTopicCount() {return TopicCount;}
         std::unique_ptr<AbstractDriver> GetFactoryAtIndex(int index) {return std::move(Factories.at(index));}
         std::string GetTopicAtIndex(int index) {return TopicList.at(index);}
+
+        bool loadPlugin(Plugin plugin)
+        {
+             // test throws
+            try
+            {
+                printf("Num of Factories: %lu\n", plugin.impl.GetTopicFactories().size());
+                printf("Num of Topics: %lu\n", plugin.impl.GetTopicList().size());
+            }
+            catch(DriverException &e)
+            {
+                return false;
+            }
+            return true;
+        }
 
 };
 

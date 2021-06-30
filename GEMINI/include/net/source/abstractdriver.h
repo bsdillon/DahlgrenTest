@@ -4,7 +4,7 @@
 //#include "qstring.h"
 #include "../drivers/DriverException.h"
 #include "../drivers/AbstractEnum.h"
-#include "memory"
+#include <memory>
 
 #include "vector"
 #include "../topics/message.h"
