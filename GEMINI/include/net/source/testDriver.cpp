@@ -49,7 +49,7 @@ int main()
     assert(ab.loadPlugin(plugin));
     
     
-    printf("Done!\n All testing is finished!");
+    printf("Done!\nAll testing is finished!\n");
 
     return 0;
 }
