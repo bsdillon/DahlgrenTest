@@ -27,6 +27,7 @@
 
 pid_t tspid;
 extern int capture;
+int writedone;
 
 /* Handle Ctrl+C to allow stopping tshark */
 static void handle_signals(int signum)
@@ -38,15 +39,14 @@ static void handle_signals(int signum)
 			if (capture != 0)
 			{
 				kill(tspid, SIGINT);	
-				waitpid(tspid, &wstatus, WNOHANG);
+				wait(&wstatus);
 				capture = 0;
 			}
 			else 
 			{
-				if (!WIFEXITED(wstatus))
+				if (writedone != 0)
 				{
-					kill(tspid, SIGKILL);	
-					wait(&wstatus);
+					exit(0);
 				}
 			}
 			break;
@@ -184,6 +184,7 @@ int main(int argc, char *argv[])
 	
 	frame *list = NULL;
 	capture = 1;
+	writedone = 0;
 	int numframes = capture_frames(fd, &list);
 	close(fd);
 	wait(&status);
@@ -207,6 +208,8 @@ int main(int argc, char *argv[])
 			fprintf(stderr, "Issue writing frame info to file\n");
 		}
 	}
+	
+	writedone = 1;
 	
 	free(outfile);
 	free(dumpfile);

@@ -287,7 +287,7 @@ int capture_frames(int fd, frame **listhead)
 			update_tables();
 		}
 	}
-	
+
 	//See if there's data still in the pipe
 	while (fgets(buf, sizeof(buf), tsfile) != NULL)
 	{
