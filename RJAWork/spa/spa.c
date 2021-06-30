@@ -31,19 +31,23 @@ extern int capture;
 /* Handle Ctrl+C to allow stopping tshark */
 static void handle_signals(int signum)
 {
+	int wstatus = -1;
 	switch (signum)
 	{
 		case SIGINT:
 			if (capture != 0)
 			{
-				kill(tspid, SIGINT);
-				int wstatus = 0;
-				wait(&wstatus);
+				kill(tspid, SIGINT);	
+				waitpid(tspid, &wstatus, WNOHANG);
 				capture = 0;
 			}
 			else 
 			{
-				exit(0); //Todo: Behavior when Ctrl+C hit second time
+				if (!WIFEXITED(wstatus))
+				{
+					kill(tspid, SIGKILL);	
+					wait(&wstatus);
+				}
 			}
 			break;
 		default:
