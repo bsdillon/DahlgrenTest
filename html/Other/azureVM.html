@@ -15,10 +15,11 @@
 <p>On the home page, click on the "Virtual Machines" Icon, then click on the plus button on the left side of the page and select "Create New Machine"</p>
 <img src = "../imgs/azureDocs/vmButton.png" alt = "VM Button">
 <img src = "../imgs/azureDocs/createButton.png" alt = "Create VM Button">
-<p>For much of the VM configuration, the default options are correct. The following settings need to be set correctly: </p>
+<p>For much of the VM configuration, the default options are correct, and the names of the VM/SSH Key pairs can be set at your discretion. The following settings need to be set correctly: </p>
 <ul>
-<li>Resource Group: 'DefaultResourceGroup-CUS' should be selected as the resource group
+<li>Resource Group: 'DefaultResourceGroup-CUS' or 'Admins-Group-1' should be selected as the resource group, depending on your location (CUS corresponds to Central/Western US)
     <img src = "../imgs/azureDocs/actualresourceGroup.png" alt="Resource Group Selection">
+    <img src = "../imgs/azureDocs/resourceGroup.png" alt = "Resource Group Selection">
 </li>
 
 <li>Image: Ubuntu Server 20.04 LTS - Gen 1
@@ -38,7 +39,7 @@
 <li>OS Disk Type: Standard HDD
      <img src = "../imgs/azureDocs/diskType.png" alt = "Disk Type">
     </li>
-<li>Networking/ Virtual Network: Admins-Group-1-vnet
+<li>Networking/ Virtual Network: Should match your resource group. For example, if your resource group is Admins-Group-1, then your network will be:
     <img src = "../imgs/azureDocs/virtualNetwork.png" alt="Network Selection">
 </li>
 <li>Management: Enable Auto-Shutdown <br> Set time to two hours after when you normally stop working.
@@ -67,5 +68,8 @@
 <img src="../imgs/azureDocs/rdpConnect.JPG" alt="RDP Page">
 <p>Opening that file will prompt you to a login page where you use <code>azureuser</code> as the username and the password set from the RDP instructions. Afterwards you will see the VM desktop shown above. That .rdp file will always be the connection to your VM, so keep track of that file.</p>
 <img src="../imgs/azureDocs/rdpLogin.JPG" alt="RDP Page">
+    <h3> VM Browser Setup </h3> 
+    <p>A couple of users have had trouble with not being able to access a web browser. Following the steps below should take care of the problem.</p> 
+    <img src = "../imgs/azureDocs/chromeSetup.png" alt = "browser setup">
 </body>
 </html>
