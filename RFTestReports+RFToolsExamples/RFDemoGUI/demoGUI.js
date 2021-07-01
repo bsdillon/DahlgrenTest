@@ -1,5 +1,5 @@
 //Set Total Number of Test Runs
- var totalRuns = 6;
+var totalRuns = 6;
 //Home Page
  function generateHeatMap(data, length, totalData){
     var heatMap = document.getElementById('heatmap');
@@ -304,8 +304,8 @@
     createStyle('hidden', win, 'display: none;');
     createStyle('show', win, 'border: 1px solid black;');
     subtable.className = subclass[j];
-    generateTableHead(subtable, data1, win);
-    generateTable(subtable, actualdata, win);
+    var keys = generateTableHead(subtable, data1, win);
+    generateTable(subtable, actualdata, win, keys);
     tableStyle(subtable);
     return subtable;
   }
@@ -452,8 +452,8 @@
    var dataKeys = Object.keys(data[0]);
    var table = initTable(win);
    tableStyle(table);
-   generateTableHead(table, dataKeys, win);
-   generateTable(table, data, win);
+   var keys = generateTableHead(table, dataKeys, win);
+   generateTable(table, data, win, keys);
    createHeaders('header2', "Pass/Fail Graphic", '2', win);
    data1 = sortResults(data);
    var config1 = createConfig("Pass vs. Fail");
@@ -467,14 +467,23 @@
  function generateTableHead(table, data, win) {
   var thead = table.createTHead();
   var row = thead.insertRow();
-  for (let key of data) {
+  var keys = [];
+  for (let key of data){
+    keys.push(key);
+  }
+  params = keys[0];
+  keys.shift();
+  keys.push(params);
+  console.log(keys);
+  for (let element of keys) {
     var th = win.document.createElement("th");
-    var text = win.document.createTextNode(key);
+    var text = win.document.createTextNode(element);
     th.appendChild(text);
     row.appendChild(th);
     th.style.borderRadius = "5px";
     cellStyle(th, "bold");
   }
+  return keys;
 }
 
  function isEven(value) {
@@ -484,13 +493,14 @@
 		return false;
 }
 
- function generateTable(table, data, win) {
+ function generateTable(table, data, win, keys) {
   var b = 1;
   for (let element of data) {
     var row = table.insertRow();
-    for (key in element) {
+    var length = keys.length;
+    for (var i=0; i<length; i++) {
       var cell = row.insertCell();
-      var text = win.document.createTextNode(element[key]);
+      var text = win.document.createTextNode(element[keys[i]]);
       cellStyle(cell, "normal");
       if(!isEven(b)){
         cell.style.backgroundColor = 'rgba(0,0,0,0.07)';
