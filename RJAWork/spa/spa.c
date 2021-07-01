@@ -5,7 +5,7 @@
  *
  * Current Limitations:
  * 	-will capture any packets tshark will capture
- *	-will only associate ipv4 TCP/UDP packets to processes
+ *	-will only associate TCP/UDP packets to processes
  *	-when run as root, pcapng file may not be able to be saved in home dir
  *   (the workaround for this is that the capture file is stored in /tmp/ and
  *    then copied to the working directory after comments are added)
@@ -63,6 +63,7 @@ void print_usage(char *progname)
 	printf(" -c <count>\t\tLimit capture to <count> packets\n");
 	printf(" -d <file>\t\tDump packet number and process info to file\n");
 	printf(" -D\t\t\tDisplay interfaces available for capture\n");
+	printf(" -h\t\t\tDisplay help message\n");
 	printf(" -i <interface>\t\tSpecify interface to capture on\n");
 	printf(" -s <limit>\t\tSpecify the number of packets to write at a time\n");
 	printf(" -w <file>\t\tSpecify the file to write out to\n");
@@ -84,7 +85,6 @@ void free_list(frame **list)
 	}
 }
 
-/* main() is in WIP status and subject to frequent change */
 int main(int argc, char *argv[])
 {	
 	int opt, newsize;

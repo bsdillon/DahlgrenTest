@@ -507,7 +507,7 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 			strncat(cmdbuf, " -a ", 5);
 			strncat(cmdbuf, currframe->framenum, MAX_FRAMENUM_BYTES);
 			strncat(cmdbuf, ":\"", 3);
-			strncat(cmdbuf, currframe->procinfo, LINE_BUF_SIZE); //Do we need to add a -1 for null?
+			strncat(cmdbuf, currframe->procinfo, LINE_BUF_SIZE);
 			strncat(cmdbuf, "\" ", 3);
 			currframe = currframe->next;
 		}

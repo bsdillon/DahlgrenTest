@@ -1,7 +1,6 @@
 /*
  * Socket info code. Some techniques inspired by nethogs. See 
- * https://github.com/raboof/nethogs for more information. I don't think it's
- * similar enough to require a license notice.
+ * https://github.com/raboof/nethogs for more information.
  */
  
 #include <stdio.h>
@@ -168,16 +167,3 @@ void si_update_tables(void)
 	}
 	closedir(dir);
 }
-
-/*
-int main(int argc, char *argv[])
-{
-	si_init_tables();
-	si_update_tables();
-	
-	print_ht(inodepid);
-	print_ht(pidprocname);
-	
-	return 0;
-}
-*/

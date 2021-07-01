@@ -74,7 +74,6 @@ int hash(char *key)
 	return ret;
 }
 
-//TODO: Add checks and return -1 on failure
 int ht_add(hash_table *table, char *key, char *value)
 {
 	int pos = hash(key);
