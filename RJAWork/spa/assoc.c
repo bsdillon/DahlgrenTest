@@ -454,7 +454,7 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 {
 	int numcycles = numframes / WRITE_CHUNK_SIZE;
 	int finalcyclecount = numframes % WRITE_CHUNK_SIZE;
-	int maxtempfile = 128;
+	int maxtempfile = 128, result = 0;
 	frame *currframe = *listhead;
 	char *linbuf = malloc(sizeof(char)*maxtempfile);
 	char *loutbuf = malloc(sizeof(char)*maxtempfile);
@@ -486,7 +486,9 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 		strcat(cmdbuf, linbuf);
 		strcat(cmdbuf, " ");
 		strcat(cmdbuf, loutbuf);
-		system(cmdbuf);
+		result = system(cmdbuf);
+		if(result == -1)
+			return -1;
 		strcpy(lastbuf, linbuf);
 		if (i != 1)
 			remove(lastbuf);
@@ -513,12 +515,16 @@ int write_info_to_file(char *infile, char *outfile, frame **listhead, int numfra
 		strcat(cmdbuf, linbuf);
 		strcat(cmdbuf, " ");
 		strcat(cmdbuf, loutbuf);
-		system(cmdbuf);
+		result = system(cmdbuf);
+		if(result == -1)
+			return -1;
 	}
 	else 
 	{
 		sprintf(cmdbuf, "cp %s %s", linbuf, loutbuf);
-		system(cmdbuf);
+		result = system(cmdbuf);
+		if(result == -1)
+			return -1;
 	}
 	
 	if (strcmp(linbuf, infile) != 0)
