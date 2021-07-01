@@ -11,7 +11,18 @@ def start_suite(name, attrs):
     with open("demodata.js", 'a') as file:
         file.write(testrun + " : [\n")
     print(testrun)
-
+def start_test(name, attrs):
+    with open("demodata.js", 'a') as file:
+        file.write("{ Parameters: '")
+def end_keyword(name, attrs):
+    args = attrs['args']
+    params = ""
+    # traverse in the string
+    for ele in args:
+        params += ele
+    print(params)
+    with open("demodata.js", 'a') as file:
+        file.write(params + " " )
 
 def end_test(name, attrs):
     testname = attrs['originalname']
@@ -19,7 +30,7 @@ def end_test(name, attrs):
     message = '"' + attrs['message'] + '"'
     timepassed = attrs['elapsedtime']
     with open("demodata.js", 'a') as file:
-        file.write("{ Test: '" + testname +"', Status: '" + status +"', Message: " + message +"}, \n")
+        file.write("', Test: '" + testname +"', Status: '" + status +"', Message: " + message +"}, \n ")
 
 def end_suite(name, attrs):
     with open("demodata.js", 'a') as file:
