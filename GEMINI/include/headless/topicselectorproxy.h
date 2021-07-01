@@ -14,8 +14,10 @@ public:
 
 public slots:
     void onMessage();
+    void getTopics();
     void requestSavedTopicLists();
     void loadSaveFile(const QString &fileName);
+    void saveTopicFile();
 
 signals:
     void UpdateStatus(std::string);

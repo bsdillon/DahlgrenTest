@@ -210,6 +210,8 @@ OBJECTS       = obj/main.o \
 		obj/moc_datamanager.o \
 		obj/moc_subscriptionmanager.o
 DIST          = ../../../Downloads/ui_mainwindow.py \
+		../../../TopicSelectorClient.html \
+		../GEMINI/ui/TopicSelectorClient.txt \
 		../GEMINI/ui/experimentpanel_test.py \
 		../GEMINI/ui/test.py \
 		../../../Qt/5.15.0/gcc_64/mkspecs/features/spec_pre.prf \
@@ -7582,11 +7584,24 @@ obj/topicselectorproxy.o: ../GEMINI/src/headless/topicselectorproxy.cpp ../GEMIN
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
+		../GEMINI/include/net/drivers/FactoryInterfaceImpl.h \
+		../GEMINI/include/net/source/abstractdriver.h \
+		../GEMINI/include/net/drivers/DriverException.h \
+		../GEMINI/include/net/drivers/AbstractEnum.h \
+		../GEMINI/include/net/topics/message.h \
+		../GEMINI/include/net/source/FactoryInterface.h \
+		../GEMINI/include/net/drivers/AllFields_Driver.h \
+		../GEMINI/include/net/source/AllFields.h \
+		../GEMINI/include/net/drivers/TestFields_Driver.h \
+		../GEMINI/include/net/source/TestField.h \
+		../GEMINI/include/net/drivers/TestFields2_Driver.h \
+		../GEMINI/include/net/source/TestFields2.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QMessageBox \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qmessagebox.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/topicselectorproxy.o ../GEMINI/src/headless/topicselectorproxy.cpp
 
 obj/common.o: ../GEMINI/src/common.cpp ../GEMINI/include/common.h \

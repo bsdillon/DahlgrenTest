@@ -96,6 +96,8 @@ void HeadlessApp::onMessage(const QString &message){
             topicPanel->onMessage();
         }else if (mesJson["function:"] == "requestSavedTopicLists"){
             topicPanel->requestSavedTopicLists();
+        }else if (mesJson["function:"] == "getTopics"){
+            topicPanel->getTopics();
         }
     }else if (message.contains("loadSaveFile:")){
         QStringList fctLis = message.split(":");
@@ -104,6 +106,14 @@ void HeadlessApp::onMessage(const QString &message){
         QJsonObject mesJson;
         mesJson["loadSaveFile:"] = fct;
 
-        topicPanel->loadSaveFile(fct);
+        //topicPanel->loadSaveFile(fct);
+    }else if (message.contains("saveTopics:")){
+        QStringList fctLis = message.split(":");
+        QString fct = fctLis[1];
+
+        QJsonObject mesJson;
+        mesJson["saveTopics:"] = fct;
+
+        topicPanel->saveTopicFile();
     }
 }

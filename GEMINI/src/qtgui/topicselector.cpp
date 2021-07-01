@@ -145,6 +145,7 @@ void TopicSelector::loadTopicsFromFile()
 
 void TopicSelector::addTopics()
 {
+    QMessageBox::information(nullptr, "title", "addTopics");
     moveTopicsBySelection(ui->TopicListAll->selectionModel(), _allTopicsProxyModel, _selectedTopicsModel);
 }
 
