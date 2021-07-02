@@ -504,7 +504,8 @@ DIST          = ../../../Downloads/ui_mainwindow.py \
 		../GEMINI/include/net/topics/Subscription_I.h \
 		../GEMINI/include/net/topics/Topic_I.h \
 		../GEMINI/include/net/topics/message.h \
-		../GEMINI/include/net/topics/runner.h ../GEMINI/src/main.cpp \
+		../GEMINI/include/net/topics/runner.h \
+		../GEMINI/include/plugin.h ../GEMINI/src/main.cpp \
 		../GEMINI/src/qtgui/mainwindow.cpp \
 		../GEMINI/src/qtgui/dataloaderpanel.cpp \
 		../GEMINI/src/qtgui/experimentpanel.cpp \
@@ -1004,7 +1005,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../GEMINI/resources/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../GEMINI/include/qtgui/dataloaderpanel.h ../GEMINI/include/qtgui/experimentpanel.h ../GEMINI/include/qtgui/mainwindow.h ../GEMINI/include/qtgui/stylemanager.h ../GEMINI/include/qtgui/testwindow.h ../GEMINI/include/qtgui/testwindowproxy.h ../GEMINI/include/qtgui/toggleswitch.h ../GEMINI/include/qtgui/topiccounts.h ../GEMINI/include/qtgui/topiccountsummary.h ../GEMINI/include/qtgui/topicdetails.h ../GEMINI/include/qtgui/topicselector.h ../GEMINI/include/proxies/proxyset.h ../GEMINI/include/core/corefunction.h ../GEMINI/include/headless/headlessapp.h include/net/abstractdriver.h include/net/message.h ../GEMINI/include/proxies/AbstractProxy.h ../GEMINI/include/headless/dataloaderproxy.h ../GEMINI/include/headless/experimentproxy.h ../GEMINI/include/headless/mainproxy.h ../GEMINI/include/headless/testwindowproxy.h ../GEMINI/include/headless/topiccountproxy.h ../GEMINI/include/headless/topicdetailsproxy.h ../GEMINI/include/headless/topicselectorproxy.h ../GEMINI/include/uiinterface/i_countpanel.h ../GEMINI/include/uiinterface/i_dataloader.h ../GEMINI/include/uiinterface/i_detailpanel.h ../GEMINI/include/uiinterface/i_experiment.h ../GEMINI/include/uiinterface/i_main.h ../GEMINI/include/uiinterface/i_test.h ../GEMINI/include/uiinterface/i_topicpanel.h ../GEMINI/include/common.h ../GEMINI/include/detailsummary.h ../GEMINI/include/defaultlistener.h ../GEMINI/include/defaultstatuslistener.h ../GEMINI/include/filequeue.h ../GEMINI/include/configureenvironment.h ../GEMINI/include/readmessage.h ../GEMINI/include/messagelistener.h ../GEMINI/include/timeobject.h ../GEMINI/include/filestatus.h ../GEMINI/include/threadworker.h ../GEMINI/include/logentrywidget.h ../GEMINI/include/plamessage.h ../GEMINI/include/datamanager.h ../GEMINI/include/subscriptionmanager.h ../GEMINI/include/messagefield.h ../GEMINI/include/binaryfilehandler.h ../GEMINI/include/xmlfilehandler.h ../GEMINI/include/filemode.h include/net/Subscription_I.h include/net/Subscription_I.h include/net/Topic_I.h include/net/Topic_I.h include/net/Workspace/AbstractEnum.h include/net/Workspace/DriverException.h include/net/Workspace/DriverFactory.h include/net/Workspace/EmptyDriver.h include/net/Workspace/source/AllFields.h include/net/Workspace/source/abstractdriver.h include/net/Workspace/topics/Subscription_I.h include/net/Workspace/topics/message.h include/net/Workspace/topics/runner.h include/net/driverfactory.h ../GEMINI/include/net/drivers/AbstractEnum.h ../GEMINI/include/net/drivers/AllFields_Driver.h ../GEMINI/include/net/drivers/DriverException.h ../GEMINI/include/net/drivers/DriverFactory.h ../GEMINI/include/net/drivers/EmptyDriver.h include/net/drivers/FactoryInterface.h include/net/message.h ../GEMINI/include/net/source/AllFields.h ../GEMINI/include/net/source/AllFieldsDriver_Test.h ../GEMINI/include/net/source/abstractTest.h ../GEMINI/include/net/source/abstractdriver.h ../GEMINI/include/net/source/enum.h ../GEMINI/include/net/topics/Subscription_I.h ../GEMINI/include/net/topics/Topic_I.h ../GEMINI/include/net/topics/message.h ../GEMINI/include/net/topics/runner.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../GEMINI/include/qtgui/dataloaderpanel.h ../GEMINI/include/qtgui/experimentpanel.h ../GEMINI/include/qtgui/mainwindow.h ../GEMINI/include/qtgui/stylemanager.h ../GEMINI/include/qtgui/testwindow.h ../GEMINI/include/qtgui/testwindowproxy.h ../GEMINI/include/qtgui/toggleswitch.h ../GEMINI/include/qtgui/topiccounts.h ../GEMINI/include/qtgui/topiccountsummary.h ../GEMINI/include/qtgui/topicdetails.h ../GEMINI/include/qtgui/topicselector.h ../GEMINI/include/proxies/proxyset.h ../GEMINI/include/core/corefunction.h ../GEMINI/include/headless/headlessapp.h include/net/abstractdriver.h include/net/message.h ../GEMINI/include/proxies/AbstractProxy.h ../GEMINI/include/headless/dataloaderproxy.h ../GEMINI/include/headless/experimentproxy.h ../GEMINI/include/headless/mainproxy.h ../GEMINI/include/headless/testwindowproxy.h ../GEMINI/include/headless/topiccountproxy.h ../GEMINI/include/headless/topicdetailsproxy.h ../GEMINI/include/headless/topicselectorproxy.h ../GEMINI/include/uiinterface/i_countpanel.h ../GEMINI/include/uiinterface/i_dataloader.h ../GEMINI/include/uiinterface/i_detailpanel.h ../GEMINI/include/uiinterface/i_experiment.h ../GEMINI/include/uiinterface/i_main.h ../GEMINI/include/uiinterface/i_test.h ../GEMINI/include/uiinterface/i_topicpanel.h ../GEMINI/include/common.h ../GEMINI/include/detailsummary.h ../GEMINI/include/defaultlistener.h ../GEMINI/include/defaultstatuslistener.h ../GEMINI/include/filequeue.h ../GEMINI/include/configureenvironment.h ../GEMINI/include/readmessage.h ../GEMINI/include/messagelistener.h ../GEMINI/include/timeobject.h ../GEMINI/include/filestatus.h ../GEMINI/include/threadworker.h ../GEMINI/include/logentrywidget.h ../GEMINI/include/plamessage.h ../GEMINI/include/datamanager.h ../GEMINI/include/subscriptionmanager.h ../GEMINI/include/messagefield.h ../GEMINI/include/binaryfilehandler.h ../GEMINI/include/xmlfilehandler.h ../GEMINI/include/filemode.h include/net/Subscription_I.h include/net/Subscription_I.h include/net/Topic_I.h include/net/Topic_I.h include/net/Workspace/AbstractEnum.h include/net/Workspace/DriverException.h include/net/Workspace/DriverFactory.h include/net/Workspace/EmptyDriver.h include/net/Workspace/source/AllFields.h include/net/Workspace/source/abstractdriver.h include/net/Workspace/topics/Subscription_I.h include/net/Workspace/topics/message.h include/net/Workspace/topics/runner.h include/net/driverfactory.h ../GEMINI/include/net/drivers/AbstractEnum.h ../GEMINI/include/net/drivers/AllFields_Driver.h ../GEMINI/include/net/drivers/DriverException.h ../GEMINI/include/net/drivers/DriverFactory.h ../GEMINI/include/net/drivers/EmptyDriver.h include/net/drivers/FactoryInterface.h include/net/message.h ../GEMINI/include/net/source/AllFields.h ../GEMINI/include/net/source/AllFieldsDriver_Test.h ../GEMINI/include/net/source/abstractTest.h ../GEMINI/include/net/source/abstractdriver.h ../GEMINI/include/net/source/enum.h ../GEMINI/include/net/topics/Subscription_I.h ../GEMINI/include/net/topics/Topic_I.h ../GEMINI/include/net/topics/message.h ../GEMINI/include/net/topics/runner.h ../GEMINI/include/plugin.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../GEMINI/src/main.cpp ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/src/qtgui/dataloaderpanel.cpp ../GEMINI/src/qtgui/experimentpanel.cpp ../GEMINI/src/qtgui/stylemanager.cpp ../GEMINI/src/qtgui/toggleswitch.cpp ../GEMINI/src/qtgui/topiccounts.cpp ../GEMINI/src/qtgui/topiccountsummary.cpp ../GEMINI/src/qtgui/topicdetails.cpp ../GEMINI/src/qtgui/topicselector.cpp ../GEMINI/src/qtgui/testwindow.cpp ../GEMINI/src/core/corefunction.cpp ../GEMINI/src/proxies/proxyset.cpp ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/src/net/message.cpp ../GEMINI/src/headless/dataloaderproxy.cpp ../GEMINI/src/headless/experimentproxy.cpp ../GEMINI/src/headless/mainproxy.cpp ../GEMINI/src/headless/testwindowproxy.cpp ../GEMINI/src/headless/topiccountproxy.cpp ../GEMINI/src/headless/topicdetailsproxy.cpp ../GEMINI/src/headless/topicselectorproxy.cpp ../GEMINI/src/common.cpp ../GEMINI/src/detailsummary.cpp ../GEMINI/src/defaultlistener.cpp ../GEMINI/src/defaultstatuslistener.cpp ../GEMINI/src/filequeue.cpp ../GEMINI/src/configureenvironment.cpp ../GEMINI/src/readmessage.cpp ../GEMINI/src/timeobject.cpp ../GEMINI/src/threadworker.cpp ../GEMINI/src/logentrywidget.cpp ../GEMINI/src/datamanager.cpp ../GEMINI/src/subscriptionmanager.cpp ../GEMINI/src/messagelistener.cpp ../GEMINI/src/messagefield.cpp ../GEMINI/src/binaryfilehandler.cpp ../GEMINI/src/xmlfilehandler.cpp ../GEMINI/src/uiinterface/i_countpanel.cpp ../GEMINI/src/uiinterface/i_dataloader.cpp ../GEMINI/src/uiinterface/i_detailpanel.cpp ../GEMINI/src/uiinterface/i_experiment.cpp ../GEMINI/src/uiinterface/i_main.cpp ../GEMINI/src/uiinterface/i_test.cpp ../GEMINI/src/uiinterface/i_topicpanel.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GEMINI/ui/mainwindow.ui ../GEMINI/ui/topicselector.ui ../GEMINI/ui/experimentpanel.ui ../GEMINI/ui/topiccounts.ui ../GEMINI/ui/topiccountsummary.ui ../GEMINI/ui/detailsummary.ui ../GEMINI/ui/topicdetails.ui ../GEMINI/ui/testwindow.ui ../GEMINI/ui/logentrywidget.ui ../GEMINI/ui/dataloaderpanel.ui $(DISTDIR)/
 
@@ -5088,6 +5089,52 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../GEMINI/include/proxies/AbstractProxy.h \
 		../GEMINI/include/uiinterface/i_main.h \
 		ui_generated/ui_mainwindow.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/QIcon \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QAction \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qaction.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFrame \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QSplitter \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qsplitter.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QStatusBar \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		../GEMINI/include/qtgui/experimentpanel.h \
+		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/qtgui/topiccounts.h \
+		../GEMINI/include/uiinterface/i_countpanel.h \
+		../GEMINI/include/qtgui/topiccountsummary.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
+		../GEMINI/include/timeobject.h \
+		../GEMINI/include/qtgui/topicdetails.h \
+		../GEMINI/include/uiinterface/i_detailpanel.h \
+		../GEMINI/include/qtgui/topicselector.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QCompleter \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qcompleter.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QItemSelectionModel \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QSettings \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qsettings.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QSortFilterProxyModel \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractproxymodel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QStringListModel \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qstringlistmodel.h \
+		../GEMINI/include/uiinterface/i_topicpanel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QFuture \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfuture.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qfutureinterface.h \
@@ -5097,7 +5144,6 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QInputDialog \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qinputdialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlineedit.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextcursor.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextformat.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qpen.h \
@@ -5111,10 +5157,7 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QtCoreDepends \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractanimation.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstracteventdispatcher.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractproxymodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractstate.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstracttransition.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qanimationgroup.h \
@@ -5129,7 +5172,6 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcborvalue.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdatetime.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcborcommon.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/quuid.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcbormap.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcborstream.h \
@@ -5139,7 +5181,6 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcollator.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcommandlineoption.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcommandlineparser.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qcryptographichash.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
@@ -5157,7 +5198,6 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qhistorystate.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qidentityproxymodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qisenum.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qitemselectionmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qjsonarray.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qjsonvalue.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qjsondocument.h \
@@ -5193,18 +5233,15 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qscopeguard.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qsemaphore.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qsequentialanimationgroup.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qsettings.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qsharedmemory.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qsignalmapper.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qsignaltransition.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qsocketnotifier.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qsortfilterproxymodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qstack.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qstandardpaths.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qstate.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qstatemachine.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qstorageinfo.h \
-		../../../Qt/5.15.0/gcc_64/include/QtCore/qstringlistmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qsystemsemaphore.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qtemporarydir.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qtemporaryfile.h \
@@ -5240,7 +5277,6 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../../Qt/5.15.0/gcc_64/include/QtConcurrent/qtconcurrentversion.h \
 		../GEMINI/include/common.h \
 		../GEMINI/include/qtgui/dataloaderpanel.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
 		../GEMINI/include/uiinterface/i_dataloader.h \
 		../GEMINI/include/net/drivers/DriverFactory.h \
 		../GEMINI/include/net/drivers/AllFields_Driver.h \
@@ -5366,6 +5402,35 @@ obj/dataloaderpanel.o: ../GEMINI/src/qtgui/dataloaderpanel.cpp ../GEMINI/include
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../GEMINI/include/uiinterface/i_dataloader.h \
 		ui_generated/ui_dataloaderpanel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLineEdit \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlineedit.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextcursor.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextformat.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpen.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
@@ -5485,6 +5550,37 @@ obj/experimentpanel.o: ../GEMINI/src/qtgui/experimentpanel.cpp ../../../Qt/5.15.
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
 		../GEMINI/include/uiinterface/i_experiment.h \
 		ui_generated/ui_experimentpanel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFormLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qformlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLineEdit \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlineedit.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextcursor.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextformat.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpen.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		../GEMINI/include/common.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QMessageBox \
@@ -5844,7 +5940,30 @@ obj/topiccounts.o: ../GEMINI/src/qtgui/topiccounts.cpp ../GEMINI/include/qtgui/t
 		../GEMINI/include/qtgui/topiccountsummary.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
 		../GEMINI/include/timeobject.h \
-		ui_generated/ui_topiccounts.h
+		ui_generated/ui_topiccounts.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFrame \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QScrollArea \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qscrollarea.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/topiccounts.o ../GEMINI/src/qtgui/topiccounts.cpp
 
 obj/topiccountsummary.o: ../GEMINI/src/qtgui/topiccountsummary.cpp ../GEMINI/include/qtgui/topiccountsummary.h \
@@ -5955,6 +6074,23 @@ obj/topiccountsummary.o: ../GEMINI/src/qtgui/topiccountsummary.cpp ../GEMINI/inc
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qcursor.h \
 		../GEMINI/include/timeobject.h \
 		ui_generated/ui_topiccountsummary.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/QColor \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/QFontMetrics \
@@ -6087,6 +6223,28 @@ obj/topicdetails.o: ../GEMINI/src/qtgui/topicdetails.cpp ../GEMINI/include/qtgui
 		../GEMINI/include/net/topics/message.h \
 		../GEMINI/include/messagefield.h \
 		ui_generated/ui_topicdetails.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFrame \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QScrollArea \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qscrollarea.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/QColor \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLayoutItem \
@@ -6095,8 +6253,6 @@ obj/topicdetails.o: ../GEMINI/src/qtgui/topicdetails.cpp ../GEMINI/include/qtgui
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtreewidget.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtreeview.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemview.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qitemselectionmodel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -6104,7 +6260,6 @@ obj/topicdetails.o: ../GEMINI/src/qtgui/topicdetails.cpp ../GEMINI/include/qtgui
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
-		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
@@ -6235,6 +6390,49 @@ obj/topicselector.o: ../GEMINI/src/qtgui/topicselector.cpp ../GEMINI/include/qtg
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../GEMINI/include/uiinterface/i_topicpanel.h \
 		ui_generated/ui_topicselector.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLineEdit \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlineedit.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextcursor.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextformat.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpen.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QListView \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlistview.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout \
 		../GEMINI/include/headless/topicselectorproxy.h \
 		../GEMINI/include/proxies/AbstractProxy.h \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
@@ -6382,17 +6580,44 @@ obj/testwindow.o: ../GEMINI/src/qtgui/testwindow.cpp ../GEMINI/include/qtgui/tes
 		../GEMINI/include/net/drivers/DriverException.h \
 		../GEMINI/include/net/drivers/AbstractEnum.h \
 		ui_generated/ui_testwindow.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/QIcon \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFormLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qformlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFrame \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLineEdit \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlineedit.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextcursor.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextformat.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qpen.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qtextoption.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QScrollArea \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qscrollarea.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGraphicsDropShadowEffect \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgraphicseffect.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QToolButton \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtoolbutton.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
 		../GEMINI/include/common.h \
-		../GEMINI/include/qtgui/stylemanager.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
-		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget
+		../GEMINI/include/qtgui/stylemanager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/testwindow.o ../GEMINI/src/qtgui/testwindow.cpp
 
 obj/corefunction.o: ../GEMINI/src/core/corefunction.cpp ../GEMINI/include/core/corefunction.h \
@@ -7763,11 +7988,36 @@ obj/detailsummary.o: ../GEMINI/src/detailsummary.cpp ../GEMINI/include/detailsum
 		../GEMINI/include/plamessage.h \
 		../GEMINI/include/messagefield.h \
 		ui_generated/ui_detailsummary.h \
-		../GEMINI/include/readmessage.h \
-		../GEMINI/include/qtgui/stylemanager.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFrame \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHeaderView \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qheaderview.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QScrollArea \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qscrollarea.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QToolButton \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qtoolbutton.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout \
+		../GEMINI/include/readmessage.h \
+		../GEMINI/include/qtgui/stylemanager.h \
 		../GEMINI/include/timeobject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/detailsummary.o ../GEMINI/src/detailsummary.cpp
 
@@ -8435,6 +8685,25 @@ obj/logentrywidget.o: ../GEMINI/src/logentrywidget.cpp ../GEMINI/include/logentr
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		ui_generated/ui_logentrywidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QFrame \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QHBoxLayout \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.15.0/gcc_64/include/QtWidgets/QSpacerItem \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/QDateTime \
 		../../../Qt/5.15.0/gcc_64/include/QtCore/qdatetime.h \
 		../GEMINI/include/qtgui/stylemanager.h \

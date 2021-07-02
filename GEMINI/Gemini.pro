@@ -141,7 +141,8 @@ HEADERS += \
     include/net/topics/Subscription_I.h \
     include/net/topics/Topic_I.h \
     include/net/topics/message.h \
-    include/net/topics/runner.h
+    include/net/topics/runner.h \
+    include/plugin.h
     #$${H_DIR}/external/rticonnection.h \
     #$${H_DIR}/external/rtitester.h \
 

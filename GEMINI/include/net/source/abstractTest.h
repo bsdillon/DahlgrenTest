@@ -3,7 +3,7 @@
 
 #include "AllFields.h"
 #include <cassert>
-#include <iostream>
+#include <stdio.h>
 #include <string>
 #include "abstractdriver.h"
 // #include "AllFields_Driver"
@@ -27,7 +27,7 @@ public:
     }
     assert(boolThrown);
 
-    std::cout << "Done Testing! AbstractDriver is all good!\n";
+    printf("Done Testing! AbstractDriver is all good!\n");
   }
 
 };
