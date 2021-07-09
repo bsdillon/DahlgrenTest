@@ -12,6 +12,7 @@
 #include <QtWebSockets/QtWebSockets>
 #include <iostream>
 #include <QMessageBox>
+#include <QDebug>
 
 HeadlessApp::HeadlessApp(uint16_t port, bool debug, QObject *parent):
     QObject(parent),
@@ -96,6 +97,9 @@ void HeadlessApp::onMessage(const QString &message){
             topicPanel->onMessage();
         }else if (mesJson["function:"] == "requestSavedTopicLists"){
             topicPanel->requestSavedTopicLists();
+        }else if (mesJson["function:"] == "getTopics"){
+            //QMessageBox::information(nullptr, "title", "onMessage() calling getTopics()");
+            topicPanel->displayTopics();
         }
     }else if (message.contains("loadSaveFile:")){
         QStringList fctLis = message.split(":");
@@ -105,5 +109,16 @@ void HeadlessApp::onMessage(const QString &message){
         mesJson["loadSaveFile:"] = fct;
 
         topicPanel->loadSaveFile(fct);
+    }else if (message.contains("saveTopics:")){
+        QStringList fctLis = message.split(":");
+        QString fct = fctLis[1];
+        for(qint16 i = 2; i < fctLis.length(); i++){
+            fct += ":" + fctLis[i];
+        }
+
+        QJsonObject mesJson;
+        mesJson["saveTopics:"] = fct;
+
+        topicPanel->saveTopicFile(fct);
     }
 }

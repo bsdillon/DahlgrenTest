@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include "uiinterface/i_topicpanel.h"
+#include "topicselectorlogic.h"
 
 class AbstractDriver;
 
@@ -28,6 +29,7 @@ public:
     I_TopicPanel* topicPanelProxy;
     void loadTopicsFromFile();
     void selectListOfTopics(const QStringList &topics);
+    void writeSettings(QSettings *settings);
 
 signals:
     void UpdateStatus(std::string);
@@ -50,10 +52,10 @@ private:
     QSortFilterProxyModel* _allTopicsProxyModel;
     QStringListModel* _selectedTopicsModel;
     QSortFilterProxyModel* _selectedTopicsProxyModel;
+    TopicSelectorLogic* topicLogic;
 
     void moveTopicByIndex(QModelIndex index, QAbstractItemModel *from, QAbstractItemModel *to);
     void moveTopicsBySelection(QItemSelectionModel *selection, QAbstractItemModel *from, QAbstractItemModel *to);
-    void writeSettings(QSettings *settings);
     //void readSettings();
 
     //I_TopicPanel* topicPanelProxy;

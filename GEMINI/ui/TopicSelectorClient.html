@@ -39,16 +39,99 @@
         text-decoration: none;
         cursor: pointer;
       }
+
+      .status-panel {
+        box-sizing: border-box;
+        border: 5px solid black;
+        width: 200px;
+        height: 50px;
+        top: 10%;
+        left: 4%;
+        position: absolute;
+      }
+
+      .websocket-status {
+        top: 6%;
+        left: 20%;
+      }
+
+      .websocket-state {
+        top: 12%;
+        left: 3%;
+      }
+
+      .display-panel {
+        box-sizing: border-box;
+        border: 1px solid black;
+        width: 300px;
+        height: 150px;
+        top: 17%;
+        position: absolute;
+      }
+
+      .ls-panel {
+        box-sizing: border-box;
+        border: 1px solid black;
+        width: 300px;
+        height: 150px;
+        top: 17%;
+        left: 23%;
+        position: absolute;
+      }
+
+      .button-space {
+        width: 50px;
+        height: 150px;
+        top: 18%;
+        left: 20%;
+        position: absolute;
+      }
+
+      .save-button {
+        top: 14%;
+        left: 23%;
+        position: absolute;
+      }
+
+      .load-button {
+        top: 14%;
+        left: 31%;
+        position: absolute;
+      }
+
+      .save-modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+      }
     </style>
   </head>
   <body>
     <h1>Topic Selector Panel Client</h1>
     <p>
+      Websocket Server:
       <button onClick="startSocket();">Connect</button>
       <button onClick="stopSocket();">Disconnect</button>
       <button onClick="checkSocket();">Check</button>
-      <button onClick="testMessage();">Test</button>
-      <button onClick="topicsTestMessage();">Test2</button>
+    </p>
+
+    <p>Status:</p>
+
+    <div id="status-panel" class="status-panel" style="display: table-cell; vertical-align: middle;">
+      <p id="websocketStatus" class="websocket-status"></p>
+    </div>
+
+    <p>
+      <button class="save-button" onClick="saveTopicFile();" id="saveButton">Save Topic List</button>
+      <button class="load-button" onClick="topicsTestMessage();" id="loadButton">Load Topic List</button>
     </p>
 
     <div id="topicSelectorModal" class="modal">
@@ -60,11 +143,50 @@
       </div>
     </div>
 
+    <div id="saveFileModal" class="save-modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Enter a name for your save file:</p>
+        <label for="saveFileName">File Name: </label>
+        <input type="input" name="saveFileName" id="saveFileName" value="saveFileName">
+      </div>
+    </div>
+
+    <div id="panel1" class="display-panel">
+      <p id="panel1-p">
+        <!--<label for="tmp">tmp</label>
+        <input type="checkbox" name="topicp1" id="tmp" value="tmp"><br>
+        <label for="tmp2">tmp2</label>
+        <input type="checkbox" name="topicp1" id="tmp2" value="tmp2"><br>-->
+      </p>
+    </div>
+
+    <div id="buttonSpace" class="button-space">
+      <p>
+        <center>
+          <button id="select-topic" onClick="selectTopic();">></button>
+          <br><br><br>
+          <button id="deselect-topic" onClick="deselectTopic();"><</button>
+        </center>
+      </p>
+    </div>
+
+    <div id="panel2" class="ls-panel">
+      <p id="panel2-p">
+      </p>
+    </div>
+
     <script type="text/javascript">
 
-    //Variables and functions having to do with the Websocket
+    //Fields
       var wsUri = "ws://localhost:1337";
       var websocket = null;
+      var modal = document.getElementById("topicSelectorModal");
+      var saveModal = document.getElementById("saveFileModal");
+      var span = document.getElementsByClassName("close")[0];
+      var displayPanel = document.getElementById("panel1-p");
+      var lsPanel = document.getElementById("panel2-p");
+      var topicNames;
 
       function startSocket(){
         try{
@@ -76,14 +198,19 @@
 
           websocket.onopen = function(evt){
             console.log("Connected");
+            getTopics();
+            document.getElementById("websocketStatus").innerHTML = "Connected";
           }
 
           websocket.onclose = function(evt){
             console.log("Disconnected");
+            document.getElementById("websocketStatus").innerHTML = "Disconnected";
+            modal.style.display = "none";
           }
 
           websocket.onerror = function(evt){
             console.log('Error: ' + evt.data);
+            document.getElementById("websocketStatus").innerHTML = "Error: " + evt.data;
           }
 
           websocket.onmessage = function(event){
@@ -96,12 +223,12 @@
 
             if(event.data.startsWith("filenames:")){
               fileNames = message.split(":");
-              displayMes = '<lable for="' + fileNames[1] + '">' + fileNames[1] + '</lable>' + "\n" + '<input type="radio" name="file" id="' + fileNames[1] + '" value="' + fileNames[1] + '"><br>' + "\n";
+              displayMes = '<label for="' + fileNames[1] + '">' + fileNames[1] + '</label>' + "\n" + '<input type="radio" name="file" id="' + fileNames[1] + '" value="' + fileNames[1] + '"><br>' + "\n";
 
               if(fileNames.length > 2){
                 for(i = 2; i < fileNames.length; i++){
                   if(!(fileNames[i] === "")){
-                    displayMes += '<lable for="' + fileNames[i] + '">' + fileNames[i] + '</lable>' + "\n";
+                    displayMes += '<label for="' + fileNames[i] + '">' + fileNames[i] + '</label>' + "\n";
                     displayMes += '<input type="radio" name="file" id="' + fileNames[i] + '" value="' + fileNames[i] + '"><br>' + "\n";
                   }
                 }
@@ -109,6 +236,24 @@
               console.log(displayMes);
             }else if(event.data == "empty!"){
               displayMes = "Directory is empty!";
+            }else if(event.data.startsWith("topicnames")){
+
+              topicNames = event.data.split(":");
+              console.log(topicNames);
+              var topicsMes = "";
+
+              if (topicNames.length > 1){
+                for(var i = 1; i < topicNames.length; i++){
+                  topicsMes = topicsMes +  '<label for="' + topicNames[i] + '">' + topicNames[i] + '</label>' + "\n";
+                  topicsMes = topicsMes + '<input type="checkbox" name="topicp1" id="' + topicNames[i] + '" value="' + topicNames[i] + '"><br>' + "\n";
+                }
+                console.log(topicsMes);
+                document.getElementById("panel1-p").innerHTML = topicsMes;
+              }
+            }else if(event.data.startsWith("topicstomove")){
+              //console.log(event.data);
+              var topicsToMove = event.data;
+              moveLoadedTopics(topicsToMove);
             }
             document.getElementById("modalText").innerHTML = displayMes;
           }
@@ -150,30 +295,39 @@
           }
 
           console.log("WebSocket state = " + websocket.readyState + "("+ stateStr +")");
+          document.getElementById("websocketStatus").innerHTML = "WebSocket state = " + websocket.readyState + "("+ stateStr +")";
         } else {
             console.log("Websocket state = Null");
+            document.getElementById("websocketStatus").innerHTML = "Websocket state = Null";
           }
       }
 
-      //Variables and functions having to do with the modal popup
-      var modal = document.getElementById("topicSelectorModal");
-      var span = document.getElementsByClassName("close")[0];
-
+      //Functions having to do with the modal popup
       function openModal(){
         modal.style.display = "block";
       }
 
+      function openSaveModal(){
+        saveModal.style.display = "block";
+      }
+
       span.onclick = function(){
         modal.style.display = "none";
+        saveModal.style.display = "none";
       }
 
       window.onclick = function(event){
         if (event.target == modal){
           modal.style.display = "none";
+          saveModal.style.display = "none";
         }
       }
 
       //Functions connected to the buttons
+      function getTopics(){
+        websocket.send("Function:getTopics");
+      }
+
       function testMessage(){
         websocket.send("Function:loadTopicsFromFile");
       }
@@ -195,6 +349,123 @@
         }
         websocket.send("loadSaveFile:" + selectedValue);
         console.log(selectedValue);
+        modal.style.display = "none";
+      }
+
+      function moveLoadedTopics(topicsToMove){
+        var moveFromMes = "";
+        var moveToMes = "";
+
+        var movingTopics = topicsToMove.split(":");
+        for(var i = 1; i < topicNames.length; i++){
+          if (movingTopics.includes(topicNames[i])){
+            moveToMes = moveToMes + '<label for="' + topicNames[i] + '">' + topicNames[i] + '</label>' + "\n";
+            moveToMes = moveToMes + '<input type="checkbox" name="topicp2" id="' + topicNames[i] + '" value="' + topicNames[i] + '"><br>' + "\n";
+          }else {
+            moveFromMes = moveFromMes + '<label for="' + topicNames[i] + '">' + topicNames[i] + '</label>' + "\n";
+            moveFromMes = moveFromMes + '<input type="checkbox" name="topicp1" id="' + topicNames[i] + '" value="' + topicNames[i] + '"><br>' + "\n";
+          }
+        }
+        console.log("moveToMes: " + moveToMes);
+        console.log("moveFromMes: " + moveFromMes);
+
+        document.getElementById("panel1-p").innerHTML = moveFromMes;
+        document.getElementById("panel2-p").innerHTML = moveToMes;
+      }
+
+      function selectTopic(){
+        var moveFromMes = "";
+        var moveToMes = document.getElementById("panel2-p").innerHTML;
+
+        if(displayPanel == "" || displayPanel == null){
+          console.log("Display panel is empty!");
+        }else {
+          const rbs = document.querySelectorAll('input[name="topicp1"]');
+          const selectedValue = new Array();
+          const unselectedValue = new Array();
+
+          for(const rb of rbs){
+            if(rb.checked){
+              selectedValue.push(rb.value);
+            }else {
+              unselectedValue.push(rb.value);
+            }
+          }
+          console.log("selected value(s): " + selectedValue);
+          console.log("unselected value(s): " + unselectedValue);
+
+          if(selectedValue.length > 0){
+            for(var i = 0; i < selectedValue.length; i++){
+              moveToMes = moveToMes + '<label for="' + selectedValue[i] + '">' + selectedValue[i] + '</label>' + "\n";
+              moveToMes = moveToMes + '<input type="checkbox" name="topicp2" id="' + selectedValue[i] + '" value="' + selectedValue[i] + '"><br>' + "\n";
+            }
+          }else {
+            console.log("selectTopic() selected if failed");
+          }
+
+          //console.log(moveToMes);
+          document.getElementById("panel2-p").innerHTML = moveToMes;
+
+          if(unselectedValue.length > 0){
+            for(var i = 0; i < unselectedValue.length; i++){
+              moveFromMes = moveFromMes + '<label for="' + unselectedValue[i] + '">' + unselectedValue[i] + '</label>' + "\n";
+              moveFromMes = moveFromMes + '<input type="checkbox" name="topicp1" id="' + unselectedValue[i] + '" value="' + unselectedValue[i] + '"><br>' + "\n";
+            }
+          }else {
+            console.log("selectTopic() unselected if failed");
+          }
+
+          //console.log(moveFromMes);
+          document.getElementById("panel1-p").innerHTML = moveFromMes;
+        }
+      }
+
+      function deselectTopic(){
+        var moveFromMes = "";
+        var moveToMes = document.getElementById("panel1-p").innerHTML;
+
+        if(lsPanel == "" || lsPanel == null){
+          console.log("Load/Save panel is empty!");
+        }else {
+          const rbs = document.querySelectorAll('input[name="topicp2"]');
+          const selectedValue = new Array();
+          const unselectedValue = new Array();
+
+          for(const rb of rbs){
+            if(rb.checked){
+              selectedValue.push(rb.value);
+            }else {
+              unselectedValue.push(rb.value);
+            }
+          }
+          //console.log("selected value(s): " + selectedValue);
+          //console.log("unselected value(s): " + unselectedValue);
+
+          if(selectedValue.length > 0){
+            for(var i = 0; i < selectedValue.length; i++){
+              moveToMes = moveToMes + '<label for="' + selectedValue[i] + '">' + selectedValue[i] + '</label>' + "\n";
+              moveToMes = moveToMes + '<input type="checkbox" name="topicp1" id="' + selectedValue[i] + '" value="' + selectedValue[i] + '"><br>' + "\n";
+            }
+          }else {
+            console.log("unselectTopic() selected if failed");
+          }
+          document.getElementById("panel1-p").innerHTML = moveToMes;
+
+          if(unselectedValue.length > 0){
+            for(var i = 0; i < unselectedValue.length; i++){
+              moveFromMes = moveFromMes + '<label for="' + unselectedValue[i] + '">' + unselectedValue[i] + '</label>' + "\n";
+              moveFromMes = moveFromMes + '<input type="checkbox" name="topicp2" id="' + unselectedValue[i] + '" value="' + unselectedValue[i] + '"><br>' + "\n";
+            }
+          }else {
+            console.log("unselectTopic() unselected if failed");
+          }
+          document.getElementById("panel2-p").innerHTML = moveFromMes;
+        }
+      }
+
+      function saveTopicFile(){
+        openSaveModal();
+        websocket.send("saveTopics:topics");
       }
     </script>
   </body>

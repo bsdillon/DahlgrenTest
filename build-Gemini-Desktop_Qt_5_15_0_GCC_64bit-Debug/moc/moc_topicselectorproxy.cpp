@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_TopicSelectorProxy_t {
-    QByteArrayData data[14];
-    char stringdata0[198];
+    QByteArrayData data[17];
+    char stringdata0[238];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,17 +43,21 @@ QT_MOC_LITERAL(7, 107, 7), // "message"
 QT_MOC_LITERAL(8, 115, 15), // "selectTopicList"
 QT_MOC_LITERAL(9, 131, 11), // "savedTopics"
 QT_MOC_LITERAL(10, 143, 9), // "onMessage"
-QT_MOC_LITERAL(11, 153, 22), // "requestSavedTopicLists"
-QT_MOC_LITERAL(12, 176, 12), // "loadSaveFile"
-QT_MOC_LITERAL(13, 189, 8) // "fileName"
+QT_MOC_LITERAL(11, 153, 13), // "displayTopics"
+QT_MOC_LITERAL(12, 167, 22), // "requestSavedTopicLists"
+QT_MOC_LITERAL(13, 190, 12), // "loadSaveFile"
+QT_MOC_LITERAL(14, 203, 8), // "fileName"
+QT_MOC_LITERAL(15, 212, 13), // "saveTopicFile"
+QT_MOC_LITERAL(16, 226, 11) // "information"
 
     },
     "TopicSelectorProxy\0UpdateStatus\0\0"
     "std::string\0TopicSelectionChanged\0"
     "std::vector<std::string>\0sendingMessage\0"
     "message\0selectTopicList\0savedTopics\0"
-    "onMessage\0requestSavedTopicLists\0"
-    "loadSaveFile\0fileName"
+    "onMessage\0displayTopics\0requestSavedTopicLists\0"
+    "loadSaveFile\0fileName\0saveTopicFile\0"
+    "information"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,7 +67,7 @@ static const uint qt_meta_data_TopicSelectorProxy[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,15 +75,17 @@ static const uint qt_meta_data_TopicSelectorProxy[] = {
        4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   49,    2, 0x06 /* Public */,
-       4,    1,   52,    2, 0x06 /* Public */,
-       6,    1,   55,    2, 0x06 /* Public */,
-       8,    1,   58,    2, 0x06 /* Public */,
+       1,    1,   59,    2, 0x06 /* Public */,
+       4,    1,   62,    2, 0x06 /* Public */,
+       6,    1,   65,    2, 0x06 /* Public */,
+       8,    1,   68,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      10,    0,   61,    2, 0x0a /* Public */,
-      11,    0,   62,    2, 0x0a /* Public */,
-      12,    1,   63,    2, 0x0a /* Public */,
+      10,    0,   71,    2, 0x0a /* Public */,
+      11,    0,   72,    2, 0x0a /* Public */,
+      12,    0,   73,    2, 0x0a /* Public */,
+      13,    1,   74,    2, 0x0a /* Public */,
+      15,    1,   77,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    2,
@@ -90,7 +96,9 @@ static const uint qt_meta_data_TopicSelectorProxy[] = {
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   13,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   14,
+    QMetaType::Void, QMetaType::QString,   16,
 
        0        // eod
 };
@@ -106,8 +114,10 @@ void TopicSelectorProxy::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         case 2: _t->sendingMessage((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 3: _t->selectTopicList((*reinterpret_cast< const QStringList(*)>(_a[1]))); break;
         case 4: _t->onMessage(); break;
-        case 5: _t->requestSavedTopicLists(); break;
-        case 6: _t->loadSaveFile((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 5: _t->displayTopics(); break;
+        case 6: _t->requestSavedTopicLists(); break;
+        case 7: _t->loadSaveFile((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 8: _t->saveTopicFile((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -172,13 +182,13 @@ int TopicSelectorProxy::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 9;
     }
     return _id;
 }
