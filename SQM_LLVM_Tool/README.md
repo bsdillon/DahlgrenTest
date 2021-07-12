@@ -158,7 +158,7 @@ Read the documentation at <https://llvm.org/docs/WritingAnLLVMNewPMPass.html> fo
 	```
 	If you're having trouble, copy, paste, and modify the CMakeLists.txt file located in C:\Users\Maxwell\Documents\llvmInstall\llvm-12.0.0.src\lib\Transforms\HelloNew
 5. Go to C:\Users\Maxwell\Documents\llvmInstall\llvm-12.0.0.src\lib\Passes
-6. Add `ZPassTestModule` to the LINK_COMPONENTS section of the CMakeLists.txt located here
+6. Add `ZPassTestModule` to the `LINK_COMPONENTS` section of the CMakeLists.txt located here
 7. Open PassBuilder.cpp in this directory and add `#include "llvm/Transforms/ZPassTestModule/ZPassTestModule.h"` to the bottom of the `#include` section
 8. Open PassRegistry.def in this directory and add `MODULE_PASS("zpasstestmodule", ZPassTestModulePass())` into the section between `#ifndef MODULE_PASS` and `#undef MODULE_PASS`
 9. Go to C:\Users\Maxwell\Documents\llvmInstall\llvm-12.0.0.src\include\llvm\Transforms
