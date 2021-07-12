@@ -350,34 +350,42 @@ nodeSQM branchScopeSpecifier(Instruction *IB) {
       if (BranchInst *predExit = dyn_cast<BranchInst>(&parentPred->back())) {
         DILocation *parentLoc = predExit->getDebugLoc();
         if (predExit->isConditional()) {
-          Instruction *ThenInst = &predExit->getSuccessor(0)->front();
+          BasicBlock *BBThen = predExit->getSuccessor(0);
+          Instruction *ThenInst = &BBThen->front();
           DILocation *ThenLoc = ThenInst->getDebugLoc();
           while (ThenLoc == NULL) {
             ThenInst = ThenInst->getNextNonDebugInstruction();
             ThenLoc = ThenInst->getDebugLoc();
           }
-
-          //while (BBElse->size() == 1) {
-          //  if (BranchInst *skippableBI =
-          //          dyn_cast<BranchInst>(&BBElse->front())) {
-          //    if (skippableBI->isUnconditional()) {
-          //      BBElse = skippableBI->getSuccessor(0);
-          //    } else {
-          //      break;
-          //    }
-          //  } else {
-          //    break;
-          //  }
-          //}
-
-          Instruction *ElseInst =
-              predExit->getSuccessor(1)->back().getPrevNonDebugInstruction();
+          BasicBlock *BBElse = predExit->getSuccessor(1);
+          // TODO: can it be said that a size() == 1 successor means no ElseScope is possible? and thus things can be skipped?
+          while (BBElse->size() == 1) {
+            if (BranchInst *skippableBI =
+                    dyn_cast<BranchInst>(&BBElse->front())) {
+              if (skippableBI->isUnconditional()) {
+                BBElse = skippableBI->getSuccessor(0);
+              } else {
+                break;
+              }
+            } else {
+              break;
+            }
+          }
+          Instruction *ElseInst;
+          if (BBElse->size() == 1) {
+              // for situations involving return statements
+            ElseInst = &BBElse->back();
+          } else {
+            ElseInst = BBElse->back().getPrevNonDebugInstruction();
+          }
           DILocation *ElseLoc = ElseInst->getDebugLoc();
           while (ElseLoc == NULL) {
             ElseInst = ElseInst->getPrevNonDebugInstruction();
             ElseLoc = ElseInst->getDebugLoc();
           }
           for (int i = 0; i <= 1; i++) {
+            // shouldn't need to deal with BBElse stuff?
+            // since this process is dependent on the parent block's stuff
             if (predExit->getSuccessor(i) == parentBlock) {
               DILocation *branchedLoc = i ? ElseLoc : ThenLoc;
               if (parentLoc->getScope() ==
