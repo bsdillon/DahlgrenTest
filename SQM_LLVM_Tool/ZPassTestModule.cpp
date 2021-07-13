@@ -731,10 +731,10 @@ nodeSQM classFieldNodeGEP(GetElementPtrInst *GEP) {
       DIType *targetType = uses->getVariable()->getType();
       //targetType->dump();
       while (DIDerivedType *DT = dyn_cast<DIDerivedType>(targetType)) {
-        if (DT->getTag() == 15 && isa<DIBasicType>(DT->getBaseType())) {
-            // a pointer to a basic type, such as *char
+        if (DT->getBaseType() == NULL) {
           break;
-        } else if (DT->getBaseType() == NULL) {
+        } else if (DT->getTag() == 15 && isa<DIBasicType>(DT->getBaseType())) {
+          // a pointer to a basic type, such as *char
           break;
         } else {
           targetType = DT->getBaseType();
@@ -955,7 +955,7 @@ storeInstFieldNodeGenerator(StoreInst *SI) {
               // TODO: resolve this
               // not clear how to handle this - returning a nullptr directly
               // isn't clear to me
-              errs() << "\a\n";
+              errs() << "NULL POINTER\a\n";
             }
           }
         }
@@ -1069,8 +1069,10 @@ storeInstFieldNodeGenerator(StoreInst *SI) {
   return {writeVec, uniqueFieldNode};
 }
 
+//TODO: figure out that last one and then DELETE THIS if possible
 void returnValueLoadNodeGenerator(LoadInst *LI, int currentMethodNodeID,
                                   int currentMethodScopeNodeID) {
+  errs() << "RETVALLOADNODE\a\n";
   Value *pointerOp = LI->getPointerOperand();
   //pointerOp->dump();
   // TODO: GEP ReturnValue stuff must go here!
@@ -1125,7 +1127,7 @@ void returnValueLoadNodeGenerator(LoadInst *LI, int currentMethodNodeID,
   }
 }
 
-// TODO: maybe move the ReturnValue stuff so this can be used elsewhere
+// TODO: DELETE THIS
 void returnBinaryOperatorRecurseNodeGenerator(BinaryOperator *OBO,
                                         int currentMethodNodeID,
                                         int currentMethodScopeNodeID) {
@@ -2115,6 +2117,12 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                   nodeSQM controlledScope;
                   BasicBlock *scopeSearchBlock =
                       loopOwner->getParent()->getSinglePredecessor();
+                  if (scopeSearchBlock == NULL) {
+                    for (BasicBlock *pred :
+                         predecessors(loopOwner->getParent())) {
+                      // TODO: loop instructions of the blocks, find some instruction WITH a nonnull debugloc, and make the block that finds it the scopeSearchBlock
+                    }
+                  }
                   if (isForEach) {
                     // TODO: NEED TO CONNECT initializery thing TO THE LOOP NODE
                     DILocalScope *targetScope = Loc->getScope();
@@ -2433,8 +2441,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
             }
             if (callBaseIntrinsicCheck) {
               if (DILocation *Loc = IB->getDebugLoc()) {
-                if (DILexicalBlock *LB =
-                        dyn_cast<DILexicalBlock>(Loc->getScope())) {
+                if (isa<DILexicalBlock>(Loc->getScope())) {
                   scopeNode = branchScopeSpecifier(&*IB);
                 }
               }
@@ -2458,19 +2465,54 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
             // the dyn_cast breaks on voids so change to _or_null
             if (BinaryOperator *BO =
                     dyn_cast_or_null<BinaryOperator>(retValue)) {
-                
-                // the pointers here could point to another BO
-                // this must be a recursive Func
-                // could point to a LOAD
-                // will need to make a Func for that
-                // could point to a LITERAL?
-                // docs state operands must be same type, so use other operand to find type...?
-              returnBinaryOperatorRecurseNodeGenerator(
-                  BO, currentMethodNode.numericID, scopeNode.numericID);
+              //returnBinaryOperatorRecurseNodeGenerator(BO, currentMethodNode.numericID, scopeNode.numericID);
+
+              std::vector<nodeSQM> retVec = binaryOperatorRecurseNodeGenerator(BO);
+              for (nodeSQM uniqueFieldNode : retVec) {
+                addUniqueNewEdge(currentMethodNode.numericID,
+                                 uniqueFieldNode.numericID, scopeNode.numericID,
+                                 "ReturnValue");
+              }
+
             } else if (LoadInst *LI = dyn_cast_or_null<LoadInst>(retValue)) {
               // return statements that point to a loaded value
-              returnValueLoadNodeGenerator(LI, currentMethodNode.numericID,
-                                           scopeNode.numericID);
+              //returnValueLoadNodeGenerator(LI, currentMethodNode.numericID, scopeNode.numericID);
+              nodeSQM uniqueFieldNode =
+                  fieldParameterFinder(LI->getPointerOperand());
+              if (!uniqueFieldNode.isEmpty()) {
+                addUniqueNewEdge(currentMethodNode.numericID,
+                                 uniqueFieldNode.numericID, scopeNode.numericID,
+                                 "ReturnValue");
+              } else {
+                for (User *U : LI->getPointerOperand()->users()) {
+                  if (Instruction *UI = dyn_cast<Instruction>(U)) {
+                    if (DILocation *UILoc = UI->getDebugLoc()) {
+                      if (StoreInst *USI = dyn_cast<StoreInst>(UI)) {
+                        auto [writtenVec, imaginaryField] =
+                            storeInstFieldNodeGenerator(USI);
+                        if (isa<DILexicalBlock>(UILoc->getScope())) {
+                          scopeNode = branchScopeSpecifier(USI);
+                        }
+                        for (nodeSQM uniqueFieldNode : writtenVec) {
+                          if (!uniqueFieldNode.isEmpty()) {
+                            addUniqueNewEdge(currentMethodNode.numericID,
+                                             uniqueFieldNode.numericID,
+                                             scopeNode.numericID,
+                                             "ReturnValue");
+                          }
+                        }
+                      } else {
+                        if (UI != LI) {
+                          // can UI be anything but this instruction and a storeInst?
+                          errs() << "FUNKY RET\a\n";
+                          UI->dump();
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              
             } else if (PHINode *PN = dyn_cast_or_null<PHINode>(retValue)) {
                 // DANGER: copied from storeInst-function
                 // TODO: maybe func this?
@@ -2484,7 +2526,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                     } else if (incoming == NULL) {
                       // not clear how to handle this - returning a nullptr directly isn't clear to me
                       // TODO: resolve this
-                      errs() << "\a\n";
+                      errs() << "NULL POINTER\a\n";
                     }
                     
                   }
@@ -2493,6 +2535,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                   incoming = CI->getOperand(0);
                 }
                 if (LoadInst *LI = dyn_cast<LoadInst>(incoming)) {
+                    // TODO: DELETE THIS - who's using this and when?
                   returnValueLoadNodeGenerator(LI, currentMethodNode.numericID,
                                                scopeNode.numericID);
                 } else if (CallBase *CB = dyn_cast<CallBase>(incoming)) {
@@ -2574,7 +2617,8 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
 
                 if (calledFunction->isVarArg() &&
                     calledFunction->arg_size() < CB->arg_size()) {
-                  errs() << calledFunction->arg_size() << "\a\n";
+                  errs() << "VAR ARGS\a\n";
+                  errs() << calledFunction->arg_size() << "\n";
                   errs() << CB->arg_size() << "\n";
 
                   for (int i = calledFunction->arg_size(); i < CB->arg_size();
@@ -2788,17 +2832,24 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                           if (LoadInst *LI = dyn_cast<LoadInst>(actualParam)) {
                             actualParameterNode =
                                 fieldParameterFinder(LI->getPointerOperand());
-                          } else if (CallBase *CB =
+                          } else if (CallBase *ICB =
                                          dyn_cast<CallBase>(actualParam)) {
-                            if (!CB->isIndirectCall()) {
-                              actualParameterNode = subprogramNodeGenerator(
-                                  CB->getCalledFunction()->getSubprogram());
+                            if (!ICB->isIndirectCall()) {
+                              DISubprogram *ICBS =
+                                  ICB->getCalledFunction()->getSubprogram();
+                              if (ICBS) {
+                                actualParameterNode =
+                                    subprogramNodeGenerator(ICBS);
+                              } else {
+                                actualParameterNode = undefinedFunctionNodes(ICB->getCalledFunction())[0];
+                              }
                             } else {
                               // TODO: missing stuff here
                               // this is where that polygon area stuff
                               // happens... it may not be possible to pull names
                               // from indirect calls like this
-                              CB->getCalledOperand()->dump();
+                              errs() << "Indirect Call\a\n";
+                              ICB->getCalledOperand()->dump();
                             }
                           } else if (BinaryOperator *BO =
                                          dyn_cast<BinaryOperator>(
@@ -2871,16 +2922,23 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                     if (LoadInst *LI = dyn_cast<LoadInst>(actualParam)) {
                       actualParameterNode =
                           fieldParameterFinder(LI->getPointerOperand());
-                    } else if (CallBase *CB = dyn_cast<CallBase>(actualParam)) {
-                      if (!CB->isIndirectCall()) {
-                        actualParameterNode = subprogramNodeGenerator(
-                            CB->getCalledFunction()->getSubprogram());
+                    } else if (CallBase *ICB = dyn_cast<CallBase>(actualParam)) {
+                      if (!ICB->isIndirectCall()) {
+                        DISubprogram *ICBS =
+                            ICB->getCalledFunction()->getSubprogram();
+                        if (ICBS) {
+                          actualParameterNode = subprogramNodeGenerator(ICBS);
+                        } else {
+                          actualParameterNode = undefinedFunctionNodes(
+                              ICB->getCalledFunction())[0];
+                        }
                       } else {
                         // TODO: missing stuff here
                         // this is where that polygon area stuff
                         // happens... it may not be possible to pull names
                         // from indirect calls like this
-                        CB->getCalledOperand()->dump();
+                        errs() << "Indirect Call\a\n";
+                        ICB->getCalledOperand()->dump();
                       }
                     } else if (BinaryOperator *BO =
                                    dyn_cast<BinaryOperator>(actualParam)) {
