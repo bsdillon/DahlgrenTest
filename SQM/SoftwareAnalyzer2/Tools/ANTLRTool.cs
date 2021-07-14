@@ -79,6 +79,10 @@ namespace SoftwareAnalyzer2.Tools
                             // Transform "*(T*)x" into "*((T*)x)", which is accepted by the grammar
                             // as long as there is a left-hand token (=, <<, etc.) to accept the value.
                             translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
+                            
+                            // Transform variadic ellipses (...) into ", VARIADIC", which is accepted by
+                            // the grammar to then be dealt with after ANTLR as a special case.
+                            // translated_line = Regex.Replace(translated_line, @",*\s*\.{3}", ", VARIADIC"); 
 
                             // Transform all primitive T[*][*] into T* because ANTLR
                             // does not appear to understand array type widths like "int[][3]"
