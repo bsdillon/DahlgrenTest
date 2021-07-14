@@ -377,6 +377,10 @@ nodeSQM branchScopeSpecifier(Instruction *IB) {
             ElseInst = &BBElse->back();
           } else {
             ElseInst = BBElse->back().getPrevNonDebugInstruction();
+            if (ElseInst == NULL) {
+              // if the previous instruction is a debug instruction
+              ElseInst = &BBElse->back();
+            }
           }
           DILocation *ElseLoc = ElseInst->getDebugLoc();
           while (ElseLoc == NULL) {
@@ -1069,101 +1073,6 @@ storeInstFieldNodeGenerator(StoreInst *SI) {
   return {writeVec, uniqueFieldNode};
 }
 
-//TODO: figure out that last one and then DELETE THIS if possible
-void returnValueLoadNodeGenerator(LoadInst *LI, int currentMethodNodeID,
-                                  int currentMethodScopeNodeID) {
-  errs() << "RETVALLOADNODE\a\n";
-  Value *pointerOp = LI->getPointerOperand();
-  //pointerOp->dump();
-  // TODO: GEP ReturnValue stuff must go here!
-  if (GetElementPtrInst *GEP = dyn_cast<GetElementPtrInst>(pointerOp)) {
-    nodeSQM uniqueFieldNode = classFieldNodeGEP(GEP);
-    if (!uniqueFieldNode.isEmpty()) {
-      errs() << "RETURN FUNCTION CALLED - GEP\a\n";
-      addUniqueNewEdge(currentMethodNodeID, uniqueFieldNode.numericID,
-                       currentMethodScopeNodeID, "ReturnValue");
-    }
-  } else {
-    // pull out the values that use the loaded value
-    for (User *U : pointerOp->users()) {
-      // pull out the store values associated with the loaded value
-      if (StoreInst *SI = dyn_cast<StoreInst>(U)) {
-        // probably the first one on the list is the most recent???
-        // assuming is dangerous...
-        // what if the value is what is being stored, instead of being the
-        // storage location?
-        // TODO: check only that the first/second operand is the one?
-        // initial test on noobar suggests that the value is Loaded anew each
-        // time so it should be fine...?
-
-        // negate: ret points to a "sub" instruction that points to the load
-        // instruction and this points to a store
-        // errs() << *SI << "\n";
-
-        auto [writeVec, uniqueFieldNode] =
-            storeInstFieldNodeGenerator(SI);
-
-        // TODO: there may be a case where writeVec has multiple elements
-        // I don't think it SHOULD, but I didn't test that
-        nodeSQM literalNode = writeVec[0];
-
-        // may change as non-literals are figured out
-        if (!uniqueFieldNode.isEmpty()) {
-          errs() << "RETURN FUNCTION CALLED - FIELD\a\n";
-          addUniqueNewEdge(currentMethodNodeID, uniqueFieldNode.numericID,
-                           currentMethodScopeNodeID, "ReturnValue");
-        } else if (!literalNode.isEmpty()) {
-          errs() << "RETURN FUNCTION CALLED - LITERAL\a\n";
-          addUniqueNewEdge(currentMethodNodeID, literalNode.numericID,
-                           currentMethodScopeNodeID, "ReturnValue");
-        }
-
-        // ONLY grab the first appearance - this is bad code actually
-        // find a way to make sure you're grabbing the relevant instruction
-        // see above for concerns
-        break;
-      }
-    }
-  }
-}
-
-// TODO: DELETE THIS
-void returnBinaryOperatorRecurseNodeGenerator(BinaryOperator *OBO,
-                                        int currentMethodNodeID,
-                                        int currentMethodScopeNodeID) {
-  for (Use &op : OBO->operands()) {
-    if (CastInst *CI = dyn_cast<CastInst>(op)) {
-      op = CI->getOperand(0);
-    }
-    if (BinaryOperator *BO = dyn_cast<BinaryOperator>(op)) {
-      returnBinaryOperatorRecurseNodeGenerator(BO, currentMethodNodeID,
-                                         currentMethodScopeNodeID);
-    } else if (LoadInst *LI = dyn_cast<LoadInst>(op)) {
-        // this may be wrong - consider math that isn't in a return statement!
-      returnValueLoadNodeGenerator(LI, currentMethodNodeID,
-                                   currentMethodScopeNodeID);
-    } else if (CallBase *CB = dyn_cast<CallBase>(op)) {
-      nodeSQM functionNode;
-
-      Function *calledFunction = CB->getCalledFunction();
-      if (calledFunction->getSubprogram() == NULL) {
-        functionNode = undefinedFunctionNodes(calledFunction)[0];
-      } else {
-        functionNode = subprogramNodeGenerator(calledFunction->getSubprogram());
-      }
-
-      addUniqueNewEdge(currentMethodNodeID, functionNode.numericID,
-                       currentMethodScopeNodeID, "ReturnValue");
-    } else {
-      // assuming a literal here
-      // for things like negate, there'll be a 0 literal added
-      nodeSQM literalNode = nonStringLiteralFinder(OBO, op);
-      addUniqueNewEdge(currentMethodNodeID, literalNode.numericID,
-                       currentMethodScopeNodeID, "ReturnValue");
-    }
-  }
-}
-
 // for convenience when making some nodes
 nodeSQM typeNodeGenerator(DIType *T) {
   // TODO: drill into DIDerivedTypes
@@ -1832,135 +1741,155 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                     ThenLoc = ThenInstruction->getDebugLoc();
                   }
 
-                  // scope can be a function so watch out for that
-                  if (DILexicalBlock *ThenScope =
-                          dyn_cast<DILexicalBlock>(ThenLoc->getScope())) {
-                    // moving the Branch node statement into this block
-                    // should a proper Branch ever NOT have a ThenScope?
-                    // This should help remove situations where non-if/thens use
-                    // branches internally
-                    controlStructureNode =
-                        addUniqueNewNode("Branch", "--", Loc->getFilename(),
-                                         Loc->getLine(), Loc->getColumn());
-
-                    nodeSQM controlledScope;
-                    // this separation allows branches with and without curly brackets to work correctly
-                    if (Loc->getScope() == ThenLoc->getScope()->getScope()) {
-                        // should this be the one? is it best for the loc to be the back, or the front?
-                        // especially when brackets are involved
-                      ThenLoc = BBThen->back().getDebugLoc();
-                      if (ThenLoc == NULL) {
-                        ThenLoc = BBThen->front().getDebugLoc();
-                      }
-                      controlledScope = addUniqueNewNode("Then", "--", ThenLoc->getFilename(),
-                                           ThenLoc->getLine(), ThenLoc->getColumn());
-                    } else {
-                      controlledScope = addUniqueNewNode(
-                          "Then", "--", ThenScope->getFilename(),
-                          ThenScope->getLine(), ThenScope->getColumn());
+                  if (BasicBlock *trinaryResult =
+                          BBThen->getSingleSuccessor()) {
+                    // branchInsts may lead to PHINodes, which can indicate a trinary instead of a normal branch
+                    if (trinaryResult == BBElse->getSingleSuccessor() &&
+                        isa<PHINode>(trinaryResult->front())) {
+                      controlStructureNode =
+                          addUniqueNewNode("Trinary", "--", Loc->getFilename(),
+                                           Loc->getLine(), Loc->getColumn());
+                      if (DILexicalBlock *LB = dyn_cast<DILexicalBlock>(
+                              trinaryResult->front().getDebugLoc()->getScope())) {
+                        scopeNode =
+                            branchScopeSpecifier(&trinaryResult->front());
+                      } 
                     }
+                  } else {
+                    if (DILexicalBlock *ThenScope =
+                            dyn_cast<DILexicalBlock>(ThenLoc->getScope())) {
+                      // scope can be a function so watch out for that
+                      // moving the Branch node statement into this block
+                      // should a proper Branch ever NOT have a ThenScope?
+                      // This should help remove situations where non-if/thens
+                      // use branches internally
+                      controlStructureNode =
+                          addUniqueNewNode("Branch", "--", Loc->getFilename(),
+                                           Loc->getLine(), Loc->getColumn());
 
-                    addUniqueNewEdge(controlStructureNode.numericID,
-                                     controlledScope.numericID,
-                                     controlStructureNode.numericID, "Member");
-                    addUniqueNewEdge(controlledScope.numericID,
-                                     controlStructureNode.numericID,
-                                     controlStructureNode.numericID,
-                                     "MemberOf");
+                      nodeSQM controlledScope;
+                      // this separation allows branches with and without curly
+                      // brackets to work correctly
+                      if (Loc->getScope() == ThenLoc->getScope()->getScope()) {
+                        // should this be the one? is it best for the loc to be
+                        // the back, or the front? especially when brackets are
+                        // involved
+                        ThenLoc = BBThen->back().getDebugLoc();
+                        if (ThenLoc == NULL) {
+                          ThenLoc = BBThen->front().getDebugLoc();
+                        }
+                        controlledScope = addUniqueNewNode(
+                            "Then", "--", ThenLoc->getFilename(),
+                            ThenLoc->getLine(), ThenLoc->getColumn());
+                      } else {
+                        controlledScope = addUniqueNewNode(
+                            "Then", "--", ThenScope->getFilename(),
+                            ThenScope->getLine(), ThenScope->getColumn());
+                      }
 
+                      addUniqueNewEdge(controlStructureNode.numericID,
+                                       controlledScope.numericID,
+                                       controlStructureNode.numericID,
+                                       "Member");
+                      addUniqueNewEdge(controlledScope.numericID,
+                                       controlStructureNode.numericID,
+                                       controlStructureNode.numericID,
+                                       "MemberOf");
 
-
-                    // if the branch is an elif, you need to do a little magic
-                    // to make sure that the scope of this branch is actually
-                    // the elsescope of the parent branch
-                    bool branchScopeCheck = true;
-                    if (DILexicalBlock *LB =
-                            dyn_cast<DILexicalBlock>(Loc->getScope())) {                      
-                      if (BasicBlock *parentPred =
-                              parentBlock->getSinglePredecessor()) {
-                        if (BranchInst *parentExit =
-                                dyn_cast<BranchInst>(&parentPred->back())) {
-                          if (parentExit->isConditional() &&
-                              parentExit->getSuccessor(1) == parentBlock) {
-                            LB = dyn_cast<DILexicalBlock>(
-                                BI->getPrevNonDebugInstruction()
-                                    ->getDebugLoc()
-                                    ->getScope());
-                            scopeNode = addUniqueNewNode(
-                                "Scope", "--", LB->getFilename(), LB->getLine(),
-                                LB->getColumn());
-                            branchScopeCheck = false;
+                      // if the branch is an elif, you need to do a little magic
+                      // to make sure that the scope of this branch is actually
+                      // the elsescope of the parent branch
+                      bool branchScopeCheck = true;
+                      if (DILexicalBlock *LB =
+                              dyn_cast<DILexicalBlock>(Loc->getScope())) {
+                        if (BasicBlock *parentPred =
+                                parentBlock->getSinglePredecessor()) {
+                          if (BranchInst *parentExit =
+                                  dyn_cast<BranchInst>(&parentPred->back())) {
+                            if (parentExit->isConditional() &&
+                                parentExit->getSuccessor(1) == parentBlock) {
+                              LB = dyn_cast<DILexicalBlock>(
+                                  BI->getPrevNonDebugInstruction()
+                                      ->getDebugLoc()
+                                      ->getScope());
+                              scopeNode = addUniqueNewNode(
+                                  "Scope", "--", LB->getFilename(),
+                                  LB->getLine(), LB->getColumn());
+                              branchScopeCheck = false;
+                            }
                           }
                         }
-                      }
-                      if (branchScopeCheck) {
-                        scopeNode =
-                            addUniqueNewNode("Scope", "--", LB->getFilename(),
-                                             LB->getLine(), LB->getColumn());
+                        if (branchScopeCheck) {
+                          scopeNode =
+                              addUniqueNewNode("Scope", "--", LB->getFilename(),
+                                               LB->getLine(), LB->getColumn());
+                        }
                       }
                     }
-                    
-                  }
-                  
-                  while (BBElse->size() == 1) {
-                    if (BranchInst *skippableBI = dyn_cast<BranchInst>(&BBElse->front())) {
-                      if (skippableBI->isUnconditional()) {
-                        BBElse = skippableBI->getSuccessor(0);
+
+                    while (BBElse->size() == 1) {
+                      if (BranchInst *skippableBI =
+                              dyn_cast<BranchInst>(&BBElse->front())) {
+                        if (skippableBI->isUnconditional()) {
+                          BBElse = skippableBI->getSuccessor(0);
+                        } else {
+                          break;
+                        }
                       } else {
                         break;
                       }
-                    } else {
-                      break;
                     }
-                  }
-                  if (!BBElse->hasNPredecessorsOrMore(2)) {
-                    // Can a true ElseScope BB have multiple predecessors?
-                    // I suspect not
-                    Instruction *ElseInstruction =
-                        BBElse->back().getPrevNonDebugInstruction();
-                    DILocation *ElseLoc = ElseInstruction->getDebugLoc();
-                    // the targetet instruction may have no !dbg flag
-                    while (ElseLoc == NULL) {
-                      ElseInstruction =
-                          ElseInstruction->getPrevNonDebugInstruction();
-                      ElseLoc = ElseInstruction->getDebugLoc();
-                    }
-                    if (DILexicalBlock *ElseScope =
-                            dyn_cast<DILexicalBlock>(ElseLoc->getScope())) {
-
-                      // add in an exception for things like For3Loops
-                      // idea is that if the Then and Else scopes are DIFFERENT,
-                      // and the else scope's scope is the Branch scope
-                      // then probably it isn't a true elsescope here
-                      // invert to get this:
-                      // if elsescope==thenscope OR elsescope!=BRscope, then it's go time 
-
-                      if (ElseScope == ThenLoc->getScope() || ElseScope->getScope() != Loc->getScope()) {
-                        nodeSQM controlledScope;
-                        // this separation allows branches with and without
-                        // curly brackets to work correctly
-                        if (Loc->getScope() ==
-                            ElseLoc->getScope()->getScope()) {
-                          controlledScope = addUniqueNewNode(
-                              "ElseScope", "--", ElseLoc->getFilename(),
-                              ElseLoc->getLine(), ElseLoc->getColumn());
-                        } else {
-                          controlledScope = addUniqueNewNode(
-                              "ElseScope", "--", ElseScope->getFilename(),
-                              ElseScope->getLine(), ElseScope->getColumn());
-                        }
-                        addUniqueNewEdge(controlStructureNode.numericID,
-                                         controlledScope.numericID,
-                                         controlStructureNode.numericID,
-                                         "Member");
-                        addUniqueNewEdge(controlledScope.numericID,
-                                         controlStructureNode.numericID,
-                                         controlStructureNode.numericID,
-                                         "MemberOf");
+                    if (!BBElse->hasNPredecessorsOrMore(2)) {
+                      // Can a true ElseScope BB have multiple predecessors?
+                      // I suspect not
+                      Instruction *ElseInstruction =
+                          BBElse->back().getPrevNonDebugInstruction();
+                      DILocation *ElseLoc = ElseInstruction->getDebugLoc();
+                      // the targetet instruction may have no !dbg flag
+                      while (ElseLoc == NULL) {
+                        ElseInstruction =
+                            ElseInstruction->getPrevNonDebugInstruction();
+                        ElseLoc = ElseInstruction->getDebugLoc();
                       }
+                      if (DILexicalBlock *ElseScope =
+                              dyn_cast<DILexicalBlock>(ElseLoc->getScope())) {
 
+                        // add in an exception for things like For3Loops
+                        // idea is that if the Then and Else scopes are
+                        // DIFFERENT, and the else scope's scope is the Branch
+                        // scope then probably it isn't a true elsescope here
+                        // invert to get this:
+                        // if elsescope==thenscope OR elsescope!=BRscope, then
+                        // it's go time
+
+                        if (ElseScope == ThenLoc->getScope() ||
+                            ElseScope->getScope() != Loc->getScope()) {
+                          nodeSQM controlledScope;
+                          // this separation allows branches with and without
+                          // curly brackets to work correctly
+                          if (Loc->getScope() ==
+                              ElseLoc->getScope()->getScope()) {
+                            controlledScope = addUniqueNewNode(
+                                "ElseScope", "--", ElseLoc->getFilename(),
+                                ElseLoc->getLine(), ElseLoc->getColumn());
+                          } else {
+                            controlledScope = addUniqueNewNode(
+                                "ElseScope", "--", ElseScope->getFilename(),
+                                ElseScope->getLine(), ElseScope->getColumn());
+                          }
+                          addUniqueNewEdge(controlStructureNode.numericID,
+                                           controlledScope.numericID,
+                                           controlStructureNode.numericID,
+                                           "Member");
+                          addUniqueNewEdge(controlledScope.numericID,
+                                           controlStructureNode.numericID,
+                                           controlStructureNode.numericID,
+                                           "MemberOf");
+                        }
+                      }
                     }
                   }
+                  
                 } else {
                   if (DILexicalBlock *LB =
                           dyn_cast<DILexicalBlock>(Loc->getScope())) {
@@ -2121,6 +2050,15 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                     for (BasicBlock *pred :
                          predecessors(loopOwner->getParent())) {
                       // TODO: loop instructions of the blocks, find some instruction WITH a nonnull debugloc, and make the block that finds it the scopeSearchBlock
+                      for (BasicBlock::iterator predBBB = pred->begin(),
+                                                predBBE = pred->end();
+                           predBBB != predBBE; ++predBBB) {
+                        if (DILocation *searchLoc =
+                                cast<Instruction>(predBBB)->getDebugLoc()) {
+                          scopeSearchBlock = pred;
+                          break;
+                        }
+                      }
                     }
                   }
                   if (isForEach) {
@@ -2475,8 +2413,6 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
               }
 
             } else if (LoadInst *LI = dyn_cast_or_null<LoadInst>(retValue)) {
-              // return statements that point to a loaded value
-              //returnValueLoadNodeGenerator(LI, currentMethodNode.numericID, scopeNode.numericID);
               nodeSQM uniqueFieldNode =
                   fieldParameterFinder(LI->getPointerOperand());
               if (!uniqueFieldNode.isEmpty()) {
@@ -2535,9 +2471,11 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                   incoming = CI->getOperand(0);
                 }
                 if (LoadInst *LI = dyn_cast<LoadInst>(incoming)) {
-                    // TODO: DELETE THIS - who's using this and when?
-                  returnValueLoadNodeGenerator(LI, currentMethodNode.numericID,
-                                               scopeNode.numericID);
+                    nodeSQM uniqueFieldNode =
+                        fieldParameterFinder(LI->getPointerOperand());
+                    addUniqueNewEdge(currentMethodNode.numericID,
+                                     uniqueFieldNode.numericID,
+                                     scopeNode.numericID, "ReturnValue");
                 } else if (CallBase *CB = dyn_cast<CallBase>(incoming)) {
                   for (Use &op : CB->args()) {
                     if (GetElementPtrInst *GEP =
@@ -3060,6 +2998,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
           // TODO: get RightScope and WrongScope from this...
           // ^^ look at SelectInst's getTrueValue(), getFalseValue()
           // https://llvm.org/doxygen/classllvm_1_1SelectInst.html
+          // also note the existence of PHINode-based trinaries, which are handled above in BranchInst section
           if (SelectInst *TRI = dyn_cast<SelectInst>(&*IB)) {
             DILocation *Loc = IB->getDebugLoc();
             nodeSQM controlStructureNode =
@@ -3073,8 +3012,8 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
             addUniqueNewEdge(controlStructureNode.numericID,
                              scopeNode.numericID, scopeNode.numericID,
                              "MemberOf");
-
-            // TRI->getTrueValue()->dump();
+            //TRI->getCondition()->dump();
+            //TRI->getTrueValue()->dump();
             //TRI->getFalseValue()->dump();
           }
 
