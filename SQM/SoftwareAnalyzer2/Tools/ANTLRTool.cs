@@ -180,6 +180,11 @@ namespace SoftwareAnalyzer2.Tools
                         t.Contains("<Directive>")
                     )
                 ).ToArray();
+                
+                // restore original second macro parameter type T keyword
+                // for (int i = 0; i < tokens.Length; i++) {
+                //    tokens[i] = Regex.Replace(tokens[i], @"VARIADIC_", "");
+                // }
 
                 string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 Console.Out.WriteLine("/t"+fileName);
