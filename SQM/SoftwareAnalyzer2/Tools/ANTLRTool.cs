@@ -80,9 +80,11 @@ namespace SoftwareAnalyzer2.Tools
                             // as long as there is a left-hand token (=, <<, etc.) to accept the value.
                             translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
                             
-                            // Transform variadic ellipses (...) into ", VARIADIC", which is accepted by
-                            // the grammar to then be dealt with after ANTLR as a special case.
-                            // translated_line = Regex.Replace(translated_line, @",*\s*\.{3}", ", VARIADIC"); 
+                            // Transform variadic ellipses "..." into ", void* VARIADIC for tracking purposes
+                            // translated_line = Regex.Replace(translated_line, @",*\s*\.{3}", ", void* VARIADIC");
+
+                            // Transform variadic macro "va_arg" to add variadic identifier to second macro parameter type T keyword
+                            // translated_line = Regex.Replace(translated_line, @"(va_arg)(\()([a-zA-Z0-9_]*)(,*)([\s]*)([^\)]*)(\){1})", "$1$2$3$4$5VARIADIC_$6$7");
 
                             // Transform all primitive T[*][*] into T* because ANTLR
                             // does not appear to understand array type widths like "int[][3]"
