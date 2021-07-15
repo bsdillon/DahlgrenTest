@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Setting up Mathematica on your VM</title>
+    
+<link rel="stylesheet" type="text/css" href="../common.css">
+  </head>
+  <body>
+    <h3>Setting up Mathematica on your VM</h3>
+    
+    <h4>Terminal Emulator</h4>
+    <ol>
+    <li>Download and istall Mathematica on your Virtual Machine using this link: <a href="https://www.wolfram.com/download.cgi/5940481:12740/4a5ecaae6fbb027fed6b26fe77f07b0a">link</a>
+          <br>
+          <br>
+    <li>Open the Terminal Emulator in the Linux Virtual Machine.
+          <br>
+          <br>
+      <img src="../imgs/openjdk_1.png" alt="Terminal Emulator" />
+          <br>
+          <br>
+      <img src="../imgs/openjdk_2.png" alt="Terminal Emulator" />
+          <br>
+          <br>
+    <li>Type <code> cd /home/azureuser/Downloads</code> to navigate to dowloads.
+          <br>
+          <br>
+    <li>Type <code> ls</code> to view the file name of the mathematica download.
+          <br>
+          <br>
+    <li>Type <code> sudo bash [Mathematica file name]</code> to navigate.
+          <br>
+        Go through and follow the remaining prompts. Installing into the directory can take a while. 
+          <br>
+    <li>Once finished, type <code> Mathematica</code> and press enter to continue. It will take a few seconds to load the first time.
+          <br>
+          <br>
+    <li>Click "other ways to activate" 
+        Now that we have downloaded Mathematica we will get it activated using MathLM which is on Dr.Tipton's server
+          <br>
+          <br>
+    <li>Click "connect to a network license server" and use the public address <code> 20.98.165.144</code>
+        Note: If it doesn’t work try pinging the server with command: ping 20.98.165.144. If the stats displayed show there is 100% packet loss contact Dr.Tipton.
+          <br>
+          <br>
+      <li>The program has been installed.Type <code> mathematica</code> in the terminal to access the program.
+    </ol>
+  </body>
+</html>
