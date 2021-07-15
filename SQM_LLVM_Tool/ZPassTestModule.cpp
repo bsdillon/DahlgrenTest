@@ -377,8 +377,9 @@ nodeSQM branchScopeSpecifier(Instruction *IB) {
             ElseInst = &BBElse->back();
           } else {
             ElseInst = BBElse->back().getPrevNonDebugInstruction();
-            if (ElseInst == NULL) {
+            if (ElseInst == NULL || !ElseInst->getDebugLoc()) {
               // if the previous instruction is a debug instruction
+              // or, if the previous instruction has no debugLoc
               ElseInst = &BBElse->back();
             }
           }
@@ -1698,8 +1699,9 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                 // TODO: THIS
                 BasicBlock *BBThen = BI->getSuccessor(0);
                 BasicBlock *BBElse = BI->getSuccessor(1);
-
-                if (BBThen->size() == 1) {
+                // i have no clue how to make this work properly
+                // there's really no good easy way to make this just work it seems
+                if (BBThen->size() == 1 && BBElse->back().getDebugLoc()) {
                   BI->swapSuccessors();
                   BBThen = BI->getSuccessor(0);
                   BBElse = BI->getSuccessor(1);
@@ -2049,14 +2051,20 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                   if (scopeSearchBlock == NULL) {
                     for (BasicBlock *pred :
                          predecessors(loopOwner->getParent())) {
-                      // TODO: loop instructions of the blocks, find some instruction WITH a nonnull debugloc, and make the block that finds it the scopeSearchBlock
+                      // TODO: loop instructions of the blocks, find some
+                      // instruction WITH a nonnull debugloc, and make the block
+                      // that finds it the scopeSearchBlock
                       for (BasicBlock::iterator predBBB = pred->begin(),
                                                 predBBE = pred->end();
                            predBBB != predBBE; ++predBBB) {
                         if (DILocation *searchLoc =
                                 cast<Instruction>(predBBB)->getDebugLoc()) {
                           scopeSearchBlock = pred;
-                          break;
+                          //break;
+                          // makes it so the LAST found instruction chooses the
+                          // block: this is meant to fix some issue with
+                          // for3loops and nested scopes, but it probably isn't
+                          // ideal.
                         }
                       }
                     }
@@ -2142,11 +2150,8 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
 
                       // TODO: this is not an excellent way to do this, and
                       // makes assumptions about the structure of LLVM IR
-                      if (DILexicalBlock *LB =
-                              dyn_cast<DILexicalBlock>(BI->getSuccessor(0)
-                                                           ->getFirstNonPHI()
-                                                           ->getDebugLoc()
-                                                           ->getScope())) {
+                      if (DILexicalBlock *LB = dyn_cast<DILexicalBlock>(
+                              BI->getDebugLoc()->getScope())) {
                         controlledScope =
                             addUniqueNewNode("Scope", "--", LB->getFilename(),
                                              LB->getLine(), LB->getColumn());
@@ -2213,14 +2218,30 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                       if (loopOwner->getParent()->size() > 1) {
                         scopeSearchBlock = loopOwner->getParent();
                       }
-                      if (DILexicalBlock *LB =
-                              dyn_cast<DILexicalBlock>(scopeSearchBlock->front()
-                                                           .getDebugLoc()
-                                                           ->getScope())) {
-                        controlledScope =
-                            addUniqueNewNode("Scope", "--", LB->getFilename(),
-                                             LB->getLine(), LB->getColumn());
+                      if (scopeSearchBlock->front().getDebugLoc()) {
+                        if (DILexicalBlock *LB = dyn_cast<DILexicalBlock>(
+                                scopeSearchBlock->front()
+                                    .getDebugLoc()
+                                    ->getScope())) {
+                          controlledScope =
+                              addUniqueNewNode("Scope", "--", LB->getFilename(),
+                                               LB->getLine(), LB->getColumn());
+                        }
+                      } else {
+                        // hacky solution for the case where there's an if after
+                        // an infinite "for (;;)" and the for contains no other
+                        // scopes directly
+                        // yeah
+                        // TODO: is there even a way to make this not garbage?
+                        // may require some scope drilling stuff.......
+                        if (DILexicalBlock *LB =
+                                dyn_cast<DILexicalBlock>(Loc->getScope())) {
+                          controlledScope =
+                              addUniqueNewNode("Scope", "--", LB->getFilename(),
+                                               LB->getLine(), LB->getColumn());
+                        }
                       }
+                      
                     }
                   }
                   // TODO: remove if statement when each block has a
