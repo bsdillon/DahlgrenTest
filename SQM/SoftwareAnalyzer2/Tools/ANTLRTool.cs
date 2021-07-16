@@ -81,10 +81,10 @@ namespace SoftwareAnalyzer2.Tools
                             translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
                             
                             // Transform variadic ellipses "..." into ", void* VARIADIC for tracking purposes
-                            // translated_line = Regex.Replace(translated_line, @",*\s*\.{3}", ", void* VARIADIC");
+                            translated_line = Regex.Replace(translated_line, @",*\s*\.{3}", ", void* VARIADIC");
 
                             // Transform variadic macro "va_arg" to add variadic identifier to second macro parameter type T keyword
-                            // translated_line = Regex.Replace(translated_line, @"(va_arg)(\()([a-zA-Z0-9_]*)(,*)([\s]*)([^\)]*)(\){1})", "$1$2$3$4$5VARIADIC_$6$7");
+                            translated_line = Regex.Replace(translated_line, @"((?i)va_arg)(\()([a-zA-Z0-9_]*)(,*)([\s]*)([^\)]*)(\){1})", "$1$2$3$4$5VARIADIC_$6$7");
 
                             // Transform all primitive T[*][*] into T* because ANTLR
                             // does not appear to understand array type widths like "int[][3]"
@@ -182,9 +182,9 @@ namespace SoftwareAnalyzer2.Tools
                 ).ToArray();
                 
                 // restore original second macro parameter type T keyword
-                // for (int i = 0; i < tokens.Length; i++) {
-                //    tokens[i] = Regex.Replace(tokens[i], @"VARIADIC_", "");
-                // }
+                for (int i = 0; i < tokens.Length; i++) {
+                    tokens[i] = Regex.Replace(tokens[i], @"VARIADIC_", "");
+                }
 
                 string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 Console.Out.WriteLine("/t"+fileName);
