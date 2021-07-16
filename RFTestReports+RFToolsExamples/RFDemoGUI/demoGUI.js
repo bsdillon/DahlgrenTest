@@ -1,5 +1,5 @@
 //Set Total Number of Test Runs
-var totalRuns = 6;
+ var totalRuns = 6;
 //Home Page
  function generateHeatMap(data, length, totalData){
     var heatMap = document.getElementById('heatmap');
@@ -12,10 +12,7 @@ var totalRuns = 6;
      labelCell.style.color = "white";
      var array = data[totalData[j]];
      if(!array && j!= totalRuns){ //Case where test run is in progress
-      var image = document.createElement('img');
-      image.src = "spinningclock.gif";
-      image.height = '40';
-      image.width = '40';
+      var image = createImage("clock", "spinningclock.gif", '40', '40');
       var runLabel = 'Test Run ' + j;
       labelCell.innerHTML = '';
       labelCell.appendChild(image);
@@ -69,6 +66,7 @@ var totalRuns = 6;
    //Create Test Runs Header
    createTotalHeader(heatMap);
 }
+
  function initCell(row, color, spec){
    cell = row.insertCell(spec);
    cell.style.backgroundColor = color;
@@ -184,13 +182,17 @@ var totalRuns = 6;
         setTimeout(function(){ timedUpdate('heatmap'); }, 5000);
  }
 
- function headerLogo(){
-   var logo = document.createElement('img');
-   logo.id = "mainLogo";
-   logo.src = "totallogo.png";
-   logo.width = "200";
-   logo.height = "75";
+ function createImage(id, source, width, height){
+   var image = document.createElement('img');
+   image.id = id;
+   image.src = source;
+   image.width = width;
+   image.height = height;
+   return image;
+ }
 
+ function headerLogo(){
+   var logo = createImage("mainLogo", "totallogo.png", "200", "75");
    var backing = document.getElementById('header');
    backing.appendChild(logo);
  }
@@ -402,14 +404,8 @@ var totalRuns = 6;
       createLineDataSet(config2, "Fail Percentage", sortedData[1], LINE_TYPE);
       chart2.update();
       //Pie Chart
-      createHeaders('firstheader', 'Overall Test Breakdown', '2', win);
-      var config1 = createConfig("Pass vs. Fail");
-      var chart1 = createChart("canvas", 350,350,config1, win);
-      let labels =['Fail','Pass'];
-      setLabels(config1, labels);
       data2 = [sumArray(sortedData[2]), sumArray(sortedData[3])];
-      createDataSet(config1, data2);
-      chart1.update();
+      generatePieChart('firstheader', 'Overall Test Breakdown', '2', win, data2);
       setTimeout(function(){ timedTotalUpdate('total', testRuns, win); }, 5000);
      }
 
@@ -445,7 +441,6 @@ var totalRuns = 6;
    win.document.body.innerHTML = '';
    win.document.body.style.backgroundColor = "GhostWhite";
    win.document.title = 'Individual OQE';
-   createHeaders('header1', 'Test Results', '1', win);
    var buttonParent = win.document.createElement("H2");
    createButton('totalOQE', oqe, 'Total OQE', 'total',win, buttonParent, '', "totalPage", '');
    win.document.body.appendChild(buttonParent);
@@ -456,11 +451,16 @@ var totalRuns = 6;
    generateTable(table, data, win, keys);
    createHeaders('header2', "Pass/Fail Graphic", '2', win);
    data1 = sortResults(data);
+   generatePieChart('header1', 'Test Results', '1', win, data1);
+ }
+
+ function generatePieChart(headerid, headerTitle, number, win, data2){
+   createHeaders(headerid, headerTitle, number, win);
    var config1 = createConfig("Pass vs. Fail");
    var chart1 = createChart("canvas", 350,350,config1, win);
    let labels =['Fail','Pass'];
    setLabels(config1, labels);
-   createDataSet(config1, data1);
+   createDataSet(config1, data2);
    chart1.update();
  }
 
