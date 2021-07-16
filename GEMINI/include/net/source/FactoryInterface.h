@@ -19,7 +19,6 @@ class FactoryInterface
         virtual int GetTopicCount() = 0;
         virtual std::vector<std::string> GetTopicList() = 0;
         virtual std::vector<std::unique_ptr<AbstractDriver>> GetTopicFactories() = 0;
-        virtual std::string toString() = 0;
 
 };
 #endif

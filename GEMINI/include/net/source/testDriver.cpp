@@ -2,7 +2,6 @@
 #include "AllFieldsDriver_Test.h"
 #include "abstractTest.h"
 #include "AbstractDriverFactory.h"
-#include "../../plugin.h"
 
 using namespace std;
 
@@ -12,7 +11,7 @@ using namespace std;
 
 int main()
 {
-    
+
     // AllFieldsDriver Test
     printf("Testing AllFieldsDriver\n");
     AllFieldsDriver_Test test;
@@ -39,16 +38,7 @@ int main()
     assert(ab.TopicList.size() == 3);
     assert(ab.GetTopicAtIndex(0).compare("tmp") == 0);
 
-    printf("Done!\nTesting Plugin...\n");
-    
-    Plugin plugin;
 
-    assert(plugin.impl.GetTopicFactories().size() == 3);
-    assert(plugin.impl.GetTopicList().size() == 3);
-
-    assert(ab.loadPlugin(plugin));
-    
-    
     printf("Done!\nAll testing is finished!\n");
 
     return 0;

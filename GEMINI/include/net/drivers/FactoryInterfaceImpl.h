@@ -7,7 +7,6 @@
 #include "AllFields_Driver.h"
 #include "TestFields_Driver.h"
 #include "TestFields2_Driver.h"
-#include <fstream>
 
 class FactoryInterfaceImpl: public virtual FactoryInterface
 {
@@ -30,18 +29,6 @@ class FactoryInterfaceImpl: public virtual FactoryInterface
       factories[2] = std::move(std::unique_ptr<AbstractDriver>(new TestFields2_Driver()));
 
       return factories;
-    }
-    
-    virtual std::string toString() {
-      auto string = "";
-      ofstream out;
-      out.open("FactoryInterfaceImpl.txt");
-      string += "AllFields_Driver : tmp1\n";
-      string += "TestFields_Driver : tmp2\n";
-      string += "TestFields_Driver2 : tmp3\n";
-      out << string;
-      out.close();
-      return string;
     }
 };
 #endif
