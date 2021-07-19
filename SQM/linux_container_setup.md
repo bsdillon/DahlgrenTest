@@ -18,11 +18,18 @@ sudo apt install -y mono-devel
 ## Arch Linux
 
 ```bash
-# .net core / .net 5 development
+# .NET Core / .NET 5 Development
 yay -S dotnet-sdk dotnet-runtime
-# .net 4 development (deprecated)
+# .NET 4 Development (Depreciated)
 yay -S mono mono-msbuild
 
+```
+#### Manjaro Distribution
+```bash
+# .NET Core / .NET 5 Development
+sudo pacman -S dotnet-sdk dotnet-runtime
+# .NET 4 Development (Depreciated)
+sudo pacman -S mono mono-msbuild
 ```
 
 # Compile + run commands
@@ -33,7 +40,7 @@ Using `run.py`:
 python run.py cpp ./test_cpp01
 ```
 
-running directly:
+Running Directly:
 
 ```bash
 # TODO become familliar with the "dotnet" suite
@@ -41,10 +48,29 @@ running directly:
 # wants the world to use
 dotnet SoftwareAnalyzer2 TODO
 
-# .net 4 development (deprecated)
+# .NET 4 Development (depreciated)
 msbuild SoftwareAnalyzer2/SoftwareAnalyzer2.csproj
+export CLASSPATH='/path/to/antlr-4.1-complete.jar'
+mono SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe
+
+# (If msbuild fails on Linux - use xbuild - NOTE: also depreciated):
+xbuild SoftwareAnalyzer2/SoftwareAnalyzer2.csproj
 export CLASSPATH='/path/to/antlr-4.1-complete.jar'
 mono SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe
 ```
 
+# Debugging
+```bash
+# If mono process is stuck on CLI in Linux, we can get a stack trace printed for debugging purposes
+
+# First, open another CLI tab/window away from mono process
+# Second, find and take note of the running mono process ID (PID) - (process with "mono --debug SoftwareAnalyzer2/...") using:
+ps all
+# Third, we can now signal that mono PID to QUIT and print the current stack trace of running threads:
+kill -QUIT $PID
+# Lastly, return to the original running mono process to find printed stack trace of running threads
+
+# To actually kill that process, use:
+kill -9 $PID
+```
 
