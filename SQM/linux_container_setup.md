@@ -60,14 +60,17 @@ mono SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe
 ```
 
 # Debugging
-```bash
-# If mono process is stuck on CLI in Linux, we can get a stack trace printed for debugging purposes
 
+If mono process is stuck on CLI in Linux, we can get a stack trace printed for debugging purposes by signaling the mono process to quit:
+```bash
 # First, open another CLI tab/window away from mono process
+
 # Second, find and take note of the running mono process ID (PID) - (process with "mono --debug SoftwareAnalyzer2/...") using:
 ps all
+
 # Third, we can now signal that mono PID to QUIT and print the current stack trace of running threads:
 kill -QUIT $PID
+
 # Lastly, return to the original running mono process to find printed stack trace of running threads
 
 # To actually kill that process, use:
