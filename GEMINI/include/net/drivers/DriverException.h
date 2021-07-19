@@ -2,7 +2,6 @@
 #define DRIVEREXCEPTION_H
 
 #include <exception>
-#include <string>
 
 class DriverException: public std::exception
 {

@@ -378,6 +378,7 @@ class DependencyTracker:
                  '{__}{__}}}\n'
                  '}};\n'
                  '#endif\n').format(__=AbstractParser.space))
+
         g.close()
 
         # End of FactoryInterfaceImpl
