@@ -14,24 +14,20 @@ public:
     TopicSelectorProxy();
 
 public slots:
-    void onMessage();
     void displayTopics();
     void requestSavedTopicLists();
     void loadSaveFile(const QString &fileName);
     void saveTopicFile(const QString &information);
+    void selectionChanged(QStringList selectedTopics);
+    void readSettings();
 
 signals:
     void UpdateStatus(std::string);
-    void TopicSelectionChanged(std::vector<std::string>);
     void sendingMessage(const QString &message);
-    void selectTopicList(const QStringList savedTopics);
 
 private:
     I_TopicPanel* topicPanelProxy;
-    TopicSelector topicSelect;
     TopicSelectorLogic* topicLogic;
-    void readSettings();
-    QDir createDirectory();
 };
 
 #endif // TOPICSELECTORPROXY_H

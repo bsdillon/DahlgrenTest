@@ -14,7 +14,6 @@ TopicSelectorProxy::TopicSelectorProxy()
     topicLogic = new TopicSelectorLogic();
     //signal Forwarding
     connect(this, &TopicSelectorProxy::UpdateStatus, topicPanelProxy, &I_TopicPanel::UpdateStatus);
-    connect(this, &TopicSelectorProxy::TopicSelectionChanged, topicPanelProxy, &I_TopicPanel::TopicSelectionChanged);
 }
 
 void TopicSelectorProxy::readSettings()
@@ -22,30 +21,19 @@ void TopicSelectorProxy::readSettings()
 
 }
 
-void TopicSelectorProxy::onMessage(){
-    TopicSelector* topicSelect = new TopicSelector();
-    topicSelect->loadTopicsFromFile();
-}
-
 void TopicSelectorProxy::displayTopics(){
-    QMessageBox::information(nullptr, "Title", "displayTopics() called!");
-
     QStringList allTopics = topicLogic->getTopics();
 
     QString topics = "topicnames";
-
     for(const QString& topic : allTopics){
         topics += ":" + topic;
     }
 
     emit sendingMessage(topics);
-    //QMessageBox::information(nullptr, "title", topics);
 }
 
 void TopicSelectorProxy::requestSavedTopicLists(){
-    QMessageBox::information(nullptr, "title", "requestSavedTopicLists() called");
-    auto dirName = getenv("APPHOME") + QString("/savedTopicLists");
-    QDir dir = topicLogic->makeDirectory(dirName);
+    QDir dir = topicLogic->makeDirectory();
 
     if(dir.isEmpty()){
         //Send a message to the client saying it's empty
@@ -53,11 +41,11 @@ void TopicSelectorProxy::requestSavedTopicLists(){
         emit sendingMessage(mes);
     }else {
         QStringList fileNames = dir.entryList();
-        QString names = "filenames:" + fileNames[2] + ":";
+        QString names = "filenames:" + fileNames[2];
 
         if(fileNames.size() > 3){
             for(qint8 i = 3; i < fileNames.size(); i++){
-                names += fileNames[i] + ":";
+                names += ":" + fileNames[i];
             }
         }
         emit sendingMessage(names);
@@ -65,55 +53,34 @@ void TopicSelectorProxy::requestSavedTopicLists(){
 }
 
 void TopicSelectorProxy::loadSaveFile(const QString &file){
-    QMessageBox::information(nullptr, "title", "loadSaveFile() called!");
+    QDir dir = topicLogic->makeDirectory();
 
-    auto dirName = getenv("APPHOME") + QString("/savedTopicLists");
-    QDir dir = topicLogic->makeDirectory(dirName);
+    QString fileName = dir.absolutePath() + "/" + file;
 
-    if(dir.isEmpty()){
-        //Send a message to the client saying it's empty
-        QString mes = "empty!";
-        emit sendingMessage(mes);
+    QStringList savedTopics = topicLogic->readSettings(fileName);
+    QString topics = "topicstomove";
+    for(const QString topic : savedTopics){
+        topics += ":" + topic;
     }
 
-    QString fileName = dirName + "/" + file;
-
-    if (!(fileName.length() == 0))
-    {
-        auto settings = new QSettings(fileName, QSettings::IniFormat);
-        auto savedTopics = settings->value("TopicSelector/SelectedTopics").toStringList();
-
-        QString topics = "topicstomove";
-        for(const QString topic : savedTopics){
-            topics += ":" + topic;
-        }
-        qDebug() << topics;
-        sendingMessage(topics);
-    }
+    emit sendingMessage(topics);
 }
 
 void TopicSelectorProxy::saveTopicFile(const QString &information){
     //QMessageBox::information(nullptr, "title", "saveTopicFile called");
-    //TopicSelector* topicSelect = new TopicSelector();
-    auto dirName = getenv("APPHOME") + QString("/savedTopicLists");
-    //QDir dir = topicLogic->makeDirectory(dirName);
-
     QList<QString> saveInfo = information.split(":");
-    QString fileName = dirName + "/" + saveInfo[0];
-
+    QString file = saveInfo[0];
     QStringList saveTopics;
     for(qint16 i = 1; i < saveInfo.length(); i++){
         saveTopics.append(saveInfo[i]);
     }
 
-    if (!(fileName.length() == 0))
-    {
-        if (!fileName.endsWith(".gii"))
-        {
-            fileName.append(".gii");
-        }
-        auto settings = new QSettings(fileName, QSettings::IniFormat);
-        topicLogic->writeSettings(settings, saveTopics);
-        //settings->setValue("TopicSelector/SelectedTopics", saveTopics);
-    }
+    QDir dir = topicLogic->makeDirectory();
+    QString fileName = dir.absolutePath() + "/" + file;
+
+    topicLogic->writeSettings(fileName, saveTopics);
+}
+
+void TopicSelectorProxy::selectionChanged(QStringList selectedTopics){
+    topicLogic->topicSelectionChanged(selectedTopics);
 }

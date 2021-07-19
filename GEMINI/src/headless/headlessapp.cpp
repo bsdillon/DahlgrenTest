@@ -84,7 +84,7 @@ void HeadlessApp::onMessage(const QString &message){
         pClient->sendTextMessage(message);
     }*/
 
-    qDebug() << "Message Received:";
+    qDebug() << "Message Received: " + message;
 
     if (message.contains("Function:")){
         QStringList fctLis = message.split(":");
@@ -93,12 +93,9 @@ void HeadlessApp::onMessage(const QString &message){
         QJsonObject mesJson;
         mesJson["function:"] = fct;
 
-        if (mesJson["function:"] == "loadTopicsFromFile"){
-            topicPanel->onMessage();
-        }else if (mesJson["function:"] == "requestSavedTopicLists"){
+        if (mesJson["function:"] == "requestSavedTopicLists"){
             topicPanel->requestSavedTopicLists();
         }else if (mesJson["function:"] == "getTopics"){
-            //QMessageBox::information(nullptr, "title", "onMessage() calling getTopics()");
             topicPanel->displayTopics();
         }
     }else if (message.contains("loadSaveFile:")){
@@ -120,5 +117,14 @@ void HeadlessApp::onMessage(const QString &message){
         mesJson["saveTopics:"] = fct;
 
         topicPanel->saveTopicFile(fct);
+    }else if(message.contains("selectionChanged:")){
+        QStringList fctLis = message.split(":");
+        QStringList selectedTopics;
+        selectedTopics.append(fctLis[1]);
+        for(qint16 i = 2; i < fctLis.length(); i++){
+            selectedTopics.append(fctLis[i]);
+        }
+
+        topicPanel->selectionChanged(selectedTopics);
     }
 }

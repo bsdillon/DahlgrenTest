@@ -7,7 +7,6 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QString>
-#include<QMessageBox>
 
 //#include "AbstractDriver.h"
 #include "net/source/abstractdriver.h"
@@ -30,15 +29,7 @@ TopicSelector::TopicSelector(QWidget *parent) :
     connect(ui->pushButton_loadTopics, &QPushButton::clicked, this, &TopicSelector::loadTopicsFromFile);
     TopicSelectorLogic* topicLogic;
     //getTopics ***topicLogic**
-    auto allTopics = QStringList{};
-    allTopics = topicLogic->getTopics();
-    /*FactoryInterfaceImpl impl;
-
-    auto stdTopicNames = impl.GetTopicList();
-    auto allTopics = QStringList{};
-    for (const auto& topic : stdTopicNames) {
-        allTopics.append(QString::fromStdString(topic));
-    }*/
+    QStringList allTopics = topicLogic->getTopics();
 
     _allTopicsModel = new QStringListModel(allTopics, this);
     _allTopicsProxyModel = new QSortFilterProxyModel(this);
@@ -85,69 +76,38 @@ TopicSelector::~TopicSelector()
 
 void TopicSelector::selectionChanged()
 {
-    auto selectedTopics = std::vector<std::string>{};
-    for (const auto& topic : _selectedTopicsModel->stringList()) {
-        selectedTopics.push_back(topic.toStdString());
-    }
-    //emit TopicSelectionChanged(selectedTopics);
-    writeSettings(_settings);
+    topicLogic->topicSelectionChanged(_selectedTopicsModel->stringList());
+    topicLogic->writeSettings(getenv("SAVE_FILE"), _selectedTopicsModel->stringList());
     checkSaveButtonState();
 }
 
-void TopicSelector::writeSettings(QSettings* settings)
+/*void TopicSelector::writeSettings(QSettings* settings)
 {
     //QMessageBox::information(nullptr, "title", "writeSettings() called");
     settings->setValue("TopicSelector/SelectedTopics", _selectedTopicsModel->stringList());
-}
+}*/
 
 void TopicSelector::saveTopicsToFile()
 {
     //QMessageBox::information(nullptr, "title", "saveTopicsToFile() called");
     //makeDirectory ***topicLogic***
-    auto dirName = getenv("APPHOME") + QString("/savedTopicLists");
-    QDir dir = topicLogic->makeDirectory(dirName);
-    /*QDir dir(dirName);
-    if (!dir.exists())
-    {
-        dir.mkpath(".");
-    }*/
+    QStringList saveTopics = _selectedTopicsModel->stringList();
+    QDir dir = topicLogic->makeDirectory();
     auto fileName = QFileDialog::getSaveFileName(this, tr("Save Topic List"),
                                                  dir.absolutePath() + "/untitled.gii",
                                                  tr("GEMINI Topic Files (*.gii)"));
-
-    if (!fileName.length() == 0)
-    {
-        if (!fileName.endsWith(".gii"))
-        {
-            fileName.append(".gii");
-        }
-        auto settings = new QSettings(fileName, QSettings::IniFormat);
-        //writeSettings ***topicLogic***
-        topicLogic->writeSettings(settings, _selectedTopicsModel->stringList());
-        //writeSettings(settings);
-    }
+    topicLogic->writeSettings(fileName, saveTopics);
 }
 
 void TopicSelector::loadTopicsFromFile()
 {
     //QMessageBox::information(nullptr, "title", "loadTopicsFromFile() called");
-    //makeDirectory ***topicLogic***
-    auto dirName = getenv("APPHOME") + QString("/savedTopicLists");
-    QDir dir = topicLogic->makeDirectory(dirName);
-    /*QDir dir(dirName);
-    if (!dir.exists())
-    {
-        dir.mkpath(".");
-    }*/
+    QDir dir = topicLogic->makeDirectory();
     auto fileName = QFileDialog::getOpenFileName(this, tr("Load Topic List"),
                                                  dir.absolutePath(),
                                                  tr("GEMINI Topic Files (*.gii)"));
-    if (!(fileName.length() == 0))
-    {
-        auto settings = new QSettings(fileName, QSettings::IniFormat);
-        auto savedTopics = settings->value("TopicSelector/SelectedTopics").toStringList();
-        selectListOfTopics(savedTopics);
-    }
+
+    selectListOfTopics(topicLogic->readSettings(fileName));
 }
 
 void TopicSelector::addTopics()
