@@ -1500,6 +1500,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
     // not sure whether or not this vector will ever contain more than 1 element
     for (DIGlobalVariableExpression *GVE : globalVec) {
       DIGlobalVariable *G = GVE->getVariable();
+      // PATHEXCLUSION
       if (G->getDirectory().find(nodeSQM::getCurrentPath()) != std::string::npos) {
         // DANGER: CODE COPIED FROM LOCAL VARIABLE STUFF
 
@@ -1588,6 +1589,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
     if (DISubprogram *S = F->getSubprogram()) {
       // be warned of the isDistinct flag! 
       // using the find function here lets us see the functions from any file in the whole directory
+      // PATHEXCLUSION
       if (S->getDirectory().find(nodeSQM::getCurrentPath()) !=
               std::string::npos &&
           !S->isArtificial() &&
@@ -1711,7 +1713,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                   Instruction *ElseBlockCheck = &BBElse->front();
                   DILocation *ElseCheckLoc = ElseBlockCheck->getDebugLoc();
 
-                  while (ThenCheckLoc == nullptr) {
+                  while (ThenCheckLoc == NULL) {
                     ThenBlockCheck =
                         ThenBlockCheck->getNextNonDebugInstruction();
                     ThenCheckLoc = ThenBlockCheck->getDebugLoc();
@@ -1849,8 +1851,12 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                       DILocation *ElseLoc = ElseInstruction->getDebugLoc();
                       // the targetet instruction may have no !dbg flag
                       while (ElseLoc == NULL) {
-                        ElseInstruction =
-                            ElseInstruction->getPrevNonDebugInstruction();
+                        if (ElseInstruction->getPrevNonDebugInstruction() == NULL) {
+                          ElseInstruction = &BBElse->back();
+                        } else {
+                          ElseInstruction =
+                              ElseInstruction->getPrevNonDebugInstruction();
+                        }
                         ElseLoc = ElseInstruction->getDebugLoc();
                       }
                       if (DILexicalBlock *ElseScope =
@@ -2049,25 +2055,40 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                   BasicBlock *scopeSearchBlock =
                       loopOwner->getParent()->getSinglePredecessor();
                   if (scopeSearchBlock == NULL) {
+                    // very hacky attempt to make sure you grab the right block
+                    // WARNING: could leave scopeSearchBlock as NULL
                     for (BasicBlock *pred :
                          predecessors(loopOwner->getParent())) {
-                      // TODO: loop instructions of the blocks, find some
-                      // instruction WITH a nonnull debugloc, and make the block
-                      // that finds it the scopeSearchBlock
-                      for (BasicBlock::iterator predBBB = pred->begin(),
-                                                predBBE = pred->end();
-                           predBBB != predBBE; ++predBBB) {
-                        if (DILocation *searchLoc =
-                                cast<Instruction>(predBBB)->getDebugLoc()) {
+                      if (loopOwner->getParent()->size() == 4) {
+                        if (pred->back().getDebugLoc()) {
                           scopeSearchBlock = pred;
-                          //break;
-                          // makes it so the LAST found instruction chooses the
-                          // block: this is meant to fix some issue with
-                          // for3loops and nested scopes, but it probably isn't
-                          // ideal.
+                          break;
                         }
+                      } else {
+                          scopeSearchBlock = pred;
                       }
                     }
+                    
+                    //for (BasicBlock *pred :
+                    //     predecessors(loopOwner->getParent())) {
+                    //  // TODO: loop instructions of the blocks, find some
+                    //  // instruction WITH a nonnull debugloc, and make the block
+                    //  // that finds it the scopeSearchBlock
+                    //  for (BasicBlock::iterator predBBB = pred->begin(),
+                    //                            predBBE = pred->end();
+                    //       predBBB != predBBE; ++predBBB) {
+                    //    if (DILocation *searchLoc =
+                    //            cast<Instruction>(predBBB)->getDebugLoc()) {
+                    //      scopeSearchBlock = pred;
+                    //      break;
+                    //      // makes it so the LAST found instruction chooses the
+                    //      // block: this is meant to fix some issue with
+                    //      // for3loops and nested scopes, but it probably isn't
+                    //      // ideal.
+                    //    }
+                    //  }
+                    //}
+
                   }
                   if (isForEach) {
                     // TODO: NEED TO CONNECT initializery thing TO THE LOOP NODE
@@ -2218,7 +2239,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                       if (loopOwner->getParent()->size() > 1) {
                         scopeSearchBlock = loopOwner->getParent();
                       }
-                      if (scopeSearchBlock->front().getDebugLoc()) {
+                      if (scopeSearchBlock && scopeSearchBlock->front().getDebugLoc()) {
                         if (DILexicalBlock *LB = dyn_cast<DILexicalBlock>(
                                 scopeSearchBlock->front()
                                     .getDebugLoc()
