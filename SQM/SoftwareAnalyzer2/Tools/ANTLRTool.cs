@@ -70,21 +70,24 @@ namespace SoftwareAnalyzer2.Tools
             try {
                 stdin.AutoFlush = true;
                 
+                // string preProOutFile = filename;
                 // if (lang is CPPLanguage) {
-                //     int  p       = (int) Environment.OSVersion.Platform;
-                //     bool isLinux = (p == 4) || (p == 6) || (p == 128);
+                //     // Execute C++ preprocessing depending on platform
+                //     preProOutFile = filename + "-preprocessed";
+                //     int pltfrm    = (int) Environment.OSVersion.Platform;
+                //     bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
                 //     if (isLinux) {
+                //         // Preprocess input using cpp preprocessor
                 //         Process cpp = new Process();
                 //         cpp.StartInfo.FileName        = "/bin/cpp";
-                //         cpp.StartInfo.Arguments       = filename + " -o " + filename + "-preprocessed";
+                //         cpp.StartInfo.Arguments       = filename + " -o " + preProOutFile;
                 //         cpp.StartInfo.UseShellExecute = false;
                 //         cpp.StartInfo.RedirectStandardInput  = true;
                 //         cpp.StartInfo.RedirectStandardOutput = true;
                 //         cpp.StartInfo.RedirectStandardError  = true;
                 //         cpp.Start();
-                //         cpp.WaitForExit();
+                //         cpp.WaitForExit(10000);
                 //     }
-
                 // }
                 
                 using (StreamReader reader = new StreamReader(filename)) {
@@ -140,6 +143,18 @@ namespace SoftwareAnalyzer2.Tools
             //captured and brought to the user's attention as they are fatal to the process.
             try
             {
+                // if (lang is CPPLanguage){
+                //     using (StreamReader reader = new StreamReader(preProOutFile)) {
+                //         string line;
+                //         while ((line = reader.ReadLine()) != null) {
+                //             string translatedLine = line; 
+
+                //             // Remove all the include statements for the preprocessor
+                //             translatedLine = Regex.Replace(translatedLine, @"#include .*", "");
+                //         }
+                //     }
+                // }
+            
                 string processName = lang.ProcessName;
                 string instruction = lang.ANTLRInstruction;
                 //run -tree fileName
