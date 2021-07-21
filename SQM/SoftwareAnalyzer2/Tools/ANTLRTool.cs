@@ -69,7 +69,24 @@ namespace SoftwareAnalyzer2.Tools
         private void writeFileToANTLR(string filename, ILanguage lang, StreamWriter stdin) {
             try {
                 stdin.AutoFlush = true;
+                
+                // if (lang is CPPLanguage) {
+                //     int  p       = (int) Environment.OSVersion.Platform;
+                //     bool isLinux = (p == 4) || (p == 6) || (p == 128);
+                //     if (isLinux) {
+                //         Process cpp = new Process();
+                //         cpp.StartInfo.FileName        = "/bin/cpp";
+                //         cpp.StartInfo.Arguments       = filename + " -o " + filename + "-preprocessed";
+                //         cpp.StartInfo.UseShellExecute = false;
+                //         cpp.StartInfo.RedirectStandardInput  = true;
+                //         cpp.StartInfo.RedirectStandardOutput = true;
+                //         cpp.StartInfo.RedirectStandardError  = true;
+                //         cpp.Start();
+                //         cpp.WaitForExit();
+                //     }
 
+                // }
+                
                 using (StreamReader reader = new StreamReader(filename)) {
                     string line;
                     while ((line = reader.ReadLine()) != null) {
