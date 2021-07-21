@@ -64,6 +64,7 @@ void HeadlessApp::onNewConnection(){
     m_clients << pSocket;
 
     qDebug() << "Socket Connected:";
+    pSocket->sendTextMessage("connected!");
 }
 
 void HeadlessApp::socketDisconnected(){

@@ -30,5 +30,4 @@ void I_TopicPanel::signalTopicSelectionChanged(std::vector<std::string> v)
 
 void I_TopicPanel::signalSelectListOfTopics(const QStringList& topics){
     emit selectTopicList(topics);
-    QMessageBox::information(nullptr, "title", "signalSelectListOfTopics");
 }
