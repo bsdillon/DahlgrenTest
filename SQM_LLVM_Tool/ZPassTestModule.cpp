@@ -634,6 +634,8 @@ nodeSQM globalFieldFinder(GlobalVariable *GV) {
                               G->getLine());
     }
   }
+  nodeSQM emptyNode;
+  return emptyNode;
 }
 
 // for identifying fields, parameters
@@ -1268,7 +1270,12 @@ void definitionEdgeConnector(DIType *TN, nodeSQM uniqueFieldNode, bool isSub) {
       TN = DT->getBaseType();
     }
   }
-
+  // the type of an array-type dicomposite that isn't a named structure is the type of the array elements.
+  if (TN->getName() == "" && TN->getTag() == 1) {
+    if (DICompositeType *CT = dyn_cast<DICompositeType>(TN)) {
+      TN = CT->getBaseType();
+    }
+  }
   nodeSQM uniqueTypeNode;
   uniqueTypeNode = typeNodeGenerator(TN);
   if (DICompositeType *CT = dyn_cast<DICompositeType>(TN)) {
@@ -2671,7 +2678,6 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                     if (calledFunction->getParamDereferenceableBytes(0) != 0) {
                       
                       Value *argThing = CB->getArgOperand(0);
-
                       nodeSQM uniqueFieldNode = fieldParameterFinder(argThing);
                       // TODO: make sure this is all fine and good
                       // right now this removes the operator== accesses as
@@ -2712,9 +2718,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                           }
                         }
                       }
-
                     }
-
                     // try to connect actual params to formal ones
                     // TODO: make this less god-awful
                     // maybe look at DISubroutineType...?
