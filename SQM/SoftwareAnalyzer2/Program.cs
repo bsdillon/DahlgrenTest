@@ -73,7 +73,9 @@ namespace SoftwareAnalyzer2
             }
             else {
                 p = Project.GenerateNew(proj_name, dir);
-                p.SetProperty(ProjectProperties.Tool, "ANTLR");
+                string tool_name = Environment.GetEnvironmentVariable("SQM_TOOL") ?? "ANTLR";
+                Console.WriteLine("Using tool_name="+tool_name);
+                p.SetProperty(ProjectProperties.Tool, tool_name);
                 p.SetProperty(ProjectProperties.Language, language);
                 p.SetProperty(ProjectProperties.RootDirectory, src_dir);
                 p.WriteFile();
@@ -195,6 +197,9 @@ namespace SoftwareAnalyzer2
         {
             ILanguage lang = LanguageManager.GetLanguage(p.GetProperty(ProjectProperties.Language));
             ITool tool = ToolManager.GetTool(p.GetProperty(ProjectProperties.Tool));
+            if (tool is LLVMTool) {
+                ((LLVMTool) tool).project = p;
+            }
             string rootPath = p.GetProperty(ProjectProperties.RootDirectory);
 
             int totalFiles = 0;

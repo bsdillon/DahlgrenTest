@@ -6,7 +6,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "llvm/Transforms/ZPassTestModule/ZPassTestModule.h"
+#include "ZPassTestModule.h"
 // brackets for standard library stuff, quotes for everything else
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/DebugLoc.h"
@@ -18,11 +18,28 @@
 // on more modern LLVM, the stuff I used from Local.h is in DebugInfo.h!
 // FindDbgDeclareUses
 #include "llvm/Transforms/Utils/Local.h"
-#include "llvm/Support/FormatVariadic.h""
+#include "llvm/Support/FormatVariadic.h"
 // C++17 or higher required
-#include <filesystem>
+
 #include <iostream>
 #include <fstream>
+
+#if __cplusplus < 201703L
+  // #error "Must use C++17 or better, current __cplusplus = " __cplusplus
+  // Instead of pushing the issue upwords, just shim in equivelant functions b/c cmake can't use
+  // CMAKE_CXX_STANDARD to set the compiler flags correctly.
+  #include <unistd.h>
+  namespace std {
+    namespace filesystem {
+      std::string current_path() {
+        char temp[4096];
+        return (getcwd(temp, sizeof(temp)) ? std::string(temp) : std::string(""));
+      }
+    }
+  }
+#else
+  #include <filesystem>
+#endif
 
 using namespace llvm;
 
@@ -460,7 +477,7 @@ nodeSQM nonStringLiteralFinder(Instruction *I, Value *storeValue) {
       FP->getType()->print(rso);
       definitionName = rso.str();
     } else if (ConstantInt *CI = dyn_cast<ConstantInt>(storeValue)) {
-      std::string literalString = (CI->getValue()).toString(10, true);
+      std::string literalString = std::to_string( *(CI->getValue().getRawData()) );
       // may want to chop out this if-else-if for something nicer...
       // TODO: figure out how to best connect literals to their types
       if (outString.find("char") != std::string::npos) {
@@ -1561,7 +1578,11 @@ nodeSQM subprogramNodeGenerator(DISubprogram *S) {
 // define static variables for counting and retaining
 int nodeSQM::nodeCount = 0;
 std::vector<nodeSQM> nodeSQM::nodeVec = {};
-std::string nodeSQM::currentPath = std::filesystem::current_path().string();
+#if __cplusplus < 201703L
+  std::string nodeSQM::currentPath = std::filesystem::current_path();
+#else
+  std::string nodeSQM::currentPath = std::filesystem::current_path().string();
+#endif
 std::vector<edgeSQM> edgeSQM::edgeVec = {};
 
 // main, essentially
@@ -1632,7 +1653,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
         } else if (ConstantInt *CI =
                        dyn_cast<ConstantInt>(nonDebugGV->getInitializer())) {
           std::string typeName = (TN->getName()).str();
-          std::string literalString = (CI->getValue()).toString(10, true);
+          std::string literalString = std::to_string( *(CI->getValue().getRawData()) );
           // may want to chop out this if-else-if for something nicer...
           if (typeName == "char") {
             std::string charString(1, (char)stoi(literalString));
