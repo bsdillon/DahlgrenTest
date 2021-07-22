@@ -341,6 +341,16 @@ nodeSQM branchScopeSpecifier(Instruction *IB) {
       }
     }
   }
+  // supposed to help with some ForEachLoops creating extra scopes...
+  if (BasicBlock *parentPred = parentBlock->getSinglePredecessor()) {
+    for (User *U : parentPred->users()) {
+      if (BranchInst *UBI = dyn_cast<BranchInst>(U)) {
+        if (UBI->hasMetadata(StringRef("llvm.loop"))) {
+          isLoop = true;
+        } 
+      }
+    }
+  }
 
   if (!isLoop) {
     // this whole thing is for branch statements with no curly
@@ -418,7 +428,6 @@ nodeSQM branchScopeSpecifier(Instruction *IB) {
       }
     }
   }
-
   DILexicalBlock *LB = cast<DILexicalBlock>(IB->getDebugLoc()->getScope());
 
   return addUniqueNewNode("Scope", "--", LB->getFilename(), LB->getLine(),
@@ -1938,7 +1947,10 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                               Loc->getLine(), Loc->getColumn());
 
                           // dig past the scope containing the initializer things
-                          DILocalScope *presentScope = cast<DILexicalBlock>(Loc->getScope())->getScope();
+                          //DILocalScope *presentScope = cast<DILexicalBlock>(Loc->getScope())->getScope();
+                          // or don't since it seems like I'm keeping the weird initializery scopes...
+                          // note that this should never be a DISubprogram and so if this is the way forward that section should be removed
+                          DILocalScope *presentScope = Loc->getScope();
 
                           if (DILexicalBlock *LScope =
                                   dyn_cast<DILexicalBlock>(presentScope)) {
@@ -2038,6 +2050,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                                             }
                                           }
                                         }
+                                        // TODO: use user_back() instead of doing a loop and immediately breaking it maybe?
                                         break;
                                       }
                                     }
@@ -2550,6 +2563,19 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                   }
                 }
               }
+            } else if (CallBase *CB = dyn_cast<CallBase>(retValue)) {
+              // callbase means there's a function here
+              nodeSQM functionNode;
+              Function *calledFunction = CB->getCalledFunction();
+              if (calledFunction->getSubprogram() == NULL) {
+                functionNode = undefinedFunctionNodes(calledFunction)[0];
+              } else {
+                functionNode =
+                    subprogramNodeGenerator(calledFunction->getSubprogram());
+              }
+              addUniqueNewEdge(currentMethodNode.numericID,
+                               functionNode.numericID, scopeNode.numericID,
+                               "ReturnValue");
             }
             // TODO: maybe do an else if and try dyncasting this to Constant
             if (retValue) {
