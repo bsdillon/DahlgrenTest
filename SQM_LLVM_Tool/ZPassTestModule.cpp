@@ -956,6 +956,17 @@ storeInstFieldNodeGenerator(StoreInst *SI) {
           writeVec.push_back(nonStringLiteralFinder(CMP, op));
         } else if (LoadInst *LI = dyn_cast<LoadInst>(op)) {
           writeVec.push_back(fieldParameterFinder(LI->getPointerOperand()));
+        } else if (CallBase *CB = dyn_cast<CallBase>(op)) {
+          // callbase means there's a function here
+          nodeSQM functionNode;
+          Function *calledFunction = CB->getCalledFunction();
+          if (calledFunction->getSubprogram() == NULL) {
+            functionNode = undefinedFunctionNodes(calledFunction)[0];
+          } else {
+            functionNode =
+                subprogramNodeGenerator(calledFunction->getSubprogram());
+          }
+          writeVec.push_back(functionNode);
         }
       }
     } else if (PHINode *PN = dyn_cast<PHINode>(storeValue)) {
