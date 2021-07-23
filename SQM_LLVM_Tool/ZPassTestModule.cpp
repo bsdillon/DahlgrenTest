@@ -2574,7 +2574,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                   }
                 }
               }
-            } else if (CallBase *CB = dyn_cast<CallBase>(retValue)) {
+            } else if (CallBase *CB = dyn_cast_or_null<CallBase>(retValue)) {
               // callbase means there's a function here
               nodeSQM functionNode;
               Function *calledFunction = CB->getCalledFunction();
@@ -2731,31 +2731,28 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                                          uniqueFieldNode.numericID,
                                          scopeNode.numericID, "CandidateRead");
                       }
+                    }
 
-                      // sret read/write edges here
-                      // TODO: check this out more
-                      // may want to move out and up to the getDirectory scope
-                      // this assumes paramDerefs which may not be the case..!
-                      if (calledFunction->hasStructRetAttr()) {
-                        for (int argPos = 0; argPos < 2; argPos++) {
-                          if (calledFunction->getParamStructRetType(argPos)) {
-                            // get pointer of argument
-                            nodeSQM writtenNode =
-                                fieldParameterFinder(CB->getOperand(argPos));
-                            if (!writtenNode.isEmpty()) {
-                              addUniqueNewEdge(writtenNode.numericID,
-                                               calledFunctionNode.numericID,
-                                               scopeNode.numericID,
-                                               "WrittenBy");
-                              addUniqueNewEdge(calledFunctionNode.numericID,
-                                               writtenNode.numericID,
-                                               scopeNode.numericID,
-                                               "CandidateRead");
-                            }
+                    // sret read/write edges here
+                    if (calledFunction->hasStructRetAttr()) {
+                      for (int argPos = 0; argPos < 2; argPos++) {
+                        if (calledFunction->getParamStructRetType(argPos)) {
+                          // get pointer of argument
+                          nodeSQM writtenNode =
+                              fieldParameterFinder(CB->getOperand(argPos));
+                          if (!writtenNode.isEmpty()) {
+                            addUniqueNewEdge(writtenNode.numericID,
+                                             calledFunctionNode.numericID,
+                                             scopeNode.numericID, "WrittenBy");
+                            addUniqueNewEdge(calledFunctionNode.numericID,
+                                             writtenNode.numericID,
+                                             scopeNode.numericID,
+                                             "CandidateRead");
                           }
                         }
                       }
                     }
+
                     // try to connect actual params to formal ones
                     // TODO: make this less god-awful
                     // maybe look at DISubroutineType...?
