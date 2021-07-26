@@ -18,7 +18,7 @@
 // on more modern LLVM, the stuff I used from Local.h is in DebugInfo.h!
 // FindDbgDeclareUses
 #include "llvm/Transforms/Utils/Local.h"
-#include "llvm/Support/FormatVariadic.h""
+#include "llvm/Support/FormatVariadic.h"
 // C++17 or higher required
 #include <filesystem>
 #include <iostream>
@@ -2763,6 +2763,8 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                       // errs() << "Operand Check\n";
                       unsigned argNo = argB->getArgNo();
                       // argB->dump();
+                      
+                      // THIS UPPER SECTION IS FOR STRING LITERALS ONLY
                       // TODO: check the procedure for string literals
                       // argB is some kind of % identifier
                       // actualParam is an alloca
@@ -2800,14 +2802,12 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                           //errs() << actualParameterNode << "\n";
                         }
                       }
-
                       // actualParam can straight-up be a valid ConstantExpr
                       // for string Literals
                       if (ConstantExpr *CE =
                               dyn_cast<ConstantExpr>(actualParam)) {
                         actualParameterNode = stringLiteralFinder(CE, CB);
                       }
-
                       // TODO: cut this, move below
                       if (!formalParameterNode.isEmpty() &&
                           !actualParameterNode.isEmpty()) {
