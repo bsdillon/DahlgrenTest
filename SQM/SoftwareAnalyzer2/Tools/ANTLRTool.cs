@@ -70,26 +70,6 @@ namespace SoftwareAnalyzer2.Tools
             try {
                 stdin.AutoFlush = true;
                 
-                // string preProOutFile = filename;
-                // if (lang is CPPLanguage) {
-                //     // Execute C++ preprocessing depending on platform
-                //     preProOutFile = filename + "-preprocessed";
-                //     int pltfrm    = (int) Environment.OSVersion.Platform;
-                //     bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
-                //     if (isLinux) {
-                //         // Preprocess input using cpp preprocessor
-                //         Process cpp = new Process();
-                //         cpp.StartInfo.FileName        = "/bin/cpp";
-                //         cpp.StartInfo.Arguments       = filename + " -o " + preProOutFile;
-                //         cpp.StartInfo.UseShellExecute = false;
-                //         cpp.StartInfo.RedirectStandardInput  = true;
-                //         cpp.StartInfo.RedirectStandardOutput = true;
-                //         cpp.StartInfo.RedirectStandardError  = true;
-                //         cpp.Start();
-                //         cpp.WaitForExit(10000);
-                //     }
-                // }
-                
                 using (StreamReader reader = new StreamReader(filename)) {
                     string line;
                     while ((line = reader.ReadLine()) != null) {
@@ -143,17 +123,42 @@ namespace SoftwareAnalyzer2.Tools
             //captured and brought to the user's attention as they are fatal to the process.
             try
             {
-                // if (lang is CPPLanguage){
-                //     using (StreamReader reader = new StreamReader(preProOutFile)) {
-                //         string line;
-                //         while ((line = reader.ReadLine()) != null) {
-                //             string translatedLine = line; 
+                // temporary filenames for filtered and preprocessed files
+                string filtered     = fileName + "-filtered";
+                string preprocessed = fileName;
 
-                //             // Remove all the include statements for the preprocessor
-                //             translatedLine = Regex.Replace(translatedLine, @"#include .*", "");
-                //         }
-                //     }
-                // }
+                // Gets rid of all include statements for preprocessing and
+                // preprocesses all code before tokenization from ANTLR
+                if (lang is CPPLanguage){
+                    using (StreamReader input  = File.OpenText(fileName))
+                    using (StreamWriter output = new StreamWriter(filtered)) {
+                        string line;
+                        while ((line = input.ReadLine()) != null) {
+                            string translatedLine = line;
+                            translatedLine = Regex.Replace(translatedLine, @"#include .*", "");
+                            output.WriteLine(translatedLine);
+                        }
+                    }
+
+                    // if C++, preprocesses a filtered file without includes
+                    preprocessed = fileName + "-preprocessed";
+
+                    // Execute C++ preprocessing depending on platform
+                    int  pltfrm   = (int) Environment.OSVersion.Platform;
+                    bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
+                    if (isLinux) {
+                        // Preprocess input using cpp preprocessor
+                        Process cpp = new Process();
+                        cpp.StartInfo.FileName        = "/bin/cpp";
+                        cpp.StartInfo.Arguments       = filtered + " -P -o " + preprocessed;
+                        cpp.StartInfo.UseShellExecute = false;
+                        cpp.StartInfo.RedirectStandardInput  = true;
+                        cpp.StartInfo.RedirectStandardOutput = true;
+                        cpp.StartInfo.RedirectStandardError  = true;
+                        cpp.Start();
+                        cpp.WaitForExit(10000);
+                    }
+                }
             
                 string processName = lang.ProcessName;
                 string instruction = lang.ANTLRInstruction;
@@ -168,7 +173,7 @@ namespace SoftwareAnalyzer2.Tools
                 p.StartInfo.RedirectStandardError = true;
                 p.Start();
                 Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
-                Thread p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
+                Thread p_stdin_t = new Thread(() => writeFileToANTLR(preprocessed, lang, p.StandardInput));
                 p_stdin_t.Start();
                 
 
@@ -183,7 +188,7 @@ namespace SoftwareAnalyzer2.Tools
                 p2.StartInfo.RedirectStandardError = true;
                 p2.Start();
                 Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
-                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
+                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(preprocessed, lang, p2.StandardInput));
                 p2_stdin_t.Start();
 
                 if (myLang is CPPLanguage) {
@@ -201,6 +206,12 @@ namespace SoftwareAnalyzer2.Tools
                 }
 
                 Console.Out.WriteLine(fileName);
+                
+                // Deletes the temporary filtered and preprocessed files
+                if(System.IO.File.Exists(filtered) && System.IO.File.Exists(preprocessed)) {
+                    System.IO.File.Delete(filtered);
+                    System.IO.File.Delete(preprocessed);
+                }
                 
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
