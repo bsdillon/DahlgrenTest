@@ -173,8 +173,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StateCounter.CountAllStates();
             SetOutput("Looking for state machines");
             StatePatternMetrics.FindPatterns();
+            
             SetOutput("Checking for any CSV Issues");
             TraceCSVLinks(current);
+
             SetOutput("Writing graph files");
             WriteOutGraph();
             SetOutput("Writing metric reports");
@@ -777,15 +779,17 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 return;
             }
 
-            Dictionary<string, List<AbbreviatedGraph>> statementDict = current.GetStatementsDict();
+            Dictionary <string, Dictionary<int, List<GraphNode>>> lineNums = GraphNode.GetLineNumDict();
+  
             //foreach csv file entered by the user
-                //for each file in statementDict (statementDict.Keys = filenames. statementDict.Values = statements associated with the file name key.)
-                    //read the csv file
-                        //if filename and line number match
-                            //get all edges from the abbrgraph gephinode and mark them as affected
+            ////foreach file in linenums (declared above). key = filename, value = dictionary<line number, list of graph nodes that have that line number>
+            //////read the csv file
+            //////if filename and line number match
+            ////////find all related edges
             foreach (String csvFile in csvPaths)
             {
-                foreach (string fileNameKey in statementDict.Keys)
+                //file in linenumdict
+                foreach (string fileNameKey in lineNums.Keys)
                 {
                     using (var read = new StreamReader(@csvFile))
                     {
@@ -811,73 +815,22 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             //if filename matches
                             if (fileNameKey == values[0])
                             {
-                                //for every abbrGraph with that file name, check the line number
-                                foreach(AbbreviatedGraph statem in statementDict[fileNameKey])
+                                //if line number matches, find the connections
+                                if (int.TryParse(values[1], out lineNum))
                                 {
-                                    //if line number matches, mark all edges with the attribute
-                                    if (int.TryParse(values[1], out lineNum))
+                                    if (lineNums[fileNameKey].ContainsKey(lineNum))
                                     {
-                                        if (statem.Represented.GetLineStart() == lineNum )
-                                        {
-                                            lineUsed = true;
-                                            //what nodes are correlated to edge
-                                            if (MetricUtilities.GephiExists(statem))
-                                            {
-                                                GephiNode geNode = MetricUtilities.GephiFromGraph(statem);
-                                                foreach (GephiEdge e in MetricUtilities.GetEdges(geNode))
-                                                {
-                                                    if (!e.GetSource().HasProperty(errorProp))
-                                                    {
-                                                        e.GetSource().AddProperty(errorProp, "");
-                                                    }
-                                                    if (!e.GetSink().HasProperty(errorProp))
-                                                    {
-                                                        e.GetSink().AddProperty(errorProp, "");
-                                                    }
-
-                                                    string srcMiscData = (string)e.GetSource().GetProperty(errorProp);
-                                                    string snkMiscData = (string)e.GetSink().GetProperty(errorProp);
-                                                    if (srcMiscData == "")
-                                                    {
-                                                        e.GetSource().SetProperty(errorProp, values[2]);
-                                                    }
-                                                    else if (srcMiscData == values[2] || srcMiscData.Contains(values[2]))
-                                                    {
-                                                        //no op 
-                                                    }
-                                                    else
-                                                    {
-                                                        e.GetSource().SetProperty(errorProp, (string)e.GetSource().GetProperty(errorProp) + "&" + values[2]);
-                                                    }
-
-                                                    if (snkMiscData == "")
-                                                    {
-                                                        e.GetSink().SetProperty(errorProp, values[2]);
-                                                    }
-                                                    else if (snkMiscData == values[2] || snkMiscData.Contains(values[2]))
-                                                    {
-                                                        //no op 
-                                                    }
-                                                    else
-                                                    {
-                                                        e.GetSink().SetProperty(errorProp, (string)e.GetSink().GetProperty(errorProp) + "&" + values[2]);
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                //matching line/file name found, but no abbr.graph. maybe a branch?
-                                                csvErrors += "Line Number: " + lineNum + "in File: " + statem.Represented.FileName + " has no AbbreviatedGraph." + System.Environment.NewLine;
-                                            }
-
-                                        }
-                                        else
-                                        {
-                                            //file name matches, but the line number does not. this will happen a lot...
-                                            //TODO? maybe unneccesary
-                                        }
+                                        lineUsed = true;
+                                        //line number matches an edge, trace it further
+                                        GraphNode.FindCSVConnections(fileNameKey, lineNum, fileStem);
+                                    }
+                                    else
+                                    {
+                                        //file name matches, but the line number does not. this will happen a lot...
+                                        //TODO? maybe unneccesary (subject to change)
                                     }
                                 }
+  
                                 //if a csv input field matched on filename, but the line number was never used, report it
                                 if (!lineUsed)
                                 {

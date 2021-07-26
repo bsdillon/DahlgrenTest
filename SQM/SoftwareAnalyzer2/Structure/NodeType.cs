@@ -409,6 +409,10 @@ namespace SoftwareAnalyzer2.Structure
             return answer;
         }
 
+        public Members GetMyMember()
+        {
+            return myMember;
+        }
         public override int GetHashCode()
         {
             int baseVal = designation.GetHashCode();

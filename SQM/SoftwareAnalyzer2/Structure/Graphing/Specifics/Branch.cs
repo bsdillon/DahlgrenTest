@@ -16,6 +16,24 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             represented = node;
         }
 
+        public List<Tuple<int,int>> GetBranchLineNums()
+        {
+            List<Tuple<int, int>> branches = new List<Tuple<int, int>>();
+            //have to check for null because some branches don't have then/elsescopes
+            if(thenScope != null)
+            {
+                Tuple<int, int> thenTup = Tuple.Create(thenScope.Represented.GetLineStart(), thenScope.Represented.GetLineStop());
+                branches.Add(thenTup);
+            }
+            if(elseScope != null)
+            {
+                Tuple<int, int> elseTup = Tuple.Create(elseScope.Represented.GetLineStart(), elseScope.Represented.GetLineStop());
+                branches.Add(elseTup);
+            }
+            //return a list of tuples containing start line and stop lines
+            return branches;
+        }
+
         #region Registration
         public override void Register(List<DefinedMember> memberList, GraphNode parentScope)
         {

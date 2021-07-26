@@ -106,6 +106,14 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         #region Instance Members
         #region Fields
         private Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>> relationshipsTo = new Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>>();
+        private static Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
+        private static Dictionary<string, Dictionary<int, List<GraphNode>>> affectedDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>(); 
+
+
+        public static Dictionary<string, Dictionary<int, List<GraphNode>>> GetLineNumDict()
+        {
+            return lineNumDict;
+        }
 
         protected INode represented;
         public INode Represented
@@ -493,7 +501,9 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
         #region Save
         protected bool explored = false;
+        protected bool traced = false;
         protected long myNodeID = -1;
+        private int parentLineNum = -1;
         /// <summary>
         /// If the node has not been assigned an ID, one is assigned and the node is written to the file.
         /// The node is returned.
@@ -554,8 +564,270 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             return answer;
         }
 
+        public static void FindCSVConnections(string fileName, int lineNum, string fileStem)
+        {
+            string fileNameModded = fileName.Replace("\\", string.Empty);
+            string outputFileName = "_errors_output.csv";
+            string fullFile = fileStem + outputFileName;
+            StreamWriter gFile = new StreamWriter(fullFile, true);
+
+            List<GraphNode> relatedGNodes = lineNumDict[fileName][lineNum];
+            
+            //find all graphnodes that are related to the line number entered by the user
+            FindAffectedNodes(relatedGNodes, gFile);
+
+            //csv output (subject to change)
+            foreach (string fN in affectedDict.Keys)
+            {
+                Dictionary <int,List<GraphNode>> valDict = affectedDict[fN];
+                foreach(int lN in valDict.Keys)
+                {
+                    List<GraphNode> gnList = valDict[lN];
+                    //output affected filename, linenumber, and nodetype
+                    string gnListStr = "";
+                    foreach(GraphNode g in gnList)
+                    {
+                        gnListStr += g.Represented.Node.ToString() + ",";
+                    }
+                    gFile.WriteLine(fileName + "[" + lineNum.ToString() + "]," + fN + "," + lN + "," + gnListStr);
+                }  
+            }
+
+            gFile.Close();
+        }
+
+        public static void FindAffectedNodes(List<GraphNode> gNodes, StreamWriter file)
+        {
+            //for every affected graph node, trace the relationships down the chain until everything has been traced
+            foreach (GraphNode g in gNodes)
+            {
+                if (!g.Represented.Node.IsClassification)
+                {
+                    //constructor, literal, statement, return type, return, method are potential future cases to consider
+                    //field, param, local variable**, return value, method are used in the state tracing
+
+                    //switch statement to trace the different member types.
+                    //each member type has a different set of relationships (writtento, candidateread, etc.) that needs to be traced.
+                    switch (g.Represented.Node.GetMyMember()) 
+                    {
+                        case Members.Field:
+                            TraceField(g);
+                            break;
+                        case Members.Parameter:
+                            TraceParameter(g);
+                            break;
+                        case Members.Method:
+                            TraceMethod(g);
+                            break;
+                        case Members.MethodScope:
+                            if(g.ParentScope.Represented.Node.GetMyMember() == Members.Method)
+                            {
+                                TraceMethod(g.ParentScope);
+                            }
+                            break;
+                        case Members.Branch:
+                            TraceBranch(g);
+                            break;
+                        default:
+                            //default functionality unnecessary? (subject to change)
+                            break;
+                    }
+                }
+            }
+        }
+
+        private static void TraceField(GraphNode gn)
+        {
+            //don't retrace any fields that have already been marked.
+            if (!gn.traced)
+            {
+                gn.traced = true;
+                //leaving this out for now. (subject to change)
+                //WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, gn.Represented.GetLineStart());
+
+                foreach (Relationship r in gn.relationshipsTo.Keys)
+                {
+                    //it seems that candidate read is neccesary in some circumstances but not in others. (subject to change)
+                    if (r == Relationship.WrittenBy || r == Relationship.ReturnType /*|| r == Relationship.CandidateRead*/)
+                    {
+                        foreach (GraphNode grphNde in gn.relationshipsTo[r].Keys)
+                        {
+                            if(grphNde.Represented.Node.GetMyMember() != Members.Literal)
+                            {
+                                WriteStatementToAffectedDict(gn, grphNde, r);
+                            }
+                            
+                            //field wants to trace back to anything it is related to.
+                            if (grphNde.Represented.Node.Equals(Members.Parameter))
+                            {
+                                TraceParameter(grphNde);
+                            }
+                            else if (grphNde.Represented.Node.Equals(Members.Method))
+                            {
+                                TraceMethod(grphNde);
+                            }
+                            else if (grphNde.Represented.Node.Equals(Members.Branch))
+                            {
+                                TraceBranch(grphNde);
+                            }
+                            else if (grphNde.Represented.Node.Equals(Members.Field))
+                            {
+                                TraceField(grphNde);
+                            }
+                            else
+                            {
+                                //case not accounted for. error message to user.
+                                //throw new InvalidCastException(grphNde.Represented.Node.ToString() + " not accounted for.");
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void TraceParameter(GraphNode gn)
+        {
+            //don't retrace any fields that have already been marked.
+            if (!gn.traced)
+            {
+                gn.traced = true;
+                WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, gn.Represented.GetLineStart());
+
+                foreach (Relationship r in gn.relationshipsTo.Keys)
+                {
+                    if (r == Relationship.CandidateRead)
+                    {
+                        foreach (GraphNode grphNde in gn.relationshipsTo[r].Keys)
+                        {
+                            WriteStatementToAffectedDict(gn, grphNde, r);
+
+                            if (grphNde.Represented.Node.Equals(Members.Method))
+                            {
+                                TraceMethod(grphNde);
+                            }
+                            else if (grphNde.Represented.Node.Equals(Members.Parameter))
+                            {
+                                TraceParameter(grphNde);
+                            }
+                            else
+                            {
+                                //case not accounted for. error message to user.
+                                //throw new InvalidCastException(grphNde.Represented.Node.ToString() + " not accounted for.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void TraceMethod(GraphNode gn)
+        {
+            //don't retrace any fields that have already been marked.
+            if (!gn.traced)
+            {
+                gn.traced = true;
+                WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, -1);
+
+                foreach (Relationship r in gn.relationshipsTo.Keys)
+                {
+                    if (r == Relationship.CandidateRead)
+                    {
+                        foreach (GraphNode grphNde in gn.relationshipsTo[r].Keys)
+                        {
+                            WriteStatementToAffectedDict(gn, grphNde, r);
+                        }
+                    }
+                    //return value is neccesary in some but not others (subject to change)
+                    else if (r == Relationship.ReturnValue)
+                    {
+                        foreach (GraphNode grphNode in gn.relationshipsTo[r].Keys)
+                        {
+                            WriteStatementToAffectedDict(gn, grphNode, r);
+                            TraceReturnValue(grphNode);
+                        }
+                    }
+                }
+            }
+                
+        }
+
+        private static void TraceBranch(GraphNode gn)
+        {
+            //don't retrace any fields that have already been marked.
+            if (!gn.traced)
+            {
+                gn.traced = true;
+                Branch b = (Branch)gn;
+                //get all of the line numbers in the affected branch (if/else)
+                List<Tuple<int, int>> bList = b.GetBranchLineNums();
+                
+                if(bList != null)
+                {
+                    foreach (Tuple<int, int> t in bList)
+                    {
+                        for (int i = t.Item1; i <= t.Item2; i++)
+                        {
+                            //maybe find relationships of the line numbers eventually (subject to change)
+                            WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, i);
+                        }
+                    }
+                }      
+            }
+        }
+
+        private static void TraceReturnValue(GraphNode gn)
+        {
+            //don't retrace any fields that have already been marked.
+            if (!gn.traced)
+            {
+                gn.traced = true;
+
+                if (gn.Represented.Node.Equals(Members.Field))
+                {
+                    WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, gn.Represented.GetLineStart());
+                }
+
+                foreach (Relationship r in gn.relationshipsTo.Keys)
+                {
+                    if (r == Relationship.WrittenBy)
+                    {
+                        foreach (GraphNode grphNode in gn.relationshipsTo[r].Keys)
+                        {
+                            if (grphNode.Represented.Node.Equals(Members.Field))
+                            {
+                                TraceField(grphNode);
+                            }   
+                        }
+                    }
+                }
+            }
+        }
+        /* template trace function
+        private static void Trace(GraphNode gn)
+        {
+            //don't retrace any fields that have already been marked.
+            if (!gn.traced)
+            {
+                gn.traced = true;
+
+            }
+        }
+        */
+
+        private void SetParentLine(int lineNum)
+        {
+            parentLineNum = lineNum;
+        }
+
+        public int GetParentLine()
+        {
+            return parentLineNum;
+        }
+
         public void WriteNode()
         {
+            WriteToAffectedDict(lineNumDict, this, represented.FileName, represented.GetLineStart());
             string graph = "Node\t" + myNodeID + "\t" + represented.Node;
 
             if (represented.Code.Length == 0)
@@ -603,21 +875,92 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                         if (!scopes.ContainsKey(p))
                         {
                             scopes.Add(p, 0);
+                            p.SetParentLine(s.Represented.GetLineStart());
                         }
                         scopes[p]++;
                     }
 
                     foreach (GraphNode key in scopes.Keys)
                     {
-                        WriteEdge(myNodeID, g.SaveThisNode(), key.SaveThisNode(), r, scopes[key]);
+                        WriteEdge(myNodeID, g.SaveThisNode(), key.SaveThisNode(), r, scopes[key], key.Represented.FileName, key.GetParentLine(), g);
                     }
                 }
             }
         }
-        
+
         protected void WriteEdge(long source, long destination, long scope, Relationship r, int weight)
         {
+            //for writing the .gph file edges
             graphFile.WriteLine("Edge\t" + source + "\t" + destination + "\t" + scope + "\t" + r + "\t" + weight);
+        }
+
+        protected void WriteEdge(long source, long destination, long scope, Relationship r, int weight, string fileName, int lineNumber, GraphNode gn)
+        {
+            //for writing the .gph file edges
+            if(fileName == null)
+            {
+                fileName = " ";
+            }
+            graphFile.WriteLine("Edge\t" + source + "\t" + destination + "\t" + scope + "\t" + r + "\t" + weight + "\t" + lineNumber + "\t" + fileName);
+
+            WriteToAffectedDict(lineNumDict, gn, fileName, lineNumber);
+        }
+
+        private static void WriteToAffectedDict(Dictionary<string, Dictionary<int, List<GraphNode>>> dict, GraphNode gn, string fileName, int lineNumber)
+        {
+            if(fileName != null)
+            {
+                Dictionary<int, List<GraphNode>> gnLine = new Dictionary<int, List<GraphNode>>();
+                gnLine[lineNumber] = new List<GraphNode>();
+                gnLine[lineNumber].Add(gn);
+
+                //add to linenumber dictionary
+                //does the dict contain the filename?
+                if (!dict.ContainsKey(fileName))
+                {
+                    dict.Add(fileName, gnLine);
+                }
+                else
+                {
+                    //if the dict contains the filename, does it also contain the line number?
+                    if (dict[fileName].ContainsKey(lineNumber))
+                    {
+                        //if it doesn't contain the exact graphnode we are inserting, insert it
+                        if (!dict[fileName][lineNumber].Contains(gn))
+                        {
+                            dict[fileName][lineNumber].Add(gn);
+                        }
+                    }
+                    else
+                    {
+                        //if it doesn't contain the line number, safe to insert.
+                        dict[fileName].Add(lineNumber, gnLine[lineNumber]);
+                    }
+                }
+            }
+        }
+
+        private static void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r)
+        {
+            foreach (Statement s in gn.relationshipsTo[r][grphNde])
+            {
+                //check if affectedDict contains the filename we are trying to insert
+                if (!affectedDict.ContainsKey(s.Represented.FileName))
+                {
+                    Dictionary<int, List<GraphNode>> iGNList = new Dictionary<int, List<GraphNode>>();
+                    List<GraphNode> smallGList = new List<GraphNode>();
+                    smallGList.Add(grphNde);
+                    iGNList[s.Represented.GetLineStart()] = smallGList;
+                    affectedDict[s.Represented.FileName] = iGNList;
+                }
+                //if affectedDict contains the filename, does it also contain the line number we are trying to insert?
+                else if (!affectedDict[s.Represented.FileName].ContainsKey(s.Represented.GetLineStart()))
+                {
+                    List<GraphNode> gnList = new List<GraphNode>();
+                    gnList.Add(grphNde);
+                    affectedDict[s.Represented.FileName][s.Represented.GetLineStart()] = gnList;
+                }
+            }
         }
 
         protected const long NO_SCOPE = -1;
