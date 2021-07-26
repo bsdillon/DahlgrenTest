@@ -9,6 +9,14 @@ class ExperimentProxy : public QObject
     Q_OBJECT
 public:
     ExperimentProxy();
+    void updateTopicsPressed();
+    void recordPressed();
+    void pausePressed();
+    void stopPressed();
+    void errorPressed();
+    void finishPressed();
+    void clearDataPressed();
+    void logEventPressed();
 
 signals:
     void FileSelected(QString);
@@ -26,7 +34,6 @@ private:
     I_Experiment* experimentProxy;
 
     void TopicsChanged(std::vector<std::string> s); //Need variable names
-    void FinishPressed();
     void ReceiveFileNameStatus(FileStatus fs);
     void DataReceived();
 };

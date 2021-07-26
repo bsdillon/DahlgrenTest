@@ -127,5 +127,26 @@ void HeadlessApp::onMessage(const QString &message){
         }
 
         topicPanel->selectionChanged(selectedTopics);
+    }else if(message.startsWith("ep")){
+        QStringList fctLis = message.split(":");
+
+        QString btnPressed = fctLis[1];
+        if(btnPressed == "updateTopicsPressed"){
+            experiment->updateTopicsPressed();
+        }else if(btnPressed == "recordPressed"){
+            experiment->recordPressed();
+        }else if(btnPressed == "pausePressed"){
+            experiment->pausePressed();
+        }else if(btnPressed == "stopPressed"){
+            experiment->stopPressed();
+        }else if(btnPressed == "errorPressed"){
+            experiment->errorPressed();
+        }else if(btnPressed == "finishPressed"){
+            experiment->finishPressed();
+        }else if(btnPressed == "clearDataPressed"){
+            experiment->clearDataPressed();
+        }else if(btnPressed == "logEventPressed"){
+            experiment->logEventPressed();
+        }
     }
 }
