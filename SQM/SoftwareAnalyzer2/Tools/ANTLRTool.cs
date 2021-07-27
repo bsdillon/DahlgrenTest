@@ -123,54 +123,55 @@ namespace SoftwareAnalyzer2.Tools
             //captured and brought to the user's attention as they are fatal to the process.
             try
             {
-                // temporary filenames for filtered and preprocessed files
-                string filtered     = fileName + "-filtered";
+                // temporary filenames for macros and preprocessed files
+                string macros       = fileName + "-macros";
                 string preprocessed = fileName;
 
                 // Gets rid of all include statements for preprocessing and
                 // preprocesses all code before tokenization from ANTLR
                 if (lang is CPPLanguage) {
-                    using (StreamReader input  = File.OpenText(fileName))
-                    using (StreamWriter output = new StreamWriter(filtered)) {
-                        string line;
-                        while ((line = input.ReadLine()) != null) {
-                            string translatedLine = line;
-                            translatedLine = Regex.Replace(translatedLine, @"#include .*", "");
-                            output.WriteLine(translatedLine);
-                        }
-                    }
-
-                    // if C++, preprocesses a filtered file without includes
+                    // if C++, file to be analyzed will be preprocessed
                     preprocessed = fileName + "-preprocessed";
 
                     // Execute C++ preprocessing depending on platform
                     int  pltfrm   = (int) Environment.OSVersion.Platform;
                     bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
                     if (isLinux) {
-                        // Preprocess input using cpp preprocessor
+                        // Extract all Macro definitions using preprocessor
+                        Process iMacros = new Process();
+                        iMacros.StartInfo.FileName        = "/bin/cpp";
+                        iMacros.StartInfo.Arguments       = fileName + " -dM -o " + macros;
+                        iMacros.StartInfo.UseShellExecute = false;
+                        iMacros.StartInfo.RedirectStandardInput  = true;
+                        iMacros.StartInfo.RedirectStandardOutput = true;
+                        iMacros.StartInfo.RedirectStandardError  = true;
+                        iMacros.Start();
+                        iMacros.WaitForExit(60100);
+
+                        // Preprocess input using cpp preprocessor with macro definitions as header file
                         Process cpp = new Process();
                         cpp.StartInfo.FileName        = "/bin/cpp";
-                        cpp.StartInfo.Arguments       = filtered + " -P -o " + preprocessed;
+                        cpp.StartInfo.Arguments       = fileName + " -P -imacros " + macros + " -o " + preprocessed;
                         cpp.StartInfo.UseShellExecute = false;
                         cpp.StartInfo.RedirectStandardInput  = true;
                         cpp.StartInfo.RedirectStandardOutput = true;
                         cpp.StartInfo.RedirectStandardError  = true;
                         cpp.Start();
-                        cpp.WaitForExit(10000);
+                        cpp.WaitForExit(60100);
                     }
                 }
             
                 string processName = lang.ProcessName;
                 string instruction = lang.ANTLRInstruction;
                 //run -tree fileName
-                Process p = new Process();
+                Process p            = new Process();
                 p.StartInfo.FileName = processName;
                 //p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree \"" + fileName + "\"";
-                p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree";
+                p.StartInfo.Arguments       = "org.antlr.v4.gui.TestRig " + instruction + " -tree";
                 p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardInput = true;
+                p.StartInfo.RedirectStandardInput  = true;
                 p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.RedirectStandardError = true;
+                p.StartInfo.RedirectStandardError  = true;
                 p.Start();
                 Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
                 Thread p_stdin_t = new Thread(() => writeFileToANTLR(preprocessed, lang, p.StandardInput));
@@ -178,14 +179,14 @@ namespace SoftwareAnalyzer2.Tools
                 
 
                 //run -tokens fileName
-                Process p2 = new Process();
+                Process p2            = new Process();
                 p2.StartInfo.FileName = processName;
                 //p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens \"" + fileName + "\"";
-                p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens";
+                p2.StartInfo.Arguments       = "org.antlr.v4.gui.TestRig " + instruction + " -tokens";
                 p2.StartInfo.UseShellExecute = false;
-                p2.StartInfo.RedirectStandardInput = true;
+                p2.StartInfo.RedirectStandardInput  = true;
                 p2.StartInfo.RedirectStandardOutput = true;
-                p2.StartInfo.RedirectStandardError = true;
+                p2.StartInfo.RedirectStandardError  = true;
                 p2.Start();
                 Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
                 Thread p2_stdin_t = new Thread(() => writeFileToANTLR(preprocessed, lang, p2.StandardInput));
@@ -208,8 +209,8 @@ namespace SoftwareAnalyzer2.Tools
                 Console.Out.WriteLine(fileName);
                 
                 // Deletes the temporary filtered and preprocessed files
-                if(System.IO.File.Exists(filtered) && System.IO.File.Exists(preprocessed)) {
-                    System.IO.File.Delete(filtered);
+                if(System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed)) {
+                    System.IO.File.Delete(macros);
                     System.IO.File.Delete(preprocessed);
                 }
                 
