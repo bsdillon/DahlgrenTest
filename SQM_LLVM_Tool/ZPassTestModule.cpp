@@ -3131,7 +3131,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
   // Edges want Source;Target;Label;Weight;EdgeFlag
   // Label is the edgeType, so that does not change
   // weight's not clear, and neither is EdgeFlag
-  bool printCSVFiles = true;
+  bool printCSVFiles = false;
 
   if (printCSVFiles) {
     std::string nodeFileName =
@@ -3158,11 +3158,16 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
     edgeFile.close();
   }
 
-  for (nodeSQM node : nodeSQM::getNodeVec()) {
-    errs() << node << "\n";
+  bool printToCMD = false;
+
+  if (printToCMD) {
+    for (nodeSQM node : nodeSQM::getNodeVec()) {
+      errs() << node << "\n";
+    }
+    for (edgeSQM edge : edgeSQM::getEdgeVec()) {
+      errs() << edge << "\n";
+    }
   }
-  for (edgeSQM edge : edgeSQM::getEdgeVec()) {
-    errs() << edge << "\n";
-  }
+  
   return PreservedAnalyses::all();
 }
