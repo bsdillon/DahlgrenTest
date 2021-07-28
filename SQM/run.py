@@ -289,8 +289,14 @@ def main(args=sys.argv):
 
   os.environ['SQM_DATA_DIR'] = os.path.abspath(os.path.join('SoftwareAnalyzer2', 'bin', 'TestAnalysis'))
 
-  # Finally build llvm tool
-  build_llvm_tool()
+  # Finally build llvm tool (only if used w/ env var SQM_TOOL=LLVM set)
+  if 'LLVM' in os.environ.get('SQM_TOOL', 'ANTLR'):
+    build_llvm_tool()
+  else:
+    print('WARNING: Skipping LLVM tool build because SQM_TOOL={}'.format(os.environ.get('SQM_TOOL', '')))
+    print('         Set SQM_TOOL=LLVM before running to perform LLVM build (eg "export SQM_TOOL=LLVM" or "setenv SQM_TOOL=LLVM"')
+    print('')
+    time.sleep(2)
 
   exec_cmd = []
 
