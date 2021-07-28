@@ -11,6 +11,11 @@
  - java 8+ (`java.exe` must appear on `%PATH%`)
  - ANTLR (https://www.antlr.org/download.html, d/l the item under "Complete ANTLR 4.9.1 Java binaries jar")
 
+New LLVM requirements:
+
+ - git
+ - clang or gcc
+
 
 ## Windows compile + run commands
 
