@@ -1772,20 +1772,23 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
                     ThenLoc = ThenInstruction->getDebugLoc();
                   }
 
-                  if (BasicBlock *trinaryResult =
-                          BBThen->getSingleSuccessor()) {
-                    // branchInsts may lead to PHINodes, which can indicate a trinary instead of a normal branch
-                    if (trinaryResult == BBElse->getSingleSuccessor() &&
-                        isa<PHINode>(trinaryResult->front())) {
-                      controlStructureNode =
-                          addUniqueNewNode("Trinary", "--", Loc->getFilename(),
-                                           Loc->getLine(), Loc->getColumn());
-                      if (DILexicalBlock *LB = dyn_cast<DILexicalBlock>(
-                              trinaryResult->front().getDebugLoc()->getScope())) {
-                        scopeNode =
-                            branchScopeSpecifier(&trinaryResult->front());
-                      } 
-                    }
+                  // branchInsts may lead to PHINodes, which can indicate a
+                  // trinary instead of a normal branch
+                  if (BBThen->getSingleSuccessor()
+                               && BBThen->getSingleSuccessor() ==
+                          BBElse->getSingleSuccessor() &&
+                      isa<PHINode>(BBThen->getSingleSuccessor()->front())) {
+                    controlStructureNode =
+                        addUniqueNewNode("Trinary", "--", Loc->getFilename(),
+                                         Loc->getLine(), Loc->getColumn());
+                    if (DILexicalBlock *LB = dyn_cast<DILexicalBlock>(
+                            BBThen->getSingleSuccessor()
+                                ->front()
+                                .getDebugLoc()
+                                ->getScope())) {
+                      scopeNode = branchScopeSpecifier(
+                          &BBThen->getSingleSuccessor()->front());
+                    } 
                   } else {
                     if (DILexicalBlock *ThenScope =
                             dyn_cast<DILexicalBlock>(ThenLoc->getScope())) {
@@ -3131,7 +3134,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
   // Edges want Source;Target;Label;Weight;EdgeFlag
   // Label is the edgeType, so that does not change
   // weight's not clear, and neither is EdgeFlag
-  bool printCSVFiles = false;
+  bool printCSVFiles = true;
 
   if (printCSVFiles) {
     std::string nodeFileName =
@@ -3158,7 +3161,7 @@ PreservedAnalyses ZPassTestModulePass::run(Module &M,
     edgeFile.close();
   }
 
-  bool printToCMD = false;
+  bool printToCMD = true;
 
   if (printToCMD) {
     for (nodeSQM node : nodeSQM::getNodeVec()) {
