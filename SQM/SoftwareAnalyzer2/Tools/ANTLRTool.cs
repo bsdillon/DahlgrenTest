@@ -43,7 +43,7 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         private IModifiable head;
-        private ILanguage myLang;
+        private ILanguage   myLang;
 
         //see implementation in ITool
         public INode ParsedNode
@@ -69,26 +69,6 @@ namespace SoftwareAnalyzer2.Tools
         private void writeFileToANTLR(string filename, ILanguage lang, StreamWriter stdin) {
             try {
                 stdin.AutoFlush = true;
-                
-                // string preProOutFile = filename;
-                // if (lang is CPPLanguage) {
-                //     // Execute C++ preprocessing depending on platform
-                //     preProOutFile = filename + "-preprocessed";
-                //     int pltfrm    = (int) Environment.OSVersion.Platform;
-                //     bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
-                //     if (isLinux) {
-                //         // Preprocess input using cpp preprocessor
-                //         Process cpp = new Process();
-                //         cpp.StartInfo.FileName        = "/bin/cpp";
-                //         cpp.StartInfo.Arguments       = filename + " -o " + preProOutFile;
-                //         cpp.StartInfo.UseShellExecute = false;
-                //         cpp.StartInfo.RedirectStandardInput  = true;
-                //         cpp.StartInfo.RedirectStandardOutput = true;
-                //         cpp.StartInfo.RedirectStandardError  = true;
-                //         cpp.Start();
-                //         cpp.WaitForExit(10000);
-                //     }
-                // }
                 
                 using (StreamReader reader = new StreamReader(filename)) {
                     string line;
@@ -143,47 +123,73 @@ namespace SoftwareAnalyzer2.Tools
             //captured and brought to the user's attention as they are fatal to the process.
             try
             {
-                // if (lang is CPPLanguage){
-                //     using (StreamReader reader = new StreamReader(preProOutFile)) {
-                //         string line;
-                //         while ((line = reader.ReadLine()) != null) {
-                //             string translatedLine = line; 
+                // temporary filenames for macros and preprocessed files
+                string macros       = fileName + "-macros";
+                string preprocessed = fileName;
 
-                //             // Remove all the include statements for the preprocessor
-                //             translatedLine = Regex.Replace(translatedLine, @"#include .*", "");
-                //         }
-                //     }
-                // }
+                // Gets rid of all include statements for preprocessing and
+                // preprocesses all code before tokenization from ANTLR
+                if (lang is CPPLanguage) {
+                    // if C++, file to be analyzed will be preprocessed
+                    preprocessed = fileName + "-preprocessed";
+
+                    // Execute C++ preprocessing depending on platform
+                    int  pltfrm   = (int) Environment.OSVersion.Platform;
+                    bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
+                    if (isLinux) {
+                        // Extract all Macro definitions using preprocessor
+                        Process iMacros = new Process();
+                        iMacros.StartInfo.FileName        = "/bin/cpp";
+                        iMacros.StartInfo.Arguments       = fileName + " -dM -o " + macros;
+                        iMacros.StartInfo.UseShellExecute = false;
+                        iMacros.StartInfo.RedirectStandardInput  = true;
+                        iMacros.StartInfo.RedirectStandardOutput = true;
+                        iMacros.StartInfo.RedirectStandardError  = true;
+                        iMacros.Start();
+                        iMacros.WaitForExit(60100);
+
+                        // Preprocess input using cpp preprocessor with macro definitions as header file
+                        Process cpp = new Process();
+                        cpp.StartInfo.FileName        = "/bin/cpp";
+                        cpp.StartInfo.Arguments       = fileName + " -P -imacros " + macros + " -o " + preprocessed;
+                        cpp.StartInfo.UseShellExecute = false;
+                        cpp.StartInfo.RedirectStandardInput  = true;
+                        cpp.StartInfo.RedirectStandardOutput = true;
+                        cpp.StartInfo.RedirectStandardError  = true;
+                        cpp.Start();
+                        cpp.WaitForExit(60100);
+                    }
+                }
             
                 string processName = lang.ProcessName;
                 string instruction = lang.ANTLRInstruction;
                 //run -tree fileName
-                Process p = new Process();
+                Process p            = new Process();
                 p.StartInfo.FileName = processName;
                 //p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree \"" + fileName + "\"";
-                p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree";
+                p.StartInfo.Arguments       = "org.antlr.v4.gui.TestRig " + instruction + " -tree";
                 p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardInput = true;
+                p.StartInfo.RedirectStandardInput  = true;
                 p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.RedirectStandardError = true;
+                p.StartInfo.RedirectStandardError  = true;
                 p.Start();
                 Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
-                Thread p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
+                Thread p_stdin_t = new Thread(() => writeFileToANTLR(preprocessed, lang, p.StandardInput));
                 p_stdin_t.Start();
                 
 
                 //run -tokens fileName
-                Process p2 = new Process();
+                Process p2            = new Process();
                 p2.StartInfo.FileName = processName;
                 //p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens \"" + fileName + "\"";
-                p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens";
+                p2.StartInfo.Arguments       = "org.antlr.v4.gui.TestRig " + instruction + " -tokens";
                 p2.StartInfo.UseShellExecute = false;
-                p2.StartInfo.RedirectStandardInput = true;
+                p2.StartInfo.RedirectStandardInput  = true;
                 p2.StartInfo.RedirectStandardOutput = true;
-                p2.StartInfo.RedirectStandardError = true;
+                p2.StartInfo.RedirectStandardError  = true;
                 p2.Start();
                 Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
-                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
+                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(preprocessed, lang, p2.StandardInput));
                 p2_stdin_t.Start();
 
                 if (myLang is CPPLanguage) {
@@ -201,6 +207,12 @@ namespace SoftwareAnalyzer2.Tools
                 }
 
                 Console.Out.WriteLine(fileName);
+                
+                // Deletes the temporary filtered and preprocessed files
+                if(System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed)) {
+                    System.IO.File.Delete(macros);
+                    System.IO.File.Delete(preprocessed);
+                }
                 
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -343,7 +355,7 @@ namespace SoftwareAnalyzer2.Tools
                     //uses string builder in node loop to agregate each line of text from several strings within the answer until the end of the string is found
 
                     StringBuilder sb = new StringBuilder();
-                    int endText = 0;
+                    int      endText = 0;
 
                     //determine the actual string by skipping escape characters.
                     int nextC = findDelimiterInString(tree[i], startC, 1);
@@ -359,7 +371,7 @@ namespace SoftwareAnalyzer2.Tools
                     else if (nextC > -1)
                     {
                         //aggregates the last section of text up to the quotation mark
-                        endText = tree[i].IndexOf(startC, 1);
+                        endText    = tree[i].IndexOf(startC, 1);
                         string pre = tree[i].Substring(0, endText + 1);
                         sb.Append(pre);
                     }
@@ -375,7 +387,7 @@ namespace SoftwareAnalyzer2.Tools
                         } while (nextC == -1);
 
                         //aggregates the last section of text up to the quotation mark
-                        endText = nextC;
+                        endText    = nextC;
                         string pre = tree[i].Substring(0, endText + 1);
                         sb.Append(pre);
                     }
@@ -458,13 +470,13 @@ namespace SoftwareAnalyzer2.Tools
 
         private int findDelimiterInString(string str, char delim, int startIndex)
         {
-            int indexDelim = str.IndexOf(delim, startIndex);
+            int indexDelim  = str.IndexOf(delim, startIndex);
             int indexEscape = str.IndexOf(Path.DirectorySeparatorChar, startIndex);
 
             while (indexEscape < indexDelim && indexEscape > -1 && indexDelim > -1)//need to skip any escaped characters
             {
-                startIndex = indexEscape + 2;
-                indexDelim = str.IndexOf(delim, startIndex);
+                startIndex  = indexEscape + 2;
+                indexDelim  = str.IndexOf(delim, startIndex);
                 indexEscape = str.IndexOf(Path.DirectorySeparatorChar, startIndex);
             }
 
@@ -536,8 +548,8 @@ namespace SoftwareAnalyzer2.Tools
             }
 
             //extracts the token as defined by those bounds
-            string candidateToken = expectedToken.Substring(token1 + 1, (token2 - token1) - 1);
-            string[] parts = expectedToken.Substring(token2 + 1).Split(",:]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            string   candidateToken = expectedToken.Substring(token1 + 1, (token2 - token1) - 1);
+            string[] parts          = expectedToken.Substring(token2 + 1).Split(",:]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
             //extracts the line and character positions of this token
             if (parts.Length < 2)
@@ -549,7 +561,7 @@ namespace SoftwareAnalyzer2.Tools
                 }
                 return false;
             }
-            int line = int.Parse(parts[1]);
+            int line      = int.Parse(parts[1]);
             int charStart = int.Parse(parts[2]);
 
             //contrasts expected and found tokens to ensure match.
@@ -896,14 +908,14 @@ namespace SoftwareAnalyzer2.Tools
         private void LiteralModifier(IModifiable literal)
         {
             Regex stringType = new Regex("^\".*\"$");
-            Regex boolType = new Regex("^(true|false|(0b(0|1)+))$");
-            Regex intType = new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
-            Regex longType = new Regex("^-?(\\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
-            Regex floatType = new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
+            Regex boolType   = new Regex("^(true|false|(0b(0|1)+))$");
+            Regex intType    = new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
+            Regex longType   = new Regex("^-?(\\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
+            Regex floatType  = new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
             Regex doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
-            Regex charType = new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
+            Regex charType   = new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
             IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, true);
-            IModifiable t = (IModifiable)NodeFactory.CreateNode(Members.TypeName, true);
+            IModifiable t    = (IModifiable)NodeFactory.CreateNode(Members.TypeName, true);
 
             t.Parent = type;
             type.Parent = literal;
@@ -961,7 +973,7 @@ namespace SoftwareAnalyzer2.Tools
             if (fieldset == null && fieldType)
             {
                 //no declarations have been made at this level
-                fieldset = (IModifiable)NodeFactory.CreateNode(MemberSets.Fields, false);
+                fieldset        = (IModifiable)NodeFactory.CreateNode(MemberSets.Fields, false);
                 fieldset.Parent = parent;
             }
 
@@ -969,20 +981,20 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable f = null;
             if (fieldType)
             {
-                f = (IModifiable)NodeFactory.CreateNode(Members.Field, true);
+                f        = (IModifiable)NodeFactory.CreateNode(Members.Field, true);
                 f.Parent = fieldset;
             }
             else
             {
-                f = (IModifiable)NodeFactory.CreateNode(Members.Parameter, true);
+                f        = (IModifiable)NodeFactory.CreateNode(Members.Parameter, true);
                 f.Parent = parent;
             }
 
             IModifiable mods = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
-            mods.Parent = f;
+            mods.Parent      = f;
 
             IModifiable t = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
-            t.Parent = f;
+            t.Parent      = f;
 
             List<IModifiable> variables = new List<IModifiable>();
             //add modifiers, parameters and types from assortment
@@ -1052,7 +1064,7 @@ namespace SoftwareAnalyzer2.Tools
             }
 
             Members m = Members.Null;
-            String s = modifier.Code;
+            String  s = modifier.Code;
             if (s.Equals("static"))
             {
                 m = Members.Static;
@@ -1164,7 +1176,7 @@ namespace SoftwareAnalyzer2.Tools
             target.DropChildren();
 
             IModifiable set = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
-            set.Parent = target;
+            set.Parent      = target;
             set.SetLine(target);
 
             //reassert Modifiers to the class/interface only
@@ -1229,7 +1241,7 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.Code.EndsWith(":"))
             {
                 string s = node.Code;
-                s = s.Substring(0, s.Length - 2);
+                s        = s.Substring(0, s.Length - 2);
                 node.ClearCode(ClearCodeOptions.KeepLine);
                 node.AddCode(s, node);
                 node.SetNode(Members.Label);
@@ -1446,7 +1458,7 @@ namespace SoftwareAnalyzer2.Tools
                 return;
             }
 
-            IModifiable target = (IModifiable)node.Parent;
+            IModifiable    target = (IModifiable)node.Parent;
             List<IModifiable> set = new List<IModifiable>();
             set.Add(node);
             if (node.Node.Equals("expression"))
@@ -1485,8 +1497,8 @@ namespace SoftwareAnalyzer2.Tools
             for (int i = set.Count - 1; i >= 0; i--)
             {
                 IModifiable dot = (IModifiable)NodeFactory.CreateNode(Members.DotOperator, false);
-                dot.Parent = temp;
-                set[i].Parent = dot;
+                dot.Parent      = temp;
+                set[i].Parent   = dot;
                 set[i].SimplifyCode(" .".ToCharArray());
                 temp.CodeModify(InvertedExpressionModifier);
                 temp = set[i];
@@ -1512,9 +1524,9 @@ namespace SoftwareAnalyzer2.Tools
                 //determine what relationship these have with each other.
                 //We want to identify the true root of the expression tree.
 
-                INavigable returnLevel = node.GetAncestor(Members.Return);
+                INavigable returnLevel     = node.GetAncestor(Members.Return);
                 INavigable expressionLevel = node.GetAncestor("expression");
-                INavigable listLevel = node.GetAncestor("expressionList");
+                INavigable listLevel       = node.GetAncestor("expressionList");
                 bool R_Before_E = returnLevel != null && returnLevel.GetAncestor("expression") == expressionLevel;
                 bool L_Before_E = listLevel != null && listLevel.GetAncestor("expression") == expressionLevel;
                 bool L_Before_R = listLevel != null && listLevel.GetAncestor(Members.Return) == returnLevel;
@@ -1561,8 +1573,8 @@ namespace SoftwareAnalyzer2.Tools
         private void ExpressionModifier(IModifiable node)
         {
             Regex autoChange = new Regex("\\+\\+|\\-\\-|\\+=|\\-=|\\*=|/=|\\%=|\\|=|&=|<<=|>>=|\\^=");
-            Regex boolean = new Regex("\\|\\||&&|^<=|^<$|^>$|^>=|==|!=|!");
-            Regex ops = new Regex("/|\\*|\\+|\\-|\\%|^&$|^\\|$|> >|< <|\\^|~");
+            Regex boolean    = new Regex("\\|\\||&&|^<=|^<$|^>$|^>=|==|!=|!");
+            Regex ops        = new Regex("/|\\*|\\+|\\-|\\%|^&$|^\\|$|> >|< <|\\^|~");
 
             if (node.Code.Equals("="))
             {
@@ -1641,9 +1653,9 @@ namespace SoftwareAnalyzer2.Tools
         {
             //sometimes an assignment has node trivial parent so we ignore it
             //identifying the true targetNode will help us remove the trivial parent in the way.
-            IModifiable target = (IModifiable)node.GetNonTrivialParent();
-            INavigable directParent = node.GetDirectAncestorTo(target);
-            List<INavigable> children = node.Children;
+            IModifiable target       = (IModifiable)node.GetNonTrivialParent();
+            INavigable  directParent = node.GetDirectAncestorTo(target);
+            List<INavigable> children  = node.Children;
             List<INavigable> tChildren = target.Children;
             target.DropChildren();
 
@@ -1771,9 +1783,9 @@ namespace SoftwareAnalyzer2.Tools
             variable.Parent = node;
 
             IModifiable index = (IModifiable)NodeFactory.CreateNode(Members.Index, false);
-            index.Parent = variable;
+            index.Parent      = variable;
             IModifiable indexValue = (IModifiable)children[1];
-            indexValue.Parent = index;
+            indexValue.Parent      = index;
 
             //the [] expression in node is no longer of use and will be replaced
             //to avoid any recursive checking on that we need to remove any child it currently has (i.e. variable)
@@ -1899,7 +1911,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void FormatSwitch(IModifiable node)
         {
-            IModifiable target = (IModifiable)node.Parent;
+            IModifiable target        = (IModifiable)node.Parent;
             List<INavigable> children = target.Children;
             target.DropChildren();
 
@@ -1907,10 +1919,10 @@ namespace SoftwareAnalyzer2.Tools
             target.SetNode(Members.Switch);
 
             IModifiable value = (IModifiable)NodeFactory.CreateNode(Members.Value, false);
-            value.Parent = target;
+            value.Parent      = target;
 
             IModifiable blocks = (IModifiable)NodeFactory.CreateNode(Members.Blocks, false);
-            blocks.Parent = target;
+            blocks.Parent      = target;
 
             foreach (IModifiable child in children)
             {
@@ -1926,13 +1938,13 @@ namespace SoftwareAnalyzer2.Tools
                 else
                 {
                     IModifiable b = (IModifiable)NodeFactory.CreateNode(Members.Block, true);
-                    b.Parent = blocks;
+                    b.Parent      = blocks;
 
                     IModifiable v = (IModifiable)NodeFactory.CreateNode(Members.Value, false);
-                    v.Parent = b;
+                    v.Parent      = b;
 
                     IModifiable s = (IModifiable)NodeFactory.CreateNode(Members.Scope, true);
-                    s.Parent = b;
+                    s.Parent      = b;
 
                     foreach (IModifiable c in child.Children)
                     {
@@ -1964,8 +1976,8 @@ namespace SoftwareAnalyzer2.Tools
         private void PrepareIf(IModifiable node, out IModifiable elseBranch)
         {
             List<INavigable> children2 = node.Children;
-            IModifiable target = (IModifiable)node.Parent;
-            List<INavigable> children = target.Children;
+            IModifiable      target    = (IModifiable)node.Parent;
+            List<INavigable> children  = target.Children;
 
             if (children2.Count < 1)
             {
@@ -1983,12 +1995,12 @@ namespace SoftwareAnalyzer2.Tools
             node.DropChildren();
 
             IModifiable boolean = (IModifiable)NodeFactory.CreateNode(Members.Boolean, true);
-            boolean.Parent = node;
+            boolean.Parent      = node;
             children2[0].Parent = boolean;//reparent boolean expression
 
             //second child of parent is always the scope of the if branch
             IModifiable ifBranch = (IModifiable)NodeFactory.CreateNode(Members.Then, true);
-            ifBranch.Parent = node;
+            ifBranch.Parent      = node;
 
             //the Then statement takes one of three forms:
             // * statement-scope - this is the normal version from code like if(b) { doX() }
@@ -2019,10 +2031,10 @@ namespace SoftwareAnalyzer2.Tools
                 thenChild.Parent = scp;
             }
 
-            elseBranch = (IModifiable)NodeFactory.CreateNode(Members.Else, true);
+            elseBranch        = (IModifiable)NodeFactory.CreateNode(Members.Else, true);
             elseBranch.Parent = node;
             IModifiable elsescope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, true);
-            elsescope.Parent = elseBranch;
+            elsescope.Parent      = elseBranch;
         }
 
         /// <summary>
@@ -2046,7 +2058,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <returns></returns>
         private IModifiable FormatIfElse(IModifiable node)
         {
-            IModifiable target = (IModifiable)node.Parent;
+            IModifiable      target   = (IModifiable)node.Parent;
             List<INavigable> children = target.Children;
             if (children.Count < 3)
             {
@@ -2211,16 +2223,16 @@ namespace SoftwareAnalyzer2.Tools
 
             List<INavigable> children2 = node.Children;
 
-            IModifiable for1 = (IModifiable)NodeFactory.CreateNode(MemberSets.Fields, "", false);
-            for1.Parent = target;
+            IModifiable for1  = (IModifiable)NodeFactory.CreateNode(MemberSets.Fields, "", false);
+            for1.Parent       = target;
             IModifiable for1a = (IModifiable)NodeFactory.CreateNode(Members.ForInitial, "", false);
-            for1a.Parent = target;
-            IModifiable for2 = (IModifiable)NodeFactory.CreateNode(Members.Boolean, "", false);
-            for2.Parent = target;
-            IModifiable for3 = (IModifiable)NodeFactory.CreateNode(Members.Update, "", false);
-            for3.Parent = target;
+            for1a.Parent      = target;
+            IModifiable for2  = (IModifiable)NodeFactory.CreateNode(Members.Boolean, "", false);
+            for2.Parent       = target;
+            IModifiable for3  = (IModifiable)NodeFactory.CreateNode(Members.Update, "", false);
+            for3.Parent       = target;
             IModifiable for3Scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, "", true);
-            for3Scope.Parent = for3;
+            for3Scope.Parent      = for3;
 
             if (children2.Count < 1)
             {
@@ -2237,9 +2249,9 @@ namespace SoftwareAnalyzer2.Tools
                 t.AddCode("Boolean", lit);
 
                 //by connecting these artificial nodes we create the single required boolean literal
-                t.Parent = type;
+                t.Parent    = type;
                 type.Parent = lit;
-                lit.Parent = exp;
+                lit.Parent  = exp;
                 children2.Add(exp);
             }
 
@@ -2352,7 +2364,7 @@ namespace SoftwareAnalyzer2.Tools
             //We need to correctly reparent this so that the type relationship is still clear.
 
             IModifiable dotexpression = (IModifiable)node.Parent;//this is the dot operator which indicates the point of invocation
-            IModifiable target = (IModifiable)dotexpression.Parent;//point on which the exchange will take place
+            IModifiable target        = (IModifiable)dotexpression.Parent;//point on which the exchange will take place
 
             List<INavigable> children = node.Children;//the children control the generic type relationship with this method
 
@@ -2367,7 +2379,7 @@ namespace SoftwareAnalyzer2.Tools
 
             //this expands the code of that child to indicate the . operator as well
             IModifiable methodSuffix = (IModifiable)children[1];
-            string code = methodSuffix.Code;
+            string      code         = methodSuffix.Code;
             methodSuffix.ClearCode(ClearCodeOptions.ClearAll);
             methodSuffix.AddCode(".", dotexpression);
             methodSuffix.AddCode(code, methodSuffix);
@@ -2470,7 +2482,7 @@ namespace SoftwareAnalyzer2.Tools
             //node.Parent.PrintTreeText();
             node.SetNode(Members.MethodInvoke);
             IModifiable method = ((IModifiable)node.GetNthChild(0).GetNonTrivialChild());
-            String s = method.Code;
+            String      s      = method.Code;
             node.RemoveChild((IModifiable)node.GetNthChild(0));
             List<INavigable> argList = node.Children;
             node.DropChildren();
@@ -2496,7 +2508,7 @@ namespace SoftwareAnalyzer2.Tools
 
             //create the parameter list
             IModifiable param = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
-            param.Parent = node;
+            param.Parent      = node;
             FormatParameterList(param, argList);
         }
 
@@ -2509,21 +2521,21 @@ namespace SoftwareAnalyzer2.Tools
         private void HiddenClassModifier(IModifiable node)
         {
             INavigable classDeclaration = node.GetFirstRecursive("classDeclaration");
-            INavigable parentClassBody = node.GetAncestor("classBody");
+            INavigable parentClassBody  = node.GetAncestor("classBody");
 
             while (classDeclaration != null)
             {
-                IModifiable block = (IModifiable)classDeclaration.GetAncestor("block");
+                IModifiable block  = (IModifiable)classDeclaration.GetAncestor("block");
                 IModifiable direct = (IModifiable)classDeclaration.GetDirectAncestorTo(block);
                 block.RemoveChild(direct);
 
                 IModifiable classBodyDeclaration = (IModifiable)NodeFactory.CreateNode("classBodyDeclaration", true);
-
-                IModifiable memberDeclaration = (IModifiable)NodeFactory.CreateNode("memberDeclaration", true);
+                
+                IModifiable memberDeclaration    = (IModifiable)NodeFactory.CreateNode("memberDeclaration", true);
 
                 classBodyDeclaration.Parent = parentClassBody;
-                memberDeclaration.Parent = classBodyDeclaration;
-                classDeclaration.Parent = memberDeclaration;
+                memberDeclaration.Parent    = classBodyDeclaration;
+                classDeclaration.Parent     = memberDeclaration;
 
                 classDeclaration = (IModifiable)node.GetFirstRecursive("classDeclaration");
             }
@@ -2549,7 +2561,7 @@ namespace SoftwareAnalyzer2.Tools
                 node.DropChildren();
 
                 //create the nodes which go into the new structure
-                IModifiable declaration = (IModifiable)NodeFactory.CreateNode("memberDeclaration", true);
+                IModifiable declaration     = (IModifiable)NodeFactory.CreateNode("memberDeclaration", true);
                 IModifiable methDeclaration = (IModifiable)NodeFactory.CreateNode("methodDeclaration", true);
                 methDeclaration.AddCode("void static", node);
                 IModifiable paramaters = (IModifiable)NodeFactory.CreateNode("formalParameters", true);
@@ -2620,9 +2632,9 @@ namespace SoftwareAnalyzer2.Tools
 
             //first prepare node new classBodyDeclaration with all the class structure elements
             IModifiable declaration = (IModifiable)NodeFactory.CreateNode("classBodyDeclaration", true);
-            declaration.Parent = parentClassBody;
+            declaration.Parent      = parentClassBody;
 
-            IModifiable name = (IModifiable)children[0];
+            IModifiable name        = (IModifiable)children[0];
 
             //artificially set up this as node type within major class
             IModifiable typeDef = (IModifiable)NodeFactory.CreateNode("classDeclaration", true);
@@ -2775,7 +2787,7 @@ namespace SoftwareAnalyzer2.Tools
                     IModifiable next = stack[stack.Count - 1];
                     stack.RemoveAt(stack.Count - 1);
                     next.Parent = current;
-                    current = next;
+                    current     = next;
                 }
 
                 last.Parent = current;
@@ -2813,7 +2825,7 @@ namespace SoftwareAnalyzer2.Tools
             {
                 constructor.SetNode(Members.ArrayInvoke);
                 constructor.ArrayDegree = (node.GetNthChild(1).Code.LastIndexOf(']') - 2) / 4 + 1;
-                arrayInvokation = true;
+                arrayInvokation         = true;
             }
 
             foreach (IModifiable child in targetChildren)
@@ -2931,24 +2943,24 @@ namespace SoftwareAnalyzer2.Tools
             {
                 //use the static method name as node modifier
                 IModifiable set = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
-                set.Parent = node;
+                set.Parent      = node;
 
                 IModifiable mod = (IModifiable)NodeFactory.CreateNode(Members.Static, false);
-                mod.Parent = node;
+                mod.Parent      = node;
 
                 node.SetNode(Members.Method);
                 node.ClearCode(ClearCodeOptions.ClearAll);
 
                 //null return type
                 IModifiable returnSet = (IModifiable)NodeFactory.CreateNode(Members.ReturnType, false);
-                returnSet.Parent = node;
+                returnSet.Parent      = node;
 
                 //no exceptions are valid here
                 //no parameters here, just an empty parameterlist
 
                 //add the parameter list
                 IModifiable param = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
-                param.Parent = node;
+                param.Parent      = node;
 
                 //add the scope
                 IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, "");
@@ -2983,18 +2995,18 @@ namespace SoftwareAnalyzer2.Tools
 
             //add the return value
             IModifiable returnSet = (IModifiable)NodeFactory.CreateNode(Members.ReturnType, false);
-            returnSet.Parent = target;
+            returnSet.Parent      = target;
 
             //add the exceptions set
             //naively assume that there is no throws statement
             IModifiable exceptionSet = null;
-            string[] code = node.Code.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            string[]    code         = node.Code.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             if (node.Code.EndsWith("throws") || node.Code.EndsWith("throws ;"))
             {
                 //redefine the code split to include node throw statement
                 code = node.Code.Substring(0, node.Code.Length - 6).Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
-                exceptionSet = (IModifiable)NodeFactory.CreateNode(Members.Exceptions, false);
+                exceptionSet        = (IModifiable)NodeFactory.CreateNode(Members.Exceptions, false);
                 exceptionSet.Parent = target;
             }
 
@@ -3036,7 +3048,7 @@ namespace SoftwareAnalyzer2.Tools
             {
                 //add return type
                 IModifiable ret = (IModifiable)node.GetNthChild(0);
-                ret.Parent = returnSet;
+                ret.Parent      = returnSet;
                 node.RemoveChild(ret);
             }
 
@@ -3068,8 +3080,8 @@ namespace SoftwareAnalyzer2.Tools
 
             SingleMethodModifier(node, target);
 
-            List<INavigable> modifiers = target.GetFirstSingleLayer(MemberSets.ModifierSet).Children;
-            bool isAbstract = false;
+            List<INavigable> modifiers  = target.GetFirstSingleLayer(MemberSets.ModifierSet).Children;
+            bool             isAbstract = false;
             foreach (IModifiable m in modifiers)
             {
                 if (m.Node.Equals(Members.Abstract))
@@ -3145,7 +3157,7 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.Code.StartsWith("enum "))
             {
-                IModifiable target = (IModifiable)node.GetAncestor("classBodyDeclaration");
+                IModifiable target  = (IModifiable)node.GetAncestor("classBodyDeclaration");
                 IModifiable targetI = (IModifiable)node.GetAncestor("interfaceBodyDeclaration");
                 if (target != null && targetI != null)
                 {
@@ -3168,7 +3180,7 @@ namespace SoftwareAnalyzer2.Tools
                 target.RemoveChild(directParent);
 
                 IModifiable set = (IModifiable)NodeFactory.CreateNode(MemberSets.Values, false);
-                set.Parent = target;
+                set.Parent      = target;
 
                 foreach (IModifiable c in enums)
                 {
@@ -3225,7 +3237,7 @@ namespace SoftwareAnalyzer2.Tools
                     continue;
                 }
                 IModifiable tempNode = (IModifiable)NodeFactory.CreateNode(ms, false);
-                tempNode.Parent = target;
+                tempNode.Parent      = target;
                 sets.Add(ms, tempNode);
             }
 
@@ -3289,7 +3301,7 @@ namespace SoftwareAnalyzer2.Tools
                             }
 
                             IModifiable list = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, true);
-                            list.Parent = c;
+                            list.Parent      = c;
 
                             foreach (IModifiable param in parameters.Children)
                             {
@@ -3527,7 +3539,7 @@ namespace SoftwareAnalyzer2.Tools
             parent.Collapse(collapseName);
 
             //prepare the right children nodes for formatting
-            List<INavigable> originalChildren = parent.Children;
+            List<INavigable> originalChildren   = parent.Children;
             List<INavigable> formatableChildren = new List<INavigable>();
             IModifiable field = (IModifiable)originalChildren[originalChildren.Count - 1];//last element is the field
             originalChildren.Remove(field);
@@ -3616,7 +3628,7 @@ namespace SoftwareAnalyzer2.Tools
         private void ParameterListModifier(IModifiable node)
         {
             List<INavigable> parameters = node.BreadthFirstSearch("formalParameter");
-            List<INavigable> lastParam = node.BreadthFirstSearch("lastFormalParameter");
+            List<INavigable> lastParam  = node.BreadthFirstSearch("lastFormalParameter");
 
             if (lastParam.Count > 1)
             {
@@ -3688,10 +3700,10 @@ namespace SoftwareAnalyzer2.Tools
             //the actual scope may be node while loop, for loop, method scope, try catch, etc.
             //searching in this way identifies the right pair.
             IModifiable directParent = (IModifiable)node.GetAncestor("blockStatement");
-            IModifiable target = (IModifiable)directParent.Parent;
+            IModifiable target       = (IModifiable)directParent.Parent;
             target.RemoveChild(directParent);
 
-            IModifiable field = (IModifiable)node.GetNthChild(0);//the only field in this answer
+            IModifiable      field    = (IModifiable)node.GetNthChild(0);//the only field in this answer
             List<INavigable> children = field.Children;
 
             FormatField(target, children, true);
