@@ -68,19 +68,64 @@ namespace SoftwareAnalyzer2.Tools
         // only that the data related to the pointer has been read/written to.
         private void writeFileToANTLR(string filename, ILanguage lang, StreamWriter stdin) {
             try {
-                stdin.AutoFlush = true;
-                
-                using (StreamReader reader = new StreamReader(filename)) {
+                // temporary filenames for macros and preprocessed files
+                string macros       = filename + "-macros";
+                string preprocessed = filename;
+
+                // Gets rid of all include statements for preprocessing and
+                // preprocesses all code before tokenization from ANTLR
+                if (lang is CPPLanguage) {
+                    // if C++, file to be analyzed will be preprocessed
+                    preprocessed = filename + "-preprocessed";
+
+                    // Execute C++ preprocessing depending on platform
+                    int pltfrm    = (int) Environment.OSVersion.Platform;
+                    bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
+                    if (isLinux) {
+                        // Extract all Macro definitions using preprocessor
+                        Process iMacros = new Process();
+                        iMacros.StartInfo.FileName        = "/bin/cpp";
+                        iMacros.StartInfo.Arguments       = filename + " -dM -o " + macros;
+                        iMacros.StartInfo.UseShellExecute = false;
+                        iMacros.StartInfo.RedirectStandardInput  = true;
+                        iMacros.StartInfo.RedirectStandardOutput = true;
+                        iMacros.StartInfo.RedirectStandardError  = true;
+                        iMacros.Start();
+                        iMacros.WaitForExit(3100);
+
+                        // Preprocess input using cpp preprocessor with macro definitions as header file
+                        Process cpp = new Process();
+                        cpp.StartInfo.FileName        = "/bin/cpp";
+                        cpp.StartInfo.Arguments       = filename + " -P -imacros " + macros + " -o " + preprocessed;
+                        cpp.StartInfo.UseShellExecute = false;
+                        cpp.StartInfo.RedirectStandardInput  = true;
+                        cpp.StartInfo.RedirectStandardOutput = true;
+                        cpp.StartInfo.RedirectStandardError  = true;
+                        cpp.Start();
+                        cpp.WaitForExit(3100);
+                    }
+                }
+
+                stdin.AutoFlush = true;            
+
+                if(!System.IO.File.Exists(preprocessed)) {
+                    preprocessed = filename;
+                }
+                using (StreamReader reader = new StreamReader(preprocessed)) {
                     string line;
                     while ((line = reader.ReadLine()) != null) {
                         string translated_line = line;
                         
                         if (lang is CPPLanguage) {
+                            // Define program-specific dictionary to remove all macros
+                            // TODO: Need to find and replace program-specific macros that
+                            // will break ANTLR
+
                             // Transform "*(T*)x" into "*((T*)x)", which is accepted by the grammar
                             // as long as there is a left-hand token (=, <<, etc.) to accept the value.
                             translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
-                            
-                            // Transform variadic ellipses "..." into ", void* VARIADIC for tracking purposes
+
+                            // Transform variadic ellipses "..." into ", void* VARIADIC" for tracking purposes
                             translated_line = Regex.Replace(translated_line, @",*\s*\.{3}", ", void* VARIADIC");
 
                             // Transform variadic macro "va_arg" to add variadic identifier to second macro parameter type T keyword
@@ -95,6 +140,7 @@ namespace SoftwareAnalyzer2.Tools
 
                         }
 
+
                         // Additional translations may be added here as we see new parse issues crop up in the field,
                         // esp. with code that does not compile we can make some decisions to allow the ANTLR
                         // grammar to parse something useful.
@@ -105,10 +151,17 @@ namespace SoftwareAnalyzer2.Tools
 
                 stdin.Flush();
                 stdin.Close();
+
+                // Deletes the temporary macro and preprocessed files
+                if (System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed)) {
+                    System.IO.File.Delete(macros);
+                    System.IO.File.Delete(preprocessed);
+                }
             }
             catch (Exception e)
             {
                 errorMessages.Add("ERROR: source file i/o:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+                Console.WriteLine("ERROR: source file i/o:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
             }
         }
 
@@ -123,44 +176,6 @@ namespace SoftwareAnalyzer2.Tools
             //captured and brought to the user's attention as they are fatal to the process.
             try
             {
-                // temporary filenames for macros and preprocessed files
-                string macros       = fileName + "-macros";
-                string preprocessed = fileName;
-
-                // Gets rid of all include statements for preprocessing and
-                // preprocesses all code before tokenization from ANTLR
-                if (lang is CPPLanguage) {
-                    // if C++, file to be analyzed will be preprocessed
-                    preprocessed = fileName + "-preprocessed";
-
-                    // Execute C++ preprocessing depending on platform
-                    int  pltfrm   = (int) Environment.OSVersion.Platform;
-                    bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
-                    if (isLinux) {
-                        // Extract all Macro definitions using preprocessor
-                        Process iMacros = new Process();
-                        iMacros.StartInfo.FileName        = "/bin/cpp";
-                        iMacros.StartInfo.Arguments       = fileName + " -dM -o " + macros;
-                        iMacros.StartInfo.UseShellExecute = false;
-                        iMacros.StartInfo.RedirectStandardInput  = true;
-                        iMacros.StartInfo.RedirectStandardOutput = true;
-                        iMacros.StartInfo.RedirectStandardError  = true;
-                        iMacros.Start();
-                        iMacros.WaitForExit(60100);
-
-                        // Preprocess input using cpp preprocessor with macro definitions as header file
-                        Process cpp = new Process();
-                        cpp.StartInfo.FileName        = "/bin/cpp";
-                        cpp.StartInfo.Arguments       = fileName + " -P -imacros " + macros + " -o " + preprocessed;
-                        cpp.StartInfo.UseShellExecute = false;
-                        cpp.StartInfo.RedirectStandardInput  = true;
-                        cpp.StartInfo.RedirectStandardOutput = true;
-                        cpp.StartInfo.RedirectStandardError  = true;
-                        cpp.Start();
-                        cpp.WaitForExit(60100);
-                    }
-                }
-            
                 string processName = lang.ProcessName;
                 string instruction = lang.ANTLRInstruction;
                 //run -tree fileName
@@ -174,7 +189,7 @@ namespace SoftwareAnalyzer2.Tools
                 p.StartInfo.RedirectStandardError  = true;
                 p.Start();
                 Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
-                Thread p_stdin_t = new Thread(() => writeFileToANTLR(preprocessed, lang, p.StandardInput));
+                Thread p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
                 p_stdin_t.Start();
                 
 
@@ -189,7 +204,7 @@ namespace SoftwareAnalyzer2.Tools
                 p2.StartInfo.RedirectStandardError  = true;
                 p2.Start();
                 Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
-                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(preprocessed, lang, p2.StandardInput));
+                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
                 p2_stdin_t.Start();
 
                 if (myLang is CPPLanguage) {
