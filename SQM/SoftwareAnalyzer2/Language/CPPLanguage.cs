@@ -50,6 +50,7 @@ namespace SoftwareAnalyzer2.Language
             }
 
             mapping = new Dictionary<string, string>();
+            mapping.Add("Object", "Object");
             
 
             defaultVal = new Dictionary<string, string>();
@@ -61,7 +62,7 @@ namespace SoftwareAnalyzer2.Language
             defaultVal.Add("double", "0");
             defaultVal.Add("float", "0");
             defaultVal.Add("short", "0");
-            //defaultVal.Add("Object", "null");
+            defaultVal.Add("Object", "nullptr");
         }
 
         public List<string> InitialPackages

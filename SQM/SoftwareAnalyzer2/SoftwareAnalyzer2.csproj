@@ -180,6 +180,7 @@
     <Compile Include="Structure\Node\INode.cs" />
     <Compile Include="Structure\Node\NodeFactory.cs" />
     <Compile Include="Tools\ANTLRTool.cs" />
+    <Compile Include="Tools\LLVMTool.cs" />
     <Compile Include="Tools\ITool.cs" />
     <Compile Include="Tools\ToolManager.cs" />
     <EmbeddedResource Include="GUI\AnalysisForms\MetricPanel.resx">

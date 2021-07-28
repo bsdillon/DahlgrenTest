@@ -33,6 +33,7 @@
             this.CPPRadio = new System.Windows.Forms.RadioButton();
             this.ToolsGroup = new System.Windows.Forms.GroupBox();
             this.ANTLRRadio = new System.Windows.Forms.RadioButton();
+            this.LLVMRadio = new System.Windows.Forms.RadioButton();
             this.CreateButton = new System.Windows.Forms.Button();
             this.rootFolderText = new System.Windows.Forms.TextBox();
             this.BrowseButton = new System.Windows.Forms.Button();
@@ -88,6 +89,7 @@
             this.ToolsGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ToolsGroup.Controls.Add(this.ANTLRRadio);
+            this.ToolsGroup.Controls.Add(this.LLVMRadio);
             this.ToolsGroup.Location = new System.Drawing.Point(12, 107);
             this.ToolsGroup.Name = "ToolsGroup";
             this.ToolsGroup.Size = new System.Drawing.Size(304, 89);
@@ -107,6 +109,19 @@
             this.ANTLRRadio.Tag = "";
             this.ANTLRRadio.Text = "ANTLR";
             this.ANTLRRadio.UseVisualStyleBackColor = true;
+            // 
+            // ANTLRRadio
+            // 
+            this.LLVMRadio.AutoSize = true;
+            this.LLVMRadio.Checked = false;
+            this.LLVMRadio.Location = new System.Drawing.Point(7, 40);
+            this.LLVMRadio.Name = "LLVMRadio";
+            this.LLVMRadio.Size = new System.Drawing.Size(61, 17);
+            this.LLVMRadio.TabIndex = 0;
+            this.LLVMRadio.TabStop = true;
+            this.LLVMRadio.Tag = "";
+            this.LLVMRadio.Text = "LLVM";
+            this.LLVMRadio.UseVisualStyleBackColor = true;
             // 
             // CreateButton
             // 
@@ -215,6 +230,7 @@
         private System.Windows.Forms.Button CreateButton;
         private System.Windows.Forms.GroupBox ToolsGroup;
         private System.Windows.Forms.RadioButton ANTLRRadio;
+        private System.Windows.Forms.RadioButton LLVMRadio;
         private System.Windows.Forms.GroupBox LanguagesGroup;
         private System.Windows.Forms.RadioButton JavaRadio;
         private System.Windows.Forms.RadioButton CPPRadio;

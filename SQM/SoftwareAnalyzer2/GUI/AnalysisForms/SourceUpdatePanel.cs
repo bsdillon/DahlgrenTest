@@ -172,6 +172,9 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
         {
             lang = LanguageManager.GetLanguage(currentProject.GetProperty(ProjectProperties.Language));
             tool = ToolManager.GetTool(currentProject.GetProperty(ProjectProperties.Tool));
+            if (tool is LLVMTool) {
+                ((LLVMTool) tool).project = currentProject;
+            }
             rootPath = currentProject.GetProperty(ProjectProperties.RootDirectory);
             analysisPath = currentProject.FilePath;
             analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));

@@ -50,6 +50,7 @@ namespace SoftwareAnalyzer2
         }
 
         private const string ParseFolder = "Parse";
+        public static ILanguage global_language = null;
 
         static void BatchProcess(string language, string src_dir) {
             // We read an env variable to override the windows hard-coded C:\\SoftwareAnalyzer directory.
@@ -72,7 +73,9 @@ namespace SoftwareAnalyzer2
             }
             else {
                 p = Project.GenerateNew(proj_name, dir);
-                p.SetProperty(ProjectProperties.Tool, "ANTLR");
+                string tool_name = Environment.GetEnvironmentVariable("SQM_TOOL") ?? "ANTLR";
+                Console.WriteLine("Using tool_name="+tool_name);
+                p.SetProperty(ProjectProperties.Tool, tool_name);
                 p.SetProperty(ProjectProperties.Language, language);
                 p.SetProperty(ProjectProperties.RootDirectory, src_dir);
                 p.WriteFile();
@@ -84,6 +87,7 @@ namespace SoftwareAnalyzer2
             // Begin with InitiateRead:
 
             ILanguage lang = LanguageManager.GetLanguage(p.GetProperty(ProjectProperties.Language));
+            global_language = lang;
             dir = p.FilePath;
             dir = dir.Substring(0, dir.LastIndexOf(Path.DirectorySeparatorChar));
             string name = p.GetProperty(ProjectProperties.ProjectName);
@@ -97,7 +101,7 @@ namespace SoftwareAnalyzer2
             }
 
             ParseSource(p, analysisPath);
-            AbbreviatedGraph.OpenFile(dir, name);
+            //AbbreviatedGraph.OpenFile(dir, name);
             
             RegisterGraph(p, lang, proj_dir, proj_parse_folder);
             LinkGraph(p, lang, proj_dir, proj_parse_folder);
@@ -193,6 +197,9 @@ namespace SoftwareAnalyzer2
         {
             ILanguage lang = LanguageManager.GetLanguage(p.GetProperty(ProjectProperties.Language));
             ITool tool = ToolManager.GetTool(p.GetProperty(ProjectProperties.Tool));
+            if (tool is LLVMTool) {
+                ((LLVMTool) tool).project = p;
+            }
             string rootPath = p.GetProperty(ProjectProperties.RootDirectory);
 
             int totalFiles = 0;

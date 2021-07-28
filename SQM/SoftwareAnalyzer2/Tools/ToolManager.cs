@@ -8,7 +8,7 @@ namespace SoftwareAnalyzer2.Tools
 {
     enum ToolTypes
     {
-        ANTLR
+        ANTLR, LLVM
     }
 
     class ToolManager
@@ -16,18 +16,17 @@ namespace SoftwareAnalyzer2.Tools
         public static ITool GetTool(string toolDescription)
         {
             ToolTypes type = (ToolTypes)Enum.Parse(typeof(ToolTypes), toolDescription);
-            ITool tool = null;
             switch (type)
             {
                 case ToolTypes.ANTLR:
-                    tool = new ANTLRTool();
-                    break;
+                    return new ANTLRTool();
+                    
+                case ToolTypes.LLVM:
+                    return new LLVMTool();
+                    
                 default:
-                    Exception e = new ArgumentOutOfRangeException("type", "Value of " + type + " has not been implemented and is invalid as an argument at this time");
-                    throw e;
+                    throw new ArgumentOutOfRangeException("type", "Value of " + type + " has not been implemented and is invalid as an argument at this time");
             }
-
-            return tool;
         }
     }
 }
