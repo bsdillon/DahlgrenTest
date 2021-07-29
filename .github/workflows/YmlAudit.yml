@@ -6,11 +6,17 @@ name: Audit YML
 # fix truthy warning per
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
+#on:
+#  push:
+#    paths:
+#      - ".github/workflows/**.yml"
+#      - ".github/workflows/forceYMLAudit.txt"
+
 on:
-  push:
-    paths:
-      - ".github/workflows/**.yml"
-      - ".github/workflows/forceYMLAudit.txt"
+  schedule:
+    # 01:05
+    # on Feb 1st if it's a Sunday
+    - cron: '5 5 1 2 0'
 
 jobs:
   lintAllYml:

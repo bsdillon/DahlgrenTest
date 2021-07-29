@@ -6,13 +6,18 @@ name: YML Change Report
 # fix truthy warning per
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
+#on:
+#  push:
+#    branches:
+#      - 'master'
+#    paths:
+#      - ".github/workflows/**.yml"
 on:
-  push:
-    branches:
-      - 'master'
-    paths:
-      - ".github/workflows/**.yml"
-
+  schedule:
+    # 01:05
+    # on Feb 1st if it's a Sunday
+    - cron: '5 5 1 2 0'
+    
 jobs:
   FindChangedFiles:
     runs-on: ubuntu-latest

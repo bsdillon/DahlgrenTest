@@ -5,8 +5,13 @@ name: Weekly Commit Count Report
 # yamllint disable-line rule:truthy
 on:
   schedule:
-    # every Saturday night at 23:50
-    - cron: '50 3 * * 6'
+    # 01:05
+    # on Feb 1st if it's a Sunday
+    - cron: '5 5 1 2 0'
+#on:
+#  schedule:
+#    # every Saturday night at 23:50
+#    - cron: '50 3 * * 6'
 jobs:
   get_data:
     runs-on: ubuntu-latest
