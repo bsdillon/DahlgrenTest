@@ -15,7 +15,6 @@ import os
 import shutil
 import glob
 import time
-import argparse
 
 import urllib.request
 
