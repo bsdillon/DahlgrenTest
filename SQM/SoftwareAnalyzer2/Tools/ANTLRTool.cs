@@ -80,6 +80,7 @@ namespace SoftwareAnalyzer2.Tools
                     preprocessed = filename + "-preprocessed";
 
                     // Execute C++ preprocessing depending on platform
+                    // Used this way of getting system platform to accomodate .NET 4.5 limitations
                     int pltfrm    = (int) Environment.OSVersion.Platform;
                     bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
                     if (isLinux) {
@@ -209,10 +210,10 @@ namespace SoftwareAnalyzer2.Tools
                 p2_stdin_t.Start();
 
                 if (myLang is CPPLanguage) {
-                    // Timeout after ~120 seconds and kill slow/hung processes
-                    p.WaitForExit(120000);
+                    // Timeout after ~3 seconds and kill slow/hung processes
+                    p.WaitForExit(3100);
                     p.Kill();
-                    p2.WaitForExit(120000);
+                    p2.WaitForExit(3100);
                     p2.Kill();
                 }
                 else {
