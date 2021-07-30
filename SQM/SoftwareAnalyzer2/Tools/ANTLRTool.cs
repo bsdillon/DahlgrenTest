@@ -213,10 +213,10 @@ namespace SoftwareAnalyzer2.Tools
                 p2_stdin_t.Start();
 
                 if (myLang is CPPLanguage) {
-                    // Timeout after ~3 seconds and kill slow/hung processes
-                    p.WaitForExit(3100);
+                    // Timeout after ~20 seconds and kill slow/hung processes
+                    p.WaitForExit(20000);
                     p.Kill();
-                    p2.WaitForExit(250);
+                    p2.WaitForExit(20000);
                     p2.Kill();
                 }
                 else {
