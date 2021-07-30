@@ -72,8 +72,9 @@ namespace SoftwareAnalyzer2.Tools
                 string macros       = filename + "-macros";
                 string preprocessed = filename;
 
-                // Gets rid of all include statements for preprocessing and
-                // preprocesses all code before tokenization from ANTLR
+                // Preprocesses twice. First round is to extract all macro definitions
+                // and second round is to use those macro definitions to preprocess
+                // the original file before ANTLR process without output from #include directives.
                 if (lang is CPPLanguage) {
                     // if C++, file to be analyzed will be preprocessed
                     preprocessed = filename + "-preprocessed";
@@ -107,10 +108,14 @@ namespace SoftwareAnalyzer2.Tools
                 }
 
                 stdin.AutoFlush = true;            
-
-                if(!System.IO.File.Exists(preprocessed)) {
+                
+                // If preprocessor failed, process the original file
+                if (!System.IO.File.Exists(preprocessed)) {
                     preprocessed = filename;
                 }
+                
+                // This deals with anything that might not have been caught from the 
+                // preprocessor using regular expressions.
                 using (StreamReader reader = new StreamReader(preprocessed)) {
                     string line;
                     while ((line = reader.ReadLine()) != null) {
@@ -118,8 +123,6 @@ namespace SoftwareAnalyzer2.Tools
                         
                         if (lang is CPPLanguage) {
                             // Define program-specific dictionary to remove all macros
-                            // TODO: Need to find and replace program-specific macros that
-                            // will break ANTLR
 
                             // Transform "*(T*)x" into "*((T*)x)", which is accepted by the grammar
                             // as long as there is a left-hand token (=, <<, etc.) to accept the value.
@@ -137,9 +140,7 @@ namespace SoftwareAnalyzer2.Tools
                             foreach (string type in "int,double,float".Split(',')) {
                                 translated_line = Regex.Replace(translated_line, type+@"\s*([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"*$1");
                             }
-
                         }
-
 
                         // Additional translations may be added here as we see new parse issues crop up in the field,
                         // esp. with code that does not compile we can make some decisions to allow the ANTLR
