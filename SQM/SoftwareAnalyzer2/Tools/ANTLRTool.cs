@@ -173,10 +173,6 @@ namespace SoftwareAnalyzer2.Tools
             //creates two ANTLR output files by using these two commands and then combines them to create an IModifiable.
             //The IModifiable is then modified to the preferred form and the process terminates
 
-            // temporary filenames for macros and preprocessed files
-            string macros       = fileName + "-macros";
-            string preprocessed = fileName;
-
             //this process is prone to errors and although even a partial tree is instructive, all errors must be 
             //captured and brought to the user's attention as they are fatal to the process.
             try
@@ -213,10 +209,10 @@ namespace SoftwareAnalyzer2.Tools
                 p2_stdin_t.Start();
 
                 if (myLang is CPPLanguage) {
-                    // Timeout after ~60 seconds and kill slow/hung processes
-                    p.WaitForExit(60000);
+                    // Timeout after ~120 seconds and kill slow/hung processes
+                    p.WaitForExit(120000);
                     p.Kill();
-                    p2.WaitForExit(60000);
+                    p2.WaitForExit(120000);
                     p2.Kill();
                 }
                 else {
