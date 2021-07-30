@@ -63,6 +63,29 @@ namespace SoftwareAnalyzer2.Tools
             return new ANTLRTool();
         }
 
+        // Takes created process, filepath/filename of executable, arguments, 
+        // starts it, and waits for it to finish by specified milliseconds
+        private void startProcess(Process p, string filename, string arguments, int timeToWait) {
+            if (p != null) {
+                p.StartInfo.FileName        = filename;
+                p.StartInfo.Arguments       = arguments;
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardInput  = true;
+                p.StartInfo.RedirectStandardOutput = true;
+                p.StartInfo.RedirectStandardError  = true;
+                p.Start();
+                Console.Error.WriteLine(filename + " " + p.StartInfo.Arguments);
+                switch (timeToWait) {
+                    case -1:
+                        p.WaitForExit();
+                        break;
+                    default:
+                        p.WaitForExit(timeToWait);
+                        break;
+                }
+            }
+        }
+
         // This fn is responsible for translating un-parseable code before ANTLR sees it.
         // Many of the SQM analysis routines do not care about things like pointer dereferences,
         // only that the data related to the pointer has been read/written to.
@@ -80,40 +103,32 @@ namespace SoftwareAnalyzer2.Tools
                     preprocessed = filename + "-preprocessed";
 
                     // Execute C++ preprocessing depending on platform
-                    // Used this way of getting system platform to accomodate .NET 4.5 limitations
-                    int pltfrm    = (int) Environment.OSVersion.Platform;
-                    bool isLinux  = (pltfrm == 4) || (pltfrm == 6) || (pltfrm == 128);
-                    if (isLinux) {
-                        // Extract all Macro definitions using preprocessor
-                        Process iMacros = new Process();
-                        iMacros.StartInfo.FileName        = "/bin/cpp";
-                        iMacros.StartInfo.Arguments       = filename + " -dM -o " + macros;
-                        iMacros.StartInfo.UseShellExecute = false;
-                        iMacros.StartInfo.RedirectStandardInput  = true;
-                        iMacros.StartInfo.RedirectStandardOutput = true;
-                        iMacros.StartInfo.RedirectStandardError  = true;
-                        iMacros.Start();
-                        iMacros.WaitForExit(3100);
-
-                        // Preprocess input using cpp preprocessor with macro definitions as header file
-                        Process cpp = new Process();
-                        cpp.StartInfo.FileName        = "/bin/cpp";
-                        cpp.StartInfo.Arguments       = filename + " -P -imacros " + macros + " -o " + preprocessed;
-                        cpp.StartInfo.UseShellExecute = false;
-                        cpp.StartInfo.RedirectStandardInput  = true;
-                        cpp.StartInfo.RedirectStandardOutput = true;
-                        cpp.StartInfo.RedirectStandardError  = true;
-                        cpp.Start();
-                        cpp.WaitForExit(3100);
+                    OperatingSystem os = Environment.OSVersion;
+                    PlatformID     pid = os.Platform;
+                    Process    iMacros = new Process();
+                    Process        cpp = new Process();
+                    switch (pid) {
+                        case PlatformID.Win32NT:
+                        case PlatformID.Win32S:
+                        case PlatformID.Win32Windows:
+                        case PlatformID.WinCE:
+                            // TODO: Add Windows preprocessing functionality
+                            break;
+                        case PlatformID.Unix:
+                        case PlatformID.MacOSX:
+                        case (PlatformID) 128:
+                            startProcess(iMacros, "/bin/cpp", filename + " -dM -o " + macros, 3100);
+                            startProcess(cpp, "/bin/cpp", filename + " -P -imacros " + macros + " -o " + preprocessed, 3100);
+                            break;
+                        default:
+                            break;
                     }
                 }
 
                 stdin.AutoFlush = true;            
                 
                 // If preprocessor failed, process the original file
-                if (!System.IO.File.Exists(preprocessed)) {
-                    preprocessed = filename;
-                }
+                if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
                 
                 // This deals with anything that might not have been caught from the 
                 // preprocessor using regular expressions.
@@ -180,46 +195,21 @@ namespace SoftwareAnalyzer2.Tools
             {
                 string processName = lang.ProcessName;
                 string instruction = lang.ANTLRInstruction;
+
+                // timeout after 3 seconds for CPP, else wait indefinitely
+                int timeToWait = (myLang is CPPLanguage) ? 3100 : -1;
+
                 //run -tree fileName
-                Process p            = new Process();
-                p.StartInfo.FileName = processName;
-                //p.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tree \"" + fileName + "\"";
-                p.StartInfo.Arguments       = "org.antlr.v4.gui.TestRig " + instruction + " -tree";
-                p.StartInfo.UseShellExecute = false;
-                p.StartInfo.RedirectStandardInput  = true;
-                p.StartInfo.RedirectStandardOutput = true;
-                p.StartInfo.RedirectStandardError  = true;
-                p.Start();
-                Console.Error.WriteLine(processName + " " + p.StartInfo.Arguments);
-                Thread p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
+                Process p = new Process();
+                startProcess(p, processName, "org.antlr.v4.gui.TestRig " + instruction + " -tree", timeToWait);
+                Thread  p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
                 p_stdin_t.Start();
                 
-
                 //run -tokens fileName
-                Process p2            = new Process();
-                p2.StartInfo.FileName = processName;
-                //p2.StartInfo.Arguments = "org.antlr.v4.gui.TestRig " + instruction + " -tokens \"" + fileName + "\"";
-                p2.StartInfo.Arguments       = "org.antlr.v4.gui.TestRig " + instruction + " -tokens";
-                p2.StartInfo.UseShellExecute = false;
-                p2.StartInfo.RedirectStandardInput  = true;
-                p2.StartInfo.RedirectStandardOutput = true;
-                p2.StartInfo.RedirectStandardError  = true;
-                p2.Start();
-                Console.Error.WriteLine(processName + " " + p2.StartInfo.Arguments);
-                Thread p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
+                Process p2 = new Process();
+                startProcess(p2, processName, "org.antlr.v4.gui.TestRig " + instruction + " -tokens", timeToWait);
+                Thread  p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
                 p2_stdin_t.Start();
-
-                if (myLang is CPPLanguage) {
-                    // Timeout after ~3 seconds and kill slow/hung processes
-                    p.WaitForExit(3100);
-                    p2.WaitForExit(3100);
-                }
-                else {
-                    // Wait indefinitely, ANTLR MUST exit for SQM to continue.
-                    p.WaitForExit();
-                    //hanging here. p2 -tokens command doesn't return
-                    p2.WaitForExit();
-                }
 
                 Console.Out.WriteLine(fileName);
                 
