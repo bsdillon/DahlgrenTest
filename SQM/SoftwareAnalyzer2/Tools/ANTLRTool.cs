@@ -228,12 +228,6 @@ namespace SoftwareAnalyzer2.Tools
 
                 Console.Out.WriteLine(fileName);
                 
-                // Deletes the temporary filtered and preprocessed files
-                if(System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed)) {
-                    System.IO.File.Delete(macros);
-                    System.IO.File.Delete(preprocessed);
-                }
-                
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 // We remove all tokens with "<WS>" (whitespace) and "<COMMENT>"
