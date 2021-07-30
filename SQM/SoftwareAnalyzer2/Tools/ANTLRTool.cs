@@ -211,7 +211,7 @@ namespace SoftwareAnalyzer2.Tools
                     // Timeout after ~3 seconds and kill slow/hung processes
                     p.WaitForExit(3100);
                     p.Kill();
-                    p2.WaitForExit(250);
+                    p2.WaitForExit(3100);
                     p2.Kill();
                 }
                 else {
@@ -222,12 +222,6 @@ namespace SoftwareAnalyzer2.Tools
                 }
 
                 Console.Out.WriteLine(fileName);
-                
-                // Deletes the temporary filtered and preprocessed files
-                if(System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed)) {
-                    System.IO.File.Delete(macros);
-                    System.IO.File.Delete(preprocessed);
-                }
                 
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
