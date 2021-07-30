@@ -212,9 +212,7 @@ namespace SoftwareAnalyzer2.Tools
                 if (myLang is CPPLanguage) {
                     // Timeout after ~3 seconds and kill slow/hung processes
                     p.WaitForExit(3100);
-                    p.Kill();
                     p2.WaitForExit(3100);
-                    p2.Kill();
                 }
                 else {
                     // Wait indefinitely, ANTLR MUST exit for SQM to continue.
