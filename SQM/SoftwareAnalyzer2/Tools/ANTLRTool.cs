@@ -76,9 +76,11 @@ namespace SoftwareAnalyzer2.Tools
                 p.Start();
                 Console.Error.WriteLine(filename + " " + p.StartInfo.Arguments);
                 switch (timeToWait) {
+                    // Wait indefinitely if -1 is used as timeToWait parameter
                     case -1:
                         p.WaitForExit();
                         break;
+                    // Otherwise, wait for time specified
                     default:
                         p.WaitForExit(timeToWait);
                         break;
@@ -117,10 +119,16 @@ namespace SoftwareAnalyzer2.Tools
                         case PlatformID.Unix:
                         case PlatformID.MacOSX:
                         case (PlatformID) 128:
+                            // Executes cpp FILENAME -dM -o FILENAME-macros to extract found macros
                             startProcess(iMacros, "/bin/cpp", filename + " -dM -o " + macros, 3100);
+                            // Executes cpp FILENAME -P -imacros FILENAME-macros -o FILENAME-preprocessed to 
+                            // use extracted macros and translate them without extra line or include directive output
                             startProcess(cpp, "/bin/cpp", filename + " -P -imacros " + macros + " -o " + preprocessed, 3100);
                             break;
                         default:
+                            // If issue in matching OS, kills unused process
+                            iMacros.Kill();
+                            cpp.Kill();
                             break;
                     }
                 }
