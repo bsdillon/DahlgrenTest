@@ -146,8 +146,6 @@ namespace SoftwareAnalyzer2.Tools
                         string translated_line = line;
                         
                         if (lang is CPPLanguage) {
-                            // Define program-specific dictionary to remove all macros
-
                             // Transform "*(T*)x" into "*((T*)x)", which is accepted by the grammar
                             // as long as there is a left-hand token (=, <<, etc.) to accept the value.
                             translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");

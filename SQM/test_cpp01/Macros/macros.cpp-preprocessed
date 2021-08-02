@@ -1,0 +1,15 @@
+       
+       
+int main()
+{
+    std::cout << "The value of LIMIT"
+         << " is " << 5 << std::endl;
+    std::cout << "Lockdown will be extended"
+         << " upto " << 31
+         << "-MAY-2020" << std::endl;
+    int l1 = 10, l2 = 5, area;
+    int area = (l1 * l2);
+    int minimum = (((l1) < (l2)) ? (l1) : (l2));
+    printf("Area of rectangle is: %i", area);
+    return 0;
+}
