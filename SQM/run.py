@@ -168,16 +168,16 @@ add_llvm_component_library(LLVMZPassTestModule
 
 
 def main(args=sys.argv):
-  help = ("usage: run.py [java|cpp] [path/to/source/folder]\n\n"
-          "Python support script to run SoftwareAnalyzer2.exe.\n\n"
-          "Optional Arguments:\n"
-          "   -h, --help              Show this help message and exit.\n"
-          "   [java|cpp]              Specify java or cpp to analyze.\n"
-          "   [path/to/source/folder] File path to source folder to analyze."
-         )
-  if (args[1] == "-h" or args[1] == "--help"):
-    print(help)
-    sys.exit(0)
+  # help = ("usage: run.py [java|cpp] [path/to/source/folder]\n\n"
+  #         "Python support script to run SoftwareAnalyzer2.exe.\n\n"
+  #         "Optional Arguments:\n"
+  #         "   -h, --help              Show this help message and exit.\n"
+  #         "   [java|cpp]              Specify java or cpp to analyze.\n"
+  #         "   [path/to/source/folder] File path to source folder to analyze."
+  #        )
+  # if (args[1] == "-h" or args[1] == "--help"):
+  #   print(help)
+  #   sys.exit(0)
 
   # Move to script directory
   os.chdir(os.path.abspath(os.path.dirname(__file__)))
