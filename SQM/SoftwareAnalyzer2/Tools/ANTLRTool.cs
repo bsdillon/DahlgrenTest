@@ -115,6 +115,9 @@ namespace SoftwareAnalyzer2.Tools
                         case PlatformID.Win32Windows:
                         case PlatformID.WinCE:
                             // TODO: Add Windows preprocessing functionality
+                            // clang required
+                            startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", filename + "-dM -E -o " + macros, 3100);
+                            startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", filename + "-P -E -imacros " + macros + " -o " + preprocessed, 3100);
                             break;
                         case PlatformID.Unix:
                         case PlatformID.MacOSX:
