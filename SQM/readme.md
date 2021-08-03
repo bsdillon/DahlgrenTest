@@ -10,6 +10,7 @@
  - .net 4 (mono will work fine on linux boxes)
  - java 8+ (`java.exe` must appear on `%PATH%`)
  - ANTLR (https://www.antlr.org/download.html, d/l the item under "Complete ANTLR 4.9.1 Java binaries jar")
+ - All external dependencies specified in code-to-be-analyzed be installed or available in system standard libraries
 
 New LLVM requirements:
 
