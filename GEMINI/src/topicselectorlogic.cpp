@@ -5,10 +5,11 @@
 #include <QSettings>
 #include <QMessageBox>
 
-TopicSelectorLogic::TopicSelectorLogic()
+TopicSelectorLogic::TopicSelectorLogic(QObject *parent)
+    :QObject(parent)
 {
     topicPanelProxy = new I_TopicPanel(this);
-    connect(this, &TopicSelectorLogic::TopicSelectionChanged, topicPanelProxy, &I_TopicPanel::TopicSelectionChanged);
+    //connect(this, &TopicSelectorLogic::TopicSelectionChanged, topicPanelProxy, &I_TopicPanel::signalTopicSelectionChanged);
 }
 
 QDir TopicSelectorLogic::makeDirectory(){
@@ -63,5 +64,5 @@ void TopicSelectorLogic::topicSelectionChanged(QStringList topicsSelected){
         selectedTopics.push_back(topic.toStdString());
     }
 
-    //emit TopicSelectionChanged(selectedTopics);
+    emit TopicSelectionChanged(selectedTopics);
 }

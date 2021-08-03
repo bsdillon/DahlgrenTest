@@ -97,6 +97,7 @@ SOURCES       = ../GEMINI/src/main.cpp \
 		../GEMINI/src/uiinterface/i_main.cpp \
 		../GEMINI/src/uiinterface/i_test.cpp \
 		../GEMINI/src/uiinterface/i_topicpanel.cpp \
+		../GEMINI/src/experimentlogic.cpp \
 		../GEMINI/src/topicselectorlogic.cpp qrc_resources.cpp \
 		moc/moc_dataloaderpanel.cpp \
 		moc/moc_experimentpanel.cpp \
@@ -131,7 +132,8 @@ SOURCES       = ../GEMINI/src/main.cpp \
 		moc/moc_logentrywidget.cpp \
 		moc/moc_datamanager.cpp \
 		moc/moc_subscriptionmanager.cpp \
-		moc/moc_topicselectorlogic.cpp
+		moc/moc_topicselectorlogic.cpp \
+		moc/moc_experimentlogic.cpp
 OBJECTS       = obj/main.o \
 		obj/mainwindow.o \
 		obj/dataloaderpanel.o \
@@ -177,6 +179,7 @@ OBJECTS       = obj/main.o \
 		obj/i_main.o \
 		obj/i_test.o \
 		obj/i_topicpanel.o \
+		obj/experimentlogic.o \
 		obj/topicselectorlogic.o \
 		obj/qrc_resources.o \
 		obj/moc_dataloaderpanel.o \
@@ -212,7 +215,8 @@ OBJECTS       = obj/main.o \
 		obj/moc_logentrywidget.o \
 		obj/moc_datamanager.o \
 		obj/moc_subscriptionmanager.o \
-		obj/moc_topicselectorlogic.o
+		obj/moc_topicselectorlogic.o \
+		obj/moc_experimentlogic.o
 DIST          = ../../../Downloads/ui_mainwindow.py \
 		../../../TopicSelectorClient.html \
 		../GEMINI/ui/TopicSelectorClient.txt \
@@ -510,7 +514,8 @@ DIST          = ../../../Downloads/ui_mainwindow.py \
 		../GEMINI/include/net/topics/message.h \
 		../GEMINI/include/net/topics/runner.h \
 		../GEMINI/include/plugin.h \
-		../GEMINI/include/topicselectorlogic.h ../GEMINI/src/main.cpp \
+		../GEMINI/include/topicselectorlogic.h \
+		../GEMINI/include/experimentlogic.h ../GEMINI/src/main.cpp \
 		../GEMINI/src/qtgui/mainwindow.cpp \
 		../GEMINI/src/qtgui/dataloaderpanel.cpp \
 		../GEMINI/src/qtgui/experimentpanel.cpp \
@@ -555,6 +560,7 @@ DIST          = ../../../Downloads/ui_mainwindow.py \
 		../GEMINI/src/uiinterface/i_main.cpp \
 		../GEMINI/src/uiinterface/i_test.cpp \
 		../GEMINI/src/uiinterface/i_topicpanel.cpp \
+		../GEMINI/src/experimentlogic.cpp \
 		../GEMINI/src/topicselectorlogic.cpp
 QMAKE_TARGET  = Gemini
 DESTDIR       = bin/
@@ -1011,8 +1017,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../GEMINI/resources/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../GEMINI/include/qtgui/dataloaderpanel.h ../GEMINI/include/qtgui/experimentpanel.h ../GEMINI/include/qtgui/mainwindow.h ../GEMINI/include/qtgui/stylemanager.h ../GEMINI/include/qtgui/testwindow.h ../GEMINI/include/qtgui/testwindowproxy.h ../GEMINI/include/qtgui/toggleswitch.h ../GEMINI/include/qtgui/topiccounts.h ../GEMINI/include/qtgui/topiccountsummary.h ../GEMINI/include/qtgui/topicdetails.h ../GEMINI/include/qtgui/topicselector.h ../GEMINI/include/proxies/proxyset.h ../GEMINI/include/core/corefunction.h ../GEMINI/include/headless/headlessapp.h include/net/abstractdriver.h include/net/message.h ../GEMINI/include/proxies/AbstractProxy.h ../GEMINI/include/headless/dataloaderproxy.h ../GEMINI/include/headless/experimentproxy.h ../GEMINI/include/headless/mainproxy.h ../GEMINI/include/headless/testwindowproxy.h ../GEMINI/include/headless/topiccountproxy.h ../GEMINI/include/headless/topicdetailsproxy.h ../GEMINI/include/headless/topicselectorproxy.h ../GEMINI/include/uiinterface/i_countpanel.h ../GEMINI/include/uiinterface/i_dataloader.h ../GEMINI/include/uiinterface/i_detailpanel.h ../GEMINI/include/uiinterface/i_experiment.h ../GEMINI/include/uiinterface/i_main.h ../GEMINI/include/uiinterface/i_test.h ../GEMINI/include/uiinterface/i_topicpanel.h ../GEMINI/include/common.h ../GEMINI/include/detailsummary.h ../GEMINI/include/defaultlistener.h ../GEMINI/include/defaultstatuslistener.h ../GEMINI/include/filequeue.h ../GEMINI/include/configureenvironment.h ../GEMINI/include/readmessage.h ../GEMINI/include/messagelistener.h ../GEMINI/include/timeobject.h ../GEMINI/include/filestatus.h ../GEMINI/include/threadworker.h ../GEMINI/include/logentrywidget.h ../GEMINI/include/plamessage.h ../GEMINI/include/datamanager.h ../GEMINI/include/subscriptionmanager.h ../GEMINI/include/messagefield.h ../GEMINI/include/binaryfilehandler.h ../GEMINI/include/xmlfilehandler.h ../GEMINI/include/filemode.h include/net/Subscription_I.h include/net/Subscription_I.h include/net/Topic_I.h include/net/Topic_I.h include/net/Workspace/AbstractEnum.h include/net/Workspace/DriverException.h include/net/Workspace/DriverFactory.h include/net/Workspace/EmptyDriver.h include/net/Workspace/source/AllFields.h include/net/Workspace/source/abstractdriver.h include/net/Workspace/topics/Subscription_I.h include/net/Workspace/topics/message.h include/net/Workspace/topics/runner.h include/net/driverfactory.h ../GEMINI/include/net/drivers/AbstractEnum.h ../GEMINI/include/net/drivers/AllFields_Driver.h ../GEMINI/include/net/drivers/DriverException.h ../GEMINI/include/net/drivers/DriverFactory.h ../GEMINI/include/net/drivers/EmptyDriver.h include/net/drivers/FactoryInterface.h include/net/message.h ../GEMINI/include/net/source/AllFields.h ../GEMINI/include/net/source/AllFieldsDriver_Test.h ../GEMINI/include/net/source/abstractTest.h ../GEMINI/include/net/source/abstractdriver.h ../GEMINI/include/net/source/enum.h ../GEMINI/include/net/topics/Subscription_I.h ../GEMINI/include/net/topics/Topic_I.h ../GEMINI/include/net/topics/message.h ../GEMINI/include/net/topics/runner.h ../GEMINI/include/plugin.h ../GEMINI/include/topicselectorlogic.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../GEMINI/src/main.cpp ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/src/qtgui/dataloaderpanel.cpp ../GEMINI/src/qtgui/experimentpanel.cpp ../GEMINI/src/qtgui/stylemanager.cpp ../GEMINI/src/qtgui/toggleswitch.cpp ../GEMINI/src/qtgui/topiccounts.cpp ../GEMINI/src/qtgui/topiccountsummary.cpp ../GEMINI/src/qtgui/topicdetails.cpp ../GEMINI/src/qtgui/topicselector.cpp ../GEMINI/src/qtgui/testwindow.cpp ../GEMINI/src/core/corefunction.cpp ../GEMINI/src/proxies/proxyset.cpp ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/src/net/message.cpp ../GEMINI/src/headless/dataloaderproxy.cpp ../GEMINI/src/headless/experimentproxy.cpp ../GEMINI/src/headless/mainproxy.cpp ../GEMINI/src/headless/testwindowproxy.cpp ../GEMINI/src/headless/topiccountproxy.cpp ../GEMINI/src/headless/topicdetailsproxy.cpp ../GEMINI/src/headless/topicselectorproxy.cpp ../GEMINI/src/common.cpp ../GEMINI/src/detailsummary.cpp ../GEMINI/src/defaultlistener.cpp ../GEMINI/src/defaultstatuslistener.cpp ../GEMINI/src/filequeue.cpp ../GEMINI/src/configureenvironment.cpp ../GEMINI/src/readmessage.cpp ../GEMINI/src/timeobject.cpp ../GEMINI/src/threadworker.cpp ../GEMINI/src/logentrywidget.cpp ../GEMINI/src/datamanager.cpp ../GEMINI/src/subscriptionmanager.cpp ../GEMINI/src/messagelistener.cpp ../GEMINI/src/messagefield.cpp ../GEMINI/src/binaryfilehandler.cpp ../GEMINI/src/xmlfilehandler.cpp ../GEMINI/src/uiinterface/i_countpanel.cpp ../GEMINI/src/uiinterface/i_dataloader.cpp ../GEMINI/src/uiinterface/i_detailpanel.cpp ../GEMINI/src/uiinterface/i_experiment.cpp ../GEMINI/src/uiinterface/i_main.cpp ../GEMINI/src/uiinterface/i_test.cpp ../GEMINI/src/uiinterface/i_topicpanel.cpp ../GEMINI/src/topicselectorlogic.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../GEMINI/include/qtgui/dataloaderpanel.h ../GEMINI/include/qtgui/experimentpanel.h ../GEMINI/include/qtgui/mainwindow.h ../GEMINI/include/qtgui/stylemanager.h ../GEMINI/include/qtgui/testwindow.h ../GEMINI/include/qtgui/testwindowproxy.h ../GEMINI/include/qtgui/toggleswitch.h ../GEMINI/include/qtgui/topiccounts.h ../GEMINI/include/qtgui/topiccountsummary.h ../GEMINI/include/qtgui/topicdetails.h ../GEMINI/include/qtgui/topicselector.h ../GEMINI/include/proxies/proxyset.h ../GEMINI/include/core/corefunction.h ../GEMINI/include/headless/headlessapp.h include/net/abstractdriver.h include/net/message.h ../GEMINI/include/proxies/AbstractProxy.h ../GEMINI/include/headless/dataloaderproxy.h ../GEMINI/include/headless/experimentproxy.h ../GEMINI/include/headless/mainproxy.h ../GEMINI/include/headless/testwindowproxy.h ../GEMINI/include/headless/topiccountproxy.h ../GEMINI/include/headless/topicdetailsproxy.h ../GEMINI/include/headless/topicselectorproxy.h ../GEMINI/include/uiinterface/i_countpanel.h ../GEMINI/include/uiinterface/i_dataloader.h ../GEMINI/include/uiinterface/i_detailpanel.h ../GEMINI/include/uiinterface/i_experiment.h ../GEMINI/include/uiinterface/i_main.h ../GEMINI/include/uiinterface/i_test.h ../GEMINI/include/uiinterface/i_topicpanel.h ../GEMINI/include/common.h ../GEMINI/include/detailsummary.h ../GEMINI/include/defaultlistener.h ../GEMINI/include/defaultstatuslistener.h ../GEMINI/include/filequeue.h ../GEMINI/include/configureenvironment.h ../GEMINI/include/readmessage.h ../GEMINI/include/messagelistener.h ../GEMINI/include/timeobject.h ../GEMINI/include/filestatus.h ../GEMINI/include/threadworker.h ../GEMINI/include/logentrywidget.h ../GEMINI/include/plamessage.h ../GEMINI/include/datamanager.h ../GEMINI/include/subscriptionmanager.h ../GEMINI/include/messagefield.h ../GEMINI/include/binaryfilehandler.h ../GEMINI/include/xmlfilehandler.h ../GEMINI/include/filemode.h include/net/Subscription_I.h include/net/Subscription_I.h include/net/Topic_I.h include/net/Topic_I.h include/net/Workspace/AbstractEnum.h include/net/Workspace/DriverException.h include/net/Workspace/DriverFactory.h include/net/Workspace/EmptyDriver.h include/net/Workspace/source/AllFields.h include/net/Workspace/source/abstractdriver.h include/net/Workspace/topics/Subscription_I.h include/net/Workspace/topics/message.h include/net/Workspace/topics/runner.h include/net/driverfactory.h ../GEMINI/include/net/drivers/AbstractEnum.h ../GEMINI/include/net/drivers/AllFields_Driver.h ../GEMINI/include/net/drivers/DriverException.h ../GEMINI/include/net/drivers/DriverFactory.h ../GEMINI/include/net/drivers/EmptyDriver.h include/net/drivers/FactoryInterface.h include/net/message.h ../GEMINI/include/net/source/AllFields.h ../GEMINI/include/net/source/AllFieldsDriver_Test.h ../GEMINI/include/net/source/abstractTest.h ../GEMINI/include/net/source/abstractdriver.h ../GEMINI/include/net/source/enum.h ../GEMINI/include/net/topics/Subscription_I.h ../GEMINI/include/net/topics/Topic_I.h ../GEMINI/include/net/topics/message.h ../GEMINI/include/net/topics/runner.h ../GEMINI/include/plugin.h ../GEMINI/include/topicselectorlogic.h ../GEMINI/include/experimentlogic.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../GEMINI/src/main.cpp ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/src/qtgui/dataloaderpanel.cpp ../GEMINI/src/qtgui/experimentpanel.cpp ../GEMINI/src/qtgui/stylemanager.cpp ../GEMINI/src/qtgui/toggleswitch.cpp ../GEMINI/src/qtgui/topiccounts.cpp ../GEMINI/src/qtgui/topiccountsummary.cpp ../GEMINI/src/qtgui/topicdetails.cpp ../GEMINI/src/qtgui/topicselector.cpp ../GEMINI/src/qtgui/testwindow.cpp ../GEMINI/src/core/corefunction.cpp ../GEMINI/src/proxies/proxyset.cpp ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/src/net/message.cpp ../GEMINI/src/headless/dataloaderproxy.cpp ../GEMINI/src/headless/experimentproxy.cpp ../GEMINI/src/headless/mainproxy.cpp ../GEMINI/src/headless/testwindowproxy.cpp ../GEMINI/src/headless/topiccountproxy.cpp ../GEMINI/src/headless/topicdetailsproxy.cpp ../GEMINI/src/headless/topicselectorproxy.cpp ../GEMINI/src/common.cpp ../GEMINI/src/detailsummary.cpp ../GEMINI/src/defaultlistener.cpp ../GEMINI/src/defaultstatuslistener.cpp ../GEMINI/src/filequeue.cpp ../GEMINI/src/configureenvironment.cpp ../GEMINI/src/readmessage.cpp ../GEMINI/src/timeobject.cpp ../GEMINI/src/threadworker.cpp ../GEMINI/src/logentrywidget.cpp ../GEMINI/src/datamanager.cpp ../GEMINI/src/subscriptionmanager.cpp ../GEMINI/src/messagelistener.cpp ../GEMINI/src/messagefield.cpp ../GEMINI/src/binaryfilehandler.cpp ../GEMINI/src/xmlfilehandler.cpp ../GEMINI/src/uiinterface/i_countpanel.cpp ../GEMINI/src/uiinterface/i_dataloader.cpp ../GEMINI/src/uiinterface/i_detailpanel.cpp ../GEMINI/src/uiinterface/i_experiment.cpp ../GEMINI/src/uiinterface/i_main.cpp ../GEMINI/src/uiinterface/i_test.cpp ../GEMINI/src/uiinterface/i_topicpanel.cpp ../GEMINI/src/experimentlogic.cpp ../GEMINI/src/topicselectorlogic.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GEMINI/ui/mainwindow.ui ../GEMINI/ui/topicselector.ui ../GEMINI/ui/experimentpanel.ui ../GEMINI/ui/topiccounts.ui ../GEMINI/ui/topiccountsummary.ui ../GEMINI/ui/detailsummary.ui ../GEMINI/ui/topicdetails.ui ../GEMINI/ui/testwindow.ui ../GEMINI/ui/logentrywidget.ui ../GEMINI/ui/dataloaderpanel.ui $(DISTDIR)/
 
 
@@ -1061,9 +1067,9 @@ compiler_moc_predefs_clean:
 moc/moc_predefs.h: ../../Qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc/moc_predefs.h ../../Qt/5.15.0/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc/moc_dataloaderpanel.cpp moc/moc_experimentpanel.cpp moc/moc_mainwindow.cpp moc/moc_testwindow.cpp moc/moc_toggleswitch.cpp moc/moc_topiccounts.cpp moc/moc_topiccountsummary.cpp moc/moc_topicdetails.cpp moc/moc_topicselector.cpp moc/moc_proxyset.cpp moc/moc_corefunction.cpp moc/moc_headlessapp.cpp moc/moc_dataloaderproxy.cpp moc/moc_experimentproxy.cpp moc/moc_mainproxy.cpp moc/moc_testwindowproxy.cpp moc/moc_topiccountproxy.cpp moc/moc_topicdetailsproxy.cpp moc/moc_topicselectorproxy.cpp moc/moc_i_countpanel.cpp moc/moc_i_dataloader.cpp moc/moc_i_detailpanel.cpp moc/moc_i_experiment.cpp moc/moc_i_main.cpp moc/moc_i_test.cpp moc/moc_i_topicpanel.cpp moc/moc_detailsummary.cpp moc/moc_filequeue.cpp moc/moc_messagelistener.cpp moc/moc_threadworker.cpp moc/moc_logentrywidget.cpp moc/moc_datamanager.cpp moc/moc_subscriptionmanager.cpp moc/moc_topicselectorlogic.cpp
+compiler_moc_header_make_all: moc/moc_dataloaderpanel.cpp moc/moc_experimentpanel.cpp moc/moc_mainwindow.cpp moc/moc_testwindow.cpp moc/moc_toggleswitch.cpp moc/moc_topiccounts.cpp moc/moc_topiccountsummary.cpp moc/moc_topicdetails.cpp moc/moc_topicselector.cpp moc/moc_proxyset.cpp moc/moc_corefunction.cpp moc/moc_headlessapp.cpp moc/moc_dataloaderproxy.cpp moc/moc_experimentproxy.cpp moc/moc_mainproxy.cpp moc/moc_testwindowproxy.cpp moc/moc_topiccountproxy.cpp moc/moc_topicdetailsproxy.cpp moc/moc_topicselectorproxy.cpp moc/moc_i_countpanel.cpp moc/moc_i_dataloader.cpp moc/moc_i_detailpanel.cpp moc/moc_i_experiment.cpp moc/moc_i_main.cpp moc/moc_i_test.cpp moc/moc_i_topicpanel.cpp moc/moc_detailsummary.cpp moc/moc_filequeue.cpp moc/moc_messagelistener.cpp moc/moc_threadworker.cpp moc/moc_logentrywidget.cpp moc/moc_datamanager.cpp moc/moc_subscriptionmanager.cpp moc/moc_topicselectorlogic.cpp moc/moc_experimentlogic.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc/moc_dataloaderpanel.cpp moc/moc_experimentpanel.cpp moc/moc_mainwindow.cpp moc/moc_testwindow.cpp moc/moc_toggleswitch.cpp moc/moc_topiccounts.cpp moc/moc_topiccountsummary.cpp moc/moc_topicdetails.cpp moc/moc_topicselector.cpp moc/moc_proxyset.cpp moc/moc_corefunction.cpp moc/moc_headlessapp.cpp moc/moc_dataloaderproxy.cpp moc/moc_experimentproxy.cpp moc/moc_mainproxy.cpp moc/moc_testwindowproxy.cpp moc/moc_topiccountproxy.cpp moc/moc_topicdetailsproxy.cpp moc/moc_topicselectorproxy.cpp moc/moc_i_countpanel.cpp moc/moc_i_dataloader.cpp moc/moc_i_detailpanel.cpp moc/moc_i_experiment.cpp moc/moc_i_main.cpp moc/moc_i_test.cpp moc/moc_i_topicpanel.cpp moc/moc_detailsummary.cpp moc/moc_filequeue.cpp moc/moc_messagelistener.cpp moc/moc_threadworker.cpp moc/moc_logentrywidget.cpp moc/moc_datamanager.cpp moc/moc_subscriptionmanager.cpp moc/moc_topicselectorlogic.cpp
+	-$(DEL_FILE) moc/moc_dataloaderpanel.cpp moc/moc_experimentpanel.cpp moc/moc_mainwindow.cpp moc/moc_testwindow.cpp moc/moc_toggleswitch.cpp moc/moc_topiccounts.cpp moc/moc_topiccountsummary.cpp moc/moc_topicdetails.cpp moc/moc_topicselector.cpp moc/moc_proxyset.cpp moc/moc_corefunction.cpp moc/moc_headlessapp.cpp moc/moc_dataloaderproxy.cpp moc/moc_experimentproxy.cpp moc/moc_mainproxy.cpp moc/moc_testwindowproxy.cpp moc/moc_topiccountproxy.cpp moc/moc_topicdetailsproxy.cpp moc/moc_topicselectorproxy.cpp moc/moc_i_countpanel.cpp moc/moc_i_dataloader.cpp moc/moc_i_detailpanel.cpp moc/moc_i_experiment.cpp moc/moc_i_main.cpp moc/moc_i_test.cpp moc/moc_i_topicpanel.cpp moc/moc_detailsummary.cpp moc/moc_filequeue.cpp moc/moc_messagelistener.cpp moc/moc_threadworker.cpp moc/moc_logentrywidget.cpp moc/moc_datamanager.cpp moc/moc_subscriptionmanager.cpp moc/moc_topicselectorlogic.cpp moc/moc_experimentlogic.cpp
 moc/moc_dataloaderpanel.cpp: ../GEMINI/include/qtgui/dataloaderpanel.h \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
@@ -2155,6 +2161,11 @@ moc/moc_topicselector.cpp: ../GEMINI/include/qtgui/topicselector.h \
 		../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../GEMINI/include/uiinterface/i_topicpanel.h \
+		../GEMINI/include/topicselectorlogic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
 		moc/moc_predefs.h \
 		../../Qt/5.15.0/gcc_64/bin/moc
 	/home/JWells/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/JWells/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc/moc_predefs.h -I/home/JWells/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/JWells/DahlgrenTest/GEMINI -I/home/JWells/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/JWells/Qt/5.15.0/gcc_64/include -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtGui -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/JWells/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/qtgui/topicselector.h -o moc/moc_topicselector.cpp
@@ -4201,6 +4212,84 @@ moc/moc_subscriptionmanager.cpp: ../GEMINI/include/subscriptionmanager.h \
 	/home/JWells/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/JWells/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc/moc_predefs.h -I/home/JWells/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/JWells/DahlgrenTest/GEMINI -I/home/JWells/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/JWells/Qt/5.15.0/gcc_64/include -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtGui -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/JWells/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/subscriptionmanager.h -o moc/moc_subscriptionmanager.cpp
 
 moc/moc_topicselectorlogic.cpp: ../GEMINI/include/topicselectorlogic.h \
+		../GEMINI/include/uiinterface/i_topicpanel.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcontainertools_impl.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qfile.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QSettings \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsettings.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		moc/moc_predefs.h \
+		../../Qt/5.15.0/gcc_64/bin/moc
+	/home/JWells/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/JWells/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc/moc_predefs.h -I/home/JWells/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/JWells/DahlgrenTest/GEMINI -I/home/JWells/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/JWells/Qt/5.15.0/gcc_64/include -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtGui -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/JWells/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/topicselectorlogic.h -o moc/moc_topicselectorlogic.cpp
+
+moc/moc_experimentlogic.cpp: ../GEMINI/include/experimentlogic.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qobject.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
@@ -4254,28 +4343,9 @@ moc/moc_topicselectorlogic.cpp: ../GEMINI/include/topicselectorlogic.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qfile.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qfiledevice.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qiodevice.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qhash.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/QSettings \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qsettings.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qmap.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qset.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
 		moc/moc_predefs.h \
 		../../Qt/5.15.0/gcc_64/bin/moc
-	/home/JWells/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/JWells/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc/moc_predefs.h -I/home/JWells/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/JWells/DahlgrenTest/GEMINI -I/home/JWells/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/JWells/Qt/5.15.0/gcc_64/include -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtGui -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/JWells/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/topicselectorlogic.h -o moc/moc_topicselectorlogic.cpp
+	/home/JWells/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/JWells/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc/moc_predefs.h -I/home/JWells/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/JWells/DahlgrenTest/GEMINI -I/home/JWells/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/JWells/Qt/5.15.0/gcc_64/include -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtGui -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/JWells/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/experimentlogic.h -o moc/moc_experimentlogic.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -4407,6 +4477,11 @@ ui_generated/ui_mainwindow.h: ../GEMINI/ui/mainwindow.ui \
 		../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../GEMINI/include/uiinterface/i_topicpanel.h \
+		../GEMINI/include/topicselectorlogic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QString \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qstring.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qchar.h \
@@ -5222,6 +5297,9 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../Qt/5.15.0/gcc_64/include/QtCore/QStringListModel \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qstringlistmodel.h \
 		../GEMINI/include/uiinterface/i_topicpanel.h \
+		../GEMINI/include/topicselectorlogic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QFuture \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qfuture.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qfutureinterface.h \
@@ -5270,7 +5348,6 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../Qt/5.15.0/gcc_64/include/QtCore/qcommandlineparser.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qcryptographichash.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qdiriterator.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qeasingcurve.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qendian.h \
@@ -6476,6 +6553,11 @@ obj/topicselector.o: ../GEMINI/src/qtgui/topicselector.cpp ../GEMINI/include/qtg
 		../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		../GEMINI/include/uiinterface/i_topicpanel.h \
+		../GEMINI/include/topicselectorlogic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
 		ui_generated/ui_topicselector.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
@@ -6522,11 +6604,6 @@ obj/topicselector.o: ../GEMINI/src/qtgui/topicselector.cpp ../GEMINI/include/qtg
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout \
 		../GEMINI/include/headless/topicselectorproxy.h \
 		../GEMINI/include/proxies/AbstractProxy.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
-		../GEMINI/include/topicselectorlogic.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/QFileDialog \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/qfiledialog.h \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
@@ -7021,7 +7098,21 @@ obj/proxyset.o: ../GEMINI/src/proxies/proxyset.cpp ../GEMINI/include/proxies/pro
 		../GEMINI/include/uiinterface/i_countpanel.h \
 		../GEMINI/include/uiinterface/i_experiment.h \
 		../GEMINI/include/uiinterface/i_dataloader.h \
-		../GEMINI/include/common.h
+		../GEMINI/include/common.h \
+		../GEMINI/include/topicselectorlogic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QSettings \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsettings.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/proxyset.o ../GEMINI/src/proxies/proxyset.cpp
 
 obj/headlessapp.o: ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/include/headless/headlessapp.h \
@@ -7506,7 +7597,20 @@ obj/experimentproxy.o: ../GEMINI/src/headless/experimentproxy.cpp ../GEMINI/incl
 		../GEMINI/include/uiinterface/i_experiment.h \
 		../GEMINI/include/filestatus.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
-		../../Qt/5.15.0/gcc_64/include/QtCore/QString
+		../../Qt/5.15.0/gcc_64/include/QtCore/QString \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/experimentproxy.o ../GEMINI/src/headless/experimentproxy.cpp
 
 obj/mainproxy.o: ../GEMINI/src/headless/mainproxy.cpp ../GEMINI/include/headless/experimentproxy.h \
@@ -9709,7 +9813,7 @@ obj/i_topicpanel.o: ../GEMINI/src/uiinterface/i_topicpanel.cpp ../GEMINI/include
 		../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/i_topicpanel.o ../GEMINI/src/uiinterface/i_topicpanel.cpp
 
-obj/topicselectorlogic.o: ../GEMINI/src/topicselectorlogic.cpp ../GEMINI/include/topicselectorlogic.h \
+obj/experimentlogic.o: ../GEMINI/src/experimentlogic.cpp ../GEMINI/include/experimentlogic.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qobject.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
@@ -9762,7 +9866,64 @@ obj/topicselectorlogic.o: ../GEMINI/src/topicselectorlogic.cpp ../GEMINI/include
 		../../Qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/experimentlogic.o ../GEMINI/src/experimentlogic.cpp
+
+obj/topicselectorlogic.o: ../GEMINI/src/topicselectorlogic.cpp ../GEMINI/include/topicselectorlogic.h \
+		../GEMINI/include/uiinterface/i_topicpanel.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringliteral.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringview.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qhashfunctions.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcontainertools_impl.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qbytearraylist.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QDir \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
@@ -9793,7 +9954,46 @@ obj/topicselectorlogic.o: ../GEMINI/src/topicselectorlogic.cpp ../GEMINI/include
 		../GEMINI/include/net/drivers/TestFields_Driver.h \
 		../GEMINI/include/net/source/TestField.h \
 		../GEMINI/include/net/drivers/TestFields2_Driver.h \
-		../GEMINI/include/net/source/TestFields2.h
+		../GEMINI/include/net/source/TestFields2.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/QMessageBox \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qmessagebox.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpalette.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qcolor.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qrgb.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qrgba64.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qbrush.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qdatastream.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qfont.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qfontinfo.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qcursor.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qkeysequence.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qevent.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qurl.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/topicselectorlogic.o ../GEMINI/src/topicselectorlogic.cpp
 
 obj/qrc_resources.o: qrc_resources.cpp 
@@ -9900,6 +10100,9 @@ obj/moc_subscriptionmanager.o: moc/moc_subscriptionmanager.cpp
 
 obj/moc_topicselectorlogic.o: moc/moc_topicselectorlogic.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_topicselectorlogic.o moc/moc_topicselectorlogic.cpp
+
+obj/moc_experimentlogic.o: moc/moc_experimentlogic.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/moc_experimentlogic.o moc/moc_experimentlogic.cpp
 
 ####### Install
 

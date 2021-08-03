@@ -47,7 +47,9 @@ private:
     std::function<void()> _finishedPressedCallBack;
     std::function<void(FileStatus)> _receiveFileNameStatusCallback;
     std::function<void()> _dataReceivedCallback;
+    int i_expId;
 
 };
+static int i_expCount = 0;
 
 #endif // I_EXPERIMENT_H

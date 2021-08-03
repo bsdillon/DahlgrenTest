@@ -36,8 +36,9 @@ private:
     std::function<void(std::string)> statusCallback;
     std::function<void(bool)> _enabled;
     std::function<void()> _logEventClicked;
-
+    int i_mainId;
 
 };
+static int i_mainCount = 0;
 
 #endif // I_MAIN_H

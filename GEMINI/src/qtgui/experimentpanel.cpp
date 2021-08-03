@@ -1,6 +1,7 @@
 #include <QString>
 #include "../../include/qtgui/experimentpanel.h"
 #include "ui_experimentpanel.h"
+#include "experimentlogic.h"
 #include <exception>
 #include <QDebug>
 #include "common.h"
@@ -45,17 +46,26 @@ ExperimentPanel::ExperimentPanel(QWidget *parent) :
     //experimentProxy->setDataReceived(std::bind(&ExperimentPanel::DataReceived, this, std::placeholders::_1));
     experimentProxy->setDataReceived(std::bind(&ExperimentPanel::DataReceived, this));
 
+    experimentLogic = new ExperimentLogic();
     //Signal Forwarding
+    //Moveed to logic
     connect(this, &ExperimentPanel::ExperimentRunning, experimentProxy, &I_Experiment::ExperimentRunning);
+    //Moved to logic
     connect(this, &ExperimentPanel::ExperimentDone, experimentProxy, &I_Experiment::ExperimentDone);
 
+    //Used, move to logic
     connect(ui->nameInput, &QLineEdit::textChanged, experimentProxy, &I_Experiment::FileNameTextChanged);
+    //Used, move to logic
     connect(this, &ExperimentPanel::TopicsUpdated, experimentProxy, &I_Experiment::TopicsUpdated);
+    //Used, move to logic
     connect(this, &ExperimentPanel::ClearData, experimentProxy, &I_Experiment::ClearData);
+    //Used, move to logic
     connect(this, &ExperimentPanel::LogEventClicked, experimentProxy, &I_Experiment::LogEventClicked);
+    //Moved to logic
     connect(this, &ExperimentPanel::inCleanState, experimentProxy, &I_Experiment::inCleanState);
+    //Not called here but implemented in mainwindow Status(), so not used as of rn
     connect(this, &ExperimentPanel::UpdateStatus, experimentProxy, &I_Experiment::UpdateStatus);
-
+    id = count;
 }
 
 ExperimentPanel::~ExperimentPanel()
@@ -75,11 +85,16 @@ void ExperimentPanel::TopicsChanged(std::vector<std::string> newTopicNames)
 
 void ExperimentPanel::UpdateTopicsPressed()
 {
+    //GUI
     ui->updateTopicsButton->setEnabled(false); // Disable during update
+    //expLogic, called in proxy
     emit TopicsUpdated(topicNames);
 
+    //expLogic, called in proxy
     UpdateLastExperimentFile();
+    //proxy
     topicsSent = true;
+    //expLogic, called in proxy
     CheckState();
 }
 
@@ -156,7 +171,8 @@ void ExperimentPanel::ClearDataPressed()
 void ExperimentPanel::CheckState()
 {
     //buttons become operational when at least one button has been selected and sent, and the file name meets requirements.
-    buttonReady = topicsSent && topicNames.size() > 0 && fileNameValid;
+    //buttonReady = topicsSent && topicNames.size() > 0 && fileNameValid;
+    buttonReady = experimentLogic->checkState(topicsSent, topicNames, fileNameValid);
     ApplyState();
 }
 

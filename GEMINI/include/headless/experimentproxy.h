@@ -3,6 +3,7 @@
 
 #include "proxies/AbstractProxy.h"
 #include "uiinterface/i_experiment.h"
+#include "experimentlogic.h"
 
 class ExperimentProxy : public QObject
 {
@@ -17,6 +18,8 @@ public:
     void finishPressed();
     void clearDataPressed();
     void logEventPressed();
+    void disableButtons(QString btnNames);
+    void enableButtons(QString btnNames);
 
 signals:
     void FileSelected(QString);
@@ -30,12 +33,24 @@ signals:
     void LogEventClicked();
     void inCleanState(bool);
     void UpdateStatus(std::string);
+
+    void sendingMessage(const QString &message);
+
 private:
     I_Experiment* experimentProxy;
+    ExperimentLogic* experimentLogic;
+    bool topicsSent;
+    bool dataReceived;
+    bool fileNameValid;
+    bool buttonReady;
+    std::vector<std::string> topicNames;
 
     void TopicsChanged(std::vector<std::string> s); //Need variable names
     void ReceiveFileNameStatus(FileStatus fs);
     void DataReceived();
+
+    int proxyid;
 };
+static int proxycount = 0;
 
 #endif // EXPERIMENTPROXY_H

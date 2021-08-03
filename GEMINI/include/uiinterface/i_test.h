@@ -32,6 +32,8 @@ private:
     std::function<void(bool)> _statusCallback;
     std::function<void(bool)> _experimentRunningCallback;
     std::function<void(std::map<std::string, AbstractDriver*>)> _receiveNewTopicsCallback;
+    int i_testId;
 };
+static int i_testCount = 0;
 
 #endif // I_TEST_H

@@ -5,7 +5,9 @@ I_Main::I_Main(QObject *parent)
       statusCallback([](std::string){}),
       _enabled([](bool){}),
       _logEventClicked([](){})
-{}
+{
+          i_mainId = i_mainCount ++;
+      }
 
 void I_Main::setStatusCallback(std::function<void(std::string)> cb)
 {

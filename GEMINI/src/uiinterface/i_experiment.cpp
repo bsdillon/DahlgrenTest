@@ -6,7 +6,9 @@ I_Experiment::I_Experiment(QObject *parent)
      _finishedPressedCallBack([](){}),
      _receiveFileNameStatusCallback([](FileStatus){}),
      _dataReceivedCallback([](){})
-{}
+{
+         i_expId = i_expCount ++;
+}
 
  //Signals
 void I_Experiment::signalExperimentRunning(bool run)

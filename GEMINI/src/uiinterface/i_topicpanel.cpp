@@ -4,7 +4,9 @@
 I_TopicPanel::I_TopicPanel(QObject *parent)
     :QObject(parent),
       _readSettingsCallback([](){})
-{}
+{
+    i_topicId = i_topicCount ++;
+}
 
 //Slot Callback
 void I_TopicPanel::setReadSettingsCallback(std::function<void()> readSettingsCallback)

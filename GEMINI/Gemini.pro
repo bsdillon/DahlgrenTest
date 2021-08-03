@@ -143,7 +143,8 @@ HEADERS += \
     include/net/topics/message.h \
     include/net/topics/runner.h \
     include/plugin.h \
-    include/topicselectorlogic.h
+    include/topicselectorlogic.h \
+    include/experimentlogic.h \
     #$${H_DIR}/external/rticonnection.h \
     #$${H_DIR}/external/rtitester.h \
 
@@ -197,6 +198,7 @@ SOURCES += \
     $${CPP_DIR}/uiinterface/i_main.cpp \
     $${CPP_DIR}/uiinterface/i_test.cpp \
     $${CPP_DIR}/uiinterface/i_topicpanel.cpp \
+    src/experimentlogic.cpp \
     src/topicselectorlogic.cpp
 
     #$${CPP_DIR}/external/rticonnection.cpp \

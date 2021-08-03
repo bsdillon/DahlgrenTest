@@ -11,7 +11,7 @@ class TopicSelectorLogic : public QObject
     Q_OBJECT
 public:
     I_TopicPanel* topicPanelProxy;
-    TopicSelectorLogic();
+    TopicSelectorLogic(QObject *parent=0);
     QDir makeDirectory();
     QStringList getTopics();
     void writeSettings(QString fileName, QStringList saveTopics);

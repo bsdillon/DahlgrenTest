@@ -10,6 +10,7 @@
 
 #include "filestatus.h"
 #include "uiinterface/i_experiment.h"
+#include "experimentlogic.h"
 
 class AbstractDriver;
 
@@ -67,10 +68,13 @@ private:
     bool topicsSent;
     bool dataReceived;
     ButtonState state;
+    ExperimentLogic* experimentLogic;
 
     void ApplyState();
     void CheckState();
     void UpdateLastExperimentFile();
+
+    int id;
 
     //I_Experiment* experimentProxy;
 
@@ -83,5 +87,6 @@ private slots:
     void on_errorButton_clicked();
     void TestMessage();
 };
+static int count = 0;
 
 #endif // EXPERIMENTPANEL_H

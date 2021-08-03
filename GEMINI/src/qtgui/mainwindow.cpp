@@ -61,9 +61,9 @@ void MainWindow::setupProxies(std::unique_ptr<ProxySet>& ps)
 {
     ps->add(new AbstractProxy(ui->experimentPanel->experimentProxy),ProxySet::ProxyTypes::Experiment);
     ps->add(new AbstractProxy(dataLoader->dataloaderProxy),ProxySet::ProxyTypes::DataLoader);
-    ps->add(new AbstractProxy(this),ProxySet::ProxyTypes::Main);
+    ps->add(new AbstractProxy(mainProxy),ProxySet::ProxyTypes::Main);
     ps->add(new AbstractProxy(ui->countPanel->countPanelProxy),ProxySet::ProxyTypes::TCounts);
-    ps->add(new AbstractProxy(ui->topicPanel->topicPanelProxy),ProxySet::ProxyTypes::TSelector);
+    ps->add(new AbstractProxy(ui->topicPanel->topicLogic),ProxySet::ProxyTypes::TSelector);
     ps->add(new AbstractProxy(ui->detailPanel->detailPanelProxy),ProxySet::ProxyTypes::TDetails);
 
     if(Common::IsTest())

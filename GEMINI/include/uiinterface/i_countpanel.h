@@ -29,6 +29,8 @@ signals:
 
 private:
     std::function<void(std::map<std::string, AbstractDriver *>)> _receiveNewTopicsCallback;
+    int i_countId;
 };
+static int i_countCount = 0;
 
 #endif // I_COUNTPANEL_H

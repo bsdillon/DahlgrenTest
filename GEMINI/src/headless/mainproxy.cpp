@@ -22,5 +22,5 @@ void MainProxy::logEventClicked()
 
 void MainProxy::modeSwitchingEnabled(bool enabled)
 {
-
+    QString test;
 }

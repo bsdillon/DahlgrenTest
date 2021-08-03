@@ -2,7 +2,9 @@
 
 I_DataLoader::I_DataLoader(QObject *parent)
     :QObject(parent)
-{}
+{
+    i_dataId = i_dateCount ++;
+}
 
 void I_DataLoader::signaLoadData(QString filename){
     emit loadDataFrom(filename);

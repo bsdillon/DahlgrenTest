@@ -60,6 +60,7 @@ void HeadlessApp::onNewConnection(){
     connect(pSocket, &QWebSocket::disconnected, this, &HeadlessApp::socketDisconnected);
     connect(pSocket, &QWebSocket::textMessageReceived, this, &HeadlessApp::onMessage);
     connect(topicPanel, &TopicSelectorProxy::sendingMessage, pSocket, &QWebSocket::sendTextMessage);
+    connect(experiment, &ExperimentProxy::sendingMessage, pSocket, &QWebSocket::sendTextMessage);
 
     m_clients << pSocket;
 

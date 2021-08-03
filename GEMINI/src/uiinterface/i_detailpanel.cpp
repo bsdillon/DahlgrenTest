@@ -4,7 +4,9 @@
 I_DetailPanel::I_DetailPanel(QObject *parent)
     :QObject(parent),
      _clearMessageCallback([](){})
-{}
+{
+    i_detailId = i_detailCount ++;
+}
 
 //Signals
 void I_DetailPanel::signalUpdateStatus(std::string status)

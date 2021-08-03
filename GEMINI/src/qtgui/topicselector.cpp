@@ -27,7 +27,7 @@ TopicSelector::TopicSelector(QWidget *parent) :
     connect(ui->pushButton_deselectTopics, &QPushButton::clicked, this, &TopicSelector::removeTopics);
     connect(ui->pushButton_2_saveTopics, &QPushButton::clicked, this, &TopicSelector::saveTopicsToFile);
     connect(ui->pushButton_loadTopics, &QPushButton::clicked, this, &TopicSelector::loadTopicsFromFile);
-    TopicSelectorLogic* topicLogic;
+    topicLogic = new TopicSelectorLogic(this);
     //getTopics ***topicLogic**
     QStringList allTopics = topicLogic->getTopics();
 
@@ -60,12 +60,12 @@ TopicSelector::TopicSelector(QWidget *parent) :
     checkSaveButtonState();
 
     topicPanelProxy = new I_TopicPanel(this);
-    //topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this, std::placeholder::_1));
-    topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this));
+    //(moved to logic)topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this, std::placeholder::_1));
+    //(moved to logic)topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this));
     //Signal Forwarding
-    connect(this, &TopicSelector::UpdateStatus, topicPanelProxy, &I_TopicPanel::UpdateStatus);
-    //connect(this, &TopicSelector::TopicSelectionChanged, topicPanelProxy, &I_TopicPanel::TopicSelectionChanged);
-    connect(this, &TopicSelector::selectListOfTopics, topicPanelProxy, &I_TopicPanel::selectTopicList);
+    //(Not called here but implemented in mainwindow Status())connect(this, &TopicSelector::UpdateStatus, topicPanelProxy, &I_TopicPanel::UpdateStatus);
+    //(moved to logic)connect(this, &TopicSelector::TopicSelectionChanged, topicPanelProxy, &I_TopicPanel::TopicSelectionChanged);
+    //(not used)connect(this, &TopicSelector::selectListOfTopics, topicPanelProxy, &I_TopicPanel::selectTopicList);
 
 }
 
@@ -81,16 +81,8 @@ void TopicSelector::selectionChanged()
     checkSaveButtonState();
 }
 
-/*void TopicSelector::writeSettings(QSettings* settings)
-{
-    //QMessageBox::information(nullptr, "title", "writeSettings() called");
-    settings->setValue("TopicSelector/SelectedTopics", _selectedTopicsModel->stringList());
-}*/
-
 void TopicSelector::saveTopicsToFile()
 {
-    //QMessageBox::information(nullptr, "title", "saveTopicsToFile() called");
-    //makeDirectory ***topicLogic***
     QStringList saveTopics = _selectedTopicsModel->stringList();
     QDir dir = topicLogic->makeDirectory();
     auto fileName = QFileDialog::getSaveFileName(this, tr("Save Topic List"),
@@ -101,7 +93,6 @@ void TopicSelector::saveTopicsToFile()
 
 void TopicSelector::loadTopicsFromFile()
 {
-    //QMessageBox::information(nullptr, "title", "loadTopicsFromFile() called");
     QDir dir = topicLogic->makeDirectory();
     auto fileName = QFileDialog::getOpenFileName(this, tr("Load Topic List"),
                                                  dir.absolutePath(),

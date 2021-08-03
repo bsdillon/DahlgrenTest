@@ -8,6 +8,8 @@
 #include "uiinterface/i_dataloader.h"
 #include "common.h"
 
+#include "topicselectorlogic.h"
+
 ProxySet::ProxySet()
 {
 
@@ -59,11 +61,11 @@ void ProxySet::setUpConnections(std::unique_ptr<FileQueue>& fq, std::unique_ptr<
     connect((I_Experiment*)proxies[ProxySet::ProxyTypes::Experiment]->getWidget(), &I_Experiment::ClearData, sm.get(), &SubscriptionManager::ClearData);
     connect((I_CountPanel*)proxies[ProxySet::ProxyTypes::TCounts]->getWidget(), &I_CountPanel::toggleSubscription, sm.get(), &SubscriptionManager::toggleSubscription);
 
-    connect((I_TopicPanel*)proxies[ProxySet::ProxyTypes::TSelector]->getWidget(), &I_TopicPanel::TopicSelectionChanged, (I_Experiment*)proxies[ProxySet::ProxyTypes::Experiment]->getWidget(), &I_Experiment::TopicsChanged);
+    connect((TopicSelectorLogic*)proxies[ProxySet::ProxyTypes::TSelector]->getWidget(), &TopicSelectorLogic::TopicSelectionChanged, (I_Experiment*)proxies[ProxySet::ProxyTypes::Experiment]->getWidget(), &I_Experiment::TopicsChanged);
     connect((I_Experiment*)proxies[ProxySet::ProxyTypes::Experiment]->getWidget(), &I_Experiment::LogEventClicked, (I_Main*)proxies[ProxySet::ProxyTypes::Main]->getWidget(), &I_Main::logEventClicked);
     connect((I_Experiment*)proxies[ProxySet::ProxyTypes::Experiment]->getWidget(), &I_Experiment::ExperimentDone, (I_DetailPanel*)proxies[ProxySet::ProxyTypes::TDetails]->getWidget(), &I_DetailPanel::ClearMessages);
     connect((I_Experiment*)proxies[ProxySet::ProxyTypes::Experiment]->getWidget(), &I_Experiment::UpdateStatus, (I_Main*)proxies[ProxySet::ProxyTypes::Main]->getWidget(), &I_Main::Status);
-    connect((I_TopicPanel*)proxies[ProxySet::ProxyTypes::TSelector]->getWidget(), &I_TopicPanel::UpdateStatus, (I_Main*)proxies[ProxySet::ProxyTypes::Main]->getWidget(), &I_Main::Status);
+    //connect((I_TopicPanel*)proxies[ProxySet::ProxyTypes::TSelector]->getWidget(), &I_TopicPanel::UpdateStatus, (I_Main*)proxies[ProxySet::ProxyTypes::Main]->getWidget(), &I_Main::Status);
     connect((I_CountPanel*)proxies[ProxySet::ProxyTypes::TCounts]->getWidget(), &I_CountPanel::UpdateStatus, (I_Main*)proxies[ProxySet::ProxyTypes::Main]->getWidget(), &I_Main::Status);
     connect((I_DetailPanel*)proxies[ProxySet::ProxyTypes::TDetails]->getWidget(), &I_DetailPanel::UpdateStatus, (I_Main*)proxies[ProxySet::ProxyTypes::Main]->getWidget(), &I_Main::Status);
     connect((I_Experiment*)proxies[ProxySet::ProxyTypes::Experiment]->getWidget(), &I_Experiment::ExperimentRunning, (I_CountPanel*)proxies[ProxySet::ProxyTypes::TCounts]->getWidget(), &I_CountPanel::experimentRunning);
@@ -77,7 +79,8 @@ void ProxySet::LoadUI()
         ((I_Test*)proxies[ProxySet::ProxyTypes::Test]->getWidget())->show();
     }
 
-    ((I_TopicPanel*)proxies[ProxySet::ProxyTypes::TSelector]->getWidget())->readSettings();
+    QString fileName;
+    ((TopicSelectorLogic*)proxies[ProxySet::ProxyTypes::TSelector]->getWidget())->readSettings(fileName);
 
     if(!Common::isHeadless())
     {

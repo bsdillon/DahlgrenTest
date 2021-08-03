@@ -19,6 +19,10 @@ signals:
     void loadDataFrom(QString fileName);
     void requestToClearData();
 
+private:
+    int i_dataId;
+
 };
+static int i_dateCount = 0;
 
 #endif // I_DATALOADER_H

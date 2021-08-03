@@ -27,7 +27,8 @@ signals:
 
 private:
     std::function<void()> _readSettingsCallback;
-
+    int i_topicId;
 };
+static int i_topicCount = 0;
 
 #endif // I_TOPICPANEL_H

@@ -6,7 +6,9 @@ I_Test::I_Test(QObject *parent)
       _statusCallback([](bool){}),
       _experimentRunningCallback([](bool){}),
       _receiveNewTopicsCallback([](std::map<std::string, AbstractDriver*>){})
-{}
+{
+    i_testId = i_testCount ++;
+}
 
 //Signals
 void I_Test::signalMessage(QString s, Message *m)

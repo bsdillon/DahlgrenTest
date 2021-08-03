@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ExperimentProxy_t {
-    QByteArrayData data[14];
-    char stringdata0[194];
+    QByteArrayData data[16];
+    char stringdata0[217];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,7 +45,9 @@ QT_MOC_LITERAL(9, 130, 9), // "ClearData"
 QT_MOC_LITERAL(10, 140, 15), // "LogEventClicked"
 QT_MOC_LITERAL(11, 156, 12), // "inCleanState"
 QT_MOC_LITERAL(12, 169, 12), // "UpdateStatus"
-QT_MOC_LITERAL(13, 182, 11) // "std::string"
+QT_MOC_LITERAL(13, 182, 11), // "std::string"
+QT_MOC_LITERAL(14, 194, 14), // "sendingMessage"
+QT_MOC_LITERAL(15, 209, 7) // "message"
 
     },
     "ExperimentProxy\0FileSelected\0\0StopAll\0"
@@ -53,7 +55,7 @@ QT_MOC_LITERAL(13, 182, 11) // "std::string"
     "FileNameTextChanged\0TopicsUpdated\0"
     "std::vector<std::string>\0ClearData\0"
     "LogEventClicked\0inCleanState\0UpdateStatus\0"
-    "std::string"
+    "std::string\0sendingMessage\0message"
 };
 #undef QT_MOC_LITERAL
 
@@ -63,24 +65,25 @@ static const uint qt_meta_data_ExperimentProxy[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-      10,       // signalCount
+      11,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   64,    2, 0x06 /* Public */,
-       3,    0,   67,    2, 0x06 /* Public */,
-       4,    1,   68,    2, 0x06 /* Public */,
-       5,    0,   71,    2, 0x06 /* Public */,
-       6,    1,   72,    2, 0x06 /* Public */,
-       7,    1,   75,    2, 0x06 /* Public */,
-       9,    0,   78,    2, 0x06 /* Public */,
-      10,    0,   79,    2, 0x06 /* Public */,
-      11,    1,   80,    2, 0x06 /* Public */,
-      12,    1,   83,    2, 0x06 /* Public */,
+       1,    1,   69,    2, 0x06 /* Public */,
+       3,    0,   72,    2, 0x06 /* Public */,
+       4,    1,   73,    2, 0x06 /* Public */,
+       5,    0,   76,    2, 0x06 /* Public */,
+       6,    1,   77,    2, 0x06 /* Public */,
+       7,    1,   80,    2, 0x06 /* Public */,
+       9,    0,   83,    2, 0x06 /* Public */,
+      10,    0,   84,    2, 0x06 /* Public */,
+      11,    1,   85,    2, 0x06 /* Public */,
+      12,    1,   88,    2, 0x06 /* Public */,
+      14,    1,   91,    2, 0x06 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    2,
@@ -93,6 +96,7 @@ static const uint qt_meta_data_ExperimentProxy[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Bool,    2,
     QMetaType::Void, 0x80000000 | 13,    2,
+    QMetaType::Void, QMetaType::QString,   15,
 
        0        // eod
 };
@@ -113,6 +117,7 @@ void ExperimentProxy::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 7: _t->LogEventClicked(); break;
         case 8: _t->inCleanState((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 9: _t->UpdateStatus((*reinterpret_cast< std::string(*)>(_a[1]))); break;
+        case 10: _t->sendingMessage((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -187,6 +192,13 @@ void ExperimentProxy::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
                 return;
             }
         }
+        {
+            using _t = void (ExperimentProxy::*)(const QString & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&ExperimentProxy::sendingMessage)) {
+                *result = 10;
+                return;
+            }
+        }
     }
 }
 
@@ -219,13 +231,13 @@ int ExperimentProxy::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }
@@ -294,6 +306,13 @@ void ExperimentProxy::UpdateStatus(std::string _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 9, _a);
+}
+
+// SIGNAL 10
+void ExperimentProxy::sendingMessage(const QString & _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 10, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

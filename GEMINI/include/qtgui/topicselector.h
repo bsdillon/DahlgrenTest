@@ -27,6 +27,7 @@ public:
     ~TopicSelector();
     void readSettings();
     I_TopicPanel* topicPanelProxy;
+    TopicSelectorLogic* topicLogic;
     void loadTopicsFromFile();
     void selectListOfTopics(const QStringList &topics);
     void writeSettings(QSettings *settings);
@@ -52,7 +53,6 @@ private:
     QSortFilterProxyModel* _allTopicsProxyModel;
     QStringListModel* _selectedTopicsModel;
     QSortFilterProxyModel* _selectedTopicsProxyModel;
-    TopicSelectorLogic* topicLogic;
 
     void moveTopicByIndex(QModelIndex index, QAbstractItemModel *from, QAbstractItemModel *to);
     void moveTopicsBySelection(QItemSelectionModel *selection, QAbstractItemModel *from, QAbstractItemModel *to);

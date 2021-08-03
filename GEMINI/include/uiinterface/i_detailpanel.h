@@ -27,6 +27,8 @@ public slots:
 
 private:
     std::function<void()> _clearMessageCallback;
+    int i_detailId;
 
 };
+static int i_detailCount = 0;
 #endif // I_DETAILPANEL_H
