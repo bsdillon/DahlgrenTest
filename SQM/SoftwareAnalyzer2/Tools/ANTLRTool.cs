@@ -206,7 +206,7 @@ namespace SoftwareAnalyzer2.Tools
                 string instruction = lang.ANTLRInstruction;
 
                 // timeout after 3 seconds for CPP, else wait indefinitely
-                int timeToWait = (myLang is CPPLanguage) ? 3100 : -1;
+                int timeToWait = (myLang is CPPLanguage) ? 3100 : 3100;
 
                 //run -tree fileName
                 Process p = new Process();
