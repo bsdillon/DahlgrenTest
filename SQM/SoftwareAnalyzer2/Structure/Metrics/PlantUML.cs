@@ -13,7 +13,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 {
    class PlantUML
     {
-        internal static int CreatePLantUML(string filename)
+        internal static int CreatePlantUML(string filename)
         {
             int answer = 0;
             StreamWriter writer = new StreamWriter(filename);
