@@ -693,7 +693,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("declSpecifier");
                 head.Collapse("typeSpecifier");
                 head.Collapse("trailingTypeSpecifier");
-                head.Collapse("simpleTypeSpecifier");
+                //head.Collapse("simpleTypeSpecifier");
                 head.Collapse("theTypeName");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
