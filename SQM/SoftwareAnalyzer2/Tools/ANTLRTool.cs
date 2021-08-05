@@ -114,19 +114,30 @@ namespace SoftwareAnalyzer2.Tools
                         case PlatformID.Win32S:
                         case PlatformID.Win32Windows:
                         case PlatformID.WinCE:
-                            // TODO: Add Windows preprocessing functionality
-                            // clang required
-                            startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", filename + " -dM -E -o " + macros, 3100);
-                            startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", filename + " -P -E -imacros " + macros + " -o " + preprocessed, 3100);
+                            try {
+                                // clang required
+                                startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", filename + " -dM -E -o " + macros, 3100);
+                                startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", filename + " -P -E -imacros " + macros + " -o " + preprocessed, 3100);
+                            }
+                            catch (Exception e) {
+                                errorMessages.Add("ERROR: INSTALL CLANG++ FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+                                errorMessages.Add("ERROR: INSTALL CLANG++ FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+                            }
                             break;
                         case PlatformID.Unix:
                         case PlatformID.MacOSX:
                         case (PlatformID) 128:
-                            // Executes cpp FILENAME -dM -o FILENAME-macros to extract found macros
-                            startProcess(iMacros, "/bin/cpp", filename + " -dM -o " + macros, 3100);
-                            // Executes cpp FILENAME -P -imacros FILENAME-macros -o FILENAME-preprocessed to 
-                            // use extracted macros and translate them without extra line or include directive output
-                            startProcess(cpp, "/bin/cpp", filename + " -P -imacros " + macros + " -o " + preprocessed, 3100);
+                            try {
+                                // Executes cpp FILENAME -dM -o FILENAME-macros to extract found macros
+                                startProcess(iMacros, "/bin/cpp", filename + " -dM -o " + macros, 3100);
+                                // Executes cpp FILENAME -P -imacros FILENAME-macros -o FILENAME-preprocessed to 
+                                // use extracted macros and translate them without extra line or include directive output
+                                startProcess(cpp, "/bin/cpp", filename + " -P -imacros " + macros + " -o " + preprocessed, 3100);
+                            }
+                            catch (Exception e) {
+                                errorMessages.Add("ERROR: INSTALL CPP FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+                                errorMessages.Add("ERROR: INSTALL CPP FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+                            }
                             break;
                         default:
                             // If issue in matching OS, kills unused process

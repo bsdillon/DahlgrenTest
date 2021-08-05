@@ -168,6 +168,7 @@ add_llvm_component_library(LLVMZPassTestModule
 
 
 def main(args=sys.argv):
+  # help menu printed if --help or -h is used
   help = ("usage: run.py [java|cpp] [path/to/source/folder]\n\n"
           "Python support script to run SoftwareAnalyzer2.exe.\n\n"
           "Optional Arguments:\n"
@@ -178,6 +179,14 @@ def main(args=sys.argv):
   if (len(args) == 2 and (args[1] == "-h" or args[1] == "--help")):
     print(help)
     sys.exit(0)
+  # Checks that cpp or clang++ is installed based on OS
+  elif len(args) == 3 and args[1] == "cpp":
+    if 'linux' in sys.platform and shutil.which('cpp', path='/bin') is None:
+      print('[error]: cpp not found. Please install and place cpp in /bin folder.')
+      sys.exit(0)
+    if 'win32' in sys.platform and shutil.which('clang++', path='C:/Program Files/LLVM/bin') is None:
+      print('[error] clang++ not found. Please install clang++ in C:/Program Files/LLVM/bin')
+      sys.exit(0)
 
   # Move to script directory
   os.chdir(os.path.abspath(os.path.dirname(__file__)))
