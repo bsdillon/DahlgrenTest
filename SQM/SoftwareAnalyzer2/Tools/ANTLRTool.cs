@@ -688,7 +688,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("className", "TypeDeclaration");
                 head.Rename("functionDefinition", "Method");
                 head.Rename("translationUnit", "File");
-                
+                head.Rename("literal", Members.Literal);
+
                 head.Collapse("templateArgument");
                 head.Collapse("declSpecifier");
                 head.Collapse("typeSpecifier");
