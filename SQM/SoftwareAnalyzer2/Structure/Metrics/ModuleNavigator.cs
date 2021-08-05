@@ -382,6 +382,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             reportCount = ConnectivityMetrics.APIReport(fileStem + "_API");
             summary.Append("API Reports: " + reportCount + System.Environment.NewLine);
+            
+            reportCount = PlantUML.CreatePlantUML(fileStem + "Plant_UML.txt");
+            summary.Append("Plant UML: " + reportCount + System.Environment.NewLine);
 
             summary.Append(csvErrors);
 
