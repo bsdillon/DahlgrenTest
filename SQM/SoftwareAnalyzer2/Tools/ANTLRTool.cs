@@ -700,6 +700,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("functionDefinition", "Method");
                 head.Rename("translationUnit", "File");
 
+                head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
 
                 head.Collapse("templateArgument");
@@ -3729,6 +3730,28 @@ namespace SoftwareAnalyzer2.Tools
 
             FormatField(target, children, true);
         }
+
+        /// <summary>
+        /// Recursively collapses C++ nodes containing "Expression"
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPExpressionHandler(IModifiable node)
+        {
+            if (node.GetChildCount() == 1)
+            {
+                IModifiable temp = (IModifiable)node.GetNthChild(0);
+                ReparentChildren(node);
+                CPPExpressionHandler(temp);
+            }
+            else if (node.GetChildCount() > 1)
+            {
+                foreach (IModifiable child in node.Children)
+                {
+                    CPPExpressionHandler(child);
+                }
+            }
+        }
+
         #endregion
     }
 }
