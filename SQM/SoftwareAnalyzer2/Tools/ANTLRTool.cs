@@ -701,7 +701,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("translationUnit", "File");
 
                 head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
-                head.RootUpModify("declarator", "declarator", CPPExpressionHandler);
+                head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
+                head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
 
                 head.Collapse("templateArgument");
