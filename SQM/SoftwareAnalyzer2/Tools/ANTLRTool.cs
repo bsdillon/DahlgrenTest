@@ -3740,7 +3740,9 @@ namespace SoftwareAnalyzer2.Tools
             if (node.GetChildCount() == 1)
             {
                 IModifiable temp = (IModifiable)node.GetNthChild(0);
-                ReparentChildren(node);
+                if (node.IsTrivial()) {
+                    ReparentChildren(node);
+                }
                 CPPExpressionHandler(temp);
             }
             else if (node.GetChildCount() > 1)
