@@ -116,8 +116,8 @@ namespace SoftwareAnalyzer2.Tools
                         case PlatformID.WinCE:
                             try {
                                 // clang required
-                                startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", filename + " -dM -E -o " + macros, 3100);
-                                startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", filename + " -P -E -imacros " + macros + " -o " + preprocessed, 3100);
+                                startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", "\"" + filename + "\" -dM -E -o \"" + macros + "\"", 3100);
+                                startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", "\"" + filename + "\" -P -E -imacros \"" + macros + "\" -o \"" + preprocessed + "\"", 3100);
                             }
                             catch (Exception e) {
                                 errorMessages.Add("ERROR: INSTALL CLANG++ FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
