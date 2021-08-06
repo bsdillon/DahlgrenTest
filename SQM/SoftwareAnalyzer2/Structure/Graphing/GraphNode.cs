@@ -596,6 +596,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             gFile.Close();
         }
 
+        //luTODO -- move these functions to a different file within metrics folder
+        //luTODO -- make the tracing errors silent and output them within an output file
         public static void FindAffectedNodes(List<GraphNode> gNodes, StreamWriter file)
         {
             //for every affected graph node, trace the relationships down the chain until everything has been traced
@@ -642,8 +644,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             if (!gn.traced)
             {
                 gn.traced = true;
-                //leaving this out for now. (subject to change)
-                //WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, gn.Represented.GetLineStart());
+                //going back and forth on this line. it seems to be necessary in some cases
+                WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, gn.Represented.GetLineStart());
 
                 foreach (Relationship r in gn.relationshipsTo.Keys)
                 {
@@ -674,10 +676,22 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                             {
                                 TraceField(grphNde);
                             }
+                            else if (grphNde.Represented.Node.Equals(Members.Constructor))
+                            {
+                                //do nothing
+                            }
+                            else if (grphNde.Represented.Node.Equals(Members.Literal))
+                            {
+                                //do nothing
+                            }
+                            else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
+                            {
+                                //do nothing
+                            }
                             else
                             {
                                 //case not accounted for. error message to user.
-                                //throw new InvalidCastException(grphNde.Represented.Node.ToString() + " not accounted for.");
+                                throw new InvalidDataException(grphNde.Represented.Node.ToString() + " not accounted for in TraceField()");
                             }
 
                         }
@@ -710,10 +724,22 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                             {
                                 TraceParameter(grphNde);
                             }
+                            else if (grphNde.Represented.Node.Equals(Members.Branch))
+                            {
+                                TraceBranch(grphNde);
+                            }
+                            else if (grphNde.Represented.Node.Equals(Members.Field))
+                            {
+                                TraceField(grphNde);
+                            }
+                            else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
+                            {
+                                //do nothing
+                            }
                             else
                             {
                                 //case not accounted for. error message to user.
-                                //throw new InvalidCastException(grphNde.Represented.Node.ToString() + " not accounted for.");
+                                throw new InvalidDataException(grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()");
                             }
                         }
                     }
@@ -797,7 +823,28 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                             if (grphNode.Represented.Node.Equals(Members.Field))
                             {
                                 TraceField(grphNode);
-                            }   
+                            }
+                            else if (grphNode.Represented.Node.Equals(Members.Literal))
+                            {
+                                //do nothing
+                            }
+                            else if (grphNode.Represented.Node.Equals(Members.Method))
+                            {
+                                //do nothing
+                            }
+                            else if (grphNode.Represented.Node.Equals(Members.Parameter))
+                            {
+                                //do nothing
+                            }
+                            else if (grphNode.Represented.Node.Equals(Members.ArrayInvoke))
+                            {
+                                //do nothing
+                            }
+                            else
+                            {
+                                //case not accounted for. throw error message to user
+                                throw new InvalidDataException(grphNode.Represented.Node.ToString() + " not accounted for in TraceReturnValue()");
+                            }
                         }
                     }
                 }
