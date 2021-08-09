@@ -166,7 +166,7 @@ namespace SoftwareAnalyzer2.Tools
 
                             // Transform variadic ellipses "..." into ", void* VARIADIC" for tracking purposes
                             // Avoid matching catch(...) statements that ANTLR is able to still process
-                            Match m = Regex.Match(translated_line, @"(?![catch\s(\.\.\.]).*\s*\.{3}");
+                            Match m = Regex.Match(translated_line, @"(?![catch\s(\.\.\.]).*\s*\.{3}.*");
                             while (m.Success) {
                                 string variadic = m.Value;
                                 translated_line = Regex.Replace(variadic, @",*\s*\.{3}", ", void* VARIADIC");
@@ -706,6 +706,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("translationUnit", Members.File);
                 head.Rename("enumHead", Members.TypeDeclaration);
                 head.Rename("enumerator", Members.Value);
+                head.Rename("parametersAndQualifiers", Members.ParameterList);
+                head.Rename("parameterDeclaration", Members.Parameter);
                 head.Rename("statementSeq", "Scope");
 
                 head.RootUpModify("Scope", "Scope", CPPMethodScopeFinder);
@@ -718,6 +720,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
 
                 head.Collapse("enumeratorDefinition");
+                head.Collapse("parameterDeclarationList");
 
                 head.Collapse("templateArgument");
                 head.Collapse("declSpecifier");
