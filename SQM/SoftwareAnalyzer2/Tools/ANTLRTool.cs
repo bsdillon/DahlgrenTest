@@ -701,10 +701,10 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (myLang is CPPLanguage) {
                 
-                head.Rename("className", Members.TypeDeclaration);
-                head.Rename("functionDefinition", Members.Method);
+                head.Rename("className", "TypeDeclaration");
+                head.Rename("functionDefinition", "Method");
                 head.Rename("translationUnit", Members.File);
-                head.Rename("enumHead", Members.TypeDeclaration);
+                head.Rename("enumHead", "TypeDeclaration");
                 head.Rename("enumerator", Members.Value);
                 head.Rename("parametersAndQualifiers", Members.ParameterList);
                 head.Rename("parameterDeclaration", Members.Parameter);
