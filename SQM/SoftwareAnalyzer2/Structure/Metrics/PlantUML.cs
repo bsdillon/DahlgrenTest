@@ -13,16 +13,46 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 {
    class PlantUML
     {
-        internal static int CreatePlantUML(string filename)
+        private static string PlantUMLReport = "";
+    
+        internal static void CreatePlantUML(string filename)
         {
-            int answer = 0;
             StreamWriter writer = new StreamWriter(filename);
             StringBuilder sb = new StringBuilder();
-            sb.Append("@startuml\r\n");
-            sb.Append("@enduml\r\n");
-            writer.WriteLine(sb);
+            PopulateData();
+            writer.WriteLine(PlantUMLReport);
             writer.Close();
-            return answer;
-        }    
+
+        }
+        internal static void PopulateData()
+        {
+            PlantUMLReport += "@startuml \r\n";
+            foreach (AbbreviatedGraph type in MetricUtilities.AllMembers)
+            {
+                if (type.Represented.Node.Equals(Members.INTERFACE) || type.Represented.FileName.Equals("--"))
+                {
+                    //skip any interface or external nodes. We don't classify them as the program interface
+                    continue;
+                }
+                if (type.Represented.Node.Equals(Members.CLASS))
+                {
+                    PlantUMLReport += type.Represented.Node.ToString() + " " + type.Represented.FileName + " " + type.Represented.Code + System.Environment.NewLine;  
+                }
+                AbbreviatedGraph[] members = MetricUtilities.GetMembersOf(type);
+                if (members.Length == 0)
+                {
+                    //this class has no members
+                    continue;
+                }
+            foreach (AbbreviatedGraph member in members)
+                {
+                    if (member.Represented.Node.Equals(Members.Method))
+                    {
+                        PlantUMLReport += member.Represented.Node.ToString() + " " + member.Represented.FileName + " " + member.Represented.Code + System.Environment.NewLine;
+                    }              
+                }
+                PlantUMLReport += "@enduml";
+            }
+        }
     }
 }
