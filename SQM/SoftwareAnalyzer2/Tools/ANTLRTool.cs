@@ -165,7 +165,12 @@ namespace SoftwareAnalyzer2.Tools
                             translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
 
                             // Transform variadic ellipses "..." into ", void* VARIADIC" for tracking purposes
-                            translated_line = Regex.Replace(translated_line, @",*\s*\.{3}", ", void* VARIADIC");
+                            // Avoid matching catch(...) statements that ANTLR is able to still process
+                            Match m = Regex.Match(translated_line, @"(?![catch\s(\.\.\.]).*\s*\.{3}");
+                            while (m.Success) {
+                                string variadic = m.Value;
+                                translated_line = Regex.Replace(variadic, @",*\s*\.{3}", ", void* VARIADIC");
+                            }
 
                             // Transform variadic macro "va_arg" to add variadic identifier to second macro parameter type T keyword
                             translated_line = Regex.Replace(translated_line, @"((?i)va_arg)(\()([a-zA-Z0-9_]*)(,*)([\s]*)([^\)]*)(\){1})", "$1$2$3$4$5VARIADIC_$6$7");
@@ -696,14 +701,23 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (myLang is CPPLanguage) {
                 
-                head.Rename("className", "TypeDeclaration");
-                head.Rename("functionDefinition", "Method");
-                head.Rename("translationUnit", "File");
+                head.Rename("className", Members.TypeDeclaration);
+                head.Rename("functionDefinition", Members.Method);
+                head.Rename("translationUnit", Members.File);
+                head.Rename("enumHead", Members.TypeDeclaration);
+                head.Rename("enumerator", Members.Value);
+                head.Rename("statementSeq", "Scope");
 
-                head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
+                head.RootUpModify("Scope", "Scope", CPPMethodScopeFinder);
+                //head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
+                //head.RootUpModify("constantExpression", "constantExpression", CPPExpressionHandler);
+                //head.RootUpModify("conditionalExpression", "conditionalExpression", CPPExpressionHandler);
+                head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
+
+                head.Collapse("enumeratorDefinition");
 
                 head.Collapse("templateArgument");
                 head.Collapse("declSpecifier");
@@ -713,7 +727,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("theTypeName");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
-                head.Collapse("TypeDeclaration");
+                //head.Collapse("TypeDeclaration");
 
                 // head.Rename("modifier", "modifier");
                 // head.Rename("modifier", "modifier");
@@ -3743,7 +3757,8 @@ namespace SoftwareAnalyzer2.Tools
             {
                 IModifiable temp = (IModifiable)node.GetNthChild(0);
                 if (node.IsTrivial()) {
-                    ReparentChildren(node);
+                    //ReparentChildren(node);
+                    ((IModifiable)node.Parent).ReplaceChild(node, temp);
                 }
                 CPPExpressionHandler(temp);
             }
@@ -3753,6 +3768,22 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     CPPExpressionHandler(child);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Converts Scope nodes to MethodScope nodes as appropriate
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPMethodScopeFinder(IModifiable node)
+        {
+            if (node.Parent.Parent == node.GetAncestor("functionBody"))
+            {
+                node.Rename("Scope", Members.MethodScope);
+            }
+            else
+            {
+                node.Rename("Scope", Members.Scope);
             }
         }
 
