@@ -718,10 +718,12 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
+                //head.RootUpModify("Method", "Method", CPPMethodNameCorrector);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
+                //head.RootUpModify("")
 
                 head.Collapse("enumeratorDefinition");
-                
+                head.Collapse("blockDeclaration");
 
                 head.Collapse("templateArgument");
                 head.Collapse("declSpecifier");
@@ -1299,6 +1301,10 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void TryCatchModifier(IModifiable node)
         {
+            if (myLang is CPPLanguage) {
+                // TODO
+            }
+
             IModifiable tryer = (IModifiable)node.GetNthChild(0);
             tryer.SetNode(Members.TryScope);
             tryer.ClearCode(ClearCodeOptions.KeepLine);
@@ -3759,15 +3765,16 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.GetChildCount() == 1)
             {
+                // if node has one child and this node is trivial, delete this node, move child up the tree, and recurse 
                 IModifiable temp = (IModifiable)node.GetNthChild(0);
                 if (node.IsTrivial()) {
-                    //ReparentChildren(node);
                     ((IModifiable)node.Parent).ReplaceChild(node, temp);
                 }
                 CPPExpressionHandler(temp);
             }
             else if (node.GetChildCount() > 1)
             {
+                // skip this node and recurse on the children
                 foreach (IModifiable child in node.Children)
                 {
                     CPPExpressionHandler(child);
@@ -3789,6 +3796,19 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Scope);
             }
+        }
+
+        /// <summary>
+        /// Moves Method name from declarator to actual Method node
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPMethodNameCorrector(IModifiable node)
+        {
+            // TODO: fix this - tends to screw up line numbers...
+            IModifiable declarator = (IModifiable)node.GetFirstRecursive("declarator");
+            // get into the declarator node, the first entry should be something other than a parameter, find the unqualifiedId
+            // if the ID is qualified, it will contain the unqualified Id
+            node.CopyCode((IModifiable)declarator.GetNthChild(0).GetFirstRecursive("unqualifiedId"));
         }
 
         #endregion
