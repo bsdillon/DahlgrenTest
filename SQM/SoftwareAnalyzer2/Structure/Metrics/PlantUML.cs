@@ -14,7 +14,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
    class PlantUML
     {
         private static string PlantUMLReport = "";
-    
+     // TODO: Needs to return an int if used as reportCount in ModuleNavigator.cs
         internal static void CreatePlantUML(string filename)
         {
             StreamWriter writer = new StreamWriter(filename);
