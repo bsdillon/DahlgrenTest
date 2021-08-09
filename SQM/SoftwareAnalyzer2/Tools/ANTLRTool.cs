@@ -3779,11 +3779,11 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.Parent.Parent == node.GetAncestor("functionBody"))
             {
-                node.Rename("Scope", Members.MethodScope);
+                node.SetNode(Members.MethodScope);
             }
             else
             {
-                node.Rename("Scope", Members.Scope);
+                node.SetNode(Members.Scope);
             }
         }
 
