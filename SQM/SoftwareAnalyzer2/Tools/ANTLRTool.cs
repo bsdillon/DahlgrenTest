@@ -975,42 +975,34 @@ namespace SoftwareAnalyzer2.Tools
             if (stringType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.String.ToString(), literal);
-                Console.Out.WriteLine(ApprovedLiterals.String.ToString());
             }
             else if (charType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Character.ToString(), literal);
-                Console.Out.WriteLine(ApprovedLiterals.Character.ToString());
             }
             else if (boolType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Boolean.ToString(), literal);
-                Console.Out.WriteLine(ApprovedLiterals.Boolean.ToString());
             }
             else if (intType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Integer.ToString(), literal);
-                Console.Out.WriteLine(ApprovedLiterals.Integer.ToString());
             }
             else if (longType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Long.ToString(), literal);
-                Console.Out.WriteLine(ApprovedLiterals.Long.ToString());
             }
             else if (floatType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Float.ToString(), literal);
-                Console.Out.WriteLine(ApprovedLiterals.Float.ToString());
             }
             else if (doubleType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Double.ToString(), literal);
-                Console.Out.WriteLine(ApprovedLiterals.Double.ToString());
             }
             else if (literal.Code.Equals("null"))
             {
                 t.AddCode(myLang.HeadNode, literal);
-                Console.Out.WriteLine("null");
             }
             else
             {
