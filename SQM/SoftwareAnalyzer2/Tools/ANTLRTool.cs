@@ -958,46 +958,59 @@ namespace SoftwareAnalyzer2.Tools
                                 : new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
             Regex longType   = (myLang is CPPLanguage) ? new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$")
                                 : new Regex("^-?(\\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
-            Regex floatType  = new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
-            Regex doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
-            Regex charType   = new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
+            Regex floatType  = (myLang is CPPLanguage) ? new Regex("^-?((\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\\d+(\\.(\\d)*)?|\\.\\d+))+p-?[0-9]+)$")
+                                : new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
+            Regex doubleType = (myLang is CPPLanguage) ? new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E|p|P)(-|\\+)?\\d*)?(D|d|L|l)?$")
+                                : new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
+            Regex charType   = (myLang is CPPLanguage) ? new Regex("^(u8|L|u|U)?'(((\\\\)?.|\\\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8)|\\[0-7]{3})'$")
+                                : new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
             IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, true);
             IModifiable t    = (IModifiable)NodeFactory.CreateNode(Members.TypeName, true);
 
             t.Parent    = type;
             type.Parent = literal;
 
+            Console.Out.Write("Literal Code: " + literal.Code + " Type: ");
+
             if (stringType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.String.ToString(), literal);
+                Console.Out.WriteLine(ApprovedLiterals.String.ToString());
             }
             else if (charType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Character.ToString(), literal);
+                Console.Out.WriteLine(ApprovedLiterals.Character.ToString());
             }
             else if (boolType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Boolean.ToString(), literal);
+                Console.Out.WriteLine(ApprovedLiterals.Boolean.ToString());
             }
             else if (intType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Integer.ToString(), literal);
+                Console.Out.WriteLine(ApprovedLiterals.Integer.ToString());
             }
             else if (longType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Long.ToString(), literal);
+                Console.Out.WriteLine(ApprovedLiterals.Long.ToString());
             }
             else if (floatType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Float.ToString(), literal);
+                Console.Out.WriteLine(ApprovedLiterals.Float.ToString());
             }
             else if (doubleType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Double.ToString(), literal);
+                Console.Out.WriteLine(ApprovedLiterals.Double.ToString());
             }
             else if (literal.Code.Equals("null"))
             {
                 t.AddCode(myLang.HeadNode, literal);
+                Console.Out.WriteLine("null");
             }
             else
             {
