@@ -709,8 +709,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("parametersAndQualifiers", Members.ParameterList);
                 head.Rename("parameterDeclaration", Members.Parameter);
                 head.Rename("statementSeq", "Scope");
-
-                head.RootUpModify("Scope", "Scope", CPPMethodScopeFinder);
+                
                 //head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
                 //head.RootUpModify("constantExpression", "constantExpression", CPPExpressionHandler);
                 //head.RootUpModify("conditionalExpression", "conditionalExpression", CPPExpressionHandler);
@@ -718,9 +717,11 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
-                //head.RootUpModify("Method", "Method", CPPMethodNameCorrector);
+                head.RootUpModify("Method", "Method", CPPMethodNameCorrector);
+                head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
+                head.RootUpModify("Scope", "Scope", CPPScopeDescriber);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
-                //head.RootUpModify("")
+                //head.RootUpModify("tryBlock", "tryBlock", TryCatchModifier);
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
@@ -953,8 +954,8 @@ namespace SoftwareAnalyzer2.Tools
         {
             Regex stringType = new Regex("^\".*\"$");
             Regex boolType   = new Regex("^(true|false|(0b(0|1)+))$");
-            Regex intType    = new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
-            Regex longType   = new Regex("^-?(\\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
+            Regex intType    = new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))+(U|u)?$");
+            Regex longType   = new Regex("^-?(\\d+|(0(x|X)([a-f]|[A-F]|[0-9])+))+(L|l){0,2}$");
             Regex floatType  = new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
             Regex doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
             Regex charType   = new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
@@ -3783,14 +3784,18 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
-        /// Converts Scope nodes to MethodScope nodes as appropriate
+        /// Converts Scope nodes to MethodScope or ElseScope nodes as appropriate
         /// </summary>
         /// <param name="answer"></param>
-        private void CPPMethodScopeFinder(IModifiable node)
+        private void CPPScopeDescriber(IModifiable node)
         {
             if (node.Parent.Parent == node.GetAncestor("functionBody"))
             {
                 node.SetNode(Members.MethodScope);
+            }
+            else if (node.Parent.Parent == node.GetAncestor(Members.Else))
+            {
+                node.SetNode(Members.ElseScope);
             }
             else
             {
@@ -3808,9 +3813,37 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable declarator = (IModifiable)node.GetFirstRecursive("declarator");
             // get into the declarator node, the first entry should be something other than a parameter, find the unqualifiedId
             // if the ID is qualified, it will contain the unqualified Id
-            node.CopyCode((IModifiable)declarator.GetNthChild(0).GetFirstRecursive("unqualifiedId"));
+            IModifiable unqualifiedId = (IModifiable)declarator.GetFirstRecursive("unqualifiedId");
+            node.CopyCode(unqualifiedId);
+            // excise the original afterwards - it no longer needs to exist
+            ((IModifiable)unqualifiedId.Parent).RemoveChild(unqualifiedId);
         }
 
+        /// <summary>
+        /// Identifies and sets selectionStatement nodes to the proper SQM node
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPSelectionStatementIdentifier(IModifiable node)
+        {
+            // TODO: fix this - tends to screw up line numbers...
+            if (node.Code.Equals("switch ( )"))
+            {
+                node.SetNode(Members.Switch);
+            }
+            else if (node.Code.Equals("if ( )") || node.Code.Equals("if ( ) else"))
+            {
+                node.SetNode(Members.Branch);
+                IModifiable thenNode = (IModifiable)node.GetFirstSingleLayer("statement");
+                thenNode.SetNode(Members.Then);
+                if (node.Code.Equals("if ( ) else"))
+                {
+                    IModifiable elseNode = (IModifiable)node.GetFirstSingleLayer("statement");
+                    elseNode.SetNode(Members.Else);
+                }
+                
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
+        }
         #endregion
     }
 }
