@@ -221,8 +221,8 @@ namespace SoftwareAnalyzer2.Tools
                 string processName = lang.ProcessName;
                 string instruction = lang.ANTLRInstruction;
 
-                // timeout after 3 seconds for CPP, else wait indefinitely
-                int timeToWait = (myLang is CPPLanguage) ? 3100 : 3100;
+                // timeout after 3 seconds
+                int timeToWait = 3100;
 
                 //run -tree fileName
                 Process p = new Process();
@@ -954,15 +954,17 @@ namespace SoftwareAnalyzer2.Tools
         {
             Regex stringType = new Regex("^\".*\"$");
             Regex boolType   = new Regex("^(true|false)$");
-            Regex intType    = new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))+(U|u)?$");
-            Regex longType   = new Regex("^-?(\\d+|(0(x|X)([a-f]|[A-F]|[0-9])+))+(L|l){0,2}$");
+            Regex intType    = (myLang is CPPLanguage) ? new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))(U|u)?$")
+                                : new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
+            Regex longType   = (myLang is CPPLanguage) ? new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$")
+                                : new Regex("^-?(\\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
             Regex floatType  = new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
             Regex doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
             Regex charType   = new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
             IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, true);
             IModifiable t    = (IModifiable)NodeFactory.CreateNode(Members.TypeName, true);
 
-            t.Parent = type;
+            t.Parent    = type;
             type.Parent = literal;
 
             if (stringType.IsMatch(literal.Code))
