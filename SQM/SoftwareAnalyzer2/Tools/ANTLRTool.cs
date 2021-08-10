@@ -953,7 +953,7 @@ namespace SoftwareAnalyzer2.Tools
         private void LiteralModifier(IModifiable literal)
         {
             Regex stringType = new Regex("^\".*\"$");
-            Regex boolType   = new Regex("^(true|false|(0b(0|1)+))$");
+            Regex boolType   = new Regex("^(true|false)$");
             Regex intType    = new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))+(U|u)?$");
             Regex longType   = new Regex("^-?(\\d+|(0(x|X)([a-f]|[A-F]|[0-9])+))+(L|l){0,2}$");
             Regex floatType  = new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
