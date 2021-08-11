@@ -1006,7 +1006,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else
             {
-                //TODO get correct RegEx from gramar
+                //TODO get correct RegEx from grammar
                 throw new NotImplementedException("Need to implement new literal type for " + literal);
             }
         }
@@ -3858,24 +3858,24 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPSwitchSetup(IModifiable node)
         {
-            IModifiable scopeNode = (IModifiable)node.GetFirstRecursive("labeledStatement").Parent.Parent;
-            if (scopeNode != node)
+            IModifiable blocksNode = (IModifiable)node.GetFirstRecursive("labeledStatement").Parent.Parent;
+            if (blocksNode != node)
             {
-                scopeNode.SetNode(Members.Blocks);
+                blocksNode.SetNode(Members.Blocks);
             }
             else
             {
                 //insert a new Blocks node after condition, set this to be the parent of each node afterwards, and make this scopeNode
-                List<INavigable> blockNodes = scopeNode.GetAllFirstLayer("statement");
-                scopeNode = (IModifiable)NodeFactory.CreateNode(Members.Blocks, true);
-                scopeNode.Parent = node;
-                foreach (IModifiable blockNode in blockNodes)
+                List<INavigable> subBlockNodes = blocksNode.GetAllFirstLayer("statement");
+                blocksNode = (IModifiable)NodeFactory.CreateNode(Members.Blocks, false);
+                blocksNode.Parent = node;
+                foreach (IModifiable subBlockNode in subBlockNodes)
                 {
-                    blockNode.Parent = scopeNode;
-                    node.RemoveChild(blockNode);
+                    subBlockNode.Parent = blocksNode;
+                    node.RemoveChild(subBlockNode);
                 }
             }
-            foreach (IModifiable child in scopeNode.Children)
+            foreach (IModifiable child in blocksNode.Children)
             {
                 if (child.GetNthChild(0).Code == "case :" || child.GetNthChild(0).Code == "default :")
                 {
@@ -3885,10 +3885,30 @@ namespace SoftwareAnalyzer2.Tools
                     if (childRecursion != null && childRecursion.GetFirstRecursive("unqualifiedId") != null) {
                         ((IModifiable)childRecursion.GetFirstRecursive("unqualifiedId")).SetNode(Members.Variable);
                     }
-                    // move up the statement node to make it more like java code
+
+                    //insert a Scope node and then move the statement into that
+                    IModifiable statementHolderScopeNode = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                    statementHolderScopeNode.Parent = child;
                     IModifiable statementNode = (IModifiable)child.GetFirstRecursive("statement");
                     ((IModifiable)statementNode.Parent).RemoveChild(statementNode);
-                    statementNode.Parent = child;
+                    statementNode.Parent = statementHolderScopeNode;
+
+                    //setup the labeledStatement nodes to be Value nodes and create a node for Defaults
+                    IModifiable valueNode = (IModifiable)child.GetFirstRecursive("labeledStatement");
+                    if (valueNode.Code == "default :")
+                    {
+                        IModifiable defaultNode = (IModifiable)NodeFactory.CreateNode(Members.Default, false);
+                        defaultNode.Parent = valueNode;
+                        defaultNode.CopyCode(valueNode);
+                        defaultNode.ClearCode(ClearCodeOptions.KeepLine);
+                    }
+                    valueNode.ClearCode(ClearCodeOptions.KeepLine);
+                    valueNode.SetNode(Members.Value);
+
+                    //move labeledStatements in the Scope of a Block to the Value, where they belong
+                    //do some kind of loop or recursion here?
+                    List<INavigable> labeledStatements;
+                    //statementHolderScopeNode.FullRecursiveSearch("labeledStatement", labeledStatements);
 
                 }
             }
