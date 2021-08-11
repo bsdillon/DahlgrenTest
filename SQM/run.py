@@ -192,6 +192,22 @@ def main(args=sys.argv):
       if 'win32' in sys.platform and shutil.which('clang++', path='C:/Program Files/LLVM/bin') is None:
         print('[error] clang++ not found. Please install clang++ in C:/Program Files/LLVM/bin')
         sys.exit(0)
+  elif (len(args) == 4 and (str(args[3]) == "-r" or str(args[3]) == "--recompile")):
+    if 'linux' in sys.platform:
+      bin = "/SoftwareAnalyzer2/bin"
+      obj = "/SoftwareAnalyzer2/obj"
+    elif 'win32' in sys.platform:
+      bin = "\\SoftwareAnalyzer2\\bin"
+      obj = "\\SoftwareAnalyzer2\\obj"
+    bin_path = os.path.abspath(os.path.dirname(__file__)) + bin
+    obj_path = os.path.abspath(os.path.dirname(__file__)) + obj
+    if os.path.exists(bin_path) and os.path.exists(obj_path):
+      shutil.rmtree(bin_path)
+      shutil.rmtree(obj_path)
+      args.pop(3)
+    else:
+      print('[error]: /bin and /obj not found. Remove ' + str(args[3]) + ' from command to run SQM normally.')
+      sys.exit(0)
 
   # Move to script directory
   os.chdir(os.path.abspath(os.path.dirname(__file__)))

@@ -720,6 +720,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("Method", "Method", CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
                 head.RootUpModify("Scope", "Scope", CPPScopeDescriber);
+                head.RootUpModify(Members.Switch, Members.Switch, CPPSwitchSetup);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 //head.RootUpModify("tryBlock", "tryBlock", TryCatchModifier);
 
@@ -952,7 +953,8 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="literal"></param>
         private void LiteralModifier(IModifiable literal)
         {
-            Regex stringType = new Regex("^\".*\"$");
+            Regex stringType = (myLang is CPPLanguage) ? new Regex("^(u8|L|u|U|R)?\".*\"$")
+                                : new Regex("^\".*\"$");
             Regex boolType   = new Regex("^(true|false)$");
             Regex intType    = (myLang is CPPLanguage) ? new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))(U|u)?$")
                                 : new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
@@ -962,15 +964,13 @@ namespace SoftwareAnalyzer2.Tools
                                 : new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
             Regex doubleType = (myLang is CPPLanguage) ? new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E|p|P)(-|\\+)?\\d*)?(D|d|L|l)?$")
                                 : new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
-            Regex charType   = (myLang is CPPLanguage) ? new Regex("^(u8|L|u|U)?'(((\\\\)?.|\\\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8)|\\[0-7]{3})'$")
+            Regex charType   = (myLang is CPPLanguage) ? new Regex("^(u8|L|u|U)?'(((\\\\)?.+)|(\\\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8}){1,2}|(\\\\[0-7]{3}))'$")
                                 : new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
             IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, true);
             IModifiable t    = (IModifiable)NodeFactory.CreateNode(Members.TypeName, true);
 
             t.Parent    = type;
             type.Parent = literal;
-
-            Console.Out.Write("Literal Code: " + literal.Code + " Type: ");
 
             if (stringType.IsMatch(literal.Code))
             {
@@ -1000,7 +1000,7 @@ namespace SoftwareAnalyzer2.Tools
             {
                 t.AddCode(ApprovedLiterals.Double.ToString(), literal);
             }
-            else if (literal.Code.Equals("null"))
+            else if (literal.Code.Equals("null") || literal.Code.Equals("nullptr"))
             {
                 t.AddCode(myLang.HeadNode, literal);
             }
@@ -3851,6 +3851,49 @@ namespace SoftwareAnalyzer2.Tools
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
-        #endregion
-    }
+
+        /// <summary>
+        /// Switch statement cleanup
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPSwitchSetup(IModifiable node)
+        {
+            IModifiable scopeNode = (IModifiable)node.GetFirstRecursive("labeledStatement").Parent.Parent;
+            if (scopeNode != node)
+            {
+                scopeNode.SetNode(Members.Blocks);
+            }
+            else
+            {
+                //insert a new Blocks node after condition, set this to be the parent of each node afterwards, and make this scopeNode
+                List<INavigable> blockNodes = scopeNode.GetAllFirstLayer("statement");
+                scopeNode = (IModifiable)NodeFactory.CreateNode(Members.Blocks, true);
+                scopeNode.Parent = node;
+                foreach (IModifiable blockNode in blockNodes)
+                {
+                    blockNode.Parent = scopeNode;
+                    node.RemoveChild(blockNode);
+                }
+            }
+            foreach (IModifiable child in scopeNode.Children)
+            {
+                if (child.GetNthChild(0).Code == "case :" || child.GetNthChild(0).Code == "default :")
+                {
+                    //identify Block nodes, and set non-literal cases to Variable, which occurs for enumerated Values, etc.
+                    child.SetNode(Members.Block);
+                    IModifiable childRecursion = (IModifiable)child.GetFirstRecursive("constantExpression");
+                    if (childRecursion != null && childRecursion.GetFirstRecursive("unqualifiedId") != null) {
+                        ((IModifiable)childRecursion.GetFirstRecursive("unqualifiedId")).SetNode(Members.Variable);
+                    }
+                    // move up the statement node to make it more like java code
+                    IModifiable statementNode = (IModifiable)child.GetFirstRecursive("statement");
+                    ((IModifiable)statementNode.Parent).RemoveChild(statementNode);
+                    statementNode.Parent = child;
+
+                }
+            }
+        }
+
+            #endregion
+        }
 }
