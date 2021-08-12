@@ -1331,15 +1331,15 @@ namespace SoftwareAnalyzer2.Tools
         private void TryCatchModifier(IModifiable node)
         {
             IModifiable tryer = (IModifiable)node.GetNthChild(0);
-            IModifiable tryScope;
+            IModifiable tryChild;
             List<IModifiable> catchers = new List<IModifiable>();
 
             if (myLang is CPPLanguage) 
             {
                 tryer.SetNode(Members.Try_Catch);
-                tryScope = (IModifiable)tryer.GetFirstSingleLayer("compoundStatement");
-                tryScope.SetNode(Members.TryScope);
-                tryScope.ClearCode(ClearCodeOptions.KeepLine);
+                tryChild = (IModifiable)tryer.GetFirstSingleLayer("compoundStatement");
+                tryChild.SetNode(Members.TryScope);
+                tryChild.ClearCode(ClearCodeOptions.KeepLine);
 
                 List<INavigable> children = tryer.Children;
                 IModifiable catcher = (IModifiable)children[1].GetFirstSingleLayer("handler");
@@ -1361,11 +1361,11 @@ namespace SoftwareAnalyzer2.Tools
             tryer.SetNode(Members.TryScope);
             tryer.ClearCode(ClearCodeOptions.KeepLine);
 
-            tryScope = (IModifiable)node.GetFirstSingleLayer("catchClause");
-            while (tryScope != null)//identifies multiple catch clauses
+            tryChild = (IModifiable)node.GetFirstSingleLayer("catchClause");
+            while (tryChild != null)//identifies multiple catch clauses
             {
-                List<INavigable> children = tryScope.Children;
-                tryScope.DropChildren();
+                List<INavigable> children = tryChild.Children;
+                tryChild.DropChildren();
 
                 while (children[0].Node.Equals("modifier"))
                 {
@@ -1393,13 +1393,13 @@ namespace SoftwareAnalyzer2.Tools
                 //create node new variable with the name used in the catch block;
                 IModifiable v = (IModifiable)NodeFactory.CreateNode(Members.Variable, true);
                 //Code tokens are "catch" "(" exceptionName and ")"
-                v.CopyCode(tryScope, 2);
+                v.CopyCode(tryChild, 2);
                 children.Add(v);
 
                 FormatField(catcher, children, true);
 
-                node.RemoveChild(tryScope);
-                tryScope = (IModifiable)node.GetFirstSingleLayer("catchClause");
+                node.RemoveChild(tryChild);
+                tryChild = (IModifiable)node.GetFirstSingleLayer("catchClause");
             }
 
             IModifiable finalBlock = (IModifiable)node.GetFirstSingleLayer("finallyBlock");
