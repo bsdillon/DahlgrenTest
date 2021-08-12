@@ -117,7 +117,7 @@ namespace SoftwareAnalyzer2.Tools
                             try {
                                 // clang required
                                 startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", "\"" + filename + "\" -dM -E -o \"" + macros + "\"", 3100);
-                                startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", "\"" + filename + "\" -P -E -imacros \"" + macros + "\" -o \"" + preprocessed + "\"", 3100);
+                                startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", "\"" + filename + "\" -P -dI -E -imacros \"" + macros + "\" -o \"" + preprocessed + "\"", 3100);
                             }
                             catch (Exception e) {
                                 errorMessages.Add("ERROR: INSTALL CLANG++ FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
@@ -132,7 +132,7 @@ namespace SoftwareAnalyzer2.Tools
                                 startProcess(iMacros, "/bin/cpp", filename + " -dM -o " + macros, 3100);
                                 // Executes cpp FILENAME -P -imacros FILENAME-macros -o FILENAME-preprocessed to 
                                 // use extracted macros and translate them without extra line or include directive output
-                                startProcess(cpp, "/bin/cpp", filename + " -P -imacros " + macros + " -o " + preprocessed, 3100);
+                                startProcess(cpp, "/bin/cpp", filename + " -P -dI -imacros " + macros + " -o " + preprocessed, 3100);
                             }
                             catch (Exception e) {
                                 errorMessages.Add("ERROR: INSTALL CPP FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
@@ -145,12 +145,11 @@ namespace SoftwareAnalyzer2.Tools
                             cpp.Kill();
                             break;
                     }
+                    // If preprocessor failed, process the original file
+                    if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
                 }
 
                 stdin.AutoFlush = true;            
-                
-                // If preprocessor failed, process the original file
-                if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
                 
                 // This deals with anything that might not have been caught from the 
                 // preprocessor using regular expressions.
@@ -195,7 +194,7 @@ namespace SoftwareAnalyzer2.Tools
                 stdin.Close();
 
                 // Deletes the temporary macro and preprocessed files
-                if (System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed)) {
+                if (myLang is CPPLanguage && System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed)) {
                     System.IO.File.Delete(macros);
                     System.IO.File.Delete(preprocessed);
                 }
@@ -722,7 +721,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("Scope", "Scope", CPPScopeDescriber);
                 head.RootUpModify(Members.Switch, Members.Switch, CPPSwitchSetup);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
-                //head.RootUpModify("tryBlock", "tryBlock", TryCatchModifier);
+                
+                // Currently only handles "try/catch" - TODO: add rest of C++ statement capability
+                head.RootUpModify("statement", "statement", StatementModifier);
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
@@ -733,6 +734,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("trailingTypeSpecifier");
                 //head.Collapse("simpleTypeSpecifier");
                 head.Collapse("theTypeName");
+
+                // TODO: Can uncomment when added additional statement functionality
+                // head.Collapse("statement"); 
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -972,7 +976,7 @@ namespace SoftwareAnalyzer2.Tools
                 doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
                 charType   = new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
             }
-            
+
             IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, true);
             IModifiable t    = (IModifiable)NodeFactory.CreateNode(Members.TypeName, true);
 
@@ -1261,6 +1265,16 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void StatementModifier(IModifiable node)
         {
+            if (myLang is CPPLanguage) 
+            {
+                IModifiable statement = (IModifiable) node.GetNthChild(0);
+                if (statement.Code.Equals("try")) 
+                {
+                    TryCatchModifier(node);
+                }
+                return;
+            }
+
             if (node.Code.StartsWith("continue "))
             {
                 node.SetNode(Members.Continue);
@@ -1316,20 +1330,42 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void TryCatchModifier(IModifiable node)
         {
-            if (myLang is CPPLanguage) {
-                // TODO
+            IModifiable tryer = (IModifiable)node.GetNthChild(0);
+            IModifiable tryScope;
+            List<IModifiable> catchers = new List<IModifiable>();
+
+            if (myLang is CPPLanguage) 
+            {
+                tryer.SetNode(Members.Try_Catch);
+                tryScope = (IModifiable)tryer.GetFirstSingleLayer("compoundStatement");
+                tryScope.SetNode(Members.TryScope);
+                tryScope.ClearCode(ClearCodeOptions.KeepLine);
+
+                List<INavigable> children = tryer.Children;
+                IModifiable catcher = (IModifiable)children[1].GetFirstSingleLayer("handler");
+                while (catcher != null) 
+                {
+                    catcher.SetNode(Members.CatchScope);
+                    catcher.ClearCode(ClearCodeOptions.ClearAll);
+                    children.Remove(catcher);
+                    catchers.Add(catcher);
+                    
+                    catcher.Parent = tryer;
+                    catcher = (IModifiable)children[1].GetFirstRecursive("handler");
+                }
+                IModifiable handler = (IModifiable)tryer.GetFirstRecursive("handlerSeq");
+                tryer.RemoveChild(handler);
+                return;    
             }
 
-            IModifiable tryer = (IModifiable)node.GetNthChild(0);
             tryer.SetNode(Members.TryScope);
             tryer.ClearCode(ClearCodeOptions.KeepLine);
 
-            List<IModifiable> catchers = new List<IModifiable>();
-            IModifiable temp = (IModifiable)node.GetFirstSingleLayer("catchClause");
-            while (temp != null)//identifies multiple catch clauses
+            tryScope = (IModifiable)node.GetFirstSingleLayer("catchClause");
+            while (tryScope != null)//identifies multiple catch clauses
             {
-                List<INavigable> children = temp.Children;
-                temp.DropChildren();
+                List<INavigable> children = tryScope.Children;
+                tryScope.DropChildren();
 
                 while (children[0].Node.Equals("modifier"))
                 {
@@ -1357,13 +1393,13 @@ namespace SoftwareAnalyzer2.Tools
                 //create node new variable with the name used in the catch block;
                 IModifiable v = (IModifiable)NodeFactory.CreateNode(Members.Variable, true);
                 //Code tokens are "catch" "(" exceptionName and ")"
-                v.CopyCode(temp, 2);
+                v.CopyCode(tryScope, 2);
                 children.Add(v);
 
                 FormatField(catcher, children, true);
 
-                node.RemoveChild(temp);
-                temp = (IModifiable)node.GetFirstSingleLayer("catchClause");
+                node.RemoveChild(tryScope);
+                tryScope = (IModifiable)node.GetFirstSingleLayer("catchClause");
             }
 
             IModifiable finalBlock = (IModifiable)node.GetFirstSingleLayer("finallyBlock");
