@@ -953,19 +953,26 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="literal"></param>
         private void LiteralModifier(IModifiable literal)
         {
-            Regex stringType = (myLang is CPPLanguage) ? new Regex("^(u8|L|u|U|R)?\".*\"$")
-                                : new Regex("^\".*\"$");
-            Regex boolType   = new Regex("^(true|false)$");
-            Regex intType    = (myLang is CPPLanguage) ? new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))(U|u)?$")
-                                : new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
-            Regex longType   = (myLang is CPPLanguage) ? new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$")
-                                : new Regex("^-?(\\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
-            Regex floatType  = (myLang is CPPLanguage) ? new Regex("^-?((\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\\d+(\\.(\\d)*)?|\\.\\d+))+p-?[0-9]+)$")
-                                : new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
-            Regex doubleType = (myLang is CPPLanguage) ? new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E|p|P)(-|\\+)?\\d*)?(D|d|L|l)?$")
-                                : new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
-            Regex charType   = (myLang is CPPLanguage) ? new Regex("^(u8|L|u|U)?'(((\\\\)?.+)|(\\\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8}){1,2}|(\\\\[0-7]{3}))'$")
-                                : new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
+            Regex stringType, boolType, intType, longType, floatType, doubleType, charType;
+            if (myLang is CPPLanguage) {
+                stringType = new Regex("^(u8|L|u|U|R)?\".*\"$");
+                boolType   = new Regex("^(true|false)$");
+                intType    = new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))(U|u)?$");
+                longType   = new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$");
+                floatType  = new Regex("^-?((\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\\d+(\\.(\\d)*)?|\\.\\d+))+p-?[0-9]+)$");
+                doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E|p|P)(-|\\+)?\\d*)?(D|d|L|l)?$");
+                charType   = new Regex("^(u8|L|u|U)?'(((\\\\)?.+)|(\\\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8}){1,2}|(\\\\[0-7]{3}))'$");
+            } 
+            else {
+                stringType = new Regex("^\".*\"$");
+                boolType   = new Regex("^(true|false)$");
+                intType    = new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
+                longType   = new Regex("^-?(\\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
+                floatType  = new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
+                doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
+                charType   = new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
+            }
+            
             IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, true);
             IModifiable t    = (IModifiable)NodeFactory.CreateNode(Members.TypeName, true);
 
