@@ -200,6 +200,14 @@ namespace SoftwareAnalyzer2.Structure.Node
         /// </summary>
         /// <param name="type"></param>
         /// <param name="answer"></param>
+        void FullRecursiveSearch(string specificNode, List<INavigable> answer);
+
+        /// <summary>
+        /// Recursive function to find all nodes matching the specificNode, returning
+        /// them int an unordered list.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="answer"></param>
         void FullRecursiveSearch(Members specificNode, List<INavigable> answer);
 
         /// <summary>

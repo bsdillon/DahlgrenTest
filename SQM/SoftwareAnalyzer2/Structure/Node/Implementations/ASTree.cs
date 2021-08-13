@@ -1192,6 +1192,11 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
 
         #region Full recursive search
         //see declaration in INavigable
+        public void FullRecursiveSearch(string specificNode, List<INavigable> answer)
+        {
+            FullRecursiveSearch(NodeType.CreateNodeType(specificNode), answer);
+        }
+
         public void FullRecursiveSearch(Members specificNode, List<INavigable> answer)
         {
             FullRecursiveSearch(NodeType.CreateNodeType(specificNode), answer);

@@ -3950,11 +3950,15 @@ namespace SoftwareAnalyzer2.Tools
 
                     //move labeledStatements in the Scope of a Block to the Value, where they belong
                     //do some kind of loop or recursion here?
-                    List<INavigable> labeledStatements;
-                    //statementHolderScopeNode.FullRecursiveSearch("labeledStatement", labeledStatements);
+                    List<INavigable> labeledStatements = new List<INavigable>();
+                    statementHolderScopeNode.FullRecursiveSearch("labeledStatement", labeledStatements);
 
                 }
             }
+            // here...?
+            // copy children of BLOCKS node, then add them back in order
+            // if it's a BLOCK, add it under BLOCKS
+            // if it's a STATEMENT, add it under the SCOPE of the LAST BLOCK added under BLOCKS
         }
 
             #endregion
