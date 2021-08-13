@@ -716,15 +716,23 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
-                head.RootUpModify("qualifiedId", "qualifiedId", CPPQualifiedIdHandler);
+                head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
                 head.RootUpModify("Method", "Method", CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
                 head.RootUpModify("Scope", "Scope", CPPScopeDescriber);
                 head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
                 head.RootUpModify("jumpStatement", "jumpStatement", CPPJumpStatementHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
-                
+
                 // Currently only handles "try/catch" - TODO: add rest of C++ statement capability
+                // MM - I see you're using the existing functions here and adding in "myLang is CPPLanguage" checks.
+                // MM - I'm not doing that at all - I'm adding new functions at the bottom of the file for C++ specifically
+                // MM - (excluding LiteralModifier since we can actually reuse that code - you seem to mostly exit with return).
+                // MM - We're probably going to want to make sure our code has the same style or whatever - ask Brian what he prefers.
+                // MM - If I'm the one in the right, I'd move your code in TryCatchModifier into a separate function.
+                // MM - unless something weird is going on that you didn't write in the AST info issue, you might want to try something like this:
+                // MM - head.RootUpModify("tryBlock", "tryBlock", CPPTryCatchHandler)
+                // MM - If you know the try must be a "tryBlock" node, why go through "statement"?
                 head.RootUpModify("statement", "statement", StatementModifier);
 
                 head.Collapse("enumeratorDefinition");
@@ -3866,6 +3874,10 @@ namespace SoftwareAnalyzer2.Tools
             // get into the declarator node, the first entry should be something other than a parameter, find the unqualifiedId
             // if the ID is qualified, it will contain the unqualified Id
             IModifiable unqualifiedId = (IModifiable)declarator.GetFirstRecursive("unqualifiedId");
+            if (unqualifiedId == null)
+            {
+                unqualifiedId = (IModifiable)declarator.GetFirstRecursive("qualifiedId").GetNthChild(0);
+            }
             node.CopyCode(unqualifiedId);
             // excise the original afterwards - it no longer needs to exist
             ((IModifiable)unqualifiedId.Parent).RemoveChild(unqualifiedId);
@@ -3995,29 +4007,24 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Continue);
             }
+            else if (node.Code.Equals("return ;"))
+            {
+                node.SetNode(Members.Return);
+            }
             else
             {
-                // TODO: goto?
+                // TODO: return, goto?
                 errorMessages.Add("ERROR: Unsupported jumpStatement code " + node + System.Environment.NewLine);
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
 
         /// <summary>
-        /// Crushes down qualifiedId nodes into unqualifiedId nodes containing all the code
+        /// Crushes down nestedNameSpecifier nodes
         /// </summary>
         /// <param name="answer"></param>
-        private void CPPQualifiedIdHandler(IModifiable node)
+        private void CPPNestedNameHandler(IModifiable node)
         {
-
-            IModifiable newTarget = (IModifiable)node.GetNthChild(1);
-            node.RemoveChild((IModifiable)node.GetNthChild(1));
-            foreach (IModifiable child in node.Children)
-            {
-                child.Parent = newTarget;
-            }
-            ((IModifiable)node.Parent).ReplaceChild(node, newTarget);
-            node = newTarget;
             while (node.GetChildCount() > 0)
             {
                 ((IModifiable)node.GetNthChild(0)).AddCode(node.Code, node);
@@ -4025,6 +4032,21 @@ namespace SoftwareAnalyzer2.Tools
                 node.CopyCode((IModifiable)node.GetNthChild(0));
                 ReparentChildren((IModifiable)node.GetNthChild(0));
             }
+
+            IModifiable otherNode = (IModifiable)node.Parent.GetNthChild(1);
+
+            node.AddCode(otherNode.Code, otherNode);
+            otherNode.ClearCode(ClearCodeOptions.ClearAll);
+            otherNode.CopyCode(node);
+
+            if (otherNode.GetChildCount() > 0)
+            {
+                otherNode.AddCode(otherNode.GetNthChild(0).Code, (IModifiable)otherNode.GetNthChild(0));
+                otherNode.SetNode(otherNode.GetNthChild(0).Node);
+                otherNode.DropChildren();
+            }
+
+            ((IModifiable)node.Parent).RemoveChild((IModifiable)node.Parent.GetNthChild(0));
         }
 
         #endregion
