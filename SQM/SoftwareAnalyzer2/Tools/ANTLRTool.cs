@@ -700,14 +700,14 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (myLang is CPPLanguage) {
                 
-                head.Rename("className", "TypeDeclaration");
-                head.Rename("functionDefinition", "Method");
+                head.Rename("className", Members.TypeDeclaration);
+                head.Rename("functionDefinition", Members.Method);
                 head.Rename("translationUnit", Members.File);
-                head.Rename("enumHead", "TypeDeclaration");
+                head.Rename("enumHead", Members.TypeDeclaration);
                 head.Rename("enumerator", Members.Value);
                 head.Rename("parametersAndQualifiers", Members.ParameterList);
                 head.Rename("parameterDeclaration", Members.Parameter);
-                head.Rename("statementSeq", "Scope");
+                head.Rename("statementSeq", Members.Scope);
                 
                 //head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
                 //head.RootUpModify("constantExpression", "constantExpression", CPPExpressionHandler);
@@ -717,10 +717,10 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
-                head.RootUpModify("Method", "Method", CPPMethodNameCorrector);
+                head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
                 head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
-                head.RootUpModify("Scope", "Scope", CPPScopeDescriber);
+                head.RootUpModify(Members.Scope, Members.Scope, CPPScopeDescriber);
                 head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
                 head.RootUpModify("jumpStatement", "jumpStatement", CPPJumpStatementHandler);
                 head.RootUpModify("postfixExpression", "postfixExpression", CPPPostFixHandler);
