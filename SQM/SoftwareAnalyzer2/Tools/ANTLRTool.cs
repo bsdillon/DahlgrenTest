@@ -719,21 +719,13 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
                 head.RootUpModify("Method", "Method", CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
+                head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
                 head.RootUpModify("Scope", "Scope", CPPScopeDescriber);
                 head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
                 head.RootUpModify("jumpStatement", "jumpStatement", CPPJumpStatementHandler);
+                head.RootUpModify("postfixExpression", "postfixExpression", CPPPostFixHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
-
-                // Currently only handles "try/catch" - TODO: add rest of C++ statement capability
-                // MM - I see you're using the existing functions here and adding in "myLang is CPPLanguage" checks.
-                // MM - I'm not doing that at all - I'm adding new functions at the bottom of the file for C++ specifically
-                // MM - (excluding LiteralModifier since we can actually reuse that code - you seem to mostly exit with return).
-                // MM - We're probably going to want to make sure our code has the same style or whatever - ask Brian what he prefers.
-                // MM - If I'm the one in the right, I'd move your code in TryCatchModifier into a separate function.
-                // MM - unless something weird is going on that you didn't write in the AST info issue, you might want to try something like this:
-                // MM - head.RootUpModify("tryBlock", "tryBlock", CPPTryCatchHandler)
-                // MM - If you know the try must be a "tryBlock" node, why go through "statement"?
-                head.RootUpModify("statement", "statement", StatementModifier);
+                
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
@@ -1275,16 +1267,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void StatementModifier(IModifiable node)
         {
-            if (myLang is CPPLanguage) 
-            {
-                IModifiable statement = (IModifiable) node.GetNthChild(0);
-                if (statement.Code.Equals("try")) 
-                {
-                    TryCatchModifier(node);
-                }
-                return;
-            }
-
             if (node.Code.StartsWith("continue "))
             {
                 node.SetNode(Members.Continue);
@@ -1343,30 +1325,6 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable tryer = (IModifiable)node.GetNthChild(0);
             IModifiable tryChild;
             List<IModifiable> catchers = new List<IModifiable>();
-
-            if (myLang is CPPLanguage) 
-            {
-                tryer.SetNode(Members.Try_Catch);
-                tryChild = (IModifiable)tryer.GetFirstSingleLayer("compoundStatement");
-                tryChild.SetNode(Members.TryScope);
-                tryChild.ClearCode(ClearCodeOptions.KeepLine);
-
-                List<INavigable> children = tryer.Children;
-                IModifiable catcher = (IModifiable)children[1].GetFirstSingleLayer("handler");
-                while (catcher != null) 
-                {
-                    catcher.SetNode(Members.CatchScope);
-                    catcher.ClearCode(ClearCodeOptions.ClearAll);
-                    children.Remove(catcher);
-                    catchers.Add(catcher);
-                    
-                    catcher.Parent = tryer;
-                    catcher = (IModifiable)children[1].GetFirstRecursive("handler");
-                }
-                IModifiable handler = (IModifiable)tryer.GetFirstRecursive("handlerSeq");
-                tryer.RemoveChild(handler);
-                return;    
-            }
 
             tryer.SetNode(Members.TryScope);
             tryer.ClearCode(ClearCodeOptions.KeepLine);
@@ -3857,6 +3815,10 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.ElseScope);
             }
+            else if (node.Parent.Parent == node.GetAncestor(Members.Try_Catch))
+            {
+                node.SetNode(Members.TryScope);
+            }
             else
             {
                 node.SetNode(Members.Scope);
@@ -4047,6 +4009,52 @@ namespace SoftwareAnalyzer2.Tools
             }
 
             ((IModifiable)node.Parent).RemoveChild((IModifiable)node.Parent.GetNthChild(0));
+        }
+
+        /// <summary>
+        /// Handles Try_Catch nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPTryCatchHandler(IModifiable node)
+        {
+            List<IModifiable> catchers = new List<IModifiable>();
+
+            // MM - no need to SetNode - RootUpModify can do it for us
+            // MM - I removed the TryScope lines - CPPScopeDescriber now handles that
+            // MM - I'm not super sure how you're doing CatchScopes, but you may want to move that too
+
+            List<INavigable> children = node.Children;
+            // MM - may want to try using node.GetNthChild(1) here, assuming I'm reading this right
+            IModifiable catcher = (IModifiable)children[1].GetFirstSingleLayer("handler");
+            while (catcher != null)
+            {
+                catcher.SetNode(Members.CatchScope);
+                catcher.ClearCode(ClearCodeOptions.ClearAll);
+                children.Remove(catcher);
+                catchers.Add(catcher);
+
+                catcher.Parent = node;
+                catcher = (IModifiable)children[1].GetFirstRecursive("handler");
+            }
+            IModifiable handler = (IModifiable)node.GetFirstRecursive("handlerSeq");
+            node.RemoveChild(handler);
+        }
+
+        /// <summary>
+        /// Handles postfixExpressions
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPPostFixHandler(IModifiable node)
+        {
+            if (node.Code.Equals("."))
+            {
+                node.SetNode(Members.DotOperator);
+                node.ClearCode(ClearCodeOptions.KeepLine);
+            }
+            else
+            {
+                errorMessages.Add("ERROR: Unsupported postfixExpression code " + node + System.Environment.NewLine);
+            }
         }
 
         #endregion
