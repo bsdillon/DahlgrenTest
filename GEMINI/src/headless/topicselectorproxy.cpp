@@ -9,11 +9,11 @@
 
 TopicSelectorProxy::TopicSelectorProxy()
 {
-    topicPanelProxy = new I_TopicPanel(this);
-    topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelectorProxy::readSettings, this));
+    //topicPanelProxy = new I_TopicPanel(this);
+    //topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelectorProxy::readSettings, this));
     topicLogic = new TopicSelectorLogic();
     //signal Forwarding
-    connect(this, &TopicSelectorProxy::UpdateStatus, topicPanelProxy, &I_TopicPanel::UpdateStatus);
+    //connect(this, &TopicSelectorProxy::UpdateStatus, topicPanelProxy, &I_TopicPanel::UpdateStatus);
 }
 
 void TopicSelectorProxy::readSettings()

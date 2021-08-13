@@ -9,6 +9,8 @@
 #include "common.h"
 
 #include "topicselectorlogic.h"
+#include "qtgui/topicdetails.h"
+#include "qtgui/topiccounts.h"
 
 ProxySet::ProxySet()
 {

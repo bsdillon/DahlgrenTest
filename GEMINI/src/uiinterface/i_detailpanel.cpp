@@ -6,6 +6,7 @@ I_DetailPanel::I_DetailPanel(QObject *parent)
      _clearMessageCallback([](){})
 {
     i_detailId = i_detailCount ++;
+    _messageListener = (new MessageListener(this));
 }
 
 //Signals
@@ -24,4 +25,9 @@ void I_DetailPanel::setClearMessageCallback(std::function<void()> clearMessage)
 void I_DetailPanel::ClearMessages()
 {
     _clearMessageCallback();
+}
+
+MessageListener *I_DetailPanel::listener()
+{
+    return _messageListener;
 }

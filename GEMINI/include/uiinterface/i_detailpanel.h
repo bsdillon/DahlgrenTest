@@ -8,7 +8,7 @@ class I_DetailPanel : public QObject
 {
     Q_OBJECT
 public:
-    MessageListener* listener() const{ }
+    MessageListener* listener();
 
     //Constructors
     I_DetailPanel(QObject *parent=0);
@@ -28,6 +28,7 @@ public slots:
 private:
     std::function<void()> _clearMessageCallback;
     int i_detailId;
+    MessageListener* _messageListener;
 
 };
 static int i_detailCount = 0;

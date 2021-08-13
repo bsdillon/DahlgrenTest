@@ -59,7 +59,7 @@ TopicSelector::TopicSelector(QWidget *parent) :
 
     checkSaveButtonState();
 
-    topicPanelProxy = new I_TopicPanel(this);
+    //topicPanelProxy = new I_TopicPanel(this);
     //(moved to logic)topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this, std::placeholder::_1));
     //(moved to logic)topicPanelProxy->setReadSettingsCallback(std::bind(&TopicSelector::readSettings, this));
     //Signal Forwarding

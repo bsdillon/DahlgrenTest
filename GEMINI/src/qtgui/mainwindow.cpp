@@ -8,7 +8,7 @@
 #include "common.h"
 #include "qtgui/dataloaderpanel.h"
 #include "net/drivers/DriverFactory.h"
-#include "messagelistener.h"
+//#include "messagelistener.h"
 #include "qtgui/stylemanager.h"
 #include "qtgui/toggleswitch.h"
 #include "proxies/AbstractProxy.h"

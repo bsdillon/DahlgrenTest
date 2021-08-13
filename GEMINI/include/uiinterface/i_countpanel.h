@@ -8,7 +8,7 @@ class I_CountPanel : public QObject
 {
     Q_OBJECT
 public:    
-    MessageListener* listener() const { }
+    MessageListener* listener();
 
     //Constructor
     I_CountPanel(QObject *parent=0);
@@ -30,6 +30,7 @@ signals:
 private:
     std::function<void(std::map<std::string, AbstractDriver *>)> _receiveNewTopicsCallback;
     int i_countId;
+    MessageListener* _messageListener;
 };
 static int i_countCount = 0;
 

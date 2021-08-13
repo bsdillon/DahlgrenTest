@@ -5,6 +5,7 @@ I_CountPanel::I_CountPanel(QObject *parent)
       _receiveNewTopicsCallback([](std::map<std::string, AbstractDriver *>){})
 {
     i_countId = i_countCount ++;
+    _messageListener = (new MessageListener(this));
 }
 
 //Slot Callback
@@ -34,4 +35,9 @@ void I_CountPanel::signalUpdateStatus(std::string status)
 void I_CountPanel::signalExperimentRunning(bool run)
 {
     emit experimentRunning(run);
+}
+
+MessageListener *I_CountPanel::listener()
+{
+    return _messageListener;
 }

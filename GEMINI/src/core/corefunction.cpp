@@ -17,6 +17,7 @@ CoreFunction::CoreFunction()
 
 void CoreFunction::CompleteStartup()
 {
+
     setUpFileQueue();
     _listeners.push_back(fileQueue->listener());
     setUpSubscriptionManager();

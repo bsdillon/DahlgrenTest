@@ -91,11 +91,11 @@ void ExperimentPanel::UpdateTopicsPressed()
     emit TopicsUpdated(topicNames);
 
     //expLogic, called in proxy
-    UpdateLastExperimentFile();
+    //UpdateLastExperimentFile();
     //proxy
-    topicsSent = true;
+    //topicsSent = true;
     //expLogic, called in proxy
-    CheckState();
+    //CheckState();
 }
 
 
@@ -315,3 +315,4 @@ void ExperimentPanel::on_errorButton_clicked()
 {
     TestMessage();
 }
+

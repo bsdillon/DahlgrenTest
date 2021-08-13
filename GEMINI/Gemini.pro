@@ -225,6 +225,11 @@ LIBS +=\
 DISTFILES += \
     ../../../Downloads/ui_mainwindow.py \
     ../../../TopicSelectorClient.html \
-    ui/TopicSelectorClient.txt \
+    //ui/TopicSelectorClient.txt \
+    ui/ExperimentPanelClient \
+    ui/TopicSelectorClient.html \
+    ui/epclientscript.js \
     ui/experimentpanel_test.py \
-    ui/test.py
+    ui/test.py \
+    ui/tsclientscript.js \
+    ui/websocketscript.js

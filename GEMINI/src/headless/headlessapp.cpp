@@ -23,11 +23,11 @@ HeadlessApp::HeadlessApp(uint16_t port, bool debug, QObject *parent):
         connect(m_pWebSocketServer, &QWebSocketServer::closed, this, &HeadlessApp::closed);
     }
 
-    dataloader = new DataLoaderProxy();
+    //dataloader = new DataLoaderProxy();
     experiment = new ExperimentProxy();
-    main = new MainProxy();
-    countPanel = new TopicCountProxy();
-    detailPanel = new TopicDetailsProxy();
+    //main = new MainProxy();
+    //countPanel = new TopicCountProxy();
+    //detailPanel = new TopicDetailsProxy();
     topicPanel = new TopicSelectorProxy();
 }
 

@@ -219,9 +219,14 @@ OBJECTS       = obj/main.o \
 		obj/moc_experimentlogic.o
 DIST          = ../../../Downloads/ui_mainwindow.py \
 		../../../TopicSelectorClient.html \
-		../GEMINI/ui/TopicSelectorClient.txt \
+		/ui/TopicSelectorClient.txt \
+		../GEMINI/ui/ExperimentPanelClient \
+		../GEMINI/ui/TopicSelectorClient.html \
+		../GEMINI/ui/epclientscript.js \
 		../GEMINI/ui/experimentpanel_test.py \
 		../GEMINI/ui/test.py \
+		../GEMINI/ui/tsclientscript.js \
+		../GEMINI/ui/websocketscript.js \
 		../../Qt/5.15.0/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.15.0/gcc_64/mkspecs/common/unix.conf \
 		../../Qt/5.15.0/gcc_64/mkspecs/common/linux.conf \
@@ -1287,6 +1292,8 @@ moc/moc_experimentpanel.cpp: ../GEMINI/include/qtgui/experimentpanel.h \
 		../GEMINI/include/filestatus.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
 		moc/moc_predefs.h \
 		../../Qt/5.15.0/gcc_64/bin/moc
 	/home/JWells/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/JWells/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc/moc_predefs.h -I/home/JWells/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/JWells/DahlgrenTest/GEMINI -I/home/JWells/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/JWells/Qt/5.15.0/gcc_64/include -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtGui -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/JWells/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/qtgui/experimentpanel.h -o moc/moc_experimentpanel.cpp
@@ -2421,6 +2428,7 @@ moc/moc_corefunction.cpp: ../GEMINI/include/core/corefunction.h \
 		../GEMINI/include/uiinterface/i_dataloader.h \
 		../GEMINI/include/headless/experimentproxy.h \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
 		../GEMINI/include/headless/mainproxy.h \
 		../GEMINI/include/headless/testwindowproxy.h \
 		../GEMINI/include/headless/topiccountproxy.h \
@@ -2574,6 +2582,7 @@ moc/moc_headlessapp.cpp: ../GEMINI/include/headless/headlessapp.h \
 		../GEMINI/include/uiinterface/i_dataloader.h \
 		../GEMINI/include/headless/experimentproxy.h \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
 		../GEMINI/include/headless/mainproxy.h \
 		../GEMINI/include/uiinterface/i_main.h \
 		../GEMINI/include/headless/testwindowproxy.h \
@@ -2799,6 +2808,7 @@ moc/moc_experimentproxy.cpp: ../GEMINI/include/headless/experimentproxy.h \
 		../GEMINI/include/filestatus.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QString \
+		../GEMINI/include/experimentlogic.h \
 		moc/moc_predefs.h \
 		../../Qt/5.15.0/gcc_64/bin/moc
 	/home/JWells/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/JWells/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc/moc_predefs.h -I/home/JWells/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/JWells/DahlgrenTest/GEMINI -I/home/JWells/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/JWells/Qt/5.15.0/gcc_64/include -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtGui -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/JWells/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/headless/experimentproxy.h -o moc/moc_experimentproxy.cpp
@@ -4343,6 +4353,10 @@ moc/moc_experimentlogic.cpp: ../GEMINI/include/experimentlogic.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/filestatus.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QString \
 		moc/moc_predefs.h \
 		../../Qt/5.15.0/gcc_64/bin/moc
 	/home/JWells/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include /home/JWells/DahlgrenTest/build-Gemini-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc/moc_predefs.h -I/home/JWells/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I/home/JWells/DahlgrenTest/GEMINI -I/home/JWells/DahlgrenTest/GEMINI/include -I/home/user/Desktop/GitHub/GEMINI/Drivers -I/home/JWells/Qt/5.15.0/gcc_64/include -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtGui -I/home/JWells/Qt/5.15.0/gcc_64/include/QtWebSockets -I/home/JWells/Qt/5.15.0/gcc_64/include/QtNetwork -I/home/JWells/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../GEMINI/include/experimentlogic.h -o moc/moc_experimentlogic.cpp
@@ -4589,6 +4603,8 @@ ui_generated/ui_mainwindow.h: ../GEMINI/ui/mainwindow.ui \
 		../GEMINI/include/filestatus.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -5039,6 +5055,7 @@ obj/main.o: ../GEMINI/src/main.cpp ../../Qt/5.15.0/gcc_64/include/QtWidgets/QApp
 		../GEMINI/include/uiinterface/i_dataloader.h \
 		../GEMINI/include/headless/experimentproxy.h \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
 		../GEMINI/include/headless/mainproxy.h \
 		../GEMINI/include/headless/testwindowproxy.h \
 		../GEMINI/include/headless/topiccountproxy.h \
@@ -5275,6 +5292,7 @@ obj/mainwindow.o: ../GEMINI/src/qtgui/mainwindow.cpp ../GEMINI/include/qtgui/mai
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
 		../GEMINI/include/qtgui/experimentpanel.h \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
 		../GEMINI/include/qtgui/topiccounts.h \
 		../GEMINI/include/uiinterface/i_countpanel.h \
 		../GEMINI/include/qtgui/topiccountsummary.h \
@@ -5713,6 +5731,8 @@ obj/experimentpanel.o: ../GEMINI/src/qtgui/experimentpanel.cpp ../../Qt/5.15.0/g
 		../GEMINI/include/filestatus.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QObject \
 		ui_generated/ui_experimentpanel.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QVariant \
 		../../Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
@@ -6944,6 +6964,7 @@ obj/corefunction.o: ../GEMINI/src/core/corefunction.cpp ../GEMINI/include/core/c
 		../GEMINI/include/uiinterface/i_dataloader.h \
 		../GEMINI/include/headless/experimentproxy.h \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
 		../GEMINI/include/headless/mainproxy.h \
 		../GEMINI/include/headless/testwindowproxy.h \
 		../GEMINI/include/headless/topiccountproxy.h \
@@ -7112,7 +7133,53 @@ obj/proxyset.o: ../GEMINI/src/proxies/proxyset.cpp ../GEMINI/include/proxies/pro
 		../../Qt/5.15.0/gcc_64/include/QtCore/qset.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qcontiguouscache.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../GEMINI/include/qtgui/topicdetails.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qwidget.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qtguiglobal.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qtgui-config.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpalette.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qcolor.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qrgb.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qrgba64.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qbrush.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpixelformat.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qpixmap.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qfont.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qfontmetrics.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qfontinfo.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qcursor.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qkeysequence.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qevent.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qurl.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/qurlquery.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qvector2d.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/QVBoxLayout \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayout.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../Qt/5.15.0/gcc_64/include/QtWidgets/qgridlayout.h \
+		../GEMINI/include/qtgui/topiccounts.h \
+		../GEMINI/include/qtgui/topiccountsummary.h \
+		../../Qt/5.15.0/gcc_64/include/QtGui/QMouseEvent \
+		../GEMINI/include/timeobject.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/proxyset.o ../GEMINI/src/proxies/proxyset.cpp
 
 obj/headlessapp.o: ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/include/headless/headlessapp.h \
@@ -7208,6 +7275,7 @@ obj/headlessapp.o: ../GEMINI/src/headless/headlessapp.cpp ../GEMINI/include/head
 		../GEMINI/include/uiinterface/i_dataloader.h \
 		../GEMINI/include/headless/experimentproxy.h \
 		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/experimentlogic.h \
 		../GEMINI/include/headless/mainproxy.h \
 		../GEMINI/include/uiinterface/i_main.h \
 		../GEMINI/include/headless/testwindowproxy.h \
@@ -7598,6 +7666,7 @@ obj/experimentproxy.o: ../GEMINI/src/headless/experimentproxy.cpp ../GEMINI/incl
 		../GEMINI/include/filestatus.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QString \
+		../GEMINI/include/experimentlogic.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QDebug \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qdebug.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qhash.h \
@@ -7672,6 +7741,7 @@ obj/mainproxy.o: ../GEMINI/src/headless/mainproxy.cpp ../GEMINI/include/headless
 		../GEMINI/include/filestatus.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
 		../../Qt/5.15.0/gcc_64/include/QtCore/QString \
+		../GEMINI/include/experimentlogic.h \
 		../GEMINI/include/headless/mainproxy.h \
 		../GEMINI/include/uiinterface/i_main.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/mainproxy.o ../GEMINI/src/headless/mainproxy.cpp
@@ -9866,7 +9936,13 @@ obj/experimentlogic.o: ../GEMINI/src/experimentlogic.cpp ../GEMINI/include/exper
 		../../Qt/5.15.0/gcc_64/include/QtCore/qmetatype.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qvarlengtharray.h \
 		../../Qt/5.15.0/gcc_64/include/QtCore/qcontainerfwd.h \
-		../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h
+		../../Qt/5.15.0/gcc_64/include/QtCore/qobject_impl.h \
+		../GEMINI/include/uiinterface/i_experiment.h \
+		../GEMINI/include/filestatus.h \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QMetaType \
+		../../Qt/5.15.0/gcc_64/include/QtCore/QString \
+		../GEMINI/include/headless/experimentproxy.h \
+		../GEMINI/include/proxies/AbstractProxy.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/experimentlogic.o ../GEMINI/src/experimentlogic.cpp
 
 obj/topicselectorlogic.o: ../GEMINI/src/topicselectorlogic.cpp ../GEMINI/include/topicselectorlogic.h \
