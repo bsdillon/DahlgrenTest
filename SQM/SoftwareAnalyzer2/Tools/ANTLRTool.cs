@@ -716,10 +716,12 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
+                head.RootUpModify("qualifiedId", "qualifiedId", CPPQualifiedIdHandler);
                 head.RootUpModify("Method", "Method", CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
                 head.RootUpModify("Scope", "Scope", CPPScopeDescriber);
-                head.RootUpModify(Members.Switch, Members.Switch, CPPSwitchSetup);
+                head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
+                head.RootUpModify("jumpStatement", "jumpStatement", CPPJumpStatementHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 
                 // Currently only handles "try/catch" - TODO: add rest of C++ statement capability
@@ -3952,15 +3954,79 @@ namespace SoftwareAnalyzer2.Tools
                     //do some kind of loop or recursion here?
                     List<INavigable> labeledStatements = new List<INavigable>();
                     statementHolderScopeNode.FullRecursiveSearch("labeledStatement", labeledStatements);
-
+                    foreach (IModifiable labeledStatement in labeledStatements)
+                    {
+                        labeledStatement.GetNthChild(0).Parent = child.GetNthChild(0);
+                        labeledStatement.RemoveChild((IModifiable)labeledStatement.GetNthChild(0));
+                        ((IModifiable)labeledStatement.Parent.Parent).ReplaceChild((IModifiable)labeledStatement.Parent, (IModifiable)labeledStatement.GetNthChild(0));
+                    }
                 }
             }
             // here...?
             // copy children of BLOCKS node, then add them back in order
             // if it's a BLOCK, add it under BLOCKS
             // if it's a STATEMENT, add it under the SCOPE of the LAST BLOCK added under BLOCKS
+            List<INavigable> blocksNodeChildren = blocksNode.Children;
+            blocksNode.DropChildren();
+            foreach (IModifiable child in blocksNodeChildren)
+            {
+                if (child.Node.Equals(Members.Block))
+                {
+                    child.Parent = blocksNode;
+                }
+                else
+                {
+                    child.Parent = blocksNode.GetNthChild(blocksNode.GetChildCount() - 1).GetNthChild(1);
+                }
+            }
         }
 
-            #endregion
+        /// <summary>
+        /// Turns jumpStatement nodes into the relevant SQM nodes, where possible
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPJumpStatementHandler(IModifiable node)
+        {
+            if (node.Code.Equals("break ;"))
+            {
+                node.SetNode(Members.Break);
+            }
+            else if (node.Code.Equals("continue ;"))
+            {
+                node.SetNode(Members.Continue);
+            }
+            else
+            {
+                // TODO: goto?
+                errorMessages.Add("ERROR: Unsupported jumpStatement code " + node + System.Environment.NewLine);
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
         }
+
+        /// <summary>
+        /// Crushes down qualifiedId nodes into unqualifiedId nodes containing all the code
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPQualifiedIdHandler(IModifiable node)
+        {
+
+            IModifiable newTarget = (IModifiable)node.GetNthChild(1);
+            node.RemoveChild((IModifiable)node.GetNthChild(1));
+            foreach (IModifiable child in node.Children)
+            {
+                child.Parent = newTarget;
+            }
+            ((IModifiable)node.Parent).ReplaceChild(node, newTarget);
+            node = newTarget;
+            while (node.GetChildCount() > 0)
+            {
+                ((IModifiable)node.GetNthChild(0)).AddCode(node.Code, node);
+                node.ClearCode(ClearCodeOptions.ClearAll);
+                node.CopyCode((IModifiable)node.GetNthChild(0));
+                ReparentChildren((IModifiable)node.GetNthChild(0));
+            }
+        }
+
+        #endregion
+    }
 }

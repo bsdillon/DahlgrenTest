@@ -999,6 +999,18 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
         }
 
         //see declaration in IModifiable
+        public void LeafDownModify(string currentNode, Members newNode, Action<IModifiable> modifier)
+        {
+            NodeModifyDown(NodeType.CreateNodeType(currentNode), NodeType.CreateNodeType(newNode), modifier);
+        }
+
+        //see declaration in IModifiable
+        public void LeafDownModify(Members currentNode, Members newNode, Action<IModifiable> modifier)
+        {
+            NodeModifyDown(NodeType.CreateNodeType(currentNode), NodeType.CreateNodeType(newNode), modifier);
+        }
+
+        //see declaration in IModifiable
         public void RootUpModify(string currentNode, string newNode, Action<IModifiable> modifier)
         {
             NodeModifyUp(NodeType.CreateNodeType(currentNode), NodeType.CreateNodeType(newNode), modifier);

@@ -206,6 +206,26 @@ namespace SoftwareAnalyzer2.Structure.Node
         void LeafDownModify(string currentNodeType, string nextNodeType, Action<IModifiable> modifier);
 
         /// <summary>
+        /// Recursive function which renames and modifies all nodes which match the 
+        /// currentNode type. This function applies the modification from the most 
+        /// distant leaf nodes down to the root.
+        /// </summary>
+        /// <param name="currentNodeType"></param>
+        /// <param name="nextNodeType"></param>
+        /// <param name="modifier"></param>
+        void LeafDownModify(string currentNodeType, Members nextNodeType, Action<IModifiable> modifier);
+
+        /// <summary>
+        /// Recursive function which renames and modifies all nodes which match the 
+        /// currentNode type. This function applies the modification from the most 
+        /// distant leaf nodes down to the root.
+        /// </summary>
+        /// <param name="currentNodeType"></param>
+        /// <param name="nextNodeType"></param>
+        /// <param name="modifier"></param>
+        void LeafDownModify(Members currentNodeType, Members nextNodeType, Action<IModifiable> modifier);
+
+        /// <summary>
         /// Recursive function similar to RootUpModify. In this variant, the code and not the
         /// NodeType will indicate if the modification is valid for each node. The modifier
         /// function should make that determination as the process may be complicated.
