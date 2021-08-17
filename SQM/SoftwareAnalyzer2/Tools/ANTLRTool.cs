@@ -708,7 +708,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("parametersAndQualifiers", Members.ParameterList);
                 head.Rename("parameterDeclaration", Members.Parameter);
                 head.Rename("statementSeq", Members.Scope);
-                
+
                 //head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
                 //head.RootUpModify("constantExpression", "constantExpression", CPPExpressionHandler);
                 //head.RootUpModify("conditionalExpression", "conditionalExpression", CPPExpressionHandler);
@@ -727,8 +727,15 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("assignmentExpression", "assignmentExpression", CPPAssignmentExpressionHandler);
                 head.RootUpModify("unaryExpression", "unaryExpression", CPPUnaryExpressionHandler);
                 head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
+                head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
+                head.RootUpModify("conditionalExpression", "conditionalExpression", CPPConditionalExpressionHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
-                
+
+                head.Rename("multiplicativeExpression", Members.Operator);
+                head.Rename("additiveExpression", Members.Operator);
+                head.Rename("logicalAndExpression", Members.Boolean_And);
+                head.Rename("logicalOrExpression", Members.Boolean_Or);
+
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
@@ -4125,6 +4132,64 @@ namespace SoftwareAnalyzer2.Tools
             {
                 // only the first two should exist, but just in case...
                 errorMessages.Add("ERROR: Unsupported equalityExpression code " + node + System.Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// Handles relationalExpressions
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPRelationalExpressionHandler(IModifiable node)
+        {
+            if (node.Code.Equals("<"))
+            {
+                node.SetNode(Members.Boolean_LessThan);
+            }
+            else if (node.Code.Equals(">"))
+            {
+                node.SetNode(Members.Boolean_GreaterThan);
+            }
+            else if (node.Code.Equals("<="))
+            {
+                node.SetNode(Members.Boolean_LessThanEqual);
+            }
+            else if (node.Code.Equals(">="))
+            {
+                node.SetNode(Members.Boolean_GreaterThanEqual);
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
+        }
+
+        /// <summary>
+        /// Handles conditionalExpressions
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPConditionalExpressionHandler(IModifiable node)
+        {
+            if (node.Code.Equals("? :"))
+            {
+                node.SetNode(Members.Trinary);
+                node.ClearCode(ClearCodeOptions.KeepLine);
+                List<INavigable> trinaryNodes = node.Children;
+                node.DropChildren();
+                IModifiable booleanNode = (IModifiable)NodeFactory.CreateNode(Members.Boolean, false);
+                booleanNode.Parent = node;
+                IModifiable trinaryScopeNode = (IModifiable)NodeFactory.CreateNode(Members.TrinaryScope, false);
+                trinaryScopeNode.Parent = node;
+                trinaryNodes[0].Parent = booleanNode;
+
+                IModifiable rightNode = (IModifiable)NodeFactory.CreateNode(Members.RightScope, false);
+                rightNode.Parent = trinaryScopeNode;
+                IModifiable wrongNode = (IModifiable)NodeFactory.CreateNode(Members.WrongScope, false);
+                wrongNode.Parent = trinaryScopeNode;
+
+                trinaryNodes[1].Parent = rightNode;
+                trinaryNodes[2].Parent = wrongNode;
+            }
+            else
+            {
+                IModifiable temp = (IModifiable)node.GetNthChild(0);
+                ((IModifiable)node.Parent).ReplaceChild(node, temp);
             }
         }
 
