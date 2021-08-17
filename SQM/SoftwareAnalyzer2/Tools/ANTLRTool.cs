@@ -729,12 +729,16 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
                 head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
                 head.RootUpModify("conditionalExpression", "conditionalExpression", CPPConditionalExpressionHandler);
+                head.RootUpModify("iterationStatement", "iterationStatement", CPPIterationStatementHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
                 head.Rename("logicalAndExpression", Members.Boolean_And);
                 head.Rename("logicalOrExpression", Members.Boolean_Or);
+                // tentatively
+                // subject to change, also have to deal with qualifiedId nodes
+                head.Rename("unqualifiedId", Members.Variable);
 
 
                 head.Collapse("enumeratorDefinition");
@@ -4063,6 +4067,25 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 node.SetNode(Members.Write);
             }
+            else if (node.Code.Equals("( )"))
+            {
+                // hoo boy
+                // TODO: look a little closer at initializers...
+                if (node.GetNthChild(0).Code.Equals(".") || node.GetNthChild(0).Code.Equals("->"))
+                {
+                    // since CPPPostFixHandler is RootUpModify, this node wouldn't be a DotOperator yet
+                    ((IModifiable)node.GetNthChild(0).GetNthChild(1)).SetNode(Members.MethodInvoke);
+                    // TODO: params?
+                    // in such a case, the parameters of the function follow after the would-be DotOperator
+                    // copy nodes, drop children, put the future DotOperator back, add a ParameterList node, add Parameter nodes for each other child
+                }
+                else
+                {
+                    // may be an else-if as other contexts arise
+                    // TODO: parameters
+                    ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+                }
+            }
             else
             {
                 errorMessages.Add("ERROR: Unsupported postfixExpression code " + node + System.Environment.NewLine);
@@ -4191,6 +4214,35 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable temp = (IModifiable)node.GetNthChild(0);
                 ((IModifiable)node.Parent).ReplaceChild(node, temp);
             }
+        }
+
+        /// <summary>
+        /// Handles iterationStatements
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPIterationStatementHandler(IModifiable node)
+        {
+            if (node.Code.Equals("for ( ; )"))
+            {
+                node.SetNode(Members.For3Loop);
+                // TODO
+            }
+            else if (node.Code.Equals("for ( : )"))
+            {
+                node.SetNode(Members.ForEachLoop);
+                // TODO
+            }
+            else if (node.Code.Equals("while ( )"))
+            {
+                node.SetNode(Members.While);
+                // TODO
+            }
+            else if (node.Code.Equals("do while ( ) ;"))
+            {
+                node.SetNode(Members.DoWhile);
+                // TODO
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
         }
 
         #endregion
