@@ -724,6 +724,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
                 head.RootUpModify("jumpStatement", "jumpStatement", CPPJumpStatementHandler);
                 head.RootUpModify("postfixExpression", "postfixExpression", CPPPostFixHandler);
+                head.RootUpModify("assignmentExpression", "assignmentExpression", CPPAssignmentExpressionHandler);
+                head.RootUpModify("unaryExpression", "unaryExpression", CPPUnaryExpressionHandler);
+                head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 
 
@@ -736,9 +739,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("trailingTypeSpecifier");
                 //head.Collapse("simpleTypeSpecifier");
                 head.Collapse("theTypeName");
-
-                // TODO: Can uncomment when added additional statement functionality
-                // head.Collapse("statement"); 
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -4051,9 +4051,77 @@ namespace SoftwareAnalyzer2.Tools
                 node.SetNode(Members.DotOperator);
                 node.ClearCode(ClearCodeOptions.KeepLine);
             }
+            else if (node.Code.Equals("++") || node.Code.Equals("--"))
+            {
+                node.SetNode(Members.Write);
+            }
             else
             {
                 errorMessages.Add("ERROR: Unsupported postfixExpression code " + node + System.Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// Handles assignmentExpressions
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPAssignmentExpressionHandler(IModifiable node)
+        {
+            if (node.GetChildCount() > 1)
+            {
+                ((IModifiable)node.GetNthChild(1)).SetNode(Members.Write);
+                node.GetNthChild(2).Parent = node.GetNthChild(1);
+                node.RemoveChild((IModifiable)node.GetNthChild(2));
+            }
+            else
+            {
+                IModifiable temp = (IModifiable)node.GetNthChild(0);
+                ((IModifiable)node.Parent).ReplaceChild(node, temp);
+            }
+        }
+
+        /// <summary>
+        /// Handles unaryExpressions
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPUnaryExpressionHandler(IModifiable node)
+        {
+            if (node.GetNthChild(0).Code.Equals("!"))
+            {
+                ((IModifiable)node.GetNthChild(0)).SetNode(Members.Boolean_Not);
+            }
+            else if (node.GetNthChild(0).Code.Equals("-"))
+            {
+                ((IModifiable)node.GetNthChild(0)).SetNode(Members.Operator);
+            }
+            else if (node.Code.Equals("++") || node.Code.Equals("--"))
+            {
+                node.SetNode(Members.Write);
+            }
+            else
+            {
+                errorMessages.Add("ERROR: Unsupported unaryExpression code " + node + System.Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// Handles equalityExpressions
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPEqualityExpressionHandler(IModifiable node)
+        {
+            if (node.Code.Equals("=="))
+            {
+                node.SetNode(Members.Boolean_Equal);
+            }
+            else if (node.Code.Equals("!="))
+            {
+                node.SetNode(Members.Boolean_NotEqual);
+            }
+            else
+            {
+                // only the first two should exist, but just in case...
+                errorMessages.Add("ERROR: Unsupported equalityExpression code " + node + System.Environment.NewLine);
             }
         }
 
