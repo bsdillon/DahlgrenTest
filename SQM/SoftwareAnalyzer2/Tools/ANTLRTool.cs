@@ -4053,6 +4053,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("++") || node.Code.Equals("--"))
             {
+                // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 node.SetNode(Members.Write);
             }
             else
@@ -4069,6 +4070,7 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.GetChildCount() > 1)
             {
+                // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 ((IModifiable)node.GetNthChild(1)).SetNode(Members.Write);
                 node.GetNthChild(2).Parent = node.GetNthChild(1);
                 node.RemoveChild((IModifiable)node.GetNthChild(2));
@@ -4096,6 +4098,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("++") || node.Code.Equals("--"))
             {
+                // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 node.SetNode(Members.Write);
             }
             else
