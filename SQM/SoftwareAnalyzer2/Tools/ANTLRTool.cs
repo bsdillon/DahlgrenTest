@@ -116,8 +116,8 @@ namespace SoftwareAnalyzer2.Tools
                         case PlatformID.WinCE:
                             try {
                                 // clang required
-                                startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", "\"" + filename + "\" -dM -E -o \"" + macros + "\"", 3100);
-                                startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", "\"" + filename + "\" -P -dI -E -imacros \"" + macros + "\" -o \"" + preprocessed + "\"", 3100);
+                                startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -dM -E -o \""+macros+"\"", 3100);
+                                startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"", 3100);
                             }
                             catch (Exception e) {
                                 errorMessages.Add("ERROR: INSTALL CLANG++ FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
@@ -129,10 +129,10 @@ namespace SoftwareAnalyzer2.Tools
                         case (PlatformID) 128:
                             try {
                                 // Executes cpp FILENAME -dM -o FILENAME-macros to extract found macros
-                                startProcess(iMacros, "/bin/cpp", filename + " -dM -o " + macros, 3100);
+                                startProcess(iMacros, "/bin/cpp", filename+" -dM -o "+macros, 3100);
                                 // Executes cpp FILENAME -P -imacros FILENAME-macros -o FILENAME-preprocessed to 
                                 // use extracted macros and translate them without extra line or include directive output
-                                startProcess(cpp, "/bin/cpp", filename + " -P -dI -imacros " + macros + " -o " + preprocessed, 3100);
+                                startProcess(cpp, "/bin/cpp", filename+" -P -dI -imacros "+macros+" -o "+preprocessed, 3100);
                             }
                             catch (Exception e) {
                                 errorMessages.Add("ERROR: INSTALL CPP FOR PREPROCESSING: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
@@ -178,7 +178,7 @@ namespace SoftwareAnalyzer2.Tools
                             // does not appear to understand array type widths like "int[][3]"
                             // and they compile to "T*" anyway.
                             foreach (string type in "int,double,float".Split(',')) {
-                                translated_line = Regex.Replace(translated_line, type+@"\s*([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"*$1");
+                                translated_line = Regex.Replace(translated_line, "^"+type+@"\s*([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"*$1");
                             }
                         }
 
