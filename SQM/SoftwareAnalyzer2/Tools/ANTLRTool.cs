@@ -248,6 +248,9 @@ namespace SoftwareAnalyzer2.Tools
 
                 string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 Console.Out.WriteLine("/t"+fileName);
+                for (int i = 0; i< tree.Length; i++) {
+                    tree[i] = Regex.Replace(tree[i], @"VARIADIC_", "");
+                }
 
                 //capture any process errors
                 string error = p.StandardError.ReadToEnd();
