@@ -163,14 +163,6 @@ namespace SoftwareAnalyzer2.Tools
                             // as long as there is a left-hand token (=, <<, etc.) to accept the value.
                             translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
 
-                            // Transform variadic ellipses "..." into ", void* VARIADIC" for tracking purposes
-                            // Avoid matching catch(...) statements that ANTLR is able to still process
-                            Match m = Regex.Match(translated_line, @"(?![catch\s(\.\.\.]).*\s*\.{3}.*");
-                            if (m.Success) {
-                                string variadic = m.Value;
-                                translated_line = Regex.Replace(variadic, @",*\s*\.{3}", ", void* VARIADIC");
-                            }
-
                             // Transform variadic macro "va_arg" to add variadic identifier to second macro parameter type T keyword
                             translated_line = Regex.Replace(translated_line, @"((?i)va_arg)(\()([a-zA-Z0-9_]*)(,*)([\s]*)([^\)]*)(\){1})", "$1$2$3$4$5VARIADIC_$6$7");
 
@@ -744,8 +736,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("logicalAndExpression", Members.Boolean_And);
                 head.Rename("logicalOrExpression", Members.Boolean_Or);
                 // tentatively
-                // subject to change, also have to deal with qualifiedId nodes
                 head.Rename("unqualifiedId", Members.Variable);
+                head.Rename("qualifiedId", Members.Variable);
 
 
                 head.Collapse("enumeratorDefinition");
@@ -3859,10 +3851,10 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable declarator = (IModifiable)node.GetFirstRecursive("declarator");
             // get into the declarator node, the first entry should be something other than a parameter, find the unqualifiedId
             // if the ID is qualified, it will contain the unqualified Id
-            IModifiable unqualifiedId = (IModifiable)declarator.GetFirstRecursive("unqualifiedId");
+            IModifiable unqualifiedId = (IModifiable)declarator.GetFirstSingleLayer("unqualifiedId");
             if (unqualifiedId == null)
             {
-                unqualifiedId = (IModifiable)declarator.GetFirstRecursive("qualifiedId").GetNthChild(0);
+                unqualifiedId = (IModifiable)declarator.GetFirstSingleLayer("qualifiedId");
             }
             node.CopyCode(unqualifiedId);
             // excise the original afterwards - it no longer needs to exist
@@ -4032,6 +4024,12 @@ namespace SoftwareAnalyzer2.Tools
                 otherNode.DropChildren();
             }
 
+            if (node.Parent.Node.Equals("qualifiedId"))
+            {
+                ((IModifiable)node.Parent).CopyCode(otherNode);
+                ((IModifiable)node.Parent).RemoveChild((IModifiable)node.Parent.GetNthChild(0));
+            }
+
             ((IModifiable)node.Parent).RemoveChild((IModifiable)node.Parent.GetNthChild(0));
         }
 
@@ -4087,36 +4085,46 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("( )"))
             {
-                // hoo boy
                 // TODO: look a little closer at initializers...
+                IModifiable methodInvokeNode;
                 if (node.GetNthChild(0).Code.Equals(".") || node.GetNthChild(0).Code.Equals("->"))
                 {
                     // since CPPPostFixHandler is RootUpModify, this node wouldn't be a DotOperator yet
-                    IModifiable methodInvokeNode = (IModifiable)node.GetNthChild(0).GetNthChild(1);
+                    methodInvokeNode = (IModifiable)node.GetNthChild(0).GetNthChild(1);
                     methodInvokeNode.SetNode(Members.MethodInvoke);
-                    IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
-                    parameterListNode.Parent = methodInvokeNode;
-                    // TODO: params?
-                    // in such a case, the parameters of the function follow after the would-be DotOperator
-                    // copy nodes, drop children, put the future DotOperator back, add a ParameterList node, add Parameter nodes for each other child
-                    if (node.GetChildCount() > 1)
-                    {
-                        if (node.GetNthChild(1).Node.Equals("initializerList"))
-                        {
-                            List<INavigable> parameterNodes = node.GetNthChild(1).Children;
-                            node.RemoveChild((IModifiable)node.GetNthChild(1));
-                            foreach (IModifiable parameterNode in parameterNodes)
-                            {
-                                //ooooh
-                            }
-                        }
-                    }
                 }
                 else
                 {
                     // may be an else-if as other contexts arise
-                    // TODO: parameters
-                    ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+                    methodInvokeNode = (IModifiable)node.GetNthChild(0);
+                    methodInvokeNode.SetNode(Members.MethodInvoke);
+                }
+                IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                parameterListNode.Parent = methodInvokeNode;
+                // TODO: params?
+                // in such a case, the parameters of the function follow after the would-be DotOperator
+                // copy nodes, drop children, put the future DotOperator back, add a ParameterList node, add Parameter nodes for each other child
+                if (node.GetChildCount() > 1)
+                {
+                    if (node.GetNthChild(1).Node.Equals("initializerList"))
+                    {
+                        List<INavigable> parameterNodes = node.GetNthChild(1).Children;
+                        node.RemoveChild((IModifiable)node.GetNthChild(1));
+                        foreach (IModifiable parameterNode in parameterNodes)
+                        {
+                            //ooooh
+                            IModifiable newParamNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
+                            newParamNode.Parent = parameterListNode;
+                            parameterNode.Parent = newParamNode;
+                        }
+                    }
+                    else
+                    {
+                        IModifiable newParamNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
+                        newParamNode.Parent = parameterListNode;
+                        node.GetNthChild(1).Parent = newParamNode;
+                        node.RemoveChild((IModifiable)node.GetNthChild(1));
+                    }
                 }
             }
             else
