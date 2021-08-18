@@ -796,6 +796,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 //file in linenumdict
                 foreach (string fileNameKey in lineNums.Keys)
                 {
+                    //trim the file name to the last part of the string behind the last directory separator char.
+                    //e.g. /folder/another/importantFolder -> /importantFolder
+                    //this allows safety to simply input "/importantFolder"
+                    string fileNameKeyMod = fileNameKey;
+                    if(fileNameKey.LastIndexOf(Path.DirectorySeparatorChar) > 0)
+                    {
+                        fileNameKeyMod = fileNameKey.Substring(fileNameKey.LastIndexOf(Path.DirectorySeparatorChar));
+                    }
+                    
                     using (var read = new StreamReader(@csvFile))
                     {
                         while (!read.EndOfStream)
@@ -818,16 +827,16 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             }
                             
                             //if filename matches
-                            if (fileNameKey == values[0])
+                            if (fileNameKeyMod == values[0])
                             {
                                 //if line number matches, find the connections
                                 if (int.TryParse(values[1], out lineNum))
                                 {
-                                    if (lineNums[fileNameKey].ContainsKey(lineNum))
+                                    if (lineNums[fileNameKeyMod].ContainsKey(lineNum))
                                     {
                                         lineUsed = true;
                                         //line number matches an edge, trace it further
-                                        GraphNode.FindCSVConnections(fileNameKey, lineNum, fileStem);
+                                        GraphNode.FindCSVConnections(fileNameKeyMod, lineNum, fileStem);
                                     }
                                     else
                                     {
@@ -839,7 +848,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                 //if a csv input field matched on filename, but the line number was never used, report it
                                 if (!lineUsed)
                                 {
-                                    csvErrors += "Line Number: " + lineNum + " in File: " + fileNameKey + " not found." + System.Environment.NewLine;
+                                    csvErrors += "Line Number: " + lineNum + " in File: " + fileNameKeyMod + " not found." + System.Environment.NewLine;
                                 }
                             }
                         }
