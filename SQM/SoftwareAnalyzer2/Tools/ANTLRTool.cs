@@ -723,6 +723,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
                 head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
                 head.RootUpModify(Members.Scope, Members.Scope, CPPScopeDescriber);
+                head.RootUpModify(Members.Else, Members.Else, CPPElseIfScopeAdder);
                 head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
                 head.RootUpModify("jumpStatement", "jumpStatement", CPPJumpStatementHandler);
                 head.RootUpModify("postfixExpression", "postfixExpression", CPPPostFixHandler);
@@ -976,6 +977,8 @@ namespace SoftwareAnalyzer2.Tools
         private void LiteralModifier(IModifiable literal)
         {
             Regex stringType, boolType, intType, longType, floatType, doubleType, charType;
+            Regex classType = new Regex(@"^.+\.class$");
+            
             if (myLang is CPPLanguage) {
                 stringType = new Regex("^(u8|L|u|U|R)?\".*\"$");
                 boolType   = new Regex(@"^(true|false)$");
@@ -988,11 +991,11 @@ namespace SoftwareAnalyzer2.Tools
             else {
                 stringType = new Regex("^\".*\"$");
                 boolType   = new Regex(@"^(true|false)$");
-                intType    = new Regex(@"^-?(\d|0(x|b)([a-f]|[A-F]|[0-9]){1,8})+$");
-                longType   = new Regex(@"^-?(\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
-                floatType  = new Regex(@"^-?(\d+(\.(\d)*)?|\.\d+)((E|e)-?\d+)?(F|f)$");
-                doubleType = new Regex(@"^-?(\d+(\.\d*)?|\d*\.\d*)((e|E)(-|\+)?\d+)?(D|d)?$");
-                charType   = new Regex(@"^'((\\)?.|\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
+                intType    = new Regex(@"^-?(\d(_+\d+)?|0(x|b)([a-f]|[A-F]|[0-9]|((\d|[a-f]|[A-F])+_+(\d|[a-f]|[A-F])+)?){1,8})+$");
+                longType   = new Regex(@"^-?((\d(_+\d+)?)+|(0(x|X)([a-f]|[A-F]|[0-9]|((\d|[a-f]|[A-F])+_+(\d|[a-f]|[A-F])+))+))(L|l)$");
+                floatType  = new Regex(@"^-?(\d+(_+\d+)?(\.(\d)*(_\d+)?)?|\.\d+(_\d+)?)((E|e)-?\d+)?(F|f)$");
+                doubleType = new Regex(@"^-?(\d+(_+\d+)?(\.\d*(_+\d+)?)?|\d*\.\d*)((e|E)(-|\+)?\d+)?(D|d)?$");
+                charType   = new Regex(@"^'(((\\)?.+|\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3})'$");
             }
 
             IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, true);
@@ -1028,6 +1031,10 @@ namespace SoftwareAnalyzer2.Tools
             else if (doubleType.IsMatch(literal.Code))
             {
                 t.AddCode(ApprovedLiterals.Double.ToString(), literal);
+            }
+            else if (classType.IsMatch(literal.Code))
+            {
+                t.AddCode(ApprovedLiterals.Class.ToString(), literal);
             }
             else if (literal.Code.Equals("null") || literal.Code.Equals("nullptr"))
             {
@@ -4230,7 +4237,11 @@ namespace SoftwareAnalyzer2.Tools
             if (node.Code.Equals("for ( ; )"))
             {
                 node.SetNode(Members.For3Loop);
-                // TODO
+                IModifiable updateNode = (IModifiable)node.GetFirstSingleLayer("expression");
+                if (updateNode != null)
+                {
+                    updateNode.SetNode(Members.Update);
+                }
             }
             else if (node.Code.Equals("for ( : )"))
             {
@@ -4267,6 +4278,7 @@ namespace SoftwareAnalyzer2.Tools
             else
             {
                 // TODO
+                errorMessages.Add("ERROR: Unsupported simpleTypeSpecifier code " + node + System.Environment.NewLine);
             }
         }
 
@@ -4312,21 +4324,45 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPDeclaratorHandler(IModifiable node)
         {
-            if (node.GetChildCount() == 2 && node.GetNthChild(1).Node.Equals(Members.ParameterList))
+            if (!node.Parent.Node.Equals(Members.Method) && !node.Parent.Node.Equals("memberDeclarator"))
             {
-                // operators overrides?
-                // declarators in Method definitions should NOT be MethodInvokes (Polygon.AST)
-                // also in memberDeclarators probably (classConstructor)
-                // watch for ConstructorInvokes too, not sure how those ought to look - line 41, 40 in AST (classConstructor)
-                ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+                if (node.GetChildCount() == 2 && node.GetNthChild(1).Node.Equals(Members.ParameterList))
+                {
+                    // operators overrides?
+                    // declarators in Method definitions should NOT be MethodInvokes (Polygon.AST)
+                    // also in memberDeclarators probably (classConstructor)
+                    // watch for ConstructorInvokes too, not sure how those ought to look - line 41, 40 in AST (classConstructor)
+                    ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+                }
+                else if (node.Parent.GetChildCount() == 2 && node.Parent.GetNthChild(1).Code.Equals("( )"))
+                {
+                    ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+                }
+                else
+                {
+                    // TODO
+                    errorMessages.Add("ERROR: Unsupported declarator code " + node + System.Environment.NewLine);
+                }
             }
-            else if (node.Parent.GetChildCount() == 2 && node.Parent.GetNthChild(1).Code.Equals("( )"))
+            
+        }
+
+        /// <summary>
+        /// else if statements do not produce an ElseScope node in C++ like they do in Java with only the existing code - this function corrects that
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPElseIfScopeAdder(IModifiable node)
+        {
+            if (node.GetNthChild(0).Node.Equals(Members.Branch))
             {
-                ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
-            }
-            else
-            {
-                // TODO
+                List<INavigable> children = node.Children;
+                node.DropChildren();
+                IModifiable elseScope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, false);
+                elseScope.Parent = node;
+                foreach (IModifiable child in children)
+                {
+                    child.Parent = elseScope;
+                }
             }
         }
 

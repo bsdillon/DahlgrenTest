@@ -145,7 +145,8 @@ namespace SoftwareAnalyzer2.Structure
         Double,
         Enum,
         Short,
-        Float
+        Float,
+        Class
     }
 
     public enum Relationship
