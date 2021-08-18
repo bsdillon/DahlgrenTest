@@ -178,7 +178,8 @@ namespace SoftwareAnalyzer2.Tools
                             // does not appear to understand array type widths like "int[][3]"
                             // and they compile to "T*" anyway.
                             foreach (string type in "int,double,float".Split(',')) {
-                                translated_line = Regex.Replace(translated_line, "^"+type+@"\s*([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"*$1");
+                                translated_line = Regex.Replace(translated_line, @"(^"+type+@")\s+([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"* $2");
+                                translated_line = Regex.Replace(translated_line, @"(\t|\s)+"+type+@"\s+([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"* $2");
                             }
                         }
 
@@ -225,13 +226,13 @@ namespace SoftwareAnalyzer2.Tools
 
                 //run -tree fileName
                 Process p = new Process();
-                startProcess(p, processName, "org.antlr.v4.gui.TestRig " + instruction + " -tree", timeToWait);
+                startProcess(p, processName, "org.antlr.v4.gui.TestRig "+instruction+" -tree", timeToWait);
                 Thread  p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
                 p_stdin_t.Start();
                 
                 //run -tokens fileName
                 Process p2 = new Process();
-                startProcess(p2, processName, "org.antlr.v4.gui.TestRig " + instruction + " -tokens", timeToWait);
+                startProcess(p2, processName, "org.antlr.v4.gui.TestRig "+instruction+" -tokens", timeToWait);
                 Thread  p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
                 p2_stdin_t.Start();
 
@@ -725,14 +726,14 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.Scope, Members.Scope, CPPScopeDescriber);
                 head.RootUpModify(Members.Else, Members.Else, CPPElseIfScopeAdder);
                 head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
+                head.RootUpModify("conditionalExpression", "conditionalExpression", CPPConditionalExpressionHandler);
+                head.RootUpModify("iterationStatement", "iterationStatement", CPPIterationStatementHandler);
                 head.RootUpModify("jumpStatement", "jumpStatement", CPPJumpStatementHandler);
-                head.RootUpModify("postfixExpression", "postfixExpression", CPPPostFixHandler);
                 head.RootUpModify("assignmentExpression", "assignmentExpression", CPPAssignmentExpressionHandler);
+                head.RootUpModify("postfixExpression", "postfixExpression", CPPPostFixHandler);
                 head.RootUpModify("unaryExpression", "unaryExpression", CPPUnaryExpressionHandler);
                 head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
                 head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
-                head.RootUpModify("conditionalExpression", "conditionalExpression", CPPConditionalExpressionHandler);
-                head.RootUpModify("iterationStatement", "iterationStatement", CPPIterationStatementHandler);
                 head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
@@ -4069,7 +4070,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPPostFixHandler(IModifiable node)
         {
-            if (node.Code.Equals("."))
+            if (node.Code.Equals(".") || node.Code.Equals("->"))
             {
                 node.SetNode(Members.DotOperator);
                 node.ClearCode(ClearCodeOptions.KeepLine);
@@ -4078,6 +4079,11 @@ namespace SoftwareAnalyzer2.Tools
             {
                 // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 node.SetNode(Members.Write);
+                IModifiable var = (IModifiable)node.GetNthChild(0);
+                var.Parent = node.Parent;
+                node.RemoveChild(var);
+                node.Parent = var;
+                ((IModifiable)var.Parent).RemoveChild(node);
             }
             else if (node.Code.Equals("( )"))
             {
@@ -4086,10 +4092,25 @@ namespace SoftwareAnalyzer2.Tools
                 if (node.GetNthChild(0).Code.Equals(".") || node.GetNthChild(0).Code.Equals("->"))
                 {
                     // since CPPPostFixHandler is RootUpModify, this node wouldn't be a DotOperator yet
-                    ((IModifiable)node.GetNthChild(0).GetNthChild(1)).SetNode(Members.MethodInvoke);
+                    IModifiable methodInvokeNode = (IModifiable)node.GetNthChild(0).GetNthChild(1);
+                    methodInvokeNode.SetNode(Members.MethodInvoke);
+                    IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                    parameterListNode.Parent = methodInvokeNode;
                     // TODO: params?
                     // in such a case, the parameters of the function follow after the would-be DotOperator
                     // copy nodes, drop children, put the future DotOperator back, add a ParameterList node, add Parameter nodes for each other child
+                    if (node.GetChildCount() > 1)
+                    {
+                        if (node.GetNthChild(1).Node.Equals("initializerList"))
+                        {
+                            List<INavigable> parameterNodes = node.GetNthChild(1).Children;
+                            node.RemoveChild((IModifiable)node.GetNthChild(1));
+                            foreach (IModifiable parameterNode in parameterNodes)
+                            {
+                                //ooooh
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -4142,6 +4163,11 @@ namespace SoftwareAnalyzer2.Tools
             {
                 // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 node.SetNode(Members.Write);
+                IModifiable var = (IModifiable)node.GetNthChild(0);
+                var.Parent = node.Parent;
+                node.RemoveChild(var);
+                node.Parent = var;
+                ((IModifiable)var.Parent).RemoveChild(node);
             }
             else
             {
