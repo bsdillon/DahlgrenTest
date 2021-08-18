@@ -708,6 +708,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("parametersAndQualifiers", Members.ParameterList);
                 head.Rename("parameterDeclaration", Members.Parameter);
                 head.Rename("statementSeq", Members.Scope);
+                head.Rename("condition", Members.Boolean);
+                head.Rename("braceOrEqualInitializer", Members.Write);
 
                 //head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
                 //head.RootUpModify("constantExpression", "constantExpression", CPPExpressionHandler);
@@ -730,6 +732,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
                 head.RootUpModify("conditionalExpression", "conditionalExpression", CPPConditionalExpressionHandler);
                 head.RootUpModify("iterationStatement", "iterationStatement", CPPIterationStatementHandler);
+                head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);
+                head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
+                head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
@@ -973,21 +978,21 @@ namespace SoftwareAnalyzer2.Tools
             Regex stringType, boolType, intType, longType, floatType, doubleType, charType;
             if (myLang is CPPLanguage) {
                 stringType = new Regex("^(u8|L|u|U|R)?\".*\"$");
-                boolType   = new Regex("^(true|false)$");
-                intType    = new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))(U|u)?$");
-                longType   = new Regex("^-?(\\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$");
-                floatType  = new Regex("^-?((\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\\d+(\\.(\\d)*)?|\\.\\d+))+p-?[0-9]+)$");
-                doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E|p|P)(-|\\+)?\\d*)?(D|d|L|l)?$");
-                charType   = new Regex("^(u8|L|u|U)?'(((\\\\)?.+)|(\\\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8}){1,2}|(\\\\[0-7]{3}))'$");
+                boolType   = new Regex(@"^(true|false)$");
+                intType    = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))(U|u)?$");
+                longType   = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$");
+                floatType  = new Regex(@"^-?((\d+(\.(\d)*)?|\.\d+)(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\d+(\.(\d)*)?|\.\d+))+p-?[0-9]+)$");
+                doubleType = new Regex(@"^-?(\d+(\.\d*)?|\d*\.\d*)((e|E|p|P)(-|\+)?\d*)?(D|d|L|l)?$");
+                charType   = new Regex(@"^(u8|L|u|U)?'(((\\)?.+)|(\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8}){1,2}|(\\[0-7]{3}))'$");
             } 
             else {
                 stringType = new Regex("^\".*\"$");
-                boolType   = new Regex("^(true|false)$");
-                intType    = new Regex("^-?(\\d|0x([a-f]|[A-F]|[0-9]){1,8})+$");
-                longType   = new Regex("^-?(\\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
-                floatType  = new Regex("^-?(\\d+(\\.(\\d)*)?|\\.\\d+)(F|f)$");
-                doubleType = new Regex("^-?(\\d+(\\.\\d*)?|\\d*\\.\\d*)((e|E)(-|\\+)?\\d+)?(D|d)?$");
-                charType   = new Regex("^'((\\\\)?.|\\\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
+                boolType   = new Regex(@"^(true|false)$");
+                intType    = new Regex(@"^-?(\d|0(x|b)([a-f]|[A-F]|[0-9]){1,8})+$");
+                longType   = new Regex(@"^-?(\d+|0(x|X)([a-f]|[A-F]|[0-9])+)(L|l)$");
+                floatType  = new Regex(@"^-?(\d+(\.(\d)*)?|\.\d+)((E|e)-?\d+)?(F|f)$");
+                doubleType = new Regex(@"^-?(\d+(\.\d*)?|\d*\.\d*)((e|E)(-|\+)?\d+)?(D|d)?$");
+                charType   = new Regex(@"^'((\\)?.|\\u([node-f]|[A-F]|[0-9]){4})|\\[0-7]{3}'$");
             }
 
             IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, true);
@@ -3986,7 +3991,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else
             {
-                // TODO: return, goto?
+                // TODO: goto?
                 errorMessages.Add("ERROR: Unsupported jumpStatement code " + node + System.Environment.NewLine);
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
@@ -4243,6 +4248,86 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
+        }
+
+        /// <summary>
+        /// Handles simpleTypeSpecifier nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPSimpleTypeHandler(IModifiable node)
+        {
+            // using this reference source:
+            // https://en.cppreference.com/w/cpp/language/types
+            // might be missing some stuff
+            //if (node.Code.Equals("void") || node.Code.Equals("int") || node.Code.Equals("bool") || node.Code.Equals("char") || node.Code.Equals("float") || node.Code.Equals("double"))
+            if (node.GetChildCount() == 0)
+            {
+                node.SetNode(Members.Primitive);
+            }
+            else
+            {
+                // TODO
+            }
+        }
+
+        /// <summary>
+        /// Handles memberSpecification nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPMemberSpecificationHandler(IModifiable node)
+        {
+            List<INavigable> memberNodes = node.Children;
+            node.DropChildren();
+            IModifiable accessSpecNode = null;
+            foreach (IModifiable memberNode in memberNodes)
+            {
+                if (memberNode.Node.Equals("accessSpecifier"))
+                {
+                    accessSpecNode = memberNode;
+                    if (accessSpecNode.Code.Equals("private"))
+                    {
+                        accessSpecNode.SetNode(Members.Private);
+                    }
+                    else if (accessSpecNode.Code.Equals("public"))
+                    {
+                        accessSpecNode.SetNode(Members.Public);
+                    }
+                    else if (accessSpecNode.Code.Equals("protected"))
+                    {
+                        accessSpecNode.SetNode(Members.Protected);
+                    }
+                    accessSpecNode.ClearCode(ClearCodeOptions.KeepLine);
+                }
+                else
+                {
+                    memberNode.Parent = node;
+                    accessSpecNode.Clone().Parent = memberNode;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles declarator nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPDeclaratorHandler(IModifiable node)
+        {
+            if (node.GetChildCount() == 2 && node.GetNthChild(1).Node.Equals(Members.ParameterList))
+            {
+                // operators overrides?
+                // declarators in Method definitions should NOT be MethodInvokes (Polygon.AST)
+                // also in memberDeclarators probably (classConstructor)
+                // watch for ConstructorInvokes too, not sure how those ought to look - line 41, 40 in AST (classConstructor)
+                ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+            }
+            else if (node.Parent.GetChildCount() == 2 && node.Parent.GetNthChild(1).Code.Equals("( )"))
+            {
+                ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+            }
+            else
+            {
+                // TODO
+            }
         }
 
         #endregion
