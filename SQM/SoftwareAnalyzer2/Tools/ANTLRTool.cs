@@ -729,6 +729,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
+                head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
@@ -738,7 +739,6 @@ namespace SoftwareAnalyzer2.Tools
                 // tentatively
                 head.Rename("unqualifiedId", Members.Variable);
                 head.Rename("qualifiedId", Members.Variable);
-
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
@@ -3843,6 +3843,7 @@ namespace SoftwareAnalyzer2.Tools
 
         /// <summary>
         /// Moves Method name from declarator to actual Method node
+        /// Also names methods as Constructors when no declSpecifierSeq node exists
         /// </summary>
         /// <param name="answer"></param>
         private void CPPMethodNameCorrector(IModifiable node)
@@ -3850,15 +3851,63 @@ namespace SoftwareAnalyzer2.Tools
             // TODO: fix this - tends to screw up line numbers...
             IModifiable declarator = (IModifiable)node.GetFirstRecursive("declarator");
             // get into the declarator node, the first entry should be something other than a parameter, find the unqualifiedId
-            // if the ID is qualified, it will contain the unqualified Id
+            // if no unqualifiedId, try qualifiedId, then operatorFunctionId
+            
+            // possibly GetNthChild(0) will work instead
             IModifiable unqualifiedId = (IModifiable)declarator.GetFirstSingleLayer("unqualifiedId");
             if (unqualifiedId == null)
             {
                 unqualifiedId = (IModifiable)declarator.GetFirstSingleLayer("qualifiedId");
+                if (unqualifiedId == null)
+                {
+                    // Java apparently doesn't have operator overloading so IDK how this wants to look
+                    unqualifiedId = (IModifiable)declarator.GetFirstSingleLayer("operatorFunctionId").GetNthChild(0);
+                }
             }
+            
             node.CopyCode(unqualifiedId);
             // excise the original afterwards - it no longer needs to exist
             ((IModifiable)unqualifiedId.Parent).RemoveChild(unqualifiedId);
+
+            CPPScopeResolutionHandler(node);
+
+            // rename to constructor if appropriate
+            if (node.GetFirstSingleLayer("declSpecifierSeq") == null)
+            {
+                node.SetNode(Members.Constructor);
+            }
+        }
+
+        /// <summary>
+        /// Resolves floating scope resolution operators
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPScopeResolutionHandler(IModifiable node)
+        {
+            if (node.Code.StartsWith("::"))
+            {
+                IModifiable targetParent = null;
+                if (node.Node.Equals(Members.Method)) {
+                    targetParent = node;
+                }
+                else if (node.Node.Equals(Members.MethodInvoke))
+                {
+                    targetParent = (IModifiable)node.GetAncestor("simpleDeclaration");
+                }
+                IModifiable targetNode = (IModifiable)targetParent.GetFirstSingleLayer("declSpecifierSeq");
+
+                if (targetNode != null)
+                {
+                    while (targetNode.GetChildCount() > 0)
+                    {
+                        targetNode = (IModifiable)targetNode.GetNthChild(0);
+                    }
+                    targetNode.AddCode(node.Code, node);
+                    node.ClearCode(ClearCodeOptions.KeepLine);
+                    node.CopyCode(targetNode);
+                    targetParent.RemoveChild((IModifiable)targetParent.GetFirstSingleLayer("declSpecifierSeq"));
+                }
+            }
         }
 
         /// <summary>
@@ -4040,10 +4089,6 @@ namespace SoftwareAnalyzer2.Tools
         private void CPPTryCatchHandler(IModifiable node)
         {
             List<IModifiable> catchers = new List<IModifiable>();
-
-            // MM - no need to SetNode - RootUpModify can do it for us
-            // MM - I removed the TryScope lines - CPPScopeDescriber now handles that
-            // MM - I'm not super sure how you're doing CatchScopes, but you may want to move that too
 
             List<INavigable> children = node.Children;
             // MM - may want to try using node.GetNthChild(1) here, assuming I'm reading this right
@@ -4324,7 +4369,9 @@ namespace SoftwareAnalyzer2.Tools
         {
             List<INavigable> memberNodes = node.Children;
             node.DropChildren();
-            IModifiable accessSpecNode = null;
+            // assume a class and not a struct for now
+            // TODO: struct
+            IModifiable accessSpecNode = (IModifiable)NodeFactory.CreateNode(Members.Private, false);
             foreach (IModifiable memberNode in memberNodes)
             {
                 if (memberNode.Node.Equals("accessSpecifier"))
