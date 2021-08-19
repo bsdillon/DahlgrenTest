@@ -708,7 +708,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("braceOrEqualInitializer", Members.Write);
                 head.Rename("templateName", Members.TypeDeclaration);
                 head.Rename("templateArgumentList", Members.Sub_Type);
-
+                head.Rename("enumeratorList", MemberSets.Values);
+                head.Rename("exceptionDeclaration", Members.Field);
+                
                 // clear out pointer stuff early since SQM doesn't care for it
                 head.Collapse("pointerOperator", "*");
                 head.Collapse("pointerOperator", "&");
@@ -740,8 +742,10 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
                 head.LeafDownModify(Members.DotOperator, Members.DotOperator, CPPDotOperatorOrderer);
                 head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
-                head.RootUpModify("literal", Members.Literal, LiteralModifier);
+                head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
+                head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
+                head.RootUpModify("literal", Members.Literal, LiteralModifier);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
@@ -756,6 +760,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 //head.Collapse("theTypeId");
                 //head.Collapse("typeSpecifierSeq");
+                head.Collapse("declarator");
 
                 head.Collapse("templateArgument");
                 head.Collapse("declSpecifier");
@@ -764,6 +769,7 @@ namespace SoftwareAnalyzer2.Tools
                 //head.Collapse("simpleTypeSpecifier");
                 head.Collapse("theTypeName");
                 head.Collapse("compoundStatement");
+                head.Collapse("statement");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -4455,6 +4461,8 @@ namespace SoftwareAnalyzer2.Tools
                     // also in memberDeclarators probably (classConstructor)
                     // watch for ConstructorInvokes too, not sure how those ought to look - line 41, 40 in AST (classConstructor)
                     ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+                    node.GetNthChild(1).Parent = node.GetNthChild(0);
+                    node.RemoveChild((IModifiable)node.GetNthChild(1));
                 }
                 else if (node.Parent.GetChildCount() == 2 && node.Parent.GetNthChild(1).Code.Equals("( )"))
                 {
@@ -4466,7 +4474,19 @@ namespace SoftwareAnalyzer2.Tools
                     errorMessages.Add("ERROR: Unsupported declarator code " + node + System.Environment.NewLine);
                 }
             }
-            
+            else if (node.GetNthChild(0).Node.Equals("operatorFunctionId"))
+            {
+                IModifiable parameterList = (IModifiable)node.GetFirstSingleLayer(Members.ParameterList);
+                node.RemoveChild(parameterList);
+                if (node.GetNthChild(0).GetChildCount() == 0)
+                {
+                    parameterList.Parent = node.GetNthChild(0);
+                }
+                else
+                {
+                    parameterList.Parent = node.GetNthChild(0).GetNthChild(0);
+                }
+            }
         }
 
         /// <summary>
@@ -4546,6 +4566,44 @@ namespace SoftwareAnalyzer2.Tools
             node.GetNthChild(1).Parent = node.GetNthChild(0);
             node.RemoveChild((IModifiable)node.GetNthChild(1));
             ((IModifiable)node.Parent.Parent).ReplaceChild((IModifiable)node.Parent, (IModifiable)node.GetNthChild(0));
+        }
+
+        /// <summary>
+        /// Handles enumSpecifier nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPEnumSpecifierHandler(IModifiable node)
+        {
+            node.GetNthChild(1).Parent = node.GetNthChild(0);
+            node.RemoveChild((IModifiable)node.GetNthChild(1));
+        }
+
+        /// <summary>
+        /// Handles Parameter nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPParameterHandler(IModifiable node)
+        {
+            if (node.GetChildCount() > 1)
+            {
+                List<INavigable> children = node.Children;
+                node.DropChildren();
+                IModifiable modifierSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                modifierSetNode.Parent = node;
+                foreach (IModifiable child in children)
+                {
+                    if (child.Node.Equals("unqualifiedId") || child.Node.Equals("qualifiedId"))
+                    {
+                        child.Parent = node;
+                    }
+                    else
+                    {
+                        IModifiable typeNode = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
+                        typeNode.Parent = node;
+                        child.Parent = typeNode;
+                    }
+                }
+            }
         }
 
         #endregion

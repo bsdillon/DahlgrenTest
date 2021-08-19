@@ -960,6 +960,12 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
         }
 
         //see declaration in IModifiable
+        public void Rename(string specificNode, MemberSets newNode)
+        {
+            Rename(NodeType.CreateNodeType(specificNode), NodeType.CreateNodeType(newNode));
+        }
+
+        //see declaration in IModifiable
         public void Rename(string specificNode, string newNode)
         {
             Rename(NodeType.CreateNodeType(specificNode), NodeType.CreateNodeType(newNode));

@@ -163,6 +163,13 @@ namespace SoftwareAnalyzer2.Structure.Node
         /// </summary>
         /// <param name="currentNodeType"></param>
         /// <param name="nextNodeType"></param>
+        void Rename(string currentNodeType, MemberSets nextNodeType);
+
+        /// <summary>
+        /// Recursive function which alters the NodeType of all nodes which match the currentNode type. 
+        /// </summary>
+        /// <param name="currentNodeType"></param>
+        /// <param name="nextNodeType"></param>
         void Rename(string currentNodeType, string nextNodeType);
 
         /// <summary>
