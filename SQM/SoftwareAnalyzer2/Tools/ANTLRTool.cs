@@ -706,14 +706,19 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("statementSeq", Members.Scope);
                 head.Rename("condition", Members.Boolean);
                 head.Rename("braceOrEqualInitializer", Members.Write);
+                head.Rename("templateName", Members.TypeDeclaration);
+                head.Rename("templateArgumentList", Members.Sub_Type);
 
-                //head.RootUpModify("assignmentExpression", "assignmentExpression", CPPExpressionHandler);
-                //head.RootUpModify("constantExpression", "constantExpression", CPPExpressionHandler);
-                //head.RootUpModify("conditionalExpression", "conditionalExpression", CPPExpressionHandler);
+                // clear out pointer stuff early since SQM doesn't care for it
+                head.Collapse("pointerOperator", "*");
+                head.Collapse("pointerOperator", "&");
+                head.Collapse("unaryOperator", "&");
+
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
+                head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateHandler);
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
                 head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
@@ -733,7 +738,10 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
+                head.LeafDownModify(Members.DotOperator, Members.DotOperator, CPPDotOperatorOrderer);
+                head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
+                head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
@@ -746,12 +754,16 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
 
+                //head.Collapse("theTypeId");
+                //head.Collapse("typeSpecifierSeq");
+
                 head.Collapse("templateArgument");
                 head.Collapse("declSpecifier");
                 head.Collapse("typeSpecifier");
                 head.Collapse("trailingTypeSpecifier");
                 //head.Collapse("simpleTypeSpecifier");
                 head.Collapse("theTypeName");
+                head.Collapse("compoundStatement");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -3837,6 +3849,8 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.Parent.Parent == node.GetAncestor(Members.Try_Catch))
             {
                 node.SetNode(Members.TryScope);
+                node.CopyCode((IModifiable)node.Parent);
+                ((IModifiable)node.Parent).ClearCode(ClearCodeOptions.KeepLine);
             }
             else
             {
@@ -4073,7 +4087,15 @@ namespace SoftwareAnalyzer2.Tools
             {
                 otherNode.AddCode(otherNode.GetNthChild(0).Code, (IModifiable)otherNode.GetNthChild(0));
                 otherNode.SetNode(otherNode.GetNthChild(0).Node);
-                otherNode.DropChildren();
+                //otherNode.DropChildren();
+                if (otherNode.GetNthChild(0).GetChildCount() > 0)
+                {
+                    otherNode.ReplaceChild((IModifiable)otherNode.GetNthChild(0), (IModifiable)otherNode.GetNthChild(0).GetNthChild(0));
+                }
+                else
+                {
+                    otherNode.DropChildren();
+                }
             }
 
             if (node.Parent.Node.Equals("qualifiedId"))
@@ -4092,10 +4114,10 @@ namespace SoftwareAnalyzer2.Tools
         private void CPPTryCatchHandler(IModifiable node)
         {
             List<IModifiable> catchers = new List<IModifiable>();
+            List<INavigable>  children = node.Children;
+            IModifiable       catcher  = (IModifiable)node.GetFirstRecursive("handler");
 
-            List<INavigable> children = node.Children;
-            // MM - may want to try using node.GetNthChild(1) here, assuming I'm reading this right
-            IModifiable catcher = (IModifiable)children[1].GetFirstSingleLayer("handler");
+            children.RemoveAt(0);
             while (catcher != null)
             {
                 catcher.SetNode(Members.CatchScope);
@@ -4104,7 +4126,7 @@ namespace SoftwareAnalyzer2.Tools
                 catchers.Add(catcher);
 
                 catcher.Parent = node;
-                catcher = (IModifiable)children[1].GetFirstRecursive("handler");
+                catcher = (IModifiable)children[0].GetFirstRecursive("handler");
             }
             IModifiable handler = (IModifiable)node.GetFirstRecursive("handlerSeq");
             node.RemoveChild(handler);
@@ -4365,6 +4387,22 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
+        /// Handles declSpecifierSeq nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPDeclSpecifierHandler(IModifiable node)
+        {
+            if (node.Parent == node.GetAncestor(Members.Method)) 
+            {
+                node.SetNode(Members.ReturnType);
+            }
+            else
+            {
+                node.SetNode(Members.Type);
+            }
+        }
+
+        /// <summary>
         /// Handles memberSpecification nodes
         /// </summary>
         /// <param name="answer"></param>
@@ -4448,6 +4486,66 @@ namespace SoftwareAnalyzer2.Tools
                     child.Parent = elseScope;
                 }
             }
+        }
+
+        /// <summary>
+        /// Properly orders DotOperator nodes and the like
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPDotOperatorOrderer(IModifiable node)
+        {
+            IModifiable trueParent = (IModifiable)node.Parent;
+            List<INavigable> dotOpWithSiblings = trueParent.Children;
+            trueParent.DropChildren();
+            foreach (IModifiable child in dotOpWithSiblings)
+            {
+                if (child.Node.Equals(Members.DotOperator))
+                {
+                    IModifiable firstNode = (IModifiable)child.GetNthChild(0);
+                    firstNode.Parent = trueParent;
+                    child.RemoveChild((IModifiable)child.GetNthChild(0));
+
+                    //child's Parent should be all the way down the firstNode's branch?
+                    IModifiable targetNode = firstNode;
+                    while (targetNode.GetChildCount() > 0)
+                    {
+                        targetNode = (IModifiable)targetNode.GetNthChild(0);
+                    }
+                    child.Parent = targetNode;
+                }
+                else
+                {
+                    child.Parent = trueParent;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles primaryExpression nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPPrimaryExpressionHandler(IModifiable node)
+        {
+            if (node.Code.Equals("this"))
+            {
+                node.SetNode(Members.SelfReference);
+            }
+            else
+            {
+                // TODO
+                errorMessages.Add("ERROR: Unsupported primaryExpression code " + node + System.Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// Handles template-related nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPTemplateHandler(IModifiable node)
+        {
+            node.GetNthChild(1).Parent = node.GetNthChild(0);
+            node.RemoveChild((IModifiable)node.GetNthChild(1));
+            ((IModifiable)node.Parent.Parent).ReplaceChild((IModifiable)node.Parent, (IModifiable)node.GetNthChild(0));
         }
 
         #endregion
