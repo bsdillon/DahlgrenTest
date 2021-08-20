@@ -726,6 +726,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("templateArgumentList", Members.Sub_Type);
                 head.Rename("enumeratorList", MemberSets.Values);
                 head.Rename("exceptionDeclaration", Members.Field);
+                head.Rename("unqualifiedId", Members.Variable);
+                head.Rename("qualifiedId", Members.Variable);
                 
                 // clear out pointer stuff early since SQM doesn't care for it
                 head.Collapse("pointerOperator", "*");
@@ -768,9 +770,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("additiveExpression", Members.Operator);
                 head.Rename("logicalAndExpression", Members.Boolean_And);
                 head.Rename("logicalOrExpression", Members.Boolean_Or);
-                // tentatively
-                head.Rename("unqualifiedId", Members.Variable);
-                head.Rename("qualifiedId", Members.Variable);
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
@@ -3908,24 +3907,19 @@ namespace SoftwareAnalyzer2.Tools
         {
             // TODO: fix this - tends to screw up line numbers...
             IModifiable declarator = (IModifiable)node.GetFirstRecursive("declarator");
-            // get into the declarator node, the first entry should be something other than a parameter, find the unqualifiedId
-            // if no unqualifiedId, try qualifiedId, then operatorFunctionId
+            // get into the declarator node, the first entry should be something other than a parameter, find the Variable
+            // if no Variable, try operatorFunctionId
             
             // possibly GetNthChild(0) will work instead
-            IModifiable unqualifiedId = (IModifiable)declarator.GetFirstSingleLayer("unqualifiedId");
-            if (unqualifiedId == null)
+            IModifiable varNode = (IModifiable)declarator.GetFirstSingleLayer(Members.Variable);
+            if (varNode == null)
             {
-                unqualifiedId = (IModifiable)declarator.GetFirstSingleLayer("qualifiedId");
-                if (unqualifiedId == null)
-                {
-                    // Java apparently doesn't have operator overloading so IDK how this wants to look
-                    unqualifiedId = (IModifiable)declarator.GetFirstSingleLayer("operatorFunctionId").GetNthChild(0);
-                }
+                varNode = (IModifiable)declarator.GetFirstSingleLayer("operatorFunctionId").GetNthChild(0);
             }
             
-            node.CopyCode(unqualifiedId);
+            node.CopyCode(varNode);
             // excise the original afterwards - it no longer needs to exist
-            ((IModifiable)unqualifiedId.Parent).RemoveChild(unqualifiedId);
+            ((IModifiable)varNode.Parent).RemoveChild(varNode);
 
             CPPScopeResolutionHandler(node);
 
@@ -4024,8 +4018,8 @@ namespace SoftwareAnalyzer2.Tools
                     //identify Block nodes, and set non-literal cases to Variable, which occurs for enumerated Values, etc.
                     child.SetNode(Members.Block);
                     IModifiable childRecursion = (IModifiable)child.GetFirstRecursive("constantExpression");
-                    if (childRecursion != null && childRecursion.GetFirstRecursive("unqualifiedId") != null) {
-                        ((IModifiable)childRecursion.GetFirstRecursive("unqualifiedId")).SetNode(Members.Variable);
+                    if (childRecursion != null && childRecursion.GetFirstRecursive(Members.Variable) != null) {
+                        ((IModifiable)childRecursion.GetFirstRecursive(Members.Variable)).SetNode(Members.Variable);
                     }
 
                     //insert a Scope node and then move the statement into that
@@ -4139,7 +4133,7 @@ namespace SoftwareAnalyzer2.Tools
                 }
             }
 
-            if (node.Parent.Node.Equals("qualifiedId"))
+            if (node.Parent.Node.Equals(Members.Variable))
             {
                 ((IModifiable)node.Parent).CopyCode(otherNode);
                 ((IModifiable)node.Parent).RemoveChild((IModifiable)node.Parent.GetNthChild(0));
@@ -4208,7 +4202,6 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("++") || node.Code.Equals("--"))
             {
-                // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 node.SetNode(Members.Write);
                 IModifiable var = (IModifiable)node.GetNthChild(0);
                 var.Parent = node.Parent;
@@ -4274,19 +4267,10 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.GetChildCount() > 1)
             {
-                // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 ((IModifiable)node.GetNthChild(1)).SetNode(Members.Write);
                 node.GetNthChild(2).Parent = node.GetNthChild(1);
                 node.RemoveChild((IModifiable)node.GetNthChild(2));
             }
-            /**
-            else
-            {
-                // TODO: collapse instead?
-                IModifiable temp = (IModifiable)node.GetNthChild(0);
-                ((IModifiable)node.Parent).ReplaceChild(node, temp);
-            }
-            **/
         }
 
         /// <summary>
@@ -4305,7 +4289,6 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("++") || node.Code.Equals("--"))
             {
-                // TODO: hook this to the variable properly - gotta check qualifiedIds and such
                 node.SetNode(Members.Write);
                 IModifiable var = (IModifiable)node.GetNthChild(0);
                 var.Parent = node.Parent;
@@ -4512,14 +4495,15 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPDeclaratorHandler(IModifiable node)
         {
-            if (!node.Parent.Node.Equals(Members.Method) && !node.Parent.Node.Equals("memberDeclarator"))
+            if (!node.Parent.Node.Equals(Members.Method))
             {
                 if (node.GetChildCount() == 2 && node.GetNthChild(1).Node.Equals(Members.ParameterList))
                 {
-                    // operators overrides?
+                    // TODO: operators...
+                    // operators overrides?? (classConstructor)
                     // declarators in Method definitions should NOT be MethodInvokes (Polygon.AST)
-                    // also in memberDeclarators probably (classConstructor)
                     // watch for ConstructorInvokes too, not sure how those ought to look - line 41, 40 in AST (classConstructor)
+                    // maybe - if there's a type, but there is no Write = node, then it's a constructor?
                     ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
                     node.GetNthChild(1).Parent = node.GetNthChild(0);
                     node.RemoveChild((IModifiable)node.GetNthChild(1));
@@ -4527,11 +4511,6 @@ namespace SoftwareAnalyzer2.Tools
                 else if (node.Parent.GetChildCount() == 2 && node.Parent.GetNthChild(1).Code.Equals("( )"))
                 {
                     ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
-                }
-                else
-                {
-                    // TODO
-                    errorMessages.Add("ERROR: Unsupported declarator code " + node + System.Environment.NewLine);
                 }
             }
             else if (node.GetNthChild(0).Node.Equals("operatorFunctionId"))
@@ -4663,7 +4642,7 @@ namespace SoftwareAnalyzer2.Tools
                 modifierSetNode.Parent = node;
                 foreach (IModifiable child in children)
                 {
-                    if (child.Node.Equals("unqualifiedId") || child.Node.Equals("qualifiedId"))
+                    if (child.Node.Equals(Members.Variable))
                     {
                         child.Parent = node;
                     }
@@ -4686,7 +4665,9 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable parentNode = (IModifiable)node.Parent;
             if (parentNode.Node.Equals("initializer") || parentNode.Node.Equals("memberDeclarator") || parentNode.Node.Equals("assignmentExpression"))
             {
-                node.Parent = parentNode.Parent.GetFirstRecursive("unqualifiedId");
+                // TODO: fix error with int x = 0, y = 0 case
+                IModifiable targetNode = (IModifiable)parentNode.Parent.GetFirstRecursive(Members.Variable);
+                node.Parent = targetNode;
                 parentNode.RemoveChild((IModifiable)parentNode.GetFirstRecursive(Members.Write));
             }
         }
