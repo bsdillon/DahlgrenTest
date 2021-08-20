@@ -63,8 +63,14 @@ namespace SoftwareAnalyzer2.Tools
             return new ANTLRTool();
         }
 
-        // Takes created process, filepath/filename of executable, arguments, 
-        // starts it, and waits for it to finish by specified milliseconds
+        /// <summary>
+        /// Takes created process, filepath/filename of executable, arguments, 
+        /// starts it, and waits for it to finish by specified milliseconds
+        /// </summary>
+        /// <param name="p">Process to be populated</param>
+        /// <param name="filename">Where the executable is located</param>
+        /// <param name="arguments">What arguments to give it</param>
+        /// <param name="timeToWait">How long we wait until it finishes</param>
         private void startProcess(Process p, string filename, string arguments, int timeToWait) {
             if (p != null) {
                 p.StartInfo.FileName        = filename;
@@ -87,10 +93,15 @@ namespace SoftwareAnalyzer2.Tools
                 }
             }
         }
-
-        // This fn is responsible for translating un-parseable code before ANTLR sees it.
-        // Many of the SQM analysis routines do not care about things like pointer dereferences,
-        // only that the data related to the pointer has been read/written to.
+        
+        /// <summary>
+        /// This fn is responsible for translating un-parseable code before ANTLR sees it.
+        /// Many of the SQM analysis routines do not care about things like pointer dereferences,
+        /// only that the data related to the pointer has been read/written to.
+        /// </summary>
+        /// <param name="filename">File to be fed into ANTLR</param>
+        /// <param name="lang">What language it is in</param>
+        /// <param name="stdin">Where we write ANTLR output to</param>
         private void writeFileToANTLR(string filename, ILanguage lang, StreamWriter stdin) {
             try {
                 // temporary filenames for macros and preprocessed files
@@ -199,7 +210,12 @@ namespace SoftwareAnalyzer2.Tools
             }
         }
 
-        //see implementation in ITool
+        
+        /// <summary>
+        /// See implementation in ITool
+        /// </summary>
+        /// <param name="filename">File to be analyzed</param>
+        /// <param name="lang">Language it is in</param>
         public void Analyze(string fileName, ILanguage lang)
         {
             myLang = lang;
@@ -745,6 +761,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
+                head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
@@ -769,7 +786,10 @@ namespace SoftwareAnalyzer2.Tools
                 //head.Collapse("simpleTypeSpecifier");
                 head.Collapse("theTypeName");
                 head.Collapse("compoundStatement");
+                head.Collapse("compoundStatement", "{ }");
                 head.Collapse("statement");
+                head.Collapse("expression");
+                head.Collapse("postfixExpression", "( )");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -777,7 +797,6 @@ namespace SoftwareAnalyzer2.Tools
                 // head.Rename("modifier", "modifier");
                 // head.Rename("modifier", "modifier");
                 // head.Rename("modifier", "modifier");
-
                 head.NormalizeLines();
 
                 // Throw away "HEAD" and replace with "File" at top of tree
@@ -3858,6 +3877,15 @@ namespace SoftwareAnalyzer2.Tools
                 node.CopyCode((IModifiable)node.Parent);
                 ((IModifiable)node.Parent).ClearCode(ClearCodeOptions.KeepLine);
             }
+            else if (node.Parent.Parent == node.GetAncestor(Members.CatchScope))
+            {
+                node.SetNode(Members.CatchScope);
+                node.CopyCode((IModifiable)node.Parent);
+                ((IModifiable)node.Parent).ClearCode(ClearCodeOptions.KeepLine);
+                IModifiable oldCatchScope = (IModifiable)node.GetAncestor(Members.CatchScope);
+                IModifiable tryCatch      = (IModifiable)node.GetAncestor(Members.Try_Catch);
+                tryCatch.ReplaceChild(oldCatchScope, node);
+            }
             else
             {
                 node.SetNode(Members.Scope);
@@ -4116,10 +4144,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <summary>
         /// Handles Try_Catch nodes
         /// </summary>
-        /// <param name="answer"></param>
+        /// <param name="node"></param>
         private void CPPTryCatchHandler(IModifiable node)
         {
-            List<IModifiable> catchers = new List<IModifiable>();
             List<INavigable>  children = node.Children;
             IModifiable       catcher  = (IModifiable)node.GetFirstRecursive("handler");
 
@@ -4129,8 +4156,7 @@ namespace SoftwareAnalyzer2.Tools
                 catcher.SetNode(Members.CatchScope);
                 catcher.ClearCode(ClearCodeOptions.ClearAll);
                 children.Remove(catcher);
-                catchers.Add(catcher);
-
+                
                 catcher.Parent = node;
                 catcher = (IModifiable)children[0].GetFirstRecursive("handler");
             }
@@ -4396,7 +4422,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <summary>
         /// Handles declSpecifierSeq nodes
         /// </summary>
-        /// <param name="answer"></param>
+        /// <param name="node"></param>
         private void CPPDeclSpecifierHandler(IModifiable node)
         {
             if (node.Parent == node.GetAncestor(Members.Method)) 
@@ -4530,11 +4556,18 @@ namespace SoftwareAnalyzer2.Tools
                     IModifiable targetNode = firstNode;
                     while (targetNode.GetChildCount() > 0)
                     {
+                        if (targetNode.GetNthChild(0).Node.Equals(Members.ParameterList))
+                        {
+                            if (targetNode.GetChildCount() > 1)
+                            {
+                                targetNode = (IModifiable)targetNode.GetNthChild(1);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
                         targetNode = (IModifiable)targetNode.GetNthChild(0);
-                    }
-                    if (targetNode.Node.Equals(Members.ParameterList))
-                    {
-                        targetNode = (IModifiable)targetNode.Parent;
                     }
                     child.Parent = targetNode;
                 }
@@ -4608,6 +4641,20 @@ namespace SoftwareAnalyzer2.Tools
                         child.Parent = typeNode;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Makes Write nodes have the correct parent
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPWriteNodeOrderer(IModifiable node)
+        {
+            IModifiable parentNode = (IModifiable)node.Parent;
+            if (parentNode.Node.Equals("initializer") || parentNode.Node.Equals("memberDeclarator"))
+            {
+                node.Parent = parentNode.Parent.GetFirstRecursive("unqualifiedId");
+                ((IModifiable)parentNode.Parent).RemoveChild(parentNode);
             }
         }
 
