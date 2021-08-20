@@ -578,11 +578,12 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             //csv output
             OutputCSVErrors(gFile, fileName, lineNum);
 
+            affectedDict.Clear();
             gFile.Close();
         }
 
         //this output is subject to change based on safety's needs
-        public static void OutputCSVErrors(StreamWriter file, string fileName, int lineNum)
+        public static void OutputCSVErrors(StreamWriter file, string tracingFile, int tracingLineNumber)
         {
             foreach (string fN in affectedDict.Keys)
             {
@@ -591,27 +592,25 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                 {
                     fnModded = fnModded.Substring(fnModded.LastIndexOf(Path.DirectorySeparatorChar));
                 }
-                //luTODO -- this is changing. find a way to trace how each graphnode was affected (file + line number)
-                if (fnModded == fileName)
+                foreach (int lN in affectedDict[fN].Keys)
                 {
-                    Dictionary<int, List<GraphNode>> valDict = affectedDict[fN];
-                    foreach (int lN in valDict.Keys)
+                    List<GraphNode> gnList = affectedDict[fN][lN];
+                    //output affected filename, linenumber, and nodetype
+                    string gnListStr = "";
+                    foreach (GraphNode g in gnList)
                     {
-                        List<GraphNode> gnList = valDict[lN];
-                        //output affected filename, linenumber, and nodetype
-                        string gnListStr = "";
-                        foreach (GraphNode g in gnList)
-                        {
-                            gnListStr += g.Represented.Node.ToString() + ",";
-                        }
-                        file.WriteLine(fileName + "[" + lineNum.ToString() + "]," + fN + "," + lN + "," + gnListStr);
+                        gnListStr += g.Represented.Node.ToString() + ","; 
+                    }
+                    if (gnListStr != "")
+                    {
+                        file.WriteLine(tracingFile + "[" + tracingLineNumber.ToString() + "]," + fN + "," + lN + "," + gnListStr);
                     }
                 }
-
             }
         }
         //luTODO -- move these functions to a different file within metrics folder
         //luTODO -- make the tracing errors silent and output them within an output file
+        //luTODO -- look at statemachine, create object for showing relationship
         public static void FindAffectedNodes(List<GraphNode> gNodes)
         {
             //for every affected graph node, trace the relationships down the chain until everything has been traced
@@ -663,16 +662,16 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
                 foreach (Relationship r in gn.relationshipsTo.Keys)
                 {
-                    //it seems that candidate read is neccesary in some circumstances but not in others. (subject to change)
-                    if (r == Relationship.WrittenBy || r == Relationship.ReturnType /*|| r == Relationship.CandidateRead*/)
+                    //candidate read is neccesary when it relates to methods/return values
+                    if (r == Relationship.WrittenBy || r == Relationship.ReturnType)
                     {
                         foreach (GraphNode grphNde in gn.relationshipsTo[r].Keys)
                         {
-                            if(grphNde.Represented.Node.GetMyMember() != Members.Literal)
+                            if (grphNde.Represented.Node.GetMyMember() != Members.Literal)
                             {
                                 WriteStatementToAffectedDict(gn, grphNde, r);
                             }
-                            
+
                             //field wants to trace back to anything it is related to.
                             if (grphNde.Represented.Node.Equals(Members.Parameter))
                             {
@@ -708,6 +707,16 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                                 throw new InvalidDataException(grphNde.Represented.Node.ToString() + " not accounted for in TraceField()");
                             }
 
+                        }
+                    }
+                    else if (r == Relationship.CandidateRead)
+                    {
+                        foreach (GraphNode grphNde in gn.relationshipsTo[r].Keys)
+                        {
+                            if (grphNde.Represented.Node.Equals(Members.Method))
+                            {
+                                TraceMethod(grphNde);
+                            }
                         }
                     }
                 }
@@ -975,6 +984,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             WriteToAffectedDict(lineNumDict, gn, fileName, lineNumber, true);
         }
 
+        //luTODO -- take simulated data, mark it, terminate tracing at that point
+        //luTODO -- fix the fibonacci error
         private static void WriteToAffectedDict(Dictionary<string, Dictionary<int, List<GraphNode>>> dict, GraphNode gn, string fileName, int lineNumber, bool trimFileN)
         {
             //simulated graphnodes are not very meaningful for tracing errors
@@ -985,7 +996,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                 {
                     fileName = fileName.Substring(fileName.LastIndexOf(Path.DirectorySeparatorChar));
                 }
-                
                 
                 Dictionary<int, List<GraphNode>> gnLine = new Dictionary<int, List<GraphNode>>();
                 gnLine[lineNumber] = new List<GraphNode>();

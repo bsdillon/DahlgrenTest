@@ -797,8 +797,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 foreach (string fileNameKey in lineNums.Keys)
                 {
                     //trim the file name to the last part of the string behind the last directory separator char.
-                    //e.g. /folder/another/importantFolder -> /importantFolder
-                    //this allows safety to simply input "/importantFolder"
+                    //e.g. /folder/another/importantFile.java -> /importantFile
+                    //this allows safety to simply input "/importantFile"
                     string fileNameKeyMod = fileNameKey;
                     if(fileNameKey.LastIndexOf(Path.DirectorySeparatorChar) > 0)
                     {
