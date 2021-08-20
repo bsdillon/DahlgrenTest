@@ -778,7 +778,7 @@ namespace SoftwareAnalyzer2.Tools
                 //head.Collapse("theTypeId");
                 //head.Collapse("typeSpecifierSeq");
                 head.Collapse("declarator");
-
+                head.Collapse("initializerClause");
                 head.Collapse("templateArgument");
                 head.Collapse("declSpecifier");
                 head.Collapse("typeSpecifier");
@@ -787,9 +787,12 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("theTypeName");
                 head.Collapse("compoundStatement");
                 head.Collapse("compoundStatement", "{ }");
+                head.Collapse("functionBody");
                 head.Collapse("statement");
                 head.Collapse("expression");
                 head.Collapse("postfixExpression", "( )");
+                head.Collapse("assignmentExpression");
+                head.Collapse("initializer");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -3874,14 +3877,18 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.Parent.Parent == node.GetAncestor(Members.Try_Catch))
             {
                 node.SetNode(Members.TryScope);
-                node.CopyCode((IModifiable)node.Parent);
                 ((IModifiable)node.Parent).ClearCode(ClearCodeOptions.KeepLine);
+                node.CopyCode((IModifiable)node.Parent);
             }
             else if (node.Parent.Parent == node.GetAncestor(Members.CatchScope))
             {
+                // Only catches inner catch scopes - 
+                // empty catch bodies do not have a Scope node in AST
                 node.SetNode(Members.CatchScope);
-                node.CopyCode((IModifiable)node.Parent);
                 ((IModifiable)node.Parent).ClearCode(ClearCodeOptions.KeepLine);
+                node.CopyCode((IModifiable)node.Parent);
+
+                // Replace outside catch scope with found inner scope
                 IModifiable oldCatchScope = (IModifiable)node.GetAncestor(Members.CatchScope);
                 IModifiable tryCatch      = (IModifiable)node.GetAncestor(Members.Try_Catch);
                 tryCatch.ReplaceChild(oldCatchScope, node);
@@ -4147,19 +4154,43 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="node"></param>
         private void CPPTryCatchHandler(IModifiable node)
         {
-            List<INavigable>  children = node.Children;
-            IModifiable       catcher  = (IModifiable)node.GetFirstRecursive("handler");
+            List<INavigable> children = node.Children;
+            IModifiable      catcher  = (IModifiable)node.GetFirstRecursive("handler");
 
+            // Remove try block from catcher children list
             children.RemoveAt(0);
+
+            // Handle all children catchers
             while (catcher != null)
             {
+                // First assume empty catch body - empty catch bodies do not 
+                // have a scope specifier for CPPScopeDescriber() to handle, 
+                // so we have to presume empty catch body and assign it CatchScope.
                 catcher.SetNode(Members.CatchScope);
                 catcher.ClearCode(ClearCodeOptions.ClearAll);
-                children.Remove(catcher);
+
+                // If catch does not have an empty body, move catch field to inner scope
+                // Inner scope field will be caught by CPPScopeDescriber() and replace our
+                // presumed empty body catch scope
+                IModifiable possibleInnerScope = (IModifiable)catcher.GetFirstRecursive(Members.Scope);
+                if (possibleInnerScope != null)
+                {
+                    IModifiable field      = (IModifiable)catcher.GetFirstRecursive(Members.Field);
+                    IModifiable catchScope = (IModifiable)possibleInnerScope.GetNthChild(0);
+                    catcher.RemoveChild(field);
+
+                    // Reorder inner scope to have exception field first, then catch body
+                    possibleInnerScope.DropChildren();
+                    field.Parent      = possibleInnerScope;
+                    catchScope.Parent = possibleInnerScope;
+                }
                 
+                // Grab next catcher
+                children.Remove(catcher);
                 catcher.Parent = node;
-                catcher = (IModifiable)children[0].GetFirstRecursive("handler");
+                catcher        = (IModifiable)children[0].GetFirstRecursive("handler");
             }
+            // Now that we have dealt with all catchers, remove unnecessary catcher parent node
             IModifiable handler = (IModifiable)node.GetFirstRecursive("handlerSeq");
             node.RemoveChild(handler);
         }
@@ -4248,12 +4279,14 @@ namespace SoftwareAnalyzer2.Tools
                 node.GetNthChild(2).Parent = node.GetNthChild(1);
                 node.RemoveChild((IModifiable)node.GetNthChild(2));
             }
+            /**
             else
             {
                 // TODO: collapse instead?
                 IModifiable temp = (IModifiable)node.GetNthChild(0);
                 ((IModifiable)node.Parent).ReplaceChild(node, temp);
             }
+            **/
         }
 
         /// <summary>
@@ -4651,10 +4684,10 @@ namespace SoftwareAnalyzer2.Tools
         private void CPPWriteNodeOrderer(IModifiable node)
         {
             IModifiable parentNode = (IModifiable)node.Parent;
-            if (parentNode.Node.Equals("initializer") || parentNode.Node.Equals("memberDeclarator"))
+            if (parentNode.Node.Equals("initializer") || parentNode.Node.Equals("memberDeclarator") || parentNode.Node.Equals("assignmentExpression"))
             {
                 node.Parent = parentNode.Parent.GetFirstRecursive("unqualifiedId");
-                ((IModifiable)parentNode.Parent).RemoveChild(parentNode);
+                parentNode.RemoveChild((IModifiable)parentNode.GetFirstRecursive(Members.Write));
             }
         }
 
