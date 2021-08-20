@@ -1,0 +1,72 @@
+Node    0   Method  main    publicInheritance.cpp (30)
+Node    1   TypeName int     --                   --
+Node    2   MethodScope --      publicInheritance.cpp (30)
+Node    3   Field   object1 publicInheritance.cpp (31)
+Node    4   CLASS   PublicDerived publicInheritance.cpp (22)
+Node    5   CLASS   Base    publicInheritance.cpp (6)
+Node    6   Method  operator<<<std::char_traits<char> > C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\ostream (733)
+Node    7   CLASS   basic_ostream<char,std::char_traits<char> > C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\ostream (25)
+Node    8   Parameter _Val    C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\ostream (734)
+Node    9   Parameter _Ostr   C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\ostream (733)
+Node    10  Literal "Private = " publicInheritance.cpp (32:10)
+Node    11  Method  getPVT  publicInheritance.cpp (17)
+Node    12  MethodScope --      publicInheritance.cpp (17)
+Node    13  Public  --      publicInheritance.cpp --
+Node    14  Method  operator<< C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\ostream (269)
+Node    15  Parameter _Val    C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\ostream (269)
+Node    16  Method  operator<< C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\ostream (183)
+Node    17  Parameter _Pfn    C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30037\include\ostream (184)
+Node    18  Literal "Public = " publicInheritance.cpp (34:10)
+Node    19  Literal "Protected = " publicInheritance.cpp (33:10)
+Node    20  Method  getProt publicInheritance.cpp (25)
+Node    21  MethodScope --      publicInheritance.cpp (25)
+Node    22  Literal 0       publicInheritance.cpp (35:5)
+Node    23  Field   pvt     publicInheritance.cpp (8)
+Node    24  Field   prot    publicInheritance.cpp (11)
+Edge    0   1   -1  ReturnType  0
+Edge    0   2   0   Member  0
+Edge    2   0   0   MemberOf  0
+Edge    2   3   2   Member  0
+Edge    3   2   2   MemberOf  0
+Edge    5   4   4   ParentType  0
+Edge    4   5   4   ChildType  0
+Edge    4   3   3   DefinitionOf  0
+Edge    3   4   3   InstanceOf  0
+Edge    6   7   -1  ReturnType  0
+Edge    6   8   6   FormalParameter  0
+Edge    8   6   6   MemberOf  0
+Edge    6   9   6   FormalParameter  0
+Edge    9   6   6   MemberOf  0
+Edge    9   10  2   WrittenBy  0
+Edge    10  9   2   CandidateRead  0
+Edge    8   10  2   WrittenBy  0
+Edge    10  8   2   CandidateRead  0
+Edge    11  1   -1  ReturnType  0
+Edge    11  12  11  Member  0
+Edge    12  11  11  MemberOf  0
+Edge    5   11  5   Member  0
+Edge    11  5   5   MemberOf  0
+Edge    11  13  11  Annotation  0
+Edge    14  7   -1  ReturnType  0
+Edge    14  15  14  FormalParameter  0
+Edge    15  14  14  MemberOf  0
+Edge    16  7   -1  ReturnType  0
+Edge    16  17  16  FormalParameter  0
+Edge    17  16  16  MemberOf  0
+Edge    9   18  2   WrittenBy  0
+Edge    18  9   2   CandidateRead  0
+Edge    8   19  2   WrittenBy  0
+Edge    19  8   2   CandidateRead  0
+Edge    20  1   -1  ReturnType  0
+Edge    20  21  20  Member  0
+Edge    21  20  20  MemberOf  0
+Edge    4   20  4   Member  0
+Edge    20  4   4   MemberOf  0
+Edge    20  13  20  Annotation  0
+Edge    3   20  2   Accesses  0
+Edge    20  3   2   CandidateRead  0
+Edge    8   18  2   WrittenBy  0
+Edge    18  8   2   CandidateRead  0
+Edge    0   22  2   ReturnValue  0
+Edge    11  23  12  ReturnValue  0
+Edge    20  24  21  ReturnValue  0

@@ -1,0 +1,23 @@
+Id;Label
+0;Method main
+1;TypeName int
+2;MethodScope --
+3;Field x
+4;TypeName bool
+5;Literal true
+6;While --
+7;Scope --
+8;While --
+9;Scope --
+10;While --
+11;Scope --
+12;Literal false
+13;Literal true
+14;Scope --
+15;Literal false
+16;DoWhile --
+17;Scope --
+18;DoWhile --
+19;Scope --
+20;DoWhile --
+21;Literal 0

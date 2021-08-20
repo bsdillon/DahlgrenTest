@@ -755,6 +755,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
                 head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
                 head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);
+                head.LeafDownModify("memberDeclaratorList", "memberDeclaratorList", CPPMultipleDeclarationsHandler);
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
@@ -765,6 +766,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
+                head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
@@ -3901,6 +3903,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <summary>
         /// Moves Method name from declarator to actual Method node
         /// Also names methods as Constructors when no declSpecifierSeq node exists
+        /// Also adds in the ModifierSet node for methods
         /// </summary>
         /// <param name="answer"></param>
         private void CPPMethodNameCorrector(IModifiable node)
@@ -3928,6 +3931,10 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Constructor);
             }
+
+            // add ModifierSet node
+            IModifiable modNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+            modNode.Parent = node;
         }
 
         /// <summary>
@@ -4142,6 +4149,24 @@ namespace SoftwareAnalyzer2.Tools
             ((IModifiable)node.Parent).RemoveChild((IModifiable)node.Parent.GetNthChild(0));
         }
 
+        /// <summary>
+        /// Changes modifiers into their respective node type.
+        /// </summary>
+        /// <param name="node"></param>
+        private void CPPModifierModifier(IModifiable node)
+        {            
+            switch(node.Code) 
+            {
+                // case "const":
+                //     node.SetNode(Members.Const);
+                //     break;
+                case "volatile":
+                    node.SetNode(Members.Volatile);
+                    break;
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
+        }
+        
         /// <summary>
         /// Handles Try_Catch nodes
         /// </summary>
@@ -4457,6 +4482,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPMemberSpecificationHandler(IModifiable node)
         {
+            // TODO: change accessSpecNode's parent to the ModifierSet node of the target - must come after variable instantiation checker step...
             List<INavigable> memberNodes = node.Children;
             node.DropChildren();
             // assume a class and not a struct for now
@@ -4665,10 +4691,56 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable parentNode = (IModifiable)node.Parent;
             if (parentNode.Node.Equals("initializer") || parentNode.Node.Equals("memberDeclarator") || parentNode.Node.Equals("assignmentExpression"))
             {
-                // TODO: fix error with int x = 0, y = 0 case
-                IModifiable targetNode = (IModifiable)parentNode.Parent.GetFirstRecursive(Members.Variable);
+                IModifiable targetNode;
+                if (parentNode.Node.Equals("memberDeclarator"))
+                {
+                    targetNode = (IModifiable)parentNode.GetFirstRecursive(Members.Variable);
+                }
+                else
+                {
+                    targetNode = (IModifiable)parentNode.Parent.GetFirstRecursive(Members.Variable);
+                }
                 node.Parent = targetNode;
                 parentNode.RemoveChild((IModifiable)parentNode.GetFirstRecursive(Members.Write));
+            }
+        }
+
+        /// <summary>
+        /// Adjusts the AST when multiple variables are declared on the same line
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPMultipleDeclarationsHandler(IModifiable node)
+        {
+            if (node.GetChildCount() > 1)
+            {
+                IModifiable memberSpecNode = (IModifiable)node.GetAncestor("memberSpecification");
+                List<INavigable> memberdeclarations = memberSpecNode.Children;
+                memberSpecNode.DropChildren();
+                foreach (IModifiable memberdeclaration in memberdeclarations)
+                {
+                    IModifiable memberDeclaratorList = (IModifiable)memberdeclaration.GetFirstSingleLayer("memberDeclaratorList");
+                    if (memberDeclaratorList != null && memberDeclaratorList.GetChildCount() > 1)
+                    {
+                        IModifiable typeNode = (IModifiable)memberdeclaration.GetNthChild(0);
+                        List<INavigable> memberDeclarators = memberDeclaratorList.Children;
+                        foreach (IModifiable memberDeclarator in memberDeclarators)
+                        {
+                            IModifiable copiedDeclaration = memberdeclaration.Clone();
+                            copiedDeclaration.DropChildren();
+                            copiedDeclaration.Parent = memberSpecNode;
+                            IModifiable copiedTypeNode = typeNode.Clone();
+                            copiedTypeNode.Parent = copiedDeclaration;
+                            IModifiable copiedMemberDeclaratorList = memberDeclaratorList.Clone();
+                            copiedMemberDeclaratorList.DropChildren();
+                            copiedMemberDeclaratorList.Parent = copiedDeclaration;
+                            memberDeclarator.Parent = copiedMemberDeclaratorList;
+                        }
+                    }
+                    else
+                    {
+                        memberdeclaration.Parent = memberSpecNode;
+                    }
+                }
             }
         }
 

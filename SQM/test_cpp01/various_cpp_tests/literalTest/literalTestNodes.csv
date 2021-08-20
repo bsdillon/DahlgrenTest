@@ -1,0 +1,68 @@
+Id;Label
+0;Method main
+1;TypeName int
+2;MethodScope --
+3;Method operator<<
+4;CLASS basic_ostream<char,std::char_traits<char> >
+5;Parameter _Val
+6;Literal true
+7;TypeName bool
+8;Method operator<<
+9;Parameter _Pfn
+10;Method name
+11;TypeName char
+12;Method operator<<<std::char_traits<char> >
+13;Parameter _Val
+14;Parameter _Ostr
+15;Method operator<<
+16;Parameter _Val
+17;Literal 3
+18;Literal 3
+19;Literal 4291
+20;Literal 9
+21;Method operator<<
+22;Parameter _Val
+23;Literal 3
+24;Method operator<<
+25;Parameter _Val
+26;Literal 3
+27;Method operator<<
+28;Parameter _Val
+29;Literal 3
+30;Method operator<<
+31;Parameter _Val
+32;Literal 0.29999999999999999
+33;TypeName double
+34;Literal 3
+35;Literal 3.1200000000000001
+36;Literal 523264
+37;Literal 1
+38;Literal 0.0355224609375
+39;Method operator<<
+40;Parameter _Val
+41;Literal 3.11999989
+42;TypeName float
+43;Method operator<<
+44;Parameter _Val
+45;Literal 3.1200000000000001
+46;Method operator<<<std::char_traits<char> >
+47;Parameter _Ch
+48;Parameter _Ostr
+49;Literal 
+
+50;Literal 
+
+51;Literal 29483
+52;Literal 127820
+53;Literal 946
+54;Literal 16706
+55;Literal 66
+56;Literal "hello"
+57;Literal "goodbye"
+58;Method operator<<
+59;Parameter _Val
+60;Literal "hello"
+61;Literal "hello\\n"
+62;Method operator<<<void>
+63;Parameter --
+64;Literal 0

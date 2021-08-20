@@ -1,0 +1,77 @@
+Id;Label
+0;Method main
+1;TypeName int
+2;MethodScope --
+3;ArrayInvoke array
+4;Field array
+5;Field p
+6;Scope --
+7;Field stringVec
+8;CLASS vector<std::basic_string<char,std::char_traits<char>,std::allocator<char> >,std::allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > >
+9;CLASS basic_string<char,std::char_traits<char>,std::allocator<char> >
+10;Field q
+11;Scope --
+12;Field strCount
+13;Field r
+14;Scope --
+15;Field s
+16;Scope --
+17;Field t
+18;Scope --
+19;Literal 0
+20;ForEachLoop --
+21;Scope --
+22;Method operator<<
+23;CLASS basic_ostream<char,std::char_traits<char> >
+24;Parameter _Val
+25;Method operator<<
+26;Parameter _Pfn
+27;TypeName --
+28;Literal 1
+29;Literal "yes"
+30;Method basic_string
+31;TypeName void
+32;Parameter _Ptr
+33;TypeName char
+34;Literal "no"
+35;Literal "maybe"
+36;Literal "sometimes"
+37;Literal "often"
+38;Literal "perhaps"
+39;Method allocator
+40;Method vector
+41;Parameter _Al
+42;CLASS allocator<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >
+43;Parameter _Ilist
+44;CLASS initializer_list<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >
+45;Method ~basic_string
+46;Method begin
+47;CLASS _Vector_iterator<std::_Vector_val<std::_Simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > >
+48;Method end
+49;Method operator!=
+50;TypeName bool
+51;Parameter _Right
+52;CLASS _Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::basic_string<char,std::char_traits<char>,std::allocator<char> > > > >
+53;ForEachLoop --
+54;Scope --
+55;Method operator*
+56;Method basic_string
+57;Parameter _Right
+58;Method operator<<<char,std::char_traits<char>,std::allocator<char> >
+59;Parameter _Str
+60;Parameter _Ostr
+61;Method operator++
+62;Literal 0
+63;ForEachLoop --
+64;Scope --
+65;Literal 1
+66;ForEachLoop --
+67;Scope --
+68;ForEachLoop --
+69;Scope --
+70;Method operator<<<std::char_traits<char> >
+71;Parameter _Val
+72;Parameter _Ostr
+73;Literal ", well, "
+74;Literal 0
+75;Method ~vector

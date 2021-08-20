@@ -1,0 +1,85 @@
+Id;Label
+0;Method operator==
+1;TypeName bool
+2;MethodScope --
+3;Parameter rhs
+4;CLASS Car
+5;Field brand
+6;CLASS basic_string<char,std::char_traits<char>,std::allocator<char> >
+7;Public --
+8;Field model
+9;Field year
+10;TypeName int
+11;Parameter lhs
+12;Method operator==<char,std::char_traits<char>,std::allocator<char> >
+13;Parameter _Right
+14;Parameter _Left
+15;Method bigFunny
+16;MethodScope --
+17;Parameter rhs
+18;Parameter lhs
+19;Field returnable
+20;Method main
+21;MethodScope --
+22;Field carObj1
+23;Field carObj2
+24;Field instance
+25;CLASS MyClass
+26;Field priv
+27;Private --
+28;Field prot
+29;Protected --
+30;Field pub
+31;Field pointy
+32;Field newInstance
+33;Literal "X5"
+34;Method basic_string
+35;TypeName void
+36;Parameter _Ptr
+37;TypeName char
+38;Literal "BMW"
+39;Constructor Car
+40;MethodScope --
+41;Parameter z
+42;Parameter y
+43;Parameter x
+44;Literal 1999
+45;Literal "Mustang"
+46;Literal "Ford"
+47;Literal 1969
+48;Method operator<<<char,std::char_traits<char>,std::allocator<char> >
+49;CLASS basic_ostream<char,std::char_traits<char> >
+50;Parameter _Str
+51;Parameter _Ostr
+52;Method operator<<<std::char_traits<char> >
+53;Parameter _Val
+54;Parameter _Ostr
+55;Literal " "
+56;Literal " "
+57;Literal " "
+58;Method operator<<
+59;Parameter _Val
+60;Literal "\n"
+61;Literal " "
+62;Literal "\n"
+63;Literal "\n"
+64;Method operator<<
+65;Parameter _Val
+66;Literal "\n"
+67;Literal 2100
+68;Constructor MyClass
+69;MethodScope --
+70;Parameter pub
+71;Literal 13
+72;Method returnZero
+73;MethodScope --
+74;Static --
+75;Method dubiousCopy
+76;MethodScope --
+77;Field copyInstance
+78;Literal 0
+79;Method ~basic_string
+80;Method basic_string
+81;Method operator=
+82;Parameter _Right
+83;Literal 0
