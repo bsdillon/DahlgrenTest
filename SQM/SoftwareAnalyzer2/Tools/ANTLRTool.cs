@@ -4224,6 +4224,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else
             {
+                // TODO: collapse instead?
                 IModifiable temp = (IModifiable)node.GetNthChild(0);
                 ((IModifiable)node.Parent).ReplaceChild(node, temp);
             }
@@ -4530,6 +4531,10 @@ namespace SoftwareAnalyzer2.Tools
                     while (targetNode.GetChildCount() > 0)
                     {
                         targetNode = (IModifiable)targetNode.GetNthChild(0);
+                    }
+                    if (targetNode.Node.Equals(Members.ParameterList))
+                    {
+                        targetNode = (IModifiable)targetNode.Parent;
                     }
                     child.Parent = targetNode;
                 }

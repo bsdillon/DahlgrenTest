@@ -43,6 +43,7 @@ namespace SoftwareAnalyzer2.Language
             classes.Add("bool");
             classes.Add("float");
             classes.Add("double");
+            classes.Add("Object");
             
             // because this is C, every class (aka struct OR type) may have a pointer variant
             foreach (string s in new List<string>(classes)) {
