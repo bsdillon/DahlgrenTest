@@ -53,6 +53,7 @@ namespace SoftwareAnalyzer2.Structure
         Cast,
         CatchScope,
         CLASS,
+        Const,
         Constructor,
         ConstructorInvoke,
         Continue,

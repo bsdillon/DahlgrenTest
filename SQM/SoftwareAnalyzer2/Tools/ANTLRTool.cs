@@ -181,8 +181,8 @@ namespace SoftwareAnalyzer2.Tools
                             // does not appear to understand array type widths like "int[][3]"
                             // and they compile to "T*" anyway.
                             foreach (string type in "int,double,float".Split(',')) {
-                                translated_line = Regex.Replace(translated_line, @"(^"+type+@")\s+([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"* $2");
-                                translated_line = Regex.Replace(translated_line, @"(\t|\s)+"+type+@"\s+([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"* $2");
+                                translated_line = Regex.Replace(translated_line, @"(^"+type+@")\s*([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"* $2");
+                                translated_line = Regex.Replace(translated_line, @"(\t|\s|\W){1}("+type+@"\s*)([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", "$1"+type+"* $3");
                             }
                         }
 
@@ -765,6 +765,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
+                head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
+                head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
 
@@ -794,6 +796,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("postfixExpression", "( )");
                 head.Collapse("assignmentExpression");
                 head.Collapse("initializer");
+                //head.Collapse("initDeclarator");
+                head.Collapse("initDeclaratorList");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -4157,9 +4161,9 @@ namespace SoftwareAnalyzer2.Tools
         {            
             switch(node.Code) 
             {
-                // case "const":
-                //     node.SetNode(Members.Const);
-                //     break;
+                case "const":
+                    node.SetNode(Members.Const);
+                    break;
                 case "volatile":
                     node.SetNode(Members.Volatile);
                     break;
@@ -4277,6 +4281,10 @@ namespace SoftwareAnalyzer2.Tools
                         node.RemoveChild((IModifiable)node.GetNthChild(1));
                     }
                 }
+            }
+            else if (node.Code.Equals("[ ]"))
+            {
+                node.SetNode("indexNode");
             }
             else
             {
@@ -4485,9 +4493,16 @@ namespace SoftwareAnalyzer2.Tools
             // TODO: change accessSpecNode's parent to the ModifierSet node of the target - must come after variable instantiation checker step...
             List<INavigable> memberNodes = node.Children;
             node.DropChildren();
-            // assume a class and not a struct for now
-            // TODO: struct
-            IModifiable accessSpecNode = (IModifiable)NodeFactory.CreateNode(Members.Private, false);
+            IModifiable accessSpecNode;
+            if (node.Parent.GetFirstRecursive("classHead").GetNthChild(0).Code.Equals("class"))
+            {
+                accessSpecNode = (IModifiable)NodeFactory.CreateNode(Members.Private, false);
+            }
+            else 
+            {
+                // struct and union are public by default
+                accessSpecNode = (IModifiable)NodeFactory.CreateNode(Members.Public, false);
+            }
             foreach (IModifiable memberNode in memberNodes)
             {
                 if (memberNode.Node.Equals("accessSpecifier"))
@@ -4742,6 +4757,57 @@ namespace SoftwareAnalyzer2.Tools
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Properly orders Index nodes - this operation can't take place in CPPPostFixHandler since it must be LeafDownModify
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPIndexOrderer(IModifiable node)
+        {
+            //TODO: reorder so that Index nodes appear before DotOperator(? - needs more testing)
+            IModifiable indexNode = (IModifiable)NodeFactory.CreateNode(Members.Index, false);
+            indexNode.Parent = node.GetNthChild(0);
+
+            node.GetNthChild(1).Parent = indexNode;
+            node.RemoveChild((IModifiable)node.GetNthChild(1));
+            ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+        }
+
+        /// <summary>
+        /// Adds the ModifierSet node to member fields
+        /// Also moves access specifiers into those nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPMemberModifierSetAdjuster(IModifiable node)
+        {
+            IModifiable modSetNode;
+            if (node.GetFirstSingleLayer(Members.Type) != null)
+            {
+                modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                modSetNode.Parent = node;
+            }
+            else
+            {
+                modSetNode = (IModifiable)node.GetNthChild(0).GetFirstSingleLayer(MemberSets.ModifierSet);
+            }
+            IModifiable accessSpecNode = null;
+            if (node.GetFirstSingleLayer(Members.Public) != null)
+            {
+                accessSpecNode = (IModifiable)node.GetFirstSingleLayer(Members.Public);
+                node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.Public));
+            }
+            else if (node.GetFirstSingleLayer(Members.Private) != null)
+            {
+                accessSpecNode = (IModifiable)node.GetFirstSingleLayer(Members.Private);
+                node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.Private));
+            }
+            else if (node.GetFirstSingleLayer(Members.Protected) != null)
+            {
+                accessSpecNode = (IModifiable)node.GetFirstSingleLayer(Members.Protected);
+                node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.Protected));
+            }
+            accessSpecNode.Parent = modSetNode;
         }
 
         #endregion
