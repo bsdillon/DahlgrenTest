@@ -11,6 +11,8 @@ int main() {
   int uniform[]{0,1,2};
   int multi [3][2] = {{0,1}, {2,3}, {4,5}};
   
+  int multiUnknown [][2] = {{0,1}, {0,1}, {2,3}, {4,5}};
+  
   for (int i : uniform) {
       cout<<i<<endl;
   }

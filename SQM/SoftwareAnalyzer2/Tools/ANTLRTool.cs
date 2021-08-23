@@ -181,8 +181,8 @@ namespace SoftwareAnalyzer2.Tools
                             // does not appear to understand array type widths like "int[][3]"
                             // and they compile to "T*" anyway.
                             foreach (string type in "int,double,float".Split(',')) {
-                                translated_line = Regex.Replace(translated_line, @"(^"+type+@")\s*([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", type+"* $2");
-                                translated_line = Regex.Replace(translated_line, @"(\t|\s|\W){1}("+type+@"\s*)([a-zA-Z0-9]*)\s*(\[[0-9]*\]\s*)+", "$1"+type+"* $3");
+                                translated_line = Regex.Replace(translated_line, @"(^"+type+@")\s*([a-zA-Z0-9]*)\s*(\[\]\s*){1}(\[[0-9]+\])+", type+"* $2");
+                                translated_line = Regex.Replace(translated_line, @"(\t|\s|\W){1}("+type+@")\s*([a-zA-Z0-9]*)\s*(\[\]\s*){1}(\[[0-9]+\])+", "$1"+type+"* $3");
                             }
                         }
 
@@ -728,6 +728,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("exceptionDeclaration", Members.Field);
                 head.Rename("unqualifiedId", Members.Variable);
                 head.Rename("qualifiedId", Members.Variable);
+                head.Rename("shiftOperator", Members.Operator);
                 
                 // clear out pointer stuff early since SQM doesn't care for it
                 head.Collapse("pointerOperator", "*");
@@ -736,7 +737,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
-                head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", ReparentChildren);
+                head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPnoPointerDeclaratorHandler);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
                 head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateHandler);
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
@@ -755,7 +756,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
                 head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
                 head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);
-                head.LeafDownModify("memberDeclaratorList", "memberDeclaratorList", CPPMultipleDeclarationsHandler);
+                head.LeafDownModify("memberDeclaratorList", "memberDeclaratorList", CPPMultipleMemberDeclarationsHandler);
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
@@ -767,6 +768,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
+                head.RootUpModify("declarationStatement", "declarationStatement", CPPFieldIdentifier);
+                head.RootUpModify(Members.MethodScope, Members.MethodScope, CPPFieldPlacer);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
 
@@ -777,6 +780,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
+                head.RootUpModify("simpleDeclaration", "simpleDeclaration", ReparentChildren);
 
                 //head.Collapse("theTypeId");
                 //head.Collapse("typeSpecifierSeq");
@@ -793,11 +797,16 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("functionBody");
                 head.Collapse("statement");
                 head.Collapse("expression");
+                head.Collapse("expressionStatement", ";");
                 head.Collapse("postfixExpression", "( )");
+                head.Collapse("primaryExpression", "( )");
                 head.Collapse("assignmentExpression");
                 head.Collapse("initializer");
                 //head.Collapse("initDeclarator");
                 head.Collapse("initDeclaratorList");
+                //head.Collapse("memberDeclarator");
+                head.Collapse("memberDeclaratorList");
+                head.Collapse("declarationStatement");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -3864,6 +3873,18 @@ namespace SoftwareAnalyzer2.Tools
                 }
             }
         }
+        
+        /// <summary>
+        /// Properly prepares noPointerDeclarator nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPnoPointerDeclaratorHandler(IModifiable node)
+        {
+            if (node.Code.Equals(""))
+            {
+                ReparentChildren(node);
+            }
+        }
 
         /// <summary>
         /// Converts Scope nodes to MethodScope or ElseScope nodes as appropriate
@@ -4166,6 +4187,9 @@ namespace SoftwareAnalyzer2.Tools
                     break;
                 case "volatile":
                     node.SetNode(Members.Volatile);
+                    break;
+                default:
+                    throw new InvalidCastException("Unknown modifier: " + node.Code);
                     break;
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
@@ -4681,11 +4705,17 @@ namespace SoftwareAnalyzer2.Tools
                 node.DropChildren();
                 IModifiable modifierSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
                 modifierSetNode.Parent = node;
+                bool isArray = false;
                 foreach (IModifiable child in children)
                 {
                     if (child.Node.Equals(Members.Variable))
                     {
                         child.Parent = node;
+                    }
+                    else if (child.Node.Equals("noPointerDeclarator"))
+                    {
+                        child.GetNthChild(0).Parent = node;
+                        isArray = true;
                     }
                     else
                     {
@@ -4693,6 +4723,11 @@ namespace SoftwareAnalyzer2.Tools
                         typeNode.Parent = node;
                         child.Parent = typeNode;
                     }
+                }
+                if (isArray)
+                {
+                    IModifiable targetNode = (IModifiable)node.GetFirstSingleLayer(Members.Type).GetNthChild(0);
+                    targetNode.AddCode("[]", targetNode);
                 }
             }
         }
@@ -4717,14 +4752,23 @@ namespace SoftwareAnalyzer2.Tools
                 }
                 node.Parent = targetNode;
                 parentNode.RemoveChild((IModifiable)parentNode.GetFirstRecursive(Members.Write));
+                /**
+                if (targetNode.Parent.Node.Equals("noPointerDeclarator"))
+                {
+                    // TODO: get the array type and add that to the code here...
+                    IModifiable noPointerNode = (IModifiable)targetNode.Parent;
+                    ((IModifiable)noPointerNode.Parent).ReplaceChild(noPointerNode, targetNode);
+
+                }
+                **/
             }
         }
 
         /// <summary>
-        /// Adjusts the AST when multiple variables are declared on the same line
+        /// Adjusts the AST when multiple member variables are declared on the same line
         /// </summary>
         /// <param name="answer"></param>
-        private void CPPMultipleDeclarationsHandler(IModifiable node)
+        private void CPPMultipleMemberDeclarationsHandler(IModifiable node)
         {
             if (node.GetChildCount() > 1)
             {
@@ -4757,6 +4801,15 @@ namespace SoftwareAnalyzer2.Tools
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Adjusts the AST when multiple member variables are declared on the same line
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPMultipleInitDeclarationsHandler(IModifiable node)
+        {
+            // TODO: this - see noobar.cpp
         }
 
         /// <summary>
@@ -4808,6 +4861,48 @@ namespace SoftwareAnalyzer2.Tools
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.Protected));
             }
             accessSpecNode.Parent = modSetNode;
+        }
+
+        /// <summary>
+        /// Checks that an element is being called for the first time via the existence of a Type node, and makes that a Field node
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPFieldIdentifier(IModifiable node)
+        {
+            if (node.GetFirstRecursive(Members.Type) != null)
+            {
+                node.SetNode(Members.Field);
+            }
+        }
+
+        /// <summary>
+        /// Adds the Fields node to MethodScope nodes and moves the fields into it
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPFieldPlacer(IModifiable node)
+        {
+            // only add a Fields node if there are Fields to add
+            // pay attention to this - GetFirstRecursive may not be ideal
+            // consider moving the Collapse("statement") up and then doing GetFirstSingleLayer
+            if (node.GetFirstRecursive(Members.Field) !=  null)
+            {
+                List<INavigable> methodScopeChildren = node.Children;
+                node.DropChildren();
+                IModifiable fieldsNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Fields, false);
+                foreach (IModifiable child in methodScopeChildren)
+                {
+                    if (child.GetNthChild(0).Node.Equals(Members.Field))
+                    {
+                        child.Parent = fieldsNode;
+                    }
+                    else
+                    {
+                        child.Parent = node;
+                    }
+                }
+                fieldsNode.Parent = node;
+            }
+
         }
 
         #endregion
