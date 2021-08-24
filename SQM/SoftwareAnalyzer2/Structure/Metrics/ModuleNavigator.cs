@@ -836,7 +836,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                     {
                                         lineUsed = true;
                                         //line number matches an edge, trace it further
-                                        GraphNode.FindCSVConnections(fileNameKeyMod, lineNum, fileStem);
+                                        AffectedTree at = new AffectedTree();
+                                        at.FindCSVConnections(fileNameKeyMod, lineNum, fileStem);
                                     }
                                     else
                                     {

@@ -168,6 +168,7 @@
     <Compile Include="Structure\Metrics\NodePatternMetrics.cs" />
     <Compile Include="Structure\Metrics\QAlgorithm.cs" />
     <Compile Include="Structure\Metrics\StateCounter.cs" />
+    <Compile Include="Structure\Metrics\AffectedTree.cs" />
     <Compile Include="Structure\Metrics\StateMachine.cs" />
     <Compile Include="Structure\Metrics\StateMachineMetrics.cs" />
     <Compile Include="Structure\Metrics\StatePatternMetrics.cs" />
