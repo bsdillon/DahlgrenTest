@@ -15,6 +15,7 @@ enum elements {plastic, meat, metal, smoke};
 
 static int mul_add(int x, int y, int z) {
 	int q = z;
+	q = x + y + z;
 	return x * y + z;
 }
 

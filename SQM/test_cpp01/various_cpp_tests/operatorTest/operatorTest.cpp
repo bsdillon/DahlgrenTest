@@ -39,6 +39,7 @@ int main(){
 	int ab = 100%60;
 	
 	int zz = ((a+g)*n)%y;
+	int zzz = a+b+c+d+e+f;
 	
 	//compound assignment
 	a += m;
