@@ -12,8 +12,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 {
     class AffectedTree
     {
-        private Dictionary<string, Dictionary<int, List<GraphNode>>> affectedDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
         private Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = GraphNode.GetLineNumDict();
+        private AffectedLine al;
+
         public AffectedTree()
         {
         }
@@ -26,19 +27,16 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             List<GraphNode> relatedGNodes = lineNumDict[fileName][lineNum];
 
+            al = new AffectedLine();
             //find all graphnodes that are related to the line number entered by the user
             FindAffectedNodes(relatedGNodes);
-
+            
             //csv output
-            OutputCSVErrors(gFile, fileName, lineNum);
-
-            affectedDict.Clear();
+            al.OutputCSVErrors(gFile, fileName, lineNum);
             gFile.Close();
         }
-        //luTODO -- move these functions to a different file within metrics folder
+
         //luTODO -- make the tracing errors silent and output them within an output file
-        //luTODO -- look at statemachine, create object for showing relationship
-        //luTODO -- monday create a data structure to hold things (tree starts from original error input -> branch, if a previous branch has been traced, ignore)
         private void FindAffectedNodes(List<GraphNode> gNodes)
         {
             //for every affected graph node, trace the relationships down the chain until everything has been traced
@@ -86,7 +84,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             {
                 gn.traced = true;
                 //this line seems to be neccessary to trace everything. maybe redundant in some cases
-                WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -97,7 +95,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         {
                             if (grphNde.Represented.Node.GetMyMember() != Members.Literal)
                             {
-                                WriteStatementToAffectedDict(gn, grphNde, r);
+                                al.WriteStatementToAffectedDict(gn, grphNde, r);
                             }
 
                             //field wants to trace back to anything it is related to.
@@ -157,7 +155,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             if (!gn.traced)
             {
                 gn.traced = true;
-                WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -165,7 +163,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
                         {
-                            WriteStatementToAffectedDict(gn, grphNde, r);
+                            al.WriteStatementToAffectedDict(gn, grphNde, r);
 
                             if (grphNde.Represented.Node.Equals(Members.Method))
                             {
@@ -208,7 +206,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             if (!gn.traced)
             {
                 gn.traced = true;
-                WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, -1, false);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, -1, false);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -216,7 +214,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
                         {
-                            WriteStatementToAffectedDict(gn, grphNde, r);
+                            al.WriteStatementToAffectedDict(gn, grphNde, r);
                         }
                     }
                     //return value is neccesary in some but not others (subject to change)
@@ -224,7 +222,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         foreach (GraphNode grphNode in gn.GetRelationshipsTo()[r].Keys)
                         {
-                            WriteStatementToAffectedDict(gn, grphNode, r);
+                            al.WriteStatementToAffectedDict(gn, grphNode, r);
                             TraceReturnValue(grphNode);
                         }
                     }
@@ -250,7 +248,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         for (int i = t.Item1; i <= t.Item2; i++)
                         {
                             //maybe find relationships of the line numbers eventually (subject to change)
-                            WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, i, false);
+                            al.WriteToAffectedDict(gn, gn.Represented.FileName, i, false);
                         }
                     }
                 }
@@ -266,7 +264,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 if (gn.Represented.Node.Equals(Members.Field))
                 {
-                    WriteToAffectedDict(affectedDict, gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
+                    al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
                 }
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
@@ -320,101 +318,5 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
         */
-        //luTODO -- take simulated data, mark it, terminate tracing at that point
-        //luTODO -- fix the fibonacci error
-        private static void WriteToAffectedDict(Dictionary<string, Dictionary<int, List<GraphNode>>> dict, GraphNode gn, string fileName, int lineNumber, bool trimFileN)
-        {
-            //simulated graphnodes are not very meaningful for tracing errors
-            if (fileName != null && !gn.IsSimulated)
-            {
-                //trim filename for affected dict, but not linenumber dict
-                if (trimFileN && fileName.LastIndexOf(Path.DirectorySeparatorChar) > 0)
-                {
-                    fileName = fileName.Substring(fileName.LastIndexOf(Path.DirectorySeparatorChar));
-                }
-
-                Dictionary<int, List<GraphNode>> gnLine = new Dictionary<int, List<GraphNode>>();
-                gnLine[lineNumber] = new List<GraphNode>();
-                gnLine[lineNumber].Add(gn);
-
-                //add to linenumber dictionary
-                //does the dict contain the filename?
-                if (!dict.ContainsKey(fileName))
-                {
-                    dict.Add(fileName, gnLine);
-                }
-                else
-                {
-                    //if the dict contains the filename, does it also contain the line number?
-                    if (dict[fileName].ContainsKey(lineNumber))
-                    {
-                        //if it doesn't contain the exact graphnode we are inserting, insert it
-                        if (!dict[fileName][lineNumber].Contains(gn))
-                        {
-                            dict[fileName][lineNumber].Add(gn);
-                        }
-                    }
-                    else
-                    {
-                        //if it doesn't contain the line number, safe to insert.
-                        dict[fileName].Add(lineNumber, gnLine[lineNumber]);
-                    }
-                }
-            }
-        }
-
-        private void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r)
-        {
-            //simulated graphnodes are not very meaningful for tracing errors
-            if (!gn.IsSimulated)
-            {
-                foreach (Statement s in gn.GetRelationshipsTo()[r][grphNde])
-                {
-                    //check if affectedDict contains the filename we are trying to insert
-                    if (!affectedDict.ContainsKey(s.Represented.FileName))
-                    {
-                        Dictionary<int, List<GraphNode>> iGNList = new Dictionary<int, List<GraphNode>>();
-                        List<GraphNode> smallGList = new List<GraphNode>();
-                        smallGList.Add(grphNde);
-                        iGNList[s.Represented.GetLineStart()] = smallGList;
-                        affectedDict[s.Represented.FileName] = iGNList;
-                    }
-                    //if affectedDict contains the filename, does it also contain the line number we are trying to insert?
-                    else if (!affectedDict[s.Represented.FileName].ContainsKey(s.Represented.GetLineStart()))
-                    {
-                        List<GraphNode> gnList = new List<GraphNode>();
-                        gnList.Add(grphNde);
-                        affectedDict[s.Represented.FileName][s.Represented.GetLineStart()] = gnList;
-                    }
-                }
-            }
-        }
-
-        //this output is subject to change based on safety's needs
-        public void OutputCSVErrors(StreamWriter file, string tracingFile, int tracingLineNumber)
-        {
-            foreach (string fN in affectedDict.Keys)
-            {
-                string fnModded = fN;
-                if (fN.LastIndexOf(Path.DirectorySeparatorChar) > 0)
-                {
-                    fnModded = fnModded.Substring(fnModded.LastIndexOf(Path.DirectorySeparatorChar));
-                }
-                foreach (int lN in affectedDict[fN].Keys)
-                {
-                    List<GraphNode> gnList = affectedDict[fN][lN];
-                    //output affected filename, linenumber, and nodetype
-                    string gnListStr = "";
-                    foreach (GraphNode g in gnList)
-                    {
-                        gnListStr += g.Represented.Node.ToString() + ",";
-                    }
-                    if (gnListStr != "")
-                    {
-                        file.WriteLine(tracingFile + "[" + tracingLineNumber.ToString() + "]," + fN + "," + lN + "," + gnListStr);
-                    }
-                }
-            }
-        }
     }
 }
