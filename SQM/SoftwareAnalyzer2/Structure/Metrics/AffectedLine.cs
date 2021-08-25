@@ -12,6 +12,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 {
     class AffectedLine
     {
+        //dictionary: <file name (string), dictionary: <line number (int), List<affected graphnodes (graphnode)>>>
         private Dictionary<string, Dictionary<int, List<GraphNode>>> affectedDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
         //luTODO - create or add on to dictionary here that describes where things were affected from
         public AffectedLine()

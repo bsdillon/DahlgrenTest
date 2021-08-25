@@ -12,7 +12,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 {
     class AffectedTree
     {
-        //private Dictionary<string, Dictionary<int, List<GraphNode>>> affectedDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
         private Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = GraphNode.GetLineNumDict();
         private AffectedLine al;
 
@@ -36,10 +35,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             al.OutputCSVErrors(gFile, fileName, lineNum);
             gFile.Close();
         }
-        //luTODO -- move these functions to a different file within metrics folder
+
         //luTODO -- make the tracing errors silent and output them within an output file
-        //luTODO -- look at statemachine, create object for showing relationship
-        //luTODO -- monday create a data structure to hold things (tree starts from original error input -> branch, if a previous branch has been traced, ignore)
         private void FindAffectedNodes(List<GraphNode> gNodes)
         {
             //for every affected graph node, trace the relationships down the chain until everything has been traced
