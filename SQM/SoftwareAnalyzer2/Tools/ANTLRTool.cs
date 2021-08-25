@@ -734,7 +734,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("exceptionDeclaration", Members.Field);
                 head.Rename("unqualifiedId", Members.Variable);
                 head.Rename("qualifiedId", Members.Variable);
-                head.Rename("shiftOperator", Members.Operator);
+                //head.Rename("shiftOperator", Members.Operator);
                 
                 // clear out pointer stuff early since SQM doesn't care for it
                 head.Collapse("pointerOperator", "*");
@@ -778,13 +778,17 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
                 head.RootUpModify("declarationStatement", "declarationStatement", CPPFieldIdentifier);
                 head.RootUpModify(Members.MethodScope, Members.MethodScope, CPPFieldPlacer);
-                head.RootUpModify("literal", Members.Literal, LiteralModifier);
-                head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
+                head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
                 head.Rename("logicalAndExpression", Members.Boolean_And);
                 head.Rename("logicalOrExpression", Members.Boolean_Or);
+
+                head.LeafDownModify(Members.Operator, Members.Operator, CPPOperatorOrderer);
+                head.RootUpModify("literal", Members.Literal, LiteralModifier);
+                head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
+
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
@@ -4363,11 +4367,18 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.GetNthChild(0).Code.Equals("!"))
             {
+                // TODO: pack these together
                 ((IModifiable)node.GetNthChild(0)).SetNode(Members.Boolean_Not);
+                node.GetNthChild(1).Parent = node.GetNthChild(0);
+                node.RemoveChild((IModifiable)node.GetNthChild(1));
+                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
             else if (node.GetNthChild(0).Code.Equals("-"))
             {
                 ((IModifiable)node.GetNthChild(0)).SetNode(Members.Operator);
+                node.GetNthChild(1).Parent = node.GetNthChild(0);
+                node.RemoveChild((IModifiable)node.GetNthChild(1));
+                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
             else if (node.Code.Equals("++") || node.Code.Equals("--"))
             {
@@ -4911,6 +4922,8 @@ namespace SoftwareAnalyzer2.Tools
             if (node.GetFirstRecursive(Members.Type) != null)
             {
                 node.SetNode(Members.Field);
+                IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                modSetNode.Parent = node;
             }
         }
 
@@ -4942,6 +4955,51 @@ namespace SoftwareAnalyzer2.Tools
                 fieldsNode.Parent = node;
             }
 
+        }
+
+        /// <summary>
+        /// moves shiftOperator code into the Operator, which was a shiftExpression, in order to make way for Operator-handling code
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPShiftExpressionCompressor(IModifiable node)
+        {
+            List<INavigable> shiftExpressionChildren = node.Children;
+            node.DropChildren();
+            foreach (IModifiable child in shiftExpressionChildren)
+            {
+                if (child.Node.Equals("shiftOperator"))
+                {
+                    string operatorChar = String.Concat(child.Code.Where(c => !Char.IsWhiteSpace(c)));
+                    node.AddCode(operatorChar, child);
+                }
+                else
+                {
+                    child.Parent = node;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Counts the number of space-separated operators used and pairs off child nodes to make Operator nodes more resemble the Java
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPOperatorOrderer(IModifiable node)
+        {
+            List<String> operations = node.Code.Split(' ').ToList();
+            while (operations.Count > 1)
+            {
+                IModifiable firstOperand = (IModifiable)node.GetNthChild(0);
+                IModifiable secondOperand = (IModifiable)node.GetNthChild(1);
+                node.RemoveChild(secondOperand);
+                IModifiable operatorNode = (IModifiable)NodeFactory.CreateNode(Members.Operator, false);
+                operatorNode.AddCode(operations[0], node);
+                operations.RemoveAt(0);
+                firstOperand.Parent = operatorNode;
+                secondOperand.Parent = operatorNode;
+                node.ReplaceChild(firstOperand, operatorNode);
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
+            node.AddCode(operations[0], node);
         }
 
         /// <summary>
