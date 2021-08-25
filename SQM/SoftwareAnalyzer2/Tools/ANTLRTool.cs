@@ -180,9 +180,9 @@ namespace SoftwareAnalyzer2.Tools
                             // Transform all primitive T[*][*] into T* because ANTLR
                             // does not appear to understand array type widths like "int[][3]"
                             // and they compile to "T*" anyway.
-                            foreach (string type in "int,double,float".Split(',')) {
-                                translated_line = Regex.Replace(translated_line, @"(^"+type+@")\s*([a-zA-Z0-9]*)\s*(\[\]\s*){1}(\[[0-9]+\])+", type+"* $2");
-                                translated_line = Regex.Replace(translated_line, @"(\t|\s|\W){1}("+type+@")\s*([a-zA-Z0-9]*)\s*(\[\]\s*){1}(\[[0-9]+\])+", "$1"+type+"* $3");
+                            foreach (string type in lang.NativeClasses) {
+                                translated_line = Regex.Replace(translated_line, @"(^"+type+@")\s*(\[\]\s*){1}(\[[0-9]+\])+", type+"*");
+                                translated_line = Regex.Replace(translated_line, @"(\t|\s|\W){1}("+type+@")\s*(\[\]\s*){1}(\[[0-9]+\])+", "$1"+type+"*");
                             }
                         }
 
@@ -751,12 +751,14 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("iterationStatement", "iterationStatement", CPPIterationStatementHandler);
                 head.RootUpModify("jumpStatement", "jumpStatement", CPPJumpStatementHandler);
                 head.RootUpModify("assignmentExpression", "assignmentExpression", CPPAssignmentExpressionHandler);
+                head.RootUpModify("initializerList", Members.ParameterList, CPPInitializerListChecker);
                 head.RootUpModify("postfixExpression", "postfixExpression", CPPPostFixHandler);
                 head.RootUpModify("unaryExpression", "unaryExpression", CPPUnaryExpressionHandler);
                 head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
                 head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
                 head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);
                 head.LeafDownModify("memberDeclaratorList", "memberDeclaratorList", CPPMultipleMemberDeclarationsHandler);
+                head.RootUpModify("initDeclaratorList", "initDeclaratorList", CPPMultipleInitDeclarationsHandler);
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
@@ -804,7 +806,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("initializer");
                 //head.Collapse("initDeclarator");
                 head.Collapse("initDeclaratorList");
-                //head.Collapse("memberDeclarator");
+                head.Collapse("memberDeclarator");
                 head.Collapse("memberDeclaratorList");
                 head.Collapse("declarationStatement");
 
@@ -4243,6 +4245,23 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
+        /// Converts initializerList nodes to ParameterList nodes as appropriate
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPInitializerListChecker(IModifiable node)
+        {
+            // TODO: figure out what a memInitializerList is?
+            List<INavigable> parameterNodes = node.Children;
+            node.DropChildren();
+            foreach (IModifiable parameterNode in parameterNodes)
+            {
+                IModifiable newParamNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
+                newParamNode.Parent = node;
+                parameterNode.Parent = newParamNode;
+            }
+        }
+
+        /// <summary>
         /// Handles postfixExpressions
         /// </summary>
         /// <param name="answer"></param>
@@ -4278,32 +4297,31 @@ namespace SoftwareAnalyzer2.Tools
                     methodInvokeNode = (IModifiable)node.GetNthChild(0);
                     methodInvokeNode.SetNode(Members.MethodInvoke);
                 }
-                IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
-                parameterListNode.Parent = methodInvokeNode;
+
                 // TODO: params?
                 // in such a case, the parameters of the function follow after the would-be DotOperator
                 // copy nodes, drop children, put the future DotOperator back, add a ParameterList node, add Parameter nodes for each other child
                 if (node.GetChildCount() > 1)
                 {
-                    if (node.GetNthChild(1).Node.Equals("initializerList"))
+                    if (node.GetNthChild(1).Node.Equals(Members.ParameterList))
                     {
-                        List<INavigable> parameterNodes = node.GetNthChild(1).Children;
+                        node.GetNthChild(1).Parent = methodInvokeNode;
                         node.RemoveChild((IModifiable)node.GetNthChild(1));
-                        foreach (IModifiable parameterNode in parameterNodes)
-                        {
-                            //ooooh
-                            IModifiable newParamNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
-                            newParamNode.Parent = parameterListNode;
-                            parameterNode.Parent = newParamNode;
-                        }
                     }
                     else
                     {
+                        IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                        parameterListNode.Parent = methodInvokeNode;
                         IModifiable newParamNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
                         newParamNode.Parent = parameterListNode;
                         node.GetNthChild(1).Parent = newParamNode;
                         node.RemoveChild((IModifiable)node.GetNthChild(1));
                     }
+                }
+                else
+                {
+                    IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                    parameterListNode.Parent = methodInvokeNode;
                 }
             }
             else if (node.Code.Equals("[ ]"))
@@ -4514,7 +4532,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPMemberSpecificationHandler(IModifiable node)
         {
-            // TODO: change accessSpecNode's parent to the ModifierSet node of the target - must come after variable instantiation checker step...
             List<INavigable> memberNodes = node.Children;
             node.DropChildren();
             IModifiable accessSpecNode;
@@ -4804,12 +4821,42 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
-        /// Adjusts the AST when multiple member variables are declared on the same line
+        /// Adjusts the AST when multiple non-member variables are declared on the same line
         /// </summary>
         /// <param name="answer"></param>
         private void CPPMultipleInitDeclarationsHandler(IModifiable node)
         {
-            // TODO: this - see noobar.cpp
+            if (node.GetChildCount() > 1)
+            {
+                List<INavigable> initDeclarators = node.Children;
+                node.DropChildren();
+                IModifiable ancestorNode = (IModifiable)node.GetAncestor("statement");
+                if(ancestorNode == null)
+                {
+                    // may be outside of a function, like a global
+                    ancestorNode = (IModifiable)node.GetAncestor("declaration");
+                }
+                IModifiable priorParent = (IModifiable)ancestorNode.Parent;
+                List<INavigable> siblingNodes = priorParent.Children;
+                priorParent.DropChildren();
+                foreach (IModifiable child in siblingNodes)
+                {
+                    if (child == ancestorNode)
+                    {
+                        foreach (IModifiable initDeclarator in initDeclarators)
+                        {
+                            IModifiable newStatement = ancestorNode.Clone();
+                            newStatement.Parent = priorParent;
+                            IModifiable targetNode = (IModifiable)newStatement.GetFirstRecursive("initDeclaratorList");
+                            initDeclarator.Parent = targetNode;
+                        }
+                    }
+                    else
+                    {
+                        child.Parent = priorParent;
+                    }
+                }
+            }
         }
 
         /// <summary>
