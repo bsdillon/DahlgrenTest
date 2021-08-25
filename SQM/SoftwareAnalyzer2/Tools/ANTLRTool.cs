@@ -179,11 +179,17 @@ namespace SoftwareAnalyzer2.Tools
 
                             // Transform all primitive T[*][*] into T* because ANTLR
                             // does not appear to understand array type widths like "int[][3]"
-                            // and they compile to "T*" anyway.
-                            foreach (string type in lang.NativeClasses) {
-                                translated_line = Regex.Replace(translated_line, @"(^"+type+@")\s*(\[\]\s*){1}(\[[0-9]+\])+", type+"*");
-                                translated_line = Regex.Replace(translated_line, @"(\t|\s|\W){1}("+type+@")\s*(\[\]\s*){1}(\[[0-9]+\])+", "$1"+type+"*");
-                            }
+                            // and they compile to "T*" anyway. This syntax is only valid as a 
+                            // parameter and not assignment, therefore, three parameter cases 
+                            // are handled below.
+                            string justTypeReplacement    = @"$1$2*$5";
+                            string typeAndNameReplacement = @"$1*$2$3$6";
+                            translated_line = Regex.Replace(translated_line, @"(\(\s*){1}([a-zA-Z0-9]+)(\s+[a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", "$1$2*$3$6");
+                            translated_line = Regex.Replace(translated_line, @"(\(\s*){1}([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", justTypeReplacement);
+                            translated_line = Regex.Replace(translated_line, @"([a-zA-Z0-9]+)(\s+)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", typeAndNameReplacement);
+                            translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)\s*(\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", justTypeReplacement);
+                            translated_line = Regex.Replace(translated_line, @"([a-zA-Z0-9]+)(\s+)([a-zA-Z0-9]+)\s*(\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", typeAndNameReplacement);
+                            translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", justTypeReplacement);
                         }
 
                         // Additional translations may be added here as we see new parse issues crop up in the field,
@@ -737,7 +743,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
-                head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPnoPointerDeclaratorHandler);
+                head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPEarlyNoPointerDeclaratorHandler);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
                 head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateHandler);
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
@@ -809,6 +815,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("memberDeclarator");
                 head.Collapse("memberDeclaratorList");
                 head.Collapse("declarationStatement");
+                head.Collapse("constantExpression");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -3877,10 +3884,10 @@ namespace SoftwareAnalyzer2.Tools
         }
         
         /// <summary>
-        /// Properly prepares noPointerDeclarator nodes
+        /// Reparents empty noPointerDeclarators early in the program
         /// </summary>
         /// <param name="answer"></param>
-        private void CPPnoPointerDeclaratorHandler(IModifiable node)
+        private void CPPEarlyNoPointerDeclaratorHandler(IModifiable node)
         {
             if (node.Code.Equals(""))
             {
@@ -4722,7 +4729,6 @@ namespace SoftwareAnalyzer2.Tools
                 node.DropChildren();
                 IModifiable modifierSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
                 modifierSetNode.Parent = node;
-                bool isArray = false;
                 foreach (IModifiable child in children)
                 {
                     if (child.Node.Equals(Members.Variable))
@@ -4731,8 +4737,8 @@ namespace SoftwareAnalyzer2.Tools
                     }
                     else if (child.Node.Equals("noPointerDeclarator"))
                     {
+                        // TODO: may be several noPointers in a row - multiD arrays
                         child.GetNthChild(0).Parent = node;
-                        isArray = true;
                     }
                     else
                     {
@@ -4740,11 +4746,6 @@ namespace SoftwareAnalyzer2.Tools
                         typeNode.Parent = node;
                         child.Parent = typeNode;
                     }
-                }
-                if (isArray)
-                {
-                    IModifiable targetNode = (IModifiable)node.GetFirstSingleLayer(Members.Type).GetNthChild(0);
-                    targetNode.AddCode("[]", targetNode);
                 }
             }
         }
@@ -4769,15 +4770,6 @@ namespace SoftwareAnalyzer2.Tools
                 }
                 node.Parent = targetNode;
                 parentNode.RemoveChild((IModifiable)parentNode.GetFirstRecursive(Members.Write));
-                /**
-                if (targetNode.Parent.Node.Equals("noPointerDeclarator"))
-                {
-                    // TODO: get the array type and add that to the code here...
-                    IModifiable noPointerNode = (IModifiable)targetNode.Parent;
-                    ((IModifiable)noPointerNode.Parent).ReplaceChild(noPointerNode, targetNode);
-
-                }
-                **/
             }
         }
 
@@ -4949,6 +4941,15 @@ namespace SoftwareAnalyzer2.Tools
                 }
                 fieldsNode.Parent = node;
             }
+
+        }
+
+        /// <summary>
+        /// Adds in Array, ArrayInvoke, and Parameter nodes as appropriate
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPLateNoPointerDeclaratorHandler(IModifiable node)
+        {
 
         }
 
