@@ -159,6 +159,7 @@
     <Compile Include="Structure\Graphing\Specifics\TypeDefinition.cs" />
     <Compile Include="Structure\Graphing\Specifics\WhileLoop.cs" />
     <Compile Include="Structure\LinkEventArgs.cs" />
+    <Compile Include="Structure\Metrics\AffectedLine.cs" />
     <Compile Include="Structure\Metrics\CancerInvasion.cs" />
     <Compile Include="Structure\Metrics\ConnectivityMetrics.cs" />
     <Compile Include="Structure\Metrics\CountAll.cs" />
