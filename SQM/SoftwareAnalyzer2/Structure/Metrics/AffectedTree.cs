@@ -42,6 +42,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             //for every affected graph node, trace the relationships down the chain until everything has been traced
             foreach (GraphNode g in gNodes)
             {
+                g.traceBack = "Initial Graph Node: " + g.Represented.FileName + "[" + g.Represented.GetLineStart().ToString() + "][" + g.Represented.Node.ToString() + "]";
+                string traceInit = g.traceBack;
                 if (!g.Represented.Node.IsClassification)
                 {
                     //constructor, literal, statement, return type, return, method are potential future cases to consider
@@ -74,13 +76,17 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             break;
                     }
                 }
+                if(g.traceBack == traceInit)
+                {
+                    g.traceBack += " has no links.";
+                }
             }
         }
 
         private void TraceField(GraphNode gn)
         {
             //don't retrace any fields that have already been marked.
-            if (!gn.traced)
+            if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
                 //this line seems to be neccessary to trace everything. maybe redundant in some cases
@@ -152,7 +158,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private void TraceParameter(GraphNode gn)
         {
             //don't retrace any fields that have already been marked.
-            if (!gn.traced)
+            if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
                 al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
@@ -203,7 +209,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private void TraceMethod(GraphNode gn)
         {
             //don't retrace any fields that have already been marked.
-            if (!gn.traced)
+            if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
                 al.WriteToAffectedDict(gn, gn.Represented.FileName, -1, false);
@@ -234,7 +240,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private void TraceBranch(GraphNode gn)
         {
             //don't retrace any fields that have already been marked.
-            if (!gn.traced)
+            if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
                 Branch b = (Branch)gn;
@@ -258,7 +264,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private void TraceReturnValue(GraphNode gn)
         {
             //don't retrace any fields that have already been marked.
-            if (!gn.traced)
+            if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
 
