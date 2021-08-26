@@ -780,7 +780,12 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.MethodScope, Members.MethodScope, CPPFieldPlacer);
                 head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
-                head.RootUpModify("virtualSpecifierSeq", "virtualSpecifierSeq", CPPVirtualSpecifierMover);
+                head.RootUpModify("virtualSpecifier", "virtualSpecifierSeq", CPPMemberModifierSender);
+                head.RootUpModify("functionSpecifier", "functionSpecifier", CPPMemberModifierSender);
+                head.RootUpModify(Members.Public, Members.Public, CPPMemberModifierSender);
+                head.RootUpModify(Members.Private, Members.Private, CPPMemberModifierSender);
+                head.RootUpModify(Members.Protected, Members.Protected, CPPMemberModifierSender);
+                head.RootUpModify("initializer", Members.ConstructorInvoke, CPPConstructorIdentifier);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
@@ -798,6 +803,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 //head.Collapse("theTypeId");
                 //head.Collapse("typeSpecifierSeq");
+                head.Collapse("virtualSpecifierSeq");
                 head.Collapse("declarator");
                 head.Collapse("initializerClause");
                 head.Collapse("templateArgument");
@@ -816,7 +822,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("primaryExpression", "( )");
                 head.Collapse("assignmentExpression");
                 head.Collapse("initializer");
-                //head.Collapse("initDeclarator");
+                head.Collapse("initDeclarator");
                 head.Collapse("initDeclaratorList");
                 head.Collapse("memberDeclarator");
                 head.Collapse("memberDeclaratorList");
@@ -824,6 +830,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("constantExpression");
                 head.Collapse("memberdeclaration");
                 head.Collapse("memberdeclaration", ";");
+                head.Collapse("expressionList");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -1049,7 +1056,7 @@ namespace SoftwareAnalyzer2.Tools
             if (myLang is CPPLanguage) {
                 stringType = new Regex("^(u8|L|u|U|R)?\".*\"$");
                 boolType   = new Regex(@"^(true|false)$");
-                intType    = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,8}))(U|u)?$");
+                intType    = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,16}))(U|u)?$");
                 longType   = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$");
                 floatType  = new Regex(@"^-?((\d+(\.(\d)*)?|\.\d+)(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\d+(\.(\d)*)?|\.\d+))+p-?[0-9]+)$");
                 doubleType = new Regex(@"^-?(\d+(\.\d*)?|\d*\.\d*)((e|E|p|P)(-|\+)?\d*)?(D|d|L|l)?$");
@@ -4751,7 +4758,7 @@ namespace SoftwareAnalyzer2.Tools
                 modifierSetNode.Parent = node;
                 foreach (IModifiable child in children)
                 {
-                    if (child.Node.Equals(Members.Variable))
+                    if (child.Node.Equals(Members.Variable) || child.Node.Equals(Members.Type))
                     {
                         child.Parent = node;
                     }
@@ -4889,7 +4896,6 @@ namespace SoftwareAnalyzer2.Tools
 
         /// <summary>
         /// Adds the ModifierSet node to member fields
-        /// Also moves access specifiers into those nodes
         /// </summary>
         /// <param name="answer"></param>
         private void CPPMemberModifierSetAdjuster(IModifiable node)
@@ -4904,40 +4910,20 @@ namespace SoftwareAnalyzer2.Tools
             {
                 modSetNode = (IModifiable)node.GetNthChild(0).GetFirstSingleLayer(MemberSets.ModifierSet);
             }
-            IModifiable accessSpecNode = null;
-            if (node.GetFirstSingleLayer(Members.Public) != null)
-            {
-                accessSpecNode = (IModifiable)node.GetFirstSingleLayer(Members.Public);
-                node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.Public));
-            }
-            else if (node.GetFirstSingleLayer(Members.Private) != null)
-            {
-                accessSpecNode = (IModifiable)node.GetFirstSingleLayer(Members.Private);
-                node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.Private));
-            }
-            else if (node.GetFirstSingleLayer(Members.Protected) != null)
-            {
-                accessSpecNode = (IModifiable)node.GetFirstSingleLayer(Members.Protected);
-                node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.Protected));
-            }
-            accessSpecNode.Parent = modSetNode;
         }
 
         /// <summary>
-        /// moves virtual specifiers to ModifierSet?
+        /// Sends modifiers for class members to their ModifierSet node
         /// </summary>
         /// <param name="answer"></param>
-        private void CPPVirtualSpecifierMover(IModifiable node)
+        private void CPPMemberModifierSender(IModifiable node)
         {
             //TODO: where does this belong?
             //Virtual stuff should only exist in the context of a class so we can use membery stuff
-            List<INavigable> virtualSpecifiers = node.Children;
-            ((IModifiable)node.Parent).RemoveChild(node);
+            IModifiable oldParent = (IModifiable)node.Parent;
             IModifiable ancestorNode = (IModifiable)node.GetAncestor("memberdeclaration");
-            foreach (IModifiable virtSpec in virtualSpecifiers)
-            {
-                virtSpec.Parent = ancestorNode.GetNthChild(0).GetFirstSingleLayer(MemberSets.ModifierSet);
-            }
+            node.Parent = ancestorNode.GetNthChild(0).GetFirstSingleLayer(MemberSets.ModifierSet);
+            oldParent.RemoveChild(node);
         }
 
         /// <summary>
@@ -5046,6 +5032,28 @@ namespace SoftwareAnalyzer2.Tools
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
             node.AddCode(operations[0], node);
+        }
+
+        /// <summary>
+        /// Identifies constructors via the initializer node and moves the parameters into place
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPConstructorIdentifier(IModifiable node)
+        {
+            if (node.GetChildCount() == 0)
+            {
+                ((IModifiable)node.Parent).RemoveChild(node);
+            }
+            else if (node.Code.Equals("( )"))
+            {
+                IModifiable oldParent = (IModifiable)node.Parent;
+                IModifiable targetVariableNode = (IModifiable)((IModifiable)node.Parent).GetFirstRecursive(Members.MethodInvoke);
+                targetVariableNode.SetNode(Members.Variable);
+                IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
+                writeNode.Parent = targetVariableNode;
+                node.Parent = writeNode;
+                oldParent.RemoveChild(node);
+            }
         }
 
         /// <summary>
