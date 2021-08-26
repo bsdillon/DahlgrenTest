@@ -107,6 +107,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         #region Fields
         private Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>> relationshipsTo = new Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>>();
         private static Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
+        public string traceBack = "";
 
         public static Dictionary<string, Dictionary<int, List<GraphNode>>> GetLineNumDict()
         {

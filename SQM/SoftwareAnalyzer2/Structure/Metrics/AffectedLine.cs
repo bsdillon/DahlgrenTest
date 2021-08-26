@@ -14,15 +14,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
     {
         //dictionary: <file name (string), dictionary: <line number (int), List<affected graphnodes (graphnode)>>>
         private Dictionary<string, Dictionary<int, List<GraphNode>>> affectedDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
-        //luTODO - create or add on to dictionary here that describes where things were affected from
         public AffectedLine()
         {
         }
 
         //luTODO -- take simulated data, mark it, terminate tracing at that point
-        //luTODO -- fix the fibonacci error
+        //luTODO -- the output of "traceback" is still a work in progress. fix branches
         public void WriteToAffectedDict(GraphNode gn, string fileName, int lineNumber, bool trimFileN)
         {
+            gn.traceBack += "  ->  WRITE" + gn.Represented.FileName + "[" + gn.Represented.GetLineStart().ToString() + "][" + gn.Represented.Node.ToString() + "]";
             //simulated graphnodes are not very meaningful for tracing errors
             if (fileName != null && !gn.IsSimulated)
             {
@@ -64,6 +64,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         public void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r)
         {
+            grphNde.traceBack += "  ->  STATE" + gn.Represented.FileName + "[" + gn.Represented.GetLineStart().ToString() + "][" + gn.Represented.Node.ToString() + "] - " + r.ToString();
             //simulated graphnodes are not very meaningful for tracing errors
             if (!gn.IsSimulated)
             {
@@ -106,7 +107,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     string gnListStr = "";
                     foreach (GraphNode g in gnList)
                     {
-                        gnListStr += g.Represented.Node.ToString() + ",";
+                        gnListStr += g.Represented.Node.ToString() + "," + g.traceBack;
                     }
                     if (gnListStr != "")
                     {
