@@ -190,6 +190,31 @@ namespace SoftwareAnalyzer2.Tools
                             translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)\s*(\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", justTypeReplacement);
                             translated_line = Regex.Replace(translated_line, @"([a-zA-Z0-9]+)(\s+)([a-zA-Z0-9]+)\s*(\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", typeAndNameReplacement);
                             translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", justTypeReplacement);
+                        
+                            // Compiler-specific keyword and operator translations
+                            // TODO: Deal with these compiler instructions..?
+                            // https://www.keil.com/support/man/docs/armcc/armcc_chr1359124965789.htm
+                            String[] compilerKeywords = new String[] {"__align", "__ALIGNOF__", "__alignof__", "__asm",  "__forceinline",
+                                                                      "__global_reg", "__inline", "__int64", "__INTADDR__", "__irq", "__packed",
+                                                                      "__pure", "__smc", "__softfp", "__svc", "__svc_indirect", "__svc_indirect_r7",
+                                                                      "__value_in_regs", "__weak", "__writeonly",
+                                                                      "__breakpoint ", "__cdp", "__clrex", "__clz", "__current_pc", "__current_sp", 
+                                                                      "__disable_fiq", "__disable_irq", "__dmb", "__dsb", "__enable_fiq",  "__enable_irq", 
+                                                                      "__fabs", "__fabsf", "__force_loads", "__force_stores", "__isb", "__ldrex", "__ldrexd",
+                                                                      "__ldrt", "__memory_changed", "__nop", "__pld", "__pli", "__qadd", "__qdbl", "__qsub", 
+                                                                      "__rbit", "__rev", "__return_address", "__ror", "__schedule_barrier", "__semihost", 
+                                                                      "__sev", "__sqrt", "__sqrtf", "__ssat", "__strex", "__strexd", "__strt", "__swp", 
+                                                                      "__usat", "__wfe", "__wfi", "__yield "};
+                            // foreach (String keyword in compilerKeywords) {
+                            //     translated_line = Regex.Replace(translated_line, keyword, "COMPILER_KEYWORD;//");
+                            // }
+                            
+                            // Platform-specific translations as a result of preprocessing
+                            // Linux:
+                            translated_line = Regex.Replace(translated_line, @"(\w*\s*)(__attribute__)(\({2})(.+)(\){2})", "$1$4 ");
+                        
+                            // Windows:
+                            translated_line = Regex.Replace(translated_line, @"(\w*\s*)(__declspec)(\()(.+)(\))", "$1$4 ");
                         }
 
                         // Additional translations may be added here as we see new parse issues crop up in the field,
@@ -254,12 +279,13 @@ namespace SoftwareAnalyzer2.Tools
                 
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                // We remove all tokens with "<WS>" (whitespace) and "<COMMENT>"
+                // We remove all tokens with "<WS>" (whitespace), "<COMMENT>", "<Directive>", or "COMPILER_KEYWORD"
                 tokens = tokens.Where(
                     t => !(
                         t.Contains("<WS>") ||
                         t.Contains("<COMMENT>") ||
-                        t.Contains("<Directive>")
+                        t.Contains("<Directive>") ||
+                        t.Contains("COMPILER_KEYWORD")
                     )
                 ).ToArray();
                 
@@ -270,6 +296,11 @@ namespace SoftwareAnalyzer2.Tools
 
                 string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 Console.Out.WriteLine("/t"+fileName);
+                tree = tree.Where(
+                    t => !(
+                        t.Contains("COMPILER_KEYWORD")
+                    )
+                ).ToArray();
                 for (int i = 0; i< tree.Length; i++) {
                     tree[i] = Regex.Replace(tree[i], @"VARIADIC_", "");
                 }
@@ -734,6 +765,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("exceptionDeclaration", Members.Field);
                 head.Rename("unqualifiedId", Members.Variable);
                 head.Rename("qualifiedId", Members.Variable);
+                head.Rename("throwExpression", Members.Exception);
                 //head.Rename("shiftOperator", Members.Operator);
                 
                 // clear out pointer stuff early since SQM doesn't care for it
@@ -749,7 +781,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
                 head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
-                head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
                 head.RootUpModify(Members.Scope, Members.Scope, CPPScopeDescriber);
                 head.RootUpModify(Members.Else, Members.Else, CPPElseIfScopeAdder);
                 head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
@@ -777,15 +808,23 @@ namespace SoftwareAnalyzer2.Tools
                 head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
                 head.RootUpModify("declarationStatement", "declarationStatement", CPPFieldIdentifier);
-                head.RootUpModify(Members.MethodScope, Members.MethodScope, CPPFieldPlacer);
+                //head.RootUpModify(Members.MethodScope, Members.MethodScope, CPPFieldPlacer);
                 head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
+                head.RootUpModify("initializer", Members.ConstructorInvoke, CPPConstructorIdentifier);
+                head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
+                head.RootUpModify("handlerSeq", "handlerSeq",ReparentChildren);
                 head.RootUpModify("virtualSpecifier", "virtualSpecifierSeq", CPPMemberModifierSender);
                 head.RootUpModify("functionSpecifier", "functionSpecifier", CPPMemberModifierSender);
                 head.RootUpModify(Members.Public, Members.Public, CPPMemberModifierSender);
                 head.RootUpModify(Members.Private, Members.Private, CPPMemberModifierSender);
                 head.RootUpModify(Members.Protected, Members.Protected, CPPMemberModifierSender);
-                head.RootUpModify("initializer", Members.ConstructorInvoke, CPPConstructorIdentifier);
+                // TODO: find a way to make this order work out - the member modifiers depend on memberdeclaration nodes but CPPFieldRelevantNodeIncluder can't handle that
+                head.Collapse("memberdeclaration");
+                head.Collapse("memberdeclaration", ";");
+                head.Collapse("statement");
+                head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
+                // TODO: add non-member Modifier Sender function
 
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
@@ -796,12 +835,12 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
 
-
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
                 head.RootUpModify("simpleDeclaration", "simpleDeclaration", ReparentChildren);
 
-                //head.Collapse("theTypeId");
+                head.Collapse("pointerAbstractDeclarator");
+                head.Collapse("theTypeId");
                 //head.Collapse("typeSpecifierSeq");
                 head.Collapse("virtualSpecifierSeq");
                 head.Collapse("declarator");
@@ -810,12 +849,11 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("declSpecifier");
                 head.Collapse("typeSpecifier");
                 head.Collapse("trailingTypeSpecifier");
-                //head.Collapse("simpleTypeSpecifier");
+                head.Collapse("simpleTypeSpecifier");
                 head.Collapse("theTypeName");
                 head.Collapse("compoundStatement");
                 head.Collapse("compoundStatement", "{ }");
                 head.Collapse("functionBody");
-                head.Collapse("statement");
                 head.Collapse("expression");
                 head.Collapse("expressionStatement", ";");
                 head.Collapse("postfixExpression", "( )");
@@ -828,9 +866,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("memberDeclaratorList");
                 head.Collapse("declarationStatement");
                 head.Collapse("constantExpression");
-                head.Collapse("memberdeclaration");
-                head.Collapse("memberdeclaration", ";");
                 head.Collapse("expressionList");
+                head.Collapse("handler", "catch ( )");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -1058,7 +1095,7 @@ namespace SoftwareAnalyzer2.Tools
                 boolType   = new Regex(@"^(true|false)$");
                 intType    = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,16}))(U|u)?$");
                 longType   = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$");
-                floatType  = new Regex(@"^-?((\d+(\.(\d)*)?|\.\d+)(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\d+(\.(\d)*)?|\.\d+))+p-?[0-9]+)$");
+                floatType  = new Regex(@"^-?((\d+(\.(\d)*)?|\.\d+)((e|E|p|P)(-|\+)?\d*)?(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\d+(\.(\d)*)?|\.\d+))+p-?[0-9]+)$");
                 doubleType = new Regex(@"^-?(\d+(\.\d*)?|\d*\.\d*)((e|E|p|P)(-|\+)?\d*)?(D|d|L|l)?$");
                 charType   = new Regex(@"^(u8|L|u|U)?'(((\\)?.+)|(\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8}){1,2}|(\\[0-7]{3}))'$");
             } 
@@ -3924,12 +3961,15 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.ElseScope);
             }
-            else if (node.Parent.Parent == node.GetAncestor(Members.Try_Catch))
+            else if (node.Parent.Parent == node.GetAncestor("tryBlock"))
             {
                 node.SetNode(Members.TryScope);
-                ((IModifiable)node.Parent).ClearCode(ClearCodeOptions.KeepLine);
-                node.CopyCode((IModifiable)node.Parent);
             }
+            else if (node.Parent.Parent == node.GetAncestor("handler"))
+            {
+                node.SetNode(Members.CatchScope);
+            }
+            /**
             else if (node.Parent.Parent == node.GetAncestor(Members.CatchScope))
             {
                 // Only catches inner catch scopes - 
@@ -3943,6 +3983,7 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable tryCatch      = (IModifiable)node.GetAncestor(Members.Try_Catch);
                 tryCatch.ReplaceChild(oldCatchScope, node);
             }
+            **/
             else
             {
                 node.SetNode(Members.Scope);
@@ -4230,6 +4271,24 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="node"></param>
         private void CPPTryCatchHandler(IModifiable node)
         {
+            List<INavigable> handlerNodes = node.GetFirstSingleLayer("handlerSeq").Children;
+            foreach (IModifiable handlerNode in handlerNodes)
+            {
+                IModifiable catchScopeNode;
+                if (handlerNode.GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                {
+                    catchScopeNode = (IModifiable)NodeFactory.CreateNode(Members.CatchScope, false);
+                    catchScopeNode.Parent = handlerNode.GetFirstSingleLayer("compoundStatement");
+                }
+                else
+                {
+                    catchScopeNode = (IModifiable)handlerNode.GetFirstSingleLayer("compoundStatement").GetNthChild(0);
+                }
+                IModifiable fieldNode = (IModifiable)handlerNode.GetFirstSingleLayer(Members.Field);
+                fieldNode.Parent = catchScopeNode;
+                handlerNode.RemoveChild(fieldNode);
+            }
+            /**
             List<INavigable> children = node.Children;
             IModifiable      catcher  = (IModifiable)node.GetFirstRecursive("handler");
 
@@ -4269,6 +4328,7 @@ namespace SoftwareAnalyzer2.Tools
             // Now that we have dealt with all catchers, remove unnecessary catcher parent node
             IModifiable handler = (IModifiable)node.GetFirstRecursive("handlerSeq");
             node.RemoveChild(handler);
+            **/
         }
 
         /// <summary>
@@ -5053,6 +5113,38 @@ namespace SoftwareAnalyzer2.Tools
                 writeNode.Parent = targetVariableNode;
                 node.Parent = writeNode;
                 oldParent.RemoveChild(node);
+            }
+        }
+
+        /// <summary>
+        /// Adds in Array, ArrayInvoke, and Parameter nodes as appropriate
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPFieldRelevantNodeIncluder(IModifiable node)
+        {
+            if (!node.Parent.Node.Equals(MemberSets.Fields))
+            {
+                IModifiable oldParent = (IModifiable)node.Parent;
+                List<INavigable> fieldSiblings = oldParent.Children;
+                oldParent.DropChildren();
+                IModifiable fieldsNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Fields, false);
+                fieldsNode.Parent = oldParent;
+                foreach (IModifiable child in fieldSiblings)
+                {
+                    if (child.Node.Equals(Members.Field))
+                    {
+                        child.Parent = fieldsNode;
+                    }
+                    else
+                    {
+                        child.Parent = oldParent;
+                    }
+                }
+            }
+            if (node.GetFirstSingleLayer(MemberSets.ModifierSet) == null)
+            {
+                IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                modSetNode.Parent = node;
             }
         }
 
