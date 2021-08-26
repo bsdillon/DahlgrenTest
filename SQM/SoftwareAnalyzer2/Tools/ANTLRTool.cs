@@ -779,6 +779,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("declarationStatement", "declarationStatement", CPPFieldIdentifier);
                 head.RootUpModify(Members.MethodScope, Members.MethodScope, CPPFieldPlacer);
                 head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
+                head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
+                head.RootUpModify("virtualSpecifierSeq", "virtualSpecifierSeq", CPPVirtualSpecifierMover);
 
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
@@ -820,6 +822,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("memberDeclaratorList");
                 head.Collapse("declarationStatement");
                 head.Collapse("constantExpression");
+                head.Collapse("memberdeclaration");
+                head.Collapse("memberdeclaration", ";");
 
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
@@ -3968,6 +3972,11 @@ namespace SoftwareAnalyzer2.Tools
             if (node.GetFirstSingleLayer("declSpecifierSeq") == null)
             {
                 node.SetNode(Members.Constructor);
+                IModifiable returnTypeNode = (IModifiable)NodeFactory.CreateNode(Members.ReturnType, false);
+                returnTypeNode.Parent = node;
+                IModifiable typeNameNode = (IModifiable)NodeFactory.CreateNode(Members.TypeName, false);
+                typeNameNode.Parent = returnTypeNode;
+                typeNameNode.CopyCode(node);
             }
 
             // add ModifierSet node
@@ -4790,6 +4799,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPMultipleMemberDeclarationsHandler(IModifiable node)
         {
+            node.ClearCode(ClearCodeOptions.KeepLine);
             if (node.GetChildCount() > 1)
             {
                 IModifiable memberSpecNode = (IModifiable)node.GetAncestor("memberSpecification");
@@ -4914,6 +4924,23 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
+        /// moves virtual specifiers to ModifierSet?
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPVirtualSpecifierMover(IModifiable node)
+        {
+            //TODO: where does this belong?
+            //Virtual stuff should only exist in the context of a class so we can use membery stuff
+            List<INavigable> virtualSpecifiers = node.Children;
+            ((IModifiable)node.Parent).RemoveChild(node);
+            IModifiable ancestorNode = (IModifiable)node.GetAncestor("memberdeclaration");
+            foreach (IModifiable virtSpec in virtualSpecifiers)
+            {
+                virtSpec.Parent = ancestorNode.GetNthChild(0).GetFirstSingleLayer(MemberSets.ModifierSet);
+            }
+        }
+
+        /// <summary>
         /// Checks that an element is being called for the first time via the existence of a Type node, and makes that a Field node
         /// </summary>
         /// <param name="answer"></param>
@@ -4924,6 +4951,25 @@ namespace SoftwareAnalyzer2.Tools
                 node.SetNode(Members.Field);
                 IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
                 modSetNode.Parent = node;
+            }
+        }
+
+        /// <summary>
+        /// Checks that a memberdeclaration node has a Type node in its children, thus being Field in a class
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPMemberFieldIdentifier(IModifiable node)
+        {
+            if (node.GetFirstSingleLayer(Members.Type) != null)
+            {
+                List<INavigable> fieldNodeChildren = node.Children;
+                node.DropChildren();
+                IModifiable fieldNode = (IModifiable)NodeFactory.CreateNode(Members.Field, false);
+                fieldNode.Parent = node;
+                foreach (IModifiable child in fieldNodeChildren)
+                {
+                    child.Parent = fieldNode;
+                }
             }
         }
 
