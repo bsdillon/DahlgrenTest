@@ -756,7 +756,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("enumerator", Members.Value);
                 head.Rename("parametersAndQualifiers", Members.ParameterList);
                 head.Rename("parameterDeclaration", Members.Parameter);
-                head.Rename("statementSeq", Members.Scope);
                 head.Rename("condition", Members.Boolean);
                 head.Rename("braceOrEqualInitializer", Members.Write);
                 head.Rename("templateName", Members.TypeDeclaration);
@@ -766,13 +765,13 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("unqualifiedId", Members.Variable);
                 head.Rename("qualifiedId", Members.Variable);
                 head.Rename("throwExpression", Members.Exception);
-                //head.Rename("shiftOperator", Members.Operator);
                 
                 // clear out pointer stuff early since SQM doesn't care for it
                 head.Collapse("pointerOperator", "*");
                 head.Collapse("pointerOperator", "&");
                 head.Collapse("unaryOperator", "&");
 
+                head.RootUpModify("classSpecifier", Members.TypeDeclaration, CPPClassSpecifierHandler);
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPEarlyNoPointerDeclaratorHandler);
@@ -781,7 +780,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
                 head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
-                head.RootUpModify(Members.Scope, Members.Scope, CPPScopeDescriber);
+                head.RootUpModify("statementSeq", Members.Scope, CPPScopeDescriber);
                 head.RootUpModify(Members.Else, Members.Else, CPPElseIfScopeAdder);
                 head.LeafDownModify(Members.Switch, Members.Switch, CPPSwitchSetup);
                 head.RootUpModify("conditionalExpression", "conditionalExpression", CPPConditionalExpressionHandler);
@@ -808,7 +807,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
                 head.RootUpModify("declarationStatement", "declarationStatement", CPPFieldIdentifier);
-                //head.RootUpModify(Members.MethodScope, Members.MethodScope, CPPFieldPlacer);
                 head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
                 head.RootUpModify("initializer", Members.ConstructorInvoke, CPPConstructorIdentifier);
@@ -825,7 +823,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("statement");
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
                 // TODO: add non-member Modifier Sender function
-
+                
+                head.LeafDownModify("noPointerDeclarator", "noPointerDeclarator", CPPLateNoPointerDeclaratorHandler);
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
                 head.Rename("logicalAndExpression", Members.Boolean_And);
@@ -834,13 +833,18 @@ namespace SoftwareAnalyzer2.Tools
                 head.LeafDownModify(Members.Operator, Members.Operator, CPPOperatorOrderer);
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
+                // Move these into their ModifierSets - then typeSpecifierSeq should be collapsible FINALLY
 
                 head.Collapse("enumeratorDefinition");
                 head.Collapse("blockDeclaration");
                 head.RootUpModify("simpleDeclaration", "simpleDeclaration", ReparentChildren);
 
+                head.RootUpModify("declarationseq", "declarationseq", ReparentChildren);
+                //head.Collapse("declaration");
+
                 head.Collapse("pointerAbstractDeclarator");
                 head.Collapse("theTypeId");
+                // test more on typeSpecifierSeq - note the problems from CPPTryCatchHandler
                 //head.Collapse("typeSpecifierSeq");
                 head.Collapse("virtualSpecifierSeq");
                 head.Collapse("declarator");
@@ -868,7 +872,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("constantExpression");
                 head.Collapse("expressionList");
                 head.Collapse("handler", "catch ( )");
-
+                
                 // Templates have a complex tree, remove the template parameter to simplify graph
                 //head.Collapse("TypeDeclaration");
 
@@ -878,7 +882,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.NormalizeLines();
 
                 // Throw away "HEAD" and replace with "File" at top of tree
-                head = (IModifiable) head.Children.First();
+                //head = (IModifiable) head.Children.First();
 
             }
             else {
@@ -3969,21 +3973,6 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.CatchScope);
             }
-            /**
-            else if (node.Parent.Parent == node.GetAncestor(Members.CatchScope))
-            {
-                // Only catches inner catch scopes - 
-                // empty catch bodies do not have a Scope node in AST
-                node.SetNode(Members.CatchScope);
-                ((IModifiable)node.Parent).ClearCode(ClearCodeOptions.KeepLine);
-                node.CopyCode((IModifiable)node.Parent);
-
-                // Replace outside catch scope with found inner scope
-                IModifiable oldCatchScope = (IModifiable)node.GetAncestor(Members.CatchScope);
-                IModifiable tryCatch      = (IModifiable)node.GetAncestor(Members.Try_Catch);
-                tryCatch.ReplaceChild(oldCatchScope, node);
-            }
-            **/
             else
             {
                 node.SetNode(Members.Scope);
@@ -4287,48 +4276,17 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable fieldNode = (IModifiable)handlerNode.GetFirstSingleLayer(Members.Field);
                 fieldNode.Parent = catchScopeNode;
                 handlerNode.RemoveChild(fieldNode);
-            }
-            /**
-            List<INavigable> children = node.Children;
-            IModifiable      catcher  = (IModifiable)node.GetFirstRecursive("handler");
-
-            // Remove try block from catcher children list
-            children.RemoveAt(0);
-
-            // Handle all children catchers
-            while (catcher != null)
-            {
-                // First assume empty catch body - empty catch bodies do not 
-                // have a scope specifier for CPPScopeDescriber() to handle, 
-                // so we have to presume empty catch body and assign it CatchScope.
-                catcher.SetNode(Members.CatchScope);
-                catcher.ClearCode(ClearCodeOptions.ClearAll);
-
-                // If catch does not have an empty body, move catch field to inner scope
-                // Inner scope field will be caught by CPPScopeDescriber() and replace our
-                // presumed empty body catch scope
-                IModifiable possibleInnerScope = (IModifiable)catcher.GetFirstRecursive(Members.Scope);
-                if (possibleInnerScope != null)
+                // TODO: TESTING THIS...
+                // FOR GETTING RID OF typeSpecifierSeq nodes
+                if (fieldNode.GetChildCount() > 0 && fieldNode.GetFirstSingleLayer("declarator") == null)
                 {
-                    IModifiable field      = (IModifiable)catcher.GetFirstRecursive(Members.Field);
-                    IModifiable catchScope = (IModifiable)possibleInnerScope.GetNthChild(0);
-                    catcher.RemoveChild(field);
-
-                    // Reorder inner scope to have exception field first, then catch body
-                    possibleInnerScope.DropChildren();
-                    field.Parent      = possibleInnerScope;
-                    catchScope.Parent = possibleInnerScope;
+                    IModifiable typeSeqNode = (IModifiable)fieldNode.GetFirstRecursive("typeSpecifierSeq");
+                    IModifiable variableNode = (IModifiable)typeSeqNode.GetNthChild(typeSeqNode.GetChildCount() - 1).GetFirstRecursive(Members.TypeDeclaration);
+                    typeSeqNode.RemoveChild((IModifiable)typeSeqNode.GetNthChild(typeSeqNode.GetChildCount() - 1));
+                    variableNode.Parent = fieldNode;
+                    variableNode.SetNode(Members.Variable);
                 }
-                
-                // Grab next catcher
-                children.Remove(catcher);
-                catcher.Parent = node;
-                catcher        = (IModifiable)children[0].GetFirstRecursive("handler");
             }
-            // Now that we have dealt with all catchers, remove unnecessary catcher parent node
-            IModifiable handler = (IModifiable)node.GetFirstRecursive("handlerSeq");
-            node.RemoveChild(handler);
-            **/
         }
 
         /// <summary>
@@ -4621,6 +4579,25 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
+        /// Prepares all the relevant nodes from classSpecifier nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPClassSpecifierHandler(IModifiable node)
+        {
+            node.ClearCode(ClearCodeOptions.ClearAll);
+            node.AddCode(node.GetFirstRecursive("classHeadName").GetNthChild(0).Code, (IModifiable)node.GetFirstRecursive("classKey"));
+            IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
+            classificationNode.Parent = node;
+            node.GetFirstRecursive("classKey").Parent = classificationNode;
+            node.RemoveChild((IModifiable)node.GetNthChild(0));
+            IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+            modSetNode.Parent = node;
+
+            // get rid of type node
+            ((IModifiable)node.GetAncestor("declSpecifierSeq").Parent).ReplaceChild((IModifiable)node.GetAncestor("declSpecifierSeq"), node);
+        }
+
+        /// <summary>
         /// Handles memberSpecification nodes
         /// </summary>
         /// <param name="answer"></param>
@@ -4629,7 +4606,7 @@ namespace SoftwareAnalyzer2.Tools
             List<INavigable> memberNodes = node.Children;
             node.DropChildren();
             IModifiable accessSpecNode;
-            if (node.Parent.GetFirstRecursive("classHead").GetNthChild(0).Code.Equals("class"))
+            if (node.Parent.GetFirstSingleLayer(MemberSets.Classification).GetNthChild(0).Code.Equals("class"))
             {
                 accessSpecNode = (IModifiable)NodeFactory.CreateNode(Members.Private, false);
             }
@@ -5020,36 +4997,6 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
-        /// Adds the Fields node to MethodScope nodes and moves the fields into it
-        /// </summary>
-        /// <param name="answer"></param>
-        private void CPPFieldPlacer(IModifiable node)
-        {
-            // only add a Fields node if there are Fields to add
-            // pay attention to this - GetFirstRecursive may not be ideal
-            // consider moving the Collapse("statement") up and then doing GetFirstSingleLayer
-            if (node.GetFirstRecursive(Members.Field) !=  null)
-            {
-                List<INavigable> methodScopeChildren = node.Children;
-                node.DropChildren();
-                IModifiable fieldsNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Fields, false);
-                foreach (IModifiable child in methodScopeChildren)
-                {
-                    if (child.GetNthChild(0).Node.Equals(Members.Field))
-                    {
-                        child.Parent = fieldsNode;
-                    }
-                    else
-                    {
-                        child.Parent = node;
-                    }
-                }
-                fieldsNode.Parent = node;
-            }
-
-        }
-
-        /// <summary>
         /// moves shiftOperator code into the Operator, which was a shiftExpression, in order to make way for Operator-handling code
         /// </summary>
         /// <param name="answer"></param>
@@ -5117,7 +5064,7 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
-        /// Adds in Array, ArrayInvoke, and Parameter nodes as appropriate
+        /// Adds Fields and ModifierSets nodes if they're missing
         /// </summary>
         /// <param name="answer"></param>
         private void CPPFieldRelevantNodeIncluder(IModifiable node)
@@ -5149,12 +5096,64 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
-        /// Adds in Array, ArrayInvoke, and Parameter nodes as appropriate
+        /// Adds in Array nodes as appropriate
         /// </summary>
         /// <param name="answer"></param>
         private void CPPLateNoPointerDeclaratorHandler(IModifiable node)
         {
+            if (node.Code.Equals("[ ]"))
+            {
+                // TODO: attach arraySizeParameter to uninstantiated arrays in typedef
+                IModifiable arraySizeParameter = null;
+                if (node.GetChildCount() > 1)
+                {
+                    arraySizeParameter = (IModifiable)node.GetNthChild(1);
+                    node.RemoveChild(arraySizeParameter);
+                }
 
+                IModifiable targetNode = (IModifiable)node.GetFirstRecursive("bracedInitList");
+                if (targetNode != null)
+                {
+                    List<INavigable> arrayNodes;
+                    if (!targetNode.Parent.Node.Equals(Members.Write))
+                    {
+                        arrayNodes = targetNode.Parent.Parent.GetAllFirstLayer("initializerClause");
+                        for (int i = 0; i < arrayNodes.Count; ++i)
+                        {
+                            arrayNodes[i] = arrayNodes[i].GetNthChild(0);
+                        }
+                    }
+                    else
+                    {
+                        arrayNodes = targetNode.Parent.GetAllFirstLayer("bracedInitList");
+                    }
+
+                    foreach (IModifiable arrayNode in arrayNodes)
+                    {
+                        arrayNode.SetNode(Members.Array);
+                        arrayNode.ClearCode(ClearCodeOptions.KeepLine);
+                        if (arrayNode.GetChildCount() > 0)
+                        {
+                            if (arrayNode.GetNthChild(0).Node.Equals(Members.ParameterList))
+                            {
+                                ReparentChildren((IModifiable)arrayNode.GetNthChild(0));
+                                List<INavigable> parameterNodes = arrayNode.GetAllFirstLayer(Members.Parameter);
+                                foreach (IModifiable parameterNode in parameterNodes)
+                                {
+                                    arrayNode.ReplaceChild(parameterNode, (IModifiable)parameterNode.GetNthChild(0));
+                                }
+                            }
+                        }
+                        if (arraySizeParameter != null)
+                            {
+                                IModifiable parameterListExtra = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                                parameterListExtra.Parent = arrayNode;
+                                arraySizeParameter.Parent = parameterListExtra;
+                            }
+                    }
+                }
+                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+            }
         }
 
         #endregion
