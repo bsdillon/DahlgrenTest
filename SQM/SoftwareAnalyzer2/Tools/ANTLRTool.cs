@@ -206,9 +206,9 @@ namespace SoftwareAnalyzer2.Tools
                                                                       "__sev", "__sqrt", "__sqrtf", "__ssat", "__strex", "__strexd", "__strt", "__swp", 
                                                                       "__usat", "__wfe", "__wfi", "__yield "};
                             // TODO: Handle all compiler keywords individually
-                            foreach (String keyword in compilerKeywords) {
+                            // foreach (String keyword in compilerKeywords) {
                                 translated_line = Regex.Replace(translated_line, "__asm", "COMPILER_KEYWORD;//");
-                            }
+                            // }
                             
                             // Platform-specific translations as a result of preprocessing
                             // Linux:
