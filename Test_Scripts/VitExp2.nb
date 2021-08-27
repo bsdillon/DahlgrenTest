@@ -1,0 +1,515 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     22156,        507]
+NotebookOptionsPosition[     21598,        490]
+NotebookOutlinePosition[     22007,        507]
+CellTagsIndexPosition[     21964,        504]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "This", " ", "function", " ", "runs", " ", "the", " ", "modularity", " ", 
+    "vitality", " ", 
+    RowBox[{"experiment", ".", "  ", "The"}], " ", "input", " ", "file", " ", 
+    "is", " ", "the", " ", "edge", " ", "file", " ", "path", " ", "in", " ", 
+    RowBox[{"quotes", ".", " ", "For"}], " ", 
+    RowBox[{
+    "example", ":", " ", 
+     "\"\</home/azureuser/Desktop/Graph Files/DrJava/drjava.gph\>\""}]}], 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"ModVitExp", "[", "edgefilename_", "]"}], ":=", 
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"Local", " ", 
+      RowBox[{
+       RowBox[{"variables", " ", "--"}], "--"}], " ", "I", " ", "took", " ", 
+      "all", " ", "local", " ", "variables", " ", "out", " ", "for", " ", 
+      "trouble", " ", "shooting", " ", 
+      RowBox[{"purposes", ".", "  ", "We"}], " ", "can", " ", "add", " ", 
+      "everything", " ", "except", " ", "vitlist", " ", "back", " ", "in", 
+      " ", "if", " ", "we", " ", "need", " ", "to"}], "*)"}], 
+    RowBox[{
+     RowBox[{"{", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "Determine", " ", "how", " ", "many", " ", "samples", " ", "to", " ", 
+       "pull", " ", "from", " ", "each", " ", "partition", " ", "element"}], 
+      "*)"}], 
+     RowBox[{
+      RowBox[{"size", "=", 
+       RowBox[{"UpTo", "[", "10", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"Auxillary", " ", "functions"}], "*)"}], " ", 
+      RowBox[{
+       RowBox[{"auxfun1", "[", "af1set_", "]"}], ":=", 
+       RowBox[{"RandomSample", "[", 
+        RowBox[{"af1set", ",", "size"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      
+      RowBox[{"(*", 
+       RowBox[{
+       "Convert", " ", "the", " ", "edge", " ", "file", " ", "to", " ", 
+        "Mathematica", " ", "edges"}], "*)"}], 
+      RowBox[{"mygraph", "=", 
+       RowBox[{"SimpleGraph", "[", 
+        RowBox[{"Sort", "/@", 
+         RowBox[{"MapThread", "[", 
+          RowBox[{"UndirectedEdge", ",", 
+           RowBox[{
+            RowBox[{"Normal", "[", 
+             RowBox[{"SemanticImport", "[", "edgefilename", "]"}], "]"}], "//",
+             "Transpose"}]}], "]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"Find", " ", "clusters"}], "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"clusters", "=", 
+       RowBox[{"FindGraphCommunities", "[", "mygraph", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Find", " ", "list", " ", "of", " ", "vertex", " ", "degrees"}], 
+       "*)"}], 
+      RowBox[{"vdeg", "=", 
+       RowBox[{"VertexDegree", "[", "mygraph", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{
+        "List", " ", "vertices", " ", "by", " ", "ascending", " ", "degree"}],
+         ",", " ", 
+        RowBox[{
+        "remove", " ", "vertices", " ", "of", " ", "degree", " ", "0", " ", 
+         "or", " ", "1"}]}], "*)"}], 
+      RowBox[{"vlist", "=", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"VertexList", "[", "mygraph", "]"}], "[", 
+         RowBox[{"[", 
+          RowBox[{"Ordering", "[", "vdeg", "]"}], "]"}], "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Count", "[", 
+            RowBox[{"vdeg", ",", 
+             RowBox[{"0", "|", "1"}]}], "]"}], "+", "1"}], ";;"}], "]"}], 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"Bin", " ", "vertices"}], "*)"}], 
+      RowBox[{"partition", "=", 
+       RowBox[{"Partition", "[", 
+        RowBox[{"vlist", ",", 
+         RowBox[{"UpTo", "[", 
+          RowBox[{"Ceiling", "[", 
+           RowBox[{
+            RowBox[{"Length", "[", "vlist", "]"}], "/", "10"}], "]"}], 
+          "]"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"Generate", " ", "Sample"}], "*)"}], " ", 
+      RowBox[{"sample", "=", 
+       RowBox[{"Flatten", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{"auxfun1", ",", "partition"}], "]"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"Initialize", " ", "vitlist"}], "*)"}], 
+      RowBox[{"vitlist", "=", 
+       RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Calculate", " ", "vitality", " ", "for", " ", "each", " ", "sample"}],
+        "*)"}], 
+      RowBox[{"For", "[", 
+       RowBox[{
+        RowBox[{"i", "=", "1"}], ",", 
+        RowBox[{"i", "<", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"Length", "[", "sample", "]"}], "+", "1"}], ")"}]}], ",", 
+        RowBox[{"i", "++"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"vitlist", ",", 
+          RowBox[{"GraphAssortativity", "[", 
+           RowBox[{
+            RowBox[{"VertexDelete", "[", 
+             RowBox[{"mygraph", ",", 
+              RowBox[{"sample", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", 
+            RowBox[{"clusters", "/.", " ", 
+             RowBox[{
+              RowBox[{"sample", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "->", "Nothing"}]}], ",", 
+            RowBox[{"\"\<Normalized\>\"", "->", "False"}]}], "]"}]}], "]"}]}],
+        "]"}], ";"}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.836579303555572*^9, 3.836579327481193*^9}, {
+   3.836579388384923*^9, 3.83657949210684*^9}, {3.83657964642531*^9, 
+   3.83657967566619*^9}, {3.836579865786684*^9, 3.836579968715407*^9}, {
+   3.83658002371148*^9, 3.836580027172997*^9}, {3.836580097999777*^9, 
+   3.8365801087849197`*^9}, {3.8365806870349827`*^9, 3.836580724967329*^9}, {
+   3.836580758341731*^9, 3.836580760626453*^9}, {3.8365807963394012`*^9, 
+   3.836580816234652*^9}, {3.836580979521049*^9, 3.836580999741414*^9}, {
+   3.836633926694278*^9, 3.836633945479464*^9}, {3.8366368468979187`*^9, 
+   3.836636872331504*^9}, {3.836638730672667*^9, 3.836638797222042*^9}, {
+   3.836638949953569*^9, 3.836638987120895*^9}, {3.8366396101282997`*^9, 
+   3.836639612278701*^9}, {3.836643741059457*^9, 3.836643746000083*^9}, {
+   3.8366455105732594`*^9, 3.836645512437253*^9}, {3.8366455640488462`*^9, 
+   3.8366456315789337`*^9}, {3.836645972986311*^9, 3.8366459953450823`*^9}, {
+   3.8366469022459383`*^9, 3.836646912840667*^9}, {3.836647101652603*^9, 
+   3.836647108552644*^9}, {3.836647305064893*^9, 3.836647361524933*^9}, {
+   3.836647429293001*^9, 3.836647459505829*^9}, {3.836647537590136*^9, 
+   3.8366476032780027`*^9}, {3.836647651404242*^9, 3.836647656159411*^9}, {
+   3.836647717887898*^9, 3.8366477387185297`*^9}, {3.836647907581731*^9, 
+   3.836647919566094*^9}, {3.8366482076796637`*^9, 3.83664826735926*^9}, {
+   3.836648320286215*^9, 3.8366483565165863`*^9}, {3.8366483907977457`*^9, 
+   3.83664840042144*^9}, {3.8366488187771587`*^9, 3.836649019882433*^9}, {
+   3.836649061133226*^9, 3.836649162392227*^9}, {3.8366492551187963`*^9, 
+   3.836649276640643*^9}, {3.836650000961625*^9, 3.836650016484967*^9}, {
+   3.836650054501171*^9, 3.836650067563023*^9}, {3.8366501808308487`*^9, 
+   3.836650188676362*^9}, {3.836650218990859*^9, 3.836650227397243*^9}, {
+   3.836650330286523*^9, 3.8366503377032213`*^9}, {3.8366503795933743`*^9, 
+   3.836650427494247*^9}, {3.836650526643717*^9, 3.8366505376432323`*^9}, 
+   3.836650694782734*^9, {3.83665098910359*^9, 3.8366509896180363`*^9}, {
+   3.836651112248954*^9, 3.836651112486929*^9}, {3.8366512564030113`*^9, 
+   3.836651351667103*^9}, {3.836652192397395*^9, 3.836652194627372*^9}, {
+   3.836652278037965*^9, 3.836652296175838*^9}, {3.836652932893409*^9, 
+   3.836652936133411*^9}, {3.8366538131588717`*^9, 3.836653815860713*^9}, 
+   3.8366541060275803`*^9, {3.836654346347361*^9, 3.8366543495861464`*^9}, {
+   3.836654391242087*^9, 3.836654400547244*^9}, {3.836654933155993*^9, 
+   3.836654948075324*^9}, {3.836655185821362*^9, 3.836655213005093*^9}, 
+   3.836657091135764*^9, {3.836659374625197*^9, 3.836659379689664*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"48f6cd13-94ed-4102-8cf0-32e734fbe1e5"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "This", " ", "function", " ", "gets", " ", "the", " ", "output", " ", "of",
+     " ", "the", " ", "modularity", " ", "vitality", " ", "and", " ", 
+    "formats", " ", "it", " ", "into", " ", "a", " ", "table"}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ModVitExp", "[", "\"\</home/azureuser/edges.txt\>\"", "]"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MyData", " ", "=", " ", 
+     RowBox[{"Import", "[", "\"\</home/azureuser/nodes.gph\>\"", "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rows", " ", "=", " ", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"indexFinder", " ", "=", " ", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"graphQ", " ", "=", " ", 
+     RowBox[{"N", "[", 
+      RowBox[{"GraphAssortativity", "[", 
+       RowBox[{"mygraph", ",", "clusters", ",", 
+        RowBox[{"\"\<Normalized\>\"", "->", "False"}]}], "]"}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Creates", " ", "a", " ", "list", " ", "of", " ", "nodes", " ", "in", " ",
+      "the", " ", "same", " ", "order", " ", "as", " ", "listed", " ", "in", 
+     " ", "MyData"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"i", " ", "=", " ", "1"}], ",", " ", 
+     RowBox[{"i", " ", "<", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Length", "[", "MyData", "]"}], "+", "1"}], ")"}]}], ",", " ", 
+     RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"AppendTo", "[", 
+      RowBox[{"indexFinder", ",", " ", 
+       RowBox[{
+        RowBox[{"MyData", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+    "]"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Creates", " ", "a", " ", "rows", " ", "into", " ", "a", " ", "list", " ",
+      "of", " ", "lists"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "The", " ", "lists", " ", "encapsulating", " ", "the", " ", "smaller", 
+     " ", "lists", " ", "represent", " ", "lines"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+     "The", " ", "interior", " ", "lists", " ", "represent", " ", "Node"}], 
+     ",", " ", "Degree", ",", " ", "Vitality", ",", " ", 
+     RowBox[{"and", " ", "Details"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"i", "=", "1"}], ",", 
+     RowBox[{"i", "<", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Length", "[", "sample", "]"}], "+", "1"}], ")"}]}], ",", 
+     RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"AppendTo", "[", 
+      RowBox[{"rows", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"sample", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+         RowBox[{"VertexDegree", "[", 
+          RowBox[{"mygraph", ",", " ", 
+           RowBox[{"sample", "[", 
+            RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", "  ", 
+         RowBox[{"graphQ", "-", " ", 
+          RowBox[{"N", "[", 
+           RowBox[{"vitlist", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "]"}]}], ",", " ", 
+         RowBox[{"Drop", "[", 
+          RowBox[{
+           RowBox[{"MyData", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Position", "[", 
+                RowBox[{"indexFinder", ",", " ", 
+                 RowBox[{"sample", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}]}], "]"}], "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "]"}], "]"}], ",", " ", "2"}], 
+          "]"}]}], "}"}]}], "]"}]}], "\[IndentingNewLine]", "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Format", " ", "the", " ", "Table"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"TableForm", "[", 
+    RowBox[{"rows", ",", " ", 
+     RowBox[{"TableHeadings", " ", "->", " ", 
+      RowBox[{"{", 
+       RowBox[{"None", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+         "\"\<Node\>\"", ",", " ", "\"\<Degree\>\"", ",", " ", 
+          "\"\<Vitality\>\"", ",", " ", "\"\<Details\>\""}], "}"}]}], "}"}]}],
+      ",", " ", 
+     RowBox[{"TableAlignments", " ", "->", " ", "Left"}], ",", " ", 
+     RowBox[{"TableSpacing", " ", "->", " ", "5"}]}], "]"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Export", "[", 
+    RowBox[{"\"\<test.xls\>\"", ",", " ", 
+     RowBox[{"TableForm", "[", 
+      RowBox[{"rows", ",", " ", 
+       RowBox[{"TableHeadings", " ", "->", " ", 
+        RowBox[{"{", 
+         RowBox[{"None", ",", " ", 
+          RowBox[{"{", 
+           RowBox[{
+           "\"\<Node\>\"", ",", " ", "\"\<Degree\>\"", ",", " ", 
+            "\"\<Vitality\>\"", ",", " ", "\"\<Details\>\""}], "}"}]}], 
+         "}"}]}], ",", " ", 
+       RowBox[{"TableAlignments", " ", "->", " ", "Right"}], ",", " ", 
+       RowBox[{"TableSpacing", " ", "->", " ", "5"}]}], "]"}]}], "]"}], 
+   "\[IndentingNewLine]"}]}]], "Input",
+ CellChangeTimes->{{3.836918563520849*^9, 3.836918593931492*^9}, {
+   3.836918698587723*^9, 3.836918798621917*^9}, {3.836918856730187*^9, 
+   3.836919038441368*^9}, {3.836919095244355*^9, 3.836919164616284*^9}, {
+   3.836919233802641*^9, 3.83691933018327*^9}, {3.836919483515319*^9, 
+   3.836919614237358*^9}, 3.836919652917891*^9, {3.8369197247904453`*^9, 
+   3.836919732781191*^9}, {3.836919773542725*^9, 3.836919869698882*^9}, {
+   3.8369199131566277`*^9, 3.836919924930352*^9}, {3.836920050244809*^9, 
+   3.836920064451853*^9}, {3.836920158737177*^9, 3.8369201588992577`*^9}, {
+   3.83692023016151*^9, 3.836920252632378*^9}, {3.8369203837614937`*^9, 
+   3.836920386842886*^9}, {3.836920585871327*^9, 3.836920639598699*^9}, {
+   3.836920693233253*^9, 3.8369207041312733`*^9}, {3.836920878301091*^9, 
+   3.836921108011672*^9}, {3.836921183647749*^9, 3.83692124346968*^9}, {
+   3.836921276062587*^9, 3.83692137761014*^9}, {3.8369214213041153`*^9, 
+   3.836921453161993*^9}, {3.83692163622641*^9, 3.8369216420892982`*^9}, {
+   3.836921684983856*^9, 3.836921686256938*^9}, {3.836921880504154*^9, 
+   3.836921930694091*^9}, 3.836924715235156*^9, {3.8369250148831053`*^9, 
+   3.836925016163248*^9}, {3.836925049421645*^9, 3.83692504955322*^9}, {
+   3.836930114788896*^9, 3.836930116065948*^9}, 3.836930481224876*^9, {
+   3.836930831455161*^9, 3.836930833662889*^9}, {3.836930891119197*^9, 
+   3.836930894075333*^9}, {3.836930991918398*^9, 3.836931014181295*^9}, {
+   3.8369314154033813`*^9, 3.8369314458351088`*^9}, {3.8369316815395527`*^9, 
+   3.836931685703411*^9}, {3.8369317238995047`*^9, 3.836931737005836*^9}, {
+   3.8369320126357927`*^9, 3.8369320829428864`*^9}, {3.836932271101359*^9, 
+   3.836932271267951*^9}, {3.836932520492363*^9, 3.8369325208180447`*^9}, {
+   3.8369326053829317`*^9, 3.83693260589086*^9}, {3.836932895257758*^9, 
+   3.83693290819141*^9}, {3.83693297189573*^9, 3.836932973968341*^9}, {
+   3.836933277988247*^9, 3.8369332867990522`*^9}, {3.836933490070747*^9, 
+   3.836933569610507*^9}, {3.8369336172264023`*^9, 3.836933617890108*^9}, {
+   3.836933649050844*^9, 3.836933665931777*^9}, {3.836933787897156*^9, 
+   3.836933788443605*^9}, {3.836933855145974*^9, 3.836933889972084*^9}, {
+   3.836933928507225*^9, 3.836933928956102*^9}, {3.8369918802004433`*^9, 
+   3.83699194095327*^9}, 3.836991997564212*^9, {3.83699206327351*^9, 
+   3.8369922249180717`*^9}, {3.836992285790141*^9, 3.8369923207839737`*^9}, {
+   3.8369923773185*^9, 3.836992811731853*^9}, {3.836992855253965*^9, 
+   3.836992963985618*^9}, {3.836993129280624*^9, 3.8369931689600067`*^9}, {
+   3.836999265311798*^9, 3.83699927846826*^9}, {3.836999313960437*^9, 
+   3.836999392023624*^9}, 3.836999474487728*^9, {3.837005250224248*^9, 
+   3.83700525081256*^9}, {3.837006983915309*^9, 3.83700698546037*^9}, {
+   3.838986787405415*^9, 
+   3.8389868063772497`*^9}},ExpressionUUID->"1322c032-597d-4390-a856-\
+59a25aed2330"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Finds", " ", "quantity", " ", "of", " ", "each", " ", "degree"}], 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"ModVitExp", "[", "\"\</home/azureuser/edges.txt\>\"", "]"}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"MyData", " ", "=", " ", 
+     RowBox[{"Import", "[", "\"\</home/azureuser/nodes.gph\>\"", "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"degreeList", " ", "=", " ", 
+     RowBox[{"VertexDegree", "[", "mygraph", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"degzero", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"Length", "[", "MyData", "]"}], " ", "-", " ", 
+      RowBox[{"Length", "[", "degreeList", "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"i", " ", "=", " ", "0"}], ",", " ", 
+     RowBox[{"i", " ", "<", " ", "degzero"}], ",", " ", 
+     RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"AppendTo", "[", 
+      RowBox[{"degreeList", ",", " ", "0"}], "]"}]}], "\[IndentingNewLine]", 
+    "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"degreeList", " ", "=", " ", 
+     RowBox[{"Sort", "[", "degreeList", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"degVal", " ", "=", " ", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"i", " ", "=", " ", "1"}], ",", " ", 
+     RowBox[{"i", " ", "<", " ", 
+      RowBox[{"Length", "[", "degreeList", "]"}]}], ",", " ", 
+     RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", " ", 
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"degreeList", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], " ", "==", " ", 
+         RowBox[{"degreeList", "[", 
+          RowBox[{"[", 
+           RowBox[{"i", " ", "+", " ", "1"}], "]"}], "]"}]}], ",", ",", " ", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"degVal", ",", " ", 
+          RowBox[{"degreeList", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], "]"}], ";"}]}], 
+    "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"ContainsAny", "[", 
+       RowBox[{"degVal", ",", 
+        RowBox[{"{", 
+         RowBox[{"degreeList", "[", 
+          RowBox[{"[", 
+           RowBox[{"Length", "[", "degreeList", "]"}], "]"}], "]"}], "}"}]}], 
+       "]"}], ",", " ", ",", " ", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"degVal", ",", " ", 
+        RowBox[{"degreeList", "[", 
+         RowBox[{"[", 
+          RowBox[{"Length", "[", "degreeList", "]"}], "]"}], "]"}]}], "]"}]}],
+      "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"degRows", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Degree\>\"", ",", " ", "\"\<Frequency\>\""}], "}"}], 
+      "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"i", " ", "=", " ", "1"}], ",", " ", 
+     RowBox[{"i", " ", "<", " ", 
+      RowBox[{
+       RowBox[{"Length", "[", "degVal", "]"}], " ", "+", " ", "1"}]}], ",", 
+     " ", 
+     RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"tmp", " ", "=", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"degVal", "[", 
+          RowBox[{"[", "i", "]"}], "]"}], ",", " ", 
+         RowBox[{"Count", "[", 
+          RowBox[{"degreeList", ",", " ", 
+           RowBox[{"degVal", "[", 
+            RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], "}"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"degRows", ",", " ", "tmp"}], "]"}], ";"}]}], 
+    "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+   RowBox[{"Export", "[", 
+    RowBox[{"\"\<DegQ.xlsx\>\"", ",", 
+     RowBox[{"TableForm", "[", 
+      RowBox[{"degRows", ",", " ", 
+       RowBox[{"TableAlignments", " ", "->", " ", "Left"}], ",", " ", 
+       RowBox[{"TableSpacing", " ", "->", " ", "5"}]}], "]"}]}], 
+    "]"}]}]}]], "Input",
+ CellChangeTimes->CompressedData["
+1:eJwdzV1IUwEcBfAVskgrBzVyxgjRiRXDsjnEoeiWrk3RNcmJH9OklU7R6aRC
+jD3kLRHBDYbhHH48OJRZMAvbGkOSm05xWiqXmu2hlERdshamQVI79+Hwg/P/
+w0mobVZqjjMYDH4kMForvC6zBHNZqvEMqNK+yYJxxSIJ9PaUSWGfTSmDl4p4
+CvrPzC6FhsXLarh+srsOMu9MPINVvI9dUMLfMkL79gUTvJfs7Idj3wgr1H+a
+dNH7VL4bnn5vmYbu/rskFDiCCzDRE/UV7jzc2Kb7kCYIHVW2EJySFRyTR1Q0
+ZrFgYfBVAuzgzPLhE56gAobMmhYoLdXq4XL9y8cwbYswQydzfxCW67yjMD6l
+ww4D1V9IeJ67OQ9/uGp8UN36aB3mlEsDsFWcuwH/fG6nfXtubQ8u3K77CTuN
+Kwcws/LEEbzoCXAK0H8/pHXF+UXQcm1KDgkB9xY0pg6WQK58SQWZ4YMK2D0c
+roHx7L+1sJ1jbYAi5xk9XBJXU/CDlAjDF76yQ/jLPh1TGFHoINhQvCtMgjmK
+6CtwZHE4Ff77PZoBb6bVZ8MbMwMSGKVvyoPv5nzNsOv+WR3UrfQ+hUUG0gT3
+RszPYVOPdwDO6saH6DuZaYP+7E077Fy7+hpOpFNOqPYkz8HYFuUqPNVmomA6
+6fXDNsM+LcvdsAOpB1ba/wYpcj4=
+  
+  "],ExpressionUUID->"1976952c-d9be-4e4b-8a2e-1b1517ce97b6"]
+},
+WindowSize->{1920, 1029},
+WindowMargins->{{0, Automatic}, {0, Automatic}},
+Magnification:>1.4,
+FrontEndVersion->"12.3 for Linux x86 (64-bit) (July 9, 2021)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"4f3d8fbf-c164-4c6d-82f5-daf3e60b8841"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 8100, 171, 518, "Input",ExpressionUUID->"48f6cd13-94ed-4102-8cf0-32e734fbe1e5"],
+Cell[8661, 193, 8059, 171, 593, "Input",ExpressionUUID->"1322c032-597d-4390-a856-59a25aed2330"],
+Cell[16723, 366, 4871, 122, 593, "Input",ExpressionUUID->"1976952c-d9be-4e4b-8a2e-1b1517ce97b6"]
+}
+]
+*)
+
