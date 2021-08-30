@@ -184,6 +184,7 @@ namespace SoftwareAnalyzer2.Structure
         EqualityCheck,
         TypeCheck,
         LiteralBoundary,
-        CompareBoundary
+        CompareBoundary,
+        na
     }
 }
