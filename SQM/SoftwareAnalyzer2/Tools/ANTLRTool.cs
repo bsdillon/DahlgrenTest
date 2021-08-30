@@ -192,30 +192,46 @@ namespace SoftwareAnalyzer2.Tools
                             translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", justTypeReplacement);
                         
                             // Compiler-specific keyword and operator translations
-                            // TODO: Deal with these compiler instructions..?
-                            // https://www.keil.com/support/man/docs/armcc/armcc_chr1359124965789.htm
-                            String[] compilerKeywords = new String[] {"__align", "__ALIGNOF__", "__alignof__", "__asm",  "__forceinline",
-                                                                      "__global_reg", "__inline", "__int64", "__INTADDR__", "__irq", "__packed",
-                                                                      "__pure", "__smc", "__softfp", "__svc", "__svc_indirect", "__svc_indirect_r7",
-                                                                      "__value_in_regs", "__weak", "__writeonly",
-                                                                      "__breakpoint ", "__cdp", "__clrex", "__clz", "__current_pc", "__current_sp", 
-                                                                      "__disable_fiq", "__disable_irq", "__dmb", "__dsb", "__enable_fiq",  "__enable_irq", 
-                                                                      "__fabs", "__fabsf", "__force_loads", "__force_stores", "__isb", "__ldrex", "__ldrexd",
+                            // TODO: Multi-line asm statements
+                            String[] compilerKeywords = new String[] {@"__align\(\d+\)", @"(__asm_{0,2})(\(|{)(.)+(\)|})", "__asm", 
+                                                                      @"__global_reg\(\d+\)", "__irq", "__packed", "__pure", @"__smc\(\d+\)", 
+                                                                      "__softfp", @"__svc\(\d+\)", @"__svc_indirect\(\d+\)", @"__svc_indirect_r7\(\d+\)",
+                                                                      "__value_in_regs", "__weak",
+                                                                      @"__breakpoint\(\d+\)", @"(__cdp)(\(|\s*)(\w|\d|\s)+,(\w|\d|\s)+,(\w|\d|\s)+(\)|\s*);", 
+                                                                      @"void __clrex\((void|)\)", @"__clrex(\(\))?", @"unsigned char __clz\((\d)+\)", 
+                                                                      @"unsigned int __current_pc\((void|)\)", @"unsigned int __current_sp\((void|)\)", 
+                                                                      @"unisgned int __current_sp\((void|)\)", @"(int|void) __disable_fiq\((void|)\)",
+                                                                      @"(int|void) __disable_irq\((void|)\)", 
+                                                                      @"__dmb\(\d+\)", @"__dsb\(\d+\)", @"__enable_fiq\(\)",  @"__enable_irq\(\)", 
+                                                                      "__fabsf", "__force_loads", "__force_stores", "__isb", "__ldrex", "__ldrexd",
                                                                       "__ldrt", "__memory_changed", "__nop", "__pld", "__pli", "__qadd", "__qdbl", "__qsub", 
                                                                       "__rbit", "__rev", "__return_address", "__ror", "__schedule_barrier", "__semihost", 
                                                                       "__sev", "__sqrt", "__sqrtf", "__ssat", "__strex", "__strexd", "__strt", "__swp", 
                                                                       "__usat", "__wfe", "__wfi", "__yield "};
-                            // TODO: Handle all compiler keywords individually
-                            // foreach (String keyword in compilerKeywords) {
-                                translated_line = Regex.Replace(translated_line, "__asm", "COMPILER_KEYWORD;//");
-                            // }
                             
-                            // Platform-specific translations as a result of preprocessing
-                            // Linux:
+                            // Keywords in string array above that can just be removed
+                            foreach (String keyword in compilerKeywords) {
+                                translated_line = Regex.Replace(translated_line, keyword, "");
+                            }
+
+                            // Function attributes
                             translated_line = Regex.Replace(translated_line, @"(\w*\s*)(__attribute__)(\({2})(.+)(\){2})", "$1$4 ");
-                        
-                            // Windows:
-                            translated_line = Regex.Replace(translated_line, @"(\w*\s*)(__declspec)(\()(.+)(\))", "$1$4 ");
+                            translated_line = Regex.Replace(translated_line, @"(\w*\s*)(__declspec)(\()(\w+)(\))", "$1$4 ");
+
+                            // Replace with something specific cases:
+                            translated_line = Regex.Replace(translated_line, @"(__(?i:ALIGNOF)_{0,2})(\((\w|\d|_|\s)+\))", "alignof$2");
+                            translated_line = Regex.Replace(translated_line, @"__forceinline|__inline", "inline");
+                            translated_line = Regex.Replace(translated_line, @"__int64", "long long");
+                            translated_line = Regex.Replace(translated_line, @"__writeonly", "const"); 
+                            translated_line = Regex.Replace(translated_line, @"(__fabs)(\()(\d|\.)+(\))", "fabs($3)");
+                            
+                            // Replace with default integer
+                            String[] integerCompilerWords = new String[] {@"(__INTADDR__)(\()(.)+(\))", @"__clz(\(\))?", @"__current_pc(\(\))?", 
+                                                                          @"__current_sp(\(\))?", @"__disable_fiq(\(\))?", @"__disable_irq(\(\))?"};
+                            
+                            foreach (String integerCompilerWord in integerCompilerWords) {
+                                translated_line = Regex.Replace(translated_line, integerCompilerWord, "0");
+                            }
                         }
 
                         // Additional translations may be added here as we see new parse issues crop up in the field,
@@ -285,8 +301,7 @@ namespace SoftwareAnalyzer2.Tools
                     t => !(
                         t.Contains("<WS>") ||
                         t.Contains("<COMMENT>") ||
-                        t.Contains("<Directive>") ||
-                        t.Contains("COMPILER_KEYWORD")
+                        t.Contains("<Directive>")
                     )
                 ).ToArray();
                 
@@ -297,11 +312,6 @@ namespace SoftwareAnalyzer2.Tools
 
                 string[] tree = p.StandardOutput.ReadToEnd().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 Console.Out.WriteLine("/t"+fileName);
-                tree = tree.Where(
-                    t => !(
-                        t.Contains("COMPILER_KEYWORD")
-                    )
-                ).ToArray();
                 for (int i = 0; i< tree.Length; i++) {
                     tree[i] = Regex.Replace(tree[i], @"VARIADIC_", "");
                 }
@@ -771,7 +781,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("pointerOperator", "*");
                 head.Collapse("pointerOperator", "&");
                 head.Collapse("unaryOperator", "&");
-
+                
                 head.RootUpModify("classSpecifier", Members.TypeDeclaration, CPPClassSpecifierHandler);
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
@@ -819,19 +829,25 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.Private, Members.Private, CPPMemberModifierSender);
                 head.RootUpModify(Members.Protected, Members.Protected, CPPMemberModifierSender);
                 // TODO: find a way to make this order work out - the member modifiers depend on memberdeclaration nodes but CPPFieldRelevantNodeIncluder can't handle that
+                head.Collapse("virtualSpecifierSeq");
                 head.Collapse("memberdeclaration");
                 head.Collapse("memberdeclaration", ";");
                 head.Collapse("statement");
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
-                // TODO: add non-member Modifier Sender function
-                
+                head.Collapse("typeSpecifier");
+                head.Collapse("trailingTypeSpecifier");
+                head.Collapse("declarator");
+                head.RootUpModify("cvQualifier", "cvQualifier", CPPNonMemberModifierSender);
+                //need to look at typedefs more
+                head.RootUpModify("declSpecifier", "declSpecifier", CPPNonMemberModifierSender);
+
                 head.LeafDownModify("noPointerDeclarator", "noPointerDeclarator", CPPLateNoPointerDeclaratorHandler);
                 head.Rename("multiplicativeExpression", Members.Operator);
                 head.Rename("additiveExpression", Members.Operator);
                 head.Rename("logicalAndExpression", Members.Boolean_And);
                 head.Rename("logicalOrExpression", Members.Boolean_Or);
-
                 head.LeafDownModify(Members.Operator, Members.Operator, CPPOperatorOrderer);
+
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
                 // Move these into their ModifierSets - then typeSpecifierSeq should be collapsible FINALLY
@@ -846,14 +862,11 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("pointerAbstractDeclarator");
                 head.Collapse("theTypeId");
                 // test more on typeSpecifierSeq - note the problems from CPPTryCatchHandler
-                //head.Collapse("typeSpecifierSeq");
+                head.Collapse("typeSpecifierSeq");
                 head.Collapse("virtualSpecifierSeq");
-                head.Collapse("declarator");
                 head.Collapse("initializerClause");
                 head.Collapse("templateArgument");
                 head.Collapse("declSpecifier");
-                head.Collapse("typeSpecifier");
-                head.Collapse("trailingTypeSpecifier");
                 head.Collapse("simpleTypeSpecifier");
                 head.Collapse("theTypeName");
                 head.Collapse("compoundStatement");
@@ -873,18 +886,11 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("constantExpression");
                 head.Collapse("expressionList");
                 head.Collapse("handler", "catch ( )");
-                
-                // Templates have a complex tree, remove the template parameter to simplify graph
-                //head.Collapse("TypeDeclaration");
 
-                // head.Rename("modifier", "modifier");
-                // head.Rename("modifier", "modifier");
-                // head.Rename("modifier", "modifier");
                 head.NormalizeLines();
 
                 // Throw away "HEAD" and replace with "File" at top of tree
                 //head = (IModifiable) head.Children.First();
-
             }
             else {
                 Console.WriteLine("Unknown language = "+myLang);
@@ -4658,7 +4664,27 @@ namespace SoftwareAnalyzer2.Tools
                     // declarators in Method definitions should NOT be MethodInvokes (Polygon.AST)
                     // watch for ConstructorInvokes too, not sure how those ought to look - line 41, 40 in AST (classConstructor)
                     // maybe - if there's a type, but there is no Write = node, then it's a constructor?
-                    ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+                    if (node.Parent.Node.Equals("memberDeclarator"))
+                    {
+                        // if a class has a declared but not defined member function, like a friend function or something weird
+                        ((IModifiable)node.GetNthChild(0)).SetNode(Members.Method);
+                        IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                        modSetNode.Parent = node.GetNthChild(0);
+                        IModifiable memberDeclarationNode = (IModifiable)node.GetAncestor("memberdeclaration");
+                        IModifiable declSpecNode = (IModifiable)memberDeclarationNode.GetNthChild(0);
+                        memberDeclarationNode.RemoveChild(declSpecNode);
+                        declSpecNode.Parent = node.GetNthChild(0);
+                        if (node.Parent.GetFirstSingleLayer("virtualSpecifierSeq") != null)
+                        {
+                            node.Parent.GetFirstSingleLayer("virtualSpecifierSeq").Parent = memberDeclarationNode;
+                        }
+                        memberDeclarationNode.ReplaceChild((IModifiable)memberDeclarationNode.GetNthChild(0), (IModifiable)node.GetNthChild(0));
+                    }
+                    else
+                    {
+                        ((IModifiable)node.GetNthChild(0)).SetNode(Members.MethodInvoke);
+                    }
+                    
                     node.GetNthChild(1).Parent = node.GetNthChild(0);
                     node.RemoveChild((IModifiable)node.GetNthChild(1));
                 }
@@ -4708,40 +4734,28 @@ namespace SoftwareAnalyzer2.Tools
         private void CPPDotOperatorOrderer(IModifiable node)
         {
             IModifiable trueParent = (IModifiable)node.Parent;
-            List<INavigable> dotOpWithSiblings = trueParent.Children;
-            trueParent.DropChildren();
-            foreach (IModifiable child in dotOpWithSiblings)
-            {
-                if (child.Node.Equals(Members.DotOperator))
-                {
-                    IModifiable firstNode = (IModifiable)child.GetNthChild(0);
-                    firstNode.Parent = trueParent;
-                    child.RemoveChild((IModifiable)child.GetNthChild(0));
+            IModifiable firstNode = (IModifiable)node.GetNthChild(0);
+            node.RemoveChild((IModifiable)node.GetNthChild(0));
 
-                    //child's Parent should be all the way down the firstNode's branch?
-                    IModifiable targetNode = firstNode;
-                    while (targetNode.GetChildCount() > 0)
-                    {
-                        if (targetNode.GetNthChild(0).Node.Equals(Members.ParameterList))
-                        {
-                            if (targetNode.GetChildCount() > 1)
-                            {
-                                targetNode = (IModifiable)targetNode.GetNthChild(1);
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                        targetNode = (IModifiable)targetNode.GetNthChild(0);
-                    }
-                    child.Parent = targetNode;
-                }
-                else
+            //child's Parent should be all the way down the firstNode's branch?
+            IModifiable targetNode = firstNode;
+            while (targetNode.GetChildCount() > 0)
+            {
+                if (targetNode.GetNthChild(0).Node.Equals(Members.ParameterList))
                 {
-                    child.Parent = trueParent;
+                    if (targetNode.GetChildCount() > 1)
+                    {
+                        targetNode = (IModifiable)targetNode.GetNthChild(1);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
+                targetNode = (IModifiable)targetNode.GetNthChild(0);
             }
+            node.Parent = targetNode;
+            trueParent.ReplaceChild(node, firstNode);
         }
 
         /// <summary>
@@ -4962,6 +4976,22 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable ancestorNode = (IModifiable)node.GetAncestor("memberdeclaration");
             node.Parent = ancestorNode.GetNthChild(0).GetFirstSingleLayer(MemberSets.ModifierSet);
             oldParent.RemoveChild(node);
+        }
+
+        /// <summary>
+        /// Sends modifiers for non-class things to their ModifierSet node
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPNonMemberModifierSender(IModifiable node)
+        {
+            //TODO: try merging with the above function for a unified CPPModifierSender
+            if (node.Node.Equals("declSpecifier") && node.Code.Equals(""))
+            {
+                return;
+            }
+            IModifiable oldParent = (IModifiable)node.Parent;
+            node.Parent = node.Parent.Parent.GetFirstSingleLayer(MemberSets.ModifierSet);
+            (oldParent).RemoveChild(node);
         }
 
         /// <summary>
