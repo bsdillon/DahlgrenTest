@@ -35,7 +35,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             al.OutputCSVErrors(gFile, fileName, lineNum);
             gFile.Close();
         }
-        //monluTODO -- figure out the relationships passing and output tree formatting
         //luTODO -- make the tracing errors silent and output them within an output file
         private void FindAffectedNodes(List<GraphNode> gNodes)
         {

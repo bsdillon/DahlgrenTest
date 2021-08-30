@@ -23,6 +23,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         public void WriteToAffectedDict(GraphNode gn, string fileName, int lineNumber, bool trimFileN, Relationship re)
         {
             //luTODO -- add a new graphnode list to graphnode to hold the graphnodes that affected gn.
+            //luTODO -- the tracing functions need what GN the relationship stemed from so we can use it here.
             if (fileName != null && !gn.IsSimulated)
             {
                 Dictionary<int, List<Dictionary<GraphNode, Relationship>>> gnLine = new Dictionary<int, List<Dictionary<GraphNode, Relationship>>>();
