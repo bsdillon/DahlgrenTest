@@ -13,28 +13,24 @@ namespace SoftwareAnalyzer2.Structure.Metrics
     class AffectedLine
     {
         //dictionary: <file name (string), dictionary: <line number (int), List<affected graphnodes (graphnode)>>>
-        private Dictionary<string, Dictionary<int, List<GraphNode>>> affectedDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
+        private Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>> affectedDict = new Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>>();
         public AffectedLine()
         {
         }
 
         //luTODO -- take simulated data, mark it, terminate tracing at that point
-        //luTODO -- the output of "traceback" is still a work in progress. fix branches
-        public void WriteToAffectedDict(GraphNode gn, string fileName, int lineNumber, bool trimFileN)
+        //luTODO -- the output of "traceback" is still a work in progress. see TODOs below
+        public void WriteToAffectedDict(GraphNode gn, string fileName, int lineNumber, bool trimFileN, Relationship re)
         {
-            gn.traceBack += "  ->  WRITE" + gn.Represented.FileName + "[" + gn.Represented.GetLineStart().ToString() + "][" + gn.Represented.Node.ToString() + "]";
-            //simulated graphnodes are not very meaningful for tracing errors
+            //luTODO -- add a new graphnode list to graphnode to hold the graphnodes that affected gn.
+            //luTODO -- the tracing functions need what GN the relationship stemed from so we can use it here.
             if (fileName != null && !gn.IsSimulated)
             {
-                //trim filename for affected dict, but not linenumber dict
-                if (trimFileN && fileName.LastIndexOf(Path.DirectorySeparatorChar) > 0)
-                {
-                    fileName = fileName.Substring(fileName.LastIndexOf(Path.DirectorySeparatorChar));
-                }
-
-                Dictionary<int, List<GraphNode>> gnLine = new Dictionary<int, List<GraphNode>>();
-                gnLine[lineNumber] = new List<GraphNode>();
-                gnLine[lineNumber].Add(gn);
+                Dictionary<int, List<Dictionary<GraphNode, Relationship>>> gnLine = new Dictionary<int, List<Dictionary<GraphNode, Relationship>>>();
+                Dictionary<GraphNode, Relationship> gnRel = new Dictionary<GraphNode, Relationship>();
+                gnLine[lineNumber] = new List<Dictionary<GraphNode, Relationship>>();
+                gnRel[gn] = re;
+                gnLine[lineNumber].Add(gnRel);
 
                 //add to linenumber dictionary
                 //does the dict contain the filename?
@@ -48,9 +44,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     if (affectedDict[fileName].ContainsKey(lineNumber))
                     {
                         //if it doesn't contain the exact graphnode we are inserting, insert it
-                        if (!affectedDict[fileName][lineNumber].Contains(gn))
+                        if (!affectedDict[fileName][lineNumber].Contains(gnRel))
                         {
-                            affectedDict[fileName][lineNumber].Add(gn);
+                            affectedDict[fileName][lineNumber].Add(gnRel);
                         }
                     }
                     else
@@ -64,7 +60,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         public void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r)
         {
-            grphNde.traceBack += "  ->  STATE" + gn.Represented.FileName + "[" + gn.Represented.GetLineStart().ToString() + "][" + gn.Represented.Node.ToString() + "] - " + r.ToString();
+            //luTODO -- add a new graphnode list to graphnode to hold the graphnodes that affected gn.
             //simulated graphnodes are not very meaningful for tracing errors
             if (!gn.IsSimulated)
             {
@@ -73,17 +69,22 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     //check if affectedDict contains the filename we are trying to insert
                     if (!affectedDict.ContainsKey(s.Represented.FileName))
                     {
-                        Dictionary<int, List<GraphNode>> iGNList = new Dictionary<int, List<GraphNode>>();
-                        List<GraphNode> smallGList = new List<GraphNode>();
-                        smallGList.Add(grphNde);
+                        Dictionary<int, List<Dictionary<GraphNode, Relationship>>> iGNList = new Dictionary<int, List<Dictionary<GraphNode,Relationship>>>();
+                        Dictionary<GraphNode, Relationship> gnRel = new Dictionary<GraphNode, Relationship>();
+                        List<Dictionary<GraphNode, Relationship>> smallGList = new List<Dictionary<GraphNode, Relationship>>();
+
+                        gnRel[grphNde] = r;
+                        smallGList.Add(gnRel);
                         iGNList[s.Represented.GetLineStart()] = smallGList;
                         affectedDict[s.Represented.FileName] = iGNList;
                     }
                     //if affectedDict contains the filename, does it also contain the line number we are trying to insert?
                     else if (!affectedDict[s.Represented.FileName].ContainsKey(s.Represented.GetLineStart()))
                     {
-                        List<GraphNode> gnList = new List<GraphNode>();
-                        gnList.Add(grphNde);
+                        List<Dictionary<GraphNode, Relationship>> gnList = new List<Dictionary<GraphNode, Relationship>>();
+                        Dictionary<GraphNode, Relationship> gnRelationship = new Dictionary<GraphNode, Relationship>();
+                        gnRelationship[grphNde] = r;
+                        gnList.Add(gnRelationship);
                         affectedDict[s.Represented.FileName][s.Represented.GetLineStart()] = gnList;
                     }
                 }
@@ -102,12 +103,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
                 foreach (int lN in affectedDict[fN].Keys)
                 {
-                    List<GraphNode> gnList = affectedDict[fN][lN];
+                    List<Dictionary<GraphNode,Relationship>> gnDictList = affectedDict[fN][lN];
                     //output affected filename, linenumber, and nodetype
                     string gnListStr = "";
-                    foreach (GraphNode g in gnList)
+                    foreach (Dictionary<GraphNode,Relationship> d in gnDictList)
                     {
-                        gnListStr += g.Represented.Node.ToString() + "," + g.traceBack;
+                        foreach (GraphNode g in d.Keys)
+                        {
+                            gnListStr += g.Represented.Node.ToString() + "," + d[g].ToString();
+                        }
                     }
                     if (gnListStr != "")
                     {

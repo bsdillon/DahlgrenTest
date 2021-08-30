@@ -35,15 +35,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             al.OutputCSVErrors(gFile, fileName, lineNum);
             gFile.Close();
         }
-
         //luTODO -- make the tracing errors silent and output them within an output file
         private void FindAffectedNodes(List<GraphNode> gNodes)
         {
             //for every affected graph node, trace the relationships down the chain until everything has been traced
             foreach (GraphNode g in gNodes)
             {
-                g.traceBack = "Initial Graph Node: " + g.Represented.FileName + "[" + g.Represented.GetLineStart().ToString() + "][" + g.Represented.Node.ToString() + "]";
-                string traceInit = g.traceBack;
                 if (!g.Represented.Node.IsClassification)
                 {
                     //constructor, literal, statement, return type, return, method are potential future cases to consider
@@ -54,43 +51,39 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     switch (g.Represented.Node.GetMyMember())
                     {
                         case Members.Field:
-                            TraceField(g);
+                            TraceField(g, Relationship.na);
                             break;
                         case Members.Parameter:
-                            TraceParameter(g);
+                            TraceParameter(g, Relationship.na);
                             break;
                         case Members.Method:
-                            TraceMethod(g);
+                            TraceMethod(g, Relationship.na);
                             break;
                         case Members.MethodScope:
                             if (g.ParentScope.Represented.Node.GetMyMember() == Members.Method)
                             {
-                                TraceMethod(g.ParentScope);
+                                TraceMethod(g.ParentScope, Relationship.na);
                             }
                             break;
                         case Members.Branch:
-                            TraceBranch(g);
+                            TraceBranch(g, Relationship.na);
                             break;
                         default:
                             //default functionality unnecessary? (subject to change)
                             break;
                     }
                 }
-                if(g.traceBack == traceInit)
-                {
-                    g.traceBack += " has no links.";
-                }
             }
         }
 
-        private void TraceField(GraphNode gn)
+        private void TraceField(GraphNode gn, Relationship re)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
                 //this line seems to be neccessary to trace everything. maybe redundant in some cases
-                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -107,19 +100,19 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             //field wants to trace back to anything it is related to.
                             if (grphNde.Represented.Node.Equals(Members.Parameter))
                             {
-                                TraceParameter(grphNde);
+                                TraceParameter(grphNde, r);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Method))
                             {
-                                TraceMethod(grphNde);
+                                TraceMethod(grphNde, r);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Branch))
                             {
-                                TraceBranch(grphNde);
+                                TraceBranch(grphNde, r);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Field))
                             {
-                                TraceField(grphNde);
+                                TraceField(grphNde, r);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Constructor))
                             {
@@ -147,7 +140,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         {
                             if (grphNde.Represented.Node.Equals(Members.Method))
                             {
-                                TraceMethod(grphNde);
+                                TraceMethod(grphNde, r);
                             }
                         }
                     }
@@ -155,13 +148,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
-        private void TraceParameter(GraphNode gn)
+        private void TraceParameter(GraphNode gn, Relationship re)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
-                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -173,19 +166,19 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                             if (grphNde.Represented.Node.Equals(Members.Method))
                             {
-                                TraceMethod(grphNde);
+                                TraceMethod(grphNde, r);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Parameter))
                             {
-                                TraceParameter(grphNde);
+                                TraceParameter(grphNde, r);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Branch))
                             {
-                                TraceBranch(grphNde);
+                                TraceBranch(grphNde, r);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Field))
                             {
-                                TraceField(grphNde);
+                                TraceField(grphNde, r);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
                             {
@@ -206,13 +199,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
-        private void TraceMethod(GraphNode gn)
+        private void TraceMethod(GraphNode gn, Relationship re)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
-                al.WriteToAffectedDict(gn, gn.Represented.FileName, -1, false);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, -1, false, re);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -229,7 +222,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         foreach (GraphNode grphNode in gn.GetRelationshipsTo()[r].Keys)
                         {
                             al.WriteStatementToAffectedDict(gn, grphNode, r);
-                            TraceReturnValue(grphNode);
+                            TraceReturnValue(grphNode, r);
                         }
                     }
                 }
@@ -237,7 +230,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         }
 
-        private void TraceBranch(GraphNode gn)
+        private void TraceBranch(GraphNode gn, Relationship re)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
@@ -254,14 +247,14 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         for (int i = t.Item1; i <= t.Item2; i++)
                         {
                             //maybe find relationships of the line numbers eventually (subject to change)
-                            al.WriteToAffectedDict(gn, gn.Represented.FileName, i, false);
+                            al.WriteToAffectedDict(gn, gn.Represented.FileName, i, false, re);
                         }
                     }
                 }
             }
         }
 
-        private void TraceReturnValue(GraphNode gn)
+        private void TraceReturnValue(GraphNode gn, Relationship re)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
@@ -270,7 +263,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 if (gn.Represented.Node.Equals(Members.Field))
                 {
-                    al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false);
+                    al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re);
                 }
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
@@ -281,7 +274,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         {
                             if (grphNode.Represented.Node.Equals(Members.Field))
                             {
-                                TraceField(grphNode);
+                                TraceField(grphNode, r);
                             }
                             else if (grphNode.Represented.Node.Equals(Members.Literal))
                             {
