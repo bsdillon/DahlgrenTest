@@ -25,6 +25,9 @@ using namespace std;
 // int qadd(int i, int j)
 // {
 //     __asm__("" : "=x" (reg) : "0" (x));
+//     int count __asm__("count_v1"); // export count_v1, not count
+//     register int foo __asm("r0");
+//     __asm { QADD   res, i, j }
 // }
 
 // __asm void my_strcpy(const char *src, char *dst);
@@ -157,14 +160,14 @@ using namespace std;
 //     // printf("ptr value = %d\n", *ptr); // error
 // }
 
-// // __declspec(noinline)
-// // /* Prevent y being used for optimization */
-// // __declspec(noinline) const int y = 5;
-// // // /* Suppress inlining of foo() wherever foo() is called */
-// // __declspec(noinline) int foo(void);
+// __declspec(noinline)
+// /* Prevent y being used for optimization */
+// __declspec(noinline) const int y = 5;
+// // /* Suppress inlining of foo() wherever foo() is called */
+// __declspec(noinline) int foo(void);
 
-// // // // __declspec(noreturn)
-// // __declspec(noreturn) void overflow(void); // called on overflow
+// // // __declspec(noreturn)
+// __declspec(noreturn) void overflow(void); // called on overflow
         
 // // int negate(int x) 
 // // {
@@ -174,10 +177,7 @@ using namespace std;
 
 // // void overflow(void)
 // // {
-// //     __asm {
-// //         SVC 0x123; // hypothetical exception-throwing system service
-// //     }
-// //     while (1);
+// //     __asm { SVC 0x123; }
 // // }
 
 // // // __declspec(nothrow)
@@ -185,34 +185,38 @@ using namespace std;
 // // {
 // //     ~S();
 // // };
-// // __declspec(nothrow) extern void f(void);
-// // void g(void)
-// // {
-// //     S s;
-// //     f();
-// // }
+// __declspec(nothrow) extern void f(void);
+// void g(void)
+// {
+//     S s;
+//     f();
+// }
 
-// // // __declspec(notshared)
-// // struct __declspec(notshared) X
-// // {
-// //     virtual int f();
-// // };                             // do not export this
-// // int X::f()
-// // {
-// //     return 1;
-// // }
-// // struct Y : X
-// // {
-// //     virtual int g();
-// // };                             // do export this
-// // int Y::g()
-// // {
-// //     return 1;
-// // }
+// // __declspec(notshared)
+// struct __declspec(notshared) X
+// {
+//     virtual int f();
+// };                             // do not export this
+// int X::f()
+// {
+//     return 1;
+// }
+// struct Y : X
+// {
+//     virtual int g();
+// };                             // do export this
+// int Y::g()
+// {
+//     return 1;
+// }
 
-// // // __declspec(thread)
-// // __declspec(thread) int i;
-// // __thread int j;           // same as __decspec(thread) int j;
+// // __declspec(thread)
+// __declspec(thread) int i;
+// __thread int j;           // same as __decspec(thread) int j;
+
+// #pragma arm
+// #pragma arm section
+// #pragma hdrstop
 
 // // __breakpoint
 // void func(void)
@@ -322,4 +326,5 @@ using namespace std;
 //     __wfi();
 //     // __yield
 //     __yield();
+//     unsigned int test25 = __vfp_status(5, 4);
 // }

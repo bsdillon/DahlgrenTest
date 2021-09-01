@@ -192,43 +192,45 @@ namespace SoftwareAnalyzer2.Tools
                             translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", justTypeReplacement);
                         
                             // Compiler-specific keyword and operator translations
-                            // TODO: Multi-line asm statements
-                            String[] compilerKeywords = new String[] {@"__align\(\d+\)", @"(__asm_{0,2})(\(|{)(.)+(\)|})", "__asm", 
-                                                                      @"__global_reg\(\d+\)", "__irq", "__packed", "__pure", @"__smc\(\d+\)", 
+                            String[] compilerKeywords = new String[] {// Compiler function attributes:
+                                                                      @"(\w*\s*)(__attribute__)(\({2})(.+)(\){2})", @"(\w*\s*)(__declspec)(\()(\w+)(\))", @"__thread",
+                                                                      // Keywords and operators:
+                                                                      // TODO: Multi-line ASMs? Worth dealing with?
+                                                                      @"__align\(\d+\)", @"((__asm_{0,2}\s*)(\(|{)(.)+(\)|}))|(^(\t|\s)*(__asm_{0,2}\s*)(\(|{)(.)+(\)|});?)", 
+                                                                      @"__asm_{0,2}", @"__global_reg\(\d+\)", "__irq", "__packed", "__pure", @"__smc\(\d+\)", 
                                                                       "__softfp", @"__svc\(\d+\)", @"__svc_indirect\(\d+\)", @"__svc_indirect_r7\(\d+\)",
                                                                       "__value_in_regs", "__weak",
-                                                                      @"__breakpoint\(\d+\)", @"(__cdp)(\(|\s*)(\w|\d|\s)+,(\w|\d|\s)+,(\w|\d|\s)+(\)|\s*);", 
-                                                                      @"void __clrex\((void|)\)", @"__clrex(\(\))?", @"unsigned char __clz\((\d)+\)", 
-                                                                      @"unsigned int __current_pc\((void|)\)", @"unsigned int __current_sp\((void|)\)", 
-                                                                      @"unisgned int __current_sp\((void|)\)", @"(int|void) __disable_fiq\((void|)\)",
-                                                                      @"(int|void) __disable_irq\((void|)\)", 
-                                                                      @"__dmb\(\d+\)", @"__dsb\(\d+\)", @"__enable_fiq\(\)",  @"__enable_irq\(\)", 
-                                                                      "__fabsf", "__force_loads", "__force_stores", "__isb", "__ldrex", "__ldrexd",
-                                                                      "__ldrt", "__memory_changed", "__nop", "__pld", "__pli", "__qadd", "__qdbl", "__qsub", 
-                                                                      "__rbit", "__rev", "__return_address", "__ror", "__schedule_barrier", "__semihost", 
-                                                                      "__sev", "__sqrt", "__sqrtf", "__ssat", "__strex", "__strexd", "__strt", "__swp", 
-                                                                      "__usat", "__wfe", "__wfi", "__yield "};
+                                                                      // Intrinsic keywords:
+                                                                      @"__breakpoint\(.+\);?", @"(__cdp)(\(|\s*)(\w|\d|\s)+,(\w|\d|\s)+,(\w|\d|\s)+(\)|\s*);?", 
+                                                                      @"__clrex\(\);?", @"^(\s|\t)+__disable_fiq\(\);?",
+                                                                      @"^(\s|\t)*__disable_irq\(\);?", @"__dmb\(.+\);?", @"__dsb\(.+\);?", @"__enable_fiq\(\);?", 
+                                                                      @"__enable_irq\(\);?", @"__force_loads\(\);?", @"__force_stores\(\);?", @"__isb\(.+\);?",
+                                                                      @"__memory_changed\(\);?", @"__nop\(\);?", @"__pld\(.+\);?", @"__pli\(.+\);?", 
+                                                                      @"__schedule_barrier\(\);?", @"__sev\(\);?", 
+                                                                      @"__strt\(.+\);?", @"__wfe\(\);?", @"__wfi\(\);?", @"__yield\(\);?"};
                             
-                            // Keywords in string array above that can just be removed
+                            // Compiler keywords in string array above that can just be removed
                             foreach (String keyword in compilerKeywords) {
                                 translated_line = Regex.Replace(translated_line, keyword, "");
                             }
 
-                            // Function attributes
-                            translated_line = Regex.Replace(translated_line, @"(\w*\s*)(__attribute__)(\({2})(.+)(\){2})", "$1$4 ");
-                            translated_line = Regex.Replace(translated_line, @"(\w*\s*)(__declspec)(\()(\w+)(\))", "$1$4 ");
-
-                            // Replace with something specific cases:
+                            // Compiler keywords to be replaced with something specific cases:
                             translated_line = Regex.Replace(translated_line, @"(__(?i:ALIGNOF)_{0,2})(\((\w|\d|_|\s)+\))", "alignof$2");
                             translated_line = Regex.Replace(translated_line, @"__forceinline|__inline", "inline");
                             translated_line = Regex.Replace(translated_line, @"__int64", "long long");
                             translated_line = Regex.Replace(translated_line, @"__writeonly", "const"); 
-                            translated_line = Regex.Replace(translated_line, @"(__fabs)(\()(\d|\.)+(\))", "fabs($3)");
-                            
-                            // Replace with default integer
-                            String[] integerCompilerWords = new String[] {@"(__INTADDR__)(\()(.)+(\))", @"__clz(\(\))?", @"__current_pc(\(\))?", 
-                                                                          @"__current_sp(\(\))?", @"__disable_fiq(\(\))?", @"__disable_irq(\(\))?"};
-                            
+                            translated_line = Regex.Replace(translated_line, @"(__)(fabsf?)(\()(.)+(\))", "$2($4)");
+                            translated_line = Regex.Replace(translated_line, @"(__qadd\()(.+)(,\s*)(.+)(\))", "$2+$4");
+                            translated_line = Regex.Replace(translated_line, @"(__qdbl\()(.+)(\))", "$2+$2");
+                            translated_line = Regex.Replace(translated_line, @"(__qsub\()(.+)(,\s*)(.+)(\))", "$2-$4");
+                            translated_line = Regex.Replace(translated_line, @"(__sqrtf?\()(.+)(\))", "sqrt($2)");
+
+                            // Compiler keywords to be replaced with default integer 0
+                            String[] integerCompilerWords = new String[] {@"(__INTADDR__)(\()(.)+(\))", @"__clz\(.+\)", @"__current_pc\(\)", @"__current_sp\(\)", 
+                                                                          @"__disable_fiq\(\)", @"__disable_irq\(\)", @"__ldrex\(.+\)", @"__ldrexd\(.+\)",
+                                                                          @"__ldrt\(.+\)", @"__rbit\(.+\)", @"__rev\(.+\)", @"__return_address\(\)", @"__ror\(.+\)", 
+                                                                          @"__semihost\(.+\)", @"__ssat\(.+\)", @"__strexd?\(.+\)", @"__swp\(.+\)", @"__usat\(.+\)",
+                                                                          @"__vfp_status\(.+\)"};
                             foreach (String integerCompilerWord in integerCompilerWords) {
                                 translated_line = Regex.Replace(translated_line, integerCompilerWord, "0");
                             }
@@ -769,7 +771,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("parameterDeclaration", Members.Parameter);
                 head.Rename("condition", Members.Boolean);
                 head.Rename("braceOrEqualInitializer", Members.Write);
-                head.Rename("templateName", Members.TypeDeclaration);
+                head.Rename("templateName", Members.TypeName);
                 head.Rename("templateArgumentList", Members.Sub_Type);
                 head.Rename("enumeratorList", MemberSets.Values);
                 head.Rename("exceptionDeclaration", Members.Field);
@@ -840,6 +842,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("declaration");
 
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
+                head.RootUpModify("memberSpecification", "memberSpecification", ReparentChildren);
+                head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMemberSetAdder);
                 head.Collapse("typeSpecifier");
                 head.Collapse("trailingTypeSpecifier");
                 head.Collapse("declarator");
@@ -892,6 +896,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("constantExpression");
                 head.Collapse("expressionList");
                 head.Collapse("handler", "catch ( )");
+
                 head.NormalizeLines();
 
                 // Throw away "HEAD" and replace with "File" at top of tree
@@ -4578,8 +4583,8 @@ namespace SoftwareAnalyzer2.Tools
             }
             else
             {
-                // TODO
-                errorMessages.Add("ERROR: Unsupported simpleTypeSpecifier code " + node + System.Environment.NewLine);
+                // TODO?
+                //errorMessages.Add("ERROR: Unsupported simpleTypeSpecifier code " + node + System.Environment.NewLine);
             }
         }
 
@@ -4806,8 +4811,23 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPEnumSpecifierHandler(IModifiable node)
         {
+            IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
+            classificationNode.Parent = node.GetNthChild(0);
+            IModifiable enumNode = (IModifiable)NodeFactory.CreateNode(Members.ENUM, false);
+            enumNode.Parent = classificationNode;
+            IModifiable superTypesNode = (IModifiable)NodeFactory.CreateNode(MemberSets.SuperTypes, false);
+            superTypesNode.Parent = node.GetNthChild(0);
+            IModifiable enumkeyNode = (IModifiable)node.GetNthChild(0).GetFirstSingleLayer("enumkey");
+            enumkeyNode.SetNode(Members.SuperType);
+            enumkeyNode.Parent = superTypesNode;
+            ((IModifiable)node.GetNthChild(0)).RemoveChild(enumkeyNode);
+            enumNode.Clone().Parent = enumkeyNode;
+
             node.GetNthChild(1).Parent = node.GetNthChild(0);
             node.RemoveChild((IModifiable)node.GetNthChild(1));
+            IModifiable oldParent = (IModifiable)node.Parent;
+            ((IModifiable)node.GetAncestor("declaration")).ReplaceChild((IModifiable)node.GetAncestor("declaration").GetNthChild(0), (IModifiable)node.GetNthChild(0));
+            oldParent.RemoveChild(node);
         }
 
         /// <summary>
@@ -5228,6 +5248,64 @@ namespace SoftwareAnalyzer2.Tools
             else
             {
                 errorMessages.Add("ERROR: Unsupported classKey code " + node + System.Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// Convenience function for CPPTypeDeclarationMemberSetAdder, checks for the presence of a MemberSet and handles that
+        /// </summary>
+        /// <param name="answer"></param>
+        private List<INavigable> CPPMemberSetAdderConvenience(IModifiable node, List<INavigable> children, MemberSets memberSet, Members member)
+        {
+            IModifiable memberSetNode;
+            if (children.Any(child => child.Node.Equals(memberSet)))
+            {
+                memberSetNode = (IModifiable)children.FirstOrDefault(child => child.Node.Equals(memberSet));
+                children.Remove(memberSetNode);
+            }
+            else
+            {
+                memberSetNode = (IModifiable)NodeFactory.CreateNode(memberSet, false);
+            }
+            memberSetNode.Parent = node;
+
+            if (children.Any(child => child.Node.Equals(member)))
+            {
+                var memberNodes = children.Where(child => child.Node.Equals(member));
+                children = children.Except(memberNodes).ToList();
+                //children = children.Where(child => !child.Node.Equals(member)).ToList();
+                foreach (IModifiable memberNode in memberNodes)
+                {
+                    memberNode.Parent = memberSetNode;
+                }
+            }
+            return children;
+        }
+
+        /// <summary>
+        /// Adds all MemberSets to TypeDeclaration nodes as required
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPTypeDeclarationMemberSetAdder(IModifiable node)
+        {
+            //TODO: remove extraneous method nodes why ARE they there - see nestedClasses.AST
+            List<INavigable> children = node.Children;
+            node.DropChildren();
+
+            // TODO: not sure how all of these are handled quite yet
+            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.ModifierSet);
+            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.Classification);
+            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.SuperTypes);
+            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.Enumerations);
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.Constructors, Members.Constructor);
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.Methods, Members.Method);
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.Types, Members.TypeDeclaration);
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.Values, Members.Value);
+            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.Inlines);
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.Fields, Members.Field);
+            foreach (IModifiable remainder in children)
+            {
+                remainder.Parent = node;
             }
         }
 
