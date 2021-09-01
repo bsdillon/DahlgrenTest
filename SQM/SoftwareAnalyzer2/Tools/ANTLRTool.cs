@@ -760,7 +760,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (myLang is CPPLanguage) {
                 
-                head.Rename("className", Members.TypeDeclaration);
+                head.Rename("className", Members.TypeName);
                 head.Rename("functionDefinition", Members.Method);
                 head.Rename("translationUnit", Members.File);
                 head.Rename("enumHead", Members.TypeDeclaration);
@@ -783,6 +783,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("unaryOperator", "&");
                 
                 head.RootUpModify("classSpecifier", Members.TypeDeclaration, CPPClassSpecifierHandler);
+                head.RootUpModify("classKey", "classKey", CPPClassKeyHandler);
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPEarlyNoPointerDeclaratorHandler);
@@ -813,33 +814,38 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
                 head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
+                head.RootUpModify("storageClassSpecifier", "storageClassSpecifier", CPPStorageClassSpecifierHandler);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
-                head.RootUpModify("declarationStatement", "declarationStatement", CPPFieldIdentifier);
+                head.RootUpModify("simpleDeclaration", "simpleDeclaration", CPPFieldIdentifier);
                 head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
                 head.RootUpModify("initializer", Members.ConstructorInvoke, CPPConstructorIdentifier);
                 head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
                 head.RootUpModify("handlerSeq", "handlerSeq",ReparentChildren);
-                head.RootUpModify("virtualSpecifier", "virtualSpecifierSeq", CPPMemberModifierSender);
-                head.RootUpModify("functionSpecifier", "functionSpecifier", CPPMemberModifierSender);
-                head.RootUpModify(Members.Public, Members.Public, CPPMemberModifierSender);
-                head.RootUpModify(Members.Private, Members.Private, CPPMemberModifierSender);
-                head.RootUpModify(Members.Protected, Members.Protected, CPPMemberModifierSender);
-                // TODO: find a way to make this order work out - the member modifiers depend on memberdeclaration nodes but CPPFieldRelevantNodeIncluder can't handle that
+                head.RootUpModify("virtualSpecifier", "virtualSpecifierSeq", CPPModifierSender);
+                head.RootUpModify("functionSpecifier", "functionSpecifier", CPPModifierSender);
+                head.RootUpModify(Members.Public, Members.Public, CPPModifierSender);
+                head.RootUpModify(Members.Private, Members.Private, CPPModifierSender);
+                head.RootUpModify(Members.Protected, Members.Protected, CPPModifierSender);
+                head.RootUpModify(Members.Static, Members.Static, CPPModifierSender);
                 head.Collapse("virtualSpecifierSeq");
                 head.Collapse("memberdeclaration");
                 head.Collapse("memberdeclaration", ";");
                 head.Collapse("statement");
+                head.Collapse("declarationStatement");
+                head.Collapse("blockDeclaration");
+                head.Collapse("declaration");
+
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
                 head.Collapse("typeSpecifier");
                 head.Collapse("trailingTypeSpecifier");
                 head.Collapse("declarator");
-                head.RootUpModify("cvQualifier", "cvQualifier", CPPNonMemberModifierSender);
+                head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierSender);
                 //need to look at typedefs more
-                head.RootUpModify("declSpecifier", "declSpecifier", CPPNonMemberModifierSender);
+                head.RootUpModify("declSpecifier", "declSpecifier", CPPModifierSender);
 
                 head.LeafDownModify("noPointerDeclarator", "noPointerDeclarator", CPPLateNoPointerDeclaratorHandler);
                 head.Rename("multiplicativeExpression", Members.Operator);
@@ -853,11 +859,12 @@ namespace SoftwareAnalyzer2.Tools
                 // Move these into their ModifierSets - then typeSpecifierSeq should be collapsible FINALLY
 
                 head.Collapse("enumeratorDefinition");
-                head.Collapse("blockDeclaration");
-                head.RootUpModify("simpleDeclaration", "simpleDeclaration", ReparentChildren);
+                
+                //head.RootUpModify("simpleDeclaration", "simpleDeclaration", ReparentChildren);
+                head.Collapse("simpleDeclaration");
+                head.Collapse("simpleDeclaration", ";");
 
                 head.RootUpModify("declarationseq", "declarationseq", ReparentChildren);
-                //head.Collapse("declaration");
 
                 head.Collapse("pointerAbstractDeclarator");
                 head.Collapse("theTypeId");
@@ -882,11 +889,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("initDeclaratorList");
                 head.Collapse("memberDeclarator");
                 head.Collapse("memberDeclaratorList");
-                head.Collapse("declarationStatement");
                 head.Collapse("constantExpression");
                 head.Collapse("expressionList");
                 head.Collapse("handler", "catch ( )");
-
                 head.NormalizeLines();
 
                 // Throw away "HEAD" and replace with "File" at top of tree
@@ -4288,10 +4293,19 @@ namespace SoftwareAnalyzer2.Tools
                 if (fieldNode.GetChildCount() > 0 && fieldNode.GetFirstSingleLayer("declarator") == null)
                 {
                     IModifiable typeSeqNode = (IModifiable)fieldNode.GetFirstRecursive("typeSpecifierSeq");
-                    IModifiable variableNode = (IModifiable)typeSeqNode.GetNthChild(typeSeqNode.GetChildCount() - 1).GetFirstRecursive(Members.TypeDeclaration);
+                    IModifiable variableNode = (IModifiable)typeSeqNode.GetNthChild(typeSeqNode.GetChildCount() - 1).GetFirstRecursive(Members.TypeName);
                     typeSeqNode.RemoveChild((IModifiable)typeSeqNode.GetNthChild(typeSeqNode.GetChildCount() - 1));
                     variableNode.Parent = fieldNode;
                     variableNode.SetNode(Members.Variable);
+                }
+                IModifiable typeNameNode = (IModifiable)fieldNode.GetFirstRecursive(Members.TypeName);
+                if (typeNameNode != null)
+                {
+                    IModifiable oldParent = (IModifiable)typeNameNode.Parent;
+                    IModifiable typeNode = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
+                    typeNode.Parent = fieldNode;
+                    typeNameNode.Parent = typeNode;
+                    oldParent.RemoveChild(typeNameNode);
                 }
             }
         }
@@ -4613,7 +4627,7 @@ namespace SoftwareAnalyzer2.Tools
             List<INavigable> memberNodes = node.Children;
             node.DropChildren();
             IModifiable accessSpecNode;
-            if (node.Parent.GetFirstSingleLayer(MemberSets.Classification).GetNthChild(0).Code.Equals("class"))
+            if (node.Parent.GetFirstSingleLayer(MemberSets.Classification).GetNthChild(0).Node.Equals(Members.CLASS))
             {
                 accessSpecNode = (IModifiable)NodeFactory.CreateNode(Members.Private, false);
             }
@@ -4965,32 +4979,28 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
-        /// Sends modifiers for class members to their ModifierSet node
+        /// Sends modifiers for things to their ModifierSet node
         /// </summary>
         /// <param name="answer"></param>
-        private void CPPMemberModifierSender(IModifiable node)
+        private void CPPModifierSender(IModifiable node)
         {
-            //TODO: where does this belong?
-            //Virtual stuff should only exist in the context of a class so we can use membery stuff
-            IModifiable oldParent = (IModifiable)node.Parent;
-            IModifiable ancestorNode = (IModifiable)node.GetAncestor("memberdeclaration");
-            node.Parent = ancestorNode.GetNthChild(0).GetFirstSingleLayer(MemberSets.ModifierSet);
-            oldParent.RemoveChild(node);
-        }
-
-        /// <summary>
-        /// Sends modifiers for non-class things to their ModifierSet node
-        /// </summary>
-        /// <param name="answer"></param>
-        private void CPPNonMemberModifierSender(IModifiable node)
-        {
-            //TODO: try merging with the above function for a unified CPPModifierSender
             if (node.Node.Equals("declSpecifier") && node.Code.Equals(""))
             {
                 return;
             }
             IModifiable oldParent = (IModifiable)node.Parent;
-            node.Parent = node.Parent.Parent.GetFirstSingleLayer(MemberSets.ModifierSet);
+            IModifiable targetNode = (IModifiable)node.Parent;
+            while (targetNode.GetFirstSingleLayer(MemberSets.ModifierSet) == null)
+            {
+                if (targetNode.Node.Equals("memberdeclaration"))
+                {
+                    targetNode = (IModifiable)targetNode.GetNthChild(0);
+                    break;
+                }
+                targetNode = (IModifiable)targetNode.Parent;
+                
+            }
+            node.Parent = targetNode.GetFirstSingleLayer(MemberSets.ModifierSet);
             (oldParent).RemoveChild(node);
         }
 
@@ -5000,7 +5010,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPFieldIdentifier(IModifiable node)
         {
-            if (node.GetFirstRecursive(Members.Type) != null)
+            if (node.GetFirstSingleLayer(Members.Type) != null)
             {
                 node.SetNode(Members.Field);
                 IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
@@ -5184,6 +5194,40 @@ namespace SoftwareAnalyzer2.Tools
                     }
                 }
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+            }
+        }
+
+        /// <summary>
+        /// Identifies storage class specifiers
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPStorageClassSpecifierHandler(IModifiable node)
+        {
+            if (node.Code.Equals("static"))
+            {
+                node.ClearCode(ClearCodeOptions.KeepLine);
+                node.SetNode(Members.Static);
+            }
+            else
+            {
+                errorMessages.Add("ERROR: Unsupported storageClassSpecifier code " + node + System.Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// Handles classKey nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPClassKeyHandler(IModifiable node)
+        {
+            if (node.Code.Equals("class"))
+            {
+                node.ClearCode(ClearCodeOptions.KeepLine);
+                node.SetNode(Members.CLASS);
+            }
+            else
+            {
+                errorMessages.Add("ERROR: Unsupported classKey code " + node + System.Environment.NewLine);
             }
         }
 
