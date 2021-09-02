@@ -107,7 +107,42 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         #region Fields
         private Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>> relationshipsTo = new Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>>();
         private static Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
-        public List<GraphNode> affectedByGN = new List<GraphNode>();
+        private List<GraphNode> sisterGNs = new List<GraphNode>();
+        private List<GraphNode> parentGNs = new List<GraphNode>();
+        private List<GraphNode> childrenGNs = new List<GraphNode>();
+        public KeyValuePair<string, int> statementDetails;
+
+        public List<GraphNode> GetSisterGNs() { return sisterGNs; }
+        public List<GraphNode> GetParentGNs() { return parentGNs; }
+        public List<GraphNode> GetChildrenGNs() { return childrenGNs; }
+
+        //doesn't matter which sister calls the function. this.sisterGNs and g.sisterGNs are both affected
+        public void AddToSisterLists(GraphNode g)
+        {
+            if(g != null && !this.sisterGNs.Contains(g))
+            {
+                this.sisterGNs.Add(g);
+            }
+            if(this != null && !g.sisterGNs.Contains(this))
+            {
+                g.sisterGNs.Add(this);
+            }
+        }
+
+        //child node does the calling, passing in the parent node as a parameter
+        public void AddToParentAndChildrenLists(GraphNode g)
+        {
+            //parents can be null
+            if (!this.parentGNs.Contains(g))
+            {
+                this.parentGNs.Add(g);
+            } 
+
+            if (g != null && !g.childrenGNs.Contains(this))
+            {
+                g.childrenGNs.Add(this);
+            }
+        }
 
         public static Dictionary<string, Dictionary<int, List<GraphNode>>> GetLineNumDict()
         {
