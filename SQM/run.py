@@ -346,7 +346,7 @@ def main(args=sys.argv):
       print('[error] Linux systems need the Mono runtime installed to execute dotnet <v5 binaries!')
       sys.exit(1)
 
-    exec_cmd = ['mono', exe_path]
+    exec_cmd = ['mono', '--debug', exe_path]
 
   else:
     exec_cmd = [exe_path]
