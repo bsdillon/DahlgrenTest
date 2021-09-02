@@ -22,8 +22,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //luTODO -- the output of "traceback" is still a work in progress. see TODOs below
         public void WriteToAffectedDict(GraphNode gn, string fileName, int lineNumber, bool trimFileN, Relationship re)
         {
-            //luTODO -- add a new graphnode list to graphnode to hold the graphnodes that affected gn.
-            //luTODO -- the tracing functions need what GN the relationship stemed from so we can use it here.
             if (fileName != null && !gn.IsSimulated)
             {
                 Dictionary<int, List<Dictionary<GraphNode, Relationship>>> gnLine = new Dictionary<int, List<Dictionary<GraphNode, Relationship>>>();
@@ -60,7 +58,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         public void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r)
         {
-            //luTODO -- add a new graphnode list to graphnode to hold the graphnodes that affected gn.
             //simulated graphnodes are not very meaningful for tracing errors
             if (!gn.IsSimulated)
             {
@@ -72,8 +69,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         Dictionary<int, List<Dictionary<GraphNode, Relationship>>> iGNList = new Dictionary<int, List<Dictionary<GraphNode,Relationship>>>();
                         Dictionary<GraphNode, Relationship> gnRel = new Dictionary<GraphNode, Relationship>();
                         List<Dictionary<GraphNode, Relationship>> smallGList = new List<Dictionary<GraphNode, Relationship>>();
+                        GraphNode gnCopy = grphNde;
+                        gnCopy.statementDetails = new KeyValuePair<string, int>(s.Represented.FileName, s.Represented.GetLineStart());
 
-                        gnRel[grphNde] = r;
+                        gnRel[gnCopy] = r;
                         smallGList.Add(gnRel);
                         iGNList[s.Represented.GetLineStart()] = smallGList;
                         affectedDict[s.Represented.FileName] = iGNList;
@@ -83,7 +82,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         List<Dictionary<GraphNode, Relationship>> gnList = new List<Dictionary<GraphNode, Relationship>>();
                         Dictionary<GraphNode, Relationship> gnRelationship = new Dictionary<GraphNode, Relationship>();
-                        gnRelationship[grphNde] = r;
+                        GraphNode gnCopy = grphNde;
+                        gnCopy.statementDetails = new KeyValuePair<string, int>(s.Represented.FileName, s.Represented.GetLineStart());
+
+                        gnRelationship[gnCopy] = r;
                         gnList.Add(gnRelationship);
                         affectedDict[s.Represented.FileName][s.Represented.GetLineStart()] = gnList;
                     }
@@ -110,7 +112,55 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         foreach (GraphNode g in d.Keys)
                         {
-                            gnListStr += g.Represented.Node.ToString() + "," + d[g].ToString();
+                            //luTODO -- this output is still a WIP. 
+                            //gnListStr += g.Represented.Node.ToString() + "," + d[g].ToString() + ",children (";
+                            gnListStr += g.Represented.ToString() + ",children (";
+                            foreach (GraphNode c in g.GetChildrenGNs())
+                            {
+                                if(c != null)
+                                {
+                                    if (c.statementDetails.Key != null)
+                                    {
+                                        gnListStr += "[" + c.statementDetails.Key + "::" + c.statementDetails.Value.ToString() + "]; "; 
+                                    }
+                                    else
+                                    {
+                                        gnListStr += c.Represented.ToString() + "; ";
+                                    }
+                                    
+                                }  
+                            }
+                            gnListStr += "),parents (";
+                            foreach (GraphNode p in g.GetParentGNs())
+                            {
+                                if(p != null)
+                                {
+                                    if (p.statementDetails.Key != null)
+                                    {
+                                        gnListStr += "[" + p.statementDetails.Key + "::" + p.statementDetails.Value.ToString() + "]; ";
+                                    }
+                                    else
+                                    {
+                                        gnListStr += p.Represented.ToString() + "; ";
+                                    }
+                                }  
+                            }
+                            gnListStr += "),sisters (";
+                            foreach (GraphNode s in g.GetSisterGNs())
+                            {
+                                if (s != null)
+                                {
+                                    if (s.statementDetails.Key != null)
+                                    {
+                                        gnListStr += "[" + s.statementDetails.Key + "::" + s.statementDetails.Value.ToString() + "]; ";
+                                    }
+                                    else
+                                    {
+                                        gnListStr += s.Represented.ToString() + "; ";
+                                    }
+                                }
+                            }
+                            gnListStr += "),";
                         }
                     }
                     if (gnListStr != "")
