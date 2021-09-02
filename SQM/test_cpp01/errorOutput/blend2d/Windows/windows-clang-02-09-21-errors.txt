@@ -1,7 +1,7 @@
 Microsoft (R) Build Engine version 16.11.0+0538acc04 for .NET Framework
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-Build started 9/2/2021 5:34:45 AM.
+Build started 9/2/2021 11:08:15 AM.
 Project "C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj" on node 1 (Build target(s)).
 PrepareForBuild:
   Creating directory "bin\Debug\".
@@ -13,10 +13,10 @@ CoreResGen:
 CoreCompile:
   C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /fullpaths /nostdlib+ /platform:anycpu32bitpreferred /errorreport:prompt /warn:4 /define:DEBUG;TRACE /highentropyva+ /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\mscorlib.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Core.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.DataSetExtensions.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Data.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Deployment.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Drawing.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Windows.Forms.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll" /debug+ /debug:full /filealign:512 /optimize- /out:obj\Debug\SoftwareAnalyzer2.exe /subsystemversion:6.00 /resource:obj\Debug\SoftwareAnalyzer2.GUI.AnaylsisForms.MetricPanel.resources /resource:obj\Debug\SoftwareAnalyzer2.Properties.Resources.resources /target:exe /utf8output /langversion:7.3 GUI\AnalysisForms\GraphPanel.cs GUI\AnalysisForms\GraphPanel.Designer.cs GUI\AnalysisForms\MetricPanel.cs GUI\AnalysisForms\MetricPanel.Designer.cs GUI\AnalysisForms\SourceUpdatePanel.cs GUI\AnalysisForms\SourceUpdatePanel.Designer.cs GUI\ErrorMessage.cs GUI\ErrorMessage.Designer.cs GUI\Form1.cs GUI\Form1.Designer.cs GUI\GenericPrompt.cs GUI\GenericPrompt.Designer.cs GUI\MethodMatcher.cs GUI\MethodMatcher.Designer.cs GUI\ProjectForms\EditProjectPanel.cs GUI\ProjectForms\EditProjectPanel.Designer.cs GUI\ProjectForms\NewProjectPanel.cs GUI\ProjectForms\NewProjectPanel.Designer.cs GUI\ProjectForms\OpenProjectPanel.cs GUI\ProjectForms\OpenProjectPanel.Designer.cs GUI\Test\TestPanel.cs GUI\Test\TestPanel.Designer.cs GUI\Test\TestReport.cs GUI\Test\TestReport.Designer.cs Language\ILanguage.cs Language\JavaLanguage.cs Language\CPPLanguage.cs Language\LanguageManager.cs Program.cs ProjectCoordination\IProjectCoordinator.cs ProjectCoordination\IProjectCreator.cs ProjectCoordination\IProjectUser.cs ProjectCoordination\Project.cs Properties\AssemblyInfo.cs Source\FileIdentification.cs Structure\CommonEnumerations.cs Structure\Gephi\GephiEdge.cs Structure\Gephi\GephiNavigator.cs Structure\Gephi\GephiNode.cs Structure\Gephi\GephiWriter.cs Structure\Gephi\PropertiedObject.cs Structure\Graphing\AbbreviatedGraph.cs Structure\Graphing\Specifics\ControlExpression.cs Structure\Graphing\GraphNode.cs Structure\Graphing\IGraphNavigator.cs Structure\Graphing\Specifics\Annotation.cs Structure\Graphing\Specifics\AnonArray.cs Structure\Graphing\Specifics\Branch.cs Structure\Graphing\Specifics\ChainArgs.cs Structure\Graphing\Specifics\ControlStructure.cs Structure\Graphing\Specifics\DefinedMember.cs Structure\Graphing\Specifics\Field.cs Structure\Graphing\Specifics\ForEachLoop.cs Structure\Graphing\Specifics\ForThreeLoop.cs Structure\Graphing\Specifics\HierarchyNode.cs Structure\Graphing\Specifics\InvokableMember.cs Structure\Graphing\Specifics\Literal.cs Structure\Graphing\Specifics\Package.cs Structure\Graphing\Specifics\Scope.cs Structure\Graphing\Specifics\Statement.cs Structure\Graphing\Specifics\Switch.cs Structure\Graphing\Specifics\SynchBlock.cs Structure\Graphing\Specifics\Trinary.cs Structure\Graphing\Specifics\TryCatch.cs Structure\Graphing\Specifics\TypeDefinition.cs Structure\Graphing\Specifics\WhileLoop.cs Structure\LinkEventArgs.cs Structure\Metrics\AffectedLine.cs Structure\Metrics\CancerInvasion.cs Structure\Metrics\ConnectivityMetrics.cs Structure\Metrics\CountAll.cs Structure\Metrics\IntegrityMetrics.cs Structure\Metrics\MetricUtilities.cs Structure\Metrics\ModuleNavigator.cs Structure\Metrics\NodePatternMetrics.cs Structure\Metrics\QAlgorithm.cs Structure\Metrics\StateCounter.cs Structure\Metrics\AffectedTree.cs Structure\Metrics\StateMachine.cs Structure\Metrics\StateMachineMetrics.cs Structure\Metrics\StatePatternMetrics.cs Structure\Metrics\Tumor.cs Structure\Metrics\PlantUML.cs Structure\NodeType.cs Structure\Node\IModifiable.cs Structure\Node\Implementations\AbbreviatedNode.cs Structure\Node\Implementations\ASTree.cs Structure\Node\INavigable.cs Structure\Node\INode.cs Structure\Node\NodeFactory.cs Tools\ANTLRTool.cs Tools\LLVMTool.cs Tools\ITool.cs Tools\ToolManager.cs Properties\Resources.Designer.cs Properties\Settings.Designer.cs "obj\Debug\.NETFramework,Version=v4.5.AssemblyAttributes.cs"
 C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Program.cs(206,17): warning CS0219: The variable 'filesDone' is assigned but its value is never used [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
-C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Structure\Metrics\MetricUtilities.cs(842,21): warning CS0168: The variable 'whatDoIdoNow' is declared but never used [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
 C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Tools\ANTLRTool.cs(4269,21): warning CS0162: Unreachable code detected [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
 C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Structure\Graphing\AbbreviatedGraph.cs(81,38): warning CS0168: The variable 'e2' is declared but never used [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
-  CompilerServer: server - server processed compilation - 9d005ef8-7ad5-455d-947d-1eeab65f8b3c
+C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Structure\Metrics\MetricUtilities.cs(842,21): warning CS0168: The variable 'whatDoIdoNow' is declared but never used [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
+  CompilerServer: server - server processed compilation - 9448e144-e708-4d72-a194-d5f7cc262fd9
 _CopyAppConfigFile:
   Copying file from "C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\App.config" to "C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\bin\Debug\SoftwareAnalyzer2.exe.config".
 CopyFilesToOutputDirectory:
@@ -30,14 +30,14 @@ Build succeeded.
 "C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj" (Build target) (1) ->
 (CoreCompile target) -> 
   C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Program.cs(206,17): warning CS0219: The variable 'filesDone' is assigned but its value is never used [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
-  C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Structure\Metrics\MetricUtilities.cs(842,21): warning CS0168: The variable 'whatDoIdoNow' is declared but never used [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
   C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Tools\ANTLRTool.cs(4269,21): warning CS0162: Unreachable code detected [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
   C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Structure\Graphing\AbbreviatedGraph.cs(81,38): warning CS0168: The variable 'e2' is declared but never used [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
+  C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Structure\Metrics\MetricUtilities.cs(842,21): warning CS0168: The variable 'whatDoIdoNow' is declared but never used [C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\SoftwareAnalyzer2.csproj]
 
     4 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:03.65
+Time Elapsed 00:00:02.01
 warning(157): C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\bin\Debug\Java.g4:524:16: rule expression contains an assoc terminal option in an unrecognized location
 warning(157): C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\bin\Debug\Java.g4:525:17: rule expression contains an assoc terminal option in an unrecognized location
 warning(157): C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\bin\Debug\Java.g4:526:17: rule expression contains an assoc terminal option in an unrecognized location
@@ -393,11 +393,11 @@ ERROR: Trival layers still exist in the tree: classKey(535:0-5): struct
 ERROR: Trival layers still exist in the tree: staticAssertDeclaration(541:0-99): static_assert ( , "Don't forget to add new formats to blCompOpSimplifyInfoTable" ) ;
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\context.cpp
 Error in \src\blend2d\context.cpp: 
@@ -563,8 +563,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
    at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Tools\ANTLRTool.cs:line 385
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager.cpp
@@ -1170,8 +1170,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient.cpp
 Error in \src\blend2d\gradient.cpp: 
@@ -1328,11 +1328,11 @@ ERROR: Trival layers still exist in the tree: jumpStatement(138):
 ERROR: Trival layers still exist in the tree: relationalExpression(151): 
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\image.cpp
 Error in \src\blend2d\image.cpp: 
@@ -1740,8 +1740,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\imagecodec.cpp
 Error in \src\blend2d\imagecodec.cpp: 
@@ -2167,8 +2167,8 @@ ERROR: Trival layers still exist in the tree: noeExceptSpecification(365:49-56):
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(366:10-13): ( )
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\path.cpp
@@ -2199,8 +2199,8 @@ FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 0 children avail
    at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Tools\ANTLRTool.cs:line 385
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pathstroke.cpp
@@ -2234,8 +2234,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\pattern.cpp
 Error in \src\blend2d\pattern.cpp: 
@@ -2445,8 +2445,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\pipedefs.cpp
 Error in \src\blend2d\pipedefs.cpp: 
@@ -2645,16 +2645,16 @@ ERROR: Trival layers still exist in the tree: unaryOperator(510:54-54): *
 ERROR: Trival layers still exist in the tree: postfixExpression(510:55-105): static_cast < > ( )
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\piperuntime.cpp
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter.cpp
@@ -3572,8 +3572,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\p
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_avx2.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_avx2.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_avx2.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_avx2.cpp
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pixelconverter_sse2.cpp-macros"
@@ -3613,8 +3613,8 @@ ERROR: Trival layers still exist in the tree: noeExceptSpecification(15:44-51): 
 ERROR: Trival layers still exist in the tree: noeExceptSpecification(19:44-51): noexcept
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\region.cpp
@@ -3651,8 +3651,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.cpp
 Error in \src\blend2d\runtime.cpp: 
@@ -3713,8 +3713,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\string.cpp
 Error in \src\blend2d\string.cpp: 
@@ -4633,8 +4633,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\zeroallocator.cpp
 Error in \src\blend2d\zeroallocator.cpp: 
@@ -5813,8 +5813,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\bmpcodec.cpp
 Error in \src\blend2d\codec\bmpcodec.cpp: 
@@ -6159,8 +6159,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec.cpp
 Error in \src\blend2d\codec\jpegcodec.cpp: 
@@ -6492,8 +6492,8 @@ ERROR: Trival layers still exist in the tree: andExpression(95:25-25): &
 ERROR: Trival layers still exist in the tree: andExpression(99:33-33): &
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops.cpp
@@ -9298,8 +9298,8 @@ ERROR: Trival layers still exist in the tree: noPointerDeclarator(1269:16-19): (
 ERROR: Trival layers still exist in the tree: inclusiveOrExpression(1288-1289): | |
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops.cpp-macros"
@@ -9355,8 +9355,8 @@ ERROR: Trival layers still exist in the tree: unaryOperator(88:17-17): *
 ERROR: Trival layers still exist in the tree: noeExceptSpecification(101:42-49): noexcept
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngops_sse2.cpp
@@ -10432,19 +10432,19 @@ ERROR: Trival layers still exist in the tree: unaryExpression(924):
 ERROR: Trival layers still exist in the tree: unaryOperator(924:17-17): *
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-macros"
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\fixedpipe\fixedpiperuntime.cpp
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcff.cpp
 Error in \src\blend2d\opentype\otcff.cpp: 
@@ -10497,8 +10497,8 @@ FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 0 children avail
    at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Tools\ANTLRTool.cs:line 385
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap.cpp
@@ -10666,8 +10666,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore.cpp
 Error in \src\blend2d\opentype\otcore.cpp: 
@@ -11533,8 +11533,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otkern.cpp
 Error in \src\blend2d\opentype\otkern.cpp: 
@@ -11767,8 +11767,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otlayout.cpp
 Error in \src\blend2d\opentype\otlayout.cpp: 
@@ -11905,8 +11905,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname.cpp
 Error in \src\blend2d\opentype\otname.cpp: 
@@ -12112,11 +12112,11 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: decla
    at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Tools\ANTLRTool.cs:line 385
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-macros"
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart.cpp
 Error in \src\blend2d\pipegen\fetchgradientpart.cpp: 
@@ -12306,8 +12306,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart.cpp
 Error in \src\blend2d\pipegen\fetchpatternpart.cpp: 
@@ -12339,8 +12339,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: funct
    at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Tools\ANTLRTool.cs:line 385
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchsolidpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchsolidpart.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchsolidpart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchsolidpart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchsolidpart.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchsolidpart.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchsolidpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchsolidpart.cpp-macros"
@@ -12506,8 +12506,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fillpart.cpp
 Error in \src\blend2d\pipegen\fillpart.cpp: 
@@ -12713,8 +12713,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: funct
    at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in C:\Users\IEUser\Desktop\DahlgrenTest\SQM\SoftwareAnalyzer2\Tools\ANTLRTool.cs:line 385
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\pipepart.cpp-macros"
@@ -12746,11 +12746,11 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\r
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\analyticrasterizer.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\analyticrasterizer.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\analyticrasterizer.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\analyticrasterizer.cpp
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-preprocessed"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-macros"
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontext.cpp
 Error in \src\blend2d\raster\rastercontext.cpp: 
@@ -12767,8 +12767,8 @@ line 2585:4 no viable alternative at input 'BL_FALLTHROUGH}'
 FATAL ERROR: Could not run tool
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontextops.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontextops.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontextops.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontextops.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontextops.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontextops.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontextops.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercontextops.cpp-macros"
@@ -12876,8 +12876,8 @@ ERROR: Trival layers still exist in the tree: unaryOperator(77:4-4): *
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(84:13-18): ( )
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterfetchdata.cpp-macros"
@@ -12899,8 +12899,8 @@ ERROR: Trival layers still exist in the tree: noPointerDeclarator(86:24-34): ( )
 ERROR: Trival layers still exist in the tree: noeExceptSpecification(93:97-104): noexcept
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata.cpp-macros"
@@ -13006,8 +13006,8 @@ ERROR: Trival layers still exist in the tree: postfixExpression(65-70): static_c
 ERROR: Trival layers still exist in the tree: noeExceptSpecification(83:59-66): noexcept
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager.cpp-macros"
@@ -13136,8 +13136,8 @@ ERROR: Trival layers still exist in the tree: noPointerDeclarator(224:10-17): ( 
 ERROR: Trival layers still exist in the tree: postfixExpression(226:31-66): static_cast < > ( )
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworksynchronization.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworksynchronization.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworksynchronization.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworksynchronization.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworksynchronization.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworksynchronization.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworksynchronization.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworksynchronization.cpp-macros"
@@ -13377,8 +13377,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool.cpp
 Error in \src\blend2d\threading\threadpool.cpp: 
@@ -13391,8 +13391,8 @@ ERROR: Error in ANTLR tokens: line 98:29 no viable alternative at input 'staticB
 FATAL ERROR: Could not run tool
 
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator.cpp-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator.cpp" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator.cpp-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator.cpp-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator.cpp
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator.cpp" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator.cpp-macros"
@@ -13514,8 +13514,8 @@ Checking for updated files in blend2d
 Checking for updated files in blend2d
 Checking for updated files in blend2d
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d-debug.h-macros"
@@ -13565,88 +13565,88 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\api.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\array.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\arrayops_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\array_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\bitarray_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\bitops_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\compop_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\context.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\context_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\filesystem_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
@@ -13658,16 +13658,16 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\f
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\font.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\font.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\font.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\font.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\fontdefs.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\fontmanager_p.h-macros"
@@ -13701,8 +13701,8 @@ javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\glyphbuffer_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
@@ -13714,8 +13714,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\g
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\gradient_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagescale_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagescale_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagescale_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagescale_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagescale_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagescale_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagescale_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\imagescale_p.h-macros"
@@ -13730,8 +13730,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\i
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\image_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\image_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\lookuptable_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\lookuptable_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\lookuptable_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\lookuptable_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\lookuptable_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\lookuptable_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\lookuptable_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\lookuptable_p.h-macros"
@@ -13818,16 +13818,16 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\r
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\random_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\random_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\random_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\random_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\region_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba.h-macros"
@@ -13842,8 +13842,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\r
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\rgba_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\runtime.h-macros"
@@ -13866,8 +13866,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\s
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\scopedallocator_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\scopedallocator_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\scopedallocator_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\scopedallocator_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\simd_p.h-macros"
@@ -13898,11 +13898,11 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\s
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\style_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\style_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\style_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\style_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h-macros"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\support_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
@@ -13994,16 +13994,16 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\c
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\deflate_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\deflate_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\deflate_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\deflate_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegcodec_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpeghuffman_p.h-macros"
@@ -14018,8 +14018,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\c
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\jpegops_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngcodec_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngcodec_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngcodec_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngcodec_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngcodec_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngcodec_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngcodec_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\codec\pngcodec_p.h-macros"
@@ -14058,8 +14058,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\o
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcmap_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otcore_p.h-macros"
@@ -14114,8 +14114,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\o
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otmetrics_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otmetrics_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otmetrics_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otmetrics_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\opentype\otname_p.h-macros"
@@ -14138,8 +14138,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\p
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\compoppart_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\compoppart_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\compoppart_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\compoppart_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchgradientpart_p.h-macros"
@@ -14154,8 +14154,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\p
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpart_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpart_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpart_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpart_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\pipegen\fetchpatternpart_p.h-macros"
@@ -14259,8 +14259,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\r
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\analyticrasterizer_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\analyticrasterizer_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\analyticrasterizer_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\analyticrasterizer_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\edgebuilder_p.h-macros"
@@ -14275,8 +14275,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\r
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocasync_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocasync_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocasync_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocasync_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocsync_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocsync_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocsync_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocsync_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocsync_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocsync_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocsync_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rastercommandprocsync_p.h-macros"
@@ -14339,8 +14339,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\r
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdebug_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdebug_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdebug_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdebug_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterdefs_p.h-macros"
@@ -14379,24 +14379,24 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\r
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkbatch_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkbatch_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkbatch_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkbatch_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkdata_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkermanager_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\raster\rasterworkproc_p.h-macros"
@@ -14427,8 +14427,8 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\t
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\atomic_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\atomic_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\atomic_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\atomic_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\conditionvariable_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\conditionvariable_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\conditionvariable_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\conditionvariable_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\conditionvariable_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\conditionvariable_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\conditionvariable_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\conditionvariable_p.h-macros"
@@ -14443,35 +14443,35 @@ C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\t
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\mutex_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\mutex_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\mutex_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\mutex_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h-preprocessed"
-C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h-macros"
+C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\threadpool_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\thread_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h-macros"
+javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h-preprocessed"
 C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\src\blend2d\threading\uniqueidgenerator_p.h
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h-macros"
 javaw org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h-preprocessed"
-C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h-macros"
 C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h
+C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h" -dM -E -o "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h-macros"
 C:/Program Files/LLVM/bin/clang++ "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h" -P -dI -E -imacros "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h-macros" -o "C:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h-preprocessed"
 /tC:\Users\IEUser\Desktop\blend2d\test\bl_test_utilities.h
 Error in \test\bl_test_utilities.h: 

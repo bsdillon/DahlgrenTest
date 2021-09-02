@@ -10,16 +10,21 @@
  - .net 4 (mono will work fine on linux boxes)
  - java 8+ (`java.exe` must appear on `%PATH%`)
  - ANTLR (https://www.antlr.org/download.html, d/l the item under "Complete ANTLR 4.9.1 Java binaries jar")
- - All external dependencies specified in code-to-be-analyzed be installed or available in system standard libraries
+ - All external dependencies specified in code-to-be-analyzed be installed or available in system standard libraries (listed within /usr/local/include for Linux and C:\Program Files\LLVM\lib\clang\VERSION_NUMBER\include for Windows)
 
 New LLVM requirements:
 
  - git
- - clang (Windows) or gcc (Linux)
+ - clang (Windows/Linux) or gcc
 
 
 ## Windows compile + run commands
 
+```
+python run.py // for GUI
+python run.py [java|cpp] [path/to/src/directory] // for CMD
+```
+OR
 ```
 msbuild SoftwareAnalyzer2\SoftwareAnalyzer2.csproj
 set CLASSPATH=C:\path\to\antlr-4.1-complete.jar
@@ -28,6 +33,11 @@ set CLASSPATH=C:\path\to\antlr-4.1-complete.jar
 
 ## Linux compile + run commands
 
+```
+python run.py // for GUI
+python run.py [java|cpp] [path/to/src/directory] // for CMD
+```
+OR
 ```bash
 msbuild SoftwareAnalyzer2/SoftwareAnalyzer2.csproj
 export CLASSPATH='/path/to/antlr-4.1-complete.jar'

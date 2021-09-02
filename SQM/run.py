@@ -181,7 +181,7 @@ def main(args=sys.argv):
     print(help)
     sys.exit(0)
   # Checks that filepath does not end in slash and if cpp or clang++ is installed based on OS
-  elif len(args) == 3:
+  if len(args) == 3 or len(args) == 4:
     if str(args[2]).endswith("/") or str(args[2]).endswith("\\"):
       print('[error]: Filepath cannot end with a slash (\"/\" or \"\\\")')
       sys.exit(0)
@@ -192,7 +192,7 @@ def main(args=sys.argv):
       if 'win32' in sys.platform and shutil.which('clang++', path='C:/Program Files/LLVM/bin') is None:
         print('[error] clang++ not found. Please install clang++ in C:/Program Files/LLVM/bin')
         sys.exit(0)
-  elif (len(args) == 4 and (str(args[3]) == "-r" or str(args[3]) == "--recompile")):
+  if (len(args) == 4 and (str(args[3]) == "-r" or str(args[3]) == "--recompile")):
     if 'linux' in sys.platform:
       bin = "/SoftwareAnalyzer2/bin"
       obj = "/SoftwareAnalyzer2/obj"

@@ -148,11 +148,11 @@ namespace SoftwareAnalyzer2.Tools
                         case PlatformID.Unix:
                         case PlatformID.MacOSX:
                         case (PlatformID) 128:
-                            // Executes cpp FILENAME -dM -o FILENAME-macros to extract found macros
-                            startProcess(iMacros, "/bin/cpp", filename+" -dM -o "+macros, 3100);
-                            // Executes cpp FILENAME -P -dI -imacros FILENAME-macros -o FILENAME-preprocessed to 
+                            // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
+                            startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
+                            // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
                             // use extracted macros and translate them without extra line or include directive output
-                            startProcess(cpp, "/bin/cpp", filename+" -P -dI -imacros "+macros+" -o "+preprocessed, 3100);
+                            startProcess(cpp, "/bin/clang++", filename+" -P -dI -E -imacros "+macros+" -o "+preprocessed, 3100);
                             break;
                         default:
                             // If issue in matching OS, kills unused process
@@ -245,16 +245,20 @@ namespace SoftwareAnalyzer2.Tools
                         // grammar to parse something useful.
                         
                         stdin.WriteLine(translated_line);
+                        // Console.Out.WriteLine(translated_line);
                     }
                 }
 
                 stdin.Flush();
                 stdin.Close();
 
-                // Deletes the temporary macro and preprocessed files
+                // Deletes the temporary macro and preprocessed files & saves preprocessed output
                 if (myLang is CPPLanguage && System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed) && filename != preprocessed) {
                     System.IO.File.Delete(macros);
-                    System.IO.File.Delete(preprocessed);
+                    String preprocessed_dir = "./SoftwareAnalyzer2/bin/Preprocessed";
+                    System.IO.Directory.CreateDirectory(preprocessed_dir);
+                    preprocessed_dir = preprocessed_dir + "/" + Path.GetFileName(preprocessed);
+                    if (!System.IO.File.Exists(preprocessed_dir)) System.IO.File.Move(preprocessed, preprocessed_dir);
                 }
             }
             catch (Exception e)
@@ -788,7 +792,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("pointerOperator", "*");
                 head.Collapse("pointerOperator", "&");
                 head.Collapse("unaryOperator", "&");
-                
+
+                head.RootUpModify("declSpecifier", "declSpecifier", CPPTypedefHandler);
                 head.RootUpModify("classSpecifier", Members.TypeDeclaration, CPPClassSpecifierHandler);
                 head.RootUpModify("classKey", "classKey", CPPClassKeyHandler);
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
@@ -831,6 +836,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
                 head.RootUpModify("initializer", "initializer", CPPConstructorIdentifier);
+                head.RootUpModify("newExpression", "newExpression", CPPNewExpressionHandler);
                 head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
                 head.RootUpModify("handlerSeq", "handlerSeq",ReparentChildren);
                 head.RootUpModify("virtualSpecifier", "virtualSpecifierSeq", CPPModifierSender);
@@ -5149,13 +5155,17 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.GetAncestor("blockDeclaration") != null && node.GetAncestor("blockDeclaration").GetFirstSingleLayer(Members.Field) != null)
             {
-                node.SetNode(Members.ConstructorInvoke);
+                
                 if (node.GetChildCount() == 0)
                 {
                     ((IModifiable)node.Parent).RemoveChild(node);
                 }
                 else if (node.Code.Equals("( )"))
                 {
+                    node.SetNode(Members.ConstructorInvoke);
+                    node.ClearCode(ClearCodeOptions.KeepLine);
+                    node.CopyCode((IModifiable)node.GetAncestor("blockDeclaration").GetFirstRecursive(Members.TypeName));
+
                     IModifiable oldParent = (IModifiable)node.Parent;
                     IModifiable targetVariableNode = (IModifiable)((IModifiable)node.Parent).GetFirstRecursive(Members.MethodInvoke);
                     targetVariableNode.SetNode(Members.Variable);
@@ -5174,6 +5184,19 @@ namespace SoftwareAnalyzer2.Tools
                     oldParent.RemoveChild(node);
                 }
             }
+        }
+
+        /// <summary>
+        /// Converts newExpressions into ConstructorInvokes and their related nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPNewExpressionHandler(IModifiable node)
+        {
+            // TODO: might include arrays of objects, not clear on how to deal with that yet so for now this is what you get
+            ((IModifiable)node.GetFirstSingleLayer(Members.TypeName)).SetNode(Members.ConstructorInvoke);
+            node.GetFirstRecursive(Members.ParameterList).Parent = node.GetFirstSingleLayer(Members.ConstructorInvoke);
+            node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
+            ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
         }
 
         /// <summary>
@@ -5258,14 +5281,18 @@ namespace SoftwareAnalyzer2.Tools
                             }
                         }
                         if (arraySizeParameter != null)
-                            {
-                                IModifiable parameterListExtra = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
-                                parameterListExtra.Parent = arrayNode;
-                                arraySizeParameter.Parent = parameterListExtra;
-                            }
+                        {
+                            IModifiable parameterListExtra = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                            parameterListExtra.Parent = arrayNode;
+                            arraySizeParameter.Parent = parameterListExtra;
+                        }
                     }
                 }
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+            }
+            else
+            {
+                errorMessages.Add("ERROR: Unsupported noPointerDeclarator code " + node + System.Environment.NewLine);
             }
         }
 
@@ -5334,6 +5361,31 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
+        /// Convenience function for CPPTypeDeclarationMemberSetAdder, checks for the presence of a MemberSet and handles that
+        /// </summary>
+        /// <param name="answer"></param>
+        private List<INavigable> CPPMemberSetAdderConvenience(IModifiable node, List<INavigable> children, MemberSets memberSet)
+        {
+            // TODO: merge this and the prior function somehow
+            // default of an ENUM is the first element, but I can't really control that easily here - I can't use null either
+            // and, I can't call easily one function within the other to simplfy things since the other one needs the children and memberSetNode from here
+            // possibly temporary, but we all know how that goes
+            IModifiable memberSetNode;
+            if (children.Any(child => child.Node.Equals(memberSet)))
+            {
+                memberSetNode = (IModifiable)children.FirstOrDefault(child => child.Node.Equals(memberSet));
+                children.Remove(memberSetNode);
+            }
+            else
+            {
+                memberSetNode = (IModifiable)NodeFactory.CreateNode(memberSet, false);
+            }
+            memberSetNode.Parent = node;
+
+            return children;
+        }
+
+        /// <summary>
         /// Adds all MemberSets to TypeDeclaration nodes as required
         /// </summary>
         /// <param name="answer"></param>
@@ -5344,19 +5396,46 @@ namespace SoftwareAnalyzer2.Tools
             node.DropChildren();
 
             // TODO: not sure how all of these are handled quite yet
-            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.ModifierSet);
-            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.Classification);
+            // v
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.ModifierSet);
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.Classification);
+            // ^
             children = CPPMemberSetAdderConvenience(node, children, MemberSets.SuperTypes, Members.SuperType);
-            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.Enumerations);
+            // v
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.Enumerations);
+            // ^
             children = CPPMemberSetAdderConvenience(node, children, MemberSets.Constructors, Members.Constructor);
             children = CPPMemberSetAdderConvenience(node, children, MemberSets.Methods, Members.Method);
             children = CPPMemberSetAdderConvenience(node, children, MemberSets.Types, Members.TypeDeclaration);
             children = CPPMemberSetAdderConvenience(node, children, MemberSets.Values, Members.Value);
-            //children = CPPMemberSetAdderConvenience(node, children, MemberSets.Inlines);
+            // v
+            children = CPPMemberSetAdderConvenience(node, children, MemberSets.Inlines);
+            // ^
             children = CPPMemberSetAdderConvenience(node, children, MemberSets.Fields, Members.Field);
             foreach (IModifiable remainder in children)
             {
                 remainder.Parent = node;
+            }
+        }
+
+        /// <summary>
+        /// Rearranges all sorts of nodes when a typedef is found, in order to make them into TypeDeclarations
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPTypedefHandler(IModifiable node)
+        {
+            if (node.Code.Equals("typedef"))
+            {
+                IModifiable seqNode = (IModifiable)node.Parent;
+                seqNode.RemoveChild(node);
+                IModifiable typeDeclNode = (IModifiable)seqNode.Parent.GetNthChild(1).GetFirstRecursive(Members.Variable);
+                typeDeclNode.SetNode(Members.TypeDeclaration);
+                ((IModifiable)seqNode.Parent).RemoveChild((IModifiable)seqNode.Parent.GetNthChild(1));
+                IModifiable superTypeNode = (IModifiable)NodeFactory.CreateNode(Members.SuperType, false);
+                superTypeNode.Parent = typeDeclNode;
+                ((IModifiable)seqNode.Parent).RemoveChild(seqNode);
+                seqNode.Parent = superTypeNode;
+                ((IModifiable)typeDeclNode.GetAncestor("declaration")).ReplaceChild((IModifiable)typeDeclNode.GetAncestor("declaration").GetNthChild(0), typeDeclNode);
             }
         }
 
