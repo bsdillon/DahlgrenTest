@@ -213,7 +213,7 @@ namespace SoftwareAnalyzer2.Tools
                                                                       @"__schedule_barrier\(\);?", @"__sev\(\);?", 
                                                                       @"__strt\(.+\);?", @"__wfe\(\);?", @"__wfi\(\);?", @"__yield\(\);?",
                                                                       // C++ Function specifiers:
-                                                                      "__cdecl", "_Export"};
+                                                                      "_{1,2}cdecl", "_Export", "_Noreturn"};
                             
                             // Compiler keywords in string array above that can just be removed
                             foreach (String keyword in compilerKeywords) {
@@ -240,6 +240,15 @@ namespace SoftwareAnalyzer2.Tools
                             foreach (String integerCompilerWord in integerCompilerWords) {
                                 translated_line = Regex.Replace(translated_line, integerCompilerWord, "0");
                             }
+
+                            // "final" is an identifier when used in a member function declaration or class head
+                            // however, other contexts it is NOT, can can be used to name objects and functions
+                            // ANTLR reads this as a keyword, however, and we may need to translate it for ANTLR to
+                            // distinguish between when final is being used as an identifier and a keyword
+                            // translated_line = Regex.Replace(translated_line, @"final", "FINAL");
+
+                            // TODO: Explore escaping all special characters within a string literal - ANTLR will read
+                            // the tokens wrong if there is a premature escaped character that will have it exit
                         }
 
                         // Additional translations may be added here as we see new parse issues crop up in the field,
@@ -1133,7 +1142,7 @@ namespace SoftwareAnalyzer2.Tools
             if (myLang is CPPLanguage) {
                 stringType = new Regex("^(u8|L|u|U|R)?\".*\"$");
                 boolType   = new Regex(@"^(true|false)$");
-                intType    = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,16}))(U|u)?$");
+                intType    = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,16}))(U|u|(ui|Ui)\d+)?$");
                 longType   = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$");
                 floatType  = new Regex(@"^-?((\d+(\.(\d)*)?|\.\d+)((e|E|p|P)(-|\+)?\d*)?(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\d+(\.(\d)*)?|\.\d+))+p-?[0-9]+)$");
                 doubleType = new Regex(@"^-?(\d+(\.\d*)?|\d*\.\d*|(0(x|X)([a-f]|[A-F]|[0-9])*\.([a-f]|[A-F]|[0-9])*))((e|E|p|P)(-|\+)?\d*)?(D|d|L|l)?$");
@@ -4174,9 +4183,12 @@ namespace SoftwareAnalyzer2.Tools
                     statementHolderScopeNode.FullRecursiveSearch("labeledStatement", labeledStatements);
                     foreach (IModifiable labeledStatement in labeledStatements)
                     {
-                        labeledStatement.GetNthChild(0).Parent = child.GetNthChild(0);
-                        labeledStatement.RemoveChild((IModifiable)labeledStatement.GetNthChild(0));
-                        ((IModifiable)labeledStatement.Parent.Parent).ReplaceChild((IModifiable)labeledStatement.Parent, (IModifiable)labeledStatement.GetNthChild(0));
+                        if (labeledStatement.Code.Equals("case :") || labeledStatement.Code.Equals("default :"))
+                        {
+                            labeledStatement.GetNthChild(0).Parent = child.GetNthChild(0);
+                            labeledStatement.RemoveChild((IModifiable)labeledStatement.GetNthChild(0));
+                            ((IModifiable)labeledStatement.Parent.Parent).ReplaceChild((IModifiable)labeledStatement.Parent, (IModifiable)labeledStatement.GetNthChild(0));
+                        }
                     }
                 }
             }
@@ -5211,10 +5223,14 @@ namespace SoftwareAnalyzer2.Tools
         private void CPPNewExpressionHandler(IModifiable node)
         {
             // TODO: might include arrays of objects, not clear on how to deal with that yet so for now this is what you get
-            ((IModifiable)node.GetFirstSingleLayer(Members.TypeName)).SetNode(Members.ConstructorInvoke);
-            node.GetFirstRecursive(Members.ParameterList).Parent = node.GetFirstSingleLayer(Members.ConstructorInvoke);
-            node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
-            ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+            // TODO: more testing - this may not be a good if check
+            if (node.GetFirstSingleLayer(Members.TypeName) != null)
+            {
+                ((IModifiable)node.GetFirstSingleLayer(Members.TypeName)).SetNode(Members.ConstructorInvoke);
+                node.GetFirstRecursive(Members.ParameterList).Parent = node.GetFirstSingleLayer(Members.ConstructorInvoke);
+                node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
+                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+            }
         }
 
         /// <summary>
@@ -5477,7 +5493,7 @@ namespace SoftwareAnalyzer2.Tools
                 firstVariable.Parent = node;
                 IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
                 writeNode.Parent = firstVariable;
-                child.GetNthChild(1).GetFirstRecursive(Members.Variable).Parent = writeNode;
+                child.GetNthChild(1).GetFirstRecursive(Members.Parameter).GetNonTrivialChild().Parent = writeNode;
                 child.RemoveChild((IModifiable)child.GetNthChild(1));
             }
         }
