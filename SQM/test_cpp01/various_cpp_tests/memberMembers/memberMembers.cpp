@@ -35,7 +35,7 @@ class b
 			x = a;
 			y = b;
 		}
-		int getX()
+		int getX() const
 		{
 			return x;
 		}

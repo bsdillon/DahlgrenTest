@@ -211,7 +211,9 @@ namespace SoftwareAnalyzer2.Tools
                                                                       @"__enable_irq\(\);?", @"__force_loads\(\);?", @"__force_stores\(\);?", @"__isb\(.+\);?",
                                                                       @"__memory_changed\(\);?", @"__nop\(\);?", @"__pld\(.+\);?", @"__pli\(.+\);?", 
                                                                       @"__schedule_barrier\(\);?", @"__sev\(\);?", 
-                                                                      @"__strt\(.+\);?", @"__wfe\(\);?", @"__wfi\(\);?", @"__yield\(\);?"};
+                                                                      @"__strt\(.+\);?", @"__wfe\(\);?", @"__wfi\(\);?", @"__yield\(\);?",
+                                                                      // C++ Function specifiers:
+                                                                      "__cdecl", "_Export"};
                             
                             // Compiler keywords in string array above that can just be removed
                             foreach (String keyword in compilerKeywords) {
@@ -259,6 +261,7 @@ namespace SoftwareAnalyzer2.Tools
                     System.IO.Directory.CreateDirectory(preprocessed_dir);
                     preprocessed_dir = preprocessed_dir + "/" + Path.GetFileName(preprocessed);
                     if (!System.IO.File.Exists(preprocessed_dir)) System.IO.File.Move(preprocessed, preprocessed_dir);
+                    System.IO.File.Delete(preprocessed);
                 }
             }
             catch (Exception e)
@@ -793,14 +796,14 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("pointerOperator", "&");
                 head.Collapse("unaryOperator", "&");
 
+                head.RootUpModify("templateDeclaration", "templateDeclaration", CPPTemplateDefinitionHandler);
                 head.RootUpModify("declSpecifier", "declSpecifier", CPPTypedefHandler);
                 head.RootUpModify("classSpecifier", Members.TypeDeclaration, CPPClassSpecifierHandler);
-                head.RootUpModify("classKey", "classKey", CPPClassKeyHandler);
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPEarlyNoPointerDeclaratorHandler);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
-                head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateHandler);
+                head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateUsageHandler);
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
                 head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
@@ -820,6 +823,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.LeafDownModify("memberDeclaratorList", "memberDeclaratorList", CPPMultipleMemberDeclarationsHandler);
                 head.RootUpModify("initDeclaratorList", "initDeclaratorList", CPPMultipleInitDeclarationsHandler);
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
+                head.RootUpModify("classKey", "classKey", CPPClassKeyHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
                 head.LeafDownModify(Members.DotOperator, Members.DotOperator, CPPDotOperatorOrderer);
@@ -836,6 +840,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
                 head.RootUpModify("initializer", "initializer", CPPConstructorIdentifier);
+                head.RootUpModify("constructorInitializer", Members.MethodScope, CPPConstructorInitializerHandler);
                 head.RootUpModify("newExpression", "newExpression", CPPNewExpressionHandler);
                 head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
                 head.RootUpModify("handlerSeq", "handlerSeq",ReparentChildren);
@@ -893,8 +898,11 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("compoundStatement");
                 head.Collapse("compoundStatement", "{ }");
                 head.Collapse("functionBody");
+                // TODO: apparently there exist expression nodes with commas????
                 head.Collapse("expression");
                 head.Collapse("expressionStatement", ";");
+                head.Collapse("bracedInitList", "{ }");
+                head.Collapse("postfixExpression");
                 head.Collapse("postfixExpression", "( )");
                 head.Collapse("primaryExpression", "( )");
                 head.Collapse("assignmentExpression");
@@ -1128,7 +1136,7 @@ namespace SoftwareAnalyzer2.Tools
                 intType    = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9]){1,16}))(U|u)?$");
                 longType   = new Regex(@"^-?(\d+|(0(x|X|b)([a-f]|[A-F]|[0-9])+))((L|l){0,2}|((U|u)(L|l){1,2}|(L|l){1,2}(U|u)))?$");
                 floatType  = new Regex(@"^-?((\d+(\.(\d)*)?|\.\d+)((e|E|p|P)(-|\+)?\d*)?(F|f)|0(x|X)(([a-f]|[A-F]|[0-9])|(\d+(\.(\d)*)?|\.\d+))+p-?[0-9]+)$");
-                doubleType = new Regex(@"^-?(\d+(\.\d*)?|\d*\.\d*)((e|E|p|P)(-|\+)?\d*)?(D|d|L|l)?$");
+                doubleType = new Regex(@"^-?(\d+(\.\d*)?|\d*\.\d*|(0(x|X)([a-f]|[A-F]|[0-9])*\.([a-f]|[A-F]|[0-9])*))((e|E|p|P)(-|\+)?\d*)?(D|d|L|l)?$");
                 charType   = new Regex(@"^(u8|L|u|U)?'(((\\)?.+)|(\\u([node-f]|[a-f]|[A-F]|[0-9]){4,8}){1,2}|(\\[0-7]{3}))'$");
             } 
             else {
@@ -4677,7 +4685,7 @@ namespace SoftwareAnalyzer2.Tools
             List<INavigable> memberNodes = node.Children;
             node.DropChildren();
             IModifiable accessSpecNode;
-            if (node.Parent.GetFirstSingleLayer(MemberSets.Classification).GetNthChild(0).Node.Equals(Members.CLASS))
+            if (node.Parent.GetFirstSingleLayer(MemberSets.Classification).GetNthChild(0).Code.Equals("class"))
             {
                 accessSpecNode = (IModifiable)NodeFactory.CreateNode(Members.Private, false);
             }
@@ -4835,19 +4843,29 @@ namespace SoftwareAnalyzer2.Tools
             else
             {
                 // TODO
-                errorMessages.Add("ERROR: Unsupported primaryExpression code " + node + System.Environment.NewLine);
+                //errorMessages.Add("ERROR: Unsupported primaryExpression code " + node + System.Environment.NewLine);
             }
         }
 
         /// <summary>
-        /// Handles template-related nodes
+        /// Handles template-related nodes when they are being used
         /// </summary>
         /// <param name="answer"></param>
-        private void CPPTemplateHandler(IModifiable node)
+        private void CPPTemplateUsageHandler(IModifiable node)
         {
             node.GetNthChild(1).Parent = node.GetNthChild(0);
             node.RemoveChild((IModifiable)node.GetNthChild(1));
             ((IModifiable)node.Parent.Parent).ReplaceChild((IModifiable)node.Parent, (IModifiable)node.GetNthChild(0));
+        }
+
+        /// <summary>
+        /// Handles template-related nodes when they are being defined
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPTemplateDefinitionHandler(IModifiable node)
+        {
+            // Java examples not clear - for the time being I'll follow how they look and simply remove template information
+            ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetFirstSingleLayer("declaration"));
         }
 
         /// <summary>
@@ -5319,8 +5337,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPClassKeyHandler(IModifiable node)
         {
-            if (node.Code.Equals("class"))
+            if (node.Code.Equals("class") || node.Code.Equals("struct"))
             {
+                // structs are considered classes per BD's specification
                 node.ClearCode(ClearCodeOptions.KeepLine);
                 node.SetNode(Members.CLASS);
             }
@@ -5436,6 +5455,30 @@ namespace SoftwareAnalyzer2.Tools
                 ((IModifiable)seqNode.Parent).RemoveChild(seqNode);
                 seqNode.Parent = superTypeNode;
                 ((IModifiable)typeDeclNode.GetAncestor("declaration")).ReplaceChild((IModifiable)typeDeclNode.GetAncestor("declaration").GetNthChild(0), typeDeclNode);
+            }
+        }
+
+        /// <summary>
+        /// Converts the constructor's member initializer list into a MethodScope and Write nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPConstructorInitializerHandler(IModifiable node)
+        {
+            // making an executive decision on how to represent these original AST nodes as SQM nodes
+            ReparentChildren((IModifiable)node.GetNthChild(0));
+            List<INavigable> children = node.Children;
+            node.DropChildren();
+            foreach (IModifiable child in children)
+            {
+                // making assumptions about the nature of member initializer lists since I don't fully understand them
+                child.ReplaceChild((IModifiable)child.GetFirstSingleLayer("meminitializerid"), (IModifiable)child.GetFirstSingleLayer("meminitializerid").GetFirstRecursive(Members.TypeName));
+                IModifiable firstVariable = (IModifiable)child.GetFirstSingleLayer(Members.TypeName);
+                firstVariable.SetNode(Members.Variable);
+                firstVariable.Parent = node;
+                IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
+                writeNode.Parent = firstVariable;
+                child.GetNthChild(1).GetFirstRecursive(Members.Variable).Parent = writeNode;
+                child.RemoveChild((IModifiable)child.GetNthChild(1));
             }
         }
 
