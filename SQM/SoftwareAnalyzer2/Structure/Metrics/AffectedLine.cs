@@ -121,11 +121,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                 {
                                     if (c.statementDetails.Key != null)
                                     {
+                                        if (c.GetParentGNs().Contains(g))
+                                        {
+                                            gnListStr += "[" + c.Represented.FileName + "::" + c.Represented.GetLineStart().ToString() + "]; ";
+                                        }
                                         gnListStr += "[" + c.statementDetails.Key + "::" + c.statementDetails.Value.ToString() + "]; "; 
                                     }
                                     else
                                     {
-                                        gnListStr += c.Represented.ToString() + "; ";
+                                        gnListStr += "[" + c.Represented.FileName + "::" + c.Represented.GetLineStart().ToString() + "]; ";
                                     }
                                     
                                 }  
@@ -137,11 +141,18 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                 {
                                     if (p.statementDetails.Key != null)
                                     {
-                                        gnListStr += "[" + p.statementDetails.Key + "::" + p.statementDetails.Value.ToString() + "]; ";
+                                        if (p.GetChildrenGNs().Contains(g))
+                                        {
+                                            gnListStr += "[" + p.Represented.FileName + "::" + p.Represented.GetLineStart().ToString() + "]; ";
+                                        }
+                                        if (p.Represented.FileName != p.statementDetails.Key && p.Represented.GetLineStart() != p.statementDetails.Value)
+                                        {
+                                            gnListStr += "[" + p.statementDetails.Key + "::" + p.statementDetails.Value.ToString() + "]; ";
+                                        }  
                                     }
                                     else
                                     {
-                                        gnListStr += p.Represented.ToString() + "; ";
+                                        gnListStr += "[" + p.Represented.FileName + "::" + p.Represented.GetLineStart().ToString() + "]; ";
                                     }
                                 }  
                             }
@@ -152,11 +163,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                 {
                                     if (s.statementDetails.Key != null)
                                     {
+                                        if (s.GetSisterGNs().Contains(g))
+                                        {
+                                            gnListStr += "[" + s.Represented.FileName + "::" + s.Represented.GetLineStart().ToString() + "]; ";
+                                        }
                                         gnListStr += "[" + s.statementDetails.Key + "::" + s.statementDetails.Value.ToString() + "]; ";
                                     }
                                     else
                                     {
-                                        gnListStr += s.Represented.ToString() + "; ";
+                                        gnListStr += "[" + s.Represented.FileName + "::" + s.Represented.GetLineStart().ToString() + "]; ";
                                     }
                                 }
                             }

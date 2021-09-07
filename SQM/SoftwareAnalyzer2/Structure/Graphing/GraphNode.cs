@@ -119,11 +119,11 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         //doesn't matter which sister calls the function. this.sisterGNs and g.sisterGNs are both affected
         public void AddToSisterLists(GraphNode g)
         {
-            if(g != null && !this.sisterGNs.Contains(g))
+            if (g != null && !this.sisterGNs.Contains(g))
             {
                 this.sisterGNs.Add(g);
             }
-            if(this != null && !g.sisterGNs.Contains(this))
+            if (this != null && !g.sisterGNs.Contains(this))
             {
                 g.sisterGNs.Add(this);
             }
@@ -133,15 +133,23 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         public void AddToParentAndChildrenLists(GraphNode g)
         {
             //parents can be null
-            if (!this.parentGNs.Contains(g))
+            if(g == null)
             {
                 this.parentGNs.Add(g);
-            } 
-
-            if (g != null && !g.childrenGNs.Contains(this))
-            {
-                g.childrenGNs.Add(this);
             }
+            else if(!this.IsSimulated && !g.IsSimulated)
+            {
+                if (!this.parentGNs.Contains(g))
+                {
+                    this.parentGNs.Add(g);
+                }
+
+                if (g != null && !g.childrenGNs.Contains(this))
+                {
+                    g.childrenGNs.Add(this);
+                }
+            }
+
         }
 
         public static Dictionary<string, Dictionary<int, List<GraphNode>>> GetLineNumDict()
