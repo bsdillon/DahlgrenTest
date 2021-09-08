@@ -199,7 +199,6 @@ namespace SoftwareAnalyzer2.Tools
                             String[] compilerKeywords = new String[] {// Compiler function attributes:
                                                                       @"(\w*\s*)(__attribute__)(\({2})(.+)(\){2})", @"(\w*\s*)(__declspec)(\()(\w+)(\))", @"__thread",
                                                                       // Keywords and operators:
-                                                                      // TODO: Multi-line ASMs? Worth dealing with?
                                                                       @"__align\(\d+\)", @"((__asm_{0,2}\s*)(\(|{)(.)+(\)|}))|(^(\t|\s)*(__asm_{0,2}\s*)(\(|{)(.)+(\)|});?)", 
                                                                       @"__asm_{0,2}", @"__global_reg\(\d+\)", "__irq", "__packed", "__pure", @"__smc\(\d+\)", 
                                                                       "__softfp", @"__svc\(\d+\)", @"__svc_indirect\(\d+\)", @"__svc_indirect_r7\(\d+\)",
@@ -253,8 +252,13 @@ namespace SoftwareAnalyzer2.Tools
                                 }
                             }
 
-                            // TODO: Explore escaping all special characters within a string literal - ANTLR will read
+                            // Escaping all special characters within a string literal - ANTLR will read
                             // the tokens wrong if there is a premature escaped character that will have it exit
+                            // Match m3 = Regex.Match(translated_line, @"""[^""]+""");
+                            // if (m3.Success) {
+                            //     String replacement = Regex.Replace(m3.Value, @"\s", "_");
+                            //     translated_line = Regex.Replace(translated_line, @"""[^""]+""", replacement);
+                            // }
                         }
 
                         // Additional translations may be added here as we see new parse issues crop up in the field,
@@ -326,7 +330,7 @@ namespace SoftwareAnalyzer2.Tools
                 
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                // We remove all tokens with "<WS>" (whitespace), "<COMMENT>", "<Directive>", or "COMPILER_KEYWORD"
+                // We remove all tokens with "<WS>" (whitespace), "<COMMENT>", or "<Directive>"
                 tokens = tokens.Where(
                     t => !(
                         t.Contains("<WS>") ||
@@ -809,6 +813,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("forInitStatement", Members.ForInitial);
                 head.Rename("labeledStatement", Members.Label);
                 head.Rename("namespaceDefinition", Members.Package);
+                head.Rename("noeExceptSpecification", Members.Noexcept);
 
                 // clear out pointer stuff early since SQM doesn't care for it
                 head.Collapse("pointerOperator", "*");
@@ -875,6 +880,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.Private, Members.Private, CPPModifierSender);
                 head.RootUpModify(Members.Protected, Members.Protected, CPPModifierSender);
                 head.RootUpModify(Members.Static, Members.Static, CPPModifierSender);
+                head.RootUpModify(Members.Noexcept, Members.Noexcept, CPPModifierSender);
                 head.Collapse("virtualSpecifierSeq");
                 head.Collapse("memberdeclaration");
                 head.Collapse("memberdeclaration", ";");
@@ -898,6 +904,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("additiveExpression", Members.Operator);
                 head.Rename("logicalAndExpression", Members.Boolean_And);
                 head.Rename("logicalOrExpression", Members.Boolean_Or);
+                head.Rename("inclusiveOrExpression", Members.Operator);
+                head.Rename("andExpression", Members.Operator);
                 head.LeafDownModify(Members.Operator, Members.Operator, CPPOperatorOrderer);
 
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
@@ -4419,10 +4427,9 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Write);
                 IModifiable var = (IModifiable)node.GetNthChild(0);
-                var.Parent = node.Parent;
                 node.RemoveChild(var);
+                ((IModifiable)node.Parent).ReplaceChild(node, var);
                 node.Parent = var;
-                ((IModifiable)var.Parent).RemoveChild(node);
             }
             else if (node.Code.Equals("( )"))
             {
@@ -4520,10 +4527,9 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Write);
                 IModifiable var = (IModifiable)node.GetNthChild(0);
-                var.Parent = node.Parent;
                 node.RemoveChild(var);
+                ((IModifiable)node.Parent).ReplaceChild(node, var);
                 node.Parent = var;
-                ((IModifiable)var.Parent).RemoveChild(node);
             }
             else if(node.Code.Equals("sizeof"))
             {
@@ -4979,10 +4985,10 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPWriteNodeOrderer(IModifiable node)
         {
-            Console.WriteLine("ERROR: found write " + node + System.Environment.NewLine);
             IModifiable parentNode = (IModifiable)node.Parent;
             if (parentNode.Node.Equals("initializer") || parentNode.Node.Equals("memberDeclarator") || parentNode.Node.Equals("assignmentExpression"))
             {
+                parentNode.RemoveChild(node);
                 IModifiable targetNode;
                 if (parentNode.Node.Equals("memberDeclarator"))
                 {
@@ -4992,9 +4998,7 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     targetNode = (IModifiable)parentNode.Parent.GetFirstRecursive(Members.Variable);
                 }
-                Console.WriteLine("ERROR: targetNode " + targetNode + System.Environment.NewLine);
                 node.Parent = targetNode;
-                parentNode.RemoveChild((IModifiable)parentNode.GetFirstRecursive(Members.Write));
             }
         }
 
