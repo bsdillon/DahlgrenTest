@@ -245,7 +245,13 @@ namespace SoftwareAnalyzer2.Tools
                             // however, other contexts it is NOT, can can be used to name objects and functions
                             // ANTLR reads this as a keyword, however, and we may need to translate it for ANTLR to
                             // distinguish between when final is being used as an identifier and a keyword
-                            // translated_line = Regex.Replace(translated_line, @"final", "FINAL");
+                            Match m = Regex.Match(translated_line, @".+final.*");
+                            if (m.Success) {
+                                Match m2 = Regex.Match(translated_line, @"(virtual|class).+final.*");
+                                if (!m2.Success) {
+                                    translated_line = Regex.Replace(translated_line, @"final", "FINAL_VAR");
+                                }
+                            }
 
                             // TODO: Explore escaping all special characters within a string literal - ANTLR will read
                             // the tokens wrong if there is a premature escaped character that will have it exit
@@ -256,6 +262,8 @@ namespace SoftwareAnalyzer2.Tools
                         // grammar to parse something useful.
                         
                         stdin.WriteLine(translated_line);
+
+                        // To see result of translated lines after preprocessing
                         // Console.Out.WriteLine(translated_line);
                     }
                 }
@@ -263,7 +271,7 @@ namespace SoftwareAnalyzer2.Tools
                 stdin.Flush();
                 stdin.Close();
 
-                // Deletes the temporary macro and preprocessed files & saves preprocessed output
+                // Deletes the temporary macro and preprocessed files & saves preprocessed output in SoftwareAnalyzer2/bin/Preprocessed
                 if (myLang is CPPLanguage && System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed) && filename != preprocessed) {
                     System.IO.File.Delete(macros);
                     String preprocessed_dir = "./SoftwareAnalyzer2/bin/Preprocessed";
@@ -799,17 +807,21 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("qualifiedId", Members.Variable);
                 head.Rename("throwExpression", Members.Exception);
                 head.Rename("forInitStatement", Members.ForInitial);
+                head.Rename("labeledStatement", Members.Label);
+                head.Rename("namespaceDefinition", Members.Package);
 
                 // clear out pointer stuff early since SQM doesn't care for it
                 head.Collapse("pointerOperator", "*");
                 head.Collapse("pointerOperator", "&");
                 head.Collapse("unaryOperator", "&");
+                head.Collapse("unaryOperator", "*");
 
                 head.RootUpModify("templateDeclaration", "templateDeclaration", CPPTemplateDefinitionHandler);
                 head.RootUpModify("declSpecifier", "declSpecifier", CPPTypedefHandler);
                 head.RootUpModify("classSpecifier", Members.TypeDeclaration, CPPClassSpecifierHandler);
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
+                head.Rename("castExpression", Members.Cast);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPEarlyNoPointerDeclaratorHandler);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
                 head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateUsageHandler);
@@ -853,8 +865,12 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("newExpression", "newExpression", CPPNewExpressionHandler);
                 head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
                 head.RootUpModify("handlerSeq", "handlerSeq",ReparentChildren);
+                head.RootUpModify("enumeratorDefinition", "enumeratorDefinition", CPPEnumeratorDefinitionHandler);
+                head.RootUpModify("deleteExpression", Members.MethodInvoke, CPPDeleteHandler);
                 head.RootUpModify("virtualSpecifier", "virtualSpecifierSeq", CPPModifierSender);
+                head.RootUpModify("virtualSpecifierSeq", "virtualSpecifierSeq", CPPVirtualSpecifierIdentifier);
                 head.RootUpModify("functionSpecifier", "functionSpecifier", CPPModifierSender);
+                head.RootUpModify("functionSpecifier", "functionSpecifier", CPPFunctionSpecifierIdentifier);
                 head.RootUpModify(Members.Public, Members.Public, CPPModifierSender);
                 head.RootUpModify(Members.Private, Members.Private, CPPModifierSender);
                 head.RootUpModify(Members.Protected, Members.Protected, CPPModifierSender);
@@ -924,7 +940,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("constantExpression");
                 head.Collapse("expressionList");
                 head.Collapse("handler", "catch ( )");
-                
+
                 head.NormalizeLines();
 
                 // Throw away "HEAD" and replace with "File" at top of tree
@@ -4053,12 +4069,19 @@ namespace SoftwareAnalyzer2.Tools
             // rename to constructor if appropriate
             if (node.GetFirstSingleLayer("declSpecifierSeq") == null)
             {
-                node.SetNode(Members.Constructor);
-                IModifiable returnTypeNode = (IModifiable)NodeFactory.CreateNode(Members.ReturnType, false);
-                returnTypeNode.Parent = node;
-                IModifiable typeNameNode = (IModifiable)NodeFactory.CreateNode(Members.TypeName, false);
-                typeNameNode.Parent = returnTypeNode;
-                typeNameNode.CopyCode(node);
+                if (node.Code.Contains("~"))
+                {
+                    node.SetNode(Members.Destructor);
+                }
+                else
+                {
+                    node.SetNode(Members.Constructor);
+                    IModifiable returnTypeNode = (IModifiable)NodeFactory.CreateNode(Members.ReturnType, false);
+                    returnTypeNode.Parent = node;
+                    IModifiable typeNameNode = (IModifiable)NodeFactory.CreateNode(Members.TypeName, false);
+                    typeNameNode.Parent = returnTypeNode;
+                    typeNameNode.CopyCode(node);
+                }
             }
 
             // add ModifierSet node
@@ -4130,7 +4153,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPSwitchSetup(IModifiable node)
         {
-            IModifiable blocksNode = (IModifiable)node.GetFirstRecursive("labeledStatement").Parent.Parent;
+            IModifiable blocksNode = (IModifiable)node.GetFirstRecursive(Members.Label).Parent.Parent;
             if (blocksNode != node)
             {
                 blocksNode.SetNode(Members.Blocks);
@@ -4166,7 +4189,7 @@ namespace SoftwareAnalyzer2.Tools
                     statementNode.Parent = statementHolderScopeNode;
 
                     //setup the labeledStatement nodes to be Value nodes and create a node for Defaults
-                    IModifiable valueNode = (IModifiable)child.GetFirstRecursive("labeledStatement");
+                    IModifiable valueNode = (IModifiable)child.GetFirstRecursive(Members.Label);
                     if (valueNode.Code == "default :")
                     {
                         IModifiable defaultNode = (IModifiable)NodeFactory.CreateNode(Members.Default, false);
@@ -4180,7 +4203,7 @@ namespace SoftwareAnalyzer2.Tools
                     //move labeledStatements in the Scope of a Block to the Value, where they belong
                     //do some kind of loop or recursion here?
                     List<INavigable> labeledStatements = new List<INavigable>();
-                    statementHolderScopeNode.FullRecursiveSearch("labeledStatement", labeledStatements);
+                    statementHolderScopeNode.FullRecursiveSearch(Members.Label, labeledStatements);
                     foreach (IModifiable labeledStatement in labeledStatements)
                     {
                         if (labeledStatement.Code.Equals("case :") || labeledStatement.Code.Equals("default :"))
@@ -4243,9 +4266,13 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Return);
             }
+            else if (node.Code.Contains("goto"))
+            {
+                // May want to do something about that label stuff in the code
+                node.SetNode(Members.Goto);
+            }
             else
             {
-                // TODO: goto?
                 errorMessages.Add("ERROR: Unsupported jumpStatement code " + node + System.Environment.NewLine);
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
@@ -4444,6 +4471,10 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode("indexNode");
             }
+            else if (node.Code.Contains("cast"))
+            {
+                node.SetNode(Members.Cast);
+            }
             else
             {
                 errorMessages.Add("ERROR: Unsupported postfixExpression code " + node + System.Environment.NewLine);
@@ -4493,6 +4524,10 @@ namespace SoftwareAnalyzer2.Tools
                 node.RemoveChild(var);
                 node.Parent = var;
                 ((IModifiable)var.Parent).RemoveChild(node);
+            }
+            else if(node.Code.Equals("sizeof"))
+            {
+                node.SetNode(Members.Operator);
             }
             else
             {
@@ -4944,6 +4979,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPWriteNodeOrderer(IModifiable node)
         {
+            Console.WriteLine("ERROR: found write " + node + System.Environment.NewLine);
             IModifiable parentNode = (IModifiable)node.Parent;
             if (parentNode.Node.Equals("initializer") || parentNode.Node.Equals("memberDeclarator") || parentNode.Node.Equals("assignmentExpression"))
             {
@@ -4956,6 +4992,7 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     targetNode = (IModifiable)parentNode.Parent.GetFirstRecursive(Members.Variable);
                 }
+                Console.WriteLine("ERROR: targetNode " + targetNode + System.Environment.NewLine);
                 node.Parent = targetNode;
                 parentNode.RemoveChild((IModifiable)parentNode.GetFirstRecursive(Members.Write));
             }
@@ -5224,7 +5261,11 @@ namespace SoftwareAnalyzer2.Tools
         {
             // TODO: might include arrays of objects, not clear on how to deal with that yet so for now this is what you get
             // TODO: more testing - this may not be a good if check
-            if (node.GetFirstSingleLayer(Members.TypeName) != null)
+            if (node.GetFirstSingleLayer("bracedInitList") != null)
+            {
+                
+            }
+            else if (node.GetFirstSingleLayer(Members.TypeName) != null)
             {
                 ((IModifiable)node.GetFirstSingleLayer(Members.TypeName)).SetNode(Members.ConstructorInvoke);
                 node.GetFirstRecursive(Members.ParameterList).Parent = node.GetFirstSingleLayer(Members.ConstructorInvoke);
@@ -5496,6 +5537,76 @@ namespace SoftwareAnalyzer2.Tools
                 child.GetNthChild(1).GetFirstRecursive(Members.Parameter).GetNonTrivialChild().Parent = writeNode;
                 child.RemoveChild((IModifiable)child.GetNthChild(1));
             }
+        }
+
+        /// <summary>
+        /// Identifies functionSpecifier nodes as SQM nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPFunctionSpecifierIdentifier(IModifiable node)
+        {
+            if (node.Code.Equals("inline"))
+            {
+                node.SetNode(Members.Inline);
+            }
+            else if (node.Code.Equals("virtual"))
+            {
+                node.SetNode(Members.Virtual);
+            }
+            else
+            {
+                errorMessages.Add("ERROR: Unsupported functionSpecifer code " + node + System.Environment.NewLine);
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
+        }
+
+        /// <summary>
+        /// Identifies virtualSpecifierSeq nodes as SQM nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPVirtualSpecifierIdentifier(IModifiable node)
+        {
+            if (node.Code.Equals("override"))
+            {
+                node.SetNode(Members.Override);
+            }
+            else
+            {
+                errorMessages.Add("ERROR: Unsupported virtualSpecifierSeq code " + node + System.Environment.NewLine);
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
+        }
+
+        /// <summary>
+        /// Turns the relevant enumeratorDefinition nodes into Write nodes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPEnumeratorDefinitionHandler(IModifiable node)
+        {
+            if (node.Code.Equals("="))
+            {
+                node.SetNode(Members.Write);
+                IModifiable futureParent = (IModifiable)node.GetNthChild(0);
+                node.RemoveChild(futureParent);
+                ((IModifiable)node.Parent).ReplaceChild(node, futureParent);
+                node.Parent = futureParent;
+            }
+        }
+
+        /// <summary>
+        /// Converts the delete keyword nodes into a DotOperator/MethodInvoke sequence
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPDeleteHandler(IModifiable node)
+        {
+            node.ClearCode(ClearCodeOptions.KeepLine);
+            node.AddCode("~DESTRUCTOR", node);
+            IModifiable futureParent = (IModifiable)node.GetNthChild(0);
+            ((IModifiable)node.Parent).ReplaceChild(node, futureParent);
+            node.DropChildren();
+            IModifiable dotNode = (IModifiable)NodeFactory.CreateNode(Members.DotOperator, false);
+            dotNode.Parent = futureParent;
+            node.Parent = dotNode;
         }
 
         #endregion

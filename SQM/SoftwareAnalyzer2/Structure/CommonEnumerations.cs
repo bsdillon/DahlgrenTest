@@ -132,7 +132,12 @@ namespace SoftwareAnalyzer2.Structure
         XmlType,
         Override,
         PreUpdate,
-        PrePersist
+        PrePersist,
+        Virtual,
+        Constexpr,
+        Noexcept,
+        Goto,
+        Destructor
     }
 
     public enum ApprovedLiterals
