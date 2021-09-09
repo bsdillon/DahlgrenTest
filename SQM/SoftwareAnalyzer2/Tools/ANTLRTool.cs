@@ -469,7 +469,7 @@ namespace SoftwareAnalyzer2.Tools
                     //determine the actual string by skipping escape characters.
                     int nextC = findDelimiterInString(tree[i], startC, 1);
 
-                    if ((startC == '\'' || startC == '\"') && tree[i].Length > 1)
+                    if (startC == '\'' && tree[i].Length > 1)
                     {
                         //aggregates the actual character
                         //if there is node ' node character and node ' (the other option being node ' ' which woudld be broken into two blocks.
