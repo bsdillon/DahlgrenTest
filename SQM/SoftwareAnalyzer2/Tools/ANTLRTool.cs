@@ -251,14 +251,6 @@ namespace SoftwareAnalyzer2.Tools
                                     translated_line = Regex.Replace(translated_line, @"final", "FINAL_VAR");
                                 }
                             }
-
-                            // Escaping all special characters within a string literal - ANTLR will read
-                            // the tokens wrong if there is a premature escaped character that will have it exit
-                            // Match m3 = Regex.Match(translated_line, @"""[^""]+""");
-                            // if (m3.Success) {
-                            //     String replacement = Regex.Replace(m3.Value, @"\s", "_");
-                            //     translated_line = Regex.Replace(translated_line, @"""[^""]+""", replacement);
-                            // }
                         }
 
                         // Additional translations may be added here as we see new parse issues crop up in the field,
@@ -477,7 +469,7 @@ namespace SoftwareAnalyzer2.Tools
                     //determine the actual string by skipping escape characters.
                     int nextC = findDelimiterInString(tree[i], startC, 1);
 
-                    if (startC == '\'' && tree[i].Length > 1)
+                    if ((startC == '\'' || startC == '\"') && tree[i].Length > 1)
                     {
                         //aggregates the actual character
                         //if there is node ' node character and node ' (the other option being node ' ' which woudld be broken into two blocks.
@@ -813,6 +805,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("forInitStatement", Members.ForInitial);
                 head.Rename("labeledStatement", Members.Label);
                 head.Rename("namespaceDefinition", Members.Package);
+                head.Rename("originalNamespaceName", Members.Import);
+                head.Collapse("namespaceName");
+                head.Collapse("usingDirective", "using namespace ;");
                 head.Rename("noeExceptSpecification", Members.Noexcept);
 
                 // clear out pointer stuff early since SQM doesn't care for it
@@ -856,7 +851,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
                 head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
-                head.RootUpModify("storageClassSpecifier", "storageClassSpecifier", CPPStorageClassSpecifierHandler);
+                head.RootUpModify("storageClassSpecifier", "storageClassSpecifier", CPPModifierModifier);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
@@ -873,9 +868,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("enumeratorDefinition", "enumeratorDefinition", CPPEnumeratorDefinitionHandler);
                 head.RootUpModify("deleteExpression", Members.MethodInvoke, CPPDeleteHandler);
                 head.RootUpModify("virtualSpecifier", "virtualSpecifierSeq", CPPModifierSender);
-                head.RootUpModify("virtualSpecifierSeq", "virtualSpecifierSeq", CPPVirtualSpecifierIdentifier);
+                head.RootUpModify("virtualSpecifierSeq", "virtualSpecifierSeq", CPPModifierModifier);
                 head.RootUpModify("functionSpecifier", "functionSpecifier", CPPModifierSender);
-                head.RootUpModify("functionSpecifier", "functionSpecifier", CPPFunctionSpecifierIdentifier);
+                head.RootUpModify("functionSpecifier", "functionSpecifier", CPPModifierModifier);
                 head.RootUpModify(Members.Public, Members.Public, CPPModifierSender);
                 head.RootUpModify(Members.Private, Members.Private, CPPModifierSender);
                 head.RootUpModify(Members.Protected, Members.Protected, CPPModifierSender);
@@ -896,7 +891,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("trailingTypeSpecifier");
                 head.Collapse("declarator");
                 head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierSender);
-                //need to look at typedefs more
                 head.RootUpModify("declSpecifier", "declSpecifier", CPPModifierSender);
 
                 head.LeafDownModify("noPointerDeclarator", "noPointerDeclarator", CPPLateNoPointerDeclaratorHandler);
@@ -910,6 +904,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.RootUpModify("literal", Members.Literal, LiteralModifier);
                 head.RootUpModify("cvQualifier", "cvQualifier", CPPModifierModifier);
+                head.RootUpModify("declSpecifier", "declSpecifier", CPPModifierModifier);
 
                 head.Collapse("enumeratorDefinition");
                 
@@ -4335,22 +4330,78 @@ namespace SoftwareAnalyzer2.Tools
         /// </summary>
         /// <param name="node"></param>
         private void CPPModifierModifier(IModifiable node)
-        {            
-            switch(node.Code) 
+        {
+            if (node.Node.Equals("cvQualifier"))
             {
-                case "const":
-                    node.SetNode(Members.Const);
-                    break;
-                case "volatile":
-                    node.SetNode(Members.Volatile);
-                    break;
-                default:
-                    throw new InvalidCastException("Unknown modifier: " + node.Code);
-                    break;
+                switch (node.Code)
+                {
+                    case "const":
+                        node.SetNode(Members.Const);
+                        break;
+                    case "volatile":
+                        node.SetNode(Members.Volatile);
+                        break;
+                    default:
+                        throw new InvalidCastException("Unknown modifier: " + node);
+                }
+            }
+            else if (node.Node.Equals("declSpecifier"))
+            {
+                switch (node.Code)
+                {
+                    case "constexpr":
+                        node.SetNode(Members.Constexpr);
+                        break;
+                    case "friend":
+                        //TODO
+                        break;
+                    case "":
+                        break;
+                    default:
+                        throw new InvalidCastException("Unknown modifier: " + node);
+                }
+            }
+            else if (node.Node.Equals("functionSpecifier"))
+            {
+                switch (node.Code)
+                {
+                    case "inline":
+                        node.SetNode(Members.Inline);
+                        break;
+                    case "virtual":
+                        node.SetNode(Members.Virtual);
+                        break;
+                    default:
+                        throw new InvalidCastException("Unknown modifier: " + node);
+                }
+            }
+            else if (node.Node.Equals("virtualSpecifierSeq"))
+            {
+                switch (node.Code)
+                {
+                    case "override":
+                        node.SetNode(Members.Override);
+                        break;
+                    case "":
+                        break;
+                    default:
+                        throw new InvalidCastException("Unknown modifier: " + node);
+                }
+            }
+            else if (node.Node.Equals("storageClassSpecifier"))
+            {
+                switch (node.Code)
+                {
+                    case "static":
+                        node.SetNode(Members.Static);
+                        break;
+                    default:
+                        throw new InvalidCastException("Unknown modifier: " + node);
+                }
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
-        
+
         /// <summary>
         /// Handles Try_Catch nodes
         /// </summary>
@@ -4481,6 +4532,14 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.Code.Contains("cast"))
             {
                 node.SetNode(Members.Cast);
+            }
+            else if (node.Code.Equals("") && node.GetChildCount() > 1 && node.GetFirstSingleLayer(Members.TypeName) != null)
+            {
+                IModifiable targetNode = (IModifiable)node.GetFirstSingleLayer(Members.TypeName);
+                targetNode.SetNode(Members.ConstructorInvoke);
+                IModifiable paramList = (IModifiable)node.GetFirstSingleLayer("bracedInitList");
+                node.RemoveChild(paramList);
+                paramList.Parent = targetNode;
             }
             else
             {
@@ -4768,8 +4827,11 @@ namespace SoftwareAnalyzer2.Tools
                 }
                 else
                 {
-                    memberNode.Parent = node;
-                    accessSpecNode.Clone().Parent = memberNode;
+                    if (!(memberNode.Node.Equals("memberdeclaration") && memberNode.GetChildCount() == 0))
+                    {
+                        memberNode.Parent = node;
+                        accessSpecNode.Clone().Parent = memberNode;
+                    }
                 }
             }
         }
@@ -4796,9 +4858,12 @@ namespace SoftwareAnalyzer2.Tools
                         IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
                         modSetNode.Parent = node.GetNthChild(0);
                         IModifiable memberDeclarationNode = (IModifiable)node.GetAncestor("memberdeclaration");
-                        IModifiable declSpecNode = (IModifiable)memberDeclarationNode.GetNthChild(0);
-                        memberDeclarationNode.RemoveChild(declSpecNode);
-                        declSpecNode.Parent = node.GetNthChild(0);
+                        IModifiable declSpecNode = (IModifiable)memberDeclarationNode.GetFirstSingleLayer("declSpecifierSeq");
+                        if (declSpecNode != null)
+                        {
+                            memberDeclarationNode.RemoveChild(declSpecNode);
+                            declSpecNode.Parent = node.GetNthChild(0);
+                        }
                         if (node.Parent.GetFirstSingleLayer("virtualSpecifierSeq") != null)
                         {
                             node.Parent.GetFirstSingleLayer("virtualSpecifierSeq").Parent = memberDeclarationNode;
@@ -5267,7 +5332,11 @@ namespace SoftwareAnalyzer2.Tools
             // TODO: more testing - this may not be a good if check
             if (node.GetFirstSingleLayer("bracedInitList") != null)
             {
-                
+                node.ClearCode(ClearCodeOptions.KeepLine);
+                node.SetNode(Members.ArrayInvoke);
+                IModifiable parameterList = (IModifiable)node.GetFirstSingleLayer("bracedInitList").GetFirstRecursive(Members.ParameterList);
+                node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").GetNthChild(0).Parent = parameterList;
+                node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newTypeId"));
             }
             else if (node.GetFirstSingleLayer(Members.TypeName) != null)
             {
@@ -5372,23 +5441,6 @@ namespace SoftwareAnalyzer2.Tools
             else
             {
                 errorMessages.Add("ERROR: Unsupported noPointerDeclarator code " + node + System.Environment.NewLine);
-            }
-        }
-
-        /// <summary>
-        /// Identifies storage class specifiers
-        /// </summary>
-        /// <param name="answer"></param>
-        private void CPPStorageClassSpecifierHandler(IModifiable node)
-        {
-            if (node.Code.Equals("static"))
-            {
-                node.ClearCode(ClearCodeOptions.KeepLine);
-                node.SetNode(Members.Static);
-            }
-            else
-            {
-                errorMessages.Add("ERROR: Unsupported storageClassSpecifier code " + node + System.Environment.NewLine);
             }
         }
 
@@ -5541,44 +5593,6 @@ namespace SoftwareAnalyzer2.Tools
                 child.GetNthChild(1).GetFirstRecursive(Members.Parameter).GetNonTrivialChild().Parent = writeNode;
                 child.RemoveChild((IModifiable)child.GetNthChild(1));
             }
-        }
-
-        /// <summary>
-        /// Identifies functionSpecifier nodes as SQM nodes
-        /// </summary>
-        /// <param name="answer"></param>
-        private void CPPFunctionSpecifierIdentifier(IModifiable node)
-        {
-            if (node.Code.Equals("inline"))
-            {
-                node.SetNode(Members.Inline);
-            }
-            else if (node.Code.Equals("virtual"))
-            {
-                node.SetNode(Members.Virtual);
-            }
-            else
-            {
-                errorMessages.Add("ERROR: Unsupported functionSpecifer code " + node + System.Environment.NewLine);
-            }
-            node.ClearCode(ClearCodeOptions.KeepLine);
-        }
-
-        /// <summary>
-        /// Identifies virtualSpecifierSeq nodes as SQM nodes
-        /// </summary>
-        /// <param name="answer"></param>
-        private void CPPVirtualSpecifierIdentifier(IModifiable node)
-        {
-            if (node.Code.Equals("override"))
-            {
-                node.SetNode(Members.Override);
-            }
-            else
-            {
-                errorMessages.Add("ERROR: Unsupported virtualSpecifierSeq code " + node + System.Environment.NewLine);
-            }
-            node.ClearCode(ClearCodeOptions.KeepLine);
         }
 
         /// <summary>
