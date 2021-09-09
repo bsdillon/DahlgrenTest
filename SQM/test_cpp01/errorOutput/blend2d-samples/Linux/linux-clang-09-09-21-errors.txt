@@ -1,0 +1,1173 @@
+
+>>>> xbuild tool is deprecated and will be removed in future updates, use msbuild instead <<<<
+
+XBuild Engine Version 14.0
+Mono, Version 6.12.0.122
+Copyright (C) 2005-2013 Various Mono authors
+
+Build started 9/9/2021 3:45:23 PM.
+__________________________________________________
+Project "/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/SoftwareAnalyzer2.csproj" (Build target(s)):
+	Target PrepareForBuild:
+		Configuration: Debug Platform: AnyCPU
+		Created directory "bin/Debug/"
+		Created directory "obj/Debug/"
+	Target GenerateResources:
+		Tool /usr/lib/mono/4.5/resgen.exe execution started with arguments: /useSourcePath /compile "GUI/AnalysisForms/MetricPanel.resx,obj/Debug/SoftwareAnalyzer2.GUI.AnaylsisForms.MetricPanel.resources" 
+		Tool /usr/lib/mono/4.5/resgen.exe execution started with arguments: /useSourcePath /compile "Properties/Resources.resx,obj/Debug/SoftwareAnalyzer2.Properties.Resources.resources" 
+	Target GenerateSatelliteAssemblies:
+	No input files were specified for target GenerateSatelliteAssemblies, skipping.
+	Target CoreCompile:
+		Tool /usr/lib/mono/4.5/csc.exe execution started with arguments: /noconfig /debug:full /debug:portable /optimize- /out:obj/Debug/SoftwareAnalyzer2.exe /resource:obj/Debug/SoftwareAnalyzer2.GUI.AnaylsisForms.MetricPanel.resources /resource:obj/Debug/SoftwareAnalyzer2.Properties.Resources.resources GUI/AnalysisForms/GraphPanel.cs GUI/AnalysisForms/GraphPanel.Designer.cs GUI/AnalysisForms/MetricPanel.cs GUI/AnalysisForms/MetricPanel.Designer.cs GUI/AnalysisForms/SourceUpdatePanel.cs GUI/AnalysisForms/SourceUpdatePanel.Designer.cs GUI/ErrorMessage.cs GUI/ErrorMessage.Designer.cs GUI/Form1.cs GUI/Form1.Designer.cs GUI/GenericPrompt.cs GUI/GenericPrompt.Designer.cs GUI/MethodMatcher.cs GUI/MethodMatcher.Designer.cs GUI/ProjectForms/EditProjectPanel.cs GUI/ProjectForms/EditProjectPanel.Designer.cs GUI/ProjectForms/NewProjectPanel.cs GUI/ProjectForms/NewProjectPanel.Designer.cs GUI/ProjectForms/OpenProjectPanel.cs GUI/ProjectForms/OpenProjectPanel.Designer.cs GUI/Test/TestPanel.cs GUI/Test/TestPanel.Designer.cs GUI/Test/TestReport.cs GUI/Test/TestReport.Designer.cs Language/ILanguage.cs Language/JavaLanguage.cs Language/CPPLanguage.cs Language/LanguageManager.cs Program.cs ProjectCoordination/IProjectCoordinator.cs ProjectCoordination/IProjectCreator.cs ProjectCoordination/IProjectUser.cs ProjectCoordination/Project.cs Properties/AssemblyInfo.cs Source/FileIdentification.cs Structure/CommonEnumerations.cs Structure/Gephi/GephiEdge.cs Structure/Gephi/GephiNavigator.cs Structure/Gephi/GephiNode.cs Structure/Gephi/GephiWriter.cs Structure/Gephi/PropertiedObject.cs Structure/Graphing/AbbreviatedGraph.cs Structure/Graphing/Specifics/ControlExpression.cs Structure/Graphing/GraphNode.cs Structure/Graphing/IGraphNavigator.cs Structure/Graphing/Specifics/Annotation.cs Structure/Graphing/Specifics/AnonArray.cs Structure/Graphing/Specifics/Branch.cs Structure/Graphing/Specifics/ChainArgs.cs Structure/Graphing/Specifics/ControlStructure.cs Structure/Graphing/Specifics/DefinedMember.cs Structure/Graphing/Specifics/Field.cs Structure/Graphing/Specifics/ForEachLoop.cs Structure/Graphing/Specifics/ForThreeLoop.cs Structure/Graphing/Specifics/HierarchyNode.cs Structure/Graphing/Specifics/InvokableMember.cs Structure/Graphing/Specifics/Literal.cs Structure/Graphing/Specifics/Package.cs Structure/Graphing/Specifics/Scope.cs Structure/Graphing/Specifics/Statement.cs Structure/Graphing/Specifics/Switch.cs Structure/Graphing/Specifics/SynchBlock.cs Structure/Graphing/Specifics/Trinary.cs Structure/Graphing/Specifics/TryCatch.cs Structure/Graphing/Specifics/TypeDefinition.cs Structure/Graphing/Specifics/WhileLoop.cs Structure/LinkEventArgs.cs Structure/Metrics/AffectedLine.cs Structure/Metrics/CancerInvasion.cs Structure/Metrics/ConnectivityMetrics.cs Structure/Metrics/CountAll.cs Structure/Metrics/IntegrityMetrics.cs Structure/Metrics/MetricUtilities.cs Structure/Metrics/ModuleNavigator.cs Structure/Metrics/NodePatternMetrics.cs Structure/Metrics/QAlgorithm.cs Structure/Metrics/StateCounter.cs Structure/Metrics/AffectedTree.cs Structure/Metrics/StateMachine.cs Structure/Metrics/StateMachineMetrics.cs Structure/Metrics/StatePatternMetrics.cs Structure/Metrics/Tumor.cs Structure/Metrics/PlantUML.cs Structure/NodeType.cs Structure/Node/IModifiable.cs Structure/Node/Implementations/AbbreviatedNode.cs Structure/Node/Implementations/ASTree.cs Structure/Node/INavigable.cs Structure/Node/INode.cs Structure/Node/NodeFactory.cs Tools/ANTLRTool.cs Tools/LLVMTool.cs Tools/ITool.cs Tools/ToolManager.cs Properties/Resources.Designer.cs Properties/Settings.Designer.cs obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs /target:exe /define:"DEBUG;TRACE" /nostdlib /platform:AnyCPU /reference:/usr/lib/mono/4.5-api/System.dll /reference:/usr/lib/mono/4.5-api/System.Xml.Linq.dll /reference:/usr/lib/mono/4.5-api/System.Data.DataSetExtensions.dll /reference:/usr/lib/mono/4.5-api/Microsoft.CSharp.dll /reference:/usr/lib/mono/4.5-api/System.Data.dll /reference:/usr/lib/mono/gac/System.Deployment/4.0.0.0__b03f5f7f11d50a3a/System.Deployment.dll /reference:/usr/lib/mono/4.5-api/System.Drawing.dll /reference:/usr/lib/mono/4.5-api/System.Windows.Forms.dll /reference:/usr/lib/mono/4.5-api/System.Xml.dll /reference:/usr/lib/mono/4.5-api/System.Core.dll /reference:/usr/lib/mono/4.5-api//mscorlib.dll /warn:4
+		Microsoft (R) Visual C# Compiler version 3.6.0-4.20224.5 (ec77c100)
+		Copyright (C) Microsoft Corporation. All rights reserved.
+Program.cs(206,17): warning CS0219: The variable 'filesDone' is assigned but its value is never used
+Structure/Graphing/AbbreviatedGraph.cs(81,38): warning CS0168: The variable 'e2' is declared but never used
+Structure/Metrics/MetricUtilities.cs(842,21): warning CS0168: The variable 'whatDoIdoNow' is declared but never used
+	Target _CopyAppConfigFile:
+		Copying file from '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/App.config' to '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe.config'
+	Target DeployOutputFiles:
+		Copying file from '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/obj/Debug/SoftwareAnalyzer2.pdb' to '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.pdb'
+		Copying file from '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/obj/Debug/SoftwareAnalyzer2.exe' to '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe'
+Done building project "/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/SoftwareAnalyzer2.csproj".
+
+Build succeeded.
+
+Warnings:
+
+/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/SoftwareAnalyzer2.csproj (Build) ->
+/usr/lib/mono/xbuild/14.0/bin/Microsoft.CSharp.targets (CoreCompile target) ->
+
+	Program.cs(206,17): warning CS0219: The variable 'filesDone' is assigned but its value is never used
+	Structure/Graphing/AbbreviatedGraph.cs(81,38): warning CS0168: The variable 'e2' is declared but never used
+	Structure/Metrics/MetricUtilities.cs(842,21): warning CS0168: The variable 'whatDoIdoNow' is declared but never used
+
+	 3 Warning(s)
+	 0 Error(s)
+
+Time Elapsed 00:00:02.0545500
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:524:16: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:525:17: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:526:17: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:527:17: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:528:17: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:529:17: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:530:17: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:531:17: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:532:18: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:533:19: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:534:18: rule expression contains an assoc terminal option in an unrecognized location
+warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:535:17: rule expression contains an assoc terminal option in an unrecognized location
+warning(146): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/ada.g4:297:0: non-fragment lexer rule WS can match the empty string
+error(119): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/ada.g4::: The following sets of rules are mutually left-recursive [name, explicit_dereference, prefix, implicit_dereference, function_name, function_prefix, reference_object_name, indexed_component, slice, selected_component, attribute_reference, reduction_attribute_reference, generalized_indexing, generalized_reference, function_call]
+Processing cpp code within /home/brad/test_code/cpp/blend2d-samples
+proj_dir=/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/TestAnalysis/blend2d-samples
+proj_name=blend2d-samples
+Using tool_name=ANTLR
+Checking for updated files in blend2d-samples
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp
+Error in /qt/src/qblcanvas.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp
+Error in /qt/src/bl-qt-bounces.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-bounces.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 12:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 9:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 12:0 mismatched input 'public' expecting {'}', ','}
+line 21:41 mismatched input ';' expecting {'}', ','}
+line 32:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 32:82 extraneous input ')' expecting ';'
+line 33:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 33:84 extraneous input ')' expecting ';'
+line 196:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+ERROR: Error in ANTLR tokens: line 12:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 9:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 12:0 mismatched input 'public' expecting {'}', ','}
+line 21:41 mismatched input ';' expecting {'}', ','}
+line 32:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 32:82 extraneous input ')' expecting ';'
+line 33:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 33:84 extraneous input ')' expecting ';'
+line 196:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp
+Error in /qt/src/bl-qt-rects.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-rects.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 42:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 39:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 42:0 mismatched input 'public' expecting {'}', ','}
+line 68:4 no viable alternative at input 'MainWindow():'
+line 71:22 missing ';' at '{'
+line 112:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 112:82 extraneous input ')' expecting ';'
+line 113:48 no viable alternative at input 'connect(&_compOpSelect,SIGNAL(activated(int)'
+line 113:78 extraneous input ')' expecting ';'
+line 114:51 no viable alternative at input 'connect(&_shapeTypeSelect,SIGNAL(activated(int)'
+line 114:84 extraneous input ')' expecting ';'
+line 115:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 115:84 extraneous input ')' expecting ';'
+line 116:49 no viable alternative at input 'connect(&_sizeSlider,SIGNAL(valueChanged(int)'
+line 116:77 extraneous input ')' expecting ';'
+line 117:50 no viable alternative at input 'connect(&_countSlider,SIGNAL(valueChanged(int)'
+line 117:79 extraneous input ')' expecting ';'
+line 145:36 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 146:36 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 147:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 150:43 mismatched input ';' expecting {'}', ','}
+line 352:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+ERROR: Error in ANTLR tokens: line 42:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 39:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 42:0 mismatched input 'public' expecting {'}', ','}
+line 68:4 no viable alternative at input 'MainWindow():'
+line 71:22 missing ';' at '{'
+line 112:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 112:82 extraneous input ')' expecting ';'
+line 113:48 no viable alternative at input 'connect(&_compOpSelect,SIGNAL(activated(int)'
+line 113:78 extraneous input ')' expecting ';'
+line 114:51 no viable alternative at input 'connect(&_shapeTypeSelect,SIGNAL(activated(int)'
+line 114:84 extraneous input ')' expecting ';'
+line 115:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 115:84 extraneous input ')' expecting ';'
+line 116:49 no viable alternative at input 'connect(&_sizeSlider,SIGNAL(valueChanged(int)'
+line 116:77 extraneous input ')' expecting ';'
+line 117:50 no viable alternative at input 'connect(&_countSlider,SIGNAL(valueChanged(int)'
+line 117:79 extraneous input ')' expecting ';'
+line 145:36 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 146:36 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 147:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 150:43 mismatched input ';' expecting {'}', ','}
+line 352:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp
+Error in /qt/src/bl-qt-circles.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-circles.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 14:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 14:0 mismatched input 'public' expecting {'}', ','}
+line 24:41 mismatched input ';' expecting {'}', ','}
+line 40:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 40:82 extraneous input ')' expecting ';'
+line 41:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 41:84 extraneous input ')' expecting ';'
+line 156:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+ERROR: Error in ANTLR tokens: line 14:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 14:0 mismatched input 'public' expecting {'}', ','}
+line 24:41 mismatched input ';' expecting {'}', ','}
+line 40:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 40:82 extraneous input ')' expecting ';'
+line 41:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 41:84 extraneous input ')' expecting ';'
+line 156:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp
+Error in /qt/src/bl-qt-tiger.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 171:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 168:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 171:0 mismatched input 'public' expecting {'}', ','}
+line 186:41 mismatched input ';' expecting {'}', ','}
+line 205:60 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(currentIndexChanged(int)'
+line 205:92 extraneous input ')' expecting ';'
+line 206:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 206:84 extraneous input ')' expecting ';'
+line 207:59 no viable alternative at input 'connect(&_cachingSelect,SIGNAL(currentIndexChanged(int)'
+line 207:90 extraneous input ')' expecting ';'
+line 208:45 no viable alternative at input 'connect(&_slider,SIGNAL(valueChanged(int)'
+line 208:73 extraneous input ')' expecting ';'
+line 375:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+ERROR: Error in ANTLR tokens: line 171:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 168:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 171:0 mismatched input 'public' expecting {'}', ','}
+line 186:41 mismatched input ';' expecting {'}', ','}
+line 205:60 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(currentIndexChanged(int)'
+line 205:92 extraneous input ')' expecting ';'
+line 206:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 206:84 extraneous input ')' expecting ';'
+line 207:59 no viable alternative at input 'connect(&_cachingSelect,SIGNAL(currentIndexChanged(int)'
+line 207:90 extraneous input ')' expecting ';'
+line 208:45 no viable alternative at input 'connect(&_slider,SIGNAL(valueChanged(int)'
+line 208:73 extraneous input ')' expecting ';'
+line 375:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp
+Error in /qt/src/bl-qt-polys.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-polys.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 13:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 10:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 13:0 mismatched input 'public' expecting {'}', ','}
+line 27:15 no viable alternative at input 'MainWindow():'
+line 29:20 missing ';' at '{'
+line 59:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 59:82 extraneous input ')' expecting ';'
+line 60:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 60:84 extraneous input ')' expecting ';'
+line 61:51 no viable alternative at input 'connect(&_operationSelect,SIGNAL(activated(int)'
+line 61:84 extraneous input ')' expecting ';'
+line 62:45 no viable alternative at input 'connect(&_slider,SIGNAL(valueChanged(int)'
+line 62:77 extraneous input ')' expecting ';'
+line 83:36 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 84:36 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 85:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 88:19 mismatched input ';' expecting {'}', ','}
+line 248:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+ERROR: Error in ANTLR tokens: line 13:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 10:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 13:0 mismatched input 'public' expecting {'}', ','}
+line 27:15 no viable alternative at input 'MainWindow():'
+line 29:20 missing ';' at '{'
+line 59:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 59:82 extraneous input ')' expecting ';'
+line 60:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 60:84 extraneous input ')' expecting ';'
+line 61:51 no viable alternative at input 'connect(&_operationSelect,SIGNAL(activated(int)'
+line 61:84 extraneous input ')' expecting ';'
+line 62:45 no viable alternative at input 'connect(&_slider,SIGNAL(valueChanged(int)'
+line 62:77 extraneous input ')' expecting ';'
+line 83:36 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 84:36 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 85:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 88:19 mismatched input ';' expecting {'}', ','}
+line 248:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp
+Error in /qt/src/bl-qt-gradients.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp:1:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp:1:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-gradients.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 13:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 13:0 mismatched input 'public' expecting {'}', ','}
+line 31:4 no viable alternative at input 'MainWindow():'
+line 34:19 missing ';' at '{'
+line 49:54 no viable alternative at input 'connect(&_gradientTypeSelect,SIGNAL(activated(int)'
+line 49:90 extraneous input ')' expecting ';'
+line 54:52 no viable alternative at input 'connect(&_extendModeSelect,SIGNAL(activated(int)'
+line 54:86 extraneous input ')' expecting ';'
+line 60:54 no viable alternative at input 'connect(&_parameterSlider,SIGNAL(valueChanged(int)'
+line 60:87 extraneous input ')' expecting ';'
+line 90:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 93:26 mismatched input ';' expecting {'}', ','}
+line 206:0 mismatched input '}' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, '(', ')', '[', '+', '-', '*', '/', '%', '^', '&', '|', '<', '>', '==', '!=', '<=', '>=', AndAnd, OrOr, '++', '--', ',', '->*', '->', '?', '.', '.*', '...'}
+
+
+ERROR: Error in ANTLR tokens: line 13:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 13:0 mismatched input 'public' expecting {'}', ','}
+line 31:4 no viable alternative at input 'MainWindow():'
+line 34:19 missing ';' at '{'
+line 49:54 no viable alternative at input 'connect(&_gradientTypeSelect,SIGNAL(activated(int)'
+line 49:90 extraneous input ')' expecting ';'
+line 54:52 no viable alternative at input 'connect(&_extendModeSelect,SIGNAL(activated(int)'
+line 54:86 extraneous input ')' expecting ';'
+line 60:54 no viable alternative at input 'connect(&_parameterSlider,SIGNAL(valueChanged(int)'
+line 60:87 extraneous input ')' expecting ';'
+line 90:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 93:26 mismatched input ';' expecting {'}', ','}
+line 206:0 mismatched input '}' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, '(', ')', '[', '+', '-', '*', '/', '%', '^', '&', '|', '<', '>', '==', '!=', '<=', '>=', AndAnd, OrOr, '++', '--', ',', '->*', '->', '?', '.', '.*', '...'}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp
+Error in /qt/src/bl-qt-stroke.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp:1:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp:1:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-stroke.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 13:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 13:0 mismatched input 'public' expecting {'}', ','}
+line 31:4 no viable alternative at input 'MainWindow():'
+line 35:19 missing ';' at '{'
+line 95:49 no viable alternative at input 'connect(&_capTypeSelect,SIGNAL(activated(int)'
+line 95:79 extraneous input ')' expecting ';'
+line 96:50 no viable alternative at input 'connect(&_joinTypeSelect,SIGNAL(activated(int)'
+line 96:81 extraneous input ')' expecting ';'
+line 102:50 no viable alternative at input 'connect(&_widthSlider,SIGNAL(valueChanged(int)'
+line 102:79 extraneous input ')' expecting ';'
+line 108:55 no viable alternative at input 'connect(&_miterLimitSlider,SIGNAL(valueChanged(int)'
+line 108:89 extraneous input ')' expecting ';'
+line 144:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 152:51 mismatched input ';' expecting {'}', ','}
+line 384:0 mismatched input '}' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, '(', ')', '[', '+', '-', '*', '/', '%', '^', '&', '|', '<', '>', '==', '!=', '<=', '>=', AndAnd, OrOr, '++', '--', ',', '->*', '->', '?', '.', '.*', '...'}
+
+
+ERROR: Error in ANTLR tokens: line 13:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 13:0 mismatched input 'public' expecting {'}', ','}
+line 31:4 no viable alternative at input 'MainWindow():'
+line 35:19 missing ';' at '{'
+line 95:49 no viable alternative at input 'connect(&_capTypeSelect,SIGNAL(activated(int)'
+line 95:79 extraneous input ')' expecting ';'
+line 96:50 no viable alternative at input 'connect(&_joinTypeSelect,SIGNAL(activated(int)'
+line 96:81 extraneous input ')' expecting ';'
+line 102:50 no viable alternative at input 'connect(&_widthSlider,SIGNAL(valueChanged(int)'
+line 102:79 extraneous input ')' expecting ';'
+line 108:55 no viable alternative at input 'connect(&_miterLimitSlider,SIGNAL(valueChanged(int)'
+line 108:89 extraneous input ')' expecting ';'
+line 144:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 152:51 mismatched input ';' expecting {'}', ','}
+line 384:0 mismatched input '}' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, '(', ')', '[', '+', '-', '*', '/', '%', '^', '&', '|', '<', '>', '==', '!=', '<=', '>=', AndAnd, OrOr, '++', '--', ',', '->*', '->', '?', '.', '.*', '...'}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp
+Error in /qt/src/bl-qt-ellipticarc.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp:1:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp:1:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-ellipticarc.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 13:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 13:0 mismatched input 'public' expecting {'}', ','}
+line 34:4 no viable alternative at input 'MainWindow():'
+line 37:19 missing ';' at '{'
+line 70:52 no viable alternative at input 'connect(&_xRadiusSlider,SIGNAL(valueChanged(int)'
+line 70:85 extraneous input ')' expecting ';'
+line 71:52 no viable alternative at input 'connect(&_yRadiusSlider,SIGNAL(valueChanged(int)'
+line 71:85 extraneous input ')' expecting ';'
+line 72:50 no viable alternative at input 'connect(&_angleSlider,SIGNAL(valueChanged(int)'
+line 72:83 extraneous input ')' expecting ';'
+line 73:51 no viable alternative at input 'connect(&_largeArcFlag,SIGNAL(stateChanged(int)'
+line 73:84 extraneous input ')' expecting ';'
+line 74:51 no viable alternative at input 'connect(&_sweepArcFlag,SIGNAL(stateChanged(int)'
+line 74:84 extraneous input ')' expecting ';'
+line 99:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 102:27 mismatched input ';' expecting {'}', ','}
+line 225:0 mismatched input '}' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, '(', ')', '[', '+', '-', '*', '/', '%', '^', '&', '|', '<', '>', '==', '!=', '<=', '>=', AndAnd, OrOr, '++', '--', ',', '->*', '->', '?', '.', '.*', '...'}
+
+
+ERROR: Error in ANTLR tokens: line 13:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 13:0 mismatched input 'public' expecting {'}', ','}
+line 34:4 no viable alternative at input 'MainWindow():'
+line 37:19 missing ';' at '{'
+line 70:52 no viable alternative at input 'connect(&_xRadiusSlider,SIGNAL(valueChanged(int)'
+line 70:85 extraneous input ')' expecting ';'
+line 71:52 no viable alternative at input 'connect(&_yRadiusSlider,SIGNAL(valueChanged(int)'
+line 71:85 extraneous input ')' expecting ';'
+line 72:50 no viable alternative at input 'connect(&_angleSlider,SIGNAL(valueChanged(int)'
+line 72:83 extraneous input ')' expecting ';'
+line 73:51 no viable alternative at input 'connect(&_largeArcFlag,SIGNAL(stateChanged(int)'
+line 73:84 extraneous input ')' expecting ';'
+line 74:51 no viable alternative at input 'connect(&_sweepArcFlag,SIGNAL(stateChanged(int)'
+line 74:84 extraneous input ')' expecting ';'
+line 99:39 mismatched input 'override' expecting {'alignas', '(', ')', '[', '=', ',', '...'}
+line 102:27 mismatched input ';' expecting {'}', ','}
+line 225:0 mismatched input '}' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, '(', ')', '[', '+', '-', '*', '/', '%', '^', '&', '|', '<', '>', '==', '!=', '<=', '>=', AndAnd, OrOr, '++', '--', ',', '->*', '->', '?', '.', '.*', '...'}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp
+Error in /qt/src/bl-qt-particles.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+In file included from /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp:1:
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-particles.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 25:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 22:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 25:0 mismatched input 'public' expecting {'}', ','}
+line 43:41 mismatched input ';' expecting {'}', ','}
+line 65:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 65:82 extraneous input ')' expecting ';'
+line 66:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 66:84 extraneous input ')' expecting ';'
+line 226:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+ERROR: Error in ANTLR tokens: line 25:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 22:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 25:0 mismatched input 'public' expecting {'}', ','}
+line 43:41 mismatched input ';' expecting {'}', ','}
+line 65:50 no viable alternative at input 'connect(&_rendererSelect,SIGNAL(activated(int)'
+line 65:82 extraneous input ')' expecting ';'
+line 66:52 no viable alternative at input 'connect(&_limitFpsCheck,SIGNAL(stateChanged(int)'
+line 66:84 extraneous input ')' expecting ';'
+line 226:0 mismatched input '}' expecting {'alignas', '(', ')', '['}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp
+Error in /qt/src/bl-qt-text.cpp: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp:1:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp:1:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-text.cpp-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 14:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 14:0 mismatched input 'public' expecting {'}', ','}
+line 26:41 mismatched input ';' expecting {'}', ','}
+line 67:0 mismatched input 'private' expecting {<EOF>, 'alignas', 'asm', 'auto', 'bool', 'char', 'char16_t', 'char32_t', 'class', 'const', 'constexpr', 'decltype', 'double', 'enum', 'explicit', 'extern', 'float', 'friend', 'inline', 'int', 'long', 'mutable', 'namespace', 'operator', 'register', 'short', 'signed', 'static', 'static_assert', 'struct', 'template', 'thread_local', 'typedef', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void', 'volatile', 'wchar_t', '(', '[', '*', '&', '~', AndAnd, '::', ';', '...', Identifier}
+
+
+ERROR: Error in ANTLR tokens: line 14:0 no viable alternative at input 'classMainWindow:publicQWidget{Q_OBJECTpublic'
+line 11:19 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 14:0 mismatched input 'public' expecting {'}', ','}
+line 26:41 mismatched input ';' expecting {'}', ','}
+line 67:0 mismatched input 'private' expecting {<EOF>, 'alignas', 'asm', 'auto', 'bool', 'char', 'char16_t', 'char32_t', 'class', 'const', 'constexpr', 'decltype', 'double', 'enum', 'explicit', 'extern', 'float', 'friend', 'inline', 'int', 'long', 'mutable', 'namespace', 'operator', 'register', 'short', 'signed', 'static', 'static_assert', 'struct', 'template', 'thread_local', 'typedef', 'typename', 'union', 'unsigned', 'using', 'virtual', 'void', 'volatile', 'wchar_t', '(', '[', '*', '&', '~', AndAnd, '::', ';', '...', Identifier}
+
+
+FATAL ERROR: Could not run tool
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-1.cpp
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-4.cpp
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-8.cpp
+Error in /getting-started/src/bl-getting-started-8.cpp: 
+ERROR: Trival layers still exist in the tree: primaryExpression(25-27): 
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-6.cpp
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-2.cpp
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-7.cpp
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-5.cpp
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-getting-started-3.cpp
+Checking for updated files in blend2d-samples
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c -dM -E -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c-macros -o /home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/getting-started/src/bl-capi-sample.c
+Error in /getting-started/src/bl-capi-sample.c: 
+ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(28:18-23): ( )
+
+ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(29:19-29): ( )
+
+ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(40:14-19): ( )
+
+ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(44:18-25): ( )
+
+ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(47:21-28): ( )
+
+ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(49:16-21): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(28:18-23): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(29:19-29): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(40:14-19): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(44:18-25): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(47:21-28): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(49:16-21): ( )
+
+Checking for updated files in blend2d-samples
+Checking for updated files in blend2d-samples
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/bl-qt-tiger.h
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-preprocessed
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h -dM -E -o /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-macros -o /home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-preprocessed
+/t/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h
+Error in /qt/src/qblcanvas.h: 
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: treating 'c-header' input as 'c++-header' when in C++ mode, this behavior is deprecated [-Wdeprecated]
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: treating 'c-header' input as 'c++-header' when in C++ mode, this behavior is deprecated [-Wdeprecated]
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: treating 'c-header' input as 'c++-header' when in C++ mode, this behavior is deprecated [-Wdeprecated]
+/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h:10:10: fatal error: 'QtGui' file not found
+#include <QtGui>
+         ^~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: PREPROCESSING FAILED: 
+Preprocessing did not terminate successfully: 
+clang: warning: treating 'c-header' input as 'c++-header' when in C++ mode, this behavior is deprecated [-Wdeprecated]
+clang: warning: argument unused during compilation: '-dI' [-Wunused-command-line-argument]
+<built-in>:1:19: fatal error: '/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-macros' file not found
+#__include_macros "/home/brad/test_code/cpp/blend2d-samples/qt/src/qblcanvas.h-macros"
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+
+  at SoftwareAnalyzer2.Tools.ANTLRTool.startProcess (System.Diagnostics.Process p, System.String filename, System.String arguments, System.Int32 timeToWait) [0x000be] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:98 
+
+ERROR: Error in ANTLR tree: line 17:0 no viable alternative at input 'classQBLCanvas:publicQWidget{Q_OBJECTpublic'
+line 14:18 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 17:0 mismatched input 'public' expecting {'}', ','}
+line 46:40 extraneous input 'override' expecting ';'
+line 47:38 extraneous input 'override' expecting ';'
+line 49:43 extraneous input 'override' expecting ';'
+line 50:45 extraneous input 'override' expecting ';'
+line 51:42 extraneous input 'override' expecting ';'
+line 59:41 extraneous input 'return' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, 'alignof', 'auto', 'bool', 'char', 'char16_t', 'char32_t', 'const_cast', 'decltype', 'delete', 'double', 'dynamic_cast', 'float', 'int', 'long', 'new', 'noexcept', 'operator', 'reinterpret_cast', 'short', 'signed', 'sizeof', 'static_cast', 'this', 'throw', 'typeid', 'typename', 'unsigned', 'void', 'wchar_t', '(', '[', '{', '}', '+', '-', '*', '&', '|', '~', Not, '++', '--', '::', Identifier}
+line 59:61 extraneous input ';' expecting {'}', ','}
+line 60:2 missing ';' at 'inline'
+line 60:30 extraneous input 'return' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, 'alignof', 'auto', 'bool', 'char', 'char16_t', 'char32_t', 'const_cast', 'decltype', 'delete', 'double', 'dynamic_cast', 'float', 'int', 'long', 'new', 'noexcept', 'operator', 'reinterpret_cast', 'short', 'signed', 'sizeof', 'static_cast', 'this', 'throw', 'typeid', 'typename', 'unsigned', 'void', 'wchar_t', '(', '[', '{', '}', '+', '-', '*', '&', '|', '~', Not, '++', '--', '::', Identifier}
+line 60:41 extraneous input ';' expecting {'}', ','}
+line 62:2 missing ';' at 'static'
+
+
+ERROR: Error in ANTLR tokens: line 17:0 no viable alternative at input 'classQBLCanvas:publicQWidget{Q_OBJECTpublic'
+line 14:18 extraneous input 'public' expecting {'decltype', '::', Identifier}
+line 17:0 mismatched input 'public' expecting {'}', ','}
+line 46:40 extraneous input 'override' expecting ';'
+line 47:38 extraneous input 'override' expecting ';'
+line 49:43 extraneous input 'override' expecting ';'
+line 50:45 extraneous input 'override' expecting ';'
+line 51:42 extraneous input 'override' expecting ';'
+line 59:41 extraneous input 'return' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, 'alignof', 'auto', 'bool', 'char', 'char16_t', 'char32_t', 'const_cast', 'decltype', 'delete', 'double', 'dynamic_cast', 'float', 'int', 'long', 'new', 'noexcept', 'operator', 'reinterpret_cast', 'short', 'signed', 'sizeof', 'static_cast', 'this', 'throw', 'typeid', 'typename', 'unsigned', 'void', 'wchar_t', '(', '[', '{', '}', '+', '-', '*', '&', '|', '~', Not, '++', '--', '::', Identifier}
+line 59:61 extraneous input ';' expecting {'}', ','}
+line 60:2 missing ';' at 'inline'
+line 60:30 extraneous input 'return' expecting {IntegerLiteral, CharacterLiteral, FloatingLiteral, StringLiteral, BooleanLiteral, PointerLiteral, UserDefinedLiteral, 'alignof', 'auto', 'bool', 'char', 'char16_t', 'char32_t', 'const_cast', 'decltype', 'delete', 'double', 'dynamic_cast', 'float', 'int', 'long', 'new', 'noexcept', 'operator', 'reinterpret_cast', 'short', 'signed', 'sizeof', 'static_cast', 'this', 'throw', 'typeid', 'typename', 'unsigned', 'void', 'wchar_t', '(', '[', '{', '}', '+', '-', '*', '&', '|', '~', Not, '++', '--', '::', Identifier}
+line 60:41 extraneous input ';' expecting {'}', ','}
+line 62:2 missing ';' at 'static'
+
+
+FATAL ERROR: Could not run tool
+
+Registering all members in blend2d-samples
+type.Represented == null
+myNavigable == null
+type.Represented == null
+
+Unhandled Exception:
+System.NullReferenceException: Object reference not set to an instance of an object
+  at SoftwareAnalyzer2.Structure.Graphing.Specifics.TypeDefinition.Equals (System.Object o) [0x00019] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Graphing/Specifics/TypeDefinition.cs:1079 
+  at System.Collections.Generic.ObjectEqualityComparer`1[T].IndexOf (T[] array, T value, System.Int32 startIndex, System.Int32 count) [0x0003d] in <533173d24dae460899d2b10975534bb0>:0 
+  at System.Array.IndexOfImpl[T] (T[] array, T value, System.Int32 startIndex, System.Int32 count) [0x00005] in <533173d24dae460899d2b10975534bb0>:0 
+  at System.Array.IndexOf[T] (T[] array, T value, System.Int32 startIndex, System.Int32 count) [0x00044] in <533173d24dae460899d2b10975534bb0>:0 
+  at System.Collections.Generic.List`1[T].IndexOf (T item) [0x00000] in <533173d24dae460899d2b10975534bb0>:0 
+  at System.Collections.Generic.List`1[T].Contains (T item) [0x00008] in <533173d24dae460899d2b10975534bb0>:0 
+  at SoftwareAnalyzer2.Structure.Graphing.Specifics.HierarchyNode.WasImportedBy (SoftwareAnalyzer2.Structure.Graphing.Specifics.HierarchyNode g) [0x00014] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Graphing/Specifics/HierarchyNode.cs:136 
+  at SoftwareAnalyzer2.Structure.Graphing.Specifics.TypeDefinition.RegisterType (SoftwareAnalyzer2.Structure.Node.INode node) [0x00034] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Graphing/Specifics/TypeDefinition.cs:288 
+  at SoftwareAnalyzer2.Structure.Graphing.GraphNode.Register (SoftwareAnalyzer2.Structure.Node.INode node) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Graphing/GraphNode.cs:23 
+  at SoftwareAnalyzer2.Program.LoadTree (System.String file) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Program.cs:187 
+  at SoftwareAnalyzer2.Program.RegisterGraph (SoftwareAnalyzer2.ProjectCoordination.Project p, SoftwareAnalyzer2.Language.ILanguage lang, System.String proj_dir, System.String proj_parse_folder) [0x00038] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Program.cs:179 
+  at SoftwareAnalyzer2.Program.BatchProcess (System.String language, System.String src_dir) [0x001b8] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Program.cs:106 
+  at SoftwareAnalyzer2.Program.Main (System.String[] args) [0x00030] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Program.cs:35 
+[ERROR] FATAL UNHANDLED EXCEPTION: System.NullReferenceException: Object reference not set to an instance of an object
+  at SoftwareAnalyzer2.Structure.Graphing.Specifics.TypeDefinition.Equals (System.Object o) [0x00019] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Graphing/Specifics/TypeDefinition.cs:1079 
+  at System.Collections.Generic.ObjectEqualityComparer`1[T].IndexOf (T[] array, T value, System.Int32 startIndex, System.Int32 count) [0x0003d] in <533173d24dae460899d2b10975534bb0>:0 
+  at System.Array.IndexOfImpl[T] (T[] array, T value, System.Int32 startIndex, System.Int32 count) [0x00005] in <533173d24dae460899d2b10975534bb0>:0 
+  at System.Array.IndexOf[T] (T[] array, T value, System.Int32 startIndex, System.Int32 count) [0x00044] in <533173d24dae460899d2b10975534bb0>:0 
+  at System.Collections.Generic.List`1[T].IndexOf (T item) [0x00000] in <533173d24dae460899d2b10975534bb0>:0 
+  at System.Collections.Generic.List`1[T].Contains (T item) [0x00008] in <533173d24dae460899d2b10975534bb0>:0 
+  at SoftwareAnalyzer2.Structure.Graphing.Specifics.HierarchyNode.WasImportedBy (SoftwareAnalyzer2.Structure.Graphing.Specifics.HierarchyNode g) [0x00014] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Graphing/Specifics/HierarchyNode.cs:136 
+  at SoftwareAnalyzer2.Structure.Graphing.Specifics.TypeDefinition.RegisterType (SoftwareAnalyzer2.Structure.Node.INode node) [0x00034] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Graphing/Specifics/TypeDefinition.cs:288 
+  at SoftwareAnalyzer2.Structure.Graphing.GraphNode.Register (SoftwareAnalyzer2.Structure.Node.INode node) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Graphing/GraphNode.cs:23 
+  at SoftwareAnalyzer2.Program.LoadTree (System.String file) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Program.cs:187 
+  at SoftwareAnalyzer2.Program.RegisterGraph (SoftwareAnalyzer2.ProjectCoordination.Project p, SoftwareAnalyzer2.Language.ILanguage lang, System.String proj_dir, System.String proj_parse_folder) [0x00038] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Program.cs:179 
+  at SoftwareAnalyzer2.Program.BatchProcess (System.String language, System.String src_dir) [0x001b8] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Program.cs:106 
+  at SoftwareAnalyzer2.Program.Main (System.String[] args) [0x00030] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Program.cs:35 
+Downloading ANTLR from https://www.antlr.org/download/antlr-4.9.1-complete.jar to SoftwareAnalyzer2/bin/Debug/antlr-complete.jar
+Copying Grammar from data/Java.g4 to SoftwareAnalyzer2/bin/Debug/Java.g4
+Downloading Grammar from https://raw.githubusercontent.com/antlr/grammars-v4/master/cpp/CPP14Lexer.g4 to SoftwareAnalyzer2/bin/Debug/CPP14Lexer.g4
+Downloading Grammar from https://raw.githubusercontent.com/antlr/grammars-v4/master/cpp/CPP14Parser.g4 to SoftwareAnalyzer2/bin/Debug/CPP14Parser.g4
+Downloading Grammar from https://raw.githubusercontent.com/okellogg/ada_antlr_grammar/master/antlr4/ada.g4 to SoftwareAnalyzer2/bin/Debug/ada.g4
+Generating Java for Grammar SoftwareAnalyzer2/bin/Debug/Java.g4
+Generating Java for Grammar SoftwareAnalyzer2/bin/Debug/CPP14Lexer.g4
+Generating Java for Grammar SoftwareAnalyzer2/bin/Debug/CPP14Parser.g4
+Generating Java for Grammar SoftwareAnalyzer2/bin/Debug/ada.g4
+Command '['java', '-Xint', '-cp', '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/antlr-complete.jar', 'org.antlr.v4.Tool', '-o', '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/compiled-antlr-grammars', '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/ada.g4']' returned non-zero exit status 1.
+[ WARNING ] Could not generate java for grammar SoftwareAnalyzer2/bin/Debug/ada.g4
+Compiling all grammars within SoftwareAnalyzer2/bin/Debug/compiled-antlr-grammars
+WARNING: Skipping LLVM tool build because SQM_TOOL=
+         Set SQM_TOOL=LLVM before running to perform LLVM build (eg "export SQM_TOOL=LLVM" or "setenv SQM_TOOL=LLVM"
+
+CLASS_PATH=:/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/antlr-complete.jar:/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/compiled-antlr-grammars
+Running ['mono', '--debug', 'SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe', 'cpp', '/home/brad/test_code/cpp/blend2d-samples']

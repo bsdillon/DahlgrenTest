@@ -469,7 +469,7 @@ namespace SoftwareAnalyzer2.Tools
                     //determine the actual string by skipping escape characters.
                     int nextC = findDelimiterInString(tree[i], startC, 1);
 
-                    if ((startC == '\'' || startC == '\"') && tree[i].Length > 1)
+                    if (startC == '\'' && tree[i].Length > 1)
                     {
                         //aggregates the actual character
                         //if there is node ' node character and node ' (the other option being node ' ' which woudld be broken into two blocks.
@@ -580,13 +580,13 @@ namespace SoftwareAnalyzer2.Tools
         private int findDelimiterInString(string str, char delim, int startIndex)
         {
             int indexDelim  = str.IndexOf(delim, startIndex);
-            int indexEscape = str.IndexOf(Path.DirectorySeparatorChar, startIndex);
+            int indexEscape = str.IndexOf(@"\", startIndex);
 
             while (indexEscape < indexDelim && indexEscape > -1 && indexDelim > -1)//need to skip any escaped characters
             {
                 startIndex  = indexEscape + 2;
                 indexDelim  = str.IndexOf(delim, startIndex);
-                indexEscape = str.IndexOf(Path.DirectorySeparatorChar, startIndex);
+                indexEscape = str.IndexOf(@"\", startIndex);
             }
 
             //either this is the index of node delimeter or it is node -1 indicating no valid delimeter exists
@@ -4011,6 +4011,25 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.Code.Equals(""))
             {
+                ReparentChildren(node);
+            }
+            else if (node.Code.Equals("( )"))
+            {
+                IModifiable willBeParamNode = (IModifiable)node.GetFirstSingleLayer(Members.Variable);
+                willBeParamNode.SetNode(Members.TypeName);
+                node.RemoveChild(willBeParamNode);
+                IModifiable simpleDeclNode = (IModifiable)node.GetAncestor("simpleDeclaration");
+                IModifiable declSpecNode = (IModifiable)simpleDeclNode.GetFirstSingleLayer("declSpecifierSeq");
+                IModifiable realMethodNode = (IModifiable)declSpecNode.GetFirstRecursive(Members.TypeName);
+                realMethodNode.SetNode(Members.Variable);
+                simpleDeclNode.RemoveChild(declSpecNode);
+                realMethodNode.Parent = node;
+                IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                parameterListNode.Parent = node;
+                IModifiable parameterNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
+                parameterNode.Parent = parameterListNode;
+                willBeParamNode.Parent = parameterNode;
+
                 ReparentChildren(node);
             }
         }

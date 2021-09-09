@@ -5,7 +5,7 @@ XBuild Engine Version 14.0
 Mono, Version 6.12.0.122
 Copyright (C) 2005-2013 Various Mono authors
 
-Build started 9/9/2021 11:45:58 AM.
+Build started 9/9/2021 2:24:04 PM.
 __________________________________________________
 Project "/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/SoftwareAnalyzer2.csproj" (Build target(s)):
 	Target PrepareForBuild:
@@ -24,7 +24,6 @@ Project "/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/SoftwareAnalyzer2.cs
 Program.cs(206,17): warning CS0219: The variable 'filesDone' is assigned but its value is never used
 Structure/Graphing/AbbreviatedGraph.cs(81,38): warning CS0168: The variable 'e2' is declared but never used
 Structure/Metrics/MetricUtilities.cs(842,21): warning CS0168: The variable 'whatDoIdoNow' is declared but never used
-Tools/ANTLRTool.cs(4352,21): warning CS0162: Unreachable code detected
 	Target _CopyAppConfigFile:
 		Copying file from '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/App.config' to '/home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe.config'
 	Target DeployOutputFiles:
@@ -42,12 +41,11 @@ Warnings:
 	Program.cs(206,17): warning CS0219: The variable 'filesDone' is assigned but its value is never used
 	Structure/Graphing/AbbreviatedGraph.cs(81,38): warning CS0168: The variable 'e2' is declared but never used
 	Structure/Metrics/MetricUtilities.cs(842,21): warning CS0168: The variable 'whatDoIdoNow' is declared but never used
-	Tools/ANTLRTool.cs(4352,21): warning CS0162: Unreachable code detected
 
-	 4 Warning(s)
+	 3 Warning(s)
 	 0 Error(s)
 
-Time Elapsed 00:00:02.0205310
+Time Elapsed 00:00:02.1317930
 warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:524:16: rule expression contains an assoc terminal option in an unrecognized location
 warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:525:17: rule expression contains an assoc terminal option in an unrecognized location
 warning(157): /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/bin/Debug/Java.g4:526:17: rule expression contains an assoc terminal option in an unrecognized location
@@ -105,8 +103,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: typeS
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x013e8] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:927 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01444] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:919 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/test/bl_test_verify_mt.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/test/bl_test_verify_mt.cpp-macros
@@ -155,21 +153,25 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/glyphbuffer.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/glyphbuffer.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/glyphbuffer.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/glyphbuffer.cpp
 Error in /src/blend2d/glyphbuffer.cpp: 
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
-
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(59:6-14): ( )
 
-FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: postfixExpression(-1): 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x000d6] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:443 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014d4] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:941 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+ERROR: Trival layers still exist in the tree: relationalExpression(39): 
+
+ERROR: Trival layers still exist in the tree: expression(39:53-84): , ,
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(59:6-14): ( )
+
+ERROR: Trival layers still exist in the tree: relationalExpression(244): 
+
+ERROR: Trival layers still exist in the tree: expression(244:69-108): , ,
+
+ERROR: Trival layers still exist in the tree: relationalExpression(251): 
+
+ERROR: Trival layers still exist in the tree: expression(251:70-110): , ,
+
+ERROR: Trival layers still exist in the tree: relationalExpression(258): 
+
+ERROR: Trival layers still exist in the tree: expression(258:70-110): , ,
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/path.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/path.cpp-macros
@@ -180,8 +182,6 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/path.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/path.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/path.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/path.cpp
 Error in /src/blend2d/path.cpp: 
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
-
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(179:25-30): ( )
 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(378:15-20): ( )
@@ -194,31 +194,65 @@ ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(2512:10-13): ( )
 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(2517:21-27): ( )
 
-FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: postfixExpression(-1): 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x000d6] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:443 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014d4] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:941 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+ERROR: Trival layers still exist in the tree: relationalExpression(150): 
+
+ERROR: Trival layers still exist in the tree: expression(150:95-95): ,
+
+ERROR: Trival layers still exist in the tree: relationalExpression(156): 
+
+ERROR: Trival layers still exist in the tree: expression(156:46-46): ,
+
+ERROR: Trival layers still exist in the tree: relationalExpression(157): 
+
+ERROR: Trival layers still exist in the tree: expression(157:59-59): ,
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(179:25-30): ( )
+
+ERROR: Trival layers still exist in the tree: relationalExpression(239): 
+
+ERROR: Trival layers still exist in the tree: relationalExpression(335): 
+
+ERROR: Trival layers still exist in the tree: relationalExpression(347): 
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(378:15-20): ( )
+
+ERROR: Trival layers still exist in the tree: relationalExpression(430): 
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(558:38-40): [ ]
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(569:38-40): [ ]
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(594:39-42): [ ]
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(585:38-41): [ ]
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(616:41-43): [ ]
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(617:41-43): [ ]
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(618:39-42): [ ]
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(619:39-42): [ ]
+
+ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(607:38-41): [ ]
+
+ERROR: Trival layers still exist in the tree: relationalExpression(1274): 
+
+ERROR: Trival layers still exist in the tree: expression(1274:36-36): ,
+
+ERROR: Trival layers still exist in the tree: relationalExpression(1298): 
+
+ERROR: Trival layers still exist in the tree: expression(1298:36-36): ,
+
+ERROR: Trival layers still exist in the tree: exclusiveOrExpression(1438:32-32): ^
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(1812:10-18): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(1933:10-19): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(2512:10-13): ( )
+
+ERROR: Trival layers still exist in the tree: noPointerDeclarator(2517:21-27): ( )
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/matrix.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/matrix.cpp-macros
@@ -230,12 +264,6 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/matrix.cpp
 Error in /src/blend2d/matrix.cpp: 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(389:10-15): ( )
-
-ERROR: Trival layers still exist in the tree: usingDirective(312:2-22): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(312): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(312:18-21): SIMD
 
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(389:10-15): ( )
 
@@ -253,36 +281,6 @@ ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(11:10-15): ( )
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(366:10-13): ( )
 
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(11:10-15): ( )
-
-ERROR: Trival layers still exist in the tree: usingDirective(9:2-22): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(9): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(9:18-21): SIMD
-
-ERROR: Trival layers still exist in the tree: usingDirective(58:2-22): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(58): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(58:18-21): SIMD
-
-ERROR: Trival layers still exist in the tree: usingDirective(120:2-22): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(120): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(120:18-21): SIMD
-
-ERROR: Trival layers still exist in the tree: usingDirective(183:2-22): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(183): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(183:18-21): SIMD
-
-ERROR: Trival layers still exist in the tree: usingDirective(258:2-22): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(258): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(258:18-21): SIMD
 
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(366:10-13): ( )
 
@@ -312,10 +310,6 @@ ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(589:23-28): ( )
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(596:21-30): ( )
 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(599:23-26): ( )
-
-ERROR: Trival layers still exist in the tree: declSpecifier(493:2-10): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(494:2-10): constexpr
 
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(582:10-13): ( )
 
@@ -368,12 +362,6 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/gradient_sse2.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/gradient_sse2.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/gradient_sse2.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/gradient_sse2.cpp
 Error in /src/blend2d/gradient_sse2.cpp: 
-ERROR: Trival layers still exist in the tree: usingDirective(9:2-22): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(9): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(9:18-21): SIMD
-
 ERROR: Trival layers still exist in the tree: relationalExpression(43): 
 
 ERROR: Trival layers still exist in the tree: relationalExpression(71): 
@@ -420,12 +408,12 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: decla
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01226] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:900 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01260] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:892 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/region.cpp-macros
@@ -441,12 +429,6 @@ ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(1552:31-36): ( )
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(2550:10-13): ( )
 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(2554:21-29): ( )
-
-ERROR: Trival layers still exist in the tree: declSpecifier(19:7-15): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(20:7-15): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(21:7-15): constexpr
 
 ERROR: Trival layers still exist in the tree: relationalExpression(47): 
 
@@ -518,11 +500,6 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/geometry.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/geometry.cpp-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/geometry.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/geometry.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/geometry.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/geometry.cpp
-Error in /src/blend2d/geometry.cpp: 
-ERROR: Trival layers still exist in the tree: declSpecifier(23:7-15): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(7:9-17): constexpr
-
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/variant.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/variant.cpp-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
@@ -567,13 +544,6 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/tables.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/tables.cpp-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/tables.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/tables.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/tables.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/tables.cpp
-Error in /src/blend2d/tables.cpp: 
-ERROR: Trival layers still exist in the tree: declSpecifier(8:7-15): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(19:7-15): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(2:9-17): constexpr
-
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/string.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/string.cpp-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
@@ -620,8 +590,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: typeS
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x013e8] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:927 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01444] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:919 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke.cpp-macros
@@ -634,7 +604,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 Error in /src/blend2d/pathstroke.cpp: 
 FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 0 children available in Label(865:6-13): default :
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.GetNthChild (System.Int32 index) [0x00017] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:353 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPSwitchSetup (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00284] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4224 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPSwitchSetup (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00284] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4216 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00058] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1063 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
@@ -650,8 +620,8 @@ FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 0 children avail
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.LeafDownModify (SoftwareAnalyzer2.Structure.Members currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1016 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00b5d] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:841 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00b97] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:833 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/gradient_avx2.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/gradient_avx2.cpp-macros
@@ -673,7 +643,7 @@ Error in /src/blend2d/imagescale.cpp:
 ERROR: Unsupported unaryExpression code unaryExpression(291:73-86): sizeof ( )
 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPMultipleMemberDeclarationsHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0002b] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5018 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPMultipleMemberDeclarationsHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0002b] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5080 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00058] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1063 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
@@ -687,8 +657,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.LeafDownModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1004 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00cca] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:852 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00d04] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:844 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/filesystem.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/filesystem.cpp-macros
@@ -714,8 +684,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: simpl
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x0143d] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:932 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01499] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:924 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/array.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/array.cpp-macros
@@ -727,7 +697,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/array.cpp
 Error in /src/blend2d/array.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPTypedefHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a1] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5521 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPTypedefHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a1] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5570 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -742,20 +712,20 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009c4] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:828 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009fe] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:820 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/pixelops.cpp
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/trace.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/trace.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/trace.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/trace.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/trace.cpp-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/trace.cpp
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/trace.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/trace.cpp-macros
@@ -778,7 +748,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/gradient.cpp
 Error in /src/blend2d/gradient.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPClassSpecifierHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00009] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4723 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPClassSpecifierHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00009] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4779 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -795,8 +765,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1028 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009e6] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:829 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00a20] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:821 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/piperuntime.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/piperuntime.cpp-macros
@@ -852,8 +822,6 @@ ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(1766:10-22): ( )
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(2053:8-12): ( )
 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(2073:10-22): ( )
-
-ERROR: Trival layers still exist in the tree: declSpecifier(2:7-15): constexpr
 
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(89:8-16): ( )
 
@@ -1037,10 +1005,6 @@ ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(95:10-24): ( )
 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(462:10-21): ( )
 
-ERROR: Trival layers still exist in the tree: declSpecifier(9:2-10): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(24:2-10): constexpr
-
 ERROR: Trival layers still exist in the tree: relationalExpression(66): 
 
 ERROR: Trival layers still exist in the tree: expression(66:42-42): ,
@@ -1060,7 +1024,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 Error in /src/blend2d/unicode.cpp: 
 FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children available in typeNameSpecifier(113:10-34): typename CharType
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.GetNthChild (System.Int32 index) [0x00017] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:353 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPNestedNameHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00059] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4306 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPNestedNameHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00059] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4298 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -1074,8 +1038,8 @@ FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children avail
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00ac2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:836 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00afc] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:828 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/imagecodec.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/imagecodec.cpp-macros
@@ -1087,7 +1051,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/imagecodec.cpp
 Error in /src/blend2d/imagecodec.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPSelectionStatementIdentifier (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00069] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4150 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPSelectionStatementIdentifier (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00069] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4142 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -1106,8 +1070,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00b00] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:838 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00b3a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:830 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pixelconverter_ssse3.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pixelconverter_ssse3.cpp-macros
@@ -1151,12 +1115,6 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/math.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/math.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/math.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/math.cpp
 Error in /src/blend2d/math.cpp: 
-ERROR: Trival layers still exist in the tree: declSpecifier(2:2-10): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(3:2-10): constexpr
-
-ERROR: Trival layers still exist in the tree: declSpecifier(4:2-10): constexpr
-
 ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(48:19-21): [ ]
 
 ERROR: Trival layers still exist in the tree: noPointerAbstractDeclarator(48:27-29): [ ]
@@ -1190,8 +1148,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pixelconverter_avx2.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/pixelconverter_avx2.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/pixelconverter_avx2.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/pixelconverter_avx2.cpp
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp-macros
@@ -1199,7 +1157,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/font.cpp
 Error in /src/blend2d/font.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPScopeResolutionHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00058] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4119 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPScopeResolutionHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00058] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4111 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -1219,8 +1177,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (SoftwareAnalyzer2.Structure.Members currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1034 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00d74] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:857 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00dae] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:849 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/compop.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/compop.cpp-macros
@@ -1231,25 +1189,15 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/compop.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/compop.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/compop.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/compop.cpp
 Error in /src/blend2d/compop.cpp: 
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
+ERROR: Trival layers still exist in the tree: elaboratedTypeSpecifier(53:2-12): enum Format
 
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
+ERROR: Trival layers still exist in the tree: memberDeclarator(53:14-14): :
 
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
+ERROR: Trival layers still exist in the tree: elaboratedTypeSpecifier(63:2-12): enum CompOp
 
-FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: postfixExpression(-1): 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x000d6] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:443 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
-  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014d4] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:941 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+ERROR: Trival layers still exist in the tree: memberDeclarator(63:14-14): :
+
+ERROR: Trival layers still exist in the tree: staticAssertDeclaration(541:0-99): static_assert ( , "Don't forget to add new formats to blCompOpSimplifyInfoTable" ) ;
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
@@ -1309,11 +1257,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 Error in /src/blend2d/format.cpp: 
 ERROR: Unsupported unaryExpression code unaryExpression(94:8-20): sizeof ( )
 
-ERROR: Trival layers still exist in the tree: declSpecifier(39:7-15): constexpr
-
 ERROR: Trival layers still exist in the tree: staticAssertDeclaration(27-28): static_assert ( , "New formats must be added to 'blFormatInfo' table" ) ;
-
-ERROR: Trival layers still exist in the tree: declSpecifier(30:9-17): constexpr
 
 ERROR: Trival layers still exist in the tree: unaryExpression(94:8-20): sizeof ( )
 
@@ -1517,8 +1461,6 @@ ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(296:10-13): ( )
 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(305:21-30): ( )
 
-ERROR: Trival layers still exist in the tree: declSpecifier(8:7-15): constexpr
-
 ERROR: Trival layers still exist in the tree: relationalExpression(16): 
 
 ERROR: Trival layers still exist in the tree: expression(16:104-104): ,
@@ -1538,11 +1480,19 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/threading/uniqueidgenerator.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/threading/uniqueidgenerator.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/threading/uniqueidgenerator.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/threading/uniqueidgenerator.cpp
 Error in /src/blend2d/threading/uniqueidgenerator.cpp: 
-ERROR: Unsupported storageClassSpecifier code storageClassSpecifier(16:7-18): thread_local
-
-ERROR: Trival layers still exist in the tree: declSpecifier(15:7-15): constexpr
-
-ERROR: Trival layers still exist in the tree: storageClassSpecifier(16:7-18): thread_local
+FATAL ERROR: File Analysis incomplete:Unknown modifier: storageClassSpecifier(16:7-18): thread_local
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPModifierModifier (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0022a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4399 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00e4c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:854 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/threading/threadpool.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/threading/threadpool.cpp-macros
@@ -1554,7 +1504,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/threading/threadpool.cpp
 Error in /src/blend2d/threading/threadpool.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPNewExpressionHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5278 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPNewExpressionHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0009d] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5344 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -1568,8 +1518,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f76] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:873 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00fb0] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:865 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/threading/thread.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/threading/thread.cpp-macros
@@ -1581,7 +1531,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/threading/thread.cpp
 Error in /src/blend2d/threading/thread.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5544 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5593 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -1594,8 +1544,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1028 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f57] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:872 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f91] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:864 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipepart.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipepart.cpp-macros
@@ -1608,7 +1558,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 Error in /src/blend2d/pipegen/pipepart.cpp: 
 FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children available in memInitializer(17:19-20): ( )
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.GetNthChild (System.Int32 index) [0x00017] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:353 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5544 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5593 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -1619,8 +1569,8 @@ FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children avail
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1028 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f57] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:872 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f91] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:864 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipecompiler.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipecompiler.cpp-macros
@@ -1666,8 +1616,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: funct
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01486] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:936 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014e2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:928 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchgradientpart.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchgradientpart.cpp-macros
@@ -1679,7 +1629,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchgradientpart.cpp
 Error in /src/blend2d/pipegen/fetchgradientpart.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPSwitchSetup (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00174] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4199 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPSwitchSetup (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00174] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4191 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00058] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1063 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
@@ -1706,8 +1656,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.LeafDownModify (SoftwareAnalyzer2.Structure.Members currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1016 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00b5d] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:841 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00b97] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:833 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/compoppart.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/compoppart.cpp-macros
@@ -1733,8 +1683,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: decla
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01226] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:900 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01260] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:892 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart.cpp-macros
@@ -1756,8 +1706,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: funct
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01486] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:936 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014e2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:928 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipegencore.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipegencore.cpp-macros
@@ -1791,7 +1741,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 Error in /src/blend2d/pipegen/pipegenruntime.cpp: 
 FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children available in memInitializer(16:12-13): ( )
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.GetNthChild (System.Int32 index) [0x00017] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:353 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5544 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5593 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -1799,8 +1749,8 @@ FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children avail
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1028 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f57] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:872 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f91] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:864 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchutils.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchutils.cpp-macros
@@ -1813,7 +1763,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 Error in /src/blend2d/pipegen/fetchutils.cpp: 
 FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children available in memInitializer(12:8-9): ( )
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.GetNthChild (System.Int32 index) [0x00017] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:353 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5544 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5593 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -1824,8 +1774,8 @@ FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children avail
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1028 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f57] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:872 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f91] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:864 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fillpart.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fillpart.cpp-macros
@@ -1851,8 +1801,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: decla
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01226] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:900 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01260] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:892 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchsolidpart.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchsolidpart.cpp-macros
@@ -1872,8 +1822,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: funct
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01486] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:936 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014e2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:928 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpixelptrpart.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpixelptrpart.cpp-macros
@@ -1891,8 +1841,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: funct
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:405 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:393 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01486] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:936 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014e2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:928 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/pngops.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/pngops.cpp-macros
@@ -2001,7 +1951,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/codec/jpegops_sse2.cpp
 Error in /src/blend2d/codec/jpegops_sse2.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPMultipleMemberDeclarationsHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0002b] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5018 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPMultipleMemberDeclarationsHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0002b] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5080 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00058] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1063 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
@@ -2012,8 +1962,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.LeafDownModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1004 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00cca] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:852 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00d04] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:844 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/pngops_sse2.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/pngops_sse2.cpp-macros
@@ -2024,12 +1974,6 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/pngops_sse2.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/codec/pngops_sse2.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/pngops_sse2.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/codec/pngops_sse2.cpp
 Error in /src/blend2d/codec/pngops_sse2.cpp: 
-ERROR: Trival layers still exist in the tree: usingDirective(9:2-22): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(9): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(9:18-21): SIMD
-
 ERROR: Trival layers still exist in the tree: relationalExpression(59): 
 
 ERROR: Trival layers still exist in the tree: relationalExpression(59): 
@@ -2464,6 +2408,44 @@ ERROR: Trival layers still exist in the tree: noPointerDeclarator(1251:10-14): (
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(1269:16-19): ( )
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp-preprocessed
+/home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp-macros
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp-preprocessed
+/t/home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate.cpp
+Error in /src/blend2d/codec/deflate.cpp: 
+FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: primaryExpression(351:34-45): ( )
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x000d6] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:443 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
+  at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode, System.String specificCode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:411 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01557] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:935 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
+
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/bmpcodec.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/bmpcodec.cpp-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/bmpcodec.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/codec/bmpcodec.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/bmpcodec.cpp-preprocessed
@@ -2565,8 +2547,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: postf
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode, System.String specificCode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:411 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014e5] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:942 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01541] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:934 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otface.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otface.cpp-macros
@@ -2581,12 +2563,6 @@ ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(105:23-29): ( )
 
 ERROR: Unsupported noPointerDeclarator code noPointerDeclarator(118:10-13): ( )
 
-ERROR: Trival layers still exist in the tree: usingDirective(8:2-28): using namespace ;
-
-ERROR: Trival layers still exist in the tree: namespaceName(8): 
-
-ERROR: Trival layers still exist in the tree: originalNamespaceName(8:18-27): BLOpenType
-
 ERROR: Trival layers still exist in the tree: staticAssertDeclaration(24:4-69): static_assert ( , "CFFv1 must have value 0" ) ;
 
 ERROR: Trival layers still exist in the tree: staticAssertDeclaration(25:4-69): static_assert ( , "CFFv2 must have value 1" ) ;
@@ -2600,8 +2576,8 @@ ERROR: Trival layers still exist in the tree: noPointerDeclarator(105:23-29): ( 
 ERROR: Trival layers still exist in the tree: noPointerDeclarator(118:10-13): ( )
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcmap.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcmap.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcmap.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcmap.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcmap.cpp-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcmap.cpp
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcmap.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcmap.cpp-macros
@@ -2655,7 +2631,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otglyf.cpp
 Error in /src/blend2d/opentype/otglyf.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPTypedefHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a1] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5521 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPTypedefHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a1] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5570 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -2676,30 +2652,20 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009c4] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:828 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009fe] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:820 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp-preprocessed
-/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp-macros
+/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcff.cpp
 Error in /src/blend2d/opentype/otcff.cpp: 
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
-
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
-
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
-
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
-
-ERROR: Unsupported postfixExpression code postfixExpression(-1): 
-
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPMultipleMemberDeclarationsHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0002b] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5018 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPMultipleMemberDeclarationsHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x0002b] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5080 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00058] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1063 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
@@ -2716,8 +2682,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyDown (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0001e] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1057 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.LeafDownModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1004 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00cca] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:852 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00d04] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:844 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otkern.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otkern.cpp-macros
@@ -2729,7 +2695,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otkern.cpp
 Error in /src/blend2d/opentype/otkern.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPTypedefHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a1] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5521 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPTypedefHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a1] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5570 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -2750,29 +2716,17 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009c4] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:828 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009fe] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:820 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp-macros
+java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otname.cpp
-Error in /src/blend2d/opentype/otname.cpp: 
-ERROR: Token expected but not found.
-	[Size=%u]		,',<',
-
-ERROR: Inconsistency between tree 9346 and token 1379
-
-	Tree: [Size=%u]
-
-	Token expected: [@1379,7576:7576=',',<','>,256:105]
-
-FATAL ERROR: Decomposition incomplete
-
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcore.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otcore.cpp-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
@@ -2798,8 +2752,8 @@ FATAL ERROR: File Analysis incomplete:Multiple children of collapsed node: postf
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (SoftwareAnalyzer2.Structure.NodeType specificNode, System.String specificCode) [0x0001f] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:422 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.Collapse (System.String specificNode, System.String specificCode) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:411 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x014e5] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:942 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x01541] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:934 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otlayout.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otlayout.cpp-macros
@@ -2811,7 +2765,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otlayout.cpp
 Error in /src/blend2d/opentype/otlayout.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPTypedefHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a1] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5521 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPTypedefHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a1] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5570 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -2833,8 +2787,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009c4] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:828 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x009fe] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:820 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime.cpp-macros
@@ -2854,7 +2808,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext.cpp
 Error in /src/blend2d/raster/rastercontext.cpp: 
 FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPSelectionStatementIdentifier (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00069] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4150 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPSelectionStatementIdentifier (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x00069] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:4142 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -2886,8 +2840,8 @@ FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, System.String newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1022 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00b00] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:838 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00b3a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:830 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization.cpp-macros
@@ -3011,7 +2965,7 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 Error in /src/blend2d/raster/rasterworkdata.cpp: 
 FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children available in memInitializer(9:11-12): ( )
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.GetNthChild (System.Int32 index) [0x00017] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:353 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5544 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.CPPConstructorInitializerHandler (SoftwareAnalyzer2.Structure.Node.IModifiable node) [0x000a2] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:5593 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x00016] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1043 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
@@ -3019,8 +2973,8 @@ FATAL ERROR: File Analysis incomplete:Nth Child does not exist. 1 children avail
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp (SoftwareAnalyzer2.Structure.NodeType currentNode, SoftwareAnalyzer2.Structure.NodeType newNode, System.Action`1[T] modifier) [0x0003c] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1048 
   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify (System.String currentNode, SoftwareAnalyzer2.Structure.Members newNode, System.Action`1[T] modifier) [0x00001] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Structure/Node/Implementations/ASTree.cs:1028 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f57] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:872 
-  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x00427] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:420 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.ModifyTree () [0x00f91] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:864 
+  at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze (System.String fileName, SoftwareAnalyzer2.Language.ILanguage lang) [0x0040a] in /home/brad/Docs/DahlgrenTest/SQM/SoftwareAnalyzer2/Tools/ANTLRTool.cs:409 
 
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer.cpp -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer.cpp-macros
@@ -3114,8 +3068,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/format_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/format_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/format_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/format_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pathstroke_p.h-macros
@@ -3346,8 +3300,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/string_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/string_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/string_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/string_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/simd_p.h-macros
@@ -3562,8 +3516,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fillpart_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fillpart_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fillpart_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fillpart_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpart_p.h-macros
@@ -3626,8 +3580,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipepart_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipepart_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipepart_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/pipepart_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/pipegen/fetchpatternpart_p.h-macros
@@ -3642,8 +3596,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/jpegcodec_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/codec/jpegcodec_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/jpegcodec_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/codec/jpegcodec_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/codec/deflate_p.h-macros
@@ -3746,8 +3700,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otglyf_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otglyf_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otglyf_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otglyf_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otdefs_p.h-macros
@@ -3778,8 +3732,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otlayout_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otlayout_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otlayout_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/opentype/otlayout_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/fixedpipe/fixedpiperuntime_p.h-macros
@@ -3810,8 +3764,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommandserializer_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommandserializer_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommandserializer_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommandserializer_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercontext_p.h-macros
@@ -3842,8 +3796,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommandprocsync_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommandprocsync_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommandprocsync_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommandprocsync_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkqueue_p.h-macros
@@ -3858,8 +3812,8 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommand_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommand_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommand_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/raster/rastercommand_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworksynchronization_p.h-macros
@@ -3890,16 +3844,16 @@ java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkermanager_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkermanager_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkermanager_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterworkermanager_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h-preprocessed
 /t/home/brad/test_code/cpp/blend2d/src/blend2d/raster/analyticrasterizer_p.h
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tree
-/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h-macros
 java org.antlr.v4.gui.TestRig CPP14 translationUnit -tokens
+/bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h-macros
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h -P -dI -E -imacros /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h-macros -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h-preprocessed
 /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h
 /bin/clang++ /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h -dM -E -o /home/brad/test_code/cpp/blend2d/src/blend2d/raster/rasterjobproc_p.h-macros
