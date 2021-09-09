@@ -73,7 +73,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             break;
                     }
                 }
-                //s.WriteLine("NODE DONE");
             }
         }
 
