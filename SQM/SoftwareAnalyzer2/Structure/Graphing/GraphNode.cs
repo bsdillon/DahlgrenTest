@@ -110,7 +110,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         private List<GraphNode> sisterGNs = new List<GraphNode>();
         private List<GraphNode> parentGNs = new List<GraphNode>();
         private List<GraphNode> childrenGNs = new List<GraphNode>();
-        public KeyValuePair<string, int> statementDetails;
+        public Dictionary<string, List<int>> statementDetails = new Dictionary<string, List<int>>();
+        public bool outputPrint = false;
 
         public List<GraphNode> GetSisterGNs() { return sisterGNs; }
         public List<GraphNode> GetParentGNs() { return parentGNs; }

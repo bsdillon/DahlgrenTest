@@ -14,6 +14,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
     {
         //dictionary: <file name (string), dictionary: <line number (int), List<affected graphnodes (graphnode)>>>
         private Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>> affectedDict = new Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>>();
+        private string printLevel = "";
         public AffectedLine()
         {
         }
@@ -69,10 +70,19 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         Dictionary<int, List<Dictionary<GraphNode, Relationship>>> iGNList = new Dictionary<int, List<Dictionary<GraphNode,Relationship>>>();
                         Dictionary<GraphNode, Relationship> gnRel = new Dictionary<GraphNode, Relationship>();
                         List<Dictionary<GraphNode, Relationship>> smallGList = new List<Dictionary<GraphNode, Relationship>>();
-                        GraphNode gnCopy = grphNde;
-                        gnCopy.statementDetails = new KeyValuePair<string, int>(s.Represented.FileName, s.Represented.GetLineStart());
 
-                        gnRel[gnCopy] = r;
+                        if (grphNde.statementDetails.ContainsKey(s.Represented.FileName))
+                        {
+                            grphNde.statementDetails[s.Represented.FileName].Add(s.Represented.GetLineStart());
+                        }
+                        else
+                        {
+                            List<int> lineList = new List<int>();
+                            lineList.Add(s.Represented.GetLineStart());
+                            grphNde.statementDetails.Add(s.Represented.FileName, lineList);
+                        }
+
+                        gnRel[grphNde] = r;
                         smallGList.Add(gnRel);
                         iGNList[s.Represented.GetLineStart()] = smallGList;
                         affectedDict[s.Represented.FileName] = iGNList;
@@ -82,10 +92,19 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         List<Dictionary<GraphNode, Relationship>> gnList = new List<Dictionary<GraphNode, Relationship>>();
                         Dictionary<GraphNode, Relationship> gnRelationship = new Dictionary<GraphNode, Relationship>();
-                        GraphNode gnCopy = grphNde;
-                        gnCopy.statementDetails = new KeyValuePair<string, int>(s.Represented.FileName, s.Represented.GetLineStart());
 
-                        gnRelationship[gnCopy] = r;
+                        if (grphNde.statementDetails.ContainsKey(s.Represented.FileName))
+                        {
+                            grphNde.statementDetails[s.Represented.FileName].Add(s.Represented.GetLineStart());
+                        }
+                        else
+                        {
+                            List<int> lineList = new List<int>();
+                            lineList.Add(s.Represented.GetLineStart());
+                            grphNde.statementDetails.Add(s.Represented.FileName, lineList);
+                        }
+
+                        gnRelationship[grphNde] = r;
                         gnList.Add(gnRelationship);
                         affectedDict[s.Represented.FileName][s.Represented.GetLineStart()] = gnList;
                     }
@@ -96,6 +115,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //this output is subject to change based on safety's needs
         public void OutputCSVErrors(StreamWriter file, string tracingFile, int tracingLineNumber)
         {
+            file.WriteLine("Lines affected by input file:" + tracingFile + " - line number: [" + tracingLineNumber.ToString() + "]");
             foreach (string fN in affectedDict.Keys)
             {
                 string fnModded = fN;
@@ -104,86 +124,148 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     fnModded = fnModded.Substring(fnModded.LastIndexOf(Path.DirectorySeparatorChar));
                 }
                 foreach (int lN in affectedDict[fN].Keys)
-                {
+                { 
                     List<Dictionary<GraphNode,Relationship>> gnDictList = affectedDict[fN][lN];
                     //output affected filename, linenumber, and nodetype
-                    string gnListStr = "";
                     foreach (Dictionary<GraphNode,Relationship> d in gnDictList)
                     {
                         foreach (GraphNode g in d.Keys)
                         {
-                            //luTODO -- this output is still a WIP. 
-                            //gnListStr += g.Represented.Node.ToString() + "," + d[g].ToString() + ",children (";
-                            gnListStr += g.Represented.ToString() + ",children (";
-                            foreach (GraphNode c in g.GetChildrenGNs())
+                            //luTODO -- this output is still a WIP. need to add comments
+                            if (!g.outputPrint)
                             {
-                                if(c != null)
+                                if (g.Represented.FileName == fN && g.Represented.GetLineStart() == tracingLineNumber && g.Represented.GetLineStart() == lN)
                                 {
-                                    if (c.statementDetails.Key != null)
-                                    {
-                                        if (c.GetParentGNs().Contains(g))
-                                        {
-                                            gnListStr += "[" + c.Represented.FileName + "::" + c.Represented.GetLineStart().ToString() + "]; ";
-                                        }
-                                        gnListStr += "[" + c.statementDetails.Key + "::" + c.statementDetails.Value.ToString() + "]; "; 
-                                    }
-                                    else
-                                    {
-                                        gnListStr += "[" + c.Represented.FileName + "::" + c.Represented.GetLineStart().ToString() + "]; ";
-                                    }
-                                    
-                                }  
-                            }
-                            gnListStr += "),parents (";
-                            foreach (GraphNode p in g.GetParentGNs())
-                            {
-                                if(p != null)
-                                {
-                                    if (p.statementDetails.Key != null)
-                                    {
-                                        if (p.GetChildrenGNs().Contains(g))
-                                        {
-                                            gnListStr += "[" + p.Represented.FileName + "::" + p.Represented.GetLineStart().ToString() + "]; ";
-                                        }
-                                        if (p.Represented.FileName != p.statementDetails.Key && p.Represented.GetLineStart() != p.statementDetails.Value)
-                                        {
-                                            gnListStr += "[" + p.statementDetails.Key + "::" + p.statementDetails.Value.ToString() + "]; ";
-                                        }  
-                                    }
-                                    else
-                                    {
-                                        gnListStr += "[" + p.Represented.FileName + "::" + p.Represented.GetLineStart().ToString() + "]; ";
-                                    }
-                                }  
-                            }
-                            gnListStr += "),sisters (";
-                            foreach (GraphNode s in g.GetSisterGNs())
-                            {
-                                if (s != null)
-                                {
-                                    if (s.statementDetails.Key != null)
-                                    {
-                                        if (s.GetSisterGNs().Contains(g))
-                                        {
-                                            gnListStr += "[" + s.Represented.FileName + "::" + s.Represented.GetLineStart().ToString() + "]; ";
-                                        }
-                                        gnListStr += "[" + s.statementDetails.Key + "::" + s.statementDetails.Value.ToString() + "]; ";
-                                    }
-                                    else
-                                    {
-                                        gnListStr += "[" + s.Represented.FileName + "::" + s.Represented.GetLineStart().ToString() + "]; ";
-                                    }
+                                    PrintParents(g, file);
                                 }
-                            }
-                            gnListStr += "),";
+                                else if (g.statementDetails.ContainsKey(fN))
+                                {
+                                    foreach (int lineNum in g.statementDetails[fN])
+                                    {
+                                        if (lineNum == tracingLineNumber)
+                                        {
+                                            PrintParents(g, file);
+                                        }
+                                    }
+
+                                }
+                                else
+                                {
+                                    //PrintParents(g, file);
+                                }
+                            }   
                         }
-                    }
-                    if (gnListStr != "")
-                    {
-                        file.WriteLine(tracingFile + "[" + tracingLineNumber.ToString() + "]," + fN + "," + lN + "," + gnListStr);
                     }
                 }
             }
         }
+
+        private void PrintParents(GraphNode g, StreamWriter file)
+        {
+            g.outputPrint = true;
+            foreach (GraphNode p in g.GetParentGNs())
+            {
+                if (p != null)
+                {
+                    PrintParents(p, file);
+                    if (p.statementDetails.Keys != null)
+                    {
+                        if (p.GetChildrenGNs().Contains(g))
+                        {
+                            file.WriteLine("[" + p.Represented.FileName + "::" + p.Represented.GetLineStart().ToString() + "](" + p.Represented.ToString() + ")");
+                        }
+                        //no duplicates
+                        foreach (string fileKey in p.statementDetails.Keys)
+                        {
+                            foreach (int lineNum in p.statementDetails[fileKey])
+                            {
+                                if (p.Represented.FileName != fileKey || p.Represented.GetLineStart() != lineNum)
+                                {
+                                    printLevel += ",";
+                                    file.WriteLine(printLevel + "[" + fileKey + "::" + lineNum.ToString() + "](originated from: " + p.Represented.ToString() + ")");
+                                    PrintChildren(p, file);
+                                    printLevel = printLevel.Remove(printLevel.Length - 1);
+                                }
+                                else
+                                {
+                                    PrintChildren(p, file);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //luTODO - this might not be neccessary
+                        //file.WriteLine("[" + p.Represented.FileName + "::" + p.Represented.GetLineStart().ToString() + "](" + p.Represented.ToString() + ")");
+                        //PrintChildren(p, file, g);
+                    }
+                }
+            }
+        }
+
+        private void PrintChildren(GraphNode g, StreamWriter file)
+        {
+            g.outputPrint = true;
+            printLevel += ",";
+            foreach (GraphNode c in g.GetChildrenGNs())
+            {
+                if (c != null)
+                {
+                    if (c.statementDetails.Keys != null)
+                    {
+                        if (c.GetParentGNs().Contains(g))
+                        {
+                            file.WriteLine(printLevel + "[" + c.Represented.FileName + "::" + c.Represented.GetLineStart().ToString() + "](" + c.Represented.ToString() + ")");
+                            PrintChildren(c, file);
+                        }
+                        foreach (string fileKey in c.statementDetails.Keys)
+                        {
+                            foreach (int lineNum in c.statementDetails[fileKey])
+                            {
+                                printLevel += ",";
+                                file.WriteLine(printLevel + "[" + fileKey + "::" + lineNum.ToString() + "](originated from: " + c.Represented.ToString() + ")");
+                                PrintChildren(c, file);
+                                printLevel = printLevel.Remove(printLevel.Length - 1);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        file.WriteLine(printLevel + "[" + c.Represented.FileName + "::" + c.Represented.GetLineStart().ToString() + "](" + c.Represented.ToString() + ")");
+                        PrintChildren(c, file);
+                    }
+
+                }
+            }
+            printLevel = printLevel.Remove(printLevel.Length - 1);
+        }
+
+        /*
+        private string PrintSisters(GraphNode g, string gnListStr)
+        {
+
+            foreach (GraphNode s in g.GetSisterGNs())
+            {
+                if (s != null)
+                {
+                    if (s.statementDetails.Key != null)
+                    {
+                        if (s.GetSisterGNs().Contains(g))
+                        {
+                            gnListStr += "[" + s.Represented.FileName + "::" + s.Represented.GetLineStart().ToString() + "]; ";
+                        }
+                        gnListStr += "[" + s.statementDetails.Key + "::" + s.statementDetails.Value.ToString() + "]; ";
+                    }
+                    else
+                    {
+                        gnListStr += "[" + s.Represented.FileName + "::" + s.Represented.GetLineStart().ToString() + "]; ";
+                    }
+                }
+            }
+            gnListStr += "),";
+            return gnListStr;
+        }
+        */
     }
 }
