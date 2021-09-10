@@ -107,6 +107,26 @@ namespace SoftwareAnalyzer2.Tools
                 errorMessages.Add("ERROR: PREPROCESSING FAILED: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
             }
         }
+
+        /// <summary>
+        /// Cleans up provided source file before/after preprocessing to be without
+        /// empty lines or with #ifndef directives for .h or .hpp files.
+        /// </summary>
+        /// <param name="filename">File to be cleaned up</param>
+        private void cleanUpCPPSourceFile(string filename) {
+            string tempFile = Path.GetTempFileName();
+            using (StreamReader reader = new StreamReader(filename)) 
+            using (StreamWriter writer = new StreamWriter(tempFile))
+            {
+                    string line;
+                    while ((line = reader.ReadLine()) != null) {
+                        if (line == string.Empty || line.StartsWith("//"))
+                            continue;
+                        writer.WriteLine(line);
+                    }   
+            }
+            File.Copy(tempFile, filename, true);
+        }
         
         /// <summary>
         /// This fn is responsible for translating un-parseable code before ANTLR sees it.
@@ -127,13 +147,17 @@ namespace SoftwareAnalyzer2.Tools
                 // the original file before ANTLR process without output from #include directives.
                 if (lang is CPPLanguage) {
                     // if C++, file to be analyzed will be preprocessed
-                    preprocessed = filename + "-preprocessed";
+                    // preprocessed = filename + "-preprocessed";
+                    string[] prefixAndSuffix = filename.Split('.');
+                    string   name            = prefixAndSuffix[0];
+                    string   extension       = prefixAndSuffix[1];
+                    preprocessed = name+"-preprocessed."+extension;
 
                     // Execute C++ preprocessing depending on platform
                     OperatingSystem os = Environment.OSVersion;
                     PlatformID     pid = os.Platform;
                     Process    iMacros = new Process();
-                    Process        cpp = new Process();
+                    Process      clang = new Process();
                     switch (pid) {
                         case PlatformID.Win32NT:
                         case PlatformID.Win32S:
@@ -143,21 +167,32 @@ namespace SoftwareAnalyzer2.Tools
                             startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -dM -E -o \""+macros+"\"", 3100);
                             // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
                             // use extracted macros and translate them without extra line or include directive output
-                            startProcess(cpp, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"", 3100);
+                            startProcess(clang, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"", 3100);
                             break;
                         case PlatformID.Unix:
                         case PlatformID.MacOSX:
                         case (PlatformID) 128:
-                            // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
-                            startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
-                            // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
-                            // use extracted macros and translate them without extra line or include directive output
-                            startProcess(cpp, "/bin/clang++", filename+" -P -dI -E -imacros "+macros+" -o "+preprocessed, 3100);
+                            if (filename.EndsWith(".h") || filename.EndsWith(".hpp")) {
+                                // TODO: remove all #ifndef from input .h files
+                                // Create a cleanUpFile() method? - gets rid of empty lines and the #ifndef
+                                // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
+                                startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
+                                // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
+                                // use extracted macros and translate them without extra line or include directive output
+                                startProcess(clang, "/bin/clang++", filename+" -P -dI -E -imacros "+macros+" -o "+preprocessed, 3100);
+                            }
+                            else {
+                                // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
+                                startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
+                                // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
+                                // use extracted macros and translate them without extra line or include directive output
+                                startProcess(clang, "/bin/clang++", filename+" -P -dI -E -imacros "+macros+" -o "+preprocessed, 3100);
+                            }
                             break;
                         default:
                             // If issue in matching OS, kills unused process
                             iMacros.Kill();
-                            cpp.Kill();
+                            clang.Kill();
                             break;
                     }
                     // If preprocessor failed, process the original file
@@ -804,7 +839,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("throwExpression", Members.Exception);
                 head.Rename("forInitStatement", Members.ForInitial);
                 head.Rename("labeledStatement", Members.Label);
-                head.Rename("namespaceDefinition", Members.NAMESPACE);
                 head.Rename("originalNamespaceName", Members.Import);
                 head.Collapse("namespaceName");
                 head.Collapse("usingDirective", "using namespace ;");
@@ -816,6 +850,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("unaryOperator", "&");
                 head.Collapse("unaryOperator", "*");
 
+                head.RootUpModify(Members.File, Members.File, CPPFileDefaultNamespaceAdder);
+                head.RootUpModify("namespaceDefinition", Members.TypeDeclaration, CPPNamespaceHandler);
                 head.RootUpModify("templateDeclaration", "templateDeclaration", CPPTemplateDefinitionHandler);
                 head.RootUpModify("declSpecifier", "declSpecifier", CPPTypedefHandler);
                 head.RootUpModify("classSpecifier", Members.TypeDeclaration, CPPClassSpecifierHandler);
@@ -887,7 +923,16 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
                 head.RootUpModify("memberSpecification", "memberSpecification", ReparentChildren);
+                
+                //head.RootUpModify("simpleDeclaration", "simpleDeclaration", ReparentChildren);
+                head.Collapse("simpleDeclaration");
+                head.Collapse("simpleDeclaration", ";");
+
+                head.RootUpModify("declarationseq", "declarationseq", ReparentChildren);
+
                 head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMemberSetAdder);
+                head.RootUpModify(Members.Destructor, Members.Destructor, CPPDestructorMover);
+                head.RootUpModify(Members.Import, Members.Import, CPPImportMover);
                 head.Collapse("typeSpecifier");
                 head.Collapse("trailingTypeSpecifier");
                 head.Collapse("declarator");
@@ -908,12 +953,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("declSpecifier", "declSpecifier", CPPModifierModifier);
 
                 head.Collapse("enumeratorDefinition");
-                
-                //head.RootUpModify("simpleDeclaration", "simpleDeclaration", ReparentChildren);
-                head.Collapse("simpleDeclaration");
-                head.Collapse("simpleDeclaration", ";");
-
-                head.RootUpModify("declarationseq", "declarationseq", ReparentChildren);
 
                 head.Collapse("pointerAbstractDeclarator");
                 head.Collapse("theTypeId");
@@ -945,10 +984,10 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("expressionList");
                 head.Collapse("handler", "catch ( )");
 
-                head.NormalizeLines();
+                // TODO: move this up
+                head.RootUpModify(Members.Field, Members.Field, CPPConstructorInvokeCheck);
 
-                // Throw away "HEAD" and replace with "File" at top of tree
-                //head = (IModifiable) head.Children.First();
+                head.NormalizeLines();
             }
             else {
                 Console.WriteLine("Unknown language = "+myLang);
@@ -5542,7 +5581,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPTypeDeclarationMemberSetAdder(IModifiable node)
         {
-            //TODO: remove extraneous method nodes why ARE they there - see nestedClasses.AST
+            //TODO: add Destructor nodes to something...
             List<INavigable> children = node.Children;
             node.DropChildren();
 
@@ -5567,6 +5606,17 @@ namespace SoftwareAnalyzer2.Tools
             {
                 remainder.Parent = node;
             }
+        }
+
+        /// <summary>
+        /// Moves Destructor nodes into the Methods node, since I was too lazy to find any kind of solution using CPPTypeDeclarationMemberSetAdder directly
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPDestructorMover(IModifiable node)
+        {
+            IModifiable oldParent = (IModifiable)node.Parent;
+            oldParent.RemoveChild(node);
+            node.Parent = oldParent.GetFirstSingleLayer(MemberSets.Methods);
         }
 
         /// <summary>
@@ -5656,6 +5706,74 @@ namespace SoftwareAnalyzer2.Tools
             if (node.Parent.Node.Equals(Members.Parameter))
             {
                 node.SetNode(Members.Variable);
+            }
+        }
+
+        /// <summary>
+        /// Adds a default namespace node to the top of the file
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPFileDefaultNamespaceAdder(IModifiable node)
+        {
+            List<INavigable> children = node.Children;
+            node.DropChildren();
+            IModifiable namespaceNode = (IModifiable)NodeFactory.CreateNode("namespaceDefinition", false);
+            namespaceNode.Parent = node;
+            foreach (IModifiable child in children)
+            {
+                child.Parent = namespaceNode;
+            }
+        }
+
+        /// <summary>
+        /// Converts namespaceDefinitions into TypeDeclarations and includes the bare minimum MemberSets
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPNamespaceHandler(IModifiable node)
+        {
+            IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
+            classificationNode.Parent = node;
+            IModifiable namespaceNode = (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
+            namespaceNode.Parent = classificationNode;
+            IModifiable superTypesNode = (IModifiable)NodeFactory.CreateNode(MemberSets.SuperTypes, false);
+            superTypesNode.Parent = node;
+            IModifiable namespaceSuperTypeNode = (IModifiable)NodeFactory.CreateNode(Members.SuperType, false);
+            namespaceSuperTypeNode.AddCode("namespace", node);
+            namespaceSuperTypeNode.Parent = superTypesNode;
+            namespaceNode.Clone().Parent = namespaceSuperTypeNode;
+        }
+
+        /// <summary>
+        /// Moves Import nodes up to the File node
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPImportMover(IModifiable node)
+        {
+            IModifiable target = (IModifiable)node.GetAncestor(Members.File);
+            ((IModifiable)node.Parent).RemoveChild(node);
+            node.Parent = target;
+        }
+
+        /// <summary>
+        /// Reorganizes nodes that should include ConstructorInvokes
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPConstructorInvokeCheck(IModifiable node)
+        {
+            //TODO: figure out how to handle forward declarations, since they can break with this...
+            IModifiable potentialNode = (IModifiable)node.GetFirstSingleLayer(Members.MethodInvoke);
+            if (potentialNode != null)
+            {
+                List<INavigable> children = potentialNode.Children;
+                potentialNode.DropChildren();
+                potentialNode.SetNode(Members.Variable);
+                IModifiable constructorInvokeNode = (IModifiable)NodeFactory.CreateNode(Members.ConstructorInvoke, false);
+                constructorInvokeNode.CopyCode((IModifiable)node.GetFirstSingleLayer(Members.Type).GetNthChild(0));
+                constructorInvokeNode.Parent = potentialNode;
+                foreach (IModifiable child in children)
+                {
+                    child.Parent = constructorInvokeNode;
+                }
             }
         }
 
