@@ -5767,9 +5767,11 @@ namespace SoftwareAnalyzer2.Tools
                 List<INavigable> children = potentialNode.Children;
                 potentialNode.DropChildren();
                 potentialNode.SetNode(Members.Variable);
+                IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
+                writeNode.Parent = potentialNode;
                 IModifiable constructorInvokeNode = (IModifiable)NodeFactory.CreateNode(Members.ConstructorInvoke, false);
                 constructorInvokeNode.CopyCode((IModifiable)node.GetFirstSingleLayer(Members.Type).GetNthChild(0));
-                constructorInvokeNode.Parent = potentialNode;
+                constructorInvokeNode.Parent = writeNode;
                 foreach (IModifiable child in children)
                 {
                     child.Parent = constructorInvokeNode;
