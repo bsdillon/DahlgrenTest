@@ -137,7 +137,8 @@ namespace SoftwareAnalyzer2.Structure
         Constexpr,
         Noexcept,
         Goto,
-        Destructor
+        Destructor,
+        NAMESPACE
     }
 
     public enum ApprovedLiterals

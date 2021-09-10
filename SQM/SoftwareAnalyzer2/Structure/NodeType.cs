@@ -122,6 +122,7 @@ namespace SoftwareAnalyzer2.Structure
             temp.Add(Members.INTERFACE);
             temp.Add(Members.ENUM);
             temp.Add(Members.ANONYMOUS);
+            temp.Add(Members.NAMESPACE);
             ClassTypes = temp;
 
             temp = new List<Members>();

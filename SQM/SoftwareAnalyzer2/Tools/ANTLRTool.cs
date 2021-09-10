@@ -804,7 +804,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("throwExpression", Members.Exception);
                 head.Rename("forInitStatement", Members.ForInitial);
                 head.Rename("labeledStatement", Members.Label);
-                head.Rename("namespaceDefinition", Members.Package);
+                head.Rename("namespaceDefinition", Members.NAMESPACE);
                 head.Rename("originalNamespaceName", Members.Import);
                 head.Collapse("namespaceName");
                 head.Collapse("usingDirective", "using namespace ;");
@@ -867,6 +867,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("handlerSeq", "handlerSeq",ReparentChildren);
                 head.RootUpModify("enumeratorDefinition", "enumeratorDefinition", CPPEnumeratorDefinitionHandler);
                 head.RootUpModify("deleteExpression", Members.MethodInvoke, CPPDeleteHandler);
+                head.RootUpModify(Members.TypeName, Members.TypeName, CPPTypeNameParameterCheck);
                 head.RootUpModify("virtualSpecifier", "virtualSpecifierSeq", CPPModifierSender);
                 head.RootUpModify("virtualSpecifierSeq", "virtualSpecifierSeq", CPPModifierModifier);
                 head.RootUpModify("functionSpecifier", "functionSpecifier", CPPModifierSender);
@@ -4016,7 +4017,6 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.Code.Equals("( )"))
             {
                 IModifiable willBeParamNode = (IModifiable)node.GetFirstSingleLayer(Members.Variable);
-                willBeParamNode.SetNode(Members.TypeName);
                 node.RemoveChild(willBeParamNode);
                 IModifiable simpleDeclNode = (IModifiable)node.GetAncestor("simpleDeclaration");
                 IModifiable declSpecNode = (IModifiable)simpleDeclNode.GetFirstSingleLayer("declSpecifierSeq");
@@ -5644,6 +5644,19 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable dotNode = (IModifiable)NodeFactory.CreateNode(Members.DotOperator, false);
             dotNode.Parent = futureParent;
             node.Parent = dotNode;
+        }
+
+        /// <summary>
+        /// Checks that no TypeName node has a Parameter node as its direct parent, since this shouldn't happen
+        /// ANTLR wrongly assigns what ought to be a Variable as a TypeName somehow
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPTypeNameParameterCheck(IModifiable node)
+        {
+            if (node.Parent.Node.Equals(Members.Parameter))
+            {
+                node.SetNode(Members.Variable);
+            }
         }
 
         #endregion
