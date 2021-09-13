@@ -114,6 +114,7 @@ namespace SoftwareAnalyzer2.Tools
         /// </summary>
         /// <param name="filename">File to be cleaned up</param>
         /// <param name="isHeaderFile">Specifies file needs to be treated like a header file</param>
+        /// <returns>Filename and path to cleaned file</returns>
         private void cleanUpCPPSourceFile(string filename, Boolean isHeaderFile) {
             string tempFile = Path.GetTempFileName();
             using (StreamReader reader = new StreamReader(filename)) 
@@ -123,10 +124,10 @@ namespace SoftwareAnalyzer2.Tools
                     while ((line = reader.ReadLine()) != null) {
                         if (line == string.Empty || line.StartsWith("//"))
                             continue;
-                        // if (isHeaderFile && (line.StartsWith("#ifndef") || line.StartsWith("#ifdef") || line.StartsWith("#endif"))) {
-                        //     // line = "//" + line;
-                        //     continue;
-                        // }
+                        if (isHeaderFile && (line.StartsWith("#if") || line.StartsWith("#endif") || line.StartsWith("#else") || line.StartsWith("#elif"))) {
+                            line = "//" + line;
+                            continue;
+                        }
                         writer.WriteLine(line);
                     }   
             }
@@ -137,57 +138,44 @@ namespace SoftwareAnalyzer2.Tools
         /// Preprocesses C++ source file.
         /// </summary>
         /// <param name="filename">File to be preprocessed</param>
-        private string preprocessCPPFile(string filename) {
-            // temporary filenames for macros and preprocessed files
-            string macros       = filename + "-macros";
-            string preprocessed = filename;
-
+        /// <param name="timeToWait">Milliseconds to wait for preproessing to finish</param>
+        /// <returns>Filename and path to preprocessed file</returns>
+        private string preprocessCPPFile(string filename, int timeToWait) {
             // Preprocesses twice. First round is to extract all macro definitions
             // and second round is to use those macro definitions to preprocess
             // the original file before ANTLR process without output from #include directives.
             
-            // if C++, file to be analyzed will be preprocessed
-            // preprocessed = filename + "-preprocessed";
+            // Creating temporary filenames for macro, preprocessed, and (if header) cleaned output
             string[] prefixAndSuffix = filename.Split('.');
             string   name            = prefixAndSuffix[0];
             string   extension       = prefixAndSuffix[1];
-            preprocessed = name+"-preprocessed."+extension;
+            string   macros          = filename+"-macros";
+            string   preprocessed    = name+"-preprocessed."+extension;
+            string   cleaned         = name+"-cleaned."+extension;
 
             // Execute C++ preprocessing depending on platform
-            OperatingSystem os = Environment.OSVersion;
-            PlatformID     pid = os.Platform;
-            Process    iMacros = new Process();
-            Process      clang = new Process();
+            OperatingSystem    os = Environment.OSVersion;
+            PlatformID        pid = os.Platform;
+            Process       iMacros = new Process();
+            Process         clang = new Process();
+            string       filepath = "";
+            string macroArguments = "";
+            string clangArguments = "";
             switch (pid) {
                 case PlatformID.Win32NT:
                 case PlatformID.Win32S:
                 case PlatformID.Win32Windows:
                 case PlatformID.WinCE:
-                    // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
-                    startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -dM -E -o \""+macros+"\"", 3100);
-                    // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
-                    // use extracted macros and translate them without extra line or include directive output
-                    startProcess(clang, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"", 3100);
+                    filepath       = "C:/Program Files/LLVM/bin/clang++";
+                    macroArguments = "\""+filename+"\" -dM -E -o \""+macros+"\"";
+                    clangArguments = "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
                     break;
                 case PlatformID.Unix:
                 case PlatformID.MacOSX:
                 case (PlatformID) 128:
-                    if (filename.EndsWith(".h") || filename.EndsWith(".hpp")) {
-                        // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
-                        startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
-                        // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
-                        // use extracted macros and translate them without extra line or include directive output
-                        startProcess(clang, "/bin/clang++", filename+" -P -E -imacros "+macros+" -o "+preprocessed, 3100);
-                        cleanUpCPPSourceFile(preprocessed, true);
-                    }
-                    else {
-                        // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
-                        startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
-                        // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
-                        // use extracted macros and translate them without extra line or include directive output
-                        startProcess(clang, "/bin/clang++", filename+" -P -E -imacros "+macros+" -o "+preprocessed, 3100);
-                        cleanUpCPPSourceFile(preprocessed, false);
-                    }
+                    filepath       = "/bin/clang++";
+                    macroArguments = filename+" -dM -E -o "+macros;
+                    clangArguments = filename+" -P -E -imacros "+macros+" -o "+preprocessed;
                     break;
                 default:
                     // If issue in matching OS, kills unused process
@@ -195,18 +183,38 @@ namespace SoftwareAnalyzer2.Tools
                     clang.Kill();
                     break;
             }
-            // If preprocessor failed, process the original file
-            if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
+
+            // Checks if the source file is a header file
+            // If so, cleans it of associated #if statements so we see all code even with preprocessing
+            Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp");
+            if (isHeaderFile) {
+                File.Copy(filename, cleaned, true);
+                cleanUpCPPSourceFile(cleaned, true);
+                clangArguments = cleaned+" -P -E -imacros "+macros+" -o "+preprocessed;
+            }
+
+            // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
+            startProcess(iMacros, filepath, macroArguments, timeToWait);
+            
+            // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
+            // use extracted macros and translate them without extra line or include directive output
+            startProcess(clang, filepath, clangArguments, timeToWait);
+            if (!isHeaderFile) cleanUpCPPSourceFile(preprocessed, false);
         
-            // Deletes the temporary macro and preprocessed files & saves preprocessed output in SoftwareAnalyzer2/bin/Preprocessed
-            if (myLang is CPPLanguage && System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed) && filename != preprocessed) {
-                System.IO.File.Delete(macros);
+            // Deletes the temporary macro and cleaned files if they were created
+            if (System.IO.File.Exists(macros)) System.IO.File.Delete(macros);
+            if (System.IO.File.Exists(cleaned)) System.IO.File.Delete(cleaned);
+
+            // Deletes preprocessed file and saves output to SoftwareAnalyzer2/bin/Preprocessed
+            if (System.IO.File.Exists(preprocessed)) {
                 String preprocessed_dir = "./SoftwareAnalyzer2/bin/Preprocessed";
                 System.IO.Directory.CreateDirectory(preprocessed_dir);
                 preprocessed_dir = preprocessed_dir + "/" + Path.GetFileName(preprocessed);
                 if (!System.IO.File.Exists(preprocessed_dir)) System.IO.File.Move(preprocessed, preprocessed_dir);
                 System.IO.File.Delete(preprocessed);
                 preprocessed = preprocessed_dir;
+            } else if (!System.IO.File.Exists(preprocessed)) {
+                preprocessed = filename;   
             }
 
             return preprocessed;
@@ -352,12 +360,12 @@ namespace SoftwareAnalyzer2.Tools
                 string      instruction = lang.ANTLRInstruction;
                 string fileToBeAnalyzed = fileName;
                 
-                // timeout after 3 seconds
-                int timeToWait = 3100;
+                // timeout after 2 seconds
+                int timeToWait = 2000;
                 
                 // If C++, preprocess source file
                 if (lang is CPPLanguage) {
-                    fileToBeAnalyzed = preprocessCPPFile(fileName);
+                    fileToBeAnalyzed = preprocessCPPFile(fileName, timeToWait);
                 }
 
                 //run -tree fileName
