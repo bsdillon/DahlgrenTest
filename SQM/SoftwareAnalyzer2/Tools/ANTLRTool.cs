@@ -4472,6 +4472,9 @@ namespace SoftwareAnalyzer2.Tools
                     case "static":
                         node.SetNode(Members.Static);
                         break;
+                    case "thread_local":
+                        // TODO
+                        break;
                     default:
                         throw new InvalidCastException("Unknown modifier: " + node);
                 }
@@ -5695,9 +5698,14 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable firstVariable = (IModifiable)child.GetFirstSingleLayer(Members.TypeName);
                 firstVariable.SetNode(Members.Variable);
                 firstVariable.Parent = node;
-                IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
-                writeNode.Parent = firstVariable;
-                child.GetNthChild(1).GetFirstRecursive(Members.Parameter).GetNonTrivialChild().Parent = writeNode;
+                if (child.GetNthChild(1).GetFirstRecursive(Members.Parameter) != null)
+                {
+                    // there's a weird case in blend2d's thread.cpp online 68 in the unprocessed file, idk wtf i'm expected to do for handle there
+                    // but that case is why this stuff is all up in this if statement
+                    IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
+                    writeNode.Parent = firstVariable;
+                    child.GetNthChild(1).GetFirstRecursive(Members.Parameter).GetNonTrivialChild().Parent = writeNode;
+                }
                 child.RemoveChild((IModifiable)child.GetNthChild(1));
             }
         }
