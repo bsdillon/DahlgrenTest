@@ -113,7 +113,8 @@ namespace SoftwareAnalyzer2.Tools
         /// empty lines or with #ifndef directives for .h or .hpp files.
         /// </summary>
         /// <param name="filename">File to be cleaned up</param>
-        private void cleanUpCPPSourceFile(string filename) {
+        /// <param name="isHeaderFile">Specifies file needs to be treated like a header file</param>
+        private void cleanUpCPPSourceFile(string filename, Boolean isHeaderFile) {
             string tempFile = Path.GetTempFileName();
             using (StreamReader reader = new StreamReader(filename)) 
             using (StreamWriter writer = new StreamWriter(tempFile))
@@ -122,10 +123,93 @@ namespace SoftwareAnalyzer2.Tools
                     while ((line = reader.ReadLine()) != null) {
                         if (line == string.Empty || line.StartsWith("//"))
                             continue;
+                        // if (isHeaderFile && (line.StartsWith("#ifndef") || line.StartsWith("#ifdef") || line.StartsWith("#endif"))) {
+                        //     // line = "//" + line;
+                        //     continue;
+                        // }
                         writer.WriteLine(line);
                     }   
             }
             File.Copy(tempFile, filename, true);
+        }
+
+        /// <summary>
+        /// Preprocesses C++ source file.
+        /// </summary>
+        /// <param name="filename">File to be preprocessed</param>
+        private string preprocessCPPFile(string filename) {
+            // temporary filenames for macros and preprocessed files
+            string macros       = filename + "-macros";
+            string preprocessed = filename;
+
+            // Preprocesses twice. First round is to extract all macro definitions
+            // and second round is to use those macro definitions to preprocess
+            // the original file before ANTLR process without output from #include directives.
+            
+            // if C++, file to be analyzed will be preprocessed
+            // preprocessed = filename + "-preprocessed";
+            string[] prefixAndSuffix = filename.Split('.');
+            string   name            = prefixAndSuffix[0];
+            string   extension       = prefixAndSuffix[1];
+            preprocessed = name+"-preprocessed."+extension;
+
+            // Execute C++ preprocessing depending on platform
+            OperatingSystem os = Environment.OSVersion;
+            PlatformID     pid = os.Platform;
+            Process    iMacros = new Process();
+            Process      clang = new Process();
+            switch (pid) {
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                case PlatformID.WinCE:
+                    // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
+                    startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -dM -E -o \""+macros+"\"", 3100);
+                    // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
+                    // use extracted macros and translate them without extra line or include directive output
+                    startProcess(clang, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"", 3100);
+                    break;
+                case PlatformID.Unix:
+                case PlatformID.MacOSX:
+                case (PlatformID) 128:
+                    if (filename.EndsWith(".h") || filename.EndsWith(".hpp")) {
+                        // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
+                        startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
+                        // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
+                        // use extracted macros and translate them without extra line or include directive output
+                        startProcess(clang, "/bin/clang++", filename+" -P -E -imacros "+macros+" -o "+preprocessed, 3100);
+                        cleanUpCPPSourceFile(preprocessed, true);
+                    }
+                    else {
+                        // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
+                        startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
+                        // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
+                        // use extracted macros and translate them without extra line or include directive output
+                        startProcess(clang, "/bin/clang++", filename+" -P -E -imacros "+macros+" -o "+preprocessed, 3100);
+                        cleanUpCPPSourceFile(preprocessed, false);
+                    }
+                    break;
+                default:
+                    // If issue in matching OS, kills unused process
+                    iMacros.Kill();
+                    clang.Kill();
+                    break;
+            }
+            // If preprocessor failed, process the original file
+            if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
+        
+            // Deletes the temporary macro and preprocessed files & saves preprocessed output in SoftwareAnalyzer2/bin/Preprocessed
+            if (myLang is CPPLanguage && System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed) && filename != preprocessed) {
+                System.IO.File.Delete(macros);
+                String preprocessed_dir = "./SoftwareAnalyzer2/bin/Preprocessed";
+                System.IO.Directory.CreateDirectory(preprocessed_dir);
+                preprocessed_dir = preprocessed_dir + "/" + Path.GetFileName(preprocessed);
+                if (!System.IO.File.Exists(preprocessed_dir)) System.IO.File.Move(preprocessed, preprocessed_dir);
+                System.IO.File.Delete(preprocessed);
+                preprocessed = preprocessed_dir;
+            }
+
+            return preprocessed;
         }
         
         /// <summary>
@@ -138,72 +222,11 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="stdin">Where we write ANTLR output to</param>
         private void writeFileToANTLR(string filename, ILanguage lang, StreamWriter stdin) {
             try {
-                // temporary filenames for macros and preprocessed files
-                string macros       = filename + "-macros";
-                string preprocessed = filename;
-
-                // Preprocesses twice. First round is to extract all macro definitions
-                // and second round is to use those macro definitions to preprocess
-                // the original file before ANTLR process without output from #include directives.
-                if (lang is CPPLanguage) {
-                    // if C++, file to be analyzed will be preprocessed
-                    // preprocessed = filename + "-preprocessed";
-                    string[] prefixAndSuffix = filename.Split('.');
-                    string   name            = prefixAndSuffix[0];
-                    string   extension       = prefixAndSuffix[1];
-                    preprocessed = name+"-preprocessed."+extension;
-
-                    // Execute C++ preprocessing depending on platform
-                    OperatingSystem os = Environment.OSVersion;
-                    PlatformID     pid = os.Platform;
-                    Process    iMacros = new Process();
-                    Process      clang = new Process();
-                    switch (pid) {
-                        case PlatformID.Win32NT:
-                        case PlatformID.Win32S:
-                        case PlatformID.Win32Windows:
-                        case PlatformID.WinCE:
-                            // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
-                            startProcess(iMacros, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -dM -E -o \""+macros+"\"", 3100);
-                            // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
-                            // use extracted macros and translate them without extra line or include directive output
-                            startProcess(clang, "C:/Program Files/LLVM/bin/clang++", "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"", 3100);
-                            break;
-                        case PlatformID.Unix:
-                        case PlatformID.MacOSX:
-                        case (PlatformID) 128:
-                            if (filename.EndsWith(".h") || filename.EndsWith(".hpp")) {
-                                // TODO: remove all #ifndef from input .h files
-                                // Create a cleanUpFile() method? - gets rid of empty lines and the #ifndef
-                                // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
-                                startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
-                                // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
-                                // use extracted macros and translate them without extra line or include directive output
-                                startProcess(clang, "/bin/clang++", filename+" -P -dI -E -imacros "+macros+" -o "+preprocessed, 3100);
-                            }
-                            else {
-                                // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
-                                startProcess(iMacros, "/bin/clang++", filename+" -dM -E -o "+macros, 3100);
-                                // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
-                                // use extracted macros and translate them without extra line or include directive output
-                                startProcess(clang, "/bin/clang++", filename+" -P -dI -E -imacros "+macros+" -o "+preprocessed, 3100);
-                            }
-                            break;
-                        default:
-                            // If issue in matching OS, kills unused process
-                            iMacros.Kill();
-                            clang.Kill();
-                            break;
-                    }
-                    // If preprocessor failed, process the original file
-                    if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
-                }
-
                 stdin.AutoFlush = true;            
                 
                 // This deals with anything that might not have been caught from the 
                 // preprocessor using regular expressions.
-                using (StreamReader reader = new StreamReader(preprocessed)) {
+                using (StreamReader reader = new StreamReader(filename)) {
                     string line;
                     while ((line = reader.ReadLine()) != null) {
                         string translated_line = line;
@@ -301,16 +324,6 @@ namespace SoftwareAnalyzer2.Tools
 
                 stdin.Flush();
                 stdin.Close();
-
-                // Deletes the temporary macro and preprocessed files & saves preprocessed output in SoftwareAnalyzer2/bin/Preprocessed
-                if (myLang is CPPLanguage && System.IO.File.Exists(macros) && System.IO.File.Exists(preprocessed) && filename != preprocessed) {
-                    System.IO.File.Delete(macros);
-                    String preprocessed_dir = "./SoftwareAnalyzer2/bin/Preprocessed";
-                    System.IO.Directory.CreateDirectory(preprocessed_dir);
-                    preprocessed_dir = preprocessed_dir + "/" + Path.GetFileName(preprocessed);
-                    if (!System.IO.File.Exists(preprocessed_dir)) System.IO.File.Move(preprocessed, preprocessed_dir);
-                    System.IO.File.Delete(preprocessed);
-                }
             }
             catch (Exception e)
             {
@@ -335,25 +348,31 @@ namespace SoftwareAnalyzer2.Tools
             //captured and brought to the user's attention as they are fatal to the process.
             try
             {
-                string processName = lang.ProcessName;
-                string instruction = lang.ANTLRInstruction;
-
+                string      processName = lang.ProcessName;
+                string      instruction = lang.ANTLRInstruction;
+                string fileToBeAnalyzed = fileName;
+                
                 // timeout after 3 seconds
                 int timeToWait = 3100;
+                
+                // If C++, preprocess source file
+                if (lang is CPPLanguage) {
+                    fileToBeAnalyzed = preprocessCPPFile(fileName);
+                }
 
                 //run -tree fileName
                 Process p = new Process();
                 startProcess(p, processName, "org.antlr.v4.gui.TestRig "+instruction+" -tree", timeToWait);
-                Thread  p_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p.StandardInput));
+                Thread  p_stdin_t = new Thread(() => writeFileToANTLR(fileToBeAnalyzed, lang, p.StandardInput));
                 p_stdin_t.Start();
                 
                 //run -tokens fileName
                 Process p2 = new Process();
                 startProcess(p2, processName, "org.antlr.v4.gui.TestRig "+instruction+" -tokens", timeToWait);
-                Thread  p2_stdin_t = new Thread(() => writeFileToANTLR(fileName, lang, p2.StandardInput));
+                Thread  p2_stdin_t = new Thread(() => writeFileToANTLR(fileToBeAnalyzed, lang, p2.StandardInput));
                 p2_stdin_t.Start();
 
-                Console.Out.WriteLine(fileName);
+                Console.Out.WriteLine(fileToBeAnalyzed);
                 
                 //save the output from each process
                 string[] tokens = p2.StandardOutput.ReadToEnd().Split(System.Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -883,14 +902,14 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("classKey", "classKey", CPPClassKeyHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
-                head.LeafDownModify(Members.DotOperator, Members.DotOperator, CPPDotOperatorOrderer);
+                head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
                 head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
+                head.RootUpModify("dotOperatorNode", "dotOperatorNode", CPPDotOperatorOrderer);
                 head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
                 head.RootUpModify("storageClassSpecifier", "storageClassSpecifier", CPPModifierModifier);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
-                head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
                 head.RootUpModify("simpleDeclaration", "simpleDeclaration", CPPFieldIdentifier);
                 head.RootUpModify("forRangeDeclaration", "forRangeDeclaration", CPPFieldIdentifier);
@@ -971,8 +990,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("expressionStatement", ";");
                 head.Collapse("bracedInitList", "{ }");
                 head.Collapse("postfixExpression");
-                head.Collapse("postfixExpression", "( )");
-                head.Collapse("primaryExpression", "( )");
+                //head.Collapse("postfixExpression", "( )");
+                //head.Collapse("primaryExpression", "( )");
                 head.Collapse("assignmentExpression");
                 head.Collapse("initializer");
                 head.Collapse("initializer", "( )");
@@ -986,7 +1005,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 // TODO: move this up
                 head.RootUpModify(Members.Field, Members.Field, CPPConstructorInvokeCheck);
-
+                
                 head.NormalizeLines();
             }
             else {
@@ -4529,7 +4548,7 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.Code.Equals(".") || node.Code.Equals("->"))
             {
-                node.SetNode(Members.DotOperator);
+                node.SetNode("dotOperatorNode");
                 node.ClearCode(ClearCodeOptions.KeepLine);
             }
             else if (node.Code.Equals("++") || node.Code.Equals("--"))
@@ -4582,6 +4601,7 @@ namespace SoftwareAnalyzer2.Tools
                     IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
                     parameterListNode.Parent = methodInvokeNode;
                 }
+                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
             else if (node.Code.Equals("[ ]"))
             {
@@ -4648,9 +4668,15 @@ namespace SoftwareAnalyzer2.Tools
                 ((IModifiable)node.Parent).ReplaceChild(node, var);
                 node.Parent = var;
             }
-            else if(node.Code.Equals("sizeof"))
+            else if(node.Code.Contains("sizeof"))
             {
                 node.SetNode(Members.Operator);
+                if (node.Code.Contains("( )"))
+                {
+                    //remove this so that the operator ordering function doesn't break
+                    node.ClearCode(ClearCodeOptions.KeepLine);
+                    node.AddCode("sizeof", node);
+                }
             }
             else
             {
@@ -4981,29 +5007,19 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPDotOperatorOrderer(IModifiable node)
         {
-            IModifiable trueParent = (IModifiable)node.Parent;
-            IModifiable firstNode = (IModifiable)node.GetNthChild(0);
-            node.RemoveChild((IModifiable)node.GetNthChild(0));
-
-            //child's Parent should be all the way down the firstNode's branch?
-            IModifiable targetNode = firstNode;
-            while (targetNode.GetChildCount() > 0)
+            IModifiable dotOperator = (IModifiable)NodeFactory.CreateNode(Members.DotOperator, false);
+            dotOperator.CopyCode(node);
+            if (node.GetNthChild(0).Node.Equals("dotOperatorNode"))
             {
-                if (targetNode.GetNthChild(0).Node.Equals(Members.ParameterList))
-                {
-                    if (targetNode.GetChildCount() > 1)
-                    {
-                        targetNode = (IModifiable)targetNode.GetNthChild(1);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                targetNode = (IModifiable)targetNode.GetNthChild(0);
+                dotOperator.Parent = node.GetNthChild(0).GetNthChild(1);
             }
-            node.Parent = targetNode;
-            trueParent.ReplaceChild(node, firstNode);
+            else
+            {
+                dotOperator.Parent = node.GetNthChild(0);
+            }
+            node.GetNthChild(1).Parent = dotOperator;
+            node.RemoveChild((IModifiable)node.GetNthChild(1));
+            ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
         }
 
         /// <summary>
@@ -5015,6 +5031,10 @@ namespace SoftwareAnalyzer2.Tools
             if (node.Code.Equals("this"))
             {
                 node.SetNode(Members.SelfReference);
+            }
+            else if (node.Code.Equals("( )"))
+            {
+                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
             else
             {
@@ -5121,6 +5141,10 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     targetNode = (IModifiable)parentNode.Parent.GetFirstRecursive(Members.Variable);
                 }
+                while (targetNode.GetChildCount() > 0 && targetNode.GetNthChild(0).Node.Equals(Members.DotOperator))
+                {
+                    targetNode = (IModifiable)targetNode.GetNthChild(0).GetNthChild(0);
+                }
                 node.Parent = targetNode;
             }
         }
@@ -5212,7 +5236,19 @@ namespace SoftwareAnalyzer2.Tools
         {
             //TODO: reorder so that Index nodes appear before DotOperator(? - needs more testing)
             IModifiable indexNode = (IModifiable)NodeFactory.CreateNode(Members.Index, false);
-            indexNode.Parent = node.GetNthChild(0);
+            IModifiable targetNode = (IModifiable)node.GetNthChild(0);
+            while (!targetNode.Node.Equals(Members.Variable))
+            {
+                if (targetNode.GetFirstSingleLayer(Members.Variable) != null)
+                {
+                    targetNode = (IModifiable)targetNode.GetFirstSingleLayer(Members.Variable);
+                }
+                else
+                {
+                    targetNode = (IModifiable)targetNode.GetNthChild(0);
+                }
+            }
+            indexNode.Parent = targetNode;
 
             node.GetNthChild(1).Parent = indexNode;
             node.RemoveChild((IModifiable)node.GetNthChild(1));
@@ -5231,10 +5267,12 @@ namespace SoftwareAnalyzer2.Tools
                 modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
                 modSetNode.Parent = node;
             }
+            /*
             else
             {
                 modSetNode = (IModifiable)node.GetNthChild(0).GetFirstSingleLayer(MemberSets.ModifierSet);
             }
+            */
         }
 
         /// <summary>
