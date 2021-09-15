@@ -260,6 +260,7 @@ namespace SoftwareAnalyzer2
 
             if (newerCode)//if the code is in fact newer then we parse the source into an XML tree
             {
+                myTool.outputFilepath = fileRoot;
                 myTool.Analyze(fileName, lang);
 
                 List<string> errors = myTool.Errors;

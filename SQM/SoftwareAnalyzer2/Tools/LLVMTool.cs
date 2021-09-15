@@ -50,6 +50,9 @@ namespace SoftwareAnalyzer2.Tools
       //see implementation in ITool
       public bool NoTreeCreated { get; set; }
 
+      //see implementation in ITool
+      public string outputFilepath { get; set; }
+
       // Doxygen performs analysis at the directory level, not the file level.
       // The first time Analyze() is called 
       private bool DirectoryAnalysisPerformed = false;

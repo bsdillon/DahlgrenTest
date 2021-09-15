@@ -58,6 +58,9 @@ namespace SoftwareAnalyzer2.Tools
         public bool NoTreeCreated { get; set; }
 
         //see implementation in ITool
+        public string outputFilepath { get; set; }
+
+        //see implementation in ITool
         public ITool Clone()
         {
             return new ANTLRTool();
@@ -150,8 +153,8 @@ namespace SoftwareAnalyzer2.Tools
             string   name            = prefixAndSuffix[0];
             string   extension       = prefixAndSuffix[1];
             string   macros          = filename+"-macros";
-            string   preprocessed    = name+"-preprocessed."+extension;
-            string   cleaned         = name+"-cleaned."+extension;
+            string   preprocessed    = outputFilepath+"-preprocessed."+extension;
+            string   cleaned         = filename+"-cleaned."+extension;
 
             // Checks if the source file is a header file
             Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp");
@@ -180,6 +183,8 @@ namespace SoftwareAnalyzer2.Tools
                     filepath       = "/bin/clang++";
                     macroArguments = filename+" -dM -E -o "+macros;
                     clangArguments = filename+" -P -E -imacros "+macros+" -o "+preprocessed;
+                    if (isHeaderFile) clangArguments = cleaned+" -P -dI -E -imacros "+macros+" -o "+preprocessed;
+                    else clangArguments = filename+" -P -dI -E -imacros "+macros+" -o "+preprocessed;
                     break;
                 default:
                     // If issue in matching OS, kills unused process
@@ -205,18 +210,7 @@ namespace SoftwareAnalyzer2.Tools
             // Deletes the temporary macro and cleaned files if they were created
             if (System.IO.File.Exists(macros)) System.IO.File.Delete(macros);
             if (System.IO.File.Exists(cleaned)) System.IO.File.Delete(cleaned);
-
-            // Deletes preprocessed file and saves output to SoftwareAnalyzer2/bin/Preprocessed
-            if (System.IO.File.Exists(preprocessed)) {
-                String preprocessed_dir = "./SoftwareAnalyzer2/bin/TestAnalysis/Preprocessed";
-                System.IO.Directory.CreateDirectory(preprocessed_dir);
-                preprocessed_dir = preprocessed_dir + "/" + Path.GetFileName(preprocessed);
-                if (!System.IO.File.Exists(preprocessed_dir)) System.IO.File.Move(preprocessed, preprocessed_dir);
-                System.IO.File.Delete(preprocessed);
-                preprocessed = preprocessed_dir;
-            } else if (!System.IO.File.Exists(preprocessed)) {
-                preprocessed = filename;   
-            }
+            if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
 
             return preprocessed;
         }
@@ -349,6 +343,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="lang">Language it is in</param>
         public void Analyze(string fileName, ILanguage lang)
         {
+            if (!fileName.EndsWith(".h")) {
+                return;
+            }
             myLang = lang;
             //creates two ANTLR output files by using these two commands and then combines them to create an IModifiable.
             //The IModifiable is then modified to the preferred form and the process terminates

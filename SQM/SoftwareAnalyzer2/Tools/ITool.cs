@@ -46,5 +46,10 @@ namespace SoftwareAnalyzer2.Tools
         /// This may occur for various reasons (e.g. the file is empty).
         /// </summary>
         bool NoTreeCreated { get; set; }
+
+        /// <summary>
+        /// Filepath of preprocessed and tranalsted output.
+        /// </summary>
+        string outputFilepath { get; set; }
     }
 }
