@@ -889,7 +889,6 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
                 head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateUsageHandler);
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
-                head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
                 head.RootUpModify("statementSeq", Members.Scope, CPPScopeDescriber);
                 head.RootUpModify(Members.Else, Members.Else, CPPElseIfScopeAdder);
@@ -909,6 +908,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
                 head.RootUpModify("classKey", "classKey", CPPClassKeyHandler);
                 head.RootUpModify("declarator", "declarator", CPPDeclaratorHandler);
+                head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
                 head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
                 head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
@@ -4138,9 +4138,23 @@ namespace SoftwareAnalyzer2.Tools
         {
             // TODO: fix this - tends to screw up line numbers...
             IModifiable declarator = (IModifiable)node.GetFirstRecursive("declarator");
+            if (declarator == null)
+            {
+                // since I've moved CPPMethodNameCorrector to be below CPPDeclaratorHandler, this change was needed
+                if (node.Code.Equals(node.Parent.Parent.Parent.Code))
+                {
+                    node.SetNode(Members.Constructor);
+                    IModifiable returnTypeNode = (IModifiable)NodeFactory.CreateNode(Members.ReturnType, false);
+                    returnTypeNode.Parent = node;
+                    IModifiable typeNameNode = (IModifiable)NodeFactory.CreateNode(Members.TypeName, false);
+                    typeNameNode.Parent = returnTypeNode;
+                    typeNameNode.CopyCode(node);
+                }
+                return;
+            }
             // get into the declarator node, the first entry should be something other than a parameter, find the Variable
             // if no Variable, try operatorFunctionId
-            
+
             // possibly GetNthChild(0) will work instead
             IModifiable varNode = (IModifiable)declarator.GetFirstSingleLayer(Members.Variable);
             if (varNode == null)
