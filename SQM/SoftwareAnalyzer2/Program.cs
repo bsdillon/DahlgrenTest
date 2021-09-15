@@ -233,6 +233,9 @@ namespace SoftwareAnalyzer2
             string parsePath = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
             string parseFile = fileName.Replace(rootPath, parsePath);
             string fileRoot = parseFile.Substring(0, parseFile.Length - lang_ext_glob.Length + 1);
+            
+            if (lang is CPPLanguage && lang_ext_glob.Contains(".h")) fileRoot = fileRoot + "_H";
+            
             string xmlFile = fileRoot + ".XML";
             string directory = parseFile.Substring(0, parseFile.LastIndexOf(Path.DirectorySeparatorChar));
 

@@ -153,6 +153,9 @@ namespace SoftwareAnalyzer2.Tools
             string   preprocessed    = name+"-preprocessed."+extension;
             string   cleaned         = name+"-cleaned."+extension;
 
+            // Checks if the source file is a header file
+            Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp");
+
             // Execute C++ preprocessing depending on platform
             OperatingSystem    os = Environment.OSVersion;
             PlatformID        pid = os.Platform;
@@ -168,7 +171,8 @@ namespace SoftwareAnalyzer2.Tools
                 case PlatformID.WinCE:
                     filepath       = "C:/Program Files/LLVM/bin/clang++";
                     macroArguments = "\""+filename+"\" -dM -E -o \""+macros+"\"";
-                    clangArguments = "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
+                    if (isHeaderFile) clangArguments = "\""+cleaned+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
+                    else clangArguments = "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
                     break;
                 case PlatformID.Unix:
                 case PlatformID.MacOSX:
@@ -184,13 +188,10 @@ namespace SoftwareAnalyzer2.Tools
                     break;
             }
 
-            // Checks if the source file is a header file
-            // If so, cleans it of associated #if statements so we see all code even with preprocessing
-            Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp");
+            // If header file, cleans it of associated #if statements so we see all code even with preprocessing
             if (isHeaderFile) {
                 File.Copy(filename, cleaned, true);
                 cleanUpCPPSourceFile(cleaned, true);
-                clangArguments = cleaned+" -P -E -imacros "+macros+" -o "+preprocessed;
             }
 
             // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
@@ -207,7 +208,7 @@ namespace SoftwareAnalyzer2.Tools
 
             // Deletes preprocessed file and saves output to SoftwareAnalyzer2/bin/Preprocessed
             if (System.IO.File.Exists(preprocessed)) {
-                String preprocessed_dir = "./SoftwareAnalyzer2/bin/Preprocessed";
+                String preprocessed_dir = "./SoftwareAnalyzer2/bin/TestAnalysis/Preprocessed";
                 System.IO.Directory.CreateDirectory(preprocessed_dir);
                 preprocessed_dir = preprocessed_dir + "/" + Path.GetFileName(preprocessed);
                 if (!System.IO.File.Exists(preprocessed_dir)) System.IO.File.Move(preprocessed, preprocessed_dir);
@@ -1003,6 +1004,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("assignmentExpression");
                 head.Collapse("initializer");
                 head.Collapse("initializer", "( )");
+                head.Collapse("newInitializer", "( )");
                 head.Collapse("initDeclarator");
                 head.RootUpModify("initDeclaratorList", "initDeclaratorList", ReparentChildren);
                 head.Collapse("memberDeclarator");
@@ -1012,6 +1014,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("handler", "catch ( )");
 
                 // TODO: move this up
+                // also figure out the weird cases, i.e. the forward declarations
                 head.RootUpModify(Members.Field, Members.Field, CPPConstructorInvokeCheck);
                 
                 head.NormalizeLines();
@@ -4163,6 +4166,10 @@ namespace SoftwareAnalyzer2.Tools
             }
             
             node.CopyCode(varNode);
+            if (node.Code.Equals(node.Parent.Parent.Parent.Code))
+            {
+                node.SetNode(Members.Constructor);
+            }
             // excise the original afterwards - it no longer needs to exist
             ((IModifiable)varNode.Parent).RemoveChild(varNode);
 
@@ -5462,7 +5469,15 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.GetFirstSingleLayer(Members.TypeName) != null)
             {
                 ((IModifiable)node.GetFirstSingleLayer(Members.TypeName)).SetNode(Members.ConstructorInvoke);
-                node.GetFirstRecursive(Members.ParameterList).Parent = node.GetFirstSingleLayer(Members.ConstructorInvoke);
+                if (node.GetFirstSingleLayer("newPlacement") != null)
+                {
+                    IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
+                    writeNode.Parent = node.GetFirstSingleLayer("newPlacement").GetNthChild(0);
+                    node.GetFirstSingleLayer(Members.ConstructorInvoke).Parent = writeNode;
+                    node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.ConstructorInvoke));
+                    node.ReplaceChild((IModifiable)node.GetFirstSingleLayer("newPlacement"), (IModifiable)node.GetFirstSingleLayer("newPlacement").GetNthChild(0));
+                }
+                node.GetFirstRecursive("newInitializer").Parent = node.GetFirstRecursive(Members.ConstructorInvoke);
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
@@ -5720,13 +5735,26 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable firstVariable = (IModifiable)child.GetFirstSingleLayer(Members.TypeName);
                 firstVariable.SetNode(Members.Variable);
                 firstVariable.Parent = node;
-                if (child.GetNthChild(1).GetFirstRecursive(Members.Parameter) != null)
+                IModifiable parameterListNode = (IModifiable)child.GetNthChild(1).GetFirstRecursive(Members.ParameterList);
+                if (parameterListNode != null && parameterListNode.GetFirstRecursive(Members.Parameter) != null)
                 {
-                    // there's a weird case in blend2d's thread.cpp online 68 in the unprocessed file, idk wtf i'm expected to do for handle there
+                    // there's a weird case in blend2d's thread.cpp on line 68 in the unprocessed file, idk wtf i'm expected to do for handle there
                     // but that case is why this stuff is all up in this if statement
                     IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
                     writeNode.Parent = firstVariable;
-                    child.GetNthChild(1).GetFirstRecursive(Members.Parameter).GetNonTrivialChild().Parent = writeNode;
+                    IModifiable parentNode = writeNode;
+
+                    if (parameterListNode.GetChildCount() > 1)
+                    {
+                        parentNode = (IModifiable)NodeFactory.CreateNode(Members.Array, false);
+                        parentNode.Parent = writeNode;
+                    }
+
+                    List<INavigable> paramChildren = parameterListNode.Children;
+                    foreach (IModifiable paramChild in paramChildren)
+                    {
+                        paramChild.GetNthChild(0).GetNonTrivialChild().Parent = parentNode;
+                    }
                 }
                 child.RemoveChild((IModifiable)child.GetNthChild(1));
             }
