@@ -154,7 +154,7 @@ namespace SoftwareAnalyzer2.Tools
             string   extension       = prefixAndSuffix[1];
             string   macros          = filename+"-macros";
             string   preprocessed    = outputFilepath+"-preprocessed."+extension;
-            string   cleaned         = filename+"-cleaned."+extension;
+            string   cleaned         = name+"-cleaned."+extension;
 
             // Checks if the source file is a header file
             Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp");
