@@ -5785,6 +5785,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPNamespaceHandler(IModifiable node)
         {
+            node.AddCode("~DEFAULT", node);
             IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
             classificationNode.Parent = node;
             IModifiable namespaceNode = (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
