@@ -120,20 +120,41 @@ namespace SoftwareAnalyzer2.Tools
         /// <returns>Filename and path to cleaned file</returns>
         private void cleanUpCPPSourceFile(string filename, Boolean isHeaderFile) {
             string tempFile = Path.GetTempFileName();
+            string line;
             using (StreamReader reader = new StreamReader(filename)) 
             using (StreamWriter writer = new StreamWriter(tempFile))
             {
-                    string line;
                     while ((line = reader.ReadLine()) != null) {
                         if (line == string.Empty || line.StartsWith("//"))
                             continue;
-                        if (isHeaderFile && (line.StartsWith("#if") || line.StartsWith("#endif") || line.StartsWith("#else") || line.StartsWith("#elif"))) {
-                            line = "//" + line;
-                            continue;
-                        }
                         writer.WriteLine(line);
                     }   
             }
+
+            if (isHeaderFile) {
+                string tempFile2 = Path.GetTempFileName();
+                Boolean hasIfNDef = false;
+                using (StreamReader reader = new StreamReader(tempFile)) 
+                using (StreamWriter writer = new StreamWriter(tempFile2))
+                {
+                    string nextLine;
+                    line = reader.ReadLine();
+                    if (line != null && line.StartsWith("#ifndef")) hasIfNDef = true;
+                    else writer.WriteLine(line);
+                    
+                    line = reader.ReadLine();
+                    while (line != null) {
+                        nextLine = reader.ReadLine();
+                        if (line.StartsWith("#endif") && nextLine == null && hasIfNDef) break;
+                        else {
+                            writer.WriteLine(line);
+                            line = nextLine;
+                        }
+                    }   
+                }
+                File.Copy(tempFile2, tempFile, true);
+            }
+
             File.Copy(tempFile, filename, true);
         }
 
@@ -157,7 +178,8 @@ namespace SoftwareAnalyzer2.Tools
             string   cleaned         = name+"-cleaned."+extension;
 
             // Checks if the source file is a header file
-            Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp");
+            Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp") ||
+                                   filename.EndsWith(".hh");
 
             // Execute C++ preprocessing depending on platform
             OperatingSystem    os = Environment.OSVersion;
@@ -165,26 +187,20 @@ namespace SoftwareAnalyzer2.Tools
             Process       iMacros = new Process();
             Process         clang = new Process();
             string       filepath = "";
-            string macroArguments = "";
-            string clangArguments = "";
+            string macroArguments = "\""+filename+"\" -dM -E -o \""+macros+"\"";
+            string clangArguments = (isHeaderFile) ? "\""+cleaned+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"" 
+                                                   : "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
             switch (pid) {
                 case PlatformID.Win32NT:
                 case PlatformID.Win32S:
                 case PlatformID.Win32Windows:
                 case PlatformID.WinCE:
-                    filepath       = "C:/Program Files/LLVM/bin/clang++";
-                    macroArguments = "\""+filename+"\" -dM -E -o \""+macros+"\"";
-                    if (isHeaderFile) clangArguments = "\""+cleaned+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
-                    else clangArguments = "\""+filename+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
+                    filepath = "C:/Program Files/LLVM/bin/clang++";
                     break;
                 case PlatformID.Unix:
                 case PlatformID.MacOSX:
                 case (PlatformID) 128:
-                    filepath       = "/bin/clang++";
-                    macroArguments = filename+" -dM -E -o "+macros;
-                    clangArguments = filename+" -P -E -imacros "+macros+" -o "+preprocessed;
-                    if (isHeaderFile) clangArguments = cleaned+" -P -dI -E -imacros "+macros+" -o "+preprocessed;
-                    else clangArguments = filename+" -P -dI -E -imacros "+macros+" -o "+preprocessed;
+                    filepath = "/bin/clang++";
                     break;
                 default:
                     // If issue in matching OS, kills unused process
@@ -205,11 +221,16 @@ namespace SoftwareAnalyzer2.Tools
             // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
             // use extracted macros and translate them without extra line or include directive output
             startProcess(clang, filepath, clangArguments, timeToWait);
-            if (!isHeaderFile) cleanUpCPPSourceFile(preprocessed, false);
         
             // Deletes the temporary macro and cleaned files if they were created
-            if (System.IO.File.Exists(macros)) System.IO.File.Delete(macros);
-            if (System.IO.File.Exists(cleaned)) System.IO.File.Delete(cleaned);
+            if (System.IO.File.Exists(macros)) {
+                File.SetAttributes(macros, FileAttributes.Normal);
+                System.IO.File.Delete(macros);
+            }
+            if (System.IO.File.Exists(cleaned)) {
+                File.SetAttributes(cleaned, FileAttributes.Normal);
+                System.IO.File.Delete(cleaned);
+            } 
             if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
 
             return preprocessed;
@@ -967,6 +988,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Rename("logicalAndExpression", Members.Boolean_And);
                 head.Rename("logicalOrExpression", Members.Boolean_Or);
                 head.Rename("inclusiveOrExpression", Members.Operator);
+                head.Rename("exclusiveOrExpression", Members.Operator);
                 head.Rename("andExpression", Members.Operator);
                 head.LeafDownModify(Members.Operator, Members.Operator, CPPOperatorOrderer);
 
@@ -976,6 +998,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.Collapse("enumeratorDefinition");
 
+                head.Collapse("abstractDeclarator");
                 head.Collapse("pointerAbstractDeclarator");
                 head.Collapse("theTypeId");
                 head.Collapse("typeSpecifierSeq");
@@ -1010,7 +1033,10 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO: move this up
                 // also figure out the weird cases, i.e. the forward declarations
                 head.RootUpModify(Members.Field, Members.Field, CPPConstructorInvokeCheck);
-                
+                // TODO: move these up
+                head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPDestructorCorrector);
+                head.RootUpModify(Members.Method, Members.Method, CPPDestructorCorrector);
+
                 head.NormalizeLines();
             }
             else {
@@ -4081,15 +4107,27 @@ namespace SoftwareAnalyzer2.Tools
             {
                 IModifiable willBeParamNode = (IModifiable)node.GetFirstSingleLayer(Members.Variable);
                 node.RemoveChild(willBeParamNode);
-                IModifiable simpleDeclNode = (IModifiable)node.GetAncestor("simpleDeclaration");
-                IModifiable declSpecNode = (IModifiable)simpleDeclNode.GetFirstSingleLayer("declSpecifierSeq");
-                IModifiable realMethodNode = (IModifiable)declSpecNode.GetFirstRecursive(Members.TypeName);
-                realMethodNode.SetNode(Members.Variable);
-                simpleDeclNode.RemoveChild(declSpecNode);
-                realMethodNode.Parent = node;
+                IModifiable realMethodNode;
                 IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
-                parameterListNode.Parent = node;
                 IModifiable parameterNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
+                if (node.Parent.Node.Equals(Members.Parameter))
+                {
+                    realMethodNode = (IModifiable)node.Parent.GetFirstSingleLayer(Members.TypeName);
+                    ((IModifiable)node.Parent).RemoveChild(realMethodNode);
+                    realMethodNode.SetNode(Members.MethodInvoke);
+                    realMethodNode.Parent = node;
+                    parameterListNode.Parent = realMethodNode;
+                }
+                else
+                {
+                    IModifiable simpleDeclNode = (IModifiable)node.GetAncestor("simpleDeclaration");
+                    IModifiable declSpecNode = (IModifiable)simpleDeclNode.GetFirstSingleLayer("declSpecifierSeq");
+                    realMethodNode = (IModifiable)declSpecNode.GetFirstRecursive(Members.TypeName);
+                    simpleDeclNode.RemoveChild(declSpecNode);
+                    realMethodNode.SetNode(Members.Variable);
+                    realMethodNode.Parent = node;
+                    parameterListNode.Parent = node;
+                }
                 parameterNode.Parent = parameterListNode;
                 willBeParamNode.Parent = parameterNode;
 
@@ -4221,6 +4259,25 @@ namespace SoftwareAnalyzer2.Tools
                     node.CopyCode(targetNode);
                     targetParent.RemoveChild((IModifiable)targetParent.GetFirstSingleLayer("declSpecifierSeq"));
                 }
+            }
+        }
+
+        /// <summary>
+        /// Makes sure Destructors and MethodInvokes have their full names
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPDestructorCorrector(IModifiable node)
+        {
+            //MethodInvokes
+            if (node.Code.Equals("~"))
+            {
+                if (node.Node.Equals(Members.Method))
+                {
+                    node.SetNode(Members.Destructor);
+                }
+                IModifiable typeNameNode = (IModifiable)node.GetFirstSingleLayer(Members.TypeName);
+                node.AddCode(typeNameNode.Code, typeNameNode);
+                node.RemoveChild(typeNameNode);
             }
         }
 
@@ -5263,8 +5320,9 @@ namespace SoftwareAnalyzer2.Tools
             //TODO: reorder so that Index nodes appear before DotOperator(? - needs more testing)
             IModifiable indexNode = (IModifiable)NodeFactory.CreateNode(Members.Index, false);
             IModifiable targetNode = (IModifiable)node.GetNthChild(0);
-            while (!targetNode.Node.Equals(Members.Variable))
+            while (!targetNode.Node.Equals(Members.Variable) && !targetNode.Node.Equals(Members.MethodInvoke))
             {
+                //TODO: improve understanding of how the MethodInvokes should work in here
                 if (targetNode.GetFirstSingleLayer(Members.Variable) != null)
                 {
                     targetNode = (IModifiable)targetNode.GetFirstSingleLayer(Members.Variable);
