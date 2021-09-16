@@ -343,9 +343,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="lang">Language it is in</param>
         public void Analyze(string fileName, ILanguage lang)
         {
-            if (!fileName.EndsWith(".h")) {
-                return;
-            }
             myLang = lang;
             //creates two ANTLR output files by using these two commands and then combines them to create an IModifiable.
             //The IModifiable is then modified to the preferred form and the process terminates
