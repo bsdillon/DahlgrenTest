@@ -235,6 +235,8 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             string xmlFile = fileRoot + ".XML";
             string directory = parseFile.Substring(0, parseFile.LastIndexOf(Path.DirectorySeparatorChar));
 
+            // StartAnalysis.ReadFile(currentProject, tool, lang, file_extension, fileName);
+
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
