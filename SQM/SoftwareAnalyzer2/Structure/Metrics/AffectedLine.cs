@@ -15,6 +15,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //dictionary: <file name (string), dictionary: <line number (int), List<affected graphnodes (graphnode)>>>
         private Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>> affectedDict = new Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>>();
         private string printLevel = "";
+        private bool outputStarted = false;
         public AffectedLine()
         {
         }
@@ -59,6 +60,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         public void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r)
         {
+            void InsertNodeConditionally(GraphNode addTo, GraphNode pScope)
+            {
+                if (pScope.Represented.Node.Equals(Members.Branch) || pScope.ParentScope.Represented.Node.Equals(Members.Branch))
+                {
+                    addTo.AddToParentAndChildrenLists(pScope);
+                }
+            }
             //simulated graphnodes are not very meaningful for tracing errors
             if (!gn.IsSimulated)
             {
@@ -73,12 +81,14 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                         if (grphNde.statementDetails.ContainsKey(s.Represented.FileName))
                         {
+                            InsertNodeConditionally(grphNde, s.ParentScope);
                             grphNde.statementDetails[s.Represented.FileName].Add(s.Represented.GetLineStart());
                         }
                         else
                         {
                             List<int> lineList = new List<int>();
                             lineList.Add(s.Represented.GetLineStart());
+                            InsertNodeConditionally(grphNde, s.ParentScope);
                             grphNde.statementDetails.Add(s.Represented.FileName, lineList);
                         }
 
@@ -95,12 +105,14 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                         if (grphNde.statementDetails.ContainsKey(s.Represented.FileName))
                         {
+                            InsertNodeConditionally(grphNde, s.ParentScope);
                             grphNde.statementDetails[s.Represented.FileName].Add(s.Represented.GetLineStart());
                         }
                         else
                         {
                             List<int> lineList = new List<int>();
                             lineList.Add(s.Represented.GetLineStart());
+                            InsertNodeConditionally(grphNde, s.ParentScope);
                             grphNde.statementDetails.Add(s.Represented.FileName, lineList);
                         }
 
@@ -115,6 +127,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //this output is subject to change based on safety's needs
         public void OutputCSVErrors(StreamWriter file, string tracingFile, int tracingLineNumber)
         {
+            List<Tuple<int, string, GraphNode>> extraPrints = new List<Tuple<int, string, GraphNode>>();
+
             file.WriteLine("Lines affected by input file:" + tracingFile + " - line number: [" + tracingLineNumber.ToString() + "]");
             foreach (string fN in affectedDict.Keys)
             {
@@ -136,21 +150,35 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             {
                                 if (g.Represented.FileName == fN && g.Represented.GetLineStart() == tracingLineNumber && g.Represented.GetLineStart() == lN)
                                 {
-                                    PrintParents(g, file);
+                                    PrintChildren(g, file);
                                 }
+                                
                                 else if (g.statementDetails.ContainsKey(fN))
                                 {
                                     foreach (int lineNum in g.statementDetails[fN])
                                     {
                                         if (lineNum == tracingLineNumber)
                                         {
-                                            PrintParents(g, file);
+                                            WriteToOutput("cs", file, fN, lineNum, g, true);
+                                            printLevel += ",";
+                                            PrintChildren(g, file);
+                                            printLevel = printLevel.Remove(printLevel.Length - 1);
+
                                         }
                                     }
 
                                 }
                                 else
                                 {
+                                    if (outputStarted)
+                                    {
+                                        WriteToOutput("tup", file, fN, lN, g, true);
+                                    }
+                                    else
+                                    {
+                                        Tuple<int, string, GraphNode> t = Tuple.Create(lN, fN, g);
+                                        extraPrints.Add(t);
+                                    }
                                     //PrintParents(g, file);
                                 }
                             }   
@@ -158,87 +186,97 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                 }
             }
+            if(extraPrints.Count > 0)
+            {
+                foreach(Tuple<int, string, GraphNode> tup in extraPrints)
+                {
+                    WriteToOutput("tup", file, tup.Item2, tup.Item1, tup.Item3, true);
+                }
+            }
         }
 
         private void PrintParents(GraphNode g, StreamWriter file)
         {
             g.outputPrint = true;
+            printLevel += ",";
             foreach (GraphNode p in g.GetParentGNs())
             {
                 if (p != null)
                 {
-                    PrintParents(p, file);
-                    if (p.statementDetails.Keys != null)
+                    if (!p.Represented.Node.IsClassification)
                     {
-                        if (p.GetChildrenGNs().Contains(g))
-                        {
-                            file.WriteLine("[" + p.Represented.FileName + "::" + p.Represented.GetLineStart().ToString() + "](" + p.Represented.ToString() + ")");
-                        }
-                        //no duplicates
-                        foreach (string fileKey in p.statementDetails.Keys)
-                        {
-                            foreach (int lineNum in p.statementDetails[fileKey])
-                            {
-                                if (p.Represented.FileName != fileKey || p.Represented.GetLineStart() != lineNum)
-                                {
-                                    printLevel += ",";
-                                    file.WriteLine(printLevel + "[" + fileKey + "::" + lineNum.ToString() + "](originated from: " + p.Represented.ToString() + ")");
-                                    PrintChildren(p, file);
-                                    printLevel = printLevel.Remove(printLevel.Length - 1);
-                                }
-                                else
-                                {
-                                    PrintChildren(p, file);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //luTODO - this might not be neccessary
-                        //file.WriteLine("[" + p.Represented.FileName + "::" + p.Represented.GetLineStart().ToString() + "](" + p.Represented.ToString() + ")");
-                        //PrintChildren(p, file, g);
+                        WriteToOutput("nn", file, p.Represented.FileName, p.Represented.GetLineStart(), p, false);
+                        PrintParents(p, file);
                     }
                 }
-            }
-        }
-
-        private void PrintChildren(GraphNode g, StreamWriter file)
-        {
-            g.outputPrint = true;
-            printLevel += ",";
-            foreach (GraphNode c in g.GetChildrenGNs())
-            {
-                if (c != null)
+                else
                 {
-                    if (c.statementDetails.Keys != null)
+                    //WriteToOutput("nu", file, g.Represented.FileName, g.Represented.GetLineStart(), g, false);
+                    //PrintChildren(g, file);
+                }
+            }
+            if(g.GetParentGNs().Count < 1)
+            {
+                if (g.statementDetails.Keys != null)
+                {
+                    foreach (string fileKey in g.statementDetails.Keys)
                     {
-                        if (c.GetParentGNs().Contains(g))
+                        foreach (int lineNum in g.statementDetails[fileKey])
                         {
-                            file.WriteLine(printLevel + "[" + c.Represented.FileName + "::" + c.Represented.GetLineStart().ToString() + "](" + c.Represented.ToString() + ")");
-                            PrintChildren(c, file);
+                            WriteToOutput("s", file, fileKey, lineNum, g, true);
                         }
-                        foreach (string fileKey in c.statementDetails.Keys)
-                        {
-                            foreach (int lineNum in c.statementDetails[fileKey])
-                            {
-                                printLevel += ",";
-                                file.WriteLine(printLevel + "[" + fileKey + "::" + lineNum.ToString() + "](originated from: " + c.Represented.ToString() + ")");
-                                PrintChildren(c, file);
-                                printLevel = printLevel.Remove(printLevel.Length - 1);
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        file.WriteLine(printLevel + "[" + c.Represented.FileName + "::" + c.Represented.GetLineStart().ToString() + "](" + c.Represented.ToString() + ")");
-                        PrintChildren(c, file);
                     }
 
                 }
             }
             printLevel = printLevel.Remove(printLevel.Length - 1);
+        }
+
+        private void PrintChildren(GraphNode g, StreamWriter file)
+        {
+            g.outputPrint = true;
+            foreach (GraphNode c in g.GetChildrenGNs())
+            {
+                if (c != null)
+                {
+                    PrintChildren(c, file);
+                    if (c.statementDetails.Keys != null)
+                    {
+                        foreach (string fileKey in c.statementDetails.Keys)
+                        {
+                            foreach (int lineNum in c.statementDetails[fileKey])
+                            {
+                                WriteToOutput("new", file, fileKey, lineNum, c, true);
+                                PrintParents(c, file);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        WriteToOutput("cnu", file, c.Represented.FileName, c.Represented.GetLineStart(), c, false);
+                        PrintChildren(c, file);
+                    }
+
+                }
+            }
+        }
+
+        //prepend will be removed before the final product. just informational, currently
+        void WriteToOutput(string prepend, StreamWriter file, string fileName, int lineNum, GraphNode origin, bool statement)
+        {
+            if (!outputStarted)
+            {
+                outputStarted = true;
+            }
+            if (statement)
+            {
+                file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](originated from: " + origin.Represented.ToString() + ")");
+            }
+            else
+            {
+                file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](" + origin.Represented.ToString() + ")");
+            }   
         }
 
         /*

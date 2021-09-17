@@ -66,7 +66,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             }
                             break;
                         case Members.Branch:
-                            TraceBranch(g, Relationship.na, Members.Null);
+                            TraceBranch(g, Relationship.na, Members.Null, null);
                             break;
                         default:
                             //default functionality unnecessary? (subject to change)
@@ -109,7 +109,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Branch))
                             {
-                                TraceBranch(grphNde, r, Members.Field);
+                                TraceBranch(grphNde, r, Members.Field, gn);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Field))
                             {
@@ -178,7 +178,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Branch))
                             {
-                                TraceBranch(grphNde, r, Members.Parameter);
+                                TraceBranch(grphNde, r, Members.Parameter, gn);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Field))
                             {
@@ -240,12 +240,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         }
 
-        private void TraceBranch(GraphNode gn, Relationship re, Members m)
+        private void TraceBranch(GraphNode gn, Relationship re, Members m, GraphNode gnPar)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
                 gn.traced = true;
+                gn.AddToParentAndChildrenLists(gnPar);
                 Branch b = (Branch)gn;
                 //get all of the line numbers in the affected branch (if/else)
                 List<Tuple<int, int>> bList = b.GetBranchLineNums();
