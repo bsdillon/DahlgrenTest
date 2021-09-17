@@ -1036,7 +1036,7 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO: move these up
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPDestructorCorrector);
                 head.RootUpModify(Members.Method, Members.Method, CPPDestructorCorrector);
-
+                
                 head.NormalizeLines();
             }
             else {
@@ -4458,7 +4458,7 @@ namespace SoftwareAnalyzer2.Tools
             otherNode.ClearCode(ClearCodeOptions.ClearAll);
             otherNode.CopyCode(node);
 
-            if (otherNode.GetChildCount() > 0)
+            if (otherNode.GetChildCount() > 0 && !otherNode.GetNthChild(0).Node.Equals(Members.Sub_Type))
             {
                 otherNode.AddCode(otherNode.GetNthChild(0).Code, (IModifiable)otherNode.GetNthChild(0));
                 otherNode.SetNode(otherNode.GetNthChild(0).Node);
