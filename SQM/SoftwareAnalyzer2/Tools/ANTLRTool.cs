@@ -1039,7 +1039,7 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO: move these up
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPDestructorCorrector);
                 head.RootUpModify(Members.Method, Members.Method, CPPDestructorCorrector);
-
+                
                 head.NormalizeLines();
             }
             else {
@@ -4108,7 +4108,7 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("( )"))
             {
-                IModifiable willBeParamNode = (IModifiable)node.GetFirstSingleLayer(Members.Variable);
+                IModifiable willBeParamNode = (IModifiable)node.GetNthChild(0);
                 node.RemoveChild(willBeParamNode);
                 IModifiable realMethodNode;
                 IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
@@ -4116,10 +4116,19 @@ namespace SoftwareAnalyzer2.Tools
                 if (node.Parent.Node.Equals(Members.Parameter))
                 {
                     realMethodNode = (IModifiable)node.Parent.GetFirstSingleLayer(Members.TypeName);
-                    ((IModifiable)node.Parent).RemoveChild(realMethodNode);
-                    realMethodNode.SetNode(Members.MethodInvoke);
-                    realMethodNode.Parent = node;
-                    parameterListNode.Parent = realMethodNode;
+                    if (realMethodNode != null)
+                    {
+                        ((IModifiable)node.Parent).RemoveChild(realMethodNode);
+                        realMethodNode.SetNode(Members.MethodInvoke);
+                        realMethodNode.Parent = node;
+                        parameterListNode.Parent = realMethodNode;
+                    }
+                    else
+                    {
+                        // TODO: Test properly???
+                        return;
+                    }
+                    
                 }
                 else
                 {
@@ -4449,7 +4458,22 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.GetChildCount() > 1)
             {
-                Console.WriteLine("This Node\a: " + node + System.Environment.NewLine);
+                // not sure if this goes here or someplace else
+                if (node.Parent.Code.StartsWith("typename "))
+                {
+                    string codeString = node.Parent.Code;
+                    codeString = codeString.Remove(0, 9);
+                    ((IModifiable)node.Parent).ClearCode(ClearCodeOptions.KeepLine);
+                    ((IModifiable)node.Parent).AddCode(codeString, (IModifiable)node.Parent);
+                    ((IModifiable)node.Parent).SetNode(Members.TypeName);
+                    IModifiable withinNode = (IModifiable)NodeFactory.CreateNode(Members.Within, false);
+                    withinNode.Parent = node.Parent;
+                    ((IModifiable)node.Parent).RemoveChild(node);
+                    node.Parent = withinNode;
+                }
+                // this does go here
+                ReparentChildren(node);
+                return;
             }
             while (node.GetChildCount() > 0)
             {
@@ -4534,6 +4558,9 @@ namespace SoftwareAnalyzer2.Tools
                         break;
                     case "virtual":
                         node.SetNode(Members.Virtual);
+                        break;
+                    case "explicit":
+                        // TODO
                         break;
                     default:
                         throw new InvalidCastException("Unknown modifier: " + node);
@@ -5169,6 +5196,8 @@ namespace SoftwareAnalyzer2.Tools
         {
             IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
             classificationNode.Parent = node.GetNthChild(0);
+            IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+            modSetNode.Parent = node.GetNthChild(0);
             IModifiable enumNode = (IModifiable)NodeFactory.CreateNode(Members.ENUM, false);
             enumNode.Parent = classificationNode;
             IModifiable superTypesNode = (IModifiable)NodeFactory.CreateNode(MemberSets.SuperTypes, false);
@@ -5192,7 +5221,14 @@ namespace SoftwareAnalyzer2.Tools
             node.GetNthChild(1).Parent = node.GetNthChild(0);
             node.RemoveChild((IModifiable)node.GetNthChild(1));
             IModifiable oldParent = (IModifiable)node.Parent;
-            ((IModifiable)node.GetAncestor("declaration")).ReplaceChild((IModifiable)node.GetAncestor("declaration").GetNthChild(0), (IModifiable)node.GetNthChild(0));
+            if (node.GetAncestor("declSpecifierSeq").Parent.Node.Equals("memberdeclaration"))
+            {
+                ((IModifiable)node.GetAncestor("memberdeclaration")).ReplaceChild((IModifiable)node.GetAncestor("memberdeclaration").GetNthChild(0), (IModifiable)node.GetNthChild(0));
+            }
+            else
+            {
+                ((IModifiable)node.GetAncestor("declaration")).ReplaceChild((IModifiable)node.GetAncestor("declaration").GetNthChild(0), (IModifiable)node.GetNthChild(0));
+            }
             oldParent.RemoveChild(node);
         }
 
