@@ -1039,7 +1039,7 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO: move these up
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPDestructorCorrector);
                 head.RootUpModify(Members.Method, Members.Method, CPPDestructorCorrector);
-                
+
                 head.NormalizeLines();
             }
             else {
@@ -4447,6 +4447,10 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPNestedNameHandler(IModifiable node)
         {
+            if (node.GetChildCount() > 1)
+            {
+                Console.WriteLine("This Node\a: " + node + System.Environment.NewLine);
+            }
             while (node.GetChildCount() > 0)
             {
                 ((IModifiable)node.GetNthChild(0)).AddCode(node.Code, node);
@@ -5137,7 +5141,14 @@ namespace SoftwareAnalyzer2.Tools
         {
             node.GetNthChild(1).Parent = node.GetNthChild(0);
             node.RemoveChild((IModifiable)node.GetNthChild(1));
-            ((IModifiable)node.Parent.Parent).ReplaceChild((IModifiable)node.Parent, (IModifiable)node.GetNthChild(0));
+            if (node.Parent.Node.Equals(Members.TypeName) || node.Parent.Node.Equals(Members.Variable))
+            {
+                ((IModifiable)node.Parent.Parent).ReplaceChild((IModifiable)node.Parent, (IModifiable)node.GetNthChild(0));
+            }
+            else
+            {
+                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+            }
         }
 
         /// <summary>

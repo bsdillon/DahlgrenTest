@@ -233,10 +233,14 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             string parsePath = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
             string parseFile = fileName.Replace(rootPath, parsePath);
             string fileRoot = parseFile.Substring(0, parseFile.Length - file_extension.Length + 1);
+
+            if (lang is CPPLanguage && (file_extension.Equals("*.h") || file_extension.Equals("*.hpp") ||
+                                        file_extension.Equals("*.hh"))) {
+                fileRoot = fileRoot + "_H";
+            }
+
             string xmlFile = fileRoot + ".XML";
             string directory = parseFile.Substring(0, parseFile.LastIndexOf(Path.DirectorySeparatorChar));
-
-            // StartAnalysis.ReadFile(currentProject, tool, lang, file_extension, fileName);
 
             if (!Directory.Exists(directory))
             {
@@ -259,6 +263,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
             if (newerCode)//if the code is in fact newer then we parse the source into an XML tree
             {
+                myTool.outputFilepath = fileRoot;
                 myTool.Analyze(fileName, lang);
 
                 List<string> errors = myTool.Errors;

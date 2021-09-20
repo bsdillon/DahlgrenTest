@@ -127,6 +127,7 @@
     <Compile Include="ProjectCoordination\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\FileIdentification.cs" />
+    <Compile Include="Source\StartAnalysis.cs" />
     <Compile Include="Structure\CommonEnumerations.cs" />
     <Compile Include="Structure\Gephi\GephiEdge.cs" />
     <Compile Include="Structure\Gephi\GephiNavigator.cs" />
