@@ -56,7 +56,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             }
         }
 
-        private static Package DEFAULT_PACKAGE = new Package("DEFAULT");
+        private static Package DEFAULT_PACKAGE = new Package("~DEFAULT");
 
         /// <summary>
         /// During the registration phase classes will call this method to force the 
@@ -628,7 +628,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         public static HierarchyNode GetImport(INavigable importNode)
         {
             //parse the name of the endNode and import
-            string[] temp = importNode.Code.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+          
+            string[] temp = importNode.Code.Split(new string[] { GraphNode.languageType.PackageDelimitator }, StringSplitOptions.RemoveEmptyEntries);
             string actualImport = temp[temp.Length - 1];//last element is the true import
             string[] packageParts = new string[temp.Length - 1];//other n-1 elements are the endNode name
             for (int i = 0; i < packageParts.Length; i++)

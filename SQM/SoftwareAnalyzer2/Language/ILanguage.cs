@@ -17,6 +17,7 @@ namespace SoftwareAnalyzer2.Language
         string StandardLibrary { get; }
         string ProcessName { get; }
         string ANTLRInstruction { get; }
+        string PackageDelimitator { get; }
         Dictionary<string, string> LiteralMapping { get; }
         Dictionary<string, string> DefaultValues { get; }
     }

@@ -202,5 +202,11 @@ namespace SoftwareAnalyzer2.Language
                 return defaultVal;
             }
         }
+        public string PackageDelimitator { 
+            get
+            {
+                return ".";
+            }
+        }
     }
 }

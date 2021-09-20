@@ -171,6 +171,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
         private bool ParseSource()
         {
             lang = LanguageManager.GetLanguage(currentProject.GetProperty(ProjectProperties.Language));
+            GraphNode.SetLanguage(lang);
             tool = ToolManager.GetTool(currentProject.GetProperty(ProjectProperties.Tool));
             if (tool is LLVMTool) {
                 ((LLVMTool) tool).project = currentProject;

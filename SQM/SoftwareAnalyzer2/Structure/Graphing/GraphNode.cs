@@ -56,6 +56,12 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             Package.HubLinkAll();
         }
 
+        public static void SetLanguage(ILanguage type)
+        {
+            languageType = type;
+        }
+
+        protected static ILanguage languageType;
         protected static Dictionary<long, GraphNode> nodes;
         protected static long SaveIndex = 0;
         protected static StreamWriter graphFile;

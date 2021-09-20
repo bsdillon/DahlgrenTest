@@ -11,18 +11,22 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
     public class InvokableMember : DefinedMember
     {
         private static Boolean verboseMatch = false;
-
-        static InvokableMember()
-        {
-            typeCheck = new InvokableMember(NodeFactory.CreateNode(Members.Method, "LanguageTypeCheck", false));
-            typeCheck.returnType = TypeDefinition.GetNativeType("Boolean");
-        }
-
-        private static InvokableMember typeCheck;
+       
+        private static InvokableMember typeCheck = null;
+        /*
+         * This represents language specific syntax
+         * like "is a" or "is of type" and one such 
+         * method is created per program
+         */
         public static InvokableMember LanguageTypeCheck
         {
             get
             {
+                if(typeCheck == null)
+                {
+                    typeCheck = new InvokableMember(NodeFactory.CreateNode(Members.Method, "LanguageTypeCheck", false));
+                    typeCheck.returnType = TypeDefinition.GetNativeType("Boolean");
+                }
                 return typeCheck;
             }
         }
@@ -149,7 +153,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         public override void InitialLink()
         {
             INavigable returned = ((INavigable)represented).GetFirstSingleLayer(Members.ReturnType);
-
+            
             if (methodType != Members.Inline && returned.GetChildCount() > 0)
             {
                 SetReturnType(returned.GetNthChild(0));
