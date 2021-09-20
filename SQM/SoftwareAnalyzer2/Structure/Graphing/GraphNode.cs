@@ -140,23 +140,25 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         public void AddToParentAndChildrenLists(GraphNode g)
         {
             //parents can be null
-            if(g == null)
+            if (g == null)
             {
                 this.parentGNs.Add(g);
             }
-            else if(!this.IsSimulated && !g.IsSimulated)
+            else if (!this.childrenGNs.Contains(g) && !g.parentGNs.Contains(this) && this != g)
             {
-                if (!this.parentGNs.Contains(g))
+                if (!this.IsSimulated && !g.IsSimulated)
                 {
-                    this.parentGNs.Add(g);
-                }
+                    if (!this.parentGNs.Contains(g))
+                    {
+                        this.parentGNs.Add(g);
+                    }
 
-                if (g != null && !g.childrenGNs.Contains(this))
-                {
-                    g.childrenGNs.Add(this);
+                    if (g != null && !g.childrenGNs.Contains(this))
+                    {
+                        g.childrenGNs.Add(this);
+                    }
                 }
             }
-
         }
 
         public static Dictionary<string, Dictionary<int, List<GraphNode>>> GetLineNumDict()

@@ -216,6 +216,7 @@ namespace SoftwareAnalyzer2
                 //go through all files which match the required extension
                 foreach (string file in files)
                 {
+                    // StartAnalysis.ReadFile(p, tool, lang, lang_ext_glob, file);
                     ReadFile(p, tool, lang, lang_ext_glob, file);
                     newFilesFound.Add(file);
                 }
