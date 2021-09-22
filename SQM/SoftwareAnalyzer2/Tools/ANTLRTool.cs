@@ -149,6 +149,10 @@ namespace SoftwareAnalyzer2.Tools
                     while (line != null) {
                         nextLine = reader.ReadLine();
                         if (line.StartsWith("#endif") && nextLine == null && hasIfNDef) break;
+                        // else if (line.Contains("operator")) {
+                        //     Match m = Regex.Match(line, @".+operator.{1,3}\(.+\).*{.+}");
+                        //     if (m.Success) line = nextLine;
+                        // }
                         else {
                             writer.WriteLine(line);
                             line = nextLine;
@@ -294,6 +298,9 @@ namespace SoftwareAnalyzer2.Tools
                 case PlatformID.MacOSX:
                 case (PlatformID) 128:
                     filepath = "/bin/clang++";
+                    // string backup_filepath = "/bin/cpp";
+                    // string backup_macroArguments = "\""+filename+"\" -dM -o \""+macros+"\"";
+                    // string backup_clangArguments = "\""+cleaned+"\" -P -imacros \""+macros+"\" -o \""+preprocessed+"\"";
                     break;
                 default:
                     // If issue in matching OS, kills unused process
@@ -891,7 +898,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("pointerOperator", "&");
                 head.Collapse("unaryOperator", "&");
                 head.Collapse("unaryOperator", "*");
-
+                
                 head.RootUpModify("linkageSpecification", "linkageSpecification", SeverBranch);
                 head.RootUpModify("functionBody", "functionBody", CPPFunctionDeleteDeleter);
                 head.RootUpModify(Members.File, Members.File, CPPFileDefaultNamespaceAdder);
@@ -902,10 +909,10 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("logicalOrExpression", "logicalOrExpression", CPPExpressionHandler);
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.Rename("castExpression", Members.Cast);
-                head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPEarlyNoPointerDeclaratorHandler);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
                 head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateUsageHandler);
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
+                head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPEarlyNoPointerDeclaratorHandler);
                 head.RootUpModify("selectionStatement", "selectionStatement", CPPSelectionStatementIdentifier);
                 head.RootUpModify("statementSeq", Members.Scope, CPPScopeDescriber);
                 head.RootUpModify(Members.Else, Members.Else, CPPElseIfScopeAdder);
@@ -4108,42 +4115,74 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("( )"))
             {
-                IModifiable willBeParamNode = (IModifiable)node.GetNthChild(0);
-                node.RemoveChild(willBeParamNode);
-                IModifiable realMethodNode;
-                IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
-                IModifiable parameterNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
-                if (node.Parent.Node.Equals(Members.Parameter))
+                if (node.Parent.GetFirstSingleLayer(Members.ParameterList) != null)
                 {
-                    realMethodNode = (IModifiable)node.Parent.GetFirstSingleLayer(Members.TypeName);
-                    if (realMethodNode != null)
+                    if (node.Parent.Parent.Parent.Parent.Node.Equals("memberdeclaration"))
                     {
-                        ((IModifiable)node.Parent).RemoveChild(realMethodNode);
-                        realMethodNode.SetNode(Members.MethodInvoke);
-                        realMethodNode.Parent = node;
-                        parameterListNode.Parent = realMethodNode;
+                        IModifiable ancestorNode = (IModifiable)node.GetAncestor("memberdeclaration");
+                        ancestorNode.ReplaceChild((IModifiable)ancestorNode.GetFirstSingleLayer("memberDeclaratorList"), (IModifiable)node.Parent.Parent);
+                        ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+
+                        IModifiable methodNode = (IModifiable)NodeFactory.CreateNode(Members.Method, false);
+                        List<INavigable> children = ancestorNode.Children;
+                        ancestorNode.DropChildren();
+                        methodNode.Parent = ancestorNode;
+                        foreach (IModifiable child in children)
+                        {
+                            child.Parent = methodNode;
+                        }
                     }
                     else
                     {
-                        // TODO: Test properly???
-                        return;
+                        // i don't know enough yet!
+                        throw new InvalidOperationException("Unsupported node structure\a: " + node);
                     }
-                    
                 }
                 else
                 {
-                    IModifiable simpleDeclNode = (IModifiable)node.GetAncestor("simpleDeclaration");
-                    IModifiable declSpecNode = (IModifiable)simpleDeclNode.GetFirstSingleLayer("declSpecifierSeq");
-                    realMethodNode = (IModifiable)declSpecNode.GetFirstRecursive(Members.TypeName);
-                    simpleDeclNode.RemoveChild(declSpecNode);
-                    realMethodNode.SetNode(Members.Variable);
-                    realMethodNode.Parent = node;
-                    parameterListNode.Parent = node;
-                }
-                parameterNode.Parent = parameterListNode;
-                willBeParamNode.Parent = parameterNode;
+                    IModifiable willBeParamNode = (IModifiable)node.GetNthChild(0);
+                    node.RemoveChild(willBeParamNode);
+                    IModifiable realMethodNode;
+                    IModifiable parameterListNode = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                    IModifiable parameterNode = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
+                    if (node.Parent.Node.Equals(Members.Parameter))
+                    {
+                        realMethodNode = (IModifiable)node.Parent.GetFirstSingleLayer(Members.TypeName);
+                        if (realMethodNode != null)
+                        {
+                            ((IModifiable)node.Parent).RemoveChild(realMethodNode);
+                            realMethodNode.SetNode(Members.MethodInvoke);
+                            realMethodNode.Parent = node;
+                            parameterListNode.Parent = realMethodNode;
+                        }
+                        else
+                        {
+                            // TODO: Test properly???
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        /*
+                        IModifiable targetDeclNode = (IModifiable)node.GetAncestor("memberdeclaration");
+                        if (targetDeclNode == null)
+                        {
+                            targetDeclNode = (IModifiable)node.GetAncestor("simpleDeclaration");
+                        }
+                        */
+                        IModifiable targetDeclNode = (IModifiable)node.GetAncestor("simpleDeclaration");
+                        IModifiable declSpecNode = (IModifiable)targetDeclNode.GetFirstSingleLayer("declSpecifierSeq");
+                        realMethodNode = (IModifiable)declSpecNode.GetFirstRecursive(Members.TypeName);
+                        targetDeclNode.RemoveChild(declSpecNode);
+                        realMethodNode.SetNode(Members.Variable);
+                        realMethodNode.Parent = node;
+                        parameterListNode.Parent = node;
+                    }
+                    parameterNode.Parent = parameterListNode;
+                    willBeParamNode.Parent = parameterNode;
 
-                ReparentChildren(node);
+                    ReparentChildren(node);
+                }
             }
         }
 
@@ -5185,7 +5224,7 @@ namespace SoftwareAnalyzer2.Tools
         private void CPPTemplateDefinitionHandler(IModifiable node)
         {
             // Java examples not clear - for the time being I'll follow how they look and simply remove template information
-            ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetFirstSingleLayer("declaration"));
+            ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetFirstSingleLayer("declaration").GetNthChild(0));
         }
 
         /// <summary>
@@ -5926,6 +5965,7 @@ namespace SoftwareAnalyzer2.Tools
             List<INavigable> children = node.Children;
             node.DropChildren();
             IModifiable namespaceNode = (IModifiable)NodeFactory.CreateNode("namespaceDefinition", false);
+            namespaceNode.AddCode("~DEFAULT", namespaceNode);
             namespaceNode.Parent = node;
             foreach (IModifiable child in children)
             {
@@ -5939,7 +5979,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPNamespaceHandler(IModifiable node)
         {
-            node.AddCode("~DEFAULT", node);
             IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
             classificationNode.Parent = node;
             IModifiable namespaceNode = (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
@@ -5994,7 +6033,11 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPForwardDeclarationRemover(IModifiable node)
         {
-            if (node.Parent.Node.Equals("declaration") && node.GetNthChild(0).Node.Equals(Members.Field) && node.GetFirstRecursive("declarator").GetNthChild(0).Node.Equals(Members.MethodInvoke))
+            //((node.GetFirstRecursive("declarator") != null && node.GetFirstRecursive("declarator").GetNthChild(0).Node.Equals(Members.MethodInvoke)) || node.GetFirstRecursive("elaboratedTypeSpecifier") != null)
+            if (node.Parent.Node.Equals("declaration") &&
+                node.GetNthChild(0).Node.Equals(Members.Field) &&
+                node.GetFirstRecursive("declarator") != null &&
+                node.GetFirstRecursive("declarator").GetNthChild(0).Node.Equals(Members.MethodInvoke))
             {
                 ((IModifiable)node.Parent.Parent).RemoveChild((IModifiable)node.Parent);
             }
