@@ -146,6 +146,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             }
                         }
                     }
+                    else if (r == Relationship.Accesses)
+                    {
+                        //Accesses will be relevent once the CandidateRead issue is fixed
+                    }
                 }
             }
         }
@@ -235,6 +239,14 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             TraceReturnValue(grphNode, r, Members.Method, gn);
                         }
                     }
+                    else if (r == Relationship.Control)
+                    {
+                        foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
+                        {
+                            gn.AddToParentAndChildrenLists(grphNde);
+                            al.WriteStatementToAffectedDict(gn, grphNde, r);
+                        }
+                    }
                 }
             }
 
@@ -287,7 +299,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         {
                             if (grphNode.Represented.Node.Equals(Members.Field))
                             {
-                                foreach (GraphNode p in gn.GetParentGNs().ToArray())
+                                foreach (GraphNode p in gn.GetParentGNs())
                                 {
                                     grphNode.AddToParentAndChildrenLists(p);
                                 }

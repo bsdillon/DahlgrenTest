@@ -116,12 +116,15 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         private List<GraphNode> sisterGNs = new List<GraphNode>();
         private List<GraphNode> parentGNs = new List<GraphNode>();
         private List<GraphNode> childrenGNs = new List<GraphNode>();
+        private static Dictionary<GraphNode, int> combinedDict = new Dictionary<GraphNode, int>();
         public Dictionary<string, List<int>> statementDetails = new Dictionary<string, List<int>>();
         public bool outputPrint = false;
+        public bool dictPrint = false;
 
         public List<GraphNode> GetSisterGNs() { return sisterGNs; }
         public List<GraphNode> GetParentGNs() { return parentGNs; }
         public List<GraphNode> GetChildrenGNs() { return childrenGNs; }
+        public Dictionary<GraphNode, int> GetCombinedDict() { return combinedDict; }
 
         //doesn't matter which sister calls the function. this.sisterGNs and g.sisterGNs are both affected
         public void AddToSisterLists(GraphNode g)
@@ -143,6 +146,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             if (g == null)
             {
                 this.parentGNs.Add(g);
+                InsertIntoCombinedDict(g);
             }
             else if (!this.childrenGNs.Contains(g) && !g.parentGNs.Contains(this) && this != g)
             {
@@ -151,16 +155,33 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                     if (!this.parentGNs.Contains(g))
                     {
                         this.parentGNs.Add(g);
+                        InsertIntoCombinedDict(g);
                     }
 
                     if (g != null && !g.childrenGNs.Contains(this))
                     {
                         g.childrenGNs.Add(this);
+                        InsertIntoCombinedDict(this);
                     }
                 }
             }
         }
 
+        private void InsertIntoCombinedDict(GraphNode g)
+        {
+            if (g != null)
+            {
+                if (combinedDict.ContainsKey(g))
+                {
+                    combinedDict[g] = combinedDict[g] + 1;
+                }
+                else
+                {
+                    combinedDict[g] = 1;
+                }
+            }
+
+        }
         public static Dictionary<string, Dictionary<int, List<GraphNode>>> GetLineNumDict()
         {
             return lineNumDict;

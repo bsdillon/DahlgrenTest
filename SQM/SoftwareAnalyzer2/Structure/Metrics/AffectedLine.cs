@@ -148,20 +148,20 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             //luTODO -- this output is still a WIP. need to add comments
                             if (!g.outputPrint)
                             {
-                                if (g.Represented.FileName == fN && g.Represented.GetLineStart() == tracingLineNumber && g.Represented.GetLineStart() == lN)
+                                if (g.Represented.FileName == tracingFile && g.Represented.GetLineStart() == tracingLineNumber /*&& g.Represented.GetLineStart() == lN*/)
                                 {
                                     PrintChildren(g, file);
                                 }
-                                
-                                else if (g.statementDetails.ContainsKey(fN))
+                                else if (g.statementDetails.ContainsKey(tracingFile))
                                 {
-                                    foreach (int lineNum in g.statementDetails[fN])
+                                    foreach (int lineNum in g.statementDetails[tracingFile])
                                     {
                                         if (lineNum == tracingLineNumber)
                                         {
                                             WriteToOutput("cs", file, fN, lineNum, g, true);
                                             printLevel += ",";
-                                            PrintChildren(g, file);
+                                            //luTODO -- still testing the logic here
+                                            PrintParents(g, file);
                                             printLevel = printLevel.Remove(printLevel.Length - 1);
 
                                         }
@@ -201,7 +201,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             printLevel += ",";
             foreach (GraphNode p in g.GetParentGNs())
             {
-                if (p != null)
+                if (p != null && !p.dictPrint)
                 {
                     if (!p.Represented.Node.IsClassification)
                     {
@@ -217,7 +217,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
             if(g.GetParentGNs().Count < 1)
             {
-                if (g.statementDetails.Keys != null)
+                if (g.statementDetails.Keys.Count > 0)
                 {
                     foreach (string fileKey in g.statementDetails.Keys)
                     {
@@ -237,10 +237,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             g.outputPrint = true;
             foreach (GraphNode c in g.GetChildrenGNs())
             {
-                if (c != null)
+                if (c != null && !c.dictPrint)
                 {
                     PrintChildren(c, file);
-                    if (c.statementDetails.Keys != null)
+                    if (c.statementDetails.Keys.Count > 0)
                     {
                         foreach (string fileKey in c.statementDetails.Keys)
                         {
@@ -265,18 +265,39 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //prepend will be removed before the final product. just informational, currently
         void WriteToOutput(string prepend, StreamWriter file, string fileName, int lineNum, GraphNode origin, bool statement)
         {
-            if (!outputStarted)
+            if (!origin.dictPrint)
             {
-                outputStarted = true;
+                int timesUsed = 0;
+                string timeUsedStr = "";
+                Dictionary<GraphNode, int> combDict = origin.GetCombinedDict();
+                if (!outputStarted)
+                {
+                    outputStarted = true;
+                }
+
+                if (combDict != null)
+                {
+                    if (combDict.ContainsKey(origin))
+                    {
+                        timesUsed = combDict[origin];
+                        if (timesUsed > 1)
+                        {
+                            timeUsedStr = " * " + timesUsed.ToString();
+                        }
+                    }
+                }
+
+                if (statement)
+                {
+                    file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](originated from: " + origin.Represented.ToString() + timeUsedStr + ")");
+                }
+                else
+                {
+                    origin.dictPrint = true;
+                    file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](" + origin.Represented.ToString() + timeUsedStr + ")");
+                }
             }
-            if (statement)
-            {
-                file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](originated from: " + origin.Represented.ToString() + ")");
-            }
-            else
-            {
-                file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](" + origin.Represented.ToString() + ")");
-            }   
+ 
         }
 
         /*
