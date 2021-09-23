@@ -67,305 +67,6 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
-        /// Takes created process, filepath/filename of executable, arguments, 
-        /// starts it, and waits for it to finish by specified milliseconds
-        /// </summary>
-        /// <param name="p">Process to be populated</param>
-        /// <param name="filename">Where the executable is located</param>
-        /// <param name="arguments">What arguments to give it</param>
-        /// <param name="timeToWait">How long we wait until it finishes</param>
-        private void startProcess(Process p, string filename, string arguments, int timeToWait) {
-            try {
-                if (p != null) {
-                    p.StartInfo.FileName        = filename;
-                    p.StartInfo.Arguments       = arguments;
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.RedirectStandardInput  = true;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    p.StartInfo.RedirectStandardError  = true;
-                    p.Start();
-                    Console.Error.WriteLine(filename + " " + p.StartInfo.Arguments);
-                    switch (timeToWait) {
-                        // Wait indefinitely if -1 is used as timeToWait parameter
-                        case -1:
-                            p.WaitForExit();
-                            break;
-                        // Otherwise, wait for time specified
-                        default:
-                            p.WaitForExit(timeToWait);
-                            break;
-                    }
-                    // Check that process has finished with a successful status, if not, throw error
-                    if (p.HasExited) {
-                        if (p.ExitCode != 0) {
-                            throw new Exception("Preprocessing did not terminate successfully: " + System.Environment.NewLine + p.StandardError.ReadToEnd());
-                        }
-                    }
-                }
-                else {
-                    throw new Exception("Process is NULL.");
-                }
-            }
-            catch (Exception e) {
-                errorMessages.Add("ERROR: PREPROCESSING FAILED: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
-            }
-        }
-
-        /// <summary>
-        /// Cleans up provided source file before/after preprocessing to be without
-        /// empty lines or with #ifndef directives for .h or .hpp files. Translates
-        /// all tricky keywords ahead of time before ANTLR sees them. Then output is
-        /// seen in Parse folder with all translations and preprocessing.
-        /// </summary>
-        /// <param name="filename">File to be cleaned up</param>
-        /// <param name="isHeaderFile">Specifies file needs to be treated like a header file</param>
-        /// <returns>Filename and path to cleaned file</returns>
-        private void cleanUpCPPSourceFile(string filename, Boolean isHeaderFile) {
-            string tempFile = Path.GetTempFileName();
-            string line;
-            
-            using (StreamReader reader = new StreamReader(filename)) 
-            using (StreamWriter writer = new StreamWriter(tempFile))
-            {
-                while ((line = reader.ReadLine()) != null) {
-                    if (line == string.Empty || line.StartsWith("//")) continue;
-                    writer.WriteLine(line);
-                }
-            } 
-
-            File.Copy(tempFile, filename, true);
-
-            if (isHeaderFile) {
-                Boolean hasIfNDef = false;
-                using (StreamReader reader = new StreamReader(filename)) 
-                using (StreamWriter writer = new StreamWriter(tempFile))
-                {
-                    string nextLine;
-                    line = reader.ReadLine();
-                    if (line != null && line.StartsWith("#ifndef")) hasIfNDef = true;
-                    else writer.WriteLine(line);
-                    
-                    line = reader.ReadLine();
-                    while (line != null) {
-                        nextLine = reader.ReadLine();
-                        if (line.StartsWith("#endif") && nextLine == null && hasIfNDef) break;
-                        // else if (line.Contains("operator")) {
-                        //     Match m = Regex.Match(line, @".+operator.{1,3}\(.+\).*{.+}");
-                        //     if (m.Success) line = nextLine;
-                        // }
-                        else {
-                            writer.WriteLine(line);
-                            line = nextLine;
-                        }
-                    }   
-                }
-            }
-            else 
-            {
-                using (StreamReader reader = new StreamReader(filename)) 
-                using (StreamWriter writer = new StreamWriter(tempFile))
-                {
-                    while ((line = reader.ReadLine()) != null) {
-                        string translated_line = line;
-                        // Transform "*(T*)x" into "*((T*)x)", which is accepted by the grammar
-                        // as long as there is a left-hand token (=, <<, etc.) to accept the value.
-                        translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
-
-                        // Transform variadic macro "va_arg" to add variadic identifier to second macro parameter type T keyword
-                        translated_line = Regex.Replace(translated_line, @"((?i)va_arg)(\()([a-zA-Z0-9_]*)(,*)([\s]*)([^\)]*)(\){1})", "$1$2$3$4$5VARIADIC_$6$7");
-
-                        // Transform all primitive T[*][*] into T* because ANTLR
-                        // does not appear to understand array type widths like "int[][3]"
-                        // and they compile to "T*" anyway. This syntax is only valid as a 
-                        // parameter and not assignment, therefore, three parameter cases 
-                        // are handled below.
-                        string justTypeReplacement    = @"$1$2*$5";
-                        string typeAndNameReplacement = @"$1*$2$3$6";
-                        translated_line = Regex.Replace(translated_line, @"(\(\s*){1}([a-zA-Z0-9]+)(\s+[a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", "$1$2*$3$6");
-                        translated_line = Regex.Replace(translated_line, @"(\(\s*){1}([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", justTypeReplacement);
-                        translated_line = Regex.Replace(translated_line, @"([a-zA-Z0-9]+)(\s+)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", typeAndNameReplacement);
-                        translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)\s*(\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", justTypeReplacement);
-                        translated_line = Regex.Replace(translated_line, @"([a-zA-Z0-9]+)(\s+)([a-zA-Z0-9]+)\s*(\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", typeAndNameReplacement);
-                        translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", justTypeReplacement);
-                    
-                        // Compiler-specific keyword and operator translations
-                        String[] compilerKeywords = new String[] {// Compiler function attributes:
-                                                                    @"(\w*\s*)(__attribute__)(\({2})(.+)(\){2})", @"(\w*\s*)(__declspec)(\()(\w+)(\))", @"__thread",
-                                                                    // Keywords and operators:
-                                                                    @"__align\(\d+\)", @"((__asm_{0,2}\s*)(\(|{)(.)+(\)|}))|(^(\t|\s)*(__asm_{0,2}\s*)(\(|{)(.)+(\)|});?)", 
-                                                                    @"__asm_{0,2}", @"__global_reg\(\d+\)", "__irq", "__packed", "__pure", @"__smc\(\d+\)", 
-                                                                    "__softfp", @"__svc\(\d+\)", @"__svc_indirect\(\d+\)", @"__svc_indirect_r7\(\d+\)",
-                                                                    "__value_in_regs", "__weak",
-                                                                    // Intrinsic keywords:
-                                                                    @"__breakpoint\(.+\);?", @"(__cdp)(\(|\s*)(\w|\d|\s)+,(\w|\d|\s)+,(\w|\d|\s)+(\)|\s*);?", 
-                                                                    @"__clrex\(\);?", @"^(\s|\t)+__disable_fiq\(\);?",
-                                                                    @"^(\s|\t)*__disable_irq\(\);?", @"__dmb\(.+\);?", @"__dsb\(.+\);?", @"__enable_fiq\(\);?", 
-                                                                    @"__enable_irq\(\);?", @"__force_loads\(\);?", @"__force_stores\(\);?", @"__isb\(.+\);?",
-                                                                    @"__memory_changed\(\);?", @"__nop\(\);?", @"__pld\(.+\);?", @"__pli\(.+\);?", 
-                                                                    @"__schedule_barrier\(\);?", @"__sev\(\);?", 
-                                                                    @"__strt\(.+\);?", @"__wfe\(\);?", @"__wfi\(\);?", @"__yield\(\);?",
-                                                                    // C++ Function specifiers:
-                                                                    "_{1,2}cdecl", "_Export", "_Noreturn"};
-                        
-                        // Compiler keywords in string array above that can just be removed
-                        foreach (String keyword in compilerKeywords) {
-                            translated_line = Regex.Replace(translated_line, keyword, "");
-                        }
-
-                        // Compiler keywords to be replaced with something specific cases:
-                        translated_line = Regex.Replace(translated_line, @"(__(?i:ALIGNOF)_{0,2})(\((\w|\d|_|\s)+\))", "alignof$2");
-                        translated_line = Regex.Replace(translated_line, @"__forceinline|__inline", "inline");
-                        translated_line = Regex.Replace(translated_line, @"__int64", "long long");
-                        translated_line = Regex.Replace(translated_line, @"__writeonly", "const"); 
-                        translated_line = Regex.Replace(translated_line, @"(__)(fabsf?)(\()(.)+(\))", "$2($4)");
-                        translated_line = Regex.Replace(translated_line, @"(__qadd\()(.+)(,\s*)(.+)(\))", "$2+$4");
-                        translated_line = Regex.Replace(translated_line, @"(__qdbl\()(.+)(\))", "$2+$2");
-                        translated_line = Regex.Replace(translated_line, @"(__qsub\()(.+)(,\s*)(.+)(\))", "$2-$4");
-                        translated_line = Regex.Replace(translated_line, @"(__sqrtf?\()(.+)(\))", "sqrt($2)");
-
-                        // Compiler keywords to be replaced with default integer 0
-                        String[] integerCompilerWords = new String[] {@"(__INTADDR__)(\()(.)+(\))", @"__clz\(.+\)", @"__current_pc\(\)", @"__current_sp\(\)", 
-                                                                        @"__disable_fiq\(\)", @"__disable_irq\(\)", @"__ldrex\(.+\)", @"__ldrexd\(.+\)",
-                                                                        @"__ldrt\(.+\)", @"__rbit\(.+\)", @"__rev\(.+\)", @"__return_address\(\)", @"__ror\(.+\)", 
-                                                                        @"__semihost\(.+\)", @"__ssat\(.+\)", @"__strexd?\(.+\)", @"__swp\(.+\)", @"__usat\(.+\)",
-                                                                        @"__vfp_status\(.+\)"};
-                        foreach (String integerCompilerWord in integerCompilerWords) {
-                            translated_line = Regex.Replace(translated_line, integerCompilerWord, "0");
-                        }
-
-                        // "final" is an identifier when used in a member function declaration or class head
-                        // however, other contexts it is NOT, can can be used to name objects and functions
-                        // ANTLR reads this as a keyword, however, and we may need to translate it for ANTLR to
-                        // distinguish between when final is being used as an identifier and a keyword
-                        Match m = Regex.Match(translated_line, @".+final.*");
-                        if (m.Success) {
-                            Match m2 = Regex.Match(translated_line, @"(virtual|class).+final.*");
-                            if (!m2.Success) {
-                                translated_line = Regex.Replace(translated_line, @"final", "FINAL_VAR");
-                            }
-                        }
-                        
-                        writer.WriteLine(translated_line);
-                    }
-                }   
-            }
-            File.Copy(tempFile, filename, true);
-        }
-
-        /// <summary>
-        /// Preprocesses C++ source file.
-        /// </summary>
-        /// <param name="filename">File to be preprocessed</param>
-        /// <param name="timeToWait">Milliseconds to wait for preproessing to finish</param>
-        /// <returns>Filename and path to preprocessed file</returns>
-        private string preprocessCPPFile(string filename, int timeToWait) {
-            // Preprocesses twice. First round is to extract all macro definitions
-            // and second round is to use those macro definitions to preprocess
-            // the original file before ANTLR process without output from #include directives.
-            
-            // Creating temporary filenames for macro, preprocessed, and (if header) cleaned output
-            string[] prefixAndSuffix = filename.Split('.');
-            string   name            = prefixAndSuffix[0];
-            string   extension       = prefixAndSuffix[1];
-            string   macros          = filename+"-macros";
-            string   preprocessed    = outputFilepath+"-preprocessed."+extension;
-            string   cleaned         = name+"-cleaned."+extension;
-
-            // Checks if the source file is a header file
-            Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp") ||
-                                   filename.EndsWith(".hh");
-
-            // If header file, cleans it of associated #if statements so we see all code even with preprocessing
-            File.Copy(filename, cleaned, true);
-            if (isHeaderFile) cleanUpCPPSourceFile(cleaned, true);
-
-            // Execute C++ preprocessing depending on platform
-            OperatingSystem    os = Environment.OSVersion;
-            PlatformID        pid = os.Platform;
-            Process       iMacros = new Process();
-            Process         clang = new Process();
-            string       filepath = "";
-            string macroArguments = "\""+filename+"\" -dM -E -o \""+macros+"\"";
-            string clangArguments = "\""+cleaned+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
-            switch (pid) {
-                case PlatformID.Win32NT:
-                case PlatformID.Win32S:
-                case PlatformID.Win32Windows:
-                case PlatformID.WinCE:
-                    filepath = "C:/Program Files/LLVM/bin/clang++";
-                    break;
-                case PlatformID.Unix:
-                case PlatformID.MacOSX:
-                case (PlatformID) 128:
-                    filepath = "/bin/clang++";
-                    // string backup_filepath = "/bin/cpp";
-                    // string backup_macroArguments = "\""+filename+"\" -dM -o \""+macros+"\"";
-                    // string backup_clangArguments = "\""+cleaned+"\" -P -imacros \""+macros+"\" -o \""+preprocessed+"\"";
-                    break;
-                default:
-                    // If issue in matching OS, kills unused process
-                    iMacros.Kill();
-                    clang.Kill();
-                    break;
-            }
-            
-            // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
-            startProcess(iMacros, filepath, macroArguments, timeToWait);
-            
-            // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
-            // use extracted macros and translate them without extra line or include directive output
-            startProcess(clang, filepath, clangArguments, timeToWait);
-
-            // Translate tricky ANTLR spots and clean up empty lines if preprocessing was successful
-            if (System.IO.File.Exists(preprocessed)) cleanUpCPPSourceFile(preprocessed, false);
-
-            // Deletes the temporary macro and cleaned files if they were created
-            if (System.IO.File.Exists(macros)) {
-                File.SetAttributes(macros, FileAttributes.Normal);
-                System.IO.File.Delete(macros);
-            }
-            if (System.IO.File.Exists(cleaned)) {
-                File.SetAttributes(cleaned, FileAttributes.Normal);
-                System.IO.File.Delete(cleaned);
-            } 
-
-            // If preprocessing failed, we will still attempt to process the original file
-            if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
-
-            return preprocessed;
-        }
-        
-        /// <summary>
-        /// This fn is responsible for passing along filename input to specified 
-        /// standard input.
-        /// </summary>
-        /// <param name="filename">File to be fed into ANTLR</param>
-        /// <param name="lang">What language it is in</param>
-        /// <param name="stdin">Where we write ANTLR output to</param>
-        private void writeFileToANTLR(string filename, ILanguage lang, StreamWriter stdin) {
-            try {
-                stdin.AutoFlush = true;            
-                
-                // This writes the file to ANTLR standard input.
-                using (StreamReader reader = new StreamReader(filename)) {
-                    string line;
-                    while ((line = reader.ReadLine()) != null) {
-                        stdin.WriteLine(line);
-                    }
-                }
-
-                stdin.Flush();
-                stdin.Close();
-            }
-            catch (Exception e)
-            {
-                errorMessages.Add("ERROR: source file i/o:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
-                Console.WriteLine("ERROR: source file i/o:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
-            }
-        }
-
-        
-        /// <summary>
         /// See implementation in ITool
         /// </summary>
         /// <param name="filename">File to be analyzed</param>
@@ -500,6 +201,312 @@ namespace SoftwareAnalyzer2.Tools
             {
                 //error causes node crash; capture the error and finish
                 errorMessages.Add("FATAL ERROR: File Analysis incomplete:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// Preprocesses C++ source file.
+        /// </summary>
+        /// <param name="filename">File to be preprocessed</param>
+        /// <param name="timeToWait">Milliseconds to wait for preproessing to finish</param>
+        /// <returns>Filename and path to preprocessed file</returns>
+        private string preprocessCPPFile(string filename, int timeToWait) {
+            // Preprocesses twice. First round is to extract all macro definitions
+            // and second round is to use those macro definitions to preprocess
+            // the original file before ANTLR process without output from #include directives.
+            
+            // Creating temporary filenames for macro, preprocessed, and (if header) cleaned output
+            string[] prefixAndSuffix = filename.Split('.');
+            string   name            = prefixAndSuffix[0];
+            string   extension       = prefixAndSuffix[1];
+            string   macros          = filename+"-macros";
+            string   preprocessed    = outputFilepath+"-preprocessed."+extension;
+            string   cleaned         = name+"-cleaned."+extension;
+
+            // Checks if the source file is a header file
+            Boolean isHeaderFile = filename.EndsWith(".h") || filename.EndsWith(".hpp") ||
+                                   filename.EndsWith(".hh");
+
+            // If header file, cleans it of associated #if statements so we see all code even with preprocessing
+            File.Copy(filename, cleaned, true);
+            if (isHeaderFile) cleanUpCPPSourceFile(cleaned, true);
+
+            // Execute C++ preprocessing depending on platform
+            OperatingSystem    os  = Environment.OSVersion;
+            PlatformID        pid  = os.Platform;
+            Process       iMacros  = new Process();
+            Process         clang  = new Process();
+            string       filepath  = "";
+            string macroArguments  = "\""+filename+"\" -dM -E -o \""+macros+"\"";
+            string clangArguments  = "\""+cleaned+"\" -P -dI -E -imacros \""+macros+"\" -o \""+preprocessed+"\"";
+            switch (pid) {
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                case PlatformID.WinCE:
+                    filepath = "C:/Program Files/LLVM/bin/clang++";
+                    break;
+                case PlatformID.Unix:
+                case PlatformID.MacOSX:
+                case (PlatformID) 128:
+                    filepath = "/bin/clang++";
+                    break;
+                default:
+                    // If issue in matching OS, kills unused process
+                    iMacros.Kill();
+                    clang.Kill();
+                    break;
+            }
+            
+            // Executes clang++ FILENAME -dM -E -o FILENAME-macros to extract found macros
+            startProcess(iMacros, filepath, macroArguments, timeToWait);
+            
+            // Executes clang++ FILENAME -P -dI -E -imacros FILENAME-macros -o FILENAME-preprocessed to 
+            // use extracted macros and translate them without extra line or include directive output
+            startProcess(clang, filepath, clangArguments, timeToWait);
+
+            // Translate tricky ANTLR spots and clean up empty lines if preprocessing was successful
+            if (System.IO.File.Exists(preprocessed)) cleanUpCPPSourceFile(preprocessed, false);
+
+            // Deletes the temporary macro and cleaned files if they were created
+            if (System.IO.File.Exists(macros)) {
+                File.SetAttributes(macros, FileAttributes.Normal);
+                System.IO.File.Delete(macros);
+            }
+            if (System.IO.File.Exists(cleaned)) {
+                File.SetAttributes(cleaned, FileAttributes.Normal);
+                System.IO.File.Delete(cleaned);
+            } 
+
+            // If preprocessing failed, we will still attempt to process the original file
+            if (!System.IO.File.Exists(preprocessed)) preprocessed = filename;
+
+            return preprocessed;
+        }
+
+        /// <summary>
+        /// Cleans up provided source file before/after preprocessing to be without
+        /// empty lines or with #ifndef directives for .h or .hpp files. Translates
+        /// all tricky keywords ahead of time before ANTLR sees them. Then output is
+        /// seen in Parse folder with all translations and preprocessing.
+        /// </summary>
+        /// <param name="filename">File to be cleaned up</param>
+        /// <param name="isHeaderFile">Specifies file needs to be treated like a header file</param>
+        /// <returns>Filename and path to cleaned file</returns>
+        private void cleanUpCPPSourceFile(string filename, Boolean isHeaderFile) {
+            string tempFile = Path.GetTempFileName();
+            string line;
+            
+            using (StreamReader reader = new StreamReader(filename)) 
+            using (StreamWriter writer = new StreamWriter(tempFile))
+            {
+                while ((line = reader.ReadLine()) != null) {
+                    if (line == string.Empty || line.StartsWith("//")) continue;
+                    writer.WriteLine(line);
+                }
+            } 
+
+            File.Copy(tempFile, filename, true);
+
+            if (isHeaderFile) {
+                Boolean hasIfNDef = false;
+                using (StreamReader reader = new StreamReader(filename)) 
+                using (StreamWriter writer = new StreamWriter(tempFile))
+                {
+                    string nextLine;
+                    line = reader.ReadLine();
+                    if (line != null && line.StartsWith("#ifndef")) hasIfNDef = true;
+                    else writer.WriteLine(line);
+                    
+                    line = reader.ReadLine();
+                    while (line != null) {
+                        nextLine = reader.ReadLine();
+                        if (line.StartsWith("#endif") && nextLine == null && hasIfNDef) break;
+                        // Code to ignore operator overloading, should this be necessary
+                        // else if (line.Contains("operator")) {
+                        //     Match m = Regex.Match(line, @".+operator.{1,3}\(.+\).*{.+}");
+                        //     if (m.Success) line = nextLine;
+                        // }
+                        else {
+                            writer.WriteLine(line);
+                            line = nextLine;
+                        }
+                    }   
+                }
+            }
+            else 
+            {
+                using (StreamReader reader = new StreamReader(filename)) 
+                using (StreamWriter writer = new StreamWriter(tempFile))
+                {
+                    while ((line = reader.ReadLine()) != null) {
+                        string translated_line = line;
+                        // Transform "*(T*)x" into "*((T*)x)", which is accepted by the grammar
+                        // as long as there is a left-hand token (=, <<, etc.) to accept the value.
+                        Match m = Regex.Match(translated_line, @"\*(\s*\()");
+                        if (m.Success) {
+                            // Ensures that this does not catch operator overloading with similar syntax
+                            Match m2 = Regex.Match(translated_line, @"operator\*(\s*\()");
+                            if (!m2.Success) {
+                                translated_line = Regex.Replace(line, @"\*(\s*\()", "$1");
+                            }
+                        }
+
+                        // Transform operator /= to / which is accepted by ANTLR
+                        translated_line = Regex.Replace(translated_line, @"(operator\s*)(\/)(=\s*)", "$1$2");
+                        
+                        // Transform variadic macro "va_arg" to add variadic identifier to second macro parameter type T keyword
+                        translated_line = Regex.Replace(translated_line, @"((?i)va_arg)(\()([a-zA-Z0-9_]*)(,*)([\s]*)([^\)]*)(\){1})", "$1$2$3$4$5VARIADIC_$6$7");
+
+                        // Transform all primitive T[*][*] into T* because ANTLR
+                        // does not appear to understand array type widths like "int[][3]"
+                        // and they compile to "T*" anyway. This syntax is only valid as a 
+                        // parameter and not assignment, therefore, three parameter cases 
+                        // are handled below.
+                        string justTypeReplacement    = @"$1$2*$5";
+                        string typeAndNameReplacement = @"$1*$2$3$6";
+                        translated_line = Regex.Replace(translated_line, @"(\(\s*){1}([a-zA-Z0-9]+)(\s+[a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", "$1$2*$3$6");
+                        translated_line = Regex.Replace(translated_line, @"(\(\s*){1}([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", justTypeReplacement);
+                        translated_line = Regex.Replace(translated_line, @"([a-zA-Z0-9]+)(\s+)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", typeAndNameReplacement);
+                        translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)\s*(\[\]\s*){1}(\[[0-9]+\])+(\s*,){1}", justTypeReplacement);
+                        translated_line = Regex.Replace(translated_line, @"([a-zA-Z0-9]+)(\s+)([a-zA-Z0-9]+)\s*(\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", typeAndNameReplacement);
+                        translated_line = Regex.Replace(translated_line, @"(\s?)([a-zA-Z0-9]+)(\s*\[\]\s*){1}(\[[0-9]+\])+(\s*\)){1}", justTypeReplacement);
+                    
+                        // Compiler-specific keyword and operator translations
+                        String[] compilerKeywords = new String[] {// Compiler function attributes:
+                                                                    @"(\w*\s*)(__attribute__)(\({2})(.+)(\){2})", @"(\w*\s*)(__declspec)(\()(\w+)(\))", @"__thread",
+                                                                    // Keywords and operators:
+                                                                    @"__align\(\d+\)", @"((__asm_{0,2}\s*)(\(|{)(.)+(\)|}))|(^(\t|\s)*(__asm_{0,2}\s*)(\(|{)(.)+(\)|});?)", 
+                                                                    @"__asm_{0,2}", @"__global_reg\(\d+\)", "__irq", "__packed", "__pure", @"__smc\(\d+\)", 
+                                                                    "__softfp", @"__svc\(\d+\)", @"__svc_indirect\(\d+\)", @"__svc_indirect_r7\(\d+\)",
+                                                                    "__value_in_regs", "__weak",
+                                                                    // Intrinsic keywords:
+                                                                    @"__breakpoint\(.+\);?", @"(__cdp)(\(|\s*)(\w|\d|\s)+,(\w|\d|\s)+,(\w|\d|\s)+(\)|\s*);?", 
+                                                                    @"__clrex\(\);?", @"^(\s|\t)+__disable_fiq\(\);?",
+                                                                    @"^(\s|\t)*__disable_irq\(\);?", @"__dmb\(.+\);?", @"__dsb\(.+\);?", @"__enable_fiq\(\);?", 
+                                                                    @"__enable_irq\(\);?", @"__force_loads\(\);?", @"__force_stores\(\);?", @"__isb\(.+\);?",
+                                                                    @"__memory_changed\(\);?", @"__nop\(\);?", @"__pld\(.+\);?", @"__pli\(.+\);?", 
+                                                                    @"__schedule_barrier\(\);?", @"__sev\(\);?", 
+                                                                    @"__strt\(.+\);?", @"__wfe\(\);?", @"__wfi\(\);?", @"__yield\(\);?",
+                                                                    // C++ Function specifiers:
+                                                                    "_{1,2}cdecl", "_Export", "_Noreturn"};
+                        
+                        // Compiler keywords in string array above that can just be removed
+                        foreach (String keyword in compilerKeywords) {
+                            translated_line = Regex.Replace(translated_line, keyword, "");
+                        }
+
+                        // Compiler keywords to be replaced with something specific cases:
+                        translated_line = Regex.Replace(translated_line, @"(__(?i:ALIGNOF)_{0,2})(\((\w|\d|_|\s)+\))", "alignof$2");
+                        translated_line = Regex.Replace(translated_line, @"__forceinline|__inline", "inline");
+                        translated_line = Regex.Replace(translated_line, @"__int64", "long long");
+                        translated_line = Regex.Replace(translated_line, @"__writeonly", "const"); 
+                        translated_line = Regex.Replace(translated_line, @"(__)(fabsf?)(\()(.)+(\))", "$2($4)");
+                        translated_line = Regex.Replace(translated_line, @"(__qadd\()(.+)(,\s*)(.+)(\))", "$2+$4");
+                        translated_line = Regex.Replace(translated_line, @"(__qdbl\()(.+)(\))", "$2+$2");
+                        translated_line = Regex.Replace(translated_line, @"(__qsub\()(.+)(,\s*)(.+)(\))", "$2-$4");
+                        translated_line = Regex.Replace(translated_line, @"(__sqrtf?\()(.+)(\))", "sqrt($2)");
+
+                        // Compiler keywords to be replaced with default integer 0
+                        String[] integerCompilerWords = new String[] {@"(__INTADDR__)(\()(.)+(\))", @"__clz\(.+\)", @"__current_pc\(\)", @"__current_sp\(\)", 
+                                                                        @"__disable_fiq\(\)", @"__disable_irq\(\)", @"__ldrex\(.+\)", @"__ldrexd\(.+\)",
+                                                                        @"__ldrt\(.+\)", @"__rbit\(.+\)", @"__rev\(.+\)", @"__return_address\(\)", @"__ror\(.+\)", 
+                                                                        @"__semihost\(.+\)", @"__ssat\(.+\)", @"__strexd?\(.+\)", @"__swp\(.+\)", @"__usat\(.+\)",
+                                                                        @"__vfp_status\(.+\)"};
+                        foreach (String integerCompilerWord in integerCompilerWords) {
+                            translated_line = Regex.Replace(translated_line, integerCompilerWord, "0");
+                        }
+
+                        // "final" is an identifier when used in a member function declaration or class head
+                        // however, other contexts it is NOT, can can be used to name objects and functions
+                        // ANTLR reads this as a keyword, however, and we may need to translate it for ANTLR to
+                        // distinguish between when final is being used as an identifier and a keyword
+                        Match m3 = Regex.Match(translated_line, @".+final.*");
+                        if (m3.Success) {
+                            Match m4 = Regex.Match(translated_line, @"(virtual|class).+final.*");
+                            if (!m4.Success) {
+                                translated_line = Regex.Replace(translated_line, @"final", "FINAL_VAR");
+                            }
+                        }
+                        
+                        writer.WriteLine(translated_line);
+                    }
+                }   
+            }
+            File.Copy(tempFile, filename, true);
+        }
+
+        /// <summary>
+        /// Takes created process, filepath/filename of executable, arguments, 
+        /// starts it, and waits for it to finish by specified milliseconds
+        /// </summary>
+        /// <param name="p">Process to be populated</param>
+        /// <param name="filename">Where the executable is located</param>
+        /// <param name="arguments">What arguments to give it</param>
+        /// <param name="timeToWait">How long we wait until it finishes</param>
+        private void startProcess(Process p, string filename, string arguments, int timeToWait) {
+            try {
+                if (p != null) {
+                    p.StartInfo.FileName        = filename;
+                    p.StartInfo.Arguments       = arguments;
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.RedirectStandardInput  = true;
+                    p.StartInfo.RedirectStandardOutput = true;
+                    p.StartInfo.RedirectStandardError  = true;
+                    p.Start();
+                    Console.Error.WriteLine(filename + " " + p.StartInfo.Arguments);
+                    switch (timeToWait) {
+                        // Wait indefinitely if -1 is used as timeToWait parameter
+                        case -1:
+                            p.WaitForExit();
+                            break;
+                        // Otherwise, wait for time specified
+                        default:
+                            p.WaitForExit(timeToWait);
+                            break;
+                    }
+                    // Check that process has finished with a successful status, if not, throw error
+                    if (p.HasExited) {
+                        if (p.ExitCode != 0) {
+                            throw new Exception("Preprocessing did not terminate successfully: " + System.Environment.NewLine + p.StandardError.ReadToEnd());
+                        }
+                    }
+                }
+                else {
+                    throw new Exception("Process is NULL.");
+                }
+            }
+            catch (Exception e) {
+                errorMessages.Add("ERROR: PREPROCESSING FAILED: " + System.Environment.NewLine + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+            }
+        }
+
+        /// <summary>
+        /// This fn is responsible for passing along filename input to specified 
+        /// standard input.
+        /// </summary>
+        /// <param name="filename">File to be fed into ANTLR</param>
+        /// <param name="lang">What language it is in</param>
+        /// <param name="stdin">Where we write ANTLR output to</param>
+        private void writeFileToANTLR(string filename, ILanguage lang, StreamWriter stdin) {
+            try {
+                stdin.AutoFlush = true;            
+                
+                // This writes the file to ANTLR standard input.
+                using (StreamReader reader = new StreamReader(filename)) {
+                    string line;
+                    while ((line = reader.ReadLine()) != null) {
+                        stdin.WriteLine(line);
+                    }
+                }
+
+                stdin.Flush();
+                stdin.Close();
+            }
+            catch (Exception e)
+            {
+                errorMessages.Add("ERROR: source file i/o:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
+                Console.WriteLine("ERROR: source file i/o:" + e.Message + System.Environment.NewLine + e.StackTrace + System.Environment.NewLine);
             }
         }
         #endregion
@@ -973,7 +980,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("blockDeclaration", "blockDeclaration", CPPForwardDeclarationRemover);
                 head.Collapse("blockDeclaration");
                 head.Collapse("declaration");
-
+                
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
                 head.RootUpModify("memberSpecification", "memberSpecification", ReparentChildren);
                 
@@ -4254,6 +4261,11 @@ namespace SoftwareAnalyzer2.Tools
                 node.SetNode(Members.Constructor);
             }
             // excise the original afterwards - it no longer needs to exist
+            // but, if you have a destructor, there will be a typename attached to the variable that you need to move up so the later destructor handlers can use it
+            if (varNode.Code.Equals("~") && varNode.GetChildCount() > 0)
+            {
+                varNode.GetNthChild(0).Parent = varNode.GetAncestor(Members.Method);
+            }
             ((IModifiable)varNode.Parent).RemoveChild(varNode);
 
             CPPScopeResolutionHandler(node);
@@ -5016,7 +5028,56 @@ namespace SoftwareAnalyzer2.Tools
         private void CPPClassSpecifierHandler(IModifiable node)
         {
             node.ClearCode(ClearCodeOptions.ClearAll);
-            node.AddCode(node.GetFirstRecursive("classHeadName").GetNthChild(0).Code, (IModifiable)node.GetFirstRecursive("classKey"));
+            IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
+            if (classHeadNode.GetFirstSingleLayer("classHeadName") != null)
+            {
+                node.AddCode(classHeadNode.GetFirstSingleLayer("classHeadName").GetNthChild(0).Code, (IModifiable)classHeadNode.GetFirstSingleLayer("classKey"));
+            }
+            else
+            {
+                // ANONYMOUS
+                node.AddCode(NodeFactory.GenerateAnonymous((IModifiable)classHeadNode.GetFirstSingleLayer("classKey")), (IModifiable)classHeadNode.GetFirstSingleLayer("classKey"));
+                List<INavigable> anonymousObjectNodesList = new List<INavigable>();
+                string targetNodeKind = "";
+                if (node.GetAncestor("memberdeclaration") != null)
+                {
+                    // TODO: need to find a way to make the listed objects have the right access specification level
+                    if (node.GetAncestor("memberdeclaration").GetChildCount() > 1)
+                    {
+                        anonymousObjectNodesList = node.GetAncestor("memberdeclaration").GetFirstSingleLayer("memberDeclaratorList").Children;
+                        ((IModifiable)node.GetAncestor("memberdeclaration")).RemoveChild((IModifiable)node.GetAncestor("memberdeclaration").GetFirstSingleLayer("memberDeclaratorList"));
+                        targetNodeKind = "memberSpecification";
+                    }
+                }
+                else
+                {
+                    if (node.GetAncestor("simpleDeclaration").GetChildCount() > 1)
+                    {
+                        anonymousObjectNodesList = node.GetAncestor("simpleDeclaration").GetFirstSingleLayer("initDeclaratorList").Children;
+                        ((IModifiable)node.GetAncestor("simpleDeclaration")).RemoveChild((IModifiable)node.GetAncestor("simpleDeclaration").GetFirstSingleLayer("initDeclaratorList"));
+                        targetNodeKind = "declarationseq";
+                    }
+                }
+                // there should only be more than 0 objects in this list when one of the above conditions occur
+                // so, targetNodeKind being just "" shouldn't be an issue...
+                foreach (IModifiable objectNode in anonymousObjectNodesList)
+                {
+                    IModifiable fieldNode = (IModifiable)NodeFactory.CreateNode(Members.Field, false);
+                    objectNode.GetFirstRecursive(Members.Variable).Parent = fieldNode;
+                    IModifiable typeNode = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
+                    typeNode.Parent = fieldNode;
+                    IModifiable typeNameNode = (IModifiable)NodeFactory.CreateNode(Members.TypeName, false);
+                    typeNameNode.Parent = typeNode;
+                    typeNameNode.CopyCode(node);
+                    fieldNode.Parent = node.GetAncestor(targetNodeKind);
+                }
+                IModifiable superTypesNode = (IModifiable)NodeFactory.CreateNode(MemberSets.SuperTypes, false);
+                superTypesNode.Parent = node;
+                IModifiable superTypeNode = (IModifiable)NodeFactory.CreateNode(Members.SuperType, false);
+                superTypeNode.Parent = superTypesNode;
+                IModifiable anonymousNode = (IModifiable)NodeFactory.CreateNode(Members.ANONYMOUS, false);
+                anonymousNode.Parent = superTypeNode;
+            }
             IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
             classificationNode.Parent = node;
             node.GetFirstRecursive("classKey").Parent = classificationNode;
@@ -5886,28 +5947,32 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable firstVariable = (IModifiable)child.GetFirstSingleLayer(Members.TypeName);
                 firstVariable.SetNode(Members.Variable);
                 firstVariable.Parent = node;
-                IModifiable parameterListNode = (IModifiable)child.GetNthChild(1).GetFirstRecursive(Members.ParameterList);
-                if (parameterListNode != null && parameterListNode.GetFirstRecursive(Members.Parameter) != null)
+                if (child.GetChildCount() > 1)
                 {
-                    // there's a weird case in blend2d's thread.cpp on line 68 in the unprocessed file, idk wtf i'm expected to do for handle there
-                    // but that case is why this stuff is all up in this if statement
-                    IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
-                    writeNode.Parent = firstVariable;
-                    IModifiable parentNode = writeNode;
-
-                    if (parameterListNode.GetChildCount() > 1)
+                    IModifiable parameterListNode = (IModifiable)child.GetNthChild(1).GetFirstRecursive(Members.ParameterList);
+                    if (parameterListNode != null && parameterListNode.GetFirstRecursive(Members.Parameter) != null)
                     {
-                        parentNode = (IModifiable)NodeFactory.CreateNode(Members.Array, false);
-                        parentNode.Parent = writeNode;
+                        // there's a weird case in blend2d's thread.cpp on line 68 in the unprocessed file, idk wtf i'm expected to do for handle there
+                        // but that case is why this stuff is all up in this if statement
+                        IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
+                        writeNode.Parent = firstVariable;
+                        IModifiable parentNode = writeNode;
+
+                        if (parameterListNode.GetChildCount() > 1)
+                        {
+                            parentNode = (IModifiable)NodeFactory.CreateNode(Members.Array, false);
+                            parentNode.Parent = writeNode;
+                        }
+
+                        List<INavigable> paramChildren = parameterListNode.Children;
+                        foreach (IModifiable paramChild in paramChildren)
+                        {
+                            paramChild.GetNthChild(0).GetNonTrivialChild().Parent = parentNode;
+                        }
                     }
 
-                    List<INavigable> paramChildren = parameterListNode.Children;
-                    foreach (IModifiable paramChild in paramChildren)
-                    {
-                        paramChild.GetNthChild(0).GetNonTrivialChild().Parent = parentNode;
-                    }
+                    child.RemoveChild((IModifiable)child.GetNthChild(1));
                 }
-                child.RemoveChild((IModifiable)child.GetNthChild(1));
             }
         }
 
