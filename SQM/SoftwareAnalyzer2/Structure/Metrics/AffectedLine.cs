@@ -16,6 +16,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>> affectedDict = new Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>>();
         private string printLevel = "";
         private bool outputStarted = false;
+        private List<Tuple<string, int, GraphNode>> statementsWritten = new List<Tuple<string, int, GraphNode>>();
+
         public AffectedLine()
         {
         }
@@ -146,24 +148,41 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         foreach (GraphNode g in d.Keys)
                         {
                             //luTODO -- this output is still a WIP. need to add comments
-                            if (!g.outputPrint)
+                            if (!g.outputPrint || (g.outputPrint && g.Represented.GetLineStart() != lN))
                             {
-                                if (g.Represented.FileName == fN && g.Represented.GetLineStart() == tracingLineNumber && g.Represented.GetLineStart() == lN)
+                                if (g.Represented.FileName == tracingFile && g.Represented.GetLineStart() == tracingLineNumber /*&& g.Represented.GetLineStart() == lN*/)
                                 {
+                                    WriteToOutput("fm", file, fN, g.Represented.GetLineStart(), g, false);
+                                    printLevel += ",";
                                     PrintChildren(g, file);
+                                    printLevel = printLevel.Remove(printLevel.Length - 1);
                                 }
-                                
-                                else if (g.statementDetails.ContainsKey(fN))
+                                else if (g.statementDetails.ContainsKey(tracingFile))
                                 {
-                                    foreach (int lineNum in g.statementDetails[fN])
+                                    foreach (int lineNum in g.statementDetails[tracingFile])
                                     {
                                         if (lineNum == tracingLineNumber)
                                         {
                                             WriteToOutput("cs", file, fN, lineNum, g, true);
                                             printLevel += ",";
-                                            PrintChildren(g, file);
+                                            PrintParents(g, file);
                                             printLevel = printLevel.Remove(printLevel.Length - 1);
 
+                                        }
+                                        else
+                                        {
+                                            if (outputStarted)
+                                            {
+                                                WriteToOutput("se", file, fN, lN, g, true);
+                                                printLevel += ",";
+                                                PrintChildren(g, file);
+                                                printLevel = printLevel.Remove(printLevel.Length - 1);
+                                            }
+                                            else
+                                            {
+                                                Tuple<int, string, GraphNode> t = Tuple.Create(lN, fN, g);
+                                                extraPrints.Add(t);
+                                            }
                                         }
                                     }
 
@@ -172,7 +191,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                 {
                                     if (outputStarted)
                                     {
-                                        WriteToOutput("tup", file, fN, lN, g, true);
+                                        WriteToOutput("ca", file, fN, lN, g, false);
+                                        //luTODO -- testing this with bigger files
+                                        /*
+                                        printLevel += ",";
+                                        PrintChildren(g, file);
+                                        printLevel = printLevel.Remove(printLevel.Length - 1);
+                                        */
                                     }
                                     else
                                     {
@@ -185,12 +210,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         }
                     }
                 }
+                outputStarted = false;
             }
             if(extraPrints.Count > 0)
             {
                 foreach(Tuple<int, string, GraphNode> tup in extraPrints)
                 {
-                    WriteToOutput("tup", file, tup.Item2, tup.Item1, tup.Item3, true);
+                    WriteToOutput("tup", file, tup.Item2, tup.Item1, tup.Item3, false);
                 }
             }
         }
@@ -201,7 +227,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             printLevel += ",";
             foreach (GraphNode p in g.GetParentGNs())
             {
-                if (p != null)
+                if (p != null && !p.dictPrint)
                 {
                     if (!p.Represented.Node.IsClassification)
                     {
@@ -217,13 +243,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
             if(g.GetParentGNs().Count < 1)
             {
-                if (g.statementDetails.Keys != null)
+                if (g.statementDetails.Keys.Count > 0)
                 {
                     foreach (string fileKey in g.statementDetails.Keys)
                     {
                         foreach (int lineNum in g.statementDetails[fileKey])
                         {
-                            WriteToOutput("s", file, fileKey, lineNum, g, true);
+                            WriteToOutput("ps", file, fileKey, lineNum, g, true);
                         }
                     }
 
@@ -237,10 +263,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             g.outputPrint = true;
             foreach (GraphNode c in g.GetChildrenGNs())
             {
-                if (c != null)
+                if (c != null && !c.dictPrint)
                 {
                     PrintChildren(c, file);
-                    if (c.statementDetails.Keys != null)
+                    if (c.statementDetails.Keys.Count > 0)
                     {
                         foreach (string fileKey in c.statementDetails.Keys)
                         {
@@ -260,23 +286,60 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 }
             }
+            if (g.GetChildrenGNs().Count < 1)
+            {
+                if (g.statementDetails.Keys.Count > 0)
+                {
+                    foreach (string fileKey in g.statementDetails.Keys)
+                    {
+                        foreach (int lineNum in g.statementDetails[fileKey])
+                        {
+                            WriteToOutput("cs", file, fileKey, lineNum, g, true);
+                        }
+                    }
+
+                }
+            }
         }
 
         //prepend will be removed before the final product. just informational, currently
         void WriteToOutput(string prepend, StreamWriter file, string fileName, int lineNum, GraphNode origin, bool statement)
         {
-            if (!outputStarted)
+            Tuple<string, int, GraphNode> s = Tuple.Create(fileName, lineNum, origin);
+            if ((!origin.dictPrint || statement) && !statementsWritten.Contains(s))
             {
-                outputStarted = true;
+                int timesUsed = 0;
+                string timeUsedStr = "";
+                Dictionary<GraphNode, int> combDict = origin.GetCombinedDict();
+                if (!outputStarted)
+                {
+                    outputStarted = true;
+                }
+
+                if (combDict != null)
+                {
+                    if (combDict.ContainsKey(origin))
+                    {
+                        timesUsed = combDict[origin];
+                        if (timesUsed > 1)
+                        {
+                            timeUsedStr = " * " + timesUsed.ToString();
+                        }
+                    }
+                }
+
+                if (statement)
+                {
+                    statementsWritten.Add(s);
+                    file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](originated from: " + origin.Represented.ToString() + timeUsedStr + ")");
+                }
+                else
+                {
+                    origin.dictPrint = true;
+                    file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](" + origin.Represented.ToString() + timeUsedStr + ")");
+                }
             }
-            if (statement)
-            {
-                file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](originated from: " + origin.Represented.ToString() + ")");
-            }
-            else
-            {
-                file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](" + origin.Represented.ToString() + ")");
-            }   
+ 
         }
 
         /*
