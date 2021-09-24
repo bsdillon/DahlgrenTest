@@ -1047,13 +1047,13 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("expressionList");
                 head.Collapse("handler", "catch ( )");
 
-                // TODO: move this up
-                // also figure out the weird cases, i.e. the forward declarations
+                // TODO: move all these up above the collapses
                 head.RootUpModify(Members.Field, Members.Field, CPPConstructorInvokeCheck);
-                // TODO: move these up
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPDestructorCorrector);
                 head.RootUpModify(Members.Method, Members.Method, CPPDestructorCorrector);
-                
+                // TODO:? probably should merge this with some other code and remove this
+                head.RootUpModify(Members.Field, Members.Field, CPPFieldNamer);
+
                 head.NormalizeLines();
             }
             else {
@@ -6126,6 +6126,20 @@ namespace SoftwareAnalyzer2.Tools
                 }
             }
         }
+
+        /// <summary>
+        /// Renames Field nodes to be the same as the relevant variable
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPFieldNamer(IModifiable node)
+        {
+            // TODO:? probably should merge this with some other code and remove this
+            if (node.GetFirstSingleLayer(Members.Variable) != null)
+            {
+                // the if is there to handle the <...> i found in a try-catch for catching all exceptions
+                node.ClearCode(ClearCodeOptions.KeepLine);
+                node.CopyCode((IModifiable)node.GetFirstSingleLayer(Members.Variable));
+            }        }
 
         /// <summary>
         /// Deletes a node and all children
