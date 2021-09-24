@@ -110,7 +110,7 @@ namespace SoftwareAnalyzer2.Source
 
         }
 
-        static void LinkGraph(Project p, ILanguage lang, string proj_dir, string proj_parse_folder) {
+        public static void LinkGraph(Project p, ILanguage lang, string proj_dir, string proj_parse_folder) {
             Console.WriteLine("Linking all types in " + p.GetProperty(ProjectProperties.ProjectName));
 
             //find the total number of types
@@ -137,7 +137,7 @@ namespace SoftwareAnalyzer2.Source
             Console.WriteLine("All members linked!");
         }
 
-        static void RegisterGraph(Project p, ILanguage lang, string proj_dir, string proj_parse_folder)
+        public static void RegisterGraph(Project p, ILanguage lang, string proj_dir, string proj_parse_folder)
         {
             GraphNode.ClearGraph(lang);
             string[] files = Directory.GetFiles(proj_parse_folder, "*.XML", SearchOption.AllDirectories);
@@ -154,7 +154,7 @@ namespace SoftwareAnalyzer2.Source
 
         }
 
-        static void LoadTree(string file)
+        public static void LoadTree(string file)
         {
             //read the parsed file and register it with the graph
             GraphNode.Register(NodeFactory.ReadXMLTree(file));
@@ -166,9 +166,10 @@ namespace SoftwareAnalyzer2.Source
         /// (or accepts) a (previously calculated) parsing saved as an XML file.
         /// </summary>
         /// <returns>True if any new files are parsed; false if all files are already set.</returns>
-        private static bool ParseSource(Project p, string analysisPath)
+        public static bool ParseSource(Project p, string analysisPath)
         {
             ILanguage lang = LanguageManager.GetLanguage(p.GetProperty(ProjectProperties.Language));
+            GraphNode.SetLanguage(lang);
             ITool tool = ToolManager.GetTool(p.GetProperty(ProjectProperties.Tool));
             if (tool is LLVMTool) {
                 ((LLVMTool) tool).project = p;
