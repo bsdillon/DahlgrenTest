@@ -322,15 +322,21 @@ namespace SoftwareAnalyzer2.Tools
                     while (line != null) {
                         nextLine = reader.ReadLine();
                         if (line.StartsWith("#endif") && nextLine == null && hasIfNDef) break;
-                        // Code to ignore operator overloading, should this be necessary
-                        // else if (line.Contains("operator")) {
-                        //     Match m = Regex.Match(line, @".+operator.{1,3}\(.+\).*{.+}");
-                        //     if (m.Success) line = nextLine;
-                        // }
-                        else {
-                            writer.WriteLine(line);
-                            line = nextLine;
+                        // removes the nodiscard C++17 keyword in the case of operator overloading for us to analyze it
+                        else if (line.Contains("operator")) {
+                            line = Regex.Replace(line, @"[^\s]*(?i)nodiscard[^\s]*", "");
                         }
+                        // removes the nodiscard C++17 keyword in the case of template definitions for us to analyze it
+                        else if (line.Contains("template")) {
+                            line     = Regex.Replace(line,     @"[^\s]*(?i)nodiscard[^\s]*", "");
+                            nextLine = Regex.Replace(nextLine, @"[^\s]*(?i)nodiscard[^\s]*", "");
+                        }
+                        // otherwise, if there is a pulbicly defined method, we make sure the next statement ends with a semicolon
+                        else if (line.Contains("public")) {
+                            nextLine = Regex.Replace(nextLine, @"[^\s]+\(.+\)$", "$0;");
+                        }
+                        writer.WriteLine(line);
+                        line = nextLine;
                     }   
                 }
             }
@@ -903,9 +909,12 @@ namespace SoftwareAnalyzer2.Tools
                 // clear out pointer stuff early since SQM doesn't care for it
                 head.Collapse("pointerOperator", "*");
                 head.Collapse("pointerOperator", "&");
+                head.Collapse("pointerOperator", "&&");
                 head.Collapse("unaryOperator", "&");
                 head.Collapse("unaryOperator", "*");
                 
+                //TODO: handle decltype specifier stuff better when our understanding of them has improved
+                head.RootUpModify("decltypeSpecifier", "decltypeSpecifier", CPPDecltypeHandler);
                 head.RootUpModify("linkageSpecification", "linkageSpecification", SeverBranch);
                 head.RootUpModify("functionBody", "functionBody", CPPFunctionDeleteDeleter);
                 head.RootUpModify(Members.File, Members.File, CPPFileDefaultNamespaceAdder);
@@ -1027,6 +1036,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("theTypeName");
                 head.Collapse("compoundStatement");
                 head.Collapse("compoundStatement", "{ }");
+                // TODO: move this?
+                head.RootUpModify("functionBody", "functionBody", CPPMultipleMethodScopeCombiner);
                 head.Collapse("functionBody");
                 // TODO: apparently there exist expression nodes with commas????
                 head.Collapse("expression");
@@ -1051,9 +1062,10 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.Field, Members.Field, CPPConstructorInvokeCheck);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPDestructorCorrector);
                 head.RootUpModify(Members.Method, Members.Method, CPPDestructorCorrector);
+                head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMover);
                 // TODO:? probably should merge this with some other code and remove this
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldNamer);
-
+                
                 head.NormalizeLines();
             }
             else {
@@ -5080,7 +5092,21 @@ namespace SoftwareAnalyzer2.Tools
             }
             IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
             classificationNode.Parent = node;
-            node.GetFirstRecursive("classKey").Parent = classificationNode;
+            classHeadNode.GetFirstSingleLayer("classKey").Parent = classificationNode;
+            if (classHeadNode.GetFirstSingleLayer("baseClause") != null)
+            {
+                IModifiable superTypesNode = (IModifiable)NodeFactory.CreateNode(MemberSets.SuperTypes, false);
+                superTypesNode.Parent = node;
+                foreach (IModifiable superTypeChild in classHeadNode.GetFirstRecursive("baseSpecifierList").Children)
+                {
+                    IModifiable superTypeNode = (IModifiable)NodeFactory.CreateNode(Members.SuperType, false);
+                    superTypeNode.Parent = superTypesNode;
+                    IModifiable classNode = (IModifiable)NodeFactory.CreateNode(Members.CLASS, false);
+                    classNode.Parent = superTypeNode;
+                    // TODO: access specifiers go where?
+                    superTypeNode.CopyCode((IModifiable)superTypeChild.GetFirstRecursive(Members.TypeName));
+                }
+            }
             node.RemoveChild((IModifiable)node.GetNthChild(0));
             IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
             modSetNode.Parent = node;
@@ -5926,7 +5952,14 @@ namespace SoftwareAnalyzer2.Tools
                 superTypeNode.Parent = typeDeclNode;
                 ((IModifiable)seqNode.Parent).RemoveChild(seqNode);
                 seqNode.Parent = superTypeNode;
-                ((IModifiable)typeDeclNode.GetAncestor("declaration")).ReplaceChild((IModifiable)typeDeclNode.GetAncestor("declaration").GetNthChild(0), typeDeclNode);
+                if (typeDeclNode.GetAncestor("statement") != null)
+                {
+                    ((IModifiable)typeDeclNode.GetAncestor("statement")).ReplaceChild((IModifiable)typeDeclNode.GetAncestor("declarationStatement"), typeDeclNode);
+                }
+                else
+                {
+                    ((IModifiable)typeDeclNode.GetAncestor("declaration")).ReplaceChild((IModifiable)typeDeclNode.GetAncestor("declaration").GetNthChild(0), typeDeclNode);
+                }
             }
         }
 
@@ -6136,10 +6169,69 @@ namespace SoftwareAnalyzer2.Tools
             // TODO:? probably should merge this with some other code and remove this
             if (node.GetFirstSingleLayer(Members.Variable) != null)
             {
-                // the if is there to handle the <...> i found in a try-catch for catching all exceptions
+                // the if is there to handle the <...> i found in a try-catch for
                 node.ClearCode(ClearCodeOptions.KeepLine);
                 node.CopyCode((IModifiable)node.GetFirstSingleLayer(Members.Variable));
-            }        }
+            }
+        }
+
+        /// <summary>
+        /// Merges multiple MethodScope nodes under a functionBody node into one - primarily for handling certain constructor member initializer lists
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPMultipleMethodScopeCombiner(IModifiable node)
+        {
+            IModifiable newMethodScopeNode = (IModifiable)NodeFactory.CreateNode(Members.MethodScope, false);
+            foreach (IModifiable scope in node.GetAllFirstLayer(Members.MethodScope))
+            {
+                foreach (IModifiable child in scope.Children)
+                {
+                    child.Parent = newMethodScopeNode;
+                }
+            }
+            node.DropChildren();
+            newMethodScopeNode.Parent = node;
+        }
+
+        /// <summary>
+        /// Handles decltypeSpecifier nodes that actually deal with the decltype specifier
+        /// Currently just renames the node and drops all children
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPDecltypeHandler(IModifiable node)
+        {
+            if (node.Code.Equals("decltype ( )"))
+            {
+                node.DropChildren();
+                node.SetNode(Members.TypeName);
+                node.ClearCode(ClearCodeOptions.KeepLine);
+                node.AddCode("~DECLTYPE", node);
+            }
+        }
+
+        /// <summary>
+        /// Moves TypeDeclaration nodes up if they aren't already in some other TypeDeclaration's Types node or under the File node - for "local classes" defined in weird locations, like MethodScopes
+        /// Currently just renames the node and drops all children
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPTypeDeclarationMover(IModifiable node)
+        {
+            if (node.Parent.Node.Equals(Members.File))
+            {
+                return;
+            }
+            else if (!node.Parent.Node.Equals(MemberSets.Types))
+            {
+                IModifiable oldParent = (IModifiable)node.Parent;
+                IModifiable targetNode = oldParent;
+                while (targetNode.GetFirstSingleLayer(MemberSets.Types) == null)
+                {
+                    targetNode = (IModifiable)targetNode.Parent;
+                }
+                node.Parent = targetNode.GetFirstSingleLayer(MemberSets.Types);
+                oldParent.RemoveChild(node);
+            }
+        }
 
         /// <summary>
         /// Deletes a node and all children
