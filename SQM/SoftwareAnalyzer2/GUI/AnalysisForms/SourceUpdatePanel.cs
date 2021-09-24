@@ -15,8 +15,12 @@ using SoftwareAnalyzer2.Tools;
 using SoftwareAnalyzer2.Structure;
 using SoftwareAnalyzer2.Structure.Graphing;
 using SoftwareAnalyzer2.Structure.Node;
+using SoftwareAnalyzer2.Source;
 
 namespace SoftwareAnalyzer2.GUI.AnaylsisForms
+///TODO: The progressbars need to be update so that they can be 
+///updated while the program is running real time. Use the old commmented out code as a templete.
+///Making sure to use the StartAnalysis function.
 {
     public partial class SourceUpdatePanel : UserControl, IProjectUser
     {
@@ -171,6 +175,27 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
         private bool ParseSource()
         {
             lang = LanguageManager.GetLanguage(currentProject.GetProperty(ProjectProperties.Language));
+            tool = ToolManager.GetTool(currentProject.GetProperty(ProjectProperties.Tool));
+
+            if (tool is LLVMTool)
+            {
+                ((LLVMTool)tool).project = currentProject;
+            }
+            rootPath = currentProject.GetProperty(ProjectProperties.RootDirectory);
+            analysisPath = currentProject.FilePath;
+            analysisPath = analysisPath.Substring(0, analysisPath.LastIndexOf(Path.DirectorySeparatorChar));
+
+            SetOutput("Checking for updated files in " + currentProject.GetProperty(ProjectProperties.ProjectName));
+            bool status = StartAnalysis.ParseSource(currentProject, null);
+
+            SetOutput("Files parsed: " + totalErrors + " Error(s)");
+            ParseProgress.Value = 100;
+            ParseProgress.Refresh();
+
+            return status;
+
+
+            /*lang = LanguageManager.GetLanguage(currentProject.GetProperty(ProjectProperties.Language));
             GraphNode.SetLanguage(lang);
             tool = ToolManager.GetTool(currentProject.GetProperty(ProjectProperties.Tool));
             if (tool is LLVMTool) {
@@ -222,19 +247,21 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                 }
             }
 
-            return newFilesFound.Count > 0;
+            return newFilesFound.Count > 0;*/
         }
 
-        private void ReadFile(object parameters)
+        /*private void ReadFile(object parameters)
         {
             string[] str_parameters = (string[]) parameters;
             string fileName = str_parameters[0];
             string file_extension = str_parameters[1];
-            string parsePath = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
-            string parseFile = fileName.Replace(rootPath, parsePath);
-            string fileRoot = parseFile.Substring(0, parseFile.Length - file_extension.Length + 1);
+            //string parsePath = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
+            //string parseFile = fileName.Replace(rootPath, parsePath);
+            //string fileRoot = parseFile.Substring(0, parseFile.Length - file_extension.Length + 1);
 
-            if (lang is CPPLanguage && (file_extension.Equals("*.h") || file_extension.Equals("*.hpp") ||
+            StartAnalysis.ReadFile(currentProject, tool, lang, file_extension, fileName);
+
+            /*if (lang is CPPLanguage && (file_extension.Equals("*.h") || file_extension.Equals("*.hpp") ||
                                         file_extension.Equals("*.hh"))) {
                 fileRoot = fileRoot + "_H";
             }
@@ -311,7 +338,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
             ChangeSpawnCount(-1);
             UpdateParseCounts();
-        }
+        }*/
         #endregion
 
         #region Graphing
@@ -330,7 +357,19 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
         private void RegisterGraph()
         {
-            GraphNode.ClearGraph(lang);
+            SetOutput("Registering all members in " + currentProject.GetProperty(ProjectProperties.ProjectName));
+            string proj_parse_folder = analysisPath + Path.DirectorySeparatorChar + ParseFolder;
+            
+            StartAnalysis.RegisterGraph(currentProject, lang, null, proj_parse_folder);
+            string[] files = Directory.GetFiles(proj_parse_folder, "*.XML", SearchOption.AllDirectories);
+            
+            totalFiles = files.Length;
+            filesDone = totalFiles;
+            UpdateGraphCounts();
+            SetOutput("All members registererd: " + totalErrors + " Error(s)");
+
+            ///TODO: need to make this multithreaded so that bars can be loaded correctly
+            /*GraphNode.ClearGraph(lang);
             string[] files = Directory.GetFiles(analysisPath + Path.DirectorySeparatorChar + ParseFolder, "*.XML", SearchOption.AllDirectories);
             totalFiles = files.Length;
             filesDone = 0;
@@ -368,13 +407,14 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             if (continueRun)
             {
                 SetOutput("All members registererd: " + totalErrors + " Error(s)");
-            }
+            }*/
         }
 
-        private void LoadTree(object parameters)
+        /*private void LoadTree(object parameters)
         {
+            StartAnalysis.LoadTree((string)parameters);
             //read the parsed file and register it with the graph
-            GraphNode.Register(NodeFactory.ReadXMLTree((string)parameters));
+            /*GraphNode.Register(NodeFactory.ReadXMLTree((string)parameters));
 
             lock (registerProgress)
             {
@@ -383,7 +423,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
             ChangeSpawnCount(-1);
             UpdateGraphCounts();
-        }
+        }*/
         #endregion
 
         #region Linking
@@ -425,14 +465,28 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             InitialLinksDone.Text = "" + filesDone;
             TotalInitialLinks.Text = "" + totalFiles;
             InitialLinkProgress.Value = (int)(100 * filesDone / NotZero(totalFiles));
+            ///TODO: this was not here before, simply put this here to give GUI completion.
+            LinkPercent.Text = "100%";
+            linkProgress.Value = (int)(100 * filesDone / NotZero(totalFiles));
         }
 
         private void LinkGraph()
         {
             SetOutput("Linking all types in " + currentProject.GetProperty(ProjectProperties.ProjectName));
 
-            //find the total number of types
+            StartAnalysis.LinkGraph(currentProject, lang, null, null);
+
+            SetOutput("All members linked: " + totalErrors + " Error(s)");
+
             List<GraphNode> types = new List<GraphNode>();
+            totalMembers = GraphNode.GetAllTypes(types);
+            totalFiles = types.Count;
+            filesDone = totalFiles;
+            UpdateLinkCounts();
+
+            ///TODO: need to make this multithreaded so that bars can be loaded correctly
+            //find the total number of types
+            /*List<GraphNode> types = new List<GraphNode>();
             totalMembers = GraphNode.GetAllTypes(types);
             filesDone = 0;
             totalFiles = types.Count;
@@ -493,7 +547,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             if (continueRun)
             {
                 SetOutput("All members linked: " + totalErrors + " Error(s)");
-            }
+            }*/
         }
 
         private void InitialLink(object parameters)
