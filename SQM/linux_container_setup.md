@@ -12,25 +12,19 @@ sudo apt install gnupg ca-certificates
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
 echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
 sudo apt update
-# .NET Core / .NET 5 Developmnet
-sudo apt-get install -y dotnet-sdk-5.0
-# .NET 4 Development (Depreciated)
+# .NET 4 Development
 sudo apt install -y mono-devel
 ```
 
 ## Arch Linux
 
 ```bash
-# .NET Core / .NET 5 Development
-yay -S dotnet-sdk dotnet-runtime
-# .NET 4 Development (Depreciated)
+# .NET 4 Development
 yay -S mono mono-msbuild
 
 ```
 #### Manjaro Distribution
 ```bash
-# .NET Core / .NET 5 Development
-sudo pacman -S dotnet-sdk dotnet-runtime
 # .NET 4 Development (Depreciated)
 sudo pacman -S mono mono-msbuild
 ```
@@ -46,10 +40,10 @@ python run.py cpp ./test_cpp01
 Running Directly:
 
 ```bash
-# TODO become familliar with the "dotnet" suite
-# and document the future build process that microsoft
-# wants the world to use
-dotnet SoftwareAnalyzer2 TODO
+# FOR FUTURE DEVLEOPMENT: migrate to .NET Core / .NET 5 for greater Windows/Linux compatibility
+# .NET Core / .NET 5 Developmnet
+# sudo apt-get install -y dotnet-sdk-5.0e
+# dotnet SoftwareAnalyzer2
 
 # .NET 4 Development (depreciated)
 msbuild SoftwareAnalyzer2/SoftwareAnalyzer2.csproj
