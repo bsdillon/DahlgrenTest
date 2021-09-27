@@ -20,7 +20,7 @@
 ```
 // Recommended method:
 python run.py // for GUI
-python run.py [java|cpp] [path/to/src/directory] // for CLI
+python run.py [java|cpp] ["path/to/src/directory"] // for CLI
 
 // Use -h or --help for reminder instructions
 python run.py [-h|--help]
@@ -32,7 +32,7 @@ Reference the [linux_container_setup.md](https://github.com/bsdillon/DahlgrenTes
 ```
 // Recommended method:
 python run.py // for GUI
-python run.py [java|cpp] [path/to/src/directory] // for CLI
+python run.py [java|cpp] ["path/to/src/directory"] // for CLI
 
 // Use -h or --help for reminder instructions
 python run.py [-h|--help]
