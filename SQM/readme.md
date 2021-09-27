@@ -1,5 +1,5 @@
 
-# Software Analyzer
+# Software Analyzer 2
 
 # Development dependencies
 
