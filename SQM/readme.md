@@ -3,45 +3,39 @@
 
 # Development dependencies
 
- - .net 4
+ - .NET version 4 (for Windows)
+ - git (Desktop utility/CLI for Windows and installed on Linux terminal)
 
 # Runtime dependencies
 
- - .net 4 (mono will work fine on linux boxes)
- - java 8+ (`java.exe` must appear on `%PATH%`)
- - ANTLR (https://www.antlr.org/download.html, d/l the item under "Complete ANTLR 4.9.1 Java binaries jar")
+ - **For Windows:** .NET version 4 (or install Visual Studio 2019 instead) / **For Linux distributions:** mono (https://www.mono-project.com)
+ - Java Version 8: `java.exe` and `javac.exe` must appear on `%PATH%` (must be able successfully run `java` and `javac` if running CLI)
+ - ANTLR (run.py script will download this for you - if issues, available at https://www.antlr.org/download.html, d/l the item under "Complete ANTLR 4.9.1 Java binaries jar")
+ - Python (version 3 or above) (https://www.python.org)
+ - Clang (https://www.clang.llvm.org)
  - All external dependencies specified in code-to-be-analyzed be installed or available in system standard libraries (listed within /usr/local/include for Linux and C:\Program Files\LLVM\lib\clang\VERSION_NUMBER\include for Windows)
-
-New LLVM requirements:
-
- - git
- - clang (Windows/Linux) or gcc
-
 
 ## Windows compile + run commands
 
 ```
+// Recommended method:
 python run.py // for GUI
-python run.py [java|cpp] [path/to/src/directory] // for CMD
-```
-OR
-```
-msbuild SoftwareAnalyzer2\SoftwareAnalyzer2.csproj
-set CLASSPATH=C:\path\to\antlr-4.1-complete.jar
-.\SoftwareAnalyzer2\bin\Debug\SoftwareAnalyzer2.exe
+python run.py [java|cpp] [path/to/src/directory] // for CLI
+
+// Use -h or --help for reminder instructions
+python run.py [-h|--help]
 ```
 
 ## Linux compile + run commands
+Reference the [linux_container_setup.md](https://github.com/bsdillon/DahlgrenTest/blob/master/SQM/linux_container_setup.md) README for Linux installation and debugging instructions.
 
 ```
+// Recommended method:
 python run.py // for GUI
-python run.py [java|cpp] [path/to/src/directory] // for CMD
-```
-OR
-```bash
-msbuild SoftwareAnalyzer2/SoftwareAnalyzer2.csproj
-export CLASSPATH='/path/to/antlr-4.1-complete.jar'
-mono SoftwareAnalyzer2/bin/Debug/SoftwareAnalyzer2.exe
+python run.py [java|cpp] [path/to/src/directory] // for CLI
+
+// Use -h or --help for reminder instructions
+python run.py [-h|--help]
 ```
 
 # Known Bugs
