@@ -517,7 +517,7 @@ namespace SoftwareAnalyzer2.Tools
         }
         #endregion
 
-        #region Decomposition ANTRL Outputs
+        #region Decomposition ANTLR Outputs
         /// <summary>
         /// Key method for decomposition which combines the tree and token units into node single IModifiable; 
         /// returns true if completely successful, false otherwise
