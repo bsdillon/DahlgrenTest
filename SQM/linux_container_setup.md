@@ -25,7 +25,7 @@ yay -S mono mono-msbuild
 ```
 #### Manjaro Distribution
 ```bash
-# .NET 4 Development (Depreciated)
+# .NET 4 Development
 sudo pacman -S mono mono-msbuild
 ```
 
