@@ -1,5 +1,6 @@
 
-# Packages
+# Package Installation and Setup
+Further instructions also available on the SQM Installation Guide (Linux).
 
 ## Ubuntu
 
