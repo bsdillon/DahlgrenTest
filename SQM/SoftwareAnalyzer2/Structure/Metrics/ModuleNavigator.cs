@@ -837,6 +837,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                         lineUsed = true;
                                         //line number matches an edge, trace it further
                                         AffectedTree at = new AffectedTree();
+                                        //luTODO -- mark all affected nodes with error property/details
                                         at.FindCSVConnections(fileNameKeyMod, lineNum, fileStem);
                                     }
                                     else

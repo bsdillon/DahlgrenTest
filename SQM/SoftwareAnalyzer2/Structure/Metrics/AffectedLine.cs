@@ -16,7 +16,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>> affectedDict = new Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>>();
         private string printLevel = "";
         private bool outputStarted = false;
-        private List<Tuple<string, int, GraphNode>> statementsWritten = new List<Tuple<string, int, GraphNode>>();
+        private List<Tuple<string, int>> statementsWritten = new List<Tuple<string, int>>();
 
         public AffectedLine()
         {
@@ -60,8 +60,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
+        //GraphNodes have relationships to certain lines of code that are represented as a "Statement" instead of GraphNode.
+        //This function writes said Statements to the "AffectedDict" which tracks the affected files/line numbers to be outputted
         public void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r)
         {
+            //branches should be the parents of the graphnodes they contain
             void InsertNodeConditionally(GraphNode addTo, GraphNode pScope)
             {
                 if (pScope.Represented.Node.Equals(Members.Branch) || pScope.ParentScope.Represented.Node.Equals(Members.Branch))
@@ -69,7 +72,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     addTo.AddToParentAndChildrenLists(pScope);
                 }
             }
-            //simulated graphnodes are not very meaningful for tracing errors
+
+            //simulated graphnodes are not very meaningful for tracing errors, skip
             if (!gn.IsSimulated)
             {
                 foreach (Statement s in gn.GetRelationshipsTo()[r][grphNde])
@@ -77,50 +81,59 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     //check if affectedDict contains the filename we are trying to insert
                     if (!affectedDict.ContainsKey(s.Represented.FileName))
                     {
+                        //logic only arrives here if the affectedDict has never had an entry from the specified file before.
+                        //create dictionaries that abide by the structure of affectedDict and insert the data into affectedDict
+                        //affectedDict is a nested dictionary containing all of the data necessary for the output file. 
+                        //the key of the dictionary is the filename, and the value is a dictionary of linenumbers, related graphnodes, and relationships.
                         Dictionary<int, List<Dictionary<GraphNode, Relationship>>> iGNList = new Dictionary<int, List<Dictionary<GraphNode,Relationship>>>();
                         Dictionary<GraphNode, Relationship> gnRel = new Dictionary<GraphNode, Relationship>();
                         List<Dictionary<GraphNode, Relationship>> smallGList = new List<Dictionary<GraphNode, Relationship>>();
 
-                        if (grphNde.statementDetails.ContainsKey(s.Represented.FileName))
-                        {
-                            InsertNodeConditionally(grphNde, s.ParentScope);
-                            grphNde.statementDetails[s.Represented.FileName].Add(s.Represented.GetLineStart());
-                        }
-                        else
-                        {
-                            List<int> lineList = new List<int>();
-                            lineList.Add(s.Represented.GetLineStart());
-                            InsertNodeConditionally(grphNde, s.ParentScope);
-                            grphNde.statementDetails.Add(s.Represented.FileName, lineList);
-                        }
-
+                        //set GraphNode as the key and the relationship (as to why it was affected) as the value of the sub-sub-dict
                         gnRel[grphNde] = r;
+                        //add that dictionary to a list of dictionaries (that will be added to as more GraphNodes are added to affectedDict)
                         smallGList.Add(gnRel);
+                        //set the linenumber of the affected line as the key and the list of graphnodes (with pairing relationships) as the value of the sub-dict.
                         iGNList[s.Represented.GetLineStart()] = smallGList;
+                        //set the filename as the key and the list of line numbers (containing a dictionary of affected GraphNodes + relationships) as the value of affectedDict
                         affectedDict[s.Represented.FileName] = iGNList;
                     }
                     //if affectedDict contains the filename, does it also contain the line number we are trying to insert?
                     else if (!affectedDict[s.Represented.FileName].ContainsKey(s.Represented.GetLineStart()))
                     {
+                        //see the comments in the "if" section of this section.
+                        //logic only arrives here if the affectedDict contained the filename of what we want to insert into affectedDict...
+                        //but DOES NOT contain the line number of what we want to insert into affectedDict
                         List<Dictionary<GraphNode, Relationship>> gnList = new List<Dictionary<GraphNode, Relationship>>();
                         Dictionary<GraphNode, Relationship> gnRelationship = new Dictionary<GraphNode, Relationship>();
 
-                        if (grphNde.statementDetails.ContainsKey(s.Represented.FileName))
-                        {
-                            InsertNodeConditionally(grphNde, s.ParentScope);
-                            grphNde.statementDetails[s.Represented.FileName].Add(s.Represented.GetLineStart());
-                        }
-                        else
-                        {
-                            List<int> lineList = new List<int>();
-                            lineList.Add(s.Represented.GetLineStart());
-                            InsertNodeConditionally(grphNde, s.ParentScope);
-                            grphNde.statementDetails.Add(s.Represented.FileName, lineList);
-                        }
-
+                        //set GraphNode as the key and the relationship (as to why it was affected) as the value of the sub-sub-dict
                         gnRelationship[grphNde] = r;
+                        //add that dictionary to the list of dictionaries (that was created in the if block above)
                         gnList.Add(gnRelationship);
+                        //set the filename as the key and the list of line numbers (containing a dictionary of affected GraphNodes + relationships) as the value of affectedDict
                         affectedDict[s.Represented.FileName][s.Represented.GetLineStart()] = gnList;
+                    }
+
+                    //if the graphnode we are inserting into affectedDict contains any statements
+                    if (grphNde.statementDetails.ContainsKey(s.Represented.FileName))
+                    {
+                        //logic only arrives here if statementDetails already contains the filename of the given statement
+                        //ensure any branches are allocated as a parent correctly
+                        InsertNodeConditionally(grphNde, s.ParentScope);
+                        //insert the linenumber into the statementDetails list
+                        grphNde.statementDetails[s.Represented.FileName].Add(s.Represented.GetLineStart());
+                    }
+                    else
+                    {
+                        //logic only arrives here if statementDetails does NOT contain the filename of the given statement
+                        List<int> lineList = new List<int>();
+                        //create a new list to hold the statementDetails, and add the current statement's line number
+                        lineList.Add(s.Represented.GetLineStart());
+                        //ensure any branches are allocated as a parent correctly
+                        InsertNodeConditionally(grphNde, s.ParentScope);
+                        //insert the filename and line number of the current statement into statementDetails
+                        grphNde.statementDetails.Add(s.Represented.FileName, lineList);
                     }
                 }
             }
@@ -150,7 +163,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             //luTODO -- this output is still a WIP. need to add comments
                             if (!g.outputPrint || (g.outputPrint && g.Represented.GetLineStart() != lN))
                             {
-                                if (g.Represented.FileName == tracingFile && g.Represented.GetLineStart() == tracingLineNumber /*&& g.Represented.GetLineStart() == lN*/)
+                                if (fnModded == tracingFile && g.Represented.GetLineStart() == tracingLineNumber /*&& g.Represented.GetLineStart() == lN*/)
                                 {
                                     WriteToOutput("fm", file, fN, g.Represented.GetLineStart(), g, false);
                                     printLevel += ",";
@@ -192,12 +205,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                     if (outputStarted)
                                     {
                                         WriteToOutput("ca", file, fN, lN, g, false);
-                                        //luTODO -- testing this with bigger files
-                                        /*
                                         printLevel += ",";
                                         PrintChildren(g, file);
                                         printLevel = printLevel.Remove(printLevel.Length - 1);
-                                        */
                                     }
                                     else
                                     {
@@ -217,8 +227,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 foreach(Tuple<int, string, GraphNode> tup in extraPrints)
                 {
                     WriteToOutput("tup", file, tup.Item2, tup.Item1, tup.Item3, false);
+                    printLevel += ",";
+                    PrintChildren(tup.Item3, file);
+                    printLevel = printLevel.Remove(printLevel.Length - 1);
                 }
             }
+            extraPrints.Clear();
         }
 
         private void PrintParents(GraphNode g, StreamWriter file)
@@ -233,6 +247,19 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         WriteToOutput("nn", file, p.Represented.FileName, p.Represented.GetLineStart(), p, false);
                         PrintParents(p, file);
+                        if (p.statementDetails.Keys.Count > 0)
+                        {
+                            foreach (string fileKey in p.statementDetails.Keys)
+                            {
+                                foreach (int lineNum in p.statementDetails[fileKey])
+                                {
+                                    printLevel += ",";
+                                    WriteToOutput("psta", file, fileKey, lineNum, p, true);
+                                    printLevel = printLevel.Remove(printLevel.Length - 1);
+                                }
+                            }
+
+                        }
                     }
                 }
                 else
@@ -305,7 +332,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //prepend will be removed before the final product. just informational, currently
         void WriteToOutput(string prepend, StreamWriter file, string fileName, int lineNum, GraphNode origin, bool statement)
         {
-            Tuple<string, int, GraphNode> s = Tuple.Create(fileName, lineNum, origin);
+            Tuple<string, int> s = Tuple.Create(fileName, lineNum);
             if ((!origin.dictPrint || statement) && !statementsWritten.Contains(s))
             {
                 int timesUsed = 0;
@@ -339,34 +366,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](" + origin.Represented.ToString() + timeUsedStr + ")");
                 }
             }
- 
         }
-
-        /*
-        private string PrintSisters(GraphNode g, string gnListStr)
-        {
-
-            foreach (GraphNode s in g.GetSisterGNs())
-            {
-                if (s != null)
-                {
-                    if (s.statementDetails.Key != null)
-                    {
-                        if (s.GetSisterGNs().Contains(g))
-                        {
-                            gnListStr += "[" + s.Represented.FileName + "::" + s.Represented.GetLineStart().ToString() + "]; ";
-                        }
-                        gnListStr += "[" + s.statementDetails.Key + "::" + s.statementDetails.Value.ToString() + "]; ";
-                    }
-                    else
-                    {
-                        gnListStr += "[" + s.Represented.FileName + "::" + s.Represented.GetLineStart().ToString() + "]; ";
-                    }
-                }
-            }
-            gnListStr += "),";
-            return gnListStr;
-        }
-        */
     }
 }
