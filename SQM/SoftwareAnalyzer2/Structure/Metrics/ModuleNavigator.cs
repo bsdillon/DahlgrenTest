@@ -813,6 +813,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             var values = rLine.Split(',');
                             int lineNum = -1;
                             bool lineUsed = false;
+                            //user csv input format = file, line, error description, error property
                             string errorDescription = values[2];
                             string errorProp = values[3];
 
@@ -838,13 +839,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                         lineUsed = true;
                                         //line number matches an edge, trace it further
                                         AffectedTree at = new AffectedTree();
-                                        //luTODO -- mark all affected nodes with error property/details
                                         at.FindCSVConnections(fileNameKeyMod, lineNum, fileStem, errorDescription, errorProp);
                                     }
                                     else
                                     {
+                                        //TODO?
                                         //file name matches, but the line number does not. this will happen a lot...
-                                        //TODO? maybe unneccesary (subject to change)
                                     }
                                 }
   

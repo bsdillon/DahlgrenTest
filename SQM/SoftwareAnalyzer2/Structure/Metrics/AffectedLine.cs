@@ -151,7 +151,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
-        //this output is subject to change based on safety's needs
+        //this output is subject to change based on safety's needs. finds all affected portions of code and outputs to a csv
         public void OutputCSVErrors(StreamWriter file, string tracingFile, int tracingLineNumber)
         {
             List<Tuple<int, string, GraphNode>> extraPrints = new List<Tuple<int, string, GraphNode>>();
@@ -167,7 +167,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 foreach (int lN in affectedDict[fN].Keys)
                 { 
                     List<Dictionary<GraphNode,Relationship>> gnDictList = affectedDict[fN][lN];
-                    //output affected filename, linenumber, and nodetype
+                    //output affected filename, graphnode.tostring, and where it originates from (if it is a statement) in a tree format
                     foreach (Dictionary<GraphNode,Relationship> d in gnDictList)
                     {
                         foreach (GraphNode g in d.Keys)
@@ -175,7 +175,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             //luTODO -- this output is still a WIP. need to add comments
                             if (!g.outputPrint || (g.outputPrint && g.Represented.GetLineStart() != lN))
                             {
-                                if (fnModded == tracingFile && g.Represented.GetLineStart() == tracingLineNumber /*&& g.Represented.GetLineStart() == lN*/)
+                                if (fnModded == tracingFile && g.Represented.GetLineStart() == tracingLineNumber)
                                 {
                                     WriteToOutput("fm", file, fN, g.Represented.GetLineStart(), g, false);
                                     printLevel += ",";
