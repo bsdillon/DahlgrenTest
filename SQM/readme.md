@@ -12,7 +12,7 @@
  - Java Version 8: `java.exe` and `javac.exe` must appear on `%PATH%` (must be able successfully run `java` and `javac` if running CLI)
  - ANTLR (run.py script will download this for you - if issues, available at https://www.antlr.org/download.html, d/l the item under "Complete ANTLR 4.9.1 Java binaries jar")
  - Python (version 3 or above) (https://www.python.org)
- - Clang (https://www.clang.llvm.org) (**For Windows:** installed at "C:/Program Files/LLVM/bin/clang++" **For Linux:** "/bin/clang++"
+ - Clang (https://www.clang.llvm.org) (**For Windows:** installed at "C:/Program Files/LLVM/bin/clang++" **For Linux:** "/bin/clang++")
  - All external dependencies specified in code-to-be-analyzed be installed or available in system standard libraries (listed within /usr/local/include for Linux and C:\Program Files\LLVM\lib\clang\VERSION_NUMBER\include for Windows)
 
 ## Windows compile + run commands
