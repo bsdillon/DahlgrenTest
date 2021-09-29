@@ -14,13 +14,18 @@ namespace SoftwareAnalyzer2.Structure.Metrics
     {
         private Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = GraphNode.GetLineNumDict();
         private AffectedLine al;
+        //variables to hold the user-inputted csv fields
+        private string errorDescription;
+        private string errorProperty;
 
         public AffectedTree()
         {
         }
 
-        public void FindCSVConnections(string fileName, int lineNum, string fileStem)
+        public void FindCSVConnections(string fileName, int lineNum, string fileStem, string errorD, string errorP)
         {
+            errorDescription = errorD;
+            errorProperty = errorP;
             string outputFileName = "_errors_output.csv";
             string fullFile = fileStem + outputFileName;
             StreamWriter gFile = new StreamWriter(fullFile, true);
@@ -84,7 +89,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 gn.traced = true;
                 gn.AddToParentAndChildrenLists(gnPar);
                 //this line seems to be neccessary to trace everything. maybe redundant in some cases
-                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -95,7 +100,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         {
                             if (grphNde.Represented.Node.GetMyMember() != Members.Literal)
                             {
-                                al.WriteStatementToAffectedDict(gn, grphNde, r);
+                                al.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
                             }
 
                             //field wants to trace back to anything it is related to.
@@ -161,7 +166,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             {
                 gn.traced = true;
                 gn.AddToParentAndChildrenLists(gnPar);
-                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -169,7 +174,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
                         {
-                            al.WriteStatementToAffectedDict(gn, grphNde, r);
+                            al.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
 
                             if (grphNde.Represented.Node.Equals(Members.Method))
                             {
@@ -217,7 +222,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 {
                     gnPar.AddToParentAndChildrenLists(gn);
                 }
-                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re);
+                al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
@@ -226,7 +231,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
                         {
                             gn.AddToParentAndChildrenLists(grphNde);
-                            al.WriteStatementToAffectedDict(gn, grphNde, r);
+                            al.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
                         }
                     }
                     //return value is neccesary in some but not others (subject to change)
@@ -235,7 +240,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         foreach (GraphNode grphNode in gn.GetRelationshipsTo()[r].Keys)
                         {
                             grphNode.AddToParentAndChildrenLists(gn);
-                            al.WriteStatementToAffectedDict(gn, grphNode, r);
+                            al.WriteStatementToAffectedDict(gn, grphNode, r, errorDescription, errorProperty);
                             TraceReturnValue(grphNode, r, Members.Method, gn);
                         }
                     }
@@ -244,7 +249,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
                         {
                             gn.AddToParentAndChildrenLists(grphNde);
-                            al.WriteStatementToAffectedDict(gn, grphNde, r);
+                            al.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
                         }
                     }
                 }
@@ -269,8 +274,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         for (int i = t.Item1; i <= t.Item2; i++)
                         {
-                            //maybe find relationships of the line numbers eventually (subject to change)
-                            al.WriteToAffectedDict(gn, gn.Represented.FileName, i, false, re);
+                            al.WriteToAffectedDict(gn, gn.Represented.FileName, i, false, re, errorDescription, errorProperty);
                         }
                     }
                 }
@@ -288,7 +292,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 if (gn.Represented.Node.Equals(Members.Field))
                 {
-                    al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re);
+                    al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
                 }
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)

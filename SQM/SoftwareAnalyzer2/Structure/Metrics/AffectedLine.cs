@@ -24,7 +24,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         //luTODO -- take simulated data, mark it, terminate tracing at that point
         //luTODO -- the output of "traceback" is still a work in progress. see TODOs below
-        public void WriteToAffectedDict(GraphNode gn, string fileName, int lineNumber, bool trimFileN, Relationship re)
+        public void WriteToAffectedDict(GraphNode gn, string fileName, int lineNumber, bool trimFileN, Relationship re, string errorDescription, string errorProperty)
         {
             if (fileName != null && !gn.IsSimulated)
             {
@@ -32,6 +32,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 Dictionary<GraphNode, Relationship> gnRel = new Dictionary<GraphNode, Relationship>();
                 gnLine[lineNumber] = new List<Dictionary<GraphNode, Relationship>>();
                 gnRel[gn] = re;
+
+                //mark corresponding GephiNode with user-inputted error description/property
+                MetricUtilities.GephiFromGraphNode(gn, errorDescription, errorProperty);
+
                 gnLine[lineNumber].Add(gnRel);
 
                 //add to linenumber dictionary
@@ -62,7 +66,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         //GraphNodes have relationships to certain lines of code that are represented as a "Statement" instead of GraphNode.
         //This function writes said Statements to the "AffectedDict" which tracks the affected files/line numbers to be outputted
-        public void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r)
+        public void WriteStatementToAffectedDict(GraphNode gn, GraphNode grphNde, Relationship r, string errorDescription, string errorProperty)
         {
             //branches should be the parents of the graphnodes they contain
             void InsertNodeConditionally(GraphNode addTo, GraphNode pScope)
@@ -93,6 +97,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         gnRel[grphNde] = r;
                         //add that dictionary to a list of dictionaries (that will be added to as more GraphNodes are added to affectedDict)
                         smallGList.Add(gnRel);
+
+                        //mark corresponding GephiNode with user-inputted error description/property
+                        MetricUtilities.GephiFromGraphNode(grphNde, errorDescription, errorProperty);
+
                         //set the linenumber of the affected line as the key and the list of graphnodes (with pairing relationships) as the value of the sub-dict.
                         iGNList[s.Represented.GetLineStart()] = smallGList;
                         //set the filename as the key and the list of line numbers (containing a dictionary of affected GraphNodes + relationships) as the value of affectedDict
@@ -109,6 +117,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                         //set GraphNode as the key and the relationship (as to why it was affected) as the value of the sub-sub-dict
                         gnRelationship[grphNde] = r;
+
+                        //mark corresponding GephiNode with user-inputted error description/property
+                        MetricUtilities.GephiFromGraphNode(grphNde, errorDescription, errorProperty);
+
                         //add that dictionary to the list of dictionaries (that was created in the if block above)
                         gnList.Add(gnRelationship);
                         //set the filename as the key and the list of line numbers (containing a dictionary of affected GraphNodes + relationships) as the value of affectedDict

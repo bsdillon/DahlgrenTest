@@ -813,6 +813,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             var values = rLine.Split(',');
                             int lineNum = -1;
                             bool lineUsed = false;
+                            string errorDescription = values[2];
                             string errorProp = values[3];
 
                             //check that each property within the csv is not found in the NodeProperties enum.
@@ -838,7 +839,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                         //line number matches an edge, trace it further
                                         AffectedTree at = new AffectedTree();
                                         //luTODO -- mark all affected nodes with error property/details
-                                        at.FindCSVConnections(fileNameKeyMod, lineNum, fileStem);
+                                        at.FindCSVConnections(fileNameKeyMod, lineNum, fileStem, errorDescription, errorProp);
                                     }
                                     else
                                     {

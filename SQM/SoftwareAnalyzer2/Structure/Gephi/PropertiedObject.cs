@@ -104,21 +104,20 @@ namespace SoftwareAnalyzer2.Structure.Gephi
         }
 
         //this function is used to add properties from the csv input file. all of the properties were premptively checked, so there should be no issues.
-        //if there are any issues, crash the program with an error
         public void AddProperty(string p, object value)
         {
-            //should not be adding properties that already exist
-            if (properties.ContainsKey(p))
+            //only adding non-duplicate values
+            if (!properties.ContainsKey(p))
             {
-                throw new InvalidOperationException(errorStr + p);
+                properties.Add(p, value);
             }
+
             //if the static dictionary does not have the property, add it to the static dictionary
             if (!allProps.ContainsKey(p))
             {
                 //using a dictionary with the standard value of 1 as the integer to avoid duplicates. easier than dealing with lists...
                 allProps.Add(p, 1);
             }
-            properties.Add(p, value);
         }
 
         //rarely used function, should not be adding properties that already exist

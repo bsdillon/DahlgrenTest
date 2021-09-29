@@ -93,9 +93,35 @@ namespace SoftwareAnalyzer2.Structure.Node
 
         internal static INode CreateNode(string node, string code, string file, string line)
         {
-            bool codeMissing = code.Equals("--");
-            bool fileMissing = file.Equals("--");
-            bool lineMissing = line.Equals("--");
+            bool codeMissing;
+            bool fileMissing;
+            bool lineMissing;
+
+            if(code == null)
+            {
+                codeMissing = true;
+            }
+            else
+            {
+                codeMissing = code.Equals("--");
+            }
+            if(file == null)
+            {
+                fileMissing = true;
+            }
+            else
+            {
+                fileMissing = file.Equals("--");
+            }
+            if(line == null)
+            {
+                lineMissing = true;
+            }
+            else
+            {
+                lineMissing = line.Equals("--");
+            }
+
             NodeType type = NodeType.FromString(node);
 
             AbbreviatedNode answer = null;
