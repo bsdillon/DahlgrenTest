@@ -1065,7 +1065,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMover);
                 // TODO:? probably should merge this with some other code and remove this
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldNamer);
-                
+                head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterNamer);
+
+
                 head.NormalizeLines();
             }
             else {
@@ -6170,6 +6172,20 @@ namespace SoftwareAnalyzer2.Tools
             if (node.GetFirstSingleLayer(Members.Variable) != null)
             {
                 // the if is there to handle the <...> i found in a try-catch for
+                node.ClearCode(ClearCodeOptions.KeepLine);
+                node.CopyCode((IModifiable)node.GetFirstSingleLayer(Members.Variable));
+            }
+        }
+
+        /// <summary>
+        /// Renames Parameter nodes to be the same as the relevant variable
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPParameterNamer(IModifiable node)
+        {
+            // TODO:? probably should merge this with some other code and remove this
+            if (node.GetFirstSingleLayer(Members.Variable) != null && (node.Parent.Parent.Node.Equals(Members.Method) || node.Parent.Parent.Node.Equals(Members.Constructor)))
+            {
                 node.ClearCode(ClearCodeOptions.KeepLine);
                 node.CopyCode((IModifiable)node.GetFirstSingleLayer(Members.Variable));
             }
