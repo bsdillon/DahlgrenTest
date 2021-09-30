@@ -17,15 +17,19 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //variables to hold the user-inputted csv fields
         private string errorDescription;
         private string errorProperty;
+        private List<GraphNode> tracedGNs = new List<GraphNode>();
+        private static string missedTraces = "";
 
         public AffectedTree()
         {
         }
 
+        //find all of the related filenames and linenumbers associated with the user's csv input file and mark gephinodes with the user-inputted error property/description
         public void FindCSVConnections(string fileName, int lineNum, string fileStem, string errorD, string errorP)
         {
             errorDescription = errorD;
             errorProperty = errorP;
+            //change the "outputFileName" variable to change the name of the output file.
             string outputFileName = "_errors_output.csv";
             string fullFile = fileStem + outputFileName;
             StreamWriter gFile = new StreamWriter(fullFile, true);
@@ -38,9 +42,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             
             //csv output
             al.OutputCSVErrors(gFile, fileName, lineNum);
+
+            gFile.WriteLine(missedTraces);
             gFile.Close();
+            missedTraces = "";
         }
-        //luTODO -- make the tracing errors silent and output them within an output file
+
         private void FindAffectedNodes(List<GraphNode> gNodes, StreamWriter s)
         {
             //for every affected graph node, trace the relationships down the chain until everything has been traced
@@ -53,6 +60,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                     //switch statement to trace the different member types.
                     //each member type has a different set of relationships (writtento, candidateread, etc.) that needs to be traced.
+                    //these tracing functions all call each other and can be called according to a series of complex function calls and conditional statements
+                    //the oringial tracing was configured through thorough debugging and will likely change slightly according to the customer's needs
                     switch (g.Represented.Node.GetMyMember())
                     {
                         case Members.Field:
@@ -79,21 +88,41 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                 }
             }
+            //reset the value of "traced" in each graphnode
+            CleanTracedGNs();
         }
 
+        //mark the GraphNode parameter as traced, and add it to the static tracedGNs list
+        private void MarkGraphNodeTraced(GraphNode g)
+        {
+            g.traced = true;
+            tracedGNs.Add(g);
+        }
+
+        //reset the value of "traced" in each graphnode in case the user enters multiple filenames/line numbers to track.
+        private void CleanTracedGNs()
+        {
+            foreach (GraphNode g in tracedGNs)
+            {
+                g.traced = false;
+            }
+            tracedGNs.Clear();
+        }
+
+        //tracing field nodes
         private void TraceField(GraphNode gn, Relationship re, Members m, GraphNode gnPar)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
-                gn.traced = true;
+                MarkGraphNodeTraced(gn);
                 gn.AddToParentAndChildrenLists(gnPar);
                 //this line seems to be neccessary to trace everything. maybe redundant in some cases
                 al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
-                    //candidate read is neccesary when it relates to methods/return values
+                    //eventually, more relationships may be relevant to trace. future work would add in other conditional tracing here
                     if (r == Relationship.WrittenBy || r == Relationship.ReturnType)
                     {
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
@@ -118,7 +147,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Field))
                             {
-                                gn.AddToSisterLists(grphNde);
                                 TraceField(grphNde, r, Members.Field, gn);
                             }
                             else if (grphNde.Represented.Node.Equals(Members.Constructor))
@@ -136,11 +164,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             else
                             {
                                 //case not accounted for. error message to user.
-                                throw new InvalidDataException(grphNde.Represented.Node.ToString() + " not accounted for in TraceField()");
+                                missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceField()\n";
                             }
 
                         }
                     }
+                    //candidate read is neccesary when it relates to methods/return values
                     else if (r == Relationship.CandidateRead)
                     {
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
@@ -153,18 +182,19 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                     else if (r == Relationship.Accesses)
                     {
-                        //Accesses will be relevent once the CandidateRead issue is fixed
+                        //Accesses will be relevent once the CandidateRead issue (github issue #329) is fixed
                     }
                 }
             }
         }
 
+        //tracing parameter nodes
         private void TraceParameter(GraphNode gn, Relationship re, Members m, GraphNode gnPar)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
-                gn.traced = true;
+                MarkGraphNodeTraced(gn);
                 gn.AddToParentAndChildrenLists(gnPar);
                 al.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
 
@@ -175,7 +205,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
                         {
                             al.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
-
+                            //There are many members that could be relevant in the future. This logic provides the user with the most important traces
                             if (grphNde.Represented.Node.Equals(Members.Method))
                             {
                                 TraceMethod(grphNde, r, Members.Parameter, gn);
@@ -204,7 +234,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             else
                             {
                                 //case not accounted for. error message to user.
-                                throw new InvalidDataException(grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()");
+                                missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()\n";
                             }
                         }
                     }
@@ -212,12 +242,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
+        //tracing method nodes
         private void TraceMethod(GraphNode gn, Relationship re, Members m, GraphNode gnPar)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
-                gn.traced = true;
+                MarkGraphNodeTraced(gn);
                 if(gnPar != null)
                 {
                     gnPar.AddToParentAndChildrenLists(gn);
@@ -226,6 +257,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 foreach (Relationship r in gn.GetRelationshipsTo().Keys)
                 {
+                    //Other relationships are subject to be added here in the future
                     if (r == Relationship.CandidateRead)
                     {
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
@@ -234,7 +266,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             al.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
                         }
                     }
-                    //return value is neccesary in some but not others (subject to change)
+                    //return value is neccesary in most cases (subject to change)
                     else if (r == Relationship.ReturnValue)
                     {
                         foreach (GraphNode grphNode in gn.GetRelationshipsTo()[r].Keys)
@@ -244,6 +276,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             TraceReturnValue(grphNode, r, Members.Method, gn);
                         }
                     }
+                    //control is rarer than return value, but relevant
                     else if (r == Relationship.Control)
                     {
                         foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
@@ -257,12 +290,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         }
 
+        //tracing branch nodes
         private void TraceBranch(GraphNode gn, Relationship re, Members m, GraphNode gnPar)
         {
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
-                gn.traced = true;
+                MarkGraphNodeTraced(gn);
                 gn.AddToParentAndChildrenLists(gnPar);
                 Branch b = (Branch)gn;
                 //get all of the line numbers in the affected branch (if/else)
@@ -281,6 +315,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
+        //tracing returnvalue nodes
         private void TraceReturnValue(GraphNode gn, Relationship re, Members m, GraphNode gnPar)
         {
             gn.AddToParentAndChildrenLists(gnPar);
@@ -288,7 +323,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             //don't retrace any fields that have already been marked.
             if (!gn.traced && !gn.IsSimulated)
             {
-                gn.traced = true;
+                MarkGraphNodeTraced(gn);
 
                 if (gn.Represented.Node.Equals(Members.Field))
                 {
@@ -301,13 +336,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         foreach (GraphNode grphNode in gn.GetRelationshipsTo()[r].Keys)
                         {
+                            //There are many members that could be relevant in the future. This logic provides the user with the most important traces
                             if (grphNode.Represented.Node.Equals(Members.Field))
                             {
                                 foreach (GraphNode p in gn.GetParentGNs())
                                 {
                                     grphNode.AddToParentAndChildrenLists(p);
                                 }
-                                grphNode.AddToSisterLists(gn);
 
                                 TraceField(grphNode, r, Members.Return, gn);
                             }
@@ -334,7 +369,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             else
                             {
                                 //case not accounted for. throw error message to user
-                                throw new InvalidDataException(grphNode.Represented.Node.ToString() + " not accounted for in TraceReturnValue()");
+                                missedTraces += grphNode.Represented.Node.ToString() + " not accounted for in TraceReturnValue()\n";
                             }
                         }
                     }
@@ -342,12 +377,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
         /* template trace function
-        private static void Trace(GraphNode gn)
+        private void Trace(GraphNode gn)
         {
             //don't retrace any fields that have already been marked.
-            if (!gn.traced)
+            if (!gn.traced && !gn.IsSimulated)
             {
-                gn.traced = true;
+                MarkGraphNodeTraced(gn);
 
             }
         }

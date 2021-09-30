@@ -12,18 +12,27 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 {
     class AffectedLine
     {
-        //dictionary: <file name (string), dictionary: <line number (int), List<affected graphnodes (graphnode)>>>
+        //dictionary: <file name (string), dictionary: <line number (int), List<Dictionary>affected graphnodes, relationship>>>
+        //affectedDict holds all of the affected graphnodes so that outputcsverrors can find ALL of the filenames and line numbers affected by the users input
+        //affectedDict tracks all of the nodes that have any relationship to the user's input (and caught within the tracing functions within affectedTree)
+        //if the logic within outputcsverrors ever needs modifications, it would be beneficial to reference affectedDict to see the core affected graphnodes
         private Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>> affectedDict = new Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>>();
+        //printLevel is incremented and decremented with commas in order to create a tree-like output.
         private string printLevel = "";
+        //outputStarted determines the order of the output tree. If the user wants to track an error on line 14 (and enters it within their csv input),
+        //the output will start with line 14 of the file they inputted.
         private bool outputStarted = false;
+        //statementsWritten prevents any duplicate statements from being outputted. Remember: not every line in the codebase is tracked by a graphnode.
+        //some graphnodes have statements (which don't have relationships) and they are our main source of tracking many items. 
+        //while statements are not ideal due to their lack of information, abbreviatedgraphs and gephinodes had even less information when that was the main approach for tracing files
         private List<Tuple<string, int>> statementsWritten = new List<Tuple<string, int>>();
+        private static List<GraphNode> markedGNs = new List<GraphNode>();
 
         public AffectedLine()
         {
         }
 
-        //luTODO -- take simulated data, mark it, terminate tracing at that point
-        //luTODO -- the output of "traceback" is still a work in progress. see TODOs below
+        //conditional statements that allow writing to "affectedDict" without worrying about duplicates and the complex input to the dictionary
         public void WriteToAffectedDict(GraphNode gn, string fileName, int lineNumber, bool trimFileN, Relationship re, string errorDescription, string errorProperty)
         {
             if (fileName != null && !gn.IsSimulated)
@@ -151,51 +160,64 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
-        //this output is subject to change based on safety's needs. finds all affected portions of code and outputs to a csv
+        //this output is subject to change based on the user's (safety's) needs. finds all affected portions of code and outputs to a csv
         public void OutputCSVErrors(StreamWriter file, string tracingFile, int tracingLineNumber)
         {
             List<Tuple<int, string, GraphNode>> extraPrints = new List<Tuple<int, string, GraphNode>>();
 
             file.WriteLine("Lines affected by input file:" + tracingFile + " - line number: [" + tracingLineNumber.ToString() + "]");
+            //for each file name that has affected code
             foreach (string fN in affectedDict.Keys)
             {
+                //trim the file name to the last part of the string behind the last directory separator char.
+                //e.g. /folder/another/importantFile.java -> /importantFile
+                //this allows safety to simply input "/importantFile" (see modulenavigator as well)
                 string fnModded = fN;
                 if (fN.LastIndexOf(Path.DirectorySeparatorChar) > 0)
                 {
                     fnModded = fnModded.Substring(fnModded.LastIndexOf(Path.DirectorySeparatorChar));
                 }
+                //for each line number within the files that have affected code
                 foreach (int lN in affectedDict[fN].Keys)
                 { 
                     List<Dictionary<GraphNode,Relationship>> gnDictList = affectedDict[fN][lN];
                     //output affected filename, graphnode.tostring, and where it originates from (if it is a statement) in a tree format
                     foreach (Dictionary<GraphNode,Relationship> d in gnDictList)
                     {
+                        //isolate the graphnodes
                         foreach (GraphNode g in d.Keys)
                         {
-                            //luTODO -- this output is still a WIP. need to add comments
+                            //if the graphnode has yet to be printed before, or if we are trying to print a statement of the graphnode and not the graphnode itself
                             if (!g.outputPrint || (g.outputPrint && g.Represented.GetLineStart() != lN))
                             {
+                                //if we find a match for the input that the user entered within the csv input file
                                 if (fnModded == tracingFile && g.Represented.GetLineStart() == tracingLineNumber)
                                 {
+                                    //write to output, increment the printlevel, and then print children
                                     WriteToOutput("fm", file, fN, g.Represented.GetLineStart(), g, false);
                                     printLevel += ",";
                                     PrintChildren(g, file);
                                     printLevel = printLevel.Remove(printLevel.Length - 1);
                                 }
+                                //if it doesn't match the user input yet, but the file matches
                                 else if (g.statementDetails.ContainsKey(tracingFile))
                                 {
                                     foreach (int lineNum in g.statementDetails[tracingFile])
                                     {
+                                        //check to see if any of the statements match the user input
                                         if (lineNum == tracingLineNumber)
                                         {
+                                            //if a statement matches, write to output, increment the printlevel, and then print parents
                                             WriteToOutput("cs", file, fN, lineNum, g, true);
                                             printLevel += ",";
                                             PrintParents(g, file);
                                             printLevel = printLevel.Remove(printLevel.Length - 1);
 
                                         }
+                                        //if the statement doesn't match
                                         else
                                         {
+                                            //if a match to the user input has been found already
                                             if (outputStarted)
                                             {
                                                 WriteToOutput("se", file, fN, lN, g, true);
@@ -203,6 +225,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                                 PrintChildren(g, file);
                                                 printLevel = printLevel.Remove(printLevel.Length - 1);
                                             }
+                                            //if a match to the user input has not been found
                                             else
                                             {
                                                 Tuple<int, string, GraphNode> t = Tuple.Create(lN, fN, g);
@@ -212,8 +235,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                     }
 
                                 }
+                                //if the filename doesn't match what the user inputted
                                 else
                                 {
+                                    //if a match to the user input has been found already
                                     if (outputStarted)
                                     {
                                         WriteToOutput("ca", file, fN, lN, g, false);
@@ -221,19 +246,21 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                         PrintChildren(g, file);
                                         printLevel = printLevel.Remove(printLevel.Length - 1);
                                     }
+                                    //if a match to the user input has not been found, store the data to print later
                                     else
                                     {
                                         Tuple<int, string, GraphNode> t = Tuple.Create(lN, fN, g);
                                         extraPrints.Add(t);
                                     }
-                                    //PrintParents(g, file);
                                 }
                             }   
                         }
                     }
                 }
+                //reset the outputStarted variable in case of multiple user inputs
                 outputStarted = false;
             }
+            //print the data that was stored before a match to the user input was found
             if(extraPrints.Count > 0)
             {
                 foreach(Tuple<int, string, GraphNode> tup in extraPrints)
@@ -244,107 +271,147 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     printLevel = printLevel.Remove(printLevel.Length - 1);
                 }
             }
+            //write a new line to separate the differing outputs and reset for a new input tracing
+            file.WriteLine();
             extraPrints.Clear();
+            statementsWritten.Clear();
+            CleanMarkedGNs();
         }
 
+        //printparents takes all of the parentGNs of the graphnode parameter and writes them to the output.
+        //any statements contained within the parents are also affected
         private void PrintParents(GraphNode g, StreamWriter file)
         {
-            g.outputPrint = true;
-            printLevel += ",";
-            foreach (GraphNode p in g.GetParentGNs())
+            //classes store many variables we don't regard, skip 
+            if (!g.Represented.Node.IsClassification)
             {
-                if (p != null && !p.dictPrint)
+                //indicate that the graphnode has been printed and increment the print level
+                MarkGraphNodePrinted(g);
+                printLevel += ",";
+                //for each parent, make sure it hasn't been printed beofre, and write the graphnode and any statements to the output.
+                foreach (GraphNode p in g.GetParentGNs())
                 {
-                    if (!p.Represented.Node.IsClassification)
+                    if (p != null && !p.dictPrint)
                     {
-                        WriteToOutput("nn", file, p.Represented.FileName, p.Represented.GetLineStart(), p, false);
-                        PrintParents(p, file);
-                        if (p.statementDetails.Keys.Count > 0)
+                        if (!p.Represented.Node.IsClassification)
                         {
-                            foreach (string fileKey in p.statementDetails.Keys)
+                            WriteToOutput("nn", file, p.Represented.FileName, p.Represented.GetLineStart(), p, false);
+                            PrintParents(p, file);
+                            if (p.statementDetails.Keys.Count > 0)
                             {
-                                foreach (int lineNum in p.statementDetails[fileKey])
+                                foreach (string fileKey in p.statementDetails.Keys)
                                 {
-                                    printLevel += ",";
-                                    WriteToOutput("psta", file, fileKey, lineNum, p, true);
-                                    printLevel = printLevel.Remove(printLevel.Length - 1);
+                                    foreach (int lineNum in p.statementDetails[fileKey])
+                                    {
+                                        printLevel += ",";
+                                        WriteToOutput("psta", file, fileKey, lineNum, p, true);
+                                        printLevel = printLevel.Remove(printLevel.Length - 1);
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+                //if the graphnode has no parents, but it has statements, print them
+                if (g.GetParentGNs().Count < 1)
+                {
+                    if (g.statementDetails.Keys.Count > 0)
+                    {
+                        foreach (string fileKey in g.statementDetails.Keys)
+                        {
+                            foreach (int lineNum in g.statementDetails[fileKey])
+                            {
+                                WriteToOutput("ps", file, fileKey, lineNum, g, true);
+                            }
+                        }
+
+                    }
+                }
+                printLevel = printLevel.Remove(printLevel.Length - 1);
+            }
+            
+        }
+
+        //printchildren takes all of the childrenGNs of the graphnode parameter and writes them to the output.
+        //any statements contained within the children are also affected
+        private void PrintChildren(GraphNode g, StreamWriter file)
+        {
+            //classes store many variables we don't regard, skip
+            if (!g.Represented.Node.IsClassification)
+            {
+                //indicate that the graphnode has been printed and increment the print level
+                MarkGraphNodePrinted(g);
+                //for each child, make sure it hasn't been printed beofre, and write the graphnode and any statements to the output.
+                foreach (GraphNode c in g.GetChildrenGNs())
+                {
+                    if (c != null && !c.dictPrint)
+                    {
+                        PrintChildren(c, file);
+                        if (c.statementDetails.Keys.Count > 0)
+                        {
+                            foreach (string fileKey in c.statementDetails.Keys)
+                            {
+                                foreach (int lineNum in c.statementDetails[fileKey])
+                                {
+                                    WriteToOutput("new", file, fileKey, lineNum, c, true);
+                                    PrintParents(c, file);
                                 }
                             }
 
                         }
-                    }
-                }
-                else
-                {
-                    //WriteToOutput("nu", file, g.Represented.FileName, g.Represented.GetLineStart(), g, false);
-                    //PrintChildren(g, file);
-                }
-            }
-            if(g.GetParentGNs().Count < 1)
-            {
-                if (g.statementDetails.Keys.Count > 0)
-                {
-                    foreach (string fileKey in g.statementDetails.Keys)
-                    {
-                        foreach (int lineNum in g.statementDetails[fileKey])
+                        else
                         {
-                            WriteToOutput("ps", file, fileKey, lineNum, g, true);
+                            WriteToOutput("cnu", file, c.Represented.FileName, c.Represented.GetLineStart(), c, false);
+                            PrintChildren(c, file);
                         }
+
                     }
-
                 }
-            }
-            printLevel = printLevel.Remove(printLevel.Length - 1);
-        }
-
-        private void PrintChildren(GraphNode g, StreamWriter file)
-        {
-            g.outputPrint = true;
-            foreach (GraphNode c in g.GetChildrenGNs())
-            {
-                if (c != null && !c.dictPrint)
+                //if the graphnode has no children, but it has statements, print them
+                if (g.GetChildrenGNs().Count < 1)
                 {
-                    PrintChildren(c, file);
-                    if (c.statementDetails.Keys.Count > 0)
+                    if (g.statementDetails.Keys.Count > 0)
                     {
-                        foreach (string fileKey in c.statementDetails.Keys)
+                        foreach (string fileKey in g.statementDetails.Keys)
                         {
-                            foreach (int lineNum in c.statementDetails[fileKey])
+                            foreach (int lineNum in g.statementDetails[fileKey])
                             {
-                                WriteToOutput("new", file, fileKey, lineNum, c, true);
-                                PrintParents(c, file);
+                                WriteToOutput("cs", file, fileKey, lineNum, g, true);
                             }
                         }
 
                     }
-                    else
-                    {
-                        WriteToOutput("cnu", file, c.Represented.FileName, c.Represented.GetLineStart(), c, false);
-                        PrintChildren(c, file);
-                    }
-
-                }
-            }
-            if (g.GetChildrenGNs().Count < 1)
-            {
-                if (g.statementDetails.Keys.Count > 0)
-                {
-                    foreach (string fileKey in g.statementDetails.Keys)
-                    {
-                        foreach (int lineNum in g.statementDetails[fileKey])
-                        {
-                            WriteToOutput("cs", file, fileKey, lineNum, g, true);
-                        }
-                    }
-
                 }
             }
         }
 
-        //prepend will be removed before the final product. just informational, currently
+        //mark the outputPrint variable of the graphnode as true and add it to a static dictionary for tracking/resetting
+        private void MarkGraphNodePrinted(GraphNode g)
+        {
+            g.outputPrint = true;
+            if (!markedGNs.Contains(g))
+            {
+                markedGNs.Add(g);
+            }
+        }
+
+        //reset all of the marked graphnodes so the user can track multiple inputs
+        private void CleanMarkedGNs()
+        {
+            foreach(GraphNode g in markedGNs)
+            {
+                g.outputPrint = false;
+                g.dictPrint = false;
+            }
+            markedGNs.Clear();
+        }
+
+        //write the information to the output. the string prepend is currently not used, but can be included  in the file.WriteLine statement for informative/debugging purposes
         void WriteToOutput(string prepend, StreamWriter file, string fileName, int lineNum, GraphNode origin, bool statement)
         {
             Tuple<string, int> s = Tuple.Create(fileName, lineNum);
+            //if the graphnode has not been printed before OR it is a statement AND the statement hasn't been written before
             if ((!origin.dictPrint || statement) && !statementsWritten.Contains(s))
             {
                 int timesUsed = 0;
@@ -352,11 +419,14 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 Dictionary<GraphNode, int> combDict = origin.GetCombinedDict();
                 if (!outputStarted)
                 {
+                    //output started if we reach this point
                     outputStarted = true;
                 }
 
                 if (combDict != null)
                 {
+                    //if the graphnode has been used in other tracing fields before, mark the number of times it was hit.
+                    //this avoids printing duplicates
                     if (combDict.ContainsKey(origin))
                     {
                         timesUsed = combDict[origin];
@@ -367,15 +437,21 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                 }
 
+                //if we print a statement, don't mark the graphnode.dictPrint as true, but write to the statementsWritten dictionary
                 if (statement)
                 {
                     statementsWritten.Add(s);
-                    file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](originated from: " + origin.Represented.ToString() + timeUsedStr + ")");
+                    file.WriteLine(printLevel + "[" + fileName + "::" + lineNum.ToString() + "](originated from: " + origin.Represented.ToString() + timeUsedStr + ")");
                 }
+                //if we print a graphnode, mark the graphnode.dictPrint as true
                 else
                 {
                     origin.dictPrint = true;
-                    file.WriteLine(printLevel + prepend + "[" + fileName + "::" + lineNum.ToString() + "](" + origin.Represented.ToString() + timeUsedStr + ")");
+                    if (!markedGNs.Contains(origin))
+                    {
+                        markedGNs.Add(origin);
+                    }
+                    file.WriteLine(printLevel + "[" + fileName + "::" + lineNum.ToString() + "](" + origin.Represented.ToString() + timeUsedStr + ")");
                 }
             }
         }

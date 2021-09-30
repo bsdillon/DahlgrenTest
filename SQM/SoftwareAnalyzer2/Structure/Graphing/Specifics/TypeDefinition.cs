@@ -45,6 +45,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             {
                 return NativeTypes[typeName];
             }
+            else if (literalMapping.ContainsKey(typeName)) 
+            {
+                return NativeTypes[literalMapping[typeName]];
+            }
 
             throw new InvalidCastException("Request for unknown native type " + typeName);
         }

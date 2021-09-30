@@ -20,6 +20,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
         public static void Register(INode node)
         {
+            ///TODO: Create a check here for CPP language.
+            ///This check will have to link a header file to a cpp file so that the corresponding nodes can be connected correctly.
             TypeDefinition.RegisterType(node);
         }
 
@@ -111,9 +113,9 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
         #region Instance Members
         #region Fields
+        //fields to keep track of the affected line numbers, relationships, parents, children, statements, etc. based on csv inputs
         private Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>> relationshipsTo = new Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>>();
         private static Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
-        private List<GraphNode> sisterGNs = new List<GraphNode>();
         private List<GraphNode> parentGNs = new List<GraphNode>();
         private List<GraphNode> childrenGNs = new List<GraphNode>();
         private static Dictionary<GraphNode, int> combinedDict = new Dictionary<GraphNode, int>();
@@ -121,23 +123,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         public bool outputPrint = false;
         public bool dictPrint = false;
 
-        public List<GraphNode> GetSisterGNs() { return sisterGNs; }
         public List<GraphNode> GetParentGNs() { return parentGNs; }
         public List<GraphNode> GetChildrenGNs() { return childrenGNs; }
         public Dictionary<GraphNode, int> GetCombinedDict() { return combinedDict; }
 
-        //doesn't matter which sister calls the function. this.sisterGNs and g.sisterGNs are both affected
-        public void AddToSisterLists(GraphNode g)
-        {
-            if (g != null && !this.sisterGNs.Contains(g))
-            {
-                this.sisterGNs.Add(g);
-            }
-            if (this != null && !g.sisterGNs.Contains(this))
-            {
-                g.sisterGNs.Add(this);
-            }
-        }
 
         //child node does the calling, passing in the parent node as a parameter
         public void AddToParentAndChildrenLists(GraphNode g)
@@ -148,16 +137,19 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                 this.parentGNs.Add(g);
                 InsertIntoCombinedDict(g);
             }
+            //this else-if starts the process of avoiding any parents becoming their own children or children becoming their own parents, causing problems with recursion
             else if (!this.childrenGNs.Contains(g) && !g.parentGNs.Contains(this) && this != g)
             {
                 if (!this.IsSimulated && !g.IsSimulated)
                 {
+                    //avoiding children-parents continued
                     if (!this.parentGNs.Contains(g))
                     {
                         this.parentGNs.Add(g);
+                        //combineddict is a dictionary that holds all of the children and parent values. it is used to avoid duplicate printouts in the output
                         InsertIntoCombinedDict(g);
                     }
-
+                    //avoiding children-parents continued
                     if (g != null && !g.childrenGNs.Contains(this))
                     {
                         g.childrenGNs.Add(this);
@@ -167,6 +159,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             }
         }
 
+        //used to prevent printing duplicate values/nodes within the output file
         private void InsertIntoCombinedDict(GraphNode g)
         {
             if (g != null)
@@ -182,6 +175,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             }
 
         }
+        
+        //linenumdict is built using the nodes/edges from the .gph file
         public static Dictionary<string, Dictionary<int, List<GraphNode>>> GetLineNumDict()
         {
             return lineNumDict;
@@ -652,6 +647,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
         public void WriteNode()
         {
+            //store this node in linenumdict for use in tracing errors
             WriteToLineDict(lineNumDict, this, represented.FileName, represented.GetLineStart(), true);
             string graph = "Node\t" + myNodeID + "\t" + represented.Node;
 
@@ -728,6 +724,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             }
             graphFile.WriteLine("Edge\t" + source + "\t" + destination + "\t" + scope + "\t" + r + "\t" + weight + "\t" + lineNumber + "\t" + fileName);
 
+            //store this edge in linenumdict for use in tracing errors
             WriteToLineDict(lineNumDict, gn, fileName, lineNumber, true);
         }
 

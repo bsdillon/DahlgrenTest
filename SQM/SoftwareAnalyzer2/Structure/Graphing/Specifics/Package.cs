@@ -40,15 +40,22 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         {
             foreach (string p in types)
             {
+                Package end = null;
                 string[] parts = p.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
                 string[] packages = new string[parts.Length - 1];
                 for (int i = 0; i < packages.Length; i++)
                 {
                     packages[i] = parts[i];
                 }
-
-                Package root = GetRootPackage(parts[0], true);
-                Package end = root.RecursiveGetPackage(packages, 1);
+                if(packages.Length == 0)
+                {
+                    end = GetRootPackage(DEFAULT_PACKAGE.ToString(), false);
+                }
+                else
+                {
+                    Package root = GetRootPackage(parts[0], true);
+                    end = root.RecursiveGetPackage(packages, 1);
+                }
 
                 TypeDefinition type = TypeDefinition.CreateSimulatedType(parts[parts.Length - 1], classType);
                 collection.Add(parts[parts.Length - 1], type);
@@ -296,7 +303,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         /// <returns></returns>
         public TypeDefinition RegisterType(TypeDefinition type)
         {
-            if (type.Represented == null) { // TODO 2021-04-09, nullptr when ingesting C++ code
+            if (type.Represented == null) { /// TODO 2021-04-09, nullptr when ingesting C++ code
                 Console.WriteLine("type.Represented == null");
                 return type;
             }
@@ -636,10 +643,17 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             {
                 packageParts[i] = temp[i];
             }
-
-            Package root = Package.GetRootPackage(packageParts[0], false);
-
-            HierarchyNode endNode = root.RecursiveFollow(packageParts, 1);
+            ///TODO: This is similar to `getNativeType`. Should be unified
+            HierarchyNode endNode = null;
+            if(packageParts.Length == 0)
+            {
+                endNode = (HierarchyNode) Package.GetRootPackage(DEFAULT_PACKAGE.ToString(), false);
+            }
+            else
+            {
+                Package root = Package.GetRootPackage(packageParts[0], false);
+                endNode = root.RecursiveFollow(packageParts, 1);
+            }
 
             HierarchyNode answer = null;
             if (actualImport.Equals("*"))
