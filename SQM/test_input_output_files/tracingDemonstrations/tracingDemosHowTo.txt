@@ -1,0 +1,10 @@
+HOW TO RUN TESTS:
+-Open SQM, click browse, and select the "bubble" folder as the project folder.
+-Name the project
+-Click Create
+-When you see a popup window that says "All done", click OK and then go to the analysis tab
+-Click the metrics tab at the top left
+-Enter a file name
+-Click the checkbox that says "CSV Input File(s)?" and select the "_bubble" csv as the input file.
+-Click the "Create Module Graph" button and let the program run.
+-When complete, you should have an output file ending in "_errors_output.csv"

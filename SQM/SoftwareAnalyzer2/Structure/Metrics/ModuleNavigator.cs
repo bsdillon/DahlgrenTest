@@ -809,6 +809,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         while (!read.EndOfStream)
                         {
+                            //split CSV values
                             var rLine = read.ReadLine();
                             var values = rLine.Split(',');
                             int lineNum = -1;
@@ -845,6 +846,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                     {
                                         //TODO?
                                         //file name matches, but the line number does not. this will happen a lot...
+                                        //likely nothing to do here unless tracking of unused values/linenums is desired
                                     }
                                 }
   
