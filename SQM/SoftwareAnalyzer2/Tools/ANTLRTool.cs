@@ -1066,8 +1066,7 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO:? probably should merge this with some other code and remove this
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldNamer);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterNamer);
-
-
+                
                 head.NormalizeLines();
             }
             else {
@@ -5043,7 +5042,13 @@ namespace SoftwareAnalyzer2.Tools
         {
             node.ClearCode(ClearCodeOptions.ClearAll);
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
-            if (classHeadNode.GetFirstSingleLayer("classHeadName") != null)
+            if (classHeadNode.Code.Equals("union"))
+            {
+                // UNION??
+                // TODO: unions
+                node.AddCode(classHeadNode.Code, classHeadNode);
+            }
+            else if(classHeadNode.GetFirstSingleLayer("classHeadName") != null)
             {
                 node.AddCode(classHeadNode.GetFirstSingleLayer("classHeadName").GetNthChild(0).Code, (IModifiable)classHeadNode.GetFirstSingleLayer("classKey"));
             }
