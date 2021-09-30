@@ -52,6 +52,22 @@ namespace SoftwareAnalyzer2.Language
 
             mapping = new Dictionary<string, string>();
             mapping.Add("Object", "Object");
+            mapping.Add("void", "void");
+            mapping.Add("Integer", "int");
+            mapping.Add("int", "int");
+            mapping.Add("long", "long");
+            mapping.Add("Long", "long");
+            mapping.Add("char", "char");
+            mapping.Add("Character", "char");
+            mapping.Add("bool", "bool");
+            mapping.Add("boolean", "bool");
+            mapping.Add("Boolean", "bool");
+            mapping.Add("double", "double");
+            mapping.Add("Double", "double");
+            mapping.Add("Float", "float");
+            mapping.Add("float", "float");
+            mapping.Add("short", "short");
+            mapping.Add("Short", "short");
             
 
             defaultVal = new Dictionary<string, string>();

@@ -20,6 +20,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
         public static void Register(INode node)
         {
+            ///TODO: Create a check here for CPP language.
+            ///This check will have to link a header file to a cpp file so that the corresponding nodes can be connected correctly.
             TypeDefinition.RegisterType(node);
         }
 
