@@ -10,7 +10,7 @@ import json
 
 try:
     # this is the default location that API_Flask_test.py opens its server
-    api_url = "http://127.0.0.1:5000/meats"
+    api_url = "https://127.0.0.1:5000/meats"
 
     invalidResponse = True
     while invalidResponse:
