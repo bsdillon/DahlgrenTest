@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="E:\Documents\Work Stuff\Active Work Files\MetricMatrixTEMP\venv"
+VIRTUAL_ENV="E:\Documents\Work Stuff\Active Work Files\Code\DahlgrenTest\MetricMatrix\MetricMatrixFlaskTest\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

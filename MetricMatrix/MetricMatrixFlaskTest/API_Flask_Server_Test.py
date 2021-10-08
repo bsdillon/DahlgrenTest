@@ -6,6 +6,8 @@
 # that includes API_Server_Request_Test, so changing that file will reset the server to its defaults
 # note that the export/set commands MUST NOT have spaces around the "="
 # command "flask run" to run the server when FLASK_APP is set
+# "flask run --host=0.0.0.0" allows connections on the local network, instead of just yourself
+# check the IPv4 Address listed under "ipconfig" to get access to the Flask server from another device on the network
 
 import flask
 import json
@@ -68,3 +70,6 @@ def delete_meat():
     with open("serverMeats.json", "w") as json_file:
         json.dump(meats, json_file)
     return {}, 204
+
+if __name__ == "__main__":
+    app.run(ssl_context='adhoc')
