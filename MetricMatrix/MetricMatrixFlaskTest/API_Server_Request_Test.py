@@ -10,10 +10,21 @@ import json
 
 try:
     # this is the default location that API_Flask_test.py opens its server
-    api_url = "https://127.0.0.1:5000/meats"
+    flask_api_url = "https://127.0.0.1:5000/meats"
+
+    # this is the default location that testApi opens its Django server
+    django_api_url = "http://127.0.0.1:8000/meats/"
+
+    api_url = django_api_url
 
     # this is the cert file I am testing with, generated using OpenSSL:
-    cert_file = "cert.pem"
+    # set to False if you don't care about verified connections
+    cert_file = False#"cert.pem"
+
+    # known error: C:\Users\Maxwell\AppData\Local\Programs\Python\Python38\lib\site-packages\urllib3\connection.py:460: SubjectAltNameWarning: Certificate for 127.0.0.1 has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/urllib3/urllib3/issues/497 for details.)
+    # attempted fix: https://docs.oracle.com/cd/E52668_01/E66514/html/ceph-issues-24424028.html
+    # doesn't work, causes more problems...
+    # solution is not clear here, it may be the case that direct access to IP addresses is not supported?
 
     invalidResponse = True
     while invalidResponse:
@@ -32,21 +43,22 @@ try:
             targetToPost = {"color":color, "weight":weight, "flavor":flavor, "personality":personality}
 
             response = requests.post(api_url, json = targetToPost, verify = cert_file)
+        # from here, the code is dependent on whether the server is the Flask or Django server
         elif(requestInput == "PUT"):
             invalidResponse = False
-            uuid = input("UUID: ")
+            uuid = input("ID: ")
             color = input("Color: ")
             weight = input("Weight: ")
             flavor = input("Flavor: ")
             personality = input("Personality: ")
-            targetToPut = {"uuid":uuid, "color":color, "weight":weight, "flavor":flavor, "personality":personality}
+            targetToPut = {"id":uuid, "color":color, "weight":weight, "flavor":flavor, "personality":personality}
 
             response = requests.put(api_url, json = targetToPut, verify = cert_file)
         elif(requestInput == "PATCH"):
             invalidResponse = False
-            uuid = input("UUID: ")
+            uuid = input("ID: ")
             print("Any field that should not be updated must be left blank.")
-            targetToPatch = {"uuid":uuid}
+            targetToPatch = {"id":uuid}
             color = input("Color: ")
             if(color != ""):
                 targetToPatch["color"] = color
@@ -63,9 +75,11 @@ try:
             response = requests.patch(api_url, json = targetToPatch, verify = cert_file)
         elif(requestInput == "DELETE"):
             invalidResponse = False
-            uuid = input("UUID: ")
-
-            response = requests.delete(api_url, data = {"uuid": uuid}, verify = cert_file)
+            uuid = input("ID: ")
+            if(api_url == flask_api_url):
+                response = requests.delete(api_url, data = {"id": uuid}, verify = cert_file)
+            elif(api_url == django_api_url):
+                response = requests.delete(api_url + uuid, verify = cert_file)
         else:
             print("Invalid response, try again.")
         

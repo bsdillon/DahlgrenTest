@@ -1,4 +1,9 @@
 /__pycache__
 /venv
+/openssl.cnf
 /cert.pem
 /key.pem
+/127.0.0.1.crt
+/127.0.0.1.csr
+/127.0.0.1.key
+/v3.cnf

@@ -29,7 +29,7 @@ def add_meat():
     if flask.request.is_json:
         meat = flask.request.get_json()
         # may want to check that the uuid isn't in use already, just in case?
-        meat["uuid"] = uuid.uuid4().hex
+        meat["id"] = uuid.uuid4().hex
         meats.append(meat)
         with open("serverMeats.json", "w") as json_file:
             json.dump(meats, json_file)
@@ -39,9 +39,9 @@ def add_meat():
 @app.put("/meats")
 def replace_meat():
     meat = flask.request.get_json()
-    if (meat["uuid"] not in [value for item in meats for value in item.values()]):
-        return {"error": "UUID not found"}, 404
-    meats[:] = [meat if item["uuid"] == meat["uuid"] else item for item in meats]
+    if (meat["id"] not in [value for item in meats for value in item.values()]):
+        return {"error": "ID not found"}, 404
+    meats[:] = [meat if item["id"] == meat["id"] else item for item in meats]
     with open("serverMeats.json", "w") as json_file:
         json.dump(meats, json_file)
     return {}, 204
@@ -50,9 +50,9 @@ def replace_meat():
 def edit_meat():
     incomingMeat = flask.request.get_json()
     try:
-        meat = next(item for item in meats if item["uuid"] == incomingMeat["uuid"])
+        meat = next(item for item in meats if item["id"] == incomingMeat["id"])
     except StopIteration:
-        return {"error": "UUID not found"}, 404
+        return {"error": "ID not found"}, 404
     for key in incomingMeat:
         meat[key] = incomingMeat[key]
     with open("serverMeats.json", "w") as json_file:
@@ -61,11 +61,11 @@ def edit_meat():
 
 @app.delete("/meats")
 def delete_meat():
-    uuid = flask.request.form["uuid"]
+    uuid = flask.request.form["id"]
     try:
-        meat = next(item for item in meats if item["uuid"] == uuid)
+        meat = next(item for item in meats if item["id"] == uuid)
     except StopIteration:
-        return {"error": "UUID not found"}, 404
+        return {"error": "ID not found"}, 404
     meats.remove(meat)
     with open("serverMeats.json", "w") as json_file:
         json.dump(meats, json_file)
