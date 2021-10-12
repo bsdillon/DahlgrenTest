@@ -12,6 +12,9 @@ try:
     # this is the default location that API_Flask_test.py opens its server
     api_url = "https://127.0.0.1:5000/meats"
 
+    # this is the cert file I am testing with, generated using OpenSSL:
+    cert_file = "cert.pem"
+
     invalidResponse = True
     while invalidResponse:
         requestInput = input("Request type (GET, POST, PUT, PATCH, DELETE): ")
@@ -19,7 +22,7 @@ try:
         if(requestInput == "GET"):
             invalidResponse = False
             
-            response = requests.get(api_url)
+            response = requests.get(api_url, verify = cert_file)
         elif(requestInput == "POST"):
             invalidResponse = False
             color = input("Color: ")
@@ -28,7 +31,7 @@ try:
             personality = input("Personality: ")
             targetToPost = {"color":color, "weight":weight, "flavor":flavor, "personality":personality}
 
-            response = requests.post(api_url, json = targetToPost)
+            response = requests.post(api_url, json = targetToPost, verify = cert_file)
         elif(requestInput == "PUT"):
             invalidResponse = False
             uuid = input("UUID: ")
@@ -38,7 +41,7 @@ try:
             personality = input("Personality: ")
             targetToPut = {"uuid":uuid, "color":color, "weight":weight, "flavor":flavor, "personality":personality}
 
-            response = requests.put(api_url, json = targetToPut)
+            response = requests.put(api_url, json = targetToPut, verify = cert_file)
         elif(requestInput == "PATCH"):
             invalidResponse = False
             uuid = input("UUID: ")
@@ -57,12 +60,12 @@ try:
             if(personality != ""):
                 targetToPatch["personality"] = personality
 
-            response = requests.patch(api_url, json = targetToPatch)
+            response = requests.patch(api_url, json = targetToPatch, verify = cert_file)
         elif(requestInput == "DELETE"):
             invalidResponse = False
             uuid = input("UUID: ")
 
-            response = requests.delete(api_url, data = {"uuid": uuid})
+            response = requests.delete(api_url, data = {"uuid": uuid}, verify = cert_file)
         else:
             print("Invalid response, try again.")
         

@@ -72,4 +72,11 @@ def delete_meat():
     return {}, 204
 
 if __name__ == "__main__":
-    app.run(ssl_context='adhoc')
+    #app.run(ssl_context='adhoc')
+    app.run(ssl_context=("cert.pem", "key.pem"))
+    # generated using OpenSSL, which comes packaged inside Git for Windows!
+    # in the G4W command line, use this command to generate a self-signed certificate:
+    # openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+    # fill out as much of the required info as possible, but note that the Common Name has specific requirements
+    # to test with the local server, I had to set the name to "127.0.0.1" (inside the quotations)
+    # "localhost" did not work, causing errors when testing with the other Python test file
