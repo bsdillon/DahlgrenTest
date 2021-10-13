@@ -51,14 +51,20 @@ try:
             weight = input("Weight: ")
             flavor = input("Flavor: ")
             personality = input("Personality: ")
-            targetToPut = {"id":uuid, "color":color, "weight":weight, "flavor":flavor, "personality":personality}
-
-            response = requests.put(api_url, json = targetToPut, verify = cert_file)
+            if(api_url == flask_api_url):
+                targetToPut = {"id":uuid, "color":color, "weight":weight, "flavor":flavor, "personality":personality}
+                response = requests.put(api_url, json = targetToPut, verify = cert_file)
+            elif(api_url == django_api_url):
+                targetToPut = {"color":color, "weight":weight, "flavor":flavor, "personality":personality}
+                response = requests.put(api_url + uuid + "/", json = targetToPut, verify = cert_file)
         elif(requestInput == "PATCH"):
             invalidResponse = False
             uuid = input("ID: ")
             print("Any field that should not be updated must be left blank.")
-            targetToPatch = {"id":uuid}
+            if(api_url == flask_api_url):
+                targetToPatch = {"id":uuid}
+            elif(api_url == django_api_url):
+                targetToPatch = {}
             color = input("Color: ")
             if(color != ""):
                 targetToPatch["color"] = color
@@ -72,7 +78,10 @@ try:
             if(personality != ""):
                 targetToPatch["personality"] = personality
 
-            response = requests.patch(api_url, json = targetToPatch, verify = cert_file)
+            if(api_url == flask_api_url):
+                response = requests.patch(api_url, json = targetToPatch, verify = cert_file)
+            elif(api_url == django_api_url):
+                response = requests.patch(api_url + uuid + "/", json = targetToPatch, verify = cert_file)
         elif(requestInput == "DELETE"):
             invalidResponse = False
             uuid = input("ID: ")
