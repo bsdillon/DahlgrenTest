@@ -1,0 +1,12 @@
+prereq:
+dotnet sdk
+vscode
+download c# extension
+
+1)dotnet new webapi -n nameHere
+
+2)say yes to adding additional files for building/debugging
+
+3)dotnet dev-certs https --trust
+
+-c#9.0 has a new item class that you can make direct comparisons again. value-based equality of items. when comparing two items, if all properties of each item are equal, the the items are equal
