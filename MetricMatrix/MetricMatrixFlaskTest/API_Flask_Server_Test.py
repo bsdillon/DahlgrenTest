@@ -38,13 +38,14 @@ def add_meat():
 
 @app.put("/meats")
 def replace_meat():
+    # should probably add the meat to the list if the ID is missing?
     meat = flask.request.get_json()
     if (meat["id"] not in [value for item in meats for value in item.values()]):
         return {"error": "ID not found"}, 404
     meats[:] = [meat if item["id"] == meat["id"] else item for item in meats]
     with open("serverMeats.json", "w") as json_file:
         json.dump(meats, json_file)
-    return {}, 204
+    return meat, 200
 
 @app.patch("/meats")
 def edit_meat():
@@ -57,10 +58,11 @@ def edit_meat():
         meat[key] = incomingMeat[key]
     with open("serverMeats.json", "w") as json_file:
         json.dump(meats, json_file)
-    return {}, 204
+    return meat, 200
 
 @app.delete("/meats")
 def delete_meat():
+    # TODO:? if no id found, do nothing - delete should be idempotent
     uuid = flask.request.form["id"]
     try:
         meat = next(item for item in meats if item["id"] == uuid)

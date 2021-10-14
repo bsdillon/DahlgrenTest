@@ -9,13 +9,17 @@ import requests
 import json
 
 try:
-    # this is the default location that API_Flask_test.py opens its server
-    flask_api_url = "https://127.0.0.1:5000/meats"
+    currentServerTarget = "Flask" # "FastAPI" "Django"
 
-    # this is the default location that testApi opens its Django server
-    django_api_url = "http://127.0.0.1:8000/meats/"
-
-    api_url = django_api_url
+    if(currentServerTarget == "Flask"):
+        # this is the default location that API_Flask_Server_Test.py opens its server
+        api_url = "https://127.0.0.1:5000/meats"
+    elif(currentServerTarget == "Django"):
+        # this is the default location that testApi opens its Django server
+        api_url = "http://127.0.0.1:8000/meats/"
+    elif(currentServerTarget == "FastAPI"):
+        # this is the default location that API_FastAPI_Server_Test.py opens its FastAPI server
+        api_url = "http://127.0.0.1:8000/meats"
 
     # this is the cert file I am testing with, generated using OpenSSL:
     # set to False if you don't care about verified connections
@@ -51,19 +55,19 @@ try:
             weight = input("Weight: ")
             flavor = input("Flavor: ")
             personality = input("Personality: ")
-            if(api_url == flask_api_url):
+            if(currentServerTarget == "Flask" or currentServerTarget == "FastAPI"):
                 targetToPut = {"id":uuid, "color":color, "weight":weight, "flavor":flavor, "personality":personality}
                 response = requests.put(api_url, json = targetToPut, verify = cert_file)
-            elif(api_url == django_api_url):
+            elif(currentServerTarget == "Django"):
                 targetToPut = {"color":color, "weight":weight, "flavor":flavor, "personality":personality}
                 response = requests.put(api_url + uuid + "/", json = targetToPut, verify = cert_file)
         elif(requestInput == "PATCH"):
             invalidResponse = False
             uuid = input("ID: ")
             print("Any field that should not be updated must be left blank.")
-            if(api_url == flask_api_url):
+            if(currentServerTarget == "Flask"):
                 targetToPatch = {"id":uuid}
-            elif(api_url == django_api_url):
+            elif(currentServerTarget == "Django"):
                 targetToPatch = {}
             color = input("Color: ")
             if(color != ""):
@@ -78,16 +82,16 @@ try:
             if(personality != ""):
                 targetToPatch["personality"] = personality
 
-            if(api_url == flask_api_url):
+            if(currentServerTarget == "Flask"):
                 response = requests.patch(api_url, json = targetToPatch, verify = cert_file)
-            elif(api_url == django_api_url):
+            elif(currentServerTarget == "Django"):
                 response = requests.patch(api_url + uuid + "/", json = targetToPatch, verify = cert_file)
         elif(requestInput == "DELETE"):
             invalidResponse = False
             uuid = input("ID: ")
-            if(api_url == flask_api_url):
+            if(currentServerTarget == "Flask" or currentServerTarget == "FastAPI"):
                 response = requests.delete(api_url, data = {"id": uuid}, verify = cert_file)
-            elif(api_url == django_api_url):
+            elif(currentServerTarget == "Django"):
                 response = requests.delete(api_url + uuid, verify = cert_file)
         else:
             print("Invalid response, try again.")
