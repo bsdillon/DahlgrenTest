@@ -1,0 +1,19 @@
+[
+	{
+		"model": "prototype.prototype",
+		"pk": 1,
+		"fields": {
+			"labName": "BIG LAB",
+			"UIC": 1001,
+			"eventStartDateTime": "2021-10-25 12:09:28.984311",
+			"eventEndDateTime": "2021-10-25 12:09:58.591222",
+			"totalTestCases": 200,
+			"totalTestCasesPassed": 198,
+			"totalTestCasesFailed": 2,
+			"totalElapsedTime": "3:09:58.591222",
+			"testUptime": "2:09:28.984311",
+			"eventStatus": "PLANNED",
+			"url": "https://www.defense.gov"
+		}
+	}
+]
