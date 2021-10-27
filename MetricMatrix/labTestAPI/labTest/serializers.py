@@ -4,7 +4,8 @@ from .models import Lab, Test
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
-        fields = ["id", "eventStartDateTime", "eventEndDateTime", "testCasePassFail", "eventStatus"]
+        lab = serializers.StringRelatedField(source="lab.name")
+        fields = ["id", "eventStartDateTime", "eventEndDateTime", "testCasePassFail", "eventStatus", "lab"]
 
 class LabSerializer(serializers.ModelSerializer):
     tests = TestSerializer(many=True)

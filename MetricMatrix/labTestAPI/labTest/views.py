@@ -12,4 +12,6 @@ class LabViewSet(viewsets.ModelViewSet):
 
 class TestViewSet(viewsets.ModelViewSet):
     serializer_class = TestSerializer
-    queryset = Test.objects.all()
+    #queryset = Test.objects.all()
+    def get_queryset(self):
+        return Test.objects.filter(lab__name=self.kwargs["name"])
