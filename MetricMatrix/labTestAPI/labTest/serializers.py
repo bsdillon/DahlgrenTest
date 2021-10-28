@@ -2,9 +2,9 @@ from rest_framework import serializers
 from .models import Lab, Test
 
 class TestSerializer(serializers.ModelSerializer):
+    lab = serializers.SlugRelatedField(slug_field="name",queryset=Lab.objects.all())
     class Meta:
         model = Test
-        lab = serializers.StringRelatedField(source="lab.name")
         fields = ["id", "eventStartDateTime", "eventEndDateTime", "testCasePassFail", "eventStatus", "lab"]
 
 class LabSerializer(serializers.ModelSerializer):
