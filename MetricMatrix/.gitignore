@@ -3,4 +3,8 @@
 /prototypeapi/prototypeapi/__pycache__/
 /labTestAPI/labTest/__pycache__/
 /labTestAPI/labTestAPI/__pycache__/
+/iam/iam/__pycache__/
+/iam/users/__pycache__/
+/iam/users/migrations/__pycache__/
+/authserver/authserver/__pycache__/
 __pycache__/
