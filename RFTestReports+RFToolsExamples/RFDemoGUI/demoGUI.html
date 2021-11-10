@@ -8,36 +8,43 @@
     <script src="Chart.min.js"></script>
     <script src= "piechartlibrary.js"></script>
     <script src="linechartlibrary.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script id = "scriptSourceFile" src = "demoGUI.js"></script>
 </head>
-<body onload = "start()" class = "background"  id="body">
+<body onload = "start()" class="background"  id="body">
 <div id = "header"></div>
  <div id = "main" class = "div">
    <br>
-    <div style = "float: left;">
-       <table id ="legend" class ="legend">
-           <tr><th colspan = "2">Legend:</th></tr>
+    <div style="float: left;">
+       <table id="legend" class="legend">
+           <tr><th colspan="2">Legend:</th></tr>
            <tr>
-               <td style = "background-color: CadetBlue;"></td>
+               <td class="pass plump"></td>
                <td>Pass</td>
            </tr>
            <tr>
-               <td style = "background-color: rgb(0,59,79);"></td>
+               <td class="fail plump"></td>
                <td> Fail</td>
            </tr>
            <tr>
-               <td style = "background-color: Gray;"></td>
+               <td class="details plump"></td>
+               <td> Details</td>
+           </tr>
+           <tr>
+               <td class="report"></td>
+               <td>Report</td>
+           </tr>
+           <tr>
+               <td class="buffer"></td>
                <td> Buffer</td>
            </tr>
            <tr>
-               <td style = "background-color: rgb(198, 204, 208);"></td>
+               <td class="running"></td>
                <td>Running</td>
            </tr>
         </table>
     </div>
     <div style="float: center;">
-      <table id="heatmap" class ="standard"></table>
+      <table id="heatmap" class="heatmap heatMap"></table>
     </div>
     <br>
      <h2 style = "margin: 10px 10px 10px 10px;"> Tests - Cumulative Results: <button onclick="oqe('total')">OQE</button></h2>

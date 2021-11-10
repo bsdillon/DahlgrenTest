@@ -46,7 +46,7 @@ function createLineConfig(cType, title, xLabel, yLabel)
     },
     options:
     {
-      //animation: false,
+      animation: false,
       responsive: false,
       legend:
       {

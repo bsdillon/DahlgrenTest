@@ -1,29 +1,19 @@
 var testRuns = {
- "20210701 11:55:23.791" : [
-{ Parameters: '${SITE URL}${BROWSER} JavaScript Test Tool  ', Test: 'Open Site', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio1 ', Test: 'Radio Test 1', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio2 ', Test: 'Radio Test 2', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio3 ', Test: 'Radio Test 3', Status: 'PASS', Message: ""}, 
- { Parameters: ' Radio4 ', Test: 'Radio Test 4', Status: 'FAIL', Message: "Button with locator 'Radio4' not found."}, 
- { Parameters: 'fileName fileNametextfile1.txt openfile fileOutputValue1  ', Test: 'Textbox Test', Status: 'PASS', Message: ""}, 
- { Parameters: 'date date12/12/2020  date12/12/2020   ', Test: 'Date Test', Status: 'FAIL', Message: "Element 'date' should have contained text '12/12/2020' but its text was ''."}, 
- ], 
- "20210701 12:00:44.601" : [
-{ Parameters: '${SITE URL}${BROWSER} JavaScript Test Tool  ', Test: 'Open Site', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio1 ', Test: 'Radio Test 1', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio2 ', Test: 'Radio Test 2', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio3 ', Test: 'Radio Test 3', Status: 'PASS', Message: ""}, 
- { Parameters: ' Radio4 ', Test: 'Radio Test 4', Status: 'FAIL', Message: "Button with locator 'Radio4' not found."}, 
- { Parameters: 'fileName fileNametextfile1.txt openfile fileOutputValue1  ', Test: 'Textbox Test', Status: 'PASS', Message: ""}, 
- { Parameters: 'date date12/12/2020  date12/12/2020   ', Test: 'Date Test', Status: 'FAIL', Message: "Element 'date' should have contained text '12/12/2020' but its text was ''."}, 
- ], 
- "20210701 12:02:48.448" : [
-{ Parameters: '${SITE URL}${BROWSER} JavaScript Test Tool  ', Test: 'Open Site', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio1 ', Test: 'Radio Test 1', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio2 ', Test: 'Radio Test 2', Status: 'PASS', Message: ""}, 
- { Parameters: 'Radio3 ', Test: 'Radio Test 3', Status: 'PASS', Message: ""}, 
- { Parameters: ' Radio4 ', Test: 'Radio Test 4', Status: 'FAIL', Message: "Button with locator 'Radio4' not found."}, 
- { Parameters: 'fileName fileNametextfile1.txt openfile fileOutputValue1  ', Test: 'Textbox Test', Status: 'PASS', Message: ""}, 
- { Parameters: 'date date12/12/2020  date12/12/2020   ', Test: 'Date Test', Status: 'FAIL', Message: "Element 'date' should have contained text '12/12/2020' but its text was ''."}, 
- ], 
+ "20210724 11:46:43.143" : [
+{ Test: ' kappa', Status: 'PASS', Step: 'Step 1', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}, 
+{ Test: ' lambda', Status: 'PASS', Step: 'Step 2', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}, 
+{ Test: ' mu', Status: 'FAIL', Step: 'Step 3', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}
+], 
+ "20210624 11:45:41.189" : [
+{ Test: ' alpha', Status: 'PASS', Step: 'Step 1', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}, 
+{ Test: ' beta', Status: 'PASS', Step: 'Step 2', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}, 
+{ Test: ' gamma', Status: 'FAIL', Step: 'Step 3', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}, 
+{ Test: ' delta', Status: 'DETAILS', Step: 'Step 4', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}, 
+{ Test: ' epsilon', Status: 'FAIL', Step: 'Step 5', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}
+], 
+ "20210624 11:46:43.143" : [
+{ Test: ' phi', Status: 'PASS', Step: 'Step 1', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}, 
+{ Test: ' nu', Status: 'PASS', Step: 'Step 2', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}, 
+{ Test: ' iota', Status: 'FAIL', Step: 'Step 3', Time: 'Start Time: 2021-01-02 11:59:00, End Time: 2021-01-02 13:01:00', Details: 'Actual: actua, Expected: other'}
+], 
  };
