@@ -54,10 +54,11 @@ function generateHeatMap(data, length, rawData) {
       labelCell.appendChild(label);
       td = row.insertCell();
       td.classList.add("report");
-      
-    buttonLink = rawData[i];
-    createButton('button', oqe,'OQE', buttonLink, window, para, '', 'statOQE', '');
-
+      let dataIndex = rawData[testIndex];
+      td.onclick = function(){
+        oqe(dataIndex);
+      }
+      td.id="test"+testIndex+"OQE";
 
       //add data for the test.
       for(let oneTest of testData) {
@@ -239,7 +240,7 @@ function createImage(id, source, width, height){
     var length = keys.length;
     for (var i=0; i<length; i++) {
       var cell = row.insertCell();
-      var text = win.document.createTextNode(element[key]);
+      var text = win.document.createTextNode(element[keys[i]]);
       if(!isEven(b)){
   cell.style.backgroundColor = 'rgba(0,0,0,0.07)';
       }
@@ -331,7 +332,7 @@ function generateStatus(data, length, rawData) {
    win.document.body.appendChild(buttonParent);
    var dataKeys = Object.keys(data[0]);
    var table = initTable(win);
-   tableStyle(table);
+   //tableStyle(table);
    var keys = generateTableHead(table, dataKeys, win);
    generateTable(table, data, win, keys);
    data1 = sortResults(data);
@@ -419,8 +420,9 @@ function generateStatus(data, length, rawData) {
      if(x != 'total'){
        var chartData = testRuns[x];
        var win = window.open('', newWindow, windowFeatures);
-       var temp = loadOQEChart(chartData, win);
-       win.addEventListener('load', temp, false);
+       win.addEventListener('load', 
+         loadOQEChart(chartData, win), 
+         false);
      }else{
        var win = window.open('', newWindow, windowFeatures);
        win.addEventListener('load', startData(win), false );
