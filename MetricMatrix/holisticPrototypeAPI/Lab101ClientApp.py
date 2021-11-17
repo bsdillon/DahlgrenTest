@@ -2,7 +2,7 @@ import requests
 import json
 import base64
 
-debugUser = "admin"#"bogus"#"lab101"
+debugUser = "lab101"
 if (debugUser == "admin"):
     client_id = "uxsjRcQXcF8kcjrCAVRnUJNbgUrsOmkNe2BADNtd"
     secret = "0KfnA11Y5sPwNdK3733PILl1VMDbromsVINNrWXhQtZPuKKxPJYaoekHtgVxjtkKS8on9IS9JbWNDJZclOuE3CDBOd8pvqaxgZq8YJcoTVOx0Mt7zawZ0ecraKMEdI4u"
@@ -33,7 +33,7 @@ def getAccessToken(client_id, secret, cert):
 
 access_token = getAccessToken(client_id, secret, cert)
 
-response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+response = requests.get("https://localhost:8000/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
 print(json.dumps(response.json(), indent = 2))
 
 # try another request

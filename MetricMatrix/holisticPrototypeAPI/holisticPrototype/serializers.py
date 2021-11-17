@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Lab, Test
 
 class TestSerializer(serializers.ModelSerializer):
-    lab = serializers.StringRelatedField()
+    lab = serializers.StringRelatedField()#(read_only=True) #<- should it be?
 
     class Meta:
         model = Test
@@ -14,7 +14,7 @@ class TestSerializer(serializers.ModelSerializer):
         return super(TestSerializer, self).create(validated_data)
 
 class LabSerializer(serializers.ModelSerializer):
-    tests = TestSerializer(many=True, required=False)
+    tests = TestSerializer(many=True, required=False, write_only = True)# may want to remove write_only? It obfuscates COMPLETELY, so you can't preview tests, in case that's a desirable outcome...
 
     class Meta:
         model = Lab

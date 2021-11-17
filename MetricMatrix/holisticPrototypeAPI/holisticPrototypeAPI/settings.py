@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "holisticPrototype",
     "sslserver",
     "oauth2_provider",
+    "guardian", 
 ]
 
 MIDDLEWARE = [
@@ -131,13 +132,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
+    )
 }
 
 OAUTH2_PROVIDER = {
     "SCOPES": {"read": "Read scope", "write": "Write scope"},
     "ACCESS_TOKEN_EXPIRE_SECONDS": 15,
 }
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+]
