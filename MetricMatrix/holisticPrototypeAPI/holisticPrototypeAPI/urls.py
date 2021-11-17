@@ -23,14 +23,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path("", include("holisticPrototype.urls")),
-
-    path('openapi', get_schema_view(
-        title="Lab",
-        description="Lab API",
-        version="1.0.0"
-    ), name='openapi-schema'),
-    path('swagger-ui/', TemplateView.as_view(
-        template_name='swagger-ui.html',
-        extra_context={'schema_url':'openapi-schema'}
-    ), name='swagger-ui'),
 ]
