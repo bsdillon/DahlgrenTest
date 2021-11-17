@@ -32,13 +32,19 @@ def getAccessToken(client_id, secret, cert):
     return tokenResponse.json()["access_token"]
 
 access_token = getAccessToken(client_id, secret, cert)
-
-response = requests.get("https://localhost:8000/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
 print(json.dumps(response.json(), indent = 2))
 
-# try another request
-#access_token = getAccessToken(client_id, secret, cert)
-#newLab = {"name": "lab104", "UIC": 104}
-#response = requests.post("https://localhost:8000/labs/", json = newLab, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-#response = requests.delete("https://localhost:8000/labs/lab104", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-#print(json.dumps(response.json(), indent = 2))
+# try more requests
+access_token = getAccessToken(client_id, secret, cert)
+newLab = {"name": "lab104", "UIC": 104}
+response = requests.post("https://localhost:8000/labs/", json = newLab, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+print(json.dumps(response.json(), indent = 2))
+
+access_token = getAccessToken(client_id, secret, cert)
+response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+print(json.dumps(response.json(), indent = 2))
+
+access_token = getAccessToken(client_id, secret, cert)
+response = requests.delete("https://localhost:8000/labs/lab104", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+print(response.status_code)
