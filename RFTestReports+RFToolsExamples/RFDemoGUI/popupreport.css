@@ -1,0 +1,25 @@
+body {
+       background-color: GhostWhite;
+     }
+
+table {border-radius:10px;
+       border: 6px solid GhostWhite;
+       color: rgb(0,59,79);
+       font-family: helvetica;
+       box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25), -8px -8px 12px 0 rgba(255, 255, 255, 0);
+      }
+
+td    {border-radius: 5px;
+       background-color: GhostWhite;
+       font-weight: bolder;
+       box-shadow: 2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset, -1.5px -1.5px 3px 0 rgba(0, 0, 0, .25) inset;
+      }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {color = rgb(0,59,79);
+    font-family = helvetica;
+   }
