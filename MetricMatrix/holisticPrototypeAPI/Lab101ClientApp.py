@@ -36,70 +36,83 @@ def getAccessToken(client_id, secret, cert):
 # maybe output to a file for testing purposes: output what client is making requests, permissions and authorizations, what requests they're making, expected output, what they get in reality
 # labs
 for user in userList:
-    print(user["user"])
+    print("Current Application: " + user["user"])
     client_id = user["client_id"]
     secret = user["client_secret"]
 
     # view the labs
+    print("GET labs")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # view lab101
+    print("GET lab101")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get("https://localhost:8000/labs/lab101/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # post lab104
+    print("POST lab104")
     access_token = getAccessToken(client_id, secret, cert)
     newLab = {"name": "lab104", "UIC": 104}
     response = requests.post("https://localhost:8000/labs/", json = newLab, headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # view the labs
+    print("GET labs")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # view lab104
+    print("GET lab104")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get("https://localhost:8000/labs/lab104/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # modify lab101 (PATCH and PUT both use the same permissions stuff so it should be ok don't worry about it)
+    print("PATCH lab101")
     access_token = getAccessToken(client_id, secret, cert)
     patch = {"UIC": 1000}
     response = requests.patch("https://localhost:8000/labs/lab101/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # view the labs
+    print("GET labs")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # put lab101 back
+    print("PATCH lab101")
     access_token = getAccessToken(client_id, secret, cert)
     patch = {"UIC": 101}
     response = requests.patch("https://localhost:8000/labs/lab101/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # view the labs
+    print("GET labs")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # modify lab104
+    print("PATCH lab104")
     access_token = getAccessToken(client_id, secret, cert)
     patch = {"UIC": 40000}
     response = requests.patch("https://localhost:8000/labs/lab104/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # view the labs
+    print("GET labs")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
     # delete lab 104
+    print("DELETE lab104")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.delete("https://localhost:8000/labs/lab104/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(response.status_code)
     # view the labs
+    print("GET labs")
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get("https://localhost:8000/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
 
 # tests
 for user in userList:
-    print(user["user"])
+    print("Current Application: " + user["user"])
     client_id = user["client_id"]
     secret = user["client_secret"]
     
