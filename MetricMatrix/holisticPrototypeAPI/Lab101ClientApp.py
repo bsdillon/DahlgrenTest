@@ -19,7 +19,7 @@ def getAccessToken(client_id, secret, cert):
     credential = "{0}:{1}".format(client_id, secret)
     encoded_cred = base64.b64encode(credential.encode("utf-8"))
     headers = {
-        "Authorization": "Basic " + encoded_cred.decode(),
+        "Authorization": "Basic {0}".format(encoded_cred.decode()),
         "Cache-Control": "no-cache",
         "Content-Type": "application/x-www-form-urlencoded"
     }
