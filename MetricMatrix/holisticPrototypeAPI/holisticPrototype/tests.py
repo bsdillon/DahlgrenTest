@@ -8,6 +8,7 @@ from guardian.shortcuts import assign_perm
 from .models import Lab, Test
 import base64
 import json
+import os.path
 
 Application = get_application_model()
 AccessToken = get_access_token_model()
@@ -69,637 +70,404 @@ class LabAndTestTestCase(TestCase):
         assign_perm("change_test", self.testLab1.user, testLab1Test)
         assign_perm("delete_test", self.testLab1.user, testLab1Test)
 
-    def do_specific_test(self, currentApplication, response, expectedStatus, expectedResponse):
-        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+    def do_specific_test(self, currentApplication, response, expectedStatus, expectedResponse = None):
         actualStatus = response.status_code
+        print("Expected status: {0}".format(expectedStatus))
+        print("Actual status:   {0}".format(actualStatus))
         self.assertEqual(actualStatus, expectedStatus)
-        actualResponse = loadResponseToJson(response)
-        self.assertEqual(actualResponse, expectedResponse)
-        print("OK!")
+        if (expectedResponse is not None):
+            actualResponse = loadResponseToJson(response)
+            print("Expected response: {0}".format(expectedResponse))
+            print("Actual response:   {0}".format(actualResponse))
+            self.assertEqual(actualResponse, expectedResponse)
         
     def test_admin(self):
-        # as admin
+        print("\nApplication: admin")
         currentApplication = self.admin
-        # check access token
+        print("Check access token")
         accessTokenResponse = getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client)
-        actual = accessTokenResponse.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
+        actualStatus = accessTokenResponse.status_code
+        expectedStatus = 200
+        print("Expected status: {0}".format(expectedStatus))
+        print("Actual status:   {0}".format(actualStatus))
+        self.assertEqual(actualStatus, expectedStatus)
         accessTokenResponse = loadResponseToJson(accessTokenResponse)
         actual = accessTokenResponse["access_token"]
         expected = AccessToken.objects.last().token
+        print("Expected token: {0}".format(expected))
+        print("Actual token:   {0}".format(actual))
         self.assertEqual(actual, expected)
         actual = accessTokenResponse["expires_in"]
         expected = 15
+        print("Expected expiration time: {0}".format(expected))
+        print("Actual expiration time:   {0}".format(actual))
         self.assertEqual(actual, expected)
         actual = accessTokenResponse["token_type"]
         expected = "Bearer"
+        print("Expected token type: {0}".format(expected))
+        print("Actual token type:   {0}".format(actual))
         self.assertEqual(actual, expected)
         actual = accessTokenResponse["scope"]
         expected = "read write"
+        print("Expected scopes: {0}".format(expected))
+        print("Actual scopes:   {0}".format(actual))
         self.assertEqual(actual, expected)
 
-        # GET labs
+        # labs
+
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 1}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}]
-        self.assertEqual(actual, expected)
-
         self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
                               200, [{"name": "testLab1", "UIC": 1}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}])
 
-        # GET testLab1
+        print("GET testLab1")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"name": "testLab1", "UIC": 1}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"name": "testLab1", "UIC": 1})
 
-        # POST testLab4
+        print("POST testLab4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.post("/labs/", data={"name": "testLab4", "UIC": 4}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 201
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"name": "testLab4", "UIC": 4}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.post("/labs/", data={"name": "testLab4", "UIC": 4}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              201, {"name": "testLab4", "UIC": 4})
 
-        # GET labs
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 1}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}, {"name": "testLab4", "UIC": 4}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 1}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}, {"name": "testLab4", "UIC": 4}])
+        
+        print("GET testLab4")
+        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"name": "testLab4", "UIC": 4})
 
-        # GET testLab4
+        print("PATCH testLab1")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"name": "testLab4", "UIC": 4}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.patch("/labs/testLab1/", data={"UIC": 100}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"name": "testLab1", "UIC": 100})
 
-        # PATCH testLab1
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.patch("/labs/testLab1/", data={"UIC": 100}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"name": "testLab1", "UIC": 100}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 100}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}, {"name": "testLab4", "UIC": 4}])
+        
+        print("PATCH testLab4")
+        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+        self.do_specific_test(currentApplication, self.api_client.patch("/labs/testLab4/", data={"UIC": 400}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"name": "testLab4", "UIC": 400})
 
-        # GET labs
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 100}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}, {"name": "testLab4", "UIC": 4}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 100}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}, {"name": "testLab4", "UIC": 400}])
 
-        # PATCH testLab4
+        print("DELETE testLab4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.patch("/labs/testLab4/", data={"UIC": 400}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"name": "testLab4", "UIC": 400}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.delete("/labs/testLab4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)), 204)
 
-        # GET labs
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 100}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}, {"name": "testLab4", "UIC": 400}]
-        self.assertEqual(actual, expected)
-
-        # DELETE testLab4
-        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.delete("/labs/testLab4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 204
-        self.assertEqual(actual, expected)
-
-        # GET labs
-        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 100}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 100}, {"name": "testLab2", "UIC": 2}, {"name": "testLab3", "UIC": 3}])
 
         # tests
 
-        # GET testLab1 tests
+        print("GET testLab1 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))        
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
-                    {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
+                                    {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}])
 
-        # GET testLab2 tests
+        print("GET testLab2 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 3, "eventStartDateTime": "2022-12-31T00:00:00Z", "eventEndDateTime": "2023-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 3, "eventStartDateTime": "2022-12-31T00:00:00Z", "eventEndDateTime": "2023-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"}])
 
-        # GET testLab3 tests
+        print("GET testLab3 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab3/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You have permission to view this list, but it is either empty or contains only items you do not have permission to view."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab3/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"detail": "You have permission to view this list, but it is either empty or contains only items you do not have permission to view."})
 
-        # POST test to testLab1
+        print("POST test to testLab1")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.post("/labs/testLab1/tests/", data={"eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 201
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.post("/labs/testLab1/tests/", data={"eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              201, {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"})
 
-        # GET testLab1 tests
+        print("GET testLab1 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
-                    {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"},
-                    {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
+                                    {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"},
+                                    {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}])
 
-        # GET test 4
+        print("GET test 4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"})
 
-        # POST test to testLab2
+        print("POST test to testLab2")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.post("/labs/testLab2/tests/", data={"eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 201
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.post("/labs/testLab2/tests/", data={"eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              201, {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"})
 
-        # GET testLab2 tests
+        print("GET testLab2 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 3, "eventStartDateTime": "2022-12-31T00:00:00Z", "eventEndDateTime": "2023-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"},
-                    {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200,  [{"id": 3, "eventStartDateTime": "2022-12-31T00:00:00Z", "eventEndDateTime": "2023-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"},
+                                     {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"}])
 
-        # GET test 5
+        print("GET test 5")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/5/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/5/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"})
 
-        # PATCH test 4
+        print("PATCH test 4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.patch("/labs/testLab1/tests/4/", data={"testCasePassFail": True, "eventStatus": "COMPLETED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab1"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.patch("/labs/testLab1/tests/4/", data={"testCasePassFail": True, "eventStatus": "COMPLETED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab1"})
 
-        # GET testLab1 tests
+        print("GET testLab1 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
-                    {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"},
-                    {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab1"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
+                                    {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"},
+                                    {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab1"}])
 
-        # PATCH test 5
+        print("PATCH test 5")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.patch("/labs/testLab2/tests/5/", data={"testCasePassFail": True, "eventStatus": "COMPLETED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab2"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.patch("/labs/testLab2/tests/5/", data={"testCasePassFail": True, "eventStatus": "COMPLETED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab2"})
 
-        # GET testLab2 tests
+        print("GET testLab2 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 3, "eventStartDateTime": "2022-12-31T00:00:00Z", "eventEndDateTime": "2023-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"},
-                    {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab2"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 3, "eventStartDateTime": "2022-12-31T00:00:00Z", "eventEndDateTime": "2023-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"},
+                                    {"id": 5, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab2"}])
         
-        # DELETE test 4
+        print("DELETE test 4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.delete("/labs/testLab1/tests/4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 204
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.delete("/labs/testLab1/tests/4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              204)
 
-        # GET testLab1 tests
+        print("GET testLab1 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
-                    {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
+                                    {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}])
+        print("DELETE test 5")
+        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+        self.do_specific_test(currentApplication, self.api_client.delete("/labs/testLab2/tests/5/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              204)
 
-        # DELETE test 5
+        print("GET testLab2 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.delete("/labs/testLab2/tests/5/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 204
-        self.assertEqual(actual, expected)
-
-        # GET testLab2 tests
-        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 3, "eventStartDateTime": "2022-12-31T00:00:00Z", "eventEndDateTime": "2023-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 3, "eventStartDateTime": "2022-12-31T00:00:00Z", "eventEndDateTime": "2023-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab2"}])
         
     def test_testLab1(self):
-        # as testLab1
+        print("\nApplication: testLab1")
         currentApplication = self.testLab1
-        # check access token
+        print("Check access token")
         accessTokenResponse = getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client)
-        actual = accessTokenResponse.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
+        actualStatus = accessTokenResponse.status_code
+        expectedStatus = 200
+        print("Expected status: {0}".format(expectedStatus))
+        print("Actual status:   {0}".format(actualStatus))
+        self.assertEqual(actualStatus, expectedStatus)
         accessTokenResponse = loadResponseToJson(accessTokenResponse)
         actual = accessTokenResponse["access_token"]
-        expected =AccessToken.objects.last().token
+        expected = AccessToken.objects.last().token
+        print("Expected token: {0}".format(expected))
+        print("Actual token:   {0}".format(actual))
         self.assertEqual(actual, expected)
         actual = accessTokenResponse["expires_in"]
         expected = 15
+        print("Expected expiration time: {0}".format(expected))
+        print("Actual expiration time:   {0}".format(actual))
         self.assertEqual(actual, expected)
         actual = accessTokenResponse["token_type"]
         expected = "Bearer"
+        print("Expected token type: {0}".format(expected))
+        print("Actual token type:   {0}".format(actual))
         self.assertEqual(actual, expected)
         actual = accessTokenResponse["scope"]
         expected = "read write"
+        print("Expected scopes: {0}".format(expected))
+        print("Actual scopes:   {0}".format(actual))
         self.assertEqual(actual, expected)
 
-        # GET labs
-        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 1}]
-        self.assertEqual(actual, expected)
+        # labs
 
-        # GET testLab1
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"name": "testLab1", "UIC": 1}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 1}])
 
-        # POST testLab4
+        print("GET testLab1")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.post("/labs/", data={"name": "testLab4", "UIC": 4}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"name": "testLab1", "UIC": 1})
 
-        # GET labs
+        print("POST testLab4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 1}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.post("/labs/", data={"name": "testLab4", "UIC": 4}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # GET testLab4
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 404
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "Not found."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 1}])
 
-        # PATCH testLab1
+        print("GET testLab4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.patch("/labs/testLab1/", data={"UIC": 100}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              404, {"detail": "Not found."})
 
-        # GET labs
+        print("PATCH testLab1")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 1}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.patch("/labs/testLab1/", data={"UIC": 100}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # PATCH testLab4
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.patch("/labs/testLab4/", data={"UIC": 400}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 1}])
 
-        # GET labs
+        print("PATCH testLab4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 1}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.patch("/labs/testLab4/", data={"UIC": 400}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # DELETE testLab4
+        print("GET labs")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.delete("/labs/testLab4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 1}])
 
-        # GET labs
+        print("DELETE testLab4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"name": "testLab1", "UIC": 1}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.delete("/labs/testLab4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403)
+
+        print("GET labs")
+        access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"name": "testLab1", "UIC": 1}])
 
         # tests
 
-        # GET testLab1 tests
+        print("GET testLab1 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"}])
 
-        # GET testLab2 tests
+        print("GET testLab2 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # GET testLab3 tests
+        print("GET testLab3 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab3/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab3/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # POST test to testLab1
+        print("POST test to testLab1")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.post("/labs/testLab1/tests/", data={"eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 201
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.post("/labs/testLab1/tests/", data={"eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              201, {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"})
 
-        # GET testLab1 tests
+        print("GET testLab1 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
-                    {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
+                                    {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}])
 
-        # GET test 4
+        print("GET test 4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"})
 
-        # POST test to testLab2
+        print("POST test to testLab2")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.post("/labs/testLab2/tests/", data={"eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.post("/labs/testLab2/tests/", data={"eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # GET testLab2 tests
+        print("GET testLab2 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # GET test 5
+        print("GET test 5")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/5/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/5/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # PATCH test 4
+        print("PATCH test 4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.patch("/labs/testLab1/tests/4/", data={"testCasePassFail": True, "eventStatus": "COMPLETED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab1"}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.patch("/labs/testLab1/tests/4/", data={"testCasePassFail": True, "eventStatus": "COMPLETED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab1"})
 
-        # GET testLab1 tests
+        print("GET testLab1 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected =[{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
-                   {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab1"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
+                                    {"id": 4, "eventStartDateTime": "2021-11-19T00:00:00Z", "eventEndDateTime": "2022-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "COMPLETED", "lab": "testLab1"}])
 
-        # PATCH test 5
+        print("PATCH test 5")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.patch("/labs/testLab2/tests/5/", data={"testCasePassFail": True, "eventStatus": "COMPLETED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.patch("/labs/testLab2/tests/5/", data={"testCasePassFail": True, "eventStatus": "COMPLETED"}, secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
-        # GET testLab2 tests
+        print("GET testLab2 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual = loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
         
-        # DELETE test 4
+        print("DELETE test 4")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.delete("/labs/testLab1/tests/4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 204
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.delete("/labs/testLab1/tests/4/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              204)
 
-        # GET testLab1 tests
+        print("GET testLab1 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 200
-        self.assertEqual(actual, expected)
-        actual =  loadResponseToJson(response)
-        expected = [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"}]
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"}])
 
-        # DELETE test 5
+        print("DELETE test 5")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.delete("/labs/testLab2/tests/5/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.delete("/labs/testLab2/tests/5/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403)
 
-        # GET testLab2 tests
+        print("GET testLab2 tests")
         access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
-        response = self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
-        actual = response.status_code
-        expected = 403
-        self.assertEqual(actual, expected)
-        actual =  loadResponseToJson(response)
-        expected = {"detail": "You do not have permission to perform this action."}
-        self.assertEqual(actual, expected)
+        self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab2/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                              403, {"detail": "You do not have permission to perform this action."})
 
     def test_bogus(self):
-        # bogus credentials
+        print("\nApplication: bogus")
         client_id = "adasdad"
         client_secret = "wasdawds"
-        # check access token
+        print("Check access token")
         accessTokenResponse = getAccessTokenResponse(client_id, client_secret, self.api_client)
         actual = accessTokenResponse.status_code
         expected = 401
+        print("Expected status: {0}".format(expected))
+        print("Actual status:   {0}".format(actual))
         self.assertEqual(actual, expected)
         actual = loadResponseToJson(accessTokenResponse)
         expected = {"error": "invalid_client"}
+        print("Expected response: {0}".format(expected))
+        print("Actual response:   {0}".format(actual))
         self.assertEqual(actual, expected)
 
-        # GET labs
+        print("GET labs")
         access_token = "addfhkdjksdfj"
         response = self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token))
         actual = response.status_code
         expected = 401
+        print("Expected status: {0}".format(expected))
+        print("Actual status:   {0}".format(actual))
         self.assertEqual(actual, expected)
         actual = loadResponseToJson(response)
         expected = {"detail": "Authentication credentials were not provided."}
+        print("Expected response: {0}".format(expected))
+        print("Actual response:   {0}".format(actual))
         self.assertEqual(actual, expected)
-        
