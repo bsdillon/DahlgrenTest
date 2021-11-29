@@ -1,0 +1,11 @@
+Application: bogus
+Check access token
+Expected status: 401
+Actual status:   401
+Expected response: {'error': 'invalid_client'}
+Actual response:   {'error': 'invalid_client'}
+GET labs
+Expected status: 401
+Actual status:   401
+Expected response: {'detail': 'Authentication credentials were not provided.'}
+Actual response:   {'detail': 'Authentication credentials were not provided.'}
