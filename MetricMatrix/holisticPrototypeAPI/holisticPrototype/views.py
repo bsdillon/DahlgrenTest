@@ -7,6 +7,8 @@ from .serializers import LabSerializer, TestSerializer
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 from rest_framework_guardian import filters
 
+from rest_framework.response import Response
+
 # Custom permissons - may want to move to a permissions.py
 
 class ClientCredentialPermission(permissions.BasePermission):
@@ -15,7 +17,7 @@ class ClientCredentialPermission(permissions.BasePermission):
             return False
         grant_type = request.auth.application.get_authorization_grant_type_display()
         if request.user is None and grant_type == "Client credentials":
-            request.user = request.auth.application.user # The application user defined in the admin screen! Currently only "admin" has a user - it's admin
+            request.user = request.auth.application.user # The application user defined in the admin screen!
             return True
         else:
             return False
@@ -31,18 +33,33 @@ class CustomObjectPermissions(permissions.DjangoObjectPermissions):
         "DELETE": ["%(app_label)s.view_%(model_name)s"],
     }
 
+class TestParentLabIsLegalPermissions(permissions.BasePermission):
+    def has_permission(self, request, view):
+        lab = Lab.objects.get(name = view.kwargs["name"])
+        return request.user.has_perm("view_lab", lab)    
+
 # Create your views here.
 
 class LabViewSet(viewsets.ModelViewSet):
-    permission_classes = [ClientCredentialPermission, permissions.IsAuthenticated, TokenHasReadWriteScope, CustomObjectPermissions]
+    permission_classes = [ClientCredentialPermission, permissions.DjangoModelPermissions, TokenHasReadWriteScope, CustomObjectPermissions]
     serializer_class = LabSerializer
     queryset = Lab.objects.all()
     lookup_field = "name"
     filter_backends = [filters.ObjectPermissionsFilter]
+    def list(self, request, *args, **kwargs):
+        response = super(LabViewSet, self).list(request, *args, **kwargs)
+        if(response.data == []):
+            response = Response({"detail": "You have permission to view this list, but it is either empty or contains only items you do not have permission to view."})
+        return response
 
 class TestViewSet(viewsets.ModelViewSet):
-    permission_classes = [ClientCredentialPermission, permissions.IsAuthenticated, TokenHasReadWriteScope, CustomObjectPermissions]
+    permission_classes = [ClientCredentialPermission, permissions.DjangoModelPermissions, TokenHasReadWriteScope, TestParentLabIsLegalPermissions, CustomObjectPermissions]
     serializer_class = TestSerializer
     filter_backends = [filters.ObjectPermissionsFilter]
     def get_queryset(self):
         return Test.objects.filter(lab__name=self.kwargs["name"])
+    def list(self, request, *args, **kwargs):
+        response = super(TestViewSet, self).list(request, *args, **kwargs)
+        if(response.data == []):
+            response = Response({"detail": "You have permission to view this list, but it is either empty or contains only items you do not have permission to view."})
+        return response

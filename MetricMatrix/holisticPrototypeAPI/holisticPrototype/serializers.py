@@ -17,7 +17,7 @@ class TestSerializer(serializers.ModelSerializer):
         lab_name = self.context.get("view").kwargs.get("name")
         validated_data["lab"] = Lab.objects.get(name=lab_name)        
         test = super(TestSerializer, self).create(validated_data)
-        #
+        # you're allowed to mess with any test you created
         assign_perm("add_test", self.context["request"].user, test)
         assign_perm("change_test", self.context["request"].user, test)
         assign_perm("delete_test", self.context["request"].user, test)
@@ -40,7 +40,7 @@ class LabSerializer(serializers.ModelSerializer):
         lab = Lab.objects.create(**validated_data)
         for test_data in tests_data:
             Test.objects.create(lab=lab, **test_data)
-        #
+        # you're allowed to see any lab you're allowed to make
         assign_perm("view_lab", self.context["request"].user, lab)
         #
         return lab
