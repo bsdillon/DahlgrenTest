@@ -1,3 +1,6 @@
+var FAIL_INDEX=0;
+var PASS_INDEX=1;
+
 function start() {
   //testRuns is the object containing the arrays with test data, 
   //it is imported from a data file. 
@@ -116,8 +119,7 @@ function addBuffer(myFill, element, text, className)
   return cell;
 }
 
-//create tooltips for data td's
-function toolTip(parent, text){
+function toolTip(parent, text) {
   parent.setAttribute('class','tooltip');
   var popUp = document.createElement("SPAN");
   popUp.setAttribute('class','tooltiptext');
@@ -125,15 +127,6 @@ function toolTip(parent, text){
   popText.innerHTML=text;
   popUp.appendChild(popText);
   parent.appendChild(popUp);
-}
-
-function createImage(id, source, width, height){
-  var image = document.createElement('img');
-  image.id = id;
-  image.src = source;
-  image.width = width;
-  image.height = height;
-  return image;
 }
 
 //----------Popup reports----------//
@@ -150,46 +143,28 @@ function closePopUp() {
 function CreatePopupReport(x) {
   var windowFeatures = "menubar=yes,location=yes,resizable=no,scrollbars=yes,status=yes,left=100,top=100";
   closePopUp();
-  newWindow = window.open('', newWindow, windowFeatures);
-  newWindow.document.head.innerHTML += "<script src='Chart.min.js'></script>"
-  newWindow.document.head.innerHTML += "<link href = 'popupreport.css' rel = 'stylesheet'>"
-  newWindow.document.body.innerHTML = '';
+  newWindow = window.open('', '', windowFeatures);
+  newWindow.onunload = function () {newWindow=0;};
+  newWindow.document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="popupreport.css"><script src="test.js"></script>';
 
-  if(x != 'total') {
-    createHeaders('Test Results', '1', newWindow);
-    newWindow.document.title = 'Individual OQE';
-    var chartData = testRuns[x];
-    newWindow.addEventListener('load', singleTestReport(chartData), false);
+  if(x == 'total') {
+    newWindow.document.title = 'Total OQE Results';
+    createHTag('Total OQE Results', '1', newWindow);
+    cumulativeReport()
   }
   else {
-    createHeaders('Total OQE Results', '1', newWindow);
-    newWindow.document.title = 'Total OQE Results';
-    newWindow.addEventListener('load', cumulativeReport(), false );
-  }
+    newWindow.document.title = 'Individual OQE';
+    createHTag('Test Results', '1', newWindow);
+    var chartData = testRuns[x];
+    singleTestReport(chartData);
+  } 
 }
 
 function cumulativeReport() {
-  var initSubClass = [];
-  for(var i=0; i<Object.keys(testRuns).length; i++) {
-    var initClass = "hidden";
-    initSubClass.push(initClass);
-  }
-  //Set Headers/Title
+  if(newWindow!=0)
+  {
+    loadTotalData(testRuns, newWindow);
 
-  loadTable(testRuns, initSubClass, newWindow);
-  loadTotalData(testRuns, newWindow);
-}
-
-function timedTotalUpdate(tableid, object) {
-  var data = Object.keys(object);
-  var previousSubClass =[];
-  const isClosed = win.closed;//this cont and the following if statement make sure that the update function does not run if the window has been closed, or switched to an individual OQE page
-  if(!isClosed && !win.document.getElementById("totalPage")) {
-    for (let element of data) {//this loop goes through all of the subtables in the main table, and determines whetehr they are hidden or open
-      previousSubClass.push(table);
-    }
-    loadTable(testRuns, previousSubClass, win);
-    loadTotalData(testRuns, win);
   }
 }
 
@@ -197,118 +172,54 @@ function singleTestReport(data) {
   var buttonParent = newWindow.document.createElement("H2");
   createButton('totalOQE', CreatePopupReport, 'Total OQE', 'total',newWindow, buttonParent, '', "totalPage", '');
   newWindow.document.body.appendChild(buttonParent);
-  var dataKeys = Object.keys(data[0]);
-  var table = initTable(newWindow);
-  generateTable(table, dataKeys, data, newWindow);
-  data1 = sortResults(data);
-  generatePieChart('Pass/Fail Graphic', '2', newWindow, data1);
+
+  singleTestTable(Object.keys(data[0]), data, newWindow);
+  generatePieChart('Test Steps Pass Rate', newWindow, ['Fail', 'Pass'], countPasses(data), ["rgb(255,0,0)","rgb(0,255,0)"]);
 }
 
-function generateTable(table, dataheader, data, win) {
-  //using the keys array created by the generateTableHead 
-  //function ensures the correct ordering of data in the table
+function singleTestTable(dataheader, data, win) {
+  var table = initTable(win);
   var thead = table.createTHead();
-  var row = thead.insertRow();
-  var keys = [];
-  for (let key of dataheader) {
-    keys.push(key);
-  }
 
-  for(let element of keys) {
+  //create table headers
+  var row = thead.insertRow();
+  for(let element of dataheader) {
     var th = win.document.createElement("th");
     var text = win.document.createTextNode(element);
     th.appendChild(text);
     row.appendChild(th);
-    th.style.borderRadius = "5px";
   }
 
-  var b = 1;//included for striped style
-  for (let element of data) {
+  //create new row for each step in the test
+  var oddStripeStyle = false;//included for striped style
+  for (let step of data) {
     var row = table.insertRow();
-    var length = keys.length;
-    for (var i=0; i<length; i++) {
+    for (var i=0; i<dataheader.length; i++) {
       var cell = row.insertCell();
-      var text = win.document.createTextNode(element[keys[i]]);
-      if(!isEven(b)){
-  cell.style.backgroundColor = 'rgba(0,0,0,0.07)';
-      }
+      var text = win.document.createTextNode(step[dataheader[i]]);
+      cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
       cell.appendChild(text);
     }
-    b = b + 1;
+
+    //flip style on next line
+    oddStripeStyle = !oddStripeStyle;
   }
 }
 
- function createSubTable(object, element, win, j, subclass){
-    var actualdata = object[element];
-    var data1 = Object.keys(actualdata[0]);
-    var subtable = win.document.createElement("TABLE");
-    win.document.body.appendChild(subtable);
-    subtable.id = "sub" + element;
-    createStyle('hidden', win, 'display: none;');
-    createStyle('show', win, 'border: 1px solid black;');
-    subtable.className = subclass[j];
-    generateTable(subtable, data1, actualdata, win);
-    return subtable;
-  }
+function loadTotalData(allData, win) {
+  var length = Object.keys(allData).length;
+  var axisLabels = ["Test Run", "Pass rate (%)"];
+  var lineLabels = ["Fail Percentage", "Pass Percentage"];
+  var colors = ["rgb(255,0,0)", "rgb(0,255,0)"];
+  var allPasses = countAllPasses(allData);
 
- function loadTable(object, subclass, win){
-   var j = 0;
-   //Initialize Table
-   var table = initTable(win);
-   var data = Object.keys(object);
-   let thead = table.createTHead();
+  generateLineChart("Test Pass/Fail Rates", win, allPasses[0], axisLabels, lineLabels, colors);
 
-   //Create Table Title
-   let row = thead.insertRow();
-   let title = win.document.createTextNode("Test Runs");
-   let th = win.document.createElement("th");
-   row.appendChild(th);
-   th.appendChild(title);
-
-   //Populate Table w/ Each Test Run
-   for(let element of data){
-     //Create Test Run Label
-     let row = table.insertRow();
-     let cell = row.insertCell();
-     var specificData = testRuns[element];
-     var testRunName = specificData[0].Test; //Only works when there is one test in each test run, otherwise it will just be the name of a specfici test and not the test run as a whole
-     let text = win.document.createTextNode("Test Run " + j + "\u00A0");
-     cell.appendChild(text);
-     createButton('expand', expandTable, ' + ', element, win, cell, 'right', 'expnd', win);
-     createButton('oqeLink', CreatePopupReport, 'OQE', element, win, cell, "right", 'indOQE', '');
-     //Subtables
-     var subtable = createSubTable(object, element, win, j, subclass);
-     cell.appendChild(subtable);
-     j = j + 1;
-   }
- }
-
- function loadTotalData(object, win){
-      var length = Object.keys(object).length;
-      var sortedData = sortData(object, 'testRun' + length-1);
-      //Line Chart
-      createHeaders("Performance Over Time", '2', win);
-      var config2 = createLineConfig(LINE_TYPE, "Pass/Fail Percentage vs. Test Run", "Test Run", "Percentage");
-      var chart2 = createLineChart("canvas2", 350, 350, config2, win);
-      chart2.id = 'chart2';
-      var XData = []
-      var keys = Object.keys(object);
-      var length = keys.length;
-      for(var i=0; i<length; i++){//create labels for x axis, grabs the name of the first test in each test run
-  var key = keys[i]
-  var specData = object[key];
-  XData.push(specData[i].Test);
-      }
-      setLineChartLabels(config2, XData);
-      createLineDataSet(config2, "Pass Percentage", sortedData[0], LINE_TYPE);
-      createLineDataSet(config2, "Fail Percentage", sortedData[1], LINE_TYPE);
-      chart2.update();
-
-      //Pie Chart
-      data2 = [sumArray(sortedData[2]), sumArray(sortedData[3])];
-      generatePieChart("Overall Test Breakdown", "2", win, data2);
-      setTimeout(function(){ timedTotalUpdate('total', testRuns); }, 5000);
-     }
+  //Pie Chart
+  var data2 = [allPasses[FAIL_INDEX+1],allPasses[PASS_INDEX+1]];
+  generatePieChart("Overall Test Breakdown", win, ['Fail', 'Pass'], data2, colors);
+  setTimeout(function(){ timedTotalUpdate('total', testRuns); }, 5000);
+}
 
 
 
@@ -317,25 +228,8 @@ function generateTable(table, dataheader, data, win) {
 
 //BSD
 
- function sumArray(a, total){
-       var total=0;
-       for(var i in a) {
-   total += a[i];
-       }
-       return total;
-     }
 
 
-
- function generatePieChart(headerTitle, number, win, data2){
-   createHeaders(headerTitle, number, win); //creates the header above the pie chart
-   var config1 = createConfig("Pass v. Fail"); //all of these are functions from piechartlibrary.js
-   var chart1 = createChart("canvas", 350, 350, config1, win);
-   let labels = ['Fail', 'Pass'];
-   setLabels(config1, labels);
-   createDataSet(config1, data2);
-   chart1.update();
-}
 
  function isEven(value) {
 	if (value%2 == 0)
@@ -410,8 +304,8 @@ function generateStatus(data, length, rawData) {
 
  function totalStatus(data){
    var stat = '';
-   var data1 = sortResults(data);
-   if(data1[1] > data1[0]){
+   var passes = countPasses(data);
+   if(passes[1] > passes[0]){
      stat = 'Pass';
    }else{
      stat= 'Fail';
@@ -420,43 +314,6 @@ function generateStatus(data, length, rawData) {
  }
 
 //Individual OQE Metrics
-
- function sortResults(data){
-   var pass = 0;
-   var fail = 0;
-   for(let element of data){
-     if(element.Status == 'PASS') {
-       pass = pass + 1;
-     } else if(element.Status == 'FAIL'){
-       fail = fail + 1;
-     }
-   }
-    data1 = [fail, pass];
-    return data1;
- }
-
- function sortData(object, breakElement){
-    var passPercent =[];
-    var failPercent =[];
-    var failA = [];
-    var passA = [];
-    var otherA = [];
-    var data = Object.keys(object);
-    for(let element of data){
-       var subdata = object[element];
-       data1 = sortResults(subdata);
-       passA.push(data1[1]);
-       failA.push(data1[0]);
-       otherA.push(data1[2]);
-       var passP = (data1[1] / (data1[1] + data1[0]))*100;
-       var failP = (data1[0] /(data1[1] + data1[0]))*100;
-       passPercent.push(passP);
-       failPercent.push(failP);
-    }
-    var returnArray = [passPercent, failPercent, failA, passA, otherA];
-    return returnArray;
-  }
-
 
  function createButton(name, func, inner, element, window, parent, align, buttonid, element2){
     var name = window.document.createElement("BUTTON");
@@ -510,8 +367,85 @@ function generateStatus(data, length, rawData) {
   }
 
 //--------Creating Elements-----------//
-function createHeaders(innerHTML, number, win) {
+function createHTag(innerHTML, number, win) {
   var header = win.document.createElement("H"+number);
   header.innerHTML = innerHTML;
   win.document.body.appendChild(header);
+}
+
+function countAllPasses(allData) {
+  var names = [];
+  var failSet = [];
+  var passSet = [];
+  var groups = {};
+  var fails = 0;
+  var passes = 0;
+
+  var keys = Object.keys(allData);
+  var testIndex = 1;
+  for(let dataKey of keys) {
+    var subdata = allData[dataKey];
+    var tmp = countPasses(subdata);
+    fails+=tmp[0];
+    passes+=tmp[1];
+
+    names.push("Test "+testIndex);
+    failSet.push(Math.floor(tmp[0]*100 / (tmp[1] + tmp[0])));
+    passSet.push(Math.floor(tmp[1]*100 / (tmp[1] + tmp[0])));
+    testIndex++;
+  }
+
+  return [[names,failSet,passSet], fails, passes];
+}
+
+function countPasses(data) {
+  var pass = 0;
+  var fail = 0;
+  for(let element of data) {
+    if(element.Status == 'PASS') {
+      pass = pass + 1;
+    } else if(element.Status == 'FAIL') {
+      fail = fail + 1;
+    }
+  }
+  var answer = [fail, pass];
+  return answer;
+}
+
+function generatePieChart(title, win, labels, data, colors) {
+  var myCanvas = win.document.createElement("CANVAS");
+  win.document.body.append(myCanvas);
+
+  //functions from piechartlibrary.js
+  var config = createConfig(title);
+  var chart1 = createChart(myCanvas, 350, 350, config);
+  setLabels(config, labels);
+  createDataSet(config, data, colors);
+  chart1.update();
+}
+
+function generateLineChart(title, win, dataSet, axisLabels, lineLabels, colors) {
+  //Line Chart
+  var config = createLineConfig(S_VBAR_TYPE, title, axisLabels[0], axisLabels[1]);
+
+  var canvas = win.document.createElement("CANVAS");
+  win.document.body.appendChild(canvas);
+
+  var chart2 = createLineChart(canvas, 350, 350, config);
+
+  setLineChartLabels(config, dataSet[0]);
+  for(let i=0;i<lineLabels.length;i++)
+  {
+    createLineDataSet(config, lineLabels[i], dataSet[i+1], LINE_TYPE, colors[i]);
+  }
+  chart2.update();
+}
+
+function createImage(id, source, width, height){
+  var image = document.createElement('img');
+  image.id = id;
+  image.src = source;
+  image.width = width;
+  image.height = height;
+  return image;
 }

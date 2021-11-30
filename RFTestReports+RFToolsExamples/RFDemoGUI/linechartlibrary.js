@@ -119,15 +119,12 @@ function createLineConfig(cType, title, xLabel, yLabel)
   return config;
 }
 
-function createLineChart(canvasID, width, height, config, win)
+function createLineChart(myCanvas, width, height, config)
 {
-  var myCanvas = win.document.createElement("CANVAS");
-  win.document.body.appendChild(myCanvas);
   var ctx = myCanvas.getContext("2d");
   myCanvas.width = width;
   myCanvas.height = height;
   var chart = new Chart(ctx, config);
-  myCanvas.style.backgroundColor = 'GhostWhite';
   return chart;
 }
 
@@ -146,7 +143,7 @@ var dataSets = 0;
 var groupColors = [[1,0,0], [1,1,0], [0,1,0], [0,0,1], [1,0,1], [0,1,1], [1,1,1]];
 var groupIndex = [0, 0, 0, 0, 0, 0, 0];
 
-function createLineDataSet(config, seriesName, linedata, cType)
+function createLineDataSet(config, seriesName, linedata, cType, specColor)
 {
   if(cType.length>6 && cType.substring(0,7)==='STACKED')
   {
