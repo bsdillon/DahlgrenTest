@@ -1,4 +1,5 @@
 /venv
+/httpd-2.4.51-win64-VS16
 /prototypeapi/prototype/__pycache__/
 /prototypeapi/prototypeapi/__pycache__/
 /labTestAPI/labTest/__pycache__/
