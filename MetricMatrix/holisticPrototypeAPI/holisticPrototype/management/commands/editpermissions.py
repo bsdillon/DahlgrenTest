@@ -59,33 +59,39 @@ class Command(BaseCommand):
                     self.stdout.write(self.style.ERROR("Permission must be add, change, delete, or view"))
                 else:
                     try:
-                        model = options["model"].lower()
-                        if (model not in ["lab", "test"]):
-                            raise ValueError # uhh idk errors lmao
+                        if (user.groups.filter(name="Read-Only Permissions").exists() and action == "grant" and permission != "view"):
+                            raise ValueError
                     except ValueError:
-                        self.stdout.write(self.style.ERROR("Model must be lab or test"))
+                        self.stdout.write(self.style.ERROR("Applications with read-only permissions can only be granted read permissions"))
                     else:
                         try:
-                            if(model == "lab"):
-                                targetObject = Lab.objects.get(name=options["object"])
-                            elif(model == "test"):
-                                targetObject = Test.objects.get(id=int(options["object"]))
-                        except Lab.DoesNotExist:
-                            self.stdout.write(self.style.ERROR("No lab with that name exists"))
-                        except Test.DoesNotExist:
-                            self.stdout.write(self.style.ERROR("No test with that name exists"))
+                            model = options["model"].lower()
+                            if (model not in ["lab", "test"]):
+                                raise ValueError # uhh idk errors lmao
                         except ValueError:
-                            self.stdout.write(self.style.ERROR("Test ID must be an integer"))
+                            self.stdout.write(self.style.ERROR("Model must be lab or test"))
                         else:
-                            if (action == "grant"):
-                                if (user.has_perm(permission + "_" + model, targetObject)):
-                                    self.stdout.write(self.style.ERROR("This application already has that permission"))
-                                else:
-                                    assign_perm(permission + "_" + model, user, targetObject)
-                                    self.stdout.write(self.style.SUCCESS("Permissions granted successfully"))
+                            try:
+                                if(model == "lab"):
+                                    targetObject = Lab.objects.get(name=options["object"])
+                                elif(model == "test"):
+                                    targetObject = Test.objects.get(id=int(options["object"]))
+                            except Lab.DoesNotExist:
+                                self.stdout.write(self.style.ERROR("No lab with that name exists"))
+                            except Test.DoesNotExist:
+                                self.stdout.write(self.style.ERROR("No test with that name exists"))
+                            except ValueError:
+                                self.stdout.write(self.style.ERROR("Test ID must be an integer"))
                             else:
-                                if (user.has_perm(permission + "_" + model, targetObject)):
-                                    remove_perm(permission + "_" + model, user, targetObject)
-                                    self.stdout.write(self.style.SUCCESS("Permissions revoked successfully"))
+                                if (action == "grant"):
+                                    if (user.has_perm(permission + "_" + model, targetObject)):
+                                        self.stdout.write(self.style.ERROR("This application already has that permission"))
+                                    else:
+                                        assign_perm(permission + "_" + model, user, targetObject)
+                                        self.stdout.write(self.style.SUCCESS("Permissions granted successfully"))
                                 else:
-                                    self.stdout.write(self.style.ERROR("This application already does not have that permission"))
+                                    if (user.has_perm(permission + "_" + model, targetObject)):
+                                        remove_perm(permission + "_" + model, user, targetObject)
+                                        self.stdout.write(self.style.SUCCESS("Permissions revoked successfully"))
+                                    else:
+                                        self.stdout.write(self.style.ERROR("This application already does not have that permission"))

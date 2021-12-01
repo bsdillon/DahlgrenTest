@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     "holisticPrototype",
-    "sslserver",
     "oauth2_provider",
-    "guardian", 
+    "guardian",
+    "mod_wsgi.server",
+    "sslserver",
 ]
 
 MIDDLEWARE = [

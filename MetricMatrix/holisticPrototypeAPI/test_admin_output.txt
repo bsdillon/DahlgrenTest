@@ -2,8 +2,8 @@ Application: admin
 Check access token
 Expected status: 200
 Actual status:   200
-Expected token: HLJZfdpomRGYM4jcBBalkrGJt0ypdu
-Actual token:   HLJZfdpomRGYM4jcBBalkrGJt0ypdu
+Expected token: JGi7Bngyu4G239GfeE3R12uBqLnuER
+Actual token:   JGi7Bngyu4G239GfeE3R12uBqLnuER
 Expected expiration time: 15
 Actual expiration time:   15
 Expected token type: Bearer

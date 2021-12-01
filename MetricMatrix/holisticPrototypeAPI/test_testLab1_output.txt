@@ -2,8 +2,8 @@ Application: testLab1
 Check access token
 Expected status: 200
 Actual status:   200
-Expected token: tuO2lS9JkEvhr4woKVqkzvhfqZyBQO
-Actual token:   tuO2lS9JkEvhr4woKVqkzvhfqZyBQO
+Expected token: BWx2FRZ4TXhmKPFL15UxVFHewnUxNR
+Actual token:   BWx2FRZ4TXhmKPFL15UxVFHewnUxNR
 Expected expiration time: 15
 Actual expiration time:   15
 Expected token type: Bearer

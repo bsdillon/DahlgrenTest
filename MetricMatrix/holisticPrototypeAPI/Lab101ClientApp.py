@@ -9,12 +9,13 @@ warnings.filterwarnings("ignore")
 
 userList = [
     {"user": "admin", "client_id": "uxsjRcQXcF8kcjrCAVRnUJNbgUrsOmkNe2BADNtd", "client_secret": "0KfnA11Y5sPwNdK3733PILl1VMDbromsVINNrWXhQtZPuKKxPJYaoekHtgVxjtkKS8on9IS9JbWNDJZclOuE3CDBOd8pvqaxgZq8YJcoTVOx0Mt7zawZ0ecraKMEdI4u"},
-    {"user": "lab101", "client_id": "IfohbSKEwENGyQWBNl15qpI81lt1phiOplvhYmV6", "client_secret": "9QzIgOuZoXwYzPoS57VIngjbLrPAU1WRu9FXqJJCLNfHrUTUPKKIFbj82XIph6LYfZw780XL0tu9YXVEdSamOY8imfNXrJvZRlM0nsAlZueNKfNuGansx9iOh22CmwAw"},
+    {"user": "app101", "client_id": "IfohbSKEwENGyQWBNl15qpI81lt1phiOplvhYmV6", "client_secret": "9QzIgOuZoXwYzPoS57VIngjbLrPAU1WRu9FXqJJCLNfHrUTUPKKIFbj82XIph6LYfZw780XL0tu9YXVEdSamOY8imfNXrJvZRlM0nsAlZueNKfNuGansx9iOh22CmwAw"},
     #{"user": "bogus", "client_id": "3NlXru6PPbpouGGPbmo2kQr1H5Xu8gROt1bFjwos", "client_secret": "yOyR9Z1pkt1Di0Zw6wmYUl7jVKNivvg89JY2FaW5JxJEqD7NlrtVgjK8PN6FSUyIf890M3yY4TUCdBAyzNkIFIsUTM8pZCNwyD0cuIOW8xXAzF36M0KUVVazei6nKRWW"},
+    #{"user": "", "client_id": "", "client_secret": ""},
 ]
 cert = "../venv/Lib/site-packages/sslserver/certs/development.crt"
 
-rootURL = "http://localhost"#"https://localhost:8000"
+rootURL = "https://localhost:8000"#"https://localhost"#
 
 # post for a token using Client Credentials
 def getAccessToken(client_id, secret, cert):
