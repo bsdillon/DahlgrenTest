@@ -9,6 +9,10 @@ from rest_framework_guardian import filters
 
 from rest_framework.response import Response
 
+# for deleting permission groups for labs
+from django.contrib.auth.models import Group
+#
+
 # Custom permissons - may want to move to a permissions.py
 
 class ClientCredentialPermission(permissions.BasePermission):
@@ -51,6 +55,12 @@ class LabViewSet(viewsets.ModelViewSet):
         if(response.data == []):
             response = Response({"detail": "You have permission to view this list, but it is either empty or contains only items you do not have permission to view."})
         return response
+
+    def destroy(self, request, pk=None, *args, **kwargs):
+        name = self.kwargs["name"]
+        Group.objects.get(name=name + " Read-Only Permissions").delete()
+        Group.objects.get(name=name + " Write Permissions").delete()
+        return super(LabViewSet, self).destroy(request, *args, **kwargs)
 
 class TestViewSet(viewsets.ModelViewSet):
     permission_classes = [ClientCredentialPermission, permissions.DjangoModelPermissions, TokenHasReadWriteScope, TestParentLabIsLegalPermissions, CustomObjectPermissions]
