@@ -60,7 +60,7 @@ class LabViewSet(viewsets.ModelViewSet):
         name = self.kwargs["name"]
         Group.objects.get(name=name + " Read-Only Permissions").delete()
         Group.objects.get(name=name + " Write Permissions").delete()
-        return super(LabViewSet, self).destroy(request, *args, **kwargs)
+        return super(LabViewSet, self).destroy(request, pk, *args, **kwargs)
 
 class TestViewSet(viewsets.ModelViewSet):
     permission_classes = [ClientCredentialPermission, permissions.DjangoModelPermissions, TokenHasReadWriteScope, TestParentLabIsLegalPermissions, CustomObjectPermissions]
