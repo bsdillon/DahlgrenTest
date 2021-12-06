@@ -1,0 +1,8 @@
+Install Python 3.x if necessary.
+Go to https://sites.google.com/chromium.org/driver/downloads and install chromedriver
+* If necessary open Chrome and verify the version number
+* Unzip the folder and add the path (likely including the download folder) to the computer path
+From the command line
+* pip install robotframework
+* pip install --upgrade robotframework-seleniumlibrary
+Go to the directory of the 

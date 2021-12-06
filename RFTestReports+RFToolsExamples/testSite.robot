@@ -38,13 +38,15 @@ kw_calendar_selectdate
 Open Site
    kw_testsite_open
  
-Radio Test
-   kw_radios_click
-  
-Textbox Test
-   kw_textbox_input
+Read Date
+   Get Web Element    date
+   Input Text         date    12/17/2020
+   ${value} =         Get Element Attribute     //*[@id="date"]    valueAsNumber
+   Log     ${value}
+   ${value} =         Get Element Attribute     //*[@id="date"]    value
+   Log     ${value}
 
-Date Test
+Date Test [Fails]
    kw_calendar_selectdate
    [Teardown]    Close Browser
 
