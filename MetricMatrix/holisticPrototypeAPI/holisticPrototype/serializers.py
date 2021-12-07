@@ -3,7 +3,7 @@ from .models import Lab, Test
 
 # new stuff
 from django.contrib.auth.models import User, Group
-from guardian.shortcuts import assign_perm
+from guardian.shortcuts import assign_perm, remove_perm
 #
 
 class TestSerializer(serializers.ModelSerializer):
@@ -34,8 +34,29 @@ class TestSerializer(serializers.ModelSerializer):
         #
         return test
 
-    # if you change a test's lab, then the perms must change as well
-    # override update here
+    # if lab is set to read only, remove this
+    # I can't quite figure out how to change a test's lab using PATCH, so I can't really test this yet
+    def update(self, instance, validated_data):
+        lab = instance.lab
+        if ("lab" in validated_data and validated_data["lab"] != lab):
+            oldReadonly = lab.name + " Read-Only Permissions"
+            oldWrite = lab.name + " Write Permissions"
+            # uh...?
+            newReadonly = validated_data["lab"].name + " Read-Only Permissions"
+            newWrite = validated_data["lab"].name + " Write Permissions"
+            
+            remove_perm("add_test", oldWrite, instance)
+            remove_perm("change_test", oldWrite, instance)
+            remove_perm("delete_test", oldWrite, instance)
+            remove_perm("view_test", oldWrite, instance)
+            remove_perm("view_test", oldReadonly, instance)
+            
+            assign_perm("add_test", newWrite, instance)
+            assign_perm("change_test", newWrite, instance)
+            assign_perm("delete_test", newWrite, instance)
+            assign_perm("view_test", newWrite, instance)
+            assign_perm("view_test", newReadonly, instance)
+        return super().update(instance, validated_data)
 
 class LabSerializer(serializers.ModelSerializer):
     tests = TestSerializer(many=True, required=False, write_only = True)# may want to remove write_only? It obfuscates COMPLETELY, so you can't preview tests, in case that's a desirable outcome...
@@ -59,6 +80,8 @@ class LabSerializer(serializers.ModelSerializer):
         #
         for test_data in tests_data:
             test = Test.objects.create(lab=lab, **test_data)
+            assign_perm("view_lab", readonly, lab)
+            assign_perm("view_lab", write, lab)
             assign_perm("view_test", readonly, test)
             assign_perm("add_test", write, test)
             assign_perm("change_test", write, test)

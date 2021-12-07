@@ -46,28 +46,60 @@ def loadResponseToJson(response):
 # note: all test *methods* must start with "test" if you want them to be run automatically!
 class LabAndTestTestCase(TestCase):
     def setUp(self):
-        defaultPerms = Group.objects.create(name="Default Permissions")
-        assign_perm("holisticPrototype.view_lab", defaultPerms)
-        assign_perm("holisticPrototype.view_test", defaultPerms)
-        assign_perm("holisticPrototype.add_test", defaultPerms)
-        assign_perm("holisticPrototype.change_test", defaultPerms)
-        assign_perm("holisticPrototype.delete_test", defaultPerms)
+        self.defaultPerms = Group.objects.create(name="Default Permissions")
+        assign_perm("holisticPrototype.view_lab", self.defaultPerms)
+        assign_perm("holisticPrototype.view_test", self.defaultPerms)
+        assign_perm("holisticPrototype.add_test", self.defaultPerms)
+        assign_perm("holisticPrototype.change_test", self.defaultPerms)
+        assign_perm("holisticPrototype.delete_test", self.defaultPerms)
         
         self.api_client = APIClient()
         self.admin = generateTestApplication(name="admin", isSuperuser=True)
-        self.testLab1 = generateTestApplication(name="testLab1", group=defaultPerms)
+        self.testLab1 = generateTestApplication(name="testLab1", group=self.defaultPerms)
+        
         testLab1Lab = Lab.objects.create(name="testLab1", UIC=1)
         testLab2Lab = Lab.objects.create(name="testLab2", UIC=2)
-        Lab.objects.create(name="testLab3", UIC=3)
+        testLab3Lab = Lab.objects.create(name="testLab3", UIC=3)
+        
         testLab1Test = Test.objects.create(lab=testLab1Lab, eventStartDateTime="2020-01-01T00:00:00Z", eventEndDateTime="2021-01-01T00:00:00Z", testCasePassFail=True, eventStatus="LOCKED")
-        Test.objects.create(lab=testLab1Lab, eventStartDateTime="2021-12-31T00:00:00Z", eventEndDateTime="2022-12-31T00:00:00Z", testCasePassFail=False, eventStatus="PLANNED")
-        Test.objects.create(lab=testLab2Lab, eventStartDateTime="2022-12-31T00:00:00Z", eventEndDateTime="2023-12-31T00:00:00Z", testCasePassFail=False, eventStatus="PLANNED")
+        testLab1OtherTest = Test.objects.create(lab=testLab1Lab, eventStartDateTime="2021-12-31T00:00:00Z", eventEndDateTime="2022-12-31T00:00:00Z", testCasePassFail=False, eventStatus="PLANNED")
+        testLab2Test = Test.objects.create(lab=testLab2Lab, eventStartDateTime="2022-12-31T00:00:00Z", eventEndDateTime="2023-12-31T00:00:00Z", testCasePassFail=False, eventStatus="PLANNED")
 
         assign_perm("view_lab", self.testLab1.user, testLab1Lab)
         assign_perm("view_test", self.testLab1.user, testLab1Test)
         assign_perm("add_test", self.testLab1.user, testLab1Test)
         assign_perm("change_test", self.testLab1.user, testLab1Test)
         assign_perm("delete_test", self.testLab1.user, testLab1Test)
+        # need to manually create the perm groups for the labs and tests since they're not created via POST here...
+        self.testLab1ReadOnly = Group.objects.create(name="testLab1 Read-Only Permissions")
+        self.testLab1Write = Group.objects.create(name="testLab1 Write Permissions")
+        assign_perm("view_lab", self.testLab1ReadOnly, testLab1Lab)
+        assign_perm("view_lab", self.testLab1Write, testLab1Lab)
+        assign_perm("view_test", self.testLab1ReadOnly, testLab1Test)
+        assign_perm("view_test", self.testLab1Write, testLab1Test)
+        assign_perm("add_test", self.testLab1Write, testLab1Test)
+        assign_perm("change_test", self.testLab1Write, testLab1Test)
+        assign_perm("delete_test", self.testLab1Write, testLab1Test)
+        assign_perm("view_test", self.testLab1ReadOnly, testLab1OtherTest)
+        assign_perm("view_test", self.testLab1Write, testLab1OtherTest)
+        assign_perm("add_test", self.testLab1Write, testLab1OtherTest)
+        assign_perm("change_test", self.testLab1Write, testLab1OtherTest)
+        assign_perm("delete_test", self.testLab1Write, testLab1OtherTest)
+        
+        self.testLab2ReadOnly = Group.objects.create(name="testLab2 Read-Only Permissions")
+        self.testLab2Write = Group.objects.create(name="testLab2 Write Permissions")
+        assign_perm("view_lab", self.testLab2ReadOnly, testLab2Lab)
+        assign_perm("view_lab", self.testLab2Write, testLab2Lab)
+        assign_perm("view_test", self.testLab2ReadOnly, testLab2Test)
+        assign_perm("view_test", self.testLab2Write, testLab2Test)
+        assign_perm("add_test", self.testLab2Write, testLab2Test)
+        assign_perm("change_test", self.testLab2Write, testLab2Test)
+        assign_perm("delete_test", self.testLab2Write, testLab2Test)
+        
+        self.testLab3ReadOnly = Group.objects.create(name="testLab3 Read-Only Permissions")
+        self.testLab3Write = Group.objects.create(name="testLab3 Write Permissions")
+        assign_perm("view_lab", self.testLab3ReadOnly, testLab3Lab)
+        assign_perm("view_lab", self.testLab3Write, testLab3Lab)
 
     def do_specific_test(self, currentApplication, response, expectedStatus, expectedResponse = None, file = None):
         actualStatus = response.status_code
@@ -571,3 +603,51 @@ class LabAndTestTestCase(TestCase):
             output.write("Expected response: {0}\n".format(expected))
             output.write("Actual response:   {0}\n".format(actual))
             self.assertEqual(actual, expected)
+
+    def test_permissionGroups(self):
+        with open("test_permissionGroups_output.txt", "w") as output:
+            currentApplication = generateTestApplication(name="GroupPermTest", group=self.defaultPerms)
+            print("\nApplication: GroupPermTest")
+            # check labs and testLab1's tests outside the group, in the group, then outside again
+            print("GET labs")
+            output.write("GET labs\n")
+            access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+            self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                                  200, {"detail": "You have permission to view this list, but it is either empty or contains only items you do not have permission to view."}, file=output)
+
+            print("GET testLab1 tests")
+            output.write("GET testLab1 tests\n")
+            access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+            self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                                  403, {"detail": "You do not have permission to perform this action."}, file=output)
+
+            print("Add GroupPermTest to the testLab1 read-only group")
+            currentApplication.user.groups.add(self.testLab1ReadOnly)
+
+            print("GET labs")
+            output.write("GET labs\n")
+            access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+            self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                                  200, [{"name": "testLab1", "UIC": 1}], file=output)
+
+            print("GET testLab1 tests")
+            output.write("GET testLab1 tests\n")
+            access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+            self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                                  200, [{"id": 1, "eventStartDateTime": "2020-01-01T00:00:00Z", "eventEndDateTime": "2021-01-01T00:00:00Z", "testCasePassFail": True, "eventStatus": "LOCKED", "lab": "testLab1"},
+                                        {"id": 2, "eventStartDateTime": "2021-12-31T00:00:00Z", "eventEndDateTime": "2022-12-31T00:00:00Z", "testCasePassFail": False, "eventStatus": "PLANNED", "lab": "testLab1"}], file=output)
+
+            print("Remove GroupPermTest from the testLab1 read-only group")
+            currentApplication.user.groups.remove(self.testLab1ReadOnly)
+
+            print("GET labs")
+            output.write("GET labs\n")
+            access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+            self.do_specific_test(currentApplication, self.api_client.get("/labs/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                                  200, {"detail": "You have permission to view this list, but it is either empty or contains only items you do not have permission to view."}, file=output)
+
+            print("GET testLab1 tests")
+            output.write("GET testLab1 tests\n")
+            access_token = json.loads(getAccessTokenResponse(currentApplication.client_id, currentApplication.client_secret, self.api_client).content.decode())["access_token"]
+            self.do_specific_test(currentApplication, self.api_client.get("/labs/testLab1/tests/", secure=True, HTTP_AUTHORIZATION="Bearer {0}".format(access_token)),
+                                  403, {"detail": "You do not have permission to perform this action."}, file=output)

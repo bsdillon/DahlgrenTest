@@ -36,7 +36,7 @@ def getAccessToken(client_id, secret, cert):
 
 client_id = admin["client_id"]
 secret = admin["client_secret"]
-
+"""
 print("POST lab104")
 access_token = getAccessToken(client_id, secret, cert)
 newLab = {"name": "lab104", "UIC": 104, "tests": [{"eventStartDateTime": "2021-11-19T00:00", "eventEndDateTime": "2022-01-01T00:00", "testCasePassFail": False, "eventStatus": "PLANNED"}]}
@@ -71,7 +71,8 @@ print("DELETE lab104")
 access_token = getAccessToken(client_id, secret, cert)
 response = requests.delete(rootURL + "/labs/lab104/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
 print(response.status_code)
-
+"""
+#
 """
 print("PATCH lab103")
 access_token = getAccessToken(client_id, secret, cert)
