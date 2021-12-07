@@ -2893,3 +2893,23 @@ Apache server interrupted...
 [Mon Dec 06 14:16:45.252958 2021] [mpm_winnt:notice] [pid 10372:tid 748] AH00422: Parent: Received shutdown signal -- Shutting down the server.
 [Mon Dec 06 14:16:47.272784 2021] [mpm_winnt:notice] [pid 14480:tid 724] AH00364: Child: All worker threads have exited.
 [Mon Dec 06 14:16:47.362694 2021] [mpm_winnt:notice] [pid 10372:tid 748] AH00430: Parent: Child process 14480 exited successfully.
+[Tue Dec 07 14:44:15.930312 2021] [ssl:warn] [pid 9392:tid 688] AH01906: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Dec 07 14:44:15.931312 2021] [ssl:warn] [pid 9392:tid 688] AH01909: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Dec 07 14:44:15.987313 2021] [ssl:warn] [pid 9392:tid 688] AH01873: Init: Session Cache is not configured [hint: SSLSessionCache]
+[Tue Dec 07 14:44:15.988313 2021] [ssl:warn] [pid 9392:tid 688] AH01906: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Dec 07 14:44:15.988313 2021] [ssl:warn] [pid 9392:tid 688] AH01909: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Dec 07 14:44:15.988313 2021] [mpm_winnt:notice] [pid 9392:tid 688] AH00455: Apache/2.4.51 (Win64) OpenSSL/1.1.1l mod_wsgi/4.9.0 Python/3.8 configured -- resuming normal operations
+[Tue Dec 07 14:44:15.988313 2021] [mpm_winnt:notice] [pid 9392:tid 688] AH00456: Apache Lounge VS16 Server built: Oct  7 2021 16:27:02
+[Tue Dec 07 14:44:15.988313 2021] [core:notice] [pid 9392:tid 688] AH00094: Command line: 'httpd.exe -d E:/Documents/Work Stuff/Active Work Files/Code/DahlgrenTest/MetricMatrix/httpd-2.4.51-win64-VS16/Apache24'
+[Tue Dec 07 14:44:15.997312 2021] [mpm_winnt:notice] [pid 9392:tid 688] AH00418: Parent: Created child process 8976
+Apache server interrupted...
+021] [ssl:warn] [pid 8976:tid 772] AH01906: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Dec 07 14:44:16.241358 2021] [ssl:warn] [pid 8976:tid 772] AH01909: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Dec 07 14:44:16.261371 2021] [ssl:warn] [pid 8976:tid 772] AH01873: Init: Session Cache is not configured [hint: SSLSessionCache]
+[Tue Dec 07 14:44:16.262371 2021] [ssl:warn] [pid 8976:tid 772] AH01906: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Dec 07 14:44:16.262371 2021] [ssl:warn] [pid 8976:tid 772] AH01909: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Dec 07 14:44:16.296684 2021] [mpm_winnt:notice] [pid 8976:tid 772] AH00354: Child: Starting 64 worker threads.
+[Tue Dec 07 14:44:29.715324 2021] [wsgi:error] [pid 8976:tid 1348] [client ::1:62601] Not Found: /favicon.ico\r, referer: https://localhost/admin/auth/user/25/change/
+[Tue Dec 07 14:45:10.701821 2021] [mpm_winnt:notice] [pid 9392:tid 688] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Tue Dec 07 14:45:12.730475 2021] [mpm_winnt:notice] [pid 8976:tid 772] AH00364: Child: All worker threads have exited.
+[Tue Dec 07 14:45:12.819478 2021] [mpm_winnt:notice] [pid 9392:tid 688] AH00430: Parent: Child process 8976 exited successfully.
