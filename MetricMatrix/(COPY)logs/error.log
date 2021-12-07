@@ -2932,3 +2932,82 @@ Apache server interrupted...
 [Tue Dec 07 15:24:48.194655 2021] [mpm_winnt:notice] [pid 10184:tid 724] AH00422: Parent: Received shutdown signal -- Shutting down the server.
 [Tue Dec 07 15:24:50.212911 2021] [mpm_winnt:notice] [pid 6696:tid 720] AH00364: Child: All worker threads have exited.
 [Tue Dec 07 15:24:50.301911 2021] [mpm_winnt:notice] [pid 10184:tid 724] AH00430: Parent: Child process 6696 exited successfully.
+[Tue Dec 07 15:42:06.110244 2021] [ssl:warn] [pid 5516:tid 712] AH01906: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Dec 07 15:42:06.110244 2021] [ssl:warn] [pid 5516:tid 712] AH01909: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Dec 07 15:42:06.158286 2021] [ssl:warn] [pid 5516:tid 712] AH01873: Init: Session Cache is not configured [hint: SSLSessionCache]
+[Tue Dec 07 15:42:06.158286 2021] [ssl:warn] [pid 5516:tid 712] AH01906: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Dec 07 15:42:06.158286 2021] [ssl:warn] [pid 5516:tid 712] AH01909: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Dec 07 15:42:06.159286 2021] [mpm_winnt:notice] [pid 5516:tid 712] AH00455: Apache/2.4.51 (Win64) OpenSSL/1.1.1l mod_wsgi/4.9.0 Python/3.8 configured -- resuming normal operations
+[Tue Dec 07 15:42:06.159286 2021] [mpm_winnt:notice] [pid 5516:tid 712] AH00456: Apache Lounge VS16 Server built: Oct  7 2021 16:27:02
+[Tue Dec 07 15:42:06.159286 2021] [core:notice] [pid 5516:tid 712] AH00094: Command line: 'httpd.exe -d E:/Documents/Work Stuff/Active Work Files/Code/DahlgrenTest/MetricMatrix/httpd-2.4.51-win64-VS16/Apache24'
+[Tue Dec 07 15:42:06.163289 2021] [mpm_winnt:notice] [pid 5516:tid 712] AH00418: Parent: Created child process 3608
+Apache server interrupted...
+021] [ssl:warn] [pid 3608:tid 740] AH01906: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Dec 07 15:42:06.379285 2021] [ssl:warn] [pid 3608:tid 740] AH01909: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Dec 07 15:42:06.406303 2021] [ssl:warn] [pid 3608:tid 740] AH01873: Init: Session Cache is not configured [hint: SSLSessionCache]
+[Tue Dec 07 15:42:06.406303 2021] [ssl:warn] [pid 3608:tid 740] AH01906: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate is a CA certificate (BasicConstraints: CA == TRUE !?)
+[Tue Dec 07 15:42:06.406303 2021] [ssl:warn] [pid 3608:tid 740] AH01909: DESKTOP-CNQDH1C.fios-router.home:443:0 server certificate does NOT include an ID which matches the server name
+[Tue Dec 07 15:42:06.432312 2021] [mpm_winnt:notice] [pid 3608:tid 740] AH00354: Child: Starting 64 worker threads.
+[Tue Dec 07 15:45:36.940786 2021] [wsgi:error] [pid 3608:tid 1356] [client ::1:55798] Not Found: /favicon.ico\r, referer: https://localhost/admin/login/?next=/admin/
+[Tue Dec 07 15:45:53.829876 2021] [wsgi:error] [pid 3608:tid 1348] [client ::1:55854] Not Found: /favicon.ico\r, referer: https://localhost/admin/login/?next=/admin/
+[Tue Dec 07 15:46:13.182163 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:55907] Not Found: /favicon.ico\r, referer: https://localhost/admin/login/?next=/admin/
+[Tue Dec 07 16:27:49.348558 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53345] Forbidden: /labs/\r
+[Tue Dec 07 16:27:49.603204 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53349] Not Found: /labs/lab104/\r
+[Tue Dec 07 16:27:49.731491 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53351] Forbidden: /labs/lab101/\r
+[Tue Dec 07 16:27:49.973582 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53355] Forbidden: /labs/lab101/\r
+[Tue Dec 07 16:27:50.223296 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53359] Forbidden: /labs/lab104/\r
+[Tue Dec 07 16:27:50.489294 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53363] Forbidden: /labs/lab104/\r
+[Tue Dec 07 16:27:50.866326 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53369] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:27:51.883918 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53377] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:27:52.007125 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53379] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:27:52.150573 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53381] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:27:52.591995 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53387] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:27:52.723334 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53389] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:27:53.166601 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53395] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:27:53.273247 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53397] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:28:53.550520 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53426] Forbidden: /labs/\r
+[Tue Dec 07 16:28:53.658939 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53428] Forbidden: /labs/lab101/\r
+[Tue Dec 07 16:28:53.766978 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53430] Forbidden: /labs/\r
+[Tue Dec 07 16:28:53.899813 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53432] Forbidden: /labs/\r
+[Tue Dec 07 16:28:54.025809 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53434] Forbidden: /labs/lab104/\r
+[Tue Dec 07 16:28:54.133844 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53436] Forbidden: /labs/lab101/\r
+[Tue Dec 07 16:28:54.291843 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53438] Forbidden: /labs/\r
+[Tue Dec 07 16:28:54.399876 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53440] Forbidden: /labs/lab101/\r
+[Tue Dec 07 16:28:54.516889 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53442] Forbidden: /labs/\r
+[Tue Dec 07 16:28:54.633902 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53444] Forbidden: /labs/lab104/\r
+[Tue Dec 07 16:28:54.740902 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53446] Forbidden: /labs/\r
+[Tue Dec 07 16:28:54.866605 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53448] Forbidden: /labs/lab104/\r
+[Tue Dec 07 16:28:54.991619 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53450] Forbidden: /labs/\r
+[Tue Dec 07 16:28:55.092289 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53452] Forbidden: /labs/lab101/tests/\r
+[Tue Dec 07 16:28:55.217275 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53454] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:28:55.349978 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53456] Forbidden: /labs/lab101/tests/\r
+[Tue Dec 07 16:28:55.466732 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53458] Forbidden: /labs/lab101/tests/\r
+[Tue Dec 07 16:28:55.608359 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53460] Forbidden: /labs/lab101/tests/None/\r
+[Tue Dec 07 16:28:55.760035 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53462] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:28:55.875872 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53464] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:28:55.993544 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53466] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:28:56.150085 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53468] Forbidden: /labs/lab101/tests/None/\r
+[Tue Dec 07 16:28:56.259079 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53470] Forbidden: /labs/lab101/tests/\r
+[Tue Dec 07 16:28:56.392100 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53472] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:28:56.491278 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53474] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:28:56.616750 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53476] Forbidden: /labs/lab101/tests/None/\r
+[Tue Dec 07 16:28:56.749305 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53478] Forbidden: /labs/lab101/tests/\r
+[Tue Dec 07 16:28:56.858561 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53480] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:28:57.008183 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53482] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:29:37.822024 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53513] Forbidden: /labs/\r
+[Tue Dec 07 16:29:38.071968 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53517] Not Found: /labs/lab104/\r
+[Tue Dec 07 16:29:38.211072 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53519] Forbidden: /labs/lab101/\r
+[Tue Dec 07 16:29:38.436080 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53523] Forbidden: /labs/lab101/\r
+[Tue Dec 07 16:29:38.710665 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53527] Forbidden: /labs/lab104/\r
+[Tue Dec 07 16:29:38.985389 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53531] Forbidden: /labs/lab104/\r
+[Tue Dec 07 16:29:39.344879 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53537] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:29:40.412681 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53545] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:29:40.529332 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53547] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:29:40.662137 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53549] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:29:41.113936 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53555] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:29:41.236902 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53557] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:29:41.646013 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53563] Forbidden: /labs/lab102/tests/None/\r
+[Tue Dec 07 16:29:41.769609 2021] [wsgi:error] [pid 3608:tid 1328] [client ::1:53565] Forbidden: /labs/lab102/tests/\r
+[Tue Dec 07 16:31:09.528409 2021] [mpm_winnt:notice] [pid 5516:tid 712] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Tue Dec 07 16:31:11.542440 2021] [mpm_winnt:notice] [pid 3608:tid 740] AH00364: Child: All worker threads have exited.
+[Tue Dec 07 16:31:11.631464 2021] [mpm_winnt:notice] [pid 5516:tid 712] AH00430: Parent: Child process 3608 exited successfully.

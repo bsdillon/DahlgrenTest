@@ -153,3 +153,5 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 ]
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
