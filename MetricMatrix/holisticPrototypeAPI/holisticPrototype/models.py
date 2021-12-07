@@ -9,10 +9,6 @@ class Lab(models.Model):
     def __str__(self):
         return self.name
 
-    # maybe?
-    #class Meta:
-    #    permissions = ("modifyTests_lab", "Can modify this lab's tests")
-
 class Test(models.Model):
     lab = models.ForeignKey(Lab, related_name="tests", on_delete=models.CASCADE)
     eventStartDateTime = models.DateTimeField()

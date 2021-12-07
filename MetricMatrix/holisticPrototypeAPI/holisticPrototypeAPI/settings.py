@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-xnx4w01_s48&=94-hh(3xmva41w-dd1@pja8jqoo1bt#(jv50%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', "192.168.1.182"]
 
 
 # Application definition
@@ -153,3 +153,5 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 ]
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
