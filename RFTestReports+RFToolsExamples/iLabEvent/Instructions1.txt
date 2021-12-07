@@ -1,0 +1,68 @@
+1. Start from the script created in step 0.
+
+2. Open the last test script and save again as a resource file. No specific naming
+   convention exists, but we prefer to name all robot files as .robot and a resource
+   file as resourceXXXXX.robot.
+
+3. In the resource file we will create keywords from the test steps. Basically, these
+   look exactly like the test steps, but these can be called as keywords in another
+   test. You are free to rename the keyword to any word or even sentence that is
+   meaningful to you in a future test.
+Open and Verify Site
+   Open Browser   ${SITE URL}   ${BROWSER}
+   Title Should Be    ${TITLE}
+   Capture Page Screenshot    EMBED
+
+4. Recreate the effect of test 0 using the resource file. You will need to add a line
+   to the settings that points to the new resource file. Then you can replace the
+   contents of the test step with a call to the newly create keywords. Make sure the
+   test still runs and passes all tests.
+Resource  ./resource1.robot
+
+5. Learn to use developer tools. Open the DVIDS site in a open browser, click the 
+   three vertical dots or prest CTRL+SHIFT+I. Across the top of the new window there 
+   are tabs. Click on 'Elements'.
+
+6. If you run your mouse over code elements on the right you will see sections on
+   the left highlighted in blue. We want to use this tool to find the "view background 
+   image" button near the bottom of the page. You will need to expand the following:
+     <div id="body_content"></div
+       <div id="footer"></div>
+         <div class="uk-container uk-container-center"></div>
+           <div class="uk-grid"></div>
+             <div class="uk-width-medium-10-10"></div>
+               <a href="...." id="view_background_image_link"></a>
+
+7. You can use a variety of new keywords to find the link "...." from that button.
+   Note that the id "footer" is on the div tag around that button. Under that are
+   three more div tags and then an a. So we can use a couple of different routes
+   to find the footer and navigate to the a.
+
+Find More Button
+   ${id}=	Get Element Attribute	css:#footer div div div a    id
+   Log     Found ${id}
+
+This one uses Cascading Style Sheet (css) syntax to find elements.
+* css:#footer div div div a
+      #this is the id we can find in the developer tools
+              div div div a
+              This is the list of elements under the footer
+
+Find More Button 2
+   ${id}=	Execute Javascript    return document.getElementById("footer").firstElementChild.firstElementChild.firstElementChild.firstElementChild.id;
+   Log     Found ${id}
+This one uses Javascript code if you prefer. We start the same way 
+by finding the footer, then we use repeated "firstElementChild" to
+go down four layers.
+
+8. You are free to do this and other actions to help you find elements. For more
+information visit these sites:
+https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html#Locating%20elements
+
+9. Use your new skills to:
+* Find the three bar menu in the upper right corner and Click Element
+* Find the search bar and use Input Text to set the search text
+* After you type something into the search, find and click text on the autocomplete panel 
+* Find the websupport email at the bottom of the page
+
+10. What OQE do you have to verify that these actions happened?
