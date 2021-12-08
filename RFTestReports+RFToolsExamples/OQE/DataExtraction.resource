@@ -1,12 +1,9 @@
 *** Settings ***
-Library   kw_DataExtraction.py
+Library   kw_DataExtraction.py    ./../OQE/test2.js    ./../OQE/test2other.js
 Library   OperatingSystem
 Library   Collections
 
 *** Variables ***
-${ARCHIVED_TEST_RESULTS}         ArchivedTestResults
-${TEST_RESULTS_FILE}             demodata.js
-${START_OF_TEST_RESULTS_FILE}    var testRuns = { ${\n} ${\n}
 ${TEST_STATUS}
 ${TEST_MESSAGE}
 ${ACTUAL}
@@ -18,10 +15,8 @@ Test Case Time
     ${TEST_CASE_TIME}       kw_DataExtraction.getTime
     [Return]                ${TEST_CASE_TIME}
 
-Result File Setup
-    #Needs to be done only 1 time for a test suite
-    Move File               ${TEST_RESULTS_FILE}    ${ARCHIVED_TEST_RESULTS}
-    Append to file          ${TEST_RESULTS_FILE}    ${START_OF_TEST_RESULTS_FILE}
+Test Check
+    Log    The test check works
 
 Record OQE
     [Arguments]             ${actual}    ${expected}    ${testCaseName}    ${testStepCount}    ${testCaseTime}    ${testStepName}    ${TEST_STEP_START_TIME}

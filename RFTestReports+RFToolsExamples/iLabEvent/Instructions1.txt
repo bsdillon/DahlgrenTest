@@ -60,9 +60,11 @@ information visit these sites:
 https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html#Locating%20elements
 
 9. Use your new skills to:
-* Find the three bar menu in the upper right corner and Click Element
+* Find one of the top menu items and Click Element on it
 * Find the search bar and use Input Text to set the search text
-* After you type something into the search, find and click text on the autocomplete panel 
-* Find the websupport email at the bottom of the page
+* After you type something into the search, find and specific text on the autocomplete
+* Find and click a link at the bottom of the page
 
-10. What OQE do you have to verify that these actions happened?
+10. What OQE do you have to verify that these actions happened? There are lots of
+    options like Capture Page Screenshot or Capture Element Screenshot and lots of
+    "should" statements to verify contents like Title Should Be.

@@ -1,21 +1,22 @@
 *** Settings ***
 Library   SeleniumLibrary
-Resource  ./resource1.robot
+Resource   ./resource2.robot
+Resource   ./../OQE/DataExtraction.resource
 
 *** Variables ***
 
 *** Keywords ***
-Find More Button
-   ${id}=	Get Element Attribute	css:#footer div div div a    id
-   Log     Found ${id}
-
-Find More Button 2
-   ${id}=	Execute Javascript    return document.getElementById("footer").firstElementChild.firstElementChild.firstElementChild.firstElementChild.id;
-   Log     Found ${id}
 
 *** Test Cases ***
 Test Setup
    Open and Verify Site
+
+Setup OQE
+   Test Check
+   ${something} =    Prove it works
+   Log    ${something}
+   Archive Any Previous Data
+   Insert Dummy Test Data
 
 Find Content Menu
    Log   Selecting Content Menu

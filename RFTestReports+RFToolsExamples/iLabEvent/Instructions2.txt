@@ -1,0 +1,57 @@
+1. Start from test script 1 (i.e. the previous lesson).
+
+2. Consider moving any useful keywords into the resource file. This is a step that increases
+   the reusability of the test. The basic strategy is to work on creating some test capability
+   and then consider how to turn it into a reusable "lego" block for future tests. To do this,
+   it is helpful to identify parameters in the keyword. A keyword with no parameters is almost
+   literally a one trick pony. With a parameter it can be used for many different things.
+
+Find More Button
+   ${id} =    Get Element Attribute	css:#footer div div div a    id
+   Log     Found ${id}
+   I don't necessarily want to log everything. Just return the value
+                                        The css statement is something we could consider as a parameter.
+                                                                     This is the attribute we want to capture and another parameter.
+
+Find Tag and Get Attribute
+   [Arguments]    ${CSS-IDENTIFIER}    ${ATTRIBUTE-NAME}
+   ${value} =    Get Element Attribute	${CSS-IDENTIFIER}    ${ATTRIBUTE-NAME}
+   [Return]    ${value}
+Now we have two paramters (arguments) and we are using them to get the attribute
+
+3. After building the keyword from your previous work, call that keyword and verify that the
+   test still works as before. Steps 2 and 3 are call REFACTORING - changing the form, but
+   not the function of the code. In this case we can make a change to the form of the code
+   which will make it more reusable and we always test to make sure it still works the way
+   it used to. Do this one small bit at a time so you have a limited number of variables that
+   change in each experiment. This simple test verifies that it works as expected.
+
+Test Keyword
+   ${id} =    Find Tag and Get Attribute    css:#footer div div div a    id
+   Log     Found ${id}
+
+4. In this test we are going to introduce the reporting GUI and use some of those tools to 
+   improve the test report beyond what Robot Framework offers natively. We will start by editing
+   a couple of files to set things up.
+IN THE TEST SCRIPT - Point to the OQE resource file
+Resource   ./../OQE/DataExtraction.resource
+
+IN THE RESOURCE FILE - Give the name of two test files we will use.
+Library   kw_DataExtraction.py    ./../OQE/test2.js    ./../OQE/test2other.js
+Alter the file locations where were will put the data.
+
+IN THE HTML FILE - Change the data source file location to match
+    <script id = "dataSourceFile" src="./../OQE/test2.js"></script>
+
+5. We will run a few new test lines just to make sure everything is connected properly.
+Setup OQE
+   Test Check
+   ${something} =    Prove it works
+   Log    ${something}
+   Archive Any Previous Data
+   Insert Dummy Test Data
+The log should indicate that Test Check and Prove it works. The new test2.js file should
+also be created and you will see the dummy data in the HTML GUI. If you see these effects, 
+then you can start working with the OQE GUI.
+
+6. Replace the OQE gathering steps from your test with references to the newly linked OQE GUI.
