@@ -12,6 +12,7 @@ djangorestframework==3.12.4
 djangorestframework-guardian==0.3.0 (guardian)
 idna==3.3 (toolkit)
 jwcrypto==1.0 (toolkit)
+mod-wsgi==4.9.0
 oauthlib==3.1.1 (toolkit)
 pycparser==2.21 (toolkit)
 pytz==2021.3 (django)

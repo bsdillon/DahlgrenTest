@@ -12,6 +12,7 @@ djangorestframework==3.12.4
 djangorestframework-guardian==0.3.0
 idna==3.3
 jwcrypto==1.0
+mod-wsgi==4.9.0
 oauthlib==3.1.1
 pycparser==2.20
 pytz==2021.3
