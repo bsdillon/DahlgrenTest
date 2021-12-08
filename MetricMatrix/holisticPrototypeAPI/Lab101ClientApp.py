@@ -8,11 +8,10 @@ warnings.filterwarnings("ignore")
 #
 
 userList = [
-    #{"user": "admin", "client_id": "uxsjRcQXcF8kcjrCAVRnUJNbgUrsOmkNe2BADNtd", "client_secret": "0KfnA11Y5sPwNdK3733PILl1VMDbromsVINNrWXhQtZPuKKxPJYaoekHtgVxjtkKS8on9IS9JbWNDJZclOuE3CDBOd8pvqaxgZq8YJcoTVOx0Mt7zawZ0ecraKMEdI4u"},
-    #{"user": "app101", "client_id": "IfohbSKEwENGyQWBNl15qpI81lt1phiOplvhYmV6", "client_secret": "9QzIgOuZoXwYzPoS57VIngjbLrPAU1WRu9FXqJJCLNfHrUTUPKKIFbj82XIph6LYfZw780XL0tu9YXVEdSamOY8imfNXrJvZRlM0nsAlZueNKfNuGansx9iOh22CmwAw"},
+    {"user": "admin", "client_id": "uxsjRcQXcF8kcjrCAVRnUJNbgUrsOmkNe2BADNtd", "client_secret": "0KfnA11Y5sPwNdK3733PILl1VMDbromsVINNrWXhQtZPuKKxPJYaoekHtgVxjtkKS8on9IS9JbWNDJZclOuE3CDBOd8pvqaxgZq8YJcoTVOx0Mt7zawZ0ecraKMEdI4u"},
+    {"user": "app101", "client_id": "IfohbSKEwENGyQWBNl15qpI81lt1phiOplvhYmV6", "client_secret": "9QzIgOuZoXwYzPoS57VIngjbLrPAU1WRu9FXqJJCLNfHrUTUPKKIFbj82XIph6LYfZw780XL0tu9YXVEdSamOY8imfNXrJvZRlM0nsAlZueNKfNuGansx9iOh22CmwAw"},
     #{"user": "bogus", "client_id": "3NlXru6PPbpouGGPbmo2kQr1H5Xu8gROt1bFjwos", "client_secret": "yOyR9Z1pkt1Di0Zw6wmYUl7jVKNivvg89JY2FaW5JxJEqD7NlrtVgjK8PN6FSUyIf890M3yY4TUCdBAyzNkIFIsUTM8pZCNwyD0cuIOW8xXAzF36M0KUVVazei6nKRWW"},
     #{"user": "", "client_id": "", "client_secret": ""},
-    {"user": "newApp", "client_id": "axpP8Uz75U3AMyPmapynQxdTBQxPhaHn9dERJvkh", "client_secret": "K3iTy2jg62qkCeYkLq4cb8RPPEcFm9JSWCRqGWo2y4KPy599UMYlv3L24bXqmS7ZrJxlMHwUtq8sYQu6RdTH4EDHZxFbHb2bveUZfGC7mhHQtYqbLuNuV4jw4y3F5Rwc"}
 ]
 cert = "../venv/Lib/site-packages/sslserver/certs/development.crt"
 
