@@ -1,0 +1,27 @@
+# (actual line ~296)
+# ErrorLog: The location of the error log file.
+# If you do not specify an ErrorLog directive within a <VirtualHost>
+# container, error messages relating to that virtual host will be
+# logged here.  If you *do* define an error logfile for a <VirtualHost>
+# container, that host's errors will be logged there and not here.
+#
+
+#since error log and access log both contain %L (which is the request log ID),
+#access and error logs can be mapped to each other using the request id (rid).
+ErrorLogFormat "[%t] [rid:%L] [%l] [pid %P] %F: %E: [client %a] %M"
+ErrorLog "logs/error.log"
+
+#
+# LogLevel: Control the number of messages logged to the error_log.
+# Possible values include: debug, info, notice, warn, error, crit,
+# alert, emerg.
+#
+LogLevel debug
+
+<IfModule log_config_module>
+    #
+    # The following directives define some format nicknames for use with
+    # a CustomLog directive (see below).
+    #
+    LogFormat "%h %l %u %t [rid:%L]\"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+    LogFormat "%h %l %u %t [rid:%L]\"%r\" %>s %b" common
