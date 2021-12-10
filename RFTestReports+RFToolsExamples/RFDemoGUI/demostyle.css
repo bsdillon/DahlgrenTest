@@ -87,16 +87,30 @@ td.fail.active:hover {
   background-color: rgb(255,0,0);
 }
 
-td.details {
+td.data {
   background-image: url("info.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-td.details.active:hover {
+td.data.active:hover {
   background-image: url("info2.png");
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+td.screenshot {
+  background-image: url("camera.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+td.screenshot.active:hover {
+  background-image: url("camera2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 td.report {

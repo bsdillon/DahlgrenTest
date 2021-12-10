@@ -7,14 +7,17 @@ defaultFile = "demodata.js"
 defaultSecondaryFile = "secondarydata.js"
 
 class kw_DataExtraction:
+   ROBOT_LIBRARY_SCOPE = 'SUITE'
 
    def __init__(self, primaryFile=defaultFile, secondaryFile=defaultSecondaryFile):
-      self.dataFile = primaryFile;
-      self.otherFile = secondaryFile;
+      self.dataFile = primaryFile
+      self.otherFile = secondaryFile
+      self.currentTestName = "blank"
+      self.testCaseStart = datetime.fromtimestamp(0)
 
    @keyword(name='Prove it works')
    def temp(self):
-      return "It works"
+      return "kw_DataExtraction.py is connected"
 
    @keyword(name='Archive Any Previous Data')
    def archiveStart(self):
@@ -24,9 +27,9 @@ class kw_DataExtraction:
          arcPath = os.path.dirname(self.dataFile) + os.path.sep + "ARCHIVE"
          if not os.path.exists(arcPath):
             os.mkdir(arcPath)
-         index = 1
 
          #move the file to a unique name/number in archive
+         index = 1
          proposedPath = arcPath+os.path.sep+os.path.basename(self.dataFile)+str(index)
          while os.path.exists(proposedPath):
            index = index +1
@@ -44,52 +47,27 @@ class kw_DataExtraction:
 
    @keyword(name='Insert Dummy Test Data')
    def dumbTest(self):
+      tmp = self.testCaseStart
+      self.testCaseStart = datetime.now()
+      deltaTime = str(self.testCaseStart - tmp)
       f = open(self.dataFile, "a")
-      f.write("testRuns['1970-01-01 00:00:00.000000']=[];\n")
-      f.write("testRuns['1970-01-01 00:00:00.000000'].push({Test: 'Some name of a things', Status: 'Pass', Step: 'from the  last parameter of verify and record', time: 'Start Time: 2021-10-01 01:32:33, 2021-10-01 01:32:36.100111', Details: 'Actual: Something, Expected: Else'});\n")
-      f.write("testRuns['1970-01-01 00:00:00.000000'].push({Test: 'Some name of a things', Status: '', Step: 'from the  last parameter of verify and record', time: 'Start Time: 2021-10-01 01:32:33, 2021-10-01 01:32:36.100111', Details: 'Actual: , Expected: [{Thing: other, Sometheing: else, More: stuff}]'});\n")
+      f.write("testRuns['Dummy Data 1970-01-01 00:00:00.000000']=[];\n")
+      f.write("testRuns['Dummy Data 1970-01-01 00:00:00.000000'].push({Case: 'OQE setup validation', Step: 'Validation', Time: '"+deltaTime+"', Status: 'Pass', Details: 'Actual: Everying worked, Expected: Everything worked'});\n")
       f.close()
 
-   def totalTime(self, testStartTime):
-      testEndTime = datetime.now()
-      timeMessage = "Start time: " + str(testStartTime) + " , End Time: " + str(testEndTime)
-      return timeMessage
-
-   def detailMessage(self, actual, expected):
-      message = "Actual: " + actual + " , Expected: " + expected
-      return message
-
-   def initialGuiDataBuilder(self, testCaseTime, testCaseName, testStatus, testStep, message, totalTime):
-      return testCaseTime + ": [ \n {Test: '" + testCaseName + "' , Status: '" + testStatus + "' , Step: '" + testStep + "' , Time: '" + totalTime + "' , Details: '" + message + "'},"
-
-   def guiDataBuilder(self, testCaseTime, testCaseName, testStatus, testStep, message, totalTime):
-      return    "{Test: '" + testCaseName + "' , Status: '" + testStatus + "' , Step: '" + testStep + "' , Time: '" + totalTime + "' , Details: '" + message + "'},"
-
-   def removeBrackets(self, numToDelete):
-      #loop through once or twice to get rid of ], and or };
-      while numToDelete > 0:
-         #get list of lines in file
-         currentFile = open(self.dataFile, "r")
-         lines = file.readlines(currentFile)
-         currentFile.close()
-         #delete unneccessary ], };
-         lineCount = len(lines)
-         del lines[lineCount-1] #deletes last line in file
-         #write to file
-         updatedFile = open(self.dataFile, "w+")
-         for line in lines:
-            updatedFile.write(line)
-         updatedFile.close()
-         numToDelete -= 1
-
-   #Needed to format/update GUI
-   @keyword(name='getTime')
+   @keyword(name='Test Case Start Time')
    def getTime(self):
-      testCaseStart = dateTime.now()
-      return str(testCaseStart)
+      self.testCaseStart = datetime.now()
+      return str(self.testCaseStart)
 
-   #TODO update to deal with partial matches as in "Not Good" matching on "Good"
-   @keyword(name='CompareResults')
+   @keyword(name='Create Test Case')
+   def WriteNewTestCase (self, testName):
+      f = open(self.dataFile, "a")
+      self.currentTestName = testName
+      f.write("testRuns['"+self.currentTestName+"']=[];\n")
+      f.close()
+
+   @keyword(name='Compare Results')
    def KW_OQE_compareTestResults(self, actual, expected):
       if ((actual == expected) or (expected in actual)):
          testStatus = "PASS"
@@ -97,59 +75,43 @@ class kw_DataExtraction:
          testStatus = "FAIL"
       return testStatus
 
-   @keyword(name='WriteResults')
-   def KW_OQE_writeResultToFile(self, testCaseTime, testCaseInstance, actual, expected, testCaseName, testStatus, testStep, testStepStartTime, details):
-      #unique identifier of test case
-      testCaseTime = '"' + str(testCaseTime) + '"'
-      details = str(details)
+   @keyword(name='Write Results')
+   def KW_OQE_writeResultToFile(self, testCaseName, testStepName, testStatus, details):
+      tmp = self.testCaseStart
+      self.testCaseStart = datetime.now()
+      deltaTime = str(self.testCaseStart - tmp)
+      details = details.replace("'", "**");
+      f = open(self.dataFile, "a")
+      f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+details+"'});\n")
+      f.close()
 
-      #elapsed test time
-      totalTime = self.totalTime(testStepStartTime)
+   @keyword(name='Get Next Img File')
+   def checkImageFileName(self, proposedName):
+      rootPath = os.path.dirname(self.dataFile) + "/IMG/" + proposedName
+      rootPath = rootPath.replace(' ', '_')
+      index = 0
 
-      #build details message --> if additional details are provided add to end of message
-      if(not details):
-         message = self.detailMessage(actual, expected)
-      else:
-         details = details.replace('\'', '') #removes the ' within the string to ensure .js data file is fomratted correctly
-         message = details
+      proposedPath = rootPath + ".png"
+      while os.path.exists(proposedPath):
+         index = index + 1
+         proposedPath = rootPath + str(index) + ".png"
 
-      with open(self.dataFile, 'a') as file:
-         if(testCaseInstance == '1'):
-            self.removeBrackets(1) #need to remove };
-            dataString = self.initialGuiDataBuilder(testCaseTime, testCaseName, testStatus, testStep, message, totalTime)
-         else:
-            self.removeBrackets(2) #need to remove ]
-            dataString = self.guiDataBuilder(testCaseTime, testCaseName, testStatus, testStep, message, totalTime)
+      return proposedPath
 
-         file.write(dataString)
-      #write date to self.otherFile --external file not linked to GUI display
-      with open(self.otherFile, 'a') as file:
-         self.KW_OQE_WriteToExternalOQEFile(testCaseTime, testCaseName, testStep, dataString)
+   @keyword(name='Write Image')
+   def KW_OQE_writeImageToFile(self, testCaseName, testStepName, testStatus, file):
+      tmp = self.testCaseStart
+      self.testCaseStart = datetime.now()
+      deltaTime = str(self.testCaseStart - tmp)
+      f = open(self.dataFile, "a")
+      f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+file+"'});\n")
+      f.close()
 
-   @keyword(name='EndOfIndividualTestCase')
-   def KW_OQE_endOfIndividualTestCase(self):
-      #need to include }; so the GUI updates real time
-      with open(self.dataFile, 'a') as file:
-         file.write("\n]," + "\n };")
-
-   @keyword(name='WriteToExternalOQEFile')
-   def KW_OQE_WriteToExternalOQEFile(self, testCaseStartTime, testCaseName, testStep, info):
-      testCaseStartTime = str(testCaseStartTime)
-      currentTime = str(datetime.now())
-      info = str(info)
-
-      testInFile = self.checkForTestInFile(testCaseStartTime)
-
-      if testInFile:
-         with open(self.otherFile, 'a') as file:
-            file.write("\nTest Step: " + testStep + "\nSystem Time: " + currentTime + "\n" + info)
-      else:
-         with open(self.otherFile, 'a') as file:
-            file.write("\nTest Case Start Time: " + testCaseStartTime + "\nTest Case Name: " + testCaseName + "\nTest Step: " + testStep + "\nSystem Time: " + currentTime + "\n" + info)
-
-   def checkForTestInFile(self, testCaseStartTime):
-      with open(self.otherFile) as file:
-         if testCaseStartTime in file.read():
-            return True
-         else: 
-            return False
+   @keyword(name='Write Data')
+   def KW_OQE_writeDataToFile(self, testCaseName, testStepName, testStatus, data):
+      tmp = self.testCaseStart
+      self.testCaseStart = datetime.now()
+      deltaTime = str(self.testCaseStart - tmp)
+      f = open(self.dataFile, "a")
+      f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+data+"'});\n")
+      f.close()

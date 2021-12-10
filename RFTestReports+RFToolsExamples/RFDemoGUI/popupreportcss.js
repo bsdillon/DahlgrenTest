@@ -1,0 +1,10 @@
+var popupstyle = [
+'table {border-radius:10px; border: 6px solid GhostWhite; color: rgb(0,59,79); font-family: helvetica; box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25), -8px -8px 12px 0 rgba(255, 255, 255, 0);}',
+'th {border-radius: 5px;}',
+'td    {border-radius: 5px; font-weight: bolder; box-shadow: 2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset, -1.5px -1.5px 3px 0 rgba(0, 0, 0, .25) inset;}',
+'td.evenRow {background-color: rgba(100,100,255,0.07);}',
+'td.oddRow {background-color: rgba(255,255,255,0.07);}',
+'h1, h2, h3, h4, h5, h6 {color: rgb(0,59,79); font-family: helvetica;}',
+'.FAIL {background-color:#880000; color:#FFFFFF; text-align: center;}',
+'.PASS {background-color:#008800; color:#FFFFFF; text-align: center;}',
+]
