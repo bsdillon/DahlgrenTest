@@ -15,7 +15,7 @@ userList = [
 ]
 cert = "../venv/Lib/site-packages/sslserver/certs/development.crt"
 
-rootURL = "https://localhost"#"https://localhost:8000"#
+rootURL = "https://localhost:8000"#"https://localhost"#
 
 # post for a token using Client Credentials
 def getAccessToken(client_id, secret, cert):
