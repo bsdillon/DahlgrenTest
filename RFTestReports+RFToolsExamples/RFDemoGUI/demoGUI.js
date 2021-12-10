@@ -65,13 +65,17 @@ function generateHeatMap(data, length, rawData) {
 
       //add data for the test.
       for(let oneTest of testData) {
-        td = row.insertCell();
-        var status = oneTest.Status;
-        toolText = "<b>"+oneTest.Test + "</b><br>" + oneTest.Details;
-        toolTip(td, toolText);
-        td.classList.add(status.toLowerCase());
-        td.classList.add("active");
-        td.classList.add("plump");
+        if(oneTest.Step==='--')
+        {
+          //only show the individual test cases
+          td = row.insertCell();
+          var status = oneTest.Status;
+          toolText = "<b>"+oneTest.Case + "</b><br>" + oneTest.Details;
+          toolTip(td, toolText);
+          td.classList.add(status.toLowerCase());
+          td.classList.add("active");
+          td.classList.add("plump");
+        }
       }
 
       if(maxWidth<1+testData.length)
@@ -82,7 +86,7 @@ function generateHeatMap(data, length, rawData) {
   }
 
   //add buffer spaces - Top row
-  row1.appendChild(addBuffer(Math.max(0,maxWidth-row1.cells.length), "th", "Test Steps", ""));
+  row1.appendChild(addBuffer(Math.max(0,maxWidth-row1.cells.length)+1, "th", "Test Steps", ""));
 
   for( let row of rows) // all test rows
   {
@@ -96,14 +100,15 @@ function generateHeatMap(data, length, rawData) {
   //running row
   if(rowLast != 0)
   {
-    rowLast.appendChild(addBuffer(Math.max(0,maxWidth-rowLast.cells.length), "td", "Running...", "running"));
+    rowLast.appendChild(addBuffer(Math.max(0,maxWidth-rowLast.cells.length)+1, "td", "Running...", "running"));
   }
 }
 
 //adds buffer space on the end of a row
-function addBuffer(myFill, element, text, className)
+function addBuffer(colspan, element, text, className)
 {
   var cell = document.createElement(element);
+
   if(text.length>0)
   {
     var text = document.createTextNode(text);
@@ -114,7 +119,7 @@ function addBuffer(myFill, element, text, className)
   {
     cell.classList.add(className);
   }
-  cell.colSpan = myFill;
+  cell.colSpan = colspan;
 
   return cell;
 }
@@ -145,7 +150,16 @@ function CreatePopupReport(x) {
   closePopUp();
   newWindow = window.open('', '', windowFeatures);
   newWindow.onunload = function () {newWindow=0;};
-  newWindow.document.head.innerHTML += '<link rel="stylesheet" type="text/css" href="popupreport.css"><script src="test.js"></script>';
+  newWindow.document.body.classList.add("popup");
+
+  var cssText = "";
+  for (let x = 0; x < popupstyle.length; x++)
+  {
+    cssText += popupstyle[x];
+  }
+  var styleTag = newWindow.document.createElement("style");
+  styleTag.innerHTML = cssText;
+  newWindow.document.head.append(styleTag);
 
   if(x == 'total') {
     newWindow.document.title = 'Total OQE Results';
@@ -154,7 +168,7 @@ function CreatePopupReport(x) {
   }
   else {
     newWindow.document.title = 'Individual OQE';
-    createHTag('Test Results', '1', newWindow);
+    createHTag('Test Results: '+x, '1', newWindow);
     var chartData = testRuns[x];
     singleTestReport(chartData);
   } 
@@ -183,22 +197,102 @@ function singleTestTable(dataheader, data, win) {
 
   //create table headers
   var row = thead.insertRow();
+  var statusCount = -1
+  var detailsCount = -1
+  var count = 0;
   for(let element of dataheader) {
     var th = win.document.createElement("th");
     var text = win.document.createTextNode(element);
+    if(element==="Status")
+    {
+      statusCount = count;
+    }
+
+    if(element==="Details")
+    {
+      detailsCount = count;
+    }
+
     th.appendChild(text);
     row.appendChild(th);
+    count++;
   }
 
   //create new row for each step in the test
   var oddStripeStyle = false;//included for striped style
+  var type = "Data";
+  var detailSet = ["Data","Screenshot"];
   for (let step of data) {
     var row = table.insertRow();
-    for (var i=0; i<dataheader.length; i++) {
+    if(step["Step"]==='--')
+    {
+      var className = step["Status"];
+      //this is the end of the test step
       var cell = row.insertCell();
-      var text = win.document.createTextNode(step[dataheader[i]]);
+      cell.innerHTML = step["Case"];
       cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
-      cell.appendChild(text);
+      cell = row.insertCell();
+      cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
+      cell = row.insertCell();
+      cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
+      cell = row.insertCell();
+      cell.innerHTML = step["Status"];
+      cell.classList.add(className);
+      cell = row.insertCell();
+      cell.innerHTML = step["Details"];
+      cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
+    }
+    else
+    {
+      for (var i=0; i<dataheader.length; i++)
+      {
+        var cell = row.insertCell();
+        var contents = step[dataheader[i]];
+
+        if(i==statusCount)
+        {
+          type = step[dataheader[i]];
+        }
+
+        if(i==statusCount && (contents==='PASS' || contents==='FAIL'))
+        {
+          cell.classList.add(type);
+        }
+        else
+        {
+          cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
+        }
+
+        if(i==detailsCount)
+        {
+          var matchLambda = (text) => text === type;
+          var index = detailSet.findIndex(matchLambda);
+          switch(index)
+          {
+            case -1:
+              //pass or fail; no op
+              break;
+            case  0:
+              //data
+              var pieces = contents.split("; ");
+              var contents = pieces[0];
+              for(let i=1;i<pieces.length;i++)
+              {
+                contents = contents + "<br>" + pieces[1];
+              }
+              break;
+            case  1:
+              //screenshot
+              let temp = "<a href='"+contents+"'>Image</a>";
+              contents = temp+"<a href='"+contents+"'><img src='"+contents+"' width='50' height='50'></a>";
+              let div = document.createElement("DIV");
+              div.innerHTML = contents;
+              document.getElementById("main").appendChild(div);
+              break;
+          }
+        }
+        cell.innerHTML = contents;
+      }
     }
 
     //flip style on next line
@@ -282,10 +376,10 @@ function generateStatus(data, length, rawData) {
     var test = document.createTextNode("Test Run " + i + "    ");
     para.appendChild(test);
     var actualdata = data[rawData[i]];
-    if(!actualdata){
+    if(!actualdata || actualdata.length==0){
      var stat = 'Running...';
     }else{
-     var testName = document.createTextNode(actualdata[0].Test+"   ");//this will only work when there is only one test in the testrun as it looks at the first entry in the testrun data and grabs its name
+     var testName = document.createTextNode(actualdata[0].Case+"   ");//this will only work when there is only one test in the testrun as it looks at the first entry in the testrun data and grabs its name
      para.appendChild(testName);
      var stat = totalStatus(actualdata);
     }
@@ -441,7 +535,8 @@ function generateLineChart(title, win, dataSet, axisLabels, lineLabels, colors) 
   chart2.update();
 }
 
-function createImage(id, source, width, height){
+function createImage(id, source, width, height)
+{
   var image = document.createElement('img');
   image.id = id;
   image.src = source;
