@@ -5,7 +5,9 @@ charset-normalizer==2.0.7 (toolkit)
 cryptography==35.0.0 (toolkit)
 Deprecated==1.2.13 (toolkit)
 Django==3.2.9 (django)
+django-axes==5.27.0
 django-guardian==2.4.0 (guardian)
+django-ipware==4.0.0 (axes)
 django-oauth-toolkit==1.5.0 (toolkit)
 django-sslserver==0.22
 djangorestframework==3.12.4
