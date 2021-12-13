@@ -19,6 +19,8 @@ Test Template - this is the actual test.
 Each of these actions can be used to designate a specific keyword. Because keywords can call other keywords, 
 you have unlimited flexibility starting from that one keyword. You can designate any of these you want but
 you MUST have the Test Template.
+*** Settings ***
+Library Selenium
 Suite Setup  kw_Before All
 Test Setup  kw_Check Inventory
 Test Teardown  kw_Clear Status
@@ -26,9 +28,6 @@ Test Template kw_Run Test
 
 If you run several tests, the order of keywords will look something like this.
 
-*** Settings ***
-Library Selenium
-...
 Suite Setup
   Test Setup
     Test Template
@@ -78,7 +77,7 @@ kw_Login Test
 * You can capture pass/fail on all your assertions and add blocks to that row as often as you please. 
   This might be a way to add to your OQE output. This is a little more program-y but the logic can be
   as complicated or simple as you like.
-  ${a2} =    Assert OQE Value    ${HTML}    Verify link    ${href}    ${HREF}
+  ${a1} =    Assert OQE Value    ${HTML}    Verify link    ${href}    ${HREF}
   Record Test Case    --    Check login matched    ${a1}    --
 * Alternatively, you could use multiple keywords and take advantage of ${KEYWORD STATUS} etc. in each
   teardown.
