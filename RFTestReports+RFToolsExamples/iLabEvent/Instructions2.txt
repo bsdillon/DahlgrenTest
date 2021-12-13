@@ -37,7 +37,7 @@ IN THE TEST SCRIPT - Point to the OQE resource file
 Resource   ./../OQE/DataExtraction.resource
 
 IN THE RESOURCE FILE - Give the name of two test files we will use.
-Library   kw_DataExtraction.py    ./../OQE/test2.js    ./../OQE/test2other.js
+Library   kw_DataExtraction.py    ./../OQE/test2.js    ./../OQE/test2other.js    WITH NAME    oqe
 Alter the file locations where were will put the data.
 
 IN THE HTML FILE - Change the data source file location to match
@@ -55,3 +55,27 @@ also be created and you will see the dummy data in the HTML GUI. If you see thes
 then you can start working with the OQE GUI.
 
 6. Replace the OQE gathering steps from your test with references to the newly linked OQE GUI.
+   Some of the OQE keywords to consider are:
+* Assert OQE Value    ${TEST NAME}    <<STEP NAME>>    <<ACTUAL>>    <<EXPECTED>>
+  This keyword is used to directly compare the actual and expected value. Name the step
+  something that describes the assertian.
+  Ex. Assert OQE Value    ${TEST NAME}    IFF Check    ${IFF Found}    1234
+  
+* Record Data    ${TEST NAME}    <<STEP NAME>>    <<DATA>>
+  This keyword is used to log data without pass/fail judgement. End each datum with a ';'
+  This could be a way to record the whole contents of a message or data about some event.
+  Ex. Record Data    ${TEST NAME}    MT-121    ${mt}.Number; ${mt}.Source; ${mt}.Dest;
+
+* Capture Element Image    <<IDENTIFIER>>    ${TEST NAME}    <<STEP NAME>>
+* Capture Screen Image    ${TEST NAME}    <<STEP NAME>>
+  Both of these keywords use similar conventions to capture screen shots. The images will
+  be captured in the HTML report.
+  Ex. Capture Element Image    hookTrack.LTN    ${TEST NAME}    Verify LTN
+
+* [Teardown]    Record Test Case    ${CASE NAME}    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}
+  This keyword should be used at the end of each test case. It captures the overal pass/fail
+  status of the test case. You may gather pass/fail criteria with the keywords above, but
+  the test itself may fail for other reasons which will be captured here in the error message.
+  You can choose to specify either the test case as whole or some specific step in the case.
+  Ex. Record Test Case    ${CASE NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
+  Ex. Record Test Case    --    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}

@@ -65,12 +65,23 @@ function generateHeatMap(data, length, rawData) {
 
       //add data for the test.
       for(let oneTest of testData) {
-        if(oneTest.Step==='--')
+        if(oneTest.Step==='--' && oneTest.Case!=='--')
         {
           //only show the individual test cases
           td = row.insertCell();
           var status = oneTest.Status;
           toolText = "<b>"+oneTest.Case + "</b><br>" + oneTest.Details;
+          toolTip(td, toolText);
+          td.classList.add(status.toLowerCase());
+          td.classList.add("active");
+          td.classList.add("plump");
+        }
+        else if(oneTest.Case==='--' && oneTest.Step!=='--')
+        {
+          //only show the individual test cases
+          td = row.insertCell();
+          var status = oneTest.Status;
+          toolText = "<b>"+oneTest.Step + "</b><br>" + oneTest.Details;
           toolTip(td, toolText);
           td.classList.add(status.toLowerCase());
           td.classList.add("active");
@@ -224,14 +235,35 @@ function singleTestTable(dataheader, data, win) {
   var detailSet = ["Data","Screenshot"];
   for (let step of data) {
     var row = table.insertRow();
-    if(step["Step"]==='--')
+    if(step["Case"]==='--' && step["Step"]==='--')
+    {
+      var cell = row.insertCell();
+      cell.classList.add("BAR");
+      cell.innerHTML = "&nbsp;"
+      cell = row.insertCell();
+      cell.classList.add("BAR");
+      cell = row.insertCell();
+      cell.classList.add("BAR");
+      cell = row.insertCell();
+      cell.classList.add("BAR");
+      cell = row.insertCell();
+      cell.classList.add("BAR");
+    }
+    else if(step["Case"]==='--' || step["Step"]==='--')
     {
       var className = step["Status"];
       //this is the end of the test step
       var cell = row.insertCell();
-      cell.innerHTML = step["Case"];
+      if(step["Step"]==='--')
+      {
+        cell.innerHTML = step["Case"];
+      }
       cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
       cell = row.insertCell();
+      if(step["Case"]==='--')
+      {
+        cell.innerHTML = step["Step"];
+      }
       cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
       cell = row.insertCell();
       cell.classList.add(oddStripeStyle?"evenRow":"oddRow");
@@ -278,7 +310,7 @@ function singleTestTable(dataheader, data, win) {
               var contents = pieces[0];
               for(let i=1;i<pieces.length;i++)
               {
-                contents = contents + "<br>" + pieces[1];
+                contents = contents + "<br>" + pieces[i];
               }
               break;
             case  1:
