@@ -7,6 +7,8 @@ from oauth2_provider.models import get_application_model
 from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 
+from django.core import management
+
 Application = get_application_model()
 
 
@@ -22,7 +24,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "permissions",
             type=str,
-            help="The permissions to grant: write or readonly",
+            help="The permissions to grant: write, readonly, or admin",
         )
 
     def handle(self, *args, **options):
@@ -33,23 +35,19 @@ class Command(BaseCommand):
                             "authorization_grant_type": "client-credentials"
                             }
         application_data.update({"name": options["name"]})
-        """
-        for key, value in options.items():
-            # Data in options must be cleaned because there are unneeded key-value like
-            # verbosity and others. Also do not pass any None to the Application
-            # instance so default values will be generated for those fields
-            if key in application_fields and value:
-                application_data.update({key: value})
-                #if key == "user":
-                #    application_data.update({"user_id": value})
-                #else:
-                #    application_data.update({key: value})
-        """
 
         new_application = Application(**application_data)
         # password may be left blank for a "unusable password" user...?
         try:
-            user = User.objects.create_user(new_application.name, password=new_application.client_secret)
+            if (options["permissions"] == "admin"):
+                if (User.objects.filter(username=new_application.name).exists()):
+                    raise IntegrityError
+                else:
+                    # seems like this doesn't raise IntegrityError on its own? So we need to check usernames before submitting the command.
+                    management.call_command("createsuperuser", username=new_application.name)
+                    user = User.objects.get(username=new_application.name)
+            else:
+                user = User.objects.create_user(new_application.name, password=new_application.client_secret)
         except IntegrityError:
             self.stdout.write(self.style.ERROR("An application with that name already exists"))
         else:
@@ -61,7 +59,7 @@ class Command(BaseCommand):
                     Group.objects.get(name="Write Permissions").user_set.add(user)
                 elif (permissions == "readonly"):
                     Group.objects.get(name="Read-Only Permissions").user_set.add(user)
-                else:
+                elif (permissions != "admin"):
                     raise ValueError
             except ValueError:
                 self.stdout.write(self.style.ERROR("Permissions must be write or readonly"))
