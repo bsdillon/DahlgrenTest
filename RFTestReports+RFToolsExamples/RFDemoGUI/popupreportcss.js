@@ -7,4 +7,5 @@ var popupstyle = [
 'h1, h2, h3, h4, h5, h6 {color: rgb(0,59,79); font-family: helvetica;}',
 '.FAIL {background-color:#880000; color:#FFFFFF; text-align: center;}',
 '.PASS {background-color:#008800; color:#FFFFFF; text-align: center;}',
+'.BAR {background-color:#00454F;}'
 ]

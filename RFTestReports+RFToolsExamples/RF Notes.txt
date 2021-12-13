@@ -6,3 +6,34 @@ From the command line
 * pip install robotframework
 * pip install --upgrade robotframework-seleniumlibrary
 Go to the directory of the 
+
+
+
+The default file name for datadriver is the same csv as the test itself
+
+Examples of rf control structures
+https://robocorp.com/docs/languages-and-frameworks/robot-framework/conditional-execution
+
+special variables only in teardown to get status
+https://github.com/robotframework/robotframework/issues/1040
+
+http://robotframework.org/Selenium2Library/Selenium2Library.html#Wait%20Until%20Element%20Contains
+Part of the selenium library that handles wait until functions.
+
+
+pip install --upgrade robotframework-datadriver
+pip install --upgrade robotframework-datadriver[XLS]
+pip install --upgrade robotframework-datadriver[XLSX]
+
+
+https://pypi.org/project/robotframework-datadriver/
+https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html
+https://www.rcvacademy.com/tag/robot-framework-data-driver-example/
+https://mydeveloperplanet.com/2020/06/02/how-to-write-data-driven-tests-with-robot-framework/
+
+
+https://robocorp.com/docs/libraries/3rd-party-libraries/datadriver-library
+
+There is a RoboCon!!!!
+
+1042-

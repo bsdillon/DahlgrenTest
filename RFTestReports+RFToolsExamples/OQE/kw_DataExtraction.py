@@ -69,20 +69,20 @@ class kw_DataExtraction:
 
    @keyword(name='Compare Results')
    def KW_OQE_compareTestResults(self, actual, expected):
-      if ((actual == expected) or (expected in actual)):
+      if actual == expected:
          testStatus = "PASS"
       else:
          testStatus = "FAIL"
       return testStatus
 
    @keyword(name='Write Results')
-   def KW_OQE_writeResultToFile(self, testCaseName, testStepName, testStatus, details):
+   def KW_OQE_writeResultToFile(self, caseName, stepName, testStatus, details):
       tmp = self.testCaseStart
       self.testCaseStart = datetime.now()
       deltaTime = str(self.testCaseStart - tmp)
       details = details.replace("'", "**");
       f = open(self.dataFile, "a")
-      f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+details+"'});\n")
+      f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+caseName+"', Step: '"+stepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+details+"'});\n")
       f.close()
 
    @keyword(name='Get Next Img File')
