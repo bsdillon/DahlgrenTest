@@ -2,8 +2,7 @@ from django.test import TestCase
 
 # Create your tests here.
 from rest_framework.test import APIClient
-from django.contrib.auth.models import Group
-from django.conf import settings
+from django.contrib.auth.models import User, Group
 from oauth2_provider.models import get_application_model, get_access_token_model
 from guardian.shortcuts import assign_perm
 from .models import Lab, Test
@@ -21,9 +20,9 @@ def generateTestApplication(name, group=None, isSuperuser=False):
                         }
     new_application = Application(**application_data)
     if (isSuperuser):
-        user = settings.AUTH_USER_MODEL.objects.create_superuser(new_application.name, password=new_application.client_secret)
+        user = User.objects.create_superuser(new_application.name, password=new_application.client_secret)
     else:
-        user = settings.AUTH_USER_MODEL.objects.create_user(new_application.name, password=new_application.client_secret)
+        user = User.objects.create_user(new_application.name, password=new_application.client_secret)
     new_application.user = user
 
     if (group != None):
@@ -48,11 +47,11 @@ def loadResponseToJson(response):
 class LabAndTestTestCase(TestCase):
     def setUp(self):
         self.defaultPerms = Group.objects.create(name="Default Permissions")
-        assign_perm("holisticPrototype.view_lab", self.defaultPerms)
-        assign_perm("holisticPrototype.view_test", self.defaultPerms)
-        assign_perm("holisticPrototype.add_test", self.defaultPerms)
-        assign_perm("holisticPrototype.change_test", self.defaultPerms)
-        assign_perm("holisticPrototype.delete_test", self.defaultPerms)
+        assign_perm("newPrototypeWithCustomUser.view_lab", self.defaultPerms)
+        assign_perm("newPrototypeWithCustomUser.view_test", self.defaultPerms)
+        assign_perm("newPrototypeWithCustomUser.add_test", self.defaultPerms)
+        assign_perm("newPrototypeWithCustomUser.change_test", self.defaultPerms)
+        assign_perm("newPrototypeWithCustomUser.delete_test", self.defaultPerms)
         
         self.api_client = APIClient()
         self.admin = generateTestApplication(name="admin", isSuperuser=True)
