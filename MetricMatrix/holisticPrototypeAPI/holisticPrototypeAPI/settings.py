@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "axes.middleware.AxesMiddleware",
+    'django_auto_logout.middleware.auto_logout',
 ]
 
 ROOT_URLCONF = 'holisticPrototypeAPI.urls'
@@ -71,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django_auto_logout.context_processors.auto_logout_client",
             ],
         },
     },
@@ -159,8 +161,14 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 10 * 60
-SESSION_SAVE_EVERY_REQUEST = True
+#SESSION_COOKIE_AGE = 10 * 60 # just in case, not sure about the interaction with AUTO_LOGOUT
+#SESSION_SAVE_EVERY_REQUEST = True
 
 AXES_ONLY_ADMIN_SITE = True
 AXES_COOLOFF_TIME = timedelta(minutes=15)
+
+AUTO_LOGOUT = {
+    "IDLE_TIME": timedelta(minutes=10),
+    "REDIRECT_TO_LOGIN_IMMEDIATELY": True,
+    "MESSAGE": "Your session has timed out. Please login again to continue.",
+}
