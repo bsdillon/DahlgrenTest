@@ -2,8 +2,7 @@ from django.test import TestCase
 
 # Create your tests here.
 from rest_framework.test import APIClient
-from django.contrib.auth.models import Group
-from django.conf import settings
+from django.contrib.auth.models import User, Group
 from oauth2_provider.models import get_application_model, get_access_token_model
 from guardian.shortcuts import assign_perm
 from .models import Lab, Test
@@ -21,9 +20,9 @@ def generateTestApplication(name, group=None, isSuperuser=False):
                         }
     new_application = Application(**application_data)
     if (isSuperuser):
-        user = settings.AUTH_USER_MODEL.objects.create_superuser(new_application.name, password=new_application.client_secret)
+        user = User.objects.create_superuser(new_application.name, password=new_application.client_secret)
     else:
-        user = settings.AUTH_USER_MODEL.objects.create_user(new_application.name, password=new_application.client_secret)
+        user = User.objects.create_user(new_application.name, password=new_application.client_secret)
     new_application.user = user
 
     if (group != None):
