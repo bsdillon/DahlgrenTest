@@ -1,0 +1,173 @@
+/*--------Basic page elements--------*/
+.background{
+    background-color: rgb(0,59,79);//blue-gray
+}
+
+.div {
+   background-color: GhostWhite;
+   border-radius: 10px;
+   margin: 5px;
+   box-shadow:
+     12px 12px 16px 0 rgba(255, 255, 255, 0.5) inset,
+     -18px -18px 22px 0 rgba(0, 0, 0, .15) inset;
+}
+
+p, h1, h2 { 
+  color: rgb(0,59,79); //blue-gray
+  font-family: helvetica;
+}
+
+button {
+  font-size: 18px;
+  font-family: helvetica;
+  font-weight: bold;
+  color: rgb(0,59,79);
+  border-radius: 5px;
+  border: none;
+  width: 55px;
+  height: 30px;
+  background-color: GhostWhite;
+  box-shadow:
+    3px 3px 6px 0 rgba(0, 0, 0, 0.25),
+    -4px -4px 8px 0 rgba(255, 255, 255, 0);
+}
+
+button:hover{
+  box-shadow:
+    2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset,
+    -4px -4px 8px 0 rgba(0, 0, 0, .25) inset;
+}
+
+table{
+  margin = "10px 10px 10px 10px";
+  color = "rgb(0,59,79)";
+  font-family: helvetica;
+  font-weight: bold;
+ border-radius: 15px;
+  border:6px solid GhostWhite;
+  box-shadow:
+   12px 12px 16px 0 rgba(0, 0, 0, 0.25),
+   -8px -8px 12px 0 rgba(255, 255, 255, 0);
+}
+
+th {
+  background-color = "GhostWhite";
+  font-weight = bold;
+}
+
+td {
+  background-color = "GhostWhite";
+  font-weight = bold;
+  width: 25px; height: 25px;
+  text-align: center;
+  margin: 5px 5px 5px 5px;
+  border: 1px solid GhostWhite;
+  border-radius: 8px;
+}
+/*--------Basic page elements--------*/
+
+/*Colored and image-based table cells for report and legend*/
+td.plump {
+  box-shadow: 4px 4px 10px 0 rgba(255, 255, 255, 0.4) inset, -4px -4px 8px 0 rgba(0, 0, 0, .4) inset;
+}
+
+td.pass {
+  background-color: rgb(60,192,60);
+}
+
+td.pass.active:hover {
+  background-color: rgb(0,255,0);
+}
+
+td.fail {
+  background-color: rgb(192,60,60);
+}
+
+td.fail.active:hover {
+  background-color: rgb(255,0,0);
+}
+
+td.data {
+  background-image: url("info.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+td.data.active:hover {
+  background-image: url("info2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+td.screenshot {
+  background-image: url("camera.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+td.screenshot.active:hover {
+  background-image: url("camera2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+td.report {
+  background-image: url("link.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: 1px solid blue;
+}
+
+td.buffer {
+  background-color: Gray;
+}
+
+td.running {
+  background-color: rgb(198, 204, 208);
+}
+
+td img{
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
+}
+
+/*Tooltips*/
+.tooltip {position: relative;}
+
+.tooltip .tooltiptext {
+  /*Over the table in question*/
+  position: absolute;
+  z-index: 1;
+
+  /*Black on white*/
+  background-color: #ffffff;
+  color: #000000;
+  font-weight: normal;
+  font-size: 15px;
+
+  /*Size and shape of tooltip*/
+  box-shadow: 4px 4px 10px 0 rgba(255, 255, 255, 0.4) inset, 
+    -4px -4px 8px 0 rgba(0, 0, 0, .4) inset;
+  border-radius: 6px;
+  width: 300px;
+  text-align: center;
+  padding: 5px 0;
+
+  /*Fade in/out*/
+  visibility: hidden;
+  top: 125%;
+  left: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+ font-weight: normal;
+  visibility: visible;
+  opacity: 1;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Demo</title>
+    <link href = "demostyle.css" rel = "stylesheet">
+    <script id = "dataSourceFile" src="./test2.js"></script>
+    <script src="Chart.min.js"></script>
+    <script src= "piechartlibrary.js"></script>
+    <script src="linechartlibrary.js"></script>
+    <script id = "scriptSourceFile" src = "demoGUI.js"></script>
+    <script src="./popupreportcss.js"></script>
+</head>
+<body onload = "start()" class="background"  id="body">
+<div id = "header"></div>
+ <div id = "main" class = "div">
+   <br>
+    <div style="float: left;">
+       <table id="legend" class="legend">
+           <tr><th colspan="2">Legend:</th></tr>
+           <tr>
+               <td class="pass plump"></td>
+               <td>Pass</td>
+           </tr>
+           <tr>
+               <td class="fail plump"></td>
+               <td> Fail</td>
+           </tr>
+           <tr>
+               <td class="data plump"></td>
+               <td> Data</td>
+           </tr>
+           <tr>
+               <td class="screenshot plump"></td>
+               <td> Screenshot</td>
+           </tr>
+           <tr>
+               <td class="report"></td>
+               <td>Report</td>
+           </tr>
+           <tr>
+               <td class="buffer"></td>
+               <td> Buffer</td>
+           </tr>
+           <tr>
+               <td class="running"></td>
+               <td>Running</td>
+           </tr>
+        </table>
+    </div>
+    <div style="float: center;">
+      <table id="heatmap" class="heatmap heatMap"></table>
+    </div>
+    <br>
+     <h2 style = "margin: 10px 10px 10px 10px;"> Tests - Cumulative Results: <button onclick="CreatePopupReport('total')">OQE</button></h2>
+ </div>
+</body>
+</html>
