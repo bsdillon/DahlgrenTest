@@ -1,0 +1,30 @@
+GET labs
+Expected status: 200
+Actual status:   200
+Expected response: {'detail': 'You have permission to view this list, but it is either empty or contains only items you do not have permission to view.'}
+Actual response:   {'detail': 'You have permission to view this list, but it is either empty or contains only items you do not have permission to view.'}
+GET testLab1 tests
+Expected status: 403
+Actual status:   403
+Expected response: {'detail': 'You do not have permission to perform this action.'}
+Actual response:   {'detail': 'You do not have permission to perform this action.'}
+GET labs
+Expected status: 200
+Actual status:   200
+Expected response: [{'name': 'testLab1', 'UIC': 1}]
+Actual response:   [{'name': 'testLab1', 'UIC': 1}]
+GET testLab1 tests
+Expected status: 200
+Actual status:   200
+Expected response: [{'id': 1, 'eventStartDateTime': '2020-01-01T00:00:00Z', 'eventEndDateTime': '2021-01-01T00:00:00Z', 'testCasePassFail': True, 'eventStatus': 'LOCKED', 'lab': 'testLab1'}, {'id': 2, 'eventStartDateTime': '2021-12-31T00:00:00Z', 'eventEndDateTime': '2022-12-31T00:00:00Z', 'testCasePassFail': False, 'eventStatus': 'PLANNED', 'lab': 'testLab1'}]
+Actual response:   [{'id': 1, 'eventStartDateTime': '2020-01-01T00:00:00Z', 'eventEndDateTime': '2021-01-01T00:00:00Z', 'testCasePassFail': True, 'eventStatus': 'LOCKED', 'lab': 'testLab1'}, {'id': 2, 'eventStartDateTime': '2021-12-31T00:00:00Z', 'eventEndDateTime': '2022-12-31T00:00:00Z', 'testCasePassFail': False, 'eventStatus': 'PLANNED', 'lab': 'testLab1'}]
+GET labs
+Expected status: 200
+Actual status:   200
+Expected response: {'detail': 'You have permission to view this list, but it is either empty or contains only items you do not have permission to view.'}
+Actual response:   {'detail': 'You have permission to view this list, but it is either empty or contains only items you do not have permission to view.'}
+GET testLab1 tests
+Expected status: 403
+Actual status:   403
+Expected response: {'detail': 'You do not have permission to perform this action.'}
+Actual response:   {'detail': 'You do not have permission to perform this action.'}
