@@ -15,7 +15,7 @@ userList = [
 ]
 cert = "../venv/Lib/site-packages/sslserver/certs/development.crt"
 
-rootURL = "https://localhost:8000"#"https://localhost"#
+rootURL = "https://localhost"#https://localhost:8000""
 
 # post for a token using Client Credentials
 def getAccessToken(client_id, secret, cert):
@@ -27,7 +27,7 @@ def getAccessToken(client_id, secret, cert):
         "Content-Type": "application/x-www-form-urlencoded"
     }
     token_url = rootURL + "/o/token/"
-    
+
     tokenResponse = requests.post(token_url, headers=headers, data={"grant_type": "client_credentials"}, verify = cert)
     #print(json.dumps(tokenResponse.json(), indent = 2))
     # should maybe push out the error response if there is one e.g. with "bogus"
@@ -118,7 +118,7 @@ for user in userList:
     print("Current Application: " + user["user"])
     client_id = user["client_id"]
     secret = user["client_secret"]
-    
+
     # view lab101 tests
     print("GET lab101")
     access_token = getAccessToken(client_id, secret, cert)

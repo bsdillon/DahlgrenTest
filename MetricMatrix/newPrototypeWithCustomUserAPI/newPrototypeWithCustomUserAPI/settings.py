@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "mod_wsgi.server",
     "axes",
     "sslserver",
+    "drf_api_logger",
 ]
 
 MIDDLEWARE = [
@@ -55,8 +56,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "axes.middleware.AxesMiddleware",
+    'axes.middleware.AxesMiddleware',
     'django_auto_logout.middleware.auto_logout',
+    'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware',
 ]
 
 ROOT_URLCONF = 'newPrototypeWithCustomUserAPI.urls'
@@ -174,3 +176,5 @@ AUTO_LOGOUT = {
 }
 
 AUTH_USER_MODEL = "newPrototypeWithCustomUser.User"
+
+DRF_API_LOGGER_DATABASE = True
