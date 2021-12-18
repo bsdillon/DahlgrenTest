@@ -9,10 +9,10 @@ function start() {
   }
   document.body.append(buttonTag);
 
-  var textTag = newWindow.document.createElement("p");
+  var textTag = document.createElement("p");
   textTag.id = "checkup"
   textTag.innerHTML = window.location.pathname
-  newWindow.document.body.append(textTag);
+  document.body.append(textTag);
 
   //testRuns is the object containing the arrays with test data, 
   //it is imported from a data file. 
