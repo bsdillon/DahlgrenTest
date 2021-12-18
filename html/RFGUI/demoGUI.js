@@ -188,7 +188,7 @@ function CreatePopupReport(x) {
   var buttonTag = newWindow.document.createElement("button");
   buttonTag.innerHTML = "Click";
   buttonTag.onclick = function(){
-    document.getElementById("checkup2").innerHTML = newWindow.location.pathname;//body.innerHTML+=onlyVar;
+    newWindow.document.getElementById("checkup2").innerHTML = newWindow.location.pathname;//body.innerHTML+=onlyVar;
   }
   newWindow.document.body.append(buttonTag);
 
