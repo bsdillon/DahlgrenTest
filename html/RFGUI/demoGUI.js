@@ -2,6 +2,18 @@ var FAIL_INDEX=0;
 var PASS_INDEX=1;
 
 function start() {
+  var buttonTag = newWindow.document.createElement("button");
+  buttonTag.innerHTML = "Click";
+  buttonTag.onclick = function(){
+    document.getElementById("checkup").innerHTML = window.location.pathname;//body.innerHTML+=onlyVar;
+  }
+  newWindow.document.body.append(buttonTag);
+
+  var textTag = newWindow.document.createElement("p");
+  textTag.id = "checkup"
+  textTag.innerHTML = window.location.pathname
+  newWindow.document.body.append(textTag);
+
   //testRuns is the object containing the arrays with test data, 
   //it is imported from a data file. 
   var rawData = Object.keys(testRuns);
