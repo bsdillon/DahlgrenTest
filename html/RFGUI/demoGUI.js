@@ -5,7 +5,7 @@ function start() {
   var buttonTag = document.createElement("button");
   buttonTag.innerHTML = "Click";
   buttonTag.onclick = function(){
-    document.getElementById("checkup").innerHTML = window.location.pathname;//body.innerHTML+=onlyVar;
+    document.getElementById("checkup").innerHTML = window.location.hostname+" -- "+ window.location.pathname;//body.innerHTML+=onlyVar;
   }
   document.body.append(buttonTag);
 
@@ -188,7 +188,7 @@ function CreatePopupReport(x) {
   var buttonTag = newWindow.document.createElement("button");
   buttonTag.innerHTML = "Click";
   buttonTag.onclick = function(){
-    newWindow.document.getElementById("checkup2").innerHTML = newWindow.location.pathname;//body.innerHTML+=onlyVar;
+    newWindow.document.getElementById("checkup2").innerHTML = newWindow.location.hostname+" -- "+newWindow.location.pathname;//body.innerHTML+=onlyVar;
   }
   newWindow.document.body.append(buttonTag);
 
