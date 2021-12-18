@@ -11,7 +11,8 @@ function start() {
 
   var textTag = document.createElement("p");
   textTag.id = "checkup"
-  textTag.innerHTML = window.location.pathname
+  textTag.innerHTML = window.location.pathname;
+  textTag.style="color:white;";
   document.body.append(textTag);
 
   //testRuns is the object containing the arrays with test data, 
@@ -187,7 +188,7 @@ function CreatePopupReport(x) {
   var buttonTag = newWindow.document.createElement("button");
   buttonTag.innerHTML = "Click";
   buttonTag.onclick = function(){
-    document.getElementById("checkup").innerHTML = window.location.pathname;//body.innerHTML+=onlyVar;
+    document.getElementById("checkup").innerHTML = newWindow.location.pathname;//body.innerHTML+=onlyVar;
   }
   newWindow.document.body.append(buttonTag);
 
