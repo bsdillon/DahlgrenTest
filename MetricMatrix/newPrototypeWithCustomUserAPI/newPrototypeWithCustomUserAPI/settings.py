@@ -21,10 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+#generate new secret key in deployment
 SECRET_KEY = 'django-insecure-gw4bkwshpc5a-2wy81byj!j_yfn4m6-$tewoze&6s=s=h6#%nh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', "192.168.1.182"]
 
@@ -163,6 +164,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_SECURE = True
 #SESSION_COOKIE_AGE = 10 * 60 # just in case, not sure about the interaction with AUTO_LOGOUT
 #SESSION_SAVE_EVERY_REQUEST = True
 
@@ -178,3 +180,10 @@ AUTO_LOGOUT = {
 AUTH_USER_MODEL = "newPrototypeWithCustomUser.User"
 
 DRF_API_LOGGER_DATABASE = True
+
+#DEPLOYMENT
+SECURE_HSTS_SECONDS = 60 #increase to a larger value eventually
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
