@@ -182,7 +182,6 @@ function CreatePopupReport(x) {
     cssText += popupstyle[x];
   }
 	
-  <base href="https://example.com">
   var bTag = newWindow.document.createElement("base");
   bTag.href = window.location.href;
   newWindow.document.head.append(bTag);
