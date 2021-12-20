@@ -182,6 +182,11 @@ function CreatePopupReport(x) {
     cssText += popupstyle[x];
   }
 	
+  var sTag = newWindow.document.createElement("link");
+  sTag.href = './popupreport.css';
+  sTag.rel = "stylesheet";
+  newWindow.document.head.append(sTag);
+
   var bTag = newWindow.document.createElement("base");
   bTag.href = window.location.href;
   newWindow.document.head.append(bTag);
