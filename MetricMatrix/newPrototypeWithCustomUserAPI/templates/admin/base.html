@@ -55,7 +55,7 @@
                 <a href="{% url 'admin:logout' %}">{% translate 'Log out' %}</a>
             {% endblock %}
 			{% block last-login %}
-				<!-- note that this is stupid and gets the current login session since that's the most recent one -->
+				<!-- May want to figure out how translation strings work? So that "Last Login" can be put in them curly braces. -->
 				Last Login:
 				{% firstof user.previous_login user.last_login %}
 			{% endblock %}

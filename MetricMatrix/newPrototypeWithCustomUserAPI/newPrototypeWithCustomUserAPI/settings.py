@@ -21,7 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#generate new secret key in deployment
+# Generate new secret key in deployment.
+# One known security strategy is to put the key in a separate file or environmental variable and reference that file, rather than leaving it as a string literal/magic number
 SECRET_KEY = 'django-insecure-gw4bkwshpc5a-2wy81byj!j_yfn4m6-$tewoze&6s=s=h6#%nh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -157,6 +158,7 @@ OAUTH2_PROVIDER = {
     "ACCESS_TOKEN_EXPIRE_SECONDS": 15,
 }
 
+# Order matters.
 AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesBackend",
     'django.contrib.auth.backends.ModelBackend',

@@ -126,5 +126,9 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Media files
+# Files that are uploaded to the server are saved in the MEDIA_ROOT directory.
+# MEDIA_URL is the base upon which the URLs directing to the files are built.
+
 MEDIA_URL = "/classifiedUploads/"
 MEDIA_ROOT = BASE_DIR / "media"

@@ -14,8 +14,8 @@ class ClassifiedUploadViewSet(viewsets.ModelViewSet):
     parser_classes = [parsers.MultiPartParser]
 
     def retrieve(self, request, *args, **kwargs):
+        # Modified to add a classification header.
+        # Probably also should try it out on list, create, update, partial_update, destroy...
         response = super().retrieve(request, *args, **kwargs)
         response["Classification"] = self.get_object().classification
         return response
-
-    # probably also should try it out on list,create, update, partial_update, destroy...

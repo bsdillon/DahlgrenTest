@@ -11,7 +11,7 @@ import os, sys
 
 from django.core.wsgi import get_wsgi_application
 
-#these lines may be required for some setups
+# These lines may be required for some setups
 #sys.path.append('C:/path/to/newPrototypeWithCustomUserAPI')
 #sys.path.append('C:/path/to/newPrototypeWithCustomUserAPI/newPrototypeWithCustomUserAPI')
 

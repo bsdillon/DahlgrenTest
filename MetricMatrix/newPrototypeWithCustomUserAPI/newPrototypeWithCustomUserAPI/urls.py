@@ -21,3 +21,7 @@ urlpatterns = [
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
     path("", include("newPrototypeWithCustomUser.urls")),
 ]
+# If you wish to include file upload/download capabilities, add the following after the square brackets:
+# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Note that MEDIA_URL and MEDIA_ROOT must be set in settings.
+# also you must import settings from django.conf and static from django.conf.urls.static

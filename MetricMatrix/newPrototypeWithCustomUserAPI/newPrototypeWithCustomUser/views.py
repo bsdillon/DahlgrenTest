@@ -9,9 +9,8 @@ from rest_framework_guardian import filters
 
 from rest_framework.response import Response
 
-# for deleting permission groups for labs
+# For deleting permission groups for Labs
 from django.contrib.auth.models import Group
-#
 
 # Custom permissons - may want to move to a permissions.py
 
@@ -38,6 +37,7 @@ class CustomObjectPermissions(permissions.DjangoObjectPermissions):
     }
 
 class TestParentLabIsLegalPermissions(permissions.BasePermission):
+    # You do not have permission to see a test if you cannot see the lab it is in.
     def has_permission(self, request, view):
         lab = Lab.objects.get(name = view.kwargs["name"])
         return request.user.has_perm("view_lab", lab)    
@@ -50,6 +50,7 @@ class LabViewSet(viewsets.ModelViewSet):
     queryset = Lab.objects.all()
     lookup_field = "name"
     filter_backends = [filters.ObjectPermissionsFilter]
+    
     def list(self, request, *args, **kwargs):
         response = super(LabViewSet, self).list(request, *args, **kwargs)
         if(response.data == []):
@@ -57,6 +58,7 @@ class LabViewSet(viewsets.ModelViewSet):
         return response
 
     def destroy(self, request, pk=None, *args, **kwargs):
+        # Delete the relevant Lab-related groups when the Lab is deleted.
         name = self.kwargs["name"]
         Group.objects.get(name=name + " Read-Only Permissions").delete()
         Group.objects.get(name=name + " Write Permissions").delete()
@@ -66,8 +68,11 @@ class TestViewSet(viewsets.ModelViewSet):
     permission_classes = [ClientCredentialPermission, permissions.DjangoModelPermissions, TokenHasReadWriteScope, TestParentLabIsLegalPermissions, CustomObjectPermissions]
     serializer_class = TestSerializer
     filter_backends = [filters.ObjectPermissionsFilter]
+    
     def get_queryset(self):
+        # You can only see those Test contained inside the Lab shown in the URL
         return Test.objects.filter(lab__name=self.kwargs["name"])
+    
     def list(self, request, *args, **kwargs):
         response = super(TestViewSet, self).list(request, *args, **kwargs)
         if(response.data == []):
