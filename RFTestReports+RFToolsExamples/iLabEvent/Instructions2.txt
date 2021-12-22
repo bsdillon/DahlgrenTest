@@ -33,6 +33,7 @@ Test Keyword
 4. In this test we are going to introduce the reporting GUI and use some of those tools to 
    improve the test report beyond what Robot Framework offers natively. We will start by editing
    a couple of files to set things up.
+IN THE TEST SCRIPT - ./iLabEvent/testSite2.robot (or your equivalent) - Point to the OQE resource file
 Resource   ./../OQE/DataExtraction.resource
 
 IN THE RESOURCE FILE - ./OQE/DataExtraction.resource - Give the name of two test files we will use.
