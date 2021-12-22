@@ -2,6 +2,19 @@ var FAIL_INDEX=0;
 var PASS_INDEX=1;
 
 function start() {
+  var buttonTag = document.createElement("button");
+  buttonTag.innerHTML = "Click";
+  buttonTag.onclick = function(){
+    document.getElementById("checkup").innerHTML = window.location.hostname+" -- "+ window.location.pathname;//body.innerHTML+=onlyVar;
+  }
+  document.body.append(buttonTag);
+
+  var textTag = document.createElement("p");
+  textTag.id = "checkup"
+  textTag.innerHTML = window.location.pathname;
+  textTag.style="color:white;";
+  document.body.append(textTag);
+
   //testRuns is the object containing the arrays with test data, 
   //it is imported from a data file. 
   var rawData = Object.keys(testRuns);
@@ -168,9 +181,31 @@ function CreatePopupReport(x) {
   {
     cssText += popupstyle[x];
   }
+	
+  var sTag = newWindow.document.createElement("link");
+  sTag.href = './popupreport.css';
+  sTag.rel = "stylesheet";
+  newWindow.document.head.append(sTag);
+
+  var bTag = newWindow.document.createElement("base");
+  bTag.href = window.location.href;
+  newWindow.document.head.append(bTag);
+	
   var styleTag = newWindow.document.createElement("style");
   styleTag.innerHTML = cssText;
   newWindow.document.head.append(styleTag);
+
+  var buttonTag = newWindow.document.createElement("button");
+  buttonTag.innerHTML = "Click";
+  buttonTag.onclick = function(){
+    newWindow.document.getElementById("checkup2").innerHTML = newWindow.location.hostname+" -- "+newWindow.location.pathname;//body.innerHTML+=onlyVar;
+  }
+  newWindow.document.body.append(buttonTag);
+
+  var textTag = newWindow.document.createElement("p");
+  textTag.id = "checkup2"
+  textTag.innerHTML = window.location.pathname
+  newWindow.document.body.append(textTag);
 
   if(x == 'total') {
     newWindow.document.title = 'Total OQE Results';
