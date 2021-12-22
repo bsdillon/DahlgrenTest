@@ -12,7 +12,7 @@
      -18px -18px 22px 0 rgba(0, 0, 0, .15) inset;
 }
 
-p, h1, h2 { 
+p, h1, h2, h3, h4, h5, h6 {
   color: rgb(0,59,79); //blue-gray
   font-family: helvetica;
 }
@@ -43,7 +43,7 @@ table{
   color = "rgb(0,59,79)";
   font-family: helvetica;
   font-weight: bold;
- border-radius: 15px;
+  border-radius:10px;
   border:6px solid GhostWhite;
   box-shadow:
    12px 12px 16px 0 rgba(0, 0, 0, 0.25),
@@ -52,17 +52,19 @@ table{
 
 th {
   background-color = "GhostWhite";
-  font-weight = bold;
+  font-weight = bolder;
+  border-radius: 8px;
 }
 
 td {
   background-color = "GhostWhite";
-  font-weight = bold;
+  font-weight = bolder;
   width: 25px; height: 25px;
   text-align: center;
   margin: 5px 5px 5px 5px;
   border: 1px solid GhostWhite;
   border-radius: 8px;
+  box-shadow: 2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset, -1.5px -1.5px 3px 0 rgba(0, 0, 0, .25) inset;
 }
 /*--------Basic page elements--------*/
 
@@ -128,12 +130,6 @@ td.running {
   background-color: rgb(198, 204, 208);
 }
 
-td img{
- display: block;
- margin-left: auto;
- margin-right: auto;
-}
-
 /*Tooltips*/
 .tooltip {position: relative;}
 
@@ -171,3 +167,60 @@ td img{
   visibility: visible;
   opacity: 1;
 }
+
+/*    overlay styles     */
+.overlay {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: rgb(255,255,255); /* Black fallback color */
+  background-color: rgba(255,255,255, 0.9); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #FFFFFF;
+  background-color: #FF0000;
+  border: 1px #FF5555 solid;
+  box-shadow:
+    2px 2px 6px 0 rgba(255, 255, 255, 0.3) inset,
+    -4px -4px 8px 0 rgba(0, 0, 0, .25) inset;
+}
+
+.overlay a {
+  text-decoration: none;/* No underline in the a */
+  font-weight: bolder;
+  font-size: 12px;
+  color: #CCCCCC;
+  background-color: #FF5555;
+  border: 1px #FF2222 solid;
+  display: block; /* Display block instead of inline */
+  transition: 0.3s; /* Transition effects on hover (color) */
+  position: absolute;
+  top: 40px;
+  right: 25px;
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow:
+    3px 3px 6px 0 rgba(0, 0, 0, 0.25),
+    -4px -4px 8px 0 rgba(255, 255, 255, 0);
+}
+
+.popup {width:100%;}
+.thumb {width:50px; height:50px;}
+.small {width:1%;}
+.medium {width:25%;}
+.large {width:50%;}
+.popup td.evenRow {background-color: rgba(100,100,255,0.07);}
+.popup td.oddRow {background-color: rgba(255,255,255,0.07);}
+.FAIL {background-color:#880000; color:#FFFFFF; text-align: center;}
+.PASS {background-color:#008800; color:#FFFFFF; text-align: center;}
+.BAR {background-color:#00454F;}
+.popup th {background-color:#00454F; color:white; font-weight:bolder;}
+#reportContent {background-color:#FFFFFF;}

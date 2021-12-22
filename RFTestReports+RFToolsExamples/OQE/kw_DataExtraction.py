@@ -13,7 +13,9 @@ class kw_DataExtraction:
       self.dataFile = primaryFile
       self.otherFile = secondaryFile
       self.currentTestName = "blank"
+      self.timeMark = datetime.max
       self.testCaseStart = datetime.fromtimestamp(0)
+      self.dataTitles = []
 
    @keyword(name='Prove it works')
    def temp(self):
@@ -43,6 +45,7 @@ class kw_DataExtraction:
       #create the default starting file
       f = open(self.dataFile, "w")
       f.write("var testRuns = {};\n")
+      f.write("var reportStructure = {};\n")
       f.close()
 
    @keyword(name='Insert Dummy Test Data')
@@ -87,6 +90,9 @@ class kw_DataExtraction:
 
    @keyword(name='Get Next Img File')
    def checkImageFileName(self, proposedName):
+      #BSD we had some problems with absolute vs. relative path. Right now relative is still working
+      #but this is how the absolute path could be created.
+      #rootPath = os.path.join(os.path.dirname(os.path.abspath(self.dataFile)), "IMG", proposedName)
       rootPath = os.path.dirname(self.dataFile) + "/IMG/" + proposedName
       rootPath = rootPath.replace(' ', '_')
       index = 0
@@ -114,4 +120,44 @@ class kw_DataExtraction:
       deltaTime = str(self.testCaseStart - tmp)
       f = open(self.dataFile, "a")
       f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+data+"'});\n")
+      f.close()
+
+   @keyword(name='Mark Time')
+   def markTime(self):
+      if self.timeMark!=datetime.max:
+         raise Exception("Processing error: time marked twice")
+      self.timeMark = datetime.now()
+
+   @keyword(name='Time Done')
+   def endTime(self):
+      if self.timeMark==datetime.max:
+         raise Exception("Processing error: time not marked")
+      temp = (datetime.now() - self.timeMark).total_seconds() * 1000
+      self.timeMark = datetime.max
+      return temp
+
+   @keyword(name='Add Structure')
+   def newStructure(self, type, title, xaxis, yaxis, series):
+      revised = title.replace(' ', '_')
+      if  revised in self.dataTitles:
+         raise Exception("Cannot create additional data structure: "+revised)
+      self.dataTitles.append(revised)
+      f = open(self.dataFile, "a")
+      f.write("reportStructure['VAR_"+str(revised)+"'] = {};\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['type']='"+str(type)+"';\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['x-axis']='"+str(xaxis)+"';\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['y-axis']='"+str(yaxis)+"';\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['series']='"+str(series)+"';\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['x-labels']= [];\n");
+      f.write("reportStructure['VAR_"+str(revised)+"']['data']= [];\n");
+      f.close()
+ 
+   @keyword(name='Structured Data')
+   def structuredData(self, title, data, label):
+      revised = title.replace(' ', '_')
+      if  revised not in self.dataTitles:
+         raise Exception("Cannot add data to unknown data structure: "+revised)
+      f = open(self.dataFile, "a")
+      f.write("reportStructure['VAR_"+str(revised)+"']['data'].push("+str(data)+");\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['x-labels'].push('"+str(label)+"');\n")
       f.close()

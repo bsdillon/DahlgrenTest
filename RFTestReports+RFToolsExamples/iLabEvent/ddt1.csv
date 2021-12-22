@@ -1,8 +1,0 @@
-${MENU_ID}, ${HTML}, ${HREF}, ${TITLE}
-menuLinkhome, Home, /, DVIDS - Defense Visual Information Distribution Service
-menuLinkfeatures, Features, /feature, DVIDS - Features - Date_modified - Page 1
-menuLinkcontent, Content, /search, DVIDS - Search
-menuLinkstories, Stories, /portfolio, DVIDS - Digital Portfolio
-menuLinkunits, Units, /unit, DVIDS
-menuLinknewswire, Newswire, /alerts, DVIDS - Manage Newswire
-menuLinkmedia, Media Requests, /mediarequest, DVIDS - Media Request

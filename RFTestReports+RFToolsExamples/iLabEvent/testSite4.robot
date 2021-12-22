@@ -7,8 +7,11 @@ Suite Teardown     Test Teardown
 Test Template      Test Menu
 #Test Setup         Test Setup
 #Test Teardown      Test Teardown
- 
+
 *** Variables ***
+${Time VAR} =    Test Time
+${CASE VAR} =    Case Time
+${Multi VAR} =   Contrast Time
 
 *** Test Cases ***	M			H1		H2    		T								R
 Featureset		menuLinkfeatures	Features	/feature	DVIDS - Features - Date_modified - Page 1			${TRUE}
@@ -23,11 +26,30 @@ Home			menuLinkhome		Home		/		DVIDS - Defense Visual Information Distribution Se
 Test Menu
    [Arguments]     ${MENU_ID}    ${HTML}    ${HREF}    ${PTITLE}    ${RETURN}
    New Test Event    Check ${TEST NAME} Menu
+   Mark Time
    Find Menu Item    ${MENU_ID}    ${HTML}    ${HREF}
+   ${tValue} =    Time Done
+   ${total} =    Evaluate    ${tValue} + 0
+   Special Data    ${Time VAR}    ${TEST NAME}-Find Menu Item    ${tValue}
+   @{values} =    Evaluate  random.sample(range(200, 1000),3)
+   Special Multi Data    ${Multi VAR}    ${TEST NAME}-Find Menu Item    @{values}
    Data Break
+   Mark Time
    Click Menu Item    ${MENU_ID}    ${HTML}    ${PTITLE}    ${RETURN}
+   ${tValue} =    Time Done
+   ${total} =    Evaluate    ${total} + ${tValue}
+   Special Data    ${Time VAR}    ${TEST NAME}-Click Menu Item    ${tValue}
+   @{values} =    Evaluate  random.sample(range(200, 1000),3)
+   Special Multi Data    ${Multi VAR}    ${TEST NAME}-Click Menu Item    @{values}
    Data Break
+   Mark Time
    Return to Root    ${HTML}    ${RETURN}
+   ${tValue} =    Time Done
+   ${total} =    Evaluate    ${total} + ${tValue}
+   Special Data    ${Time VAR}    ${TEST NAME}-Return to Root    ${tValue}
+   @{values} =    Evaluate  random.sample(range(200, 1000),3)
+   Special Multi Data    ${Multi VAR}    ${TEST NAME}-Return to Root    @{values}
+   Special Data    ${CASE VAR}    ${TEST NAME}    ${total}
    [TEARDOWN]    Record Test Case    ${TEST NAME}    --    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}
 
 Find Menu Item
@@ -72,6 +94,10 @@ Return to Root
 Test Setup
    Open and Verify Site
    Archive Any Previous Data
+   Report Line    Discrete    ${Time VAR}    Steps    Time (ms)    Total
+   Report Pie    ${CASE VAR}    Cases    Time (ms)    --
+   @{titles} =    Create List    Alpha    Beta   Gamma
+   Report Multi Line    Discrete    ${Multi VAR}    Steps    Time (ms)    @{titles}
 
 Test Teardown
    Close Site

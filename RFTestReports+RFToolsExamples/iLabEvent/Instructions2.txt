@@ -33,15 +33,14 @@ Test Keyword
 4. In this test we are going to introduce the reporting GUI and use some of those tools to 
    improve the test report beyond what Robot Framework offers natively. We will start by editing
    a couple of files to set things up.
-IN THE TEST SCRIPT - Point to the OQE resource file
 Resource   ./../OQE/DataExtraction.resource
 
-IN THE RESOURCE FILE - Give the name of two test files we will use.
+IN THE RESOURCE FILE - ./OQE/DataExtraction.resource - Give the name of two test files we will use.
 Library   kw_DataExtraction.py    ./../OQE/test2.js    ./../OQE/test2other.js    WITH NAME    oqe
 Alter the file locations where were will put the data.
 
-IN THE HTML FILE - Change the data source file location to match
-    <script id = "dataSourceFile" src="./../OQE/test2.js"></script>
+IN THE HTML FILE - ./RFDemoGUI/demoGUI.html - Change the data source file location to match
+    <body onload="start('./../OQE/test2.js')">
 
 5. We will run a few new test lines just to make sure everything is connected properly.
 Setup OQE
@@ -56,6 +55,18 @@ then you can start working with the OQE GUI.
 
 6. Replace the OQE gathering steps from your test with references to the newly linked OQE GUI.
    Some of the OQE keywords to consider are:
+* Archive Any Previous Data
+  All the data accumulates in the test.js file we pointed to earlier. If you want to split
+  from all previous data, call this keyword and the current data set will be moved to the 
+  archive folder ./OQE/ARCHIVE.
+
+* New Test Event    <<NAME>>
+  You MUST write this at least once before adding data to the OQE tool. The name you give will
+  be repeated for all data and you will be adding to that same report until you use this keyword
+  again. This keyword can also be used to start new rows of data at any time (useful in the next
+  test event).
+  Ex. New Test Event    Check my test
+
 * Assert OQE Value    ${TEST NAME}    <<STEP NAME>>    <<ACTUAL>>    <<EXPECTED>>
   This keyword is used to directly compare the actual and expected value. Name the step
   something that describes the assertian.

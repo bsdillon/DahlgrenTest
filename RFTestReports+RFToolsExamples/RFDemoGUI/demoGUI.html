@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <title>Test Demo</title>
     <link href = "demostyle.css" rel = "stylesheet">
-    <script id = "dataSourceFile" src="./../OQE/test2.js"></script>
     <script src="Chart.min.js"></script>
     <script src= "piechartlibrary.js"></script>
     <script src="linechartlibrary.js"></script>
+    <script src="chartStyle.js"></script>
     <script id = "scriptSourceFile" src = "demoGUI.js"></script>
-    <script src="./popupreportcss.js"></script>
 </head>
-<body onload = "start()" class="background"  id="body">
-<div id = "header"></div>
+<body onload = "start('./../../../../RFData/test2.js')" class="background"  id="body">
+<div id = "header">
+  <img id="mainLogo" src="totallogo.png" width="200" height="75">
+</div>
  <div id = "main" class = "div">
    <br>
     <div style="float: left;">
@@ -25,14 +26,6 @@
            <tr>
                <td class="fail plump"></td>
                <td> Fail</td>
-           </tr>
-           <tr>
-               <td class="data plump"></td>
-               <td> Data</td>
-           </tr>
-           <tr>
-               <td class="screenshot plump"></td>
-               <td> Screenshot</td>
            </tr>
            <tr>
                <td class="report"></td>
@@ -54,5 +47,10 @@
     <br>
      <h2 style = "margin: 10px 10px 10px 10px;"> Tests - Cumulative Results: <button onclick="CreatePopupReport('total')">OQE</button></h2>
  </div>
+<div id="reportWindow" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeReport()">&nbsp;&times;&nbsp;</a>
+  <div id="reportContent">
+  </div>
+</div>
 </body>
 </html>

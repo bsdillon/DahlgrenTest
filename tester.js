@@ -1,0 +1,1 @@
+var onlyVar = "other";

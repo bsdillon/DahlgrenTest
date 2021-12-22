@@ -1,5 +1,5 @@
 *** Settings ***
-Library   kw_DataExtraction.py    ./../OQE/test2.js    ./../OQE/test2other.js    WITH NAME    oqe
+Library   kw_DataExtraction.py    ./../../../../RFData/test2.js    ./../../../../RFData/test2other.js    WITH NAME    oqe
 Library   OperatingSystem
 Library   Collections
 
@@ -47,3 +47,35 @@ Capture Screen Image
 
 Data Break
    oqe.Write Data   --    --    --     --   
+
+Special Data
+   [Arguments]    ${TITLE}    ${LABEL}    ${VALUE}
+   oqe.Structured Data    ${TITLE}    ${VALUE}    ${LABEL}
+
+Report Line
+   [Arguments]    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+   oqe.Add Structure    Line_${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+
+Report VBar
+   [Arguments]    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+   oqe.Add Structure    VBar_${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+
+Report Pie
+   [Arguments]    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+   oqe.Add Structure    Pie    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+
+Special Multi Data
+   [Arguments]    ${TITLE}    ${LABEL}    @{VALUES}
+   ${i} =    Evaluate    0
+   FOR    ${v}    IN    @{VALUES}
+      oqe.Structured Data    ${TITLE}-${i}    ${v}    ${LABEL}
+      ${i} =     Evaluate    ${i}+1
+   END
+
+Report Multi Line
+   [Arguments]    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
+   ${i} =    Evaluate    0
+   FOR    ${s}    IN    @{SERIES}
+      oqe.Add Structure    Multi_Line_${STYLE}    ${TITLE}-${i}    ${XAXIS}    ${YAXIS}    ${s}
+      ${i} =     Evaluate    ${i}+1
+   END

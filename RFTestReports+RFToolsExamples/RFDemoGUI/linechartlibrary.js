@@ -7,13 +7,12 @@ var S_HBAR_TYPE = 'STACKEDhorizontalBar';
 var VBAR_TYPE = 'bar';
 var HBAR_TYPE = 'horizontalBar';
 
-function emptytt()
-{
-  //tool tip does nothing
-}
+var dataSets = 0;
 
-function createLineConfig(cType, title, xLabel, yLabel)
+function LineChart(chartType, title, xLabel, yLabel)
 {
+  this.chartType = chartType;//permanent copy
+  var cType = this.chartType;//create temporary copy.
   var stackY = true;
   var stackX = false;
   var stackData = false;
@@ -116,160 +115,38 @@ function createLineConfig(cType, title, xLabel, yLabel)
     config.options.scales.xAxes[0].stacked = stackData;
   }
 
-  return config;
+  this.config = config;
 }
 
-function createLineChart(myCanvas, width, height, config)
+LineChart.prototype.createChart = function(myCanvas, width, height)
 {
   var ctx = myCanvas.getContext("2d");
   myCanvas.width = width;
   myCanvas.height = height;
-  var chart = new Chart(ctx, config);
-  return chart;
+  this.chart = new Chart(ctx, this.config);
 }
 
-function setLineChartLabels(config, labels)
+LineChart.prototype.setLabels = function(labels)
 {
   for(var d in labels)
   {
-    config.data.labels.push(labels[d]);
+    this.config.data.labels.push(labels[d]);
   }
 }
 
-var marker = ['circle', 'rect', 'rectRot','triangle'];
-var style = [[1,5,0],[2,10,5],[2,5,3],[3,1,2],[3,3,5]];
-var lineStyleIndex = 0;
-var dataSets = 0;
-var groupColors = [[1,0,0], [1,1,0], [0,1,0], [0,0,1], [1,0,1], [0,1,1], [1,1,1]];
-var groupIndex = [0, 0, 0, 0, 0, 0, 0];
-
-function createLineDataSet(config, seriesName, linedata, cType, specColor)
+LineChart.prototype.createDataSet = function(seriesName, linedata, dataObject)
 {
-  if(cType.length>6 && cType.substring(0,7)==='STACKED')
-  {
-    cType = cType.substring(7,cType.len);
-  }
-
-  if(cType===VBAR_TYPE)
-  {
-    createAllLineStyle(config, seriesName, linedata, true, false, 0, 0);
-  }
-  else if(cType===HBAR_TYPE)
-  {
-    createAllLineStyle(config, seriesName, linedata, true, false, 0, 0);
-  }
-  else if(cType===LINE_TYPE)
-  {
-    createAllLineStyle(config, seriesName, linedata, false, false, 0, 0);
-  }
-  else //area
-  {
-    createAllLineStyle(config, seriesName, linedata, true, true, 0, 0);
-  }
+  dataObject.label=seriesName;
+  dataObject.data=linedata;
+  this.config.data.datasets.push(dataObject);
 }
 
-function createRandomStyleLine(config, seriesName, linedata)
+LineChart.prototype.UpdateChart = function()
 {
-  createAllLineStyle(config, seriesName, linedata, true, false, 0, 0);
+  this.chart.update();
 }
 
-function createRandomStyleArea(config, seriesName, linedata)
+function emptytt()
 {
-  createAllLineStyle(config, seriesName, linedata, true, true, 0, 0);
-}
-
-function createGroupStyleLine(config, seriesName, linedata, groupID, categoryID)
-{
-  createAllLineStyle(config, seriesName, linedata, false, false, groupID, categoryID);
-}
-
-function createGroupStyleArea(config, seriesName, linedata, groupID, categoryID)
-{
-  createAllLineStyle(config, seriesName, linedata, false, true, groupID, categoryID);
-}
-
-function clearData(config)
-{
-  dataSets = 0;
-  lineStyleIndex = 0;
-  groupIndex = [0, 0, 0, 0, 0, 0, 0];
-  config.data.datasets=[];
-  config.data.labels=[];
-}
-
-function createAllLineStyle(config, seriesName, linedata, random, fill, group, cat)
-{
-  dataSets++;
-  var fillStyle="false";
-  if(fill)
-  {
-    fillStyle="-1";
-  }
-
-  if(fill && dataSets==1)
-  {
-    fillStyle="start";
-  }
-  window.chartColors = {
-          red: 'rgb(255, 99, 132)',
-          green: 'rgb(75, 192, 192)',
-          orange: 'rgb(255, 159, 64)',
-          yellow: 'rgb(255, 205, 86)',
-          blue: 'rgb(54, 162, 235)',
-          purple: 'rgb(153, 102, 255)',
-          grey: 'rgb(231,233,237)'
-        };
-  var colorNames = Object.keys(window.chartColors);
-  var colorName = colorNames[lineStyleIndex % colorNames.length];
-  var c = window.chartColors[colorName];
-  var tmp =window.chartColors[colorName];
-  var bg = Chart.helpers.color(tmp).alpha(0.5).rgbString();
-  var primaryID = lineStyleIndex;
-  var secondaryID = lineStyleIndex;
-  lineStyleIndex++;
-  var radius = 5;
-  if(!random)
-  {
-    c1 = 'rgb(0,59,79)';
-    c2 = 'rgb(232, 176, 15)';
-    radius = 5;
-    primaryID = group;
-    secondaryID = cat;
-  }
-  var newData = {
-   label: seriesName,
-  };
-  if(seriesName == "Pass Percentage"){
-   newData =
-     {
-       label: seriesName,
-       backgroundColor: c1,
-       borderColor: c1,
-       borderWidth: style[primaryID % style.length][0],
-       data: linedata,
-       fill: fillStyle,
-       pointStyle: marker[secondaryID % marker.length],
-       pointRadius: radius,
-       pointBorderColor: 'rgb(0, 0, 0)',
-       borderDash: [style[secondaryID % style.length][1],style[secondaryID % style.length][2]]
-     };
-  }else if(seriesName == "Fail Percentage"){
-   newData =
-     {
-       label: seriesName,
-       backgroundColor: c2,
-       borderColor: c2,
-       borderWidth: style[primaryID % style.length][0],
-       data: linedata,
-       fill: fillStyle,
-       pointStyle: marker[secondaryID % marker.length],
-       pointRadius: radius,
-       pointBorderColor: 'rgb(0, 0, 0)',
-       borderDash: [style[secondaryID % style.length][1],style[secondaryID % style.length][2]]
-     };
-  }
-
-
-  newData.data=linedata;
-  config.data.datasets.push(newData);
+  //tool tip does nothing
 }
