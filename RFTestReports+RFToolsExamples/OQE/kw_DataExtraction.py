@@ -137,7 +137,7 @@ class kw_DataExtraction:
       return temp
 
    @keyword(name='Add Structure')
-   def newStructure(self, type, title, xaxis, yaxis, series):
+   def newStructure(self, type, title, xaxis, yaxis, series, modes):
       revised = title.replace(' ', '_')
       if  revised in self.dataTitles:
          raise Exception("Cannot create additional data structure: "+revised)
@@ -148,8 +148,13 @@ class kw_DataExtraction:
       f.write("reportStructure['VAR_"+str(revised)+"']['x-axis']='"+str(xaxis)+"';\n")
       f.write("reportStructure['VAR_"+str(revised)+"']['y-axis']='"+str(yaxis)+"';\n")
       f.write("reportStructure['VAR_"+str(revised)+"']['series']='"+str(series)+"';\n")
-      f.write("reportStructure['VAR_"+str(revised)+"']['x-labels']= [];\n");
-      f.write("reportStructure['VAR_"+str(revised)+"']['data']= [];\n");
+      f.write("reportStructure['VAR_"+str(revised)+"']['x-data']= [];\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['y-data']= [];\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['modes']= [")
+      setModes = modes.split('_')
+      for mode in setModes:
+         f.write("'"+mode+"', ")
+      f.write("];\n")
       f.close()
  
    @keyword(name='Structured Data')
@@ -158,6 +163,6 @@ class kw_DataExtraction:
       if  revised not in self.dataTitles:
          raise Exception("Cannot add data to unknown data structure: "+revised)
       f = open(self.dataFile, "a")
-      f.write("reportStructure['VAR_"+str(revised)+"']['data'].push("+str(data)+");\n")
-      f.write("reportStructure['VAR_"+str(revised)+"']['x-labels'].push('"+str(label)+"');\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['y-data'].push("+str(data)+");\n")
+      f.write("reportStructure['VAR_"+str(revised)+"']['x-data'].push('"+str(label)+"');\n")
       f.close()

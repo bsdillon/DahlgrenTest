@@ -354,132 +354,22 @@ function cumulativeReport()
 {
   if(reportOverlay!=0)
   {
-    //pass fails line chart
-    var lineLabels = ["Fail Percentage", "Pass Percentage"];
-    var colors = ["rgb(255, 0, 0)", "rgb(0,255,0)"];
     var allPasses = countAllPasses(testRuns);
+    var lineLabels = [, "Pass Percentage"];
 
-    var lChart = new LineChart(S_VBAR_TYPE, "Test Pass/Fail Rates", "Test Run", "Pass rate (%)");
-    var canvas = document.createElement("CANVAS");
-    reportOverlay.appendChild(canvas);
-    lChart.createChart(canvas, 350, 350);
+    var json = {"VAR_Pass_Fails-0": {"type": "VBar", "x-axis": "Test Run", "y-axis": "Pass rate (%)", "series": "Fail Percentage", "x-data": allPasses[0][0], "y-data": allPasses[0][1], "modes": ["Stacked", "Multi"], "colorScheme": ["rgb(255, 0, 0)", "rgb(0,255,0)"]},
+                "VAR_Pass_Fails-1": {"type": "VBar", "x-axis": "Test Run", "y-axis": "Pass rate (%)", "series": "Pass Percentage", "x-data": allPasses[0][0], "y-data": allPasses[0][2], "modes": ["Stacked", "Multi"], "colorScheme": ["rgb(255, 0, 0)", "rgb(0,255,0)"]}};
 
-    lChart.setLabels(allPasses[0][0]);
-    var cStyle = new ChartStyle(false);
-    for(let i=0;i<lineLabels.length;i++)
-    {
-      lChart.createDataSet(lineLabels[i], allPasses[0][i+1], cStyle.getSpecificDataObject(colors[i]));
-    }
-    lChart.UpdateChart();
+    var charting = new DataCharting(350,350);
+    reportOverlay.appendChild(charting.createChart(json, "VAR_Pass_Fails-0"));
 
-    //look for more structured data
     var keys = Object.keys(reportStructure);
-    var types = {"Line": LINE_TYPE, "VBar": VBAR_TYPE, "Pie": "Pie"};
-    var alreadyCreated = [];
     for(let varName of keys)
     {
-      //from the type of report we can determine if this is a multi-dataset or mono-dataset
-      var temp = reportStructure[varName]['type'];
-      var multi = temp.substring(0,6)=="Multi_";
-
-      //remove any number in the title; only matters for mulit-dataset systems.
-      let root = varName.substring(0,varName.indexOf("-"));
-
-      //replacing spaces in the title
-      var title = varName.substring(4);
-      if(multi)
+      var pieces = varName.split('-');
+      if(pieces.length==1 || pieces[1]==='0')//non-multiple or just the first multiple
       {
-        var title = title.substring(0,title.indexOf("-"));
-        //check if we have already done this set
-        if(alreadyCreated.find(function(x){return x===root;}))
-        {
-          continue;//and ignore additional runs
-        }
-        alreadyCreated.push(root);//if not add it in
-
-        temp = temp.substring(6);//get rid of the multi
-      }
-
-      //we can also figure out the type of report and if it is progressive or discrete data
-      var lookup = temp;
-      if(temp.indexOf("_")>-1)
-      {
-        lookup = temp.substring(0,temp.indexOf("_"));
-      }
-      var typeReport = types[lookup];
-      var progressive = temp.substring(temp.indexOf("_")+1)==="Progressive";
-
-      while(title.indexOf("_")>=0)
-      {
-        title = title.replace("_"," ");
-      }
-
-      //get the list of all datasets
-      var myKeys = [ varName ];//default is only one key
-      if(multi)//for multiple data sets
-      {
-        //propose a series of enumerated keys with the matching root
-        myKeys = [];
-        var counting = true;
-        var index = 0;
-        while(counting)
-        {
-          proposed = root +"-"+index;
-          index++;
-          if(proposed in reportStructure)
-          {
-             myKeys.push(proposed);
-          }
-          else
-          {
-            counting=false;
-          }
-        }
-      }
-
-      //now that we know we are not re-creating a multi-dataset chart
-      //we are creating a new canvas for the purpose of the report
-      var canvas = document.createElement("CANVAS");
-      reportOverlay.appendChild(canvas);
-
-      let chartCreated;
-      let styleCreated = new ChartStyle(typeReport.includes("AREA"))
-      for(let i=0;i<myKeys.length;i++)
-      {
-        if(typeReport == LINE_TYPE || typeReport == VBAR_TYPE)
-        {
-          if(i==0)
-          {
-            //only do this once
-            chartCreated = new LineChart(typeReport, title, reportStructure[myKeys[i]]['x-axis'], reportStructure[myKeys[i]]['y-axis']);
-            chartCreated.createChart(canvas, 350, 350);
-            chartCreated.setLabels(reportStructure[myKeys[i]]['x-labels']);
-          }
-
-          var data = reportStructure[myKeys[i]]['data'];
-          var data2=[];
-          data2[0]=Number(data[0]);
-          for(let i=1;i<data.length;i++)
-          {
-            data2[i]=Number(data[i]) + (progressive?data2[i-1]:0);
-          }
-
-          chartCreated.createDataSet(reportStructure[myKeys[i]]['series'], data2, styleCreated.getGroupDataObject(i,0));
-
-          chartCreated.UpdateChart();
-        }
-        else if(temp==="Pie")
-        {
-          if(i==0)
-          {
-            //only do this once
-            var config = createConfig(title);
-            var chart1 = createChart(canvas, 350, 350, config);
-            setLabels(config, reportStructure[myKeys[i]]['x-labels']);
-          }
-          createDataSet(config, reportStructure[myKeys[i]]['data'], ["rgb(255,0,0)","rgb(0,255,0)","rgb(0,0,255)","rgb(255,255,0)","rgb(0,255,255)","rgb(255,0,255)"]);
-          chart1.update();
-        }
+        reportOverlay.appendChild(charting.createChart(reportStructure, varName));
       }
     }
   }
@@ -537,10 +427,11 @@ function generatePieChart(title, parent, labels, data, colors)
   var myCanvas = document.createElement("CANVAS");
   parent.append(myCanvas);
 
-  //functions from piechartlibrary.js
-  var config = createConfig(title);
-  var chart1 = createChart(myCanvas, 350, 350, config);
-  setLabels(config, labels);
-  createDataSet(config, data, colors);
-  chart1.update();
+  chartCreated = new PieChart(title)
+  chartCreated.createChart(myCanvas, 350, 350);
+  chartCreated.setLabels(labels);
+
+  var styleCreated = new ChartStyle(false);
+  chartCreated.createDataSet(data, styleCreated.WriteSpecificPieDataObject(colors));
+  chartCreated.UpdateChart();
 }

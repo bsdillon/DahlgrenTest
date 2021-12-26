@@ -52,18 +52,6 @@ Special Data
    [Arguments]    ${TITLE}    ${LABEL}    ${VALUE}
    oqe.Structured Data    ${TITLE}    ${VALUE}    ${LABEL}
 
-Report Line
-   [Arguments]    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
-   oqe.Add Structure    Line_${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
-
-Report VBar
-   [Arguments]    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
-   oqe.Add Structure    VBar_${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
-
-Report Pie
-   [Arguments]    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
-   oqe.Add Structure    Pie    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
-
 Special Multi Data
    [Arguments]    ${TITLE}    ${LABEL}    @{VALUES}
    ${i} =    Evaluate    0
@@ -72,10 +60,18 @@ Special Multi Data
       ${i} =     Evaluate    ${i}+1
    END
 
+Report Line
+   [Arguments]    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+   oqe.Add Structure    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}    ${MODES}
+
 Report Multi Line
-   [Arguments]    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
+   [Arguments]    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
    ${i} =    Evaluate    0
    FOR    ${s}    IN    @{SERIES}
-      oqe.Add Structure    Multi_Line_${STYLE}    ${TITLE}-${i}    ${XAXIS}    ${YAXIS}    ${s}
+      oqe.Add Structure    ${STYLE}    ${TITLE}-${i}    ${XAXIS}    ${YAXIS}    ${s}    ${MODES}_Multi
       ${i} =     Evaluate    ${i}+1
    END
+
+Report Pie
+   [Arguments]    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+   oqe.Add Structure    Pie    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}    ${MODES}

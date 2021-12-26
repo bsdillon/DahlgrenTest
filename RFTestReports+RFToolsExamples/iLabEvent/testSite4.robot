@@ -10,8 +10,12 @@ Test Template      Test Menu
 
 *** Variables ***
 ${Time VAR} =    Test Time
+${Scatter VAR} =    Dot Data
 ${CASE VAR} =    Case Time
 ${Multi VAR} =   Contrast Time
+${Stacked Time} =    Stack Time
+${Stacked Time2} =    Stack Time2
+@{Test Cases} =    Create List    Featureset    Content Search    Stories    Units    News Alerts    Media    Home
 
 *** Test Cases ***	M			H1		H2    		T								R
 Featureset		menuLinkfeatures	Features	/feature	DVIDS - Features - Date_modified - Page 1			${TRUE}
@@ -29,27 +33,46 @@ Test Menu
    Mark Time
    Find Menu Item    ${MENU_ID}    ${HTML}    ${HREF}
    ${tValue} =    Time Done
+   ${index} =    Get Index From List    ${Test Cases}    ${TEST NAME}
+   Special Data    ${Stacked Time2}-${index}    Find Menu Item    ${tValue}
+   @{allTimes} =    Create List    ${tValue}
    ${total} =    Evaluate    ${tValue} + 0
    Special Data    ${Time VAR}    ${TEST NAME}-Find Menu Item    ${tValue}
    @{values} =    Evaluate  random.sample(range(200, 1000),3)
    Special Multi Data    ${Multi VAR}    ${TEST NAME}-Find Menu Item    @{values}
+   @{lons} =    Evaluate    random.sample(range(-180, 180),1)
+   ${lats} =    Function    ${lons}[0]
+   Special Data    ${Scatter VAR}    ${lons}[0]    ${lats}
    Data Break
    Mark Time
    Click Menu Item    ${MENU_ID}    ${HTML}    ${PTITLE}    ${RETURN}
    ${tValue} =    Time Done
+   Special Data    ${Stacked Time2}-${index}    Click Menu Item    ${tValue}
+   Append To List    ${allTimes}    ${tValue}
    ${total} =    Evaluate    ${total} + ${tValue}
    Special Data    ${Time VAR}    ${TEST NAME}-Click Menu Item    ${tValue}
    @{values} =    Evaluate  random.sample(range(200, 1000),3)
    Special Multi Data    ${Multi VAR}    ${TEST NAME}-Click Menu Item    @{values}
+   @{lons} =    Evaluate    random.sample(range(-180, 180),1)
+   ${lats} =    Function    ${lons}[0]
+   Special Data    ${Scatter VAR}    ${lons}[0]    ${lats}
    Data Break
    Mark Time
    Return to Root    ${HTML}    ${RETURN}
    ${tValue} =    Time Done
+   Special Data    ${Stacked Time2}-${index}    Return to Root    ${tValue}
+   Append To List    ${allTimes}    ${tValue}
    ${total} =    Evaluate    ${total} + ${tValue}
    Special Data    ${Time VAR}    ${TEST NAME}-Return to Root    ${tValue}
    @{values} =    Evaluate  random.sample(range(200, 1000),3)
    Special Multi Data    ${Multi VAR}    ${TEST NAME}-Return to Root    @{values}
    Special Data    ${CASE VAR}    ${TEST NAME}    ${total}
+   Special Multi Data    ${Stacked Time}    ${TEST NAME}    @{allTimes}
+   @{lons} =    Evaluate    random.sample(range(-180, 180),1)
+   ${lats} =    Function    ${lons}[0]
+   #@{lons} =    Evaluate  random.sample(range(-180, 180),1)
+   #@{lats} =    Evaluate  random.sample(range(-90, 90),1)
+   Special Data    ${Scatter VAR}    ${lons}[0]    ${lats}
    [TEARDOWN]    Record Test Case    ${TEST NAME}    --    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}
 
 Find Menu Item
@@ -94,10 +117,23 @@ Return to Root
 Test Setup
    Open and Verify Site
    Archive Any Previous Data
-   Report Line    Discrete    ${Time VAR}    Steps    Time (ms)    Total
-   Report Pie    ${CASE VAR}    Cases    Time (ms)    --
+   ${modes} =    Set Variable    Discrete
+   Report Line    VBar    ${modes}    ${Time VAR}    Steps    Time (ms)    Total
+   ${modes} =    Set Variable    None
+   Report Line    Scatter    ${modes}    ${Scatter VAR}    Lon    Lat    Position
+   Report Pie    ${modes}    ${CASE VAR}    Cases    Time (ms)    --
    @{titles} =    Create List    Alpha    Beta   Gamma
-   Report Multi Line    Discrete    ${Multi VAR}    Steps    Time (ms)    @{titles}
+   ${modes} =    Set Variable    Progressive
+   Report Multi Line    Area    ${modes}    ${Multi VAR}    Steps    Time (ms)    @{titles}
+   ${modes} =    Set Variable    Discrete_Stacked   
+   @{titles} =    Create List    Find Menu Item    Click Menu Item    Return to Root
+   Report Multi Line    VBar    ${modes}    ${Stacked Time}    Case    Time (ms)    @{titles}
+   Report Multi Line    VBar    ${modes}    ${Stacked Time2}    Case    Time (ms)    @{Test Cases}
+
+Function
+   [Arguments]   ${x}
+   ${value} =    Evaluate    (${x}*${x}*${x}/100000) + (${x}*${x}/1000) + (${x}/100)
+   [Return]    ${value}
 
 Test Teardown
    Close Site
