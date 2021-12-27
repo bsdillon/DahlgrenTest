@@ -126,7 +126,22 @@ DataCharting.prototype.createChart = function(json, name)
         chartCreated.createChart(canvas, this.width, this.height);
         chartCreated.setLabels(json[myKeys[i]]['x-data']);
       }
-      chartCreated.createDataSet(json[myKeys[i]]['y-data'], styleCreated.WriteDefaultPieDataObject());
+
+      var dataObject;
+      if(json[name].colorScheme)
+      {
+        dataObject = styleCreated.WriteSpecificPieDataObject(json[name]['colorScheme']);
+      }
+      else if(group>-1)
+      {
+        dataObject = styleCreated.WriteGroupPieDataObject(group,json[name]['y-data'].length);
+      }
+      else
+      {
+        dataObject = styleCreated.WriteDefaultPieDataObject();
+      }
+      
+      chartCreated.createDataSet(json[myKeys[i]]['y-data'], dataObject);
       chartCreated.UpdateChart();
     }
     else if(typeReport==="Scatter")
@@ -137,7 +152,23 @@ DataCharting.prototype.createChart = function(json, name)
         chartCreated = new ScatterChart(title,json[myKeys[i]]['x-axis'], json[myKeys[i]]['y-axis'])
         chartCreated.createChart(canvas, this.width, this.height);
       }
-      chartCreated.createDataSet(json[myKeys[i]]['series'], json[myKeys[i]]['x-data'], json[myKeys[i]]['y-data'], styleCreated.getRandomDataObject());
+
+      var dataObject;
+      if(json[name].colorScheme)
+      {
+        dataObject = styleCreated.getSpecificDataObject(json[name]['colorScheme'][i]);
+      }
+      else if(group>-1)
+      {
+        dataObject = styleCreated.getGroupDataObject(group,group);
+      }
+      else
+      {
+        dataObject = styleCreated.getRandomDataObject();
+      }
+
+      chartCreated.createDataSet(json[myKeys[i]]['series'], json[myKeys[i]]['x-data'], json[myKeys[i]]['y-data'], dataObject);
+
       if(trend)
       {
         chartCreated.addTrendLine("Trend["+json[myKeys[i]]['series']+"]", json[myKeys[i]]['x-data'], json[myKeys[i]]['y-data'], styleCreated.WriteTrendDataObject());

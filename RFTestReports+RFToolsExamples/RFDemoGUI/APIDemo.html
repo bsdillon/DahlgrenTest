@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Demonstrating the DataChartingAPI</title>
+  <style>
+    td {border:6px outset; padding:20px;}
+  </style>
   <script src="Chart.min.js"></script>
   <script src="piechartlibrary.js"></script>
   <script src="linechartlibrary.js"></script>
@@ -15,6 +18,9 @@
       var data1 = dataSet(10,-100,100,function(x){return (2*x*x)-(4*x)+2;})
       var labels = ['A','B','C','D','E','F','G','H','I','J'];      
       var field = document.getElementById("field");
+      var h2 = document.createElement("h2");
+      h2.innerHTML="Line/Area Graphing Options";
+      field.appendChild(h2);
       var table = document.createElement("TABLE");
       field.appendChild(table);
 
@@ -89,6 +95,9 @@
       }
 
       //Color Schemes
+      var h2 = document.createElement("h2");
+      h2.innerHTML="Color Schemes";
+      field.appendChild(h2);
       var table = document.createElement("TABLE");
       field.appendChild(table);
       chartTypes = ['Standard Rainbow','User-Defined','Group Theme'];
@@ -103,7 +112,7 @@
 
       var row = table.insertRow();
       var th = document.createElement("th");
-      th.innerHTML='Color Schemes';
+      th.innerHTML='Lines';
       row.append(th);
 
       var  groupNumber = Math.floor(Math.random()*6);
@@ -132,14 +141,68 @@
         td.append(charting.createChart(jsons[i],"VAR_Example-0"));
       }
 
-      //Other categories
       var data5 = dataSet(10,1,10,function(x){return Math.floor(Math.random()*100+25);})
+      var jsons = [
+                   {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5[1], 'modes': []}},
+                   {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5[1], 'modes': [], 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)','rgb(216,23,95)','rgb(42,222,188)','rgb(192,92,100)','rgb(15,152,87)','rgb(216,42,200)','rgb(111,222,130)']}},
+                   {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5[1], 'modes': [], 'group': groupNumber}}
+                  ];
+
+      var row = table.insertRow();
+      var th = document.createElement("th");
+      th.innerHTML='Pies';
+      row.append(th);
+
+      for(let i=0;i<jsons.length;i++)
+      {
+        let td = document.createElement("td");
+        row.append(td);
+        charting = new DataCharting(300, 300);
+        td.append(charting.createChart(jsons[i],"VAR_Example-0"));
+      }
+                 
+      var data5 = dataSet(10,1,10,function(x){return Math.floor(Math.random()*100+25);})
+      var jsons = [
+                    {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi']},
+                     "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi']},
+                     "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi']},
+                     "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi']}},
+
+                    {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi'], 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']},
+                     "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi'], 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']},
+                     "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi'], 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']},
+                     "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi'], 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}},
+
+                    {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi'], 'group': groupNumber},
+                     "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi'], 'group': groupNumber},
+                     "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi'], 'group': groupNumber},
+                     "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi'], 'group': groupNumber}},
+                  ];
+
+      var row = table.insertRow();
+      var th = document.createElement("th");
+      th.innerHTML='Scatter';
+      row.append(th);
+
+      for(let i=0;i<jsons.length;i++)
+      {
+        let td = document.createElement("td");
+        row.append(td);
+        charting = new DataCharting(300, 300);
+        td.append(charting.createChart(jsons[i],"VAR_Example-0"));
+      }
+
+
+      //Other categories
+      var h2 = document.createElement("h2");
+      h2.innerHTML="Scatter Plot Options";
+      field.appendChild(h2);
       var index = 0;
       var xLabels = []
       var data6 = dataSet(10,1,10,function(x){var tmp = (-3*index)+6+Math.floor(Math.random()*4-2);xLabels.push(index++);return tmp;})
       var table = document.createElement("TABLE");
       field.appendChild(table);
-      chartTypes = ['Scatter Plot', 'Scatter w/Trend', 'Pie Chart'];
+      chartTypes = ['Scatter Plot', 'Scatter w/Trend'];
       var row = table.insertRow();
       for(let i=0;i<chartTypes.length;i++)
       {
@@ -152,8 +215,7 @@
       var  groupNumber = Math.floor(Math.random()*6);
       var jsons = [
                  {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': []}},
-                 {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': xLabels, 'y-data': data1[1], 'modes': ['Trend']}},
-                 {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5[1], 'modes': []}}
+                 {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': xLabels, 'y-data': data1[1], 'modes': ['Trend']}}
                  ];
 
       for(let i=0;i<jsons.length;i++)

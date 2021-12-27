@@ -49,6 +49,26 @@ ChartStyle.prototype.WriteDefaultPieDataObject = function()
   return this.WriteSpecificPieDataObject([]);
 }
 
+ChartStyle.prototype.WriteGroupPieDataObject = function(groupNumber, quantity)
+{
+  var myColor = groupColors[groupNumber%groupColors.length];
+
+  var shade = 255/(quantity+1);
+
+  var tmp={};
+  tmp.data=[];
+  tmp.backgroundColor=[];
+  for(let i=0;i<quantity;i++)
+  {
+    var r = myColor[0]*(255-(i*shade));
+    var g = myColor[1]*(255-(i*shade));
+    var b = myColor[2]*(255-(i*shade));
+    tmp.backgroundColor.push('rgb('+r+','+g+','+b+')');
+  }
+
+  return tmp;
+}
+
 ChartStyle.prototype.WriteSpecificPieDataObject = function(novelColors)
 {
   var names = Object.keys(chartColors);
