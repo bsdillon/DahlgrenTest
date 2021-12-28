@@ -60,17 +60,50 @@
         <li>y-data</li>
         <li>modes</li>
         <li>colorScheme</li>
-        <li>group</li>
+        <li>group</li><br>
       </ul>
-      The <code>type</code> parameter refers to the chart type of the graph. The different types consist of line graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot.
-      The <code>x-axis</code> and <code>y-axis</code> parameters speficy the names of the x and y-axes, the most common being time and position respectively.
-      The <code>series</code> parameter specifies which sample the parameters are affecting. The <code>x-data</code> and <code>y-data</code> parameters define whether or not the data on the x and y-axes are string labels or numeric data.
-      Both axes are able to be numeric values, however, only one axis is able to have string labels at one time. Finally, the <code>modes</code> parameter specifies which mode the graph will be displayed in.
+    </p>
+
+    <h3>type</h3>
+    <p>
+      The <code>type</code> parameter refers to the chart type of the graph. The different types consist of line graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot.<br>
+    </p>
+    <picture>
+      <img src="AreaGraphExample.png">
+    </picture>
+
+    <h3>x-axis/y-axis</h3>
+    <p>
+      The <code>x-axis</code> and <code>y-axis</code> parameters speficy the names of the x and y-axes, the most common being time and position respectively.<br>
+    </p>
+
+    <h3>series</h3>
+    <p>
+      The <code>series</code> parameter specifies which sample the parameters are affecting.<br>
+    </p>
+
+    <h3>x-data/y-data</h3>
+    <p>
+      The <code>x-data</code> and <code>y-data</code> parameters define whether or not the data on the x and y-axes are string labels or numeric data.
+      Both axes are able to be numeric values, however, only one axis is able to have string labels at one time.<br>
+    </p>
+
+    <h3>modes</h3>
+    <p>
+      The <code>modes</code> parameter specifies which mode the graph will be displayed in.
       If <code>'Multi'</code> is passed in for this parameter, then multiple samples can be displayed on the graph; as many as there are specified in the JSON object array.
       If <code>'Mulit'</code> and <code>'Stacked'</code> are passed in, then the graph can still display multiple samples, however, the samples will be displayed stacked vertically rather than horizontally next to each other.
-      If <code>'Progressive'</code> is passed in, then the graph will display more so the overall trend of the data. Lastly, if <code>'Discrete'</code> is passed in, then the graph will show all of the data points plotted in no specific trend.
-      <code>colorScheme</code> sets the color of the each sample displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a gray color scheme.
-      Lastly, <code>'group'</code> can be used to group samples together into a specified color scheme.
+      If <code>'Progressive'</code> is passed in, then the graph will display more so the overall trend of the data. Lastly, if <code>'Discrete'</code> is passed in, then the graph will show all of the data points plotted in no specific trend.<br>
+    </p>      
+
+    <h3>colorScheme</h3>
+    <p>
+      <code>colorScheme</code> sets the color of the each sample displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a gray color scheme.<br>
+    </p>
+
+    <h3>group</h3>
+    <p>
+      Lastly, <code>'group'</code> can be used to group samples together into a specified color scheme.<br>
     </p>
   </body>
 </html>
