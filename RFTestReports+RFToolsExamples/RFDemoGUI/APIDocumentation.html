@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DataChartingAPI Documentation</title>
+    <style>
+      td {border:6px outset; padding:20px;}
+    </style>
+  </head>
+  <body>
+    <h1>Setting up the API</h1>
+    <p>This documentation will explain how to set up a Data Charting API.</p>
+    
+    <br>
+
+    <h2>Importing Libraries</h2>
+    <p>
+      First, there are several JavaScript libraries that you will need to import into your code:<br><br>
+      <code>
+        Chart.min.js<br>
+        piechartlibrary.js<br>
+        linechartlibrary.js<br>
+        scatterchartlibrary.js<br>
+        datacharting.js<br>
+        chartStyle.js<br><br>
+      </code>
+      All of these libraries can be found in the DahlgrenTest repository in <a href="https://github.com/bsdillon/DahlgrenTest/tree/master/RFTestReports%2BRFToolsExamples/RFDemoGUI">DahlgrenTest/RFTestReports+RFToolsExamples/RFDemoGUI</a>
+      and can be included as a source script in your code.<br><br>
+      
+      Example:<br>
+      <code>
+        < script src="Chart.min.js" >< /script ><br>
+        < script src="piechartlibrary.js" >< /script ><br>
+      </code>
+      etc...<br><br>
+    </p>
+    
+    <h2>Creating Graphs</h2>
+    <p>
+      The graphs in the Data Charting API are created using Chart.js and JSON objects. <a href="https://www.chartjs.org/">Chart.js</a> is an open source JavaScript library used for data visualization. 
+      A JSON array object is created containing the parameters for each graph that will be shown. It is then passed into the <code>createChart()</code> function to actually create the graph.<br><br>
+
+      Example:<br>
+      <code>
+        charting = new DataCharting(300, 300);<br><br>
+        var json = {"VAR_Example-0": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1[1], 'modes': ['Multi']},<br>
+                    "VAR_Example-1": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2[1], 'modes': ['Multi']}};<br><br>
+        charting.createChart(json, "VAR_Example-0");<br><br>
+      </code>
+    </p>
+
+    <h2>Graph Components</h2>
+    <p>
+      The different parameters for a graph, including those shown in the example above, are:
+      <ul>
+        <li>type</li>
+        <li>x-axis</li>
+        <li>y-axis</li>
+        <li>series</li>
+        <li>x-data</li>
+        <li>y-data</li>
+        <li>modes</li>
+        <li>colorScheme</li>
+        <li>group</li>
+      </ul>
+      The <code>type</code> parameter refers to the chart type of the graph. The different types consist of line graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot.
+      The <code>x-axis</code> and <code>y-axis</code> parameters speficy the names of the x and y-axes, the most common being time and position respectively.
+      The <code>series</code> parameter specifies which sample the parameters are affecting. The <code>x-data</code> and <code>y-data</code> parameters define whether or not the data on the x and y-axes are string labels or numeric data.
+      Both axes are able to be numeric values, however, only one axis is able to have string labels at one time. Finally, the <code>modes</code> parameter specifies which mode the graph will be displayed in.
+      If <code>'Multi'</code> is passed in for this parameter, then multiple samples can be displayed on the graph; as many as there are specified in the JSON object array.
+      If <code>'Mulit'</code> and <code>'Stacked'</code> are passed in, then the graph can still display multiple samples, however, the samples will be displayed stacked vertically rather than horizontally next to each other.
+      If <code>'Progressive'</code> is passed in, then the graph will display more so the overall trend of the data. Lastly, if <code>'Discrete'</code> is passed in, then the graph will show all of the data points plotted in no specific trend.
+      <code>colorScheme</code> sets the color of the each sample displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a gray color scheme.
+      Lastly, <code>'group'</code> can be used to group samples together into a specified color scheme.
+    </p>
+  </body>
+</html>
