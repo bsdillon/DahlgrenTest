@@ -19,9 +19,9 @@
         Chart.min.js<br>
         piechartlibrary.js<br>
         linechartlibrary.js<br>
-        scatterchartlibrary.js<br>
+        scatterchartLibrary.js<br>
         datacharting.js<br>
-        chartStyle.js<br><br>
+        chartstyle.js<br><br>
       </code>
       All of these libraries can be found in the DahlgrenTest repository in <a href="https://github.com/bsdillon/DahlgrenTest/tree/master/RFTestReports%2BRFToolsExamples/RFDemoGUI">DahlgrenTest/RFTestReports+RFToolsExamples/RFDemoGUI</a>
       and can be included as a source script in your code.<br><br>
@@ -64,31 +64,142 @@
       </ul>
     </p>
 
-    <h3>type</h3>
+    <h3><u>Type</u></h3>
     <p>
-      The <code>type</code> parameter refers to the chart type of the graph. The different types consist of line graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot.<br>
-    </p>
-    <picture>
-      <img src="AreaGraphExample.png">
-    </picture>
-
-    <h3>x-axis/y-axis</h3>
-    <p>
-      The <code>x-axis</code> and <code>y-axis</code> parameters speficy the names of the x and y-axes, the most common being time and position respectively.<br>
+      The <code>type</code> parameter refers to the chart type of the graph. The different types consist of line graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot (with and without trend line).<br>
     </p>
 
-    <h3>series</h3>
     <p>
-      The <code>series</code> parameter specifies which sample the parameters are affecting.<br>
+      <u>Line Graph Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {<b><u>'type': 'Line'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="LineGraphExample.png"><br>
+
+    <p>
+      <u>Vertical Bar Graph Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {<b><u>'type': 'VBar'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="VBarGraphExample.png"><br>
+
+    <p>
+      <u>Horizontal Bar Graph Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {<b><u>'type': 'HBar'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="HBarGraphExample.png"><br>
+
+    <p>
+      <u>Area Graph Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {<b><u>'type': 'Area'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="AreaGraphExample.png"><br>
+
+    <p>
+      <u>Pie Chart Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {<b><u>'type': 'Pie'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="PieChartExample.png"><br>
+
+    <p>
+      <u>Scatter Plot Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {<b><u>'type': 'Scatter Plot'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="ScatterPlotExample.png"><br>
+
+    <p>
+      <u>Scatter Plot Trend Example</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {<b><u>'type': 'Scatter w/Trend'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="ScatterPlotTrendExample.png"><br>
+
+    <h3><u>X-Axis/Y-Axis</u></h3>
+    <p>
+      The <code>x-axis</code> and <code>y-axis</code> parameters define the names of the x and y-axes, being whatever string the user specifies.
+      However, in the case of a horizontal bar graph, the x and y-axes are reversed and therefore so are the axis labels, and for pie charts the x and y-axis lables do not show up on the graph at all.<br>
     </p>
 
-    <h3>x-data/y-data</h3>
+    <p>
+      <u>Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {'type': 'VBar', <b><u>'x-axis': 'time'</u></b>, <b><u>'y-axis': 'position'</u></b>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="VBarGraphExample.png"><br>
+
+    <p>
+      <u>Example With Horizontal Bar Graph:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {'type': 'HBar', <b><u>'x-axis': 'time'</u></b>, <b><u>'y-axis': 'position'</u></b>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="HBarGraphExample.png"><br>
+
+    <p>
+      <u>Example With Pie Chart:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {'type': 'Pie', <b><u>'x-axis': 'x'</u></b>, <b><u>'y-axis': 'y'</u></b>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="PieChartExample.png"><br>
+
+    <h3><u>Series</u></h3>
+    <p>
+      The <code>series</code> parameter is used to distinguish between different data sets displayed on a graph by giving them a string label.<br>
+    </p>
+
+    <p>
+      <u>Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <b><u>'series': 'sample 1'</b></u>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},<br>
+                    "VAR_Example-1": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <b><u>'series': 'sample 2'</b></u>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},<br>
+                    "VAR_Example-2": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <b><u>'series': 'sample 3'</b></u>, 'x-data': labels, 'y-data': data3, 'modes': ['Multi']},<br>
+                    "VAR_Example-3": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <b><u>'series': 'sample 4'</b></u>, 'x-data': labels, 'y-data': data4, 'modes': ['Multi']}};<br>
+        charting.createChart(json,"VAR_Example-0");<br>
+      </code>
+    </p>
+    <img src="LineGraphMultiExample.png">
+
+    <h3><u>X-Data/Y-Data</u></h3>
     <p>
       The <code>x-data</code> and <code>y-data</code> parameters define whether or not the data on the x and y-axes are string labels or numeric data.
       Both axes are able to be numeric values, however, only one axis is able to have string labels at one time.<br>
     </p>
 
-    <h3>modes</h3>
+    <h3><u>Modes</u></h3>
     <p>
       The <code>modes</code> parameter specifies which mode the graph will be displayed in.
       If <code>'Multi'</code> is passed in for this parameter, then multiple samples can be displayed on the graph; as many as there are specified in the JSON object array.
@@ -96,12 +207,12 @@
       If <code>'Progressive'</code> is passed in, then the graph will display more so the overall trend of the data. Lastly, if <code>'Discrete'</code> is passed in, then the graph will show all of the data points plotted in no specific trend.<br>
     </p>      
 
-    <h3>colorScheme</h3>
+    <h3><u>Color Scheme</u></h3>
     <p>
       <code>colorScheme</code> sets the color of the each sample displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a gray color scheme.<br>
     </p>
 
-    <h3>group</h3>
+    <h3><u>Group</u></h3>
     <p>
       Lastly, <code>'group'</code> can be used to group samples together into a specified color scheme.<br>
     </p>
