@@ -195,26 +195,161 @@
 
     <h3><u>X-Data/Y-Data</u></h3>
     <p>
-      The <code>x-data</code> and <code>y-data</code> parameters define whether or not the data on the x and y-axes are string labels or numeric data.
-      Both axes are able to be numeric values, however, only one axis is able to have string labels at one time.<br>
+      The <code>x-data</code> and <code>y-data</code> parameters define the data that is used for the x and y-axes. Both axes can have numeric data and the x-axis can represent string data, however, the y-axis is only able to represent numeric data.<br>
     </p>
+
+    <p>
+      <u>Numeric Data Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <b><u>'x-data': data2</u></b>, <u><b>'y-data': data1</u></b>, 'modes': ['Multi']},<br>
+                    "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <b><u>'x-data': data2</u></b>, <u><b>'y-data': data3</u></b>, 'modes': ['Multi']},<br>
+                    "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <b><u>'x-data': data2</u></b>, <u><b>'y-data': data4</u></b>, 'modes': ['Multi']},<br>
+                    "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <b><u>'x-data': data2</u></b>, <u><b>'y-data': data2</u></b>, 'modes': ['Multi']}};<br>
+        charting.createChart(json,"VAR_Example-0");<br>
+      </code>
+    </p>
+    <img src="ScatterPlotRainbowExample.png">
+
+    <p>
+      <u>Numeric & String Data Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <b><u>'x-data': labels</u></b>, <b><u>'y-data': data1</u></b>, 'modes': ['Multi', 'Stacked']},<br>
+                    "VAR_Example-1": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', <b><u>'x-data': labels</u></b>, <b><u>'y-data': data2</u></b>, 'modes': ['Multi', 'Stacked']},<br>
+                    "VAR_Example-2": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', <b><u>'x-data': labels</u></b>, <b><u>'y-data': data3</u></b>, 'modes': ['Multi', 'Stacked']},<br>
+                    "VAR_Example-3": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', <b><u>'x-data': labels</u></b>, <b><u>'y-data': data4</u></b>, 'modes': ['Multi', 'Stacked']}};<br>
+        charting.createChart(json,"VAR_Example-0");<br>
+      </code>
+    </p>
+    <img src="AreaGraphRainbowExample.png">
 
     <h3><u>Modes</u></h3>
     <p>
       The <code>modes</code> parameter specifies which mode the graph will be displayed in.
-      If <code>'Multi'</code> is passed in for this parameter, then multiple samples can be displayed on the graph; as many as there are specified in the JSON object array.
+      If nothing is passed in for this parameter then the graph will default to showing only one data sample.
+      However, if <code>'Multi'</code> is passed in then multiple samples can be displayed on the graph; as many as there are specified in the JSON object array.<br><br>
+    </p>
+
+    <p>
+      <u>Single Vs. Multi Sample Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example");<br><br>
+      </code>
+      <img src="LineGraphExample.png"><br><br>
+
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <b><u>'modes': ['Multi']</u></b>},<br>
+                    "VAR_Example-1": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <b><u>'modes': ['Multi']</b></u>},<br>
+                    "VAR_Example-2": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <b><u>'modes': ['Multi']</b></u>},<br>
+                    "VAR_Example-3": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <b><u>'modes': ['Multi']</b></u>}};<br>
+        charting.createChart(json,"VAR_Example-0");<br>
+      </code>
+    </p>
+    <img src="LineGraphMultiExample2.png">
+
+    <p>
       If <code>'Mulit'</code> and <code>'Stacked'</code> are passed in, then the graph can still display multiple samples, however, the samples will be displayed stacked vertically rather than horizontally next to each other.
-      If <code>'Progressive'</code> is passed in, then the graph will display more so the overall trend of the data. Lastly, if <code>'Discrete'</code> is passed in, then the graph will show all of the data points plotted in no specific trend.<br>
-    </p>      
+    </p>
+    
+    <p>
+      <u>Multi vs. Multi Stacked Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <b><u>'modes': ['Multi']</u></b>},<br>
+                    "VAR_Example-1": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <b><u>'modes': ['Multi']</b></u>},<br>
+                    "VAR_Example-2": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <b><u>'modes': ['Multi']</b></u>},<br>
+                    "VAR_Example-3": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <b><u>'modes': ['Multi']</b></u>}};<br>
+        charting.createChart(json,"VAR_Example-0");<br><br>
+      </code>
+      <img src="VBarGraphMultiExample.png"><br><br>
+
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <b><u>'modes': ['Multi','Stacked']</u></b>},<br>
+                    "VAR_Example-1": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <b><u>'modes': ['Multi','Stacked']</b></u>},<br>
+                    "VAR_Example-2": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <b><u>'modes': ['Multi','Stacked']</b></u>},<br>
+                    "VAR_Example-3": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <b><u>'modes': ['Multi','Stacked']</b></u>}};<br>
+        charting.createChart(json,"VAR_Example-0");<br><br>
+      </code>
+      <img src="VBarGraphMultiStackedExample.png">
+    </p>
+
+    <p>
+      Lastly, if <code>'Progressive'</code> is passed in, then the graph will display each individual data point taken as an incremental value that is tracked over the entire graph. 
+      And if <code>'Discrete'</code> or no specification is passed in, then the graph will show all of the data points plotted in no specific trend.<br>
+    </p>
+
+    <p>
+      <u>Discrete Vs. Progressive Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data <b><u>'modes': ['Discrete']</u></b>}};<br>
+        charting.createChart(json,"VAR_Example");<br><br>
+      </code>
+      <img src="AreaGraphExample.png"><br><br>
+
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <b><u>'modes': ['Progressive']</u></b>}};<br>
+        charting.createChart(json,"VAR_Example");<br><br>
+      </code>
+      <img src="AreaGraphProgressiveExample.png">
+    </p>    
 
     <h3><u>Color Scheme</u></h3>
     <p>
-      <code>colorScheme</code> sets the color of the each sample displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a gray color scheme.<br>
+      <code>colorScheme</code> sets the color of the samples displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a rainbow color scheme.
+      However, the user can also designate their own color scheme to a graph.<br>
+    </p>
+
+    <p>
+      <u>Default Vs. User Defined Color Scheme Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi']},<br>
+                    "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi']},<br>
+                    "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi']},<br>
+                    "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi']}},<br>
+        charting.createChart(json,"VAR_Example-0");<br><br>
+      </code>
+      <img src="ScatterPlotRainbowExample.png"><br><br>
+
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi'], <b><u>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</u></b>,<br>
+                    "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi'], <b><u>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</u></b>,<br>
+                    "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi'], <b><u>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</u></b>,<br>
+                    "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi'], <b><u>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}}</u></b>,<br>
+        charting.createChart(json,"VAR_Example-0");<br><br>
+      </code>
+      <img src="ScatterPlotUserColorExample.png">
     </p>
 
     <h3><u>Group</u></h3>
     <p>
       Lastly, <code>'group'</code> can be used to group samples together into a specified color scheme.<br>
+    </p>
+
+    <p>
+      <u>Basic Color Scheme Vs. Group Example:</u><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5, 'modes': []}};<br>
+        charting.createChart(json,"VAR_Example-0");<br><br>
+      </code>
+      <img src="PieChartExample.png"><br><br>
+
+      <code>
+        var  groupNumber = Math.floor(Math.random()*6);<br>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5, 'modes': [], <b><u>'group': groupNumber</u></b>}}<br>
+        charting.createChart(json,"VAR_Example-0");<br><br>
+      </code>
+      <img src="PieChartGroupColorExample.png">
     </p>
   </body>
 </html>
