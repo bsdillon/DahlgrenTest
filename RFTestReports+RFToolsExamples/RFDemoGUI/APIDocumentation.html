@@ -3,7 +3,9 @@
   <head>
     <title>DataChartingAPI Documentation</title>
     <style>
-      td {border:6px outset; padding:20px;}
+      em {font-style:italics; font-weight:bold; text-decoration: underline;}
+      et {text-decoration: underline;}
+      in {margin: 86px;}
     </style>
   </head>
   <body>
@@ -26,7 +28,7 @@
       All of these libraries can be found in the DahlgrenTest repository in <a href="https://github.com/bsdillon/DahlgrenTest/tree/master/RFTestReports%2BRFToolsExamples/RFDemoGUI">DahlgrenTest/RFTestReports+RFToolsExamples/RFDemoGUI</a>
       and can be included as a source script in your code.<br><br>
       
-      Example:<br>
+      <et>Example:</et><br><br>
       <code>
         < script src="Chart.min.js" >< /script ><br>
         < script src="piechartlibrary.js" >< /script ><br>
@@ -36,15 +38,15 @@
     
     <h2>Creating Graphs</h2>
     <p>
-      The graphs in the Data Charting API are created using Chart.js and JSON objects. <a href="https://www.chartjs.org/">Chart.js</a> is an open source JavaScript library used for data visualization. 
-      A JSON array object is created containing the parameters for each graph that will be shown. It is then passed into the <code>createChart()</code> function to actually create the graph.<br><br>
+      The graphs in the Data Charting API are created using Chart.js and JSON objects. <a href="https://www.chartjs.org/">Chart.js</a> is an open source JavaScript library used for data visualization and creating graphs. 
+      First, a new DataCharting object is created defining the size of the new graphs. Then, a JSON object is created containing the parameters for each graph that will be shown. 
+      Lastly, the JSON object and graphs are passed into the <code>createChart()</code> function to be built and displayed on screen.<br><br>
 
-      Example:<br>
+      <et>Example:</et><br><br>
       <code>
-        charting = new DataCharting(300, 300);<br><br>
-        var json = {"VAR_Example-0": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1[1], 'modes': ['Multi']},<br>
-                    "VAR_Example-1": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2[1], 'modes': ['Multi']}};<br><br>
-        charting.createChart(json, "VAR_Example-0");<br><br>
+        charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data};<br>
+        charting.createChart(json, "VAR_Example");<br>
       </code>
     </p>
 
@@ -64,175 +66,165 @@
       </ul>
     </p>
 
-    <h3><u>Type</u></h3>
+    <h3><et>Type</et></h3>
     <p>
-      The <code>type</code> parameter refers to the chart type of the graph. The different types consist of line graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot (with and without trend line).<br>
+      The <code>type</code> parameter refers to the chart type of the graph. The different types consist of line graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot.<br>
     </p>
 
     <p>
-      <u>Line Graph Example:</u><br><br>
+      <et>Line Graph Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {<b><u>'type': 'Line'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        var json = {'VAR_Example': {<em>'type': 'Line'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
     <img src="LineGraphExample.png"><br>
 
     <p>
-      <u>Vertical Bar Graph Example:</u><br><br>
+      <et>Vertical Bar Graph Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {<b><u>'type': 'VBar'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        var json = {'VAR_Example': {<em>'type': 'VBar'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
     <img src="VBarGraphExample.png"><br>
 
     <p>
-      <u>Horizontal Bar Graph Example:</u><br><br>
+      <et>Horizontal Bar Graph Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {<b><u>'type': 'HBar'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        var json = {'VAR_Example': {<em>'type': 'HBar'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
     <img src="HBarGraphExample.png"><br>
 
     <p>
-      <u>Area Graph Example:</u><br><br>
+      <et>Area Graph Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {<b><u>'type': 'Area'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        var json = {'VAR_Example': {<em>'type': 'Area'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
     <img src="AreaGraphExample.png"><br>
 
     <p>
-      <u>Pie Chart Example:</u><br><br>
+      <et>Pie Chart Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {<b><u>'type': 'Pie'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
-        charting.createChart(json,"VAR_Example");<br>
+        var json = {'VAR_Example-0': {<em>'type': 'Pie'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        charting.createChart(json,"VAR_Example-0");<br>
       </code>
     </p>
     <img src="PieChartExample.png"><br>
 
     <p>
-      <u>Scatter Plot Example:</u><br><br>
+      <et>Scatter Plot Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {<b><u>'type': 'Scatter Plot'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
-        charting.createChart(json,"VAR_Example");<br>
+        var json = {'VAR_Example-0': {<em>'type': 'Scatter Plot'</em>, 'x-axis': 'x', 'y-axis': 'y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1}};<br>
+        charting.createChart(json,"VAR_Example-0");<br>
       </code>
     </p>
     <img src="ScatterPlotExample.png"><br>
 
-    <p>
-      <u>Scatter Plot Trend Example</u><br><br>
-      <code>
-        var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {<b><u>'type': 'Scatter w/Trend'</u></b>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
-        charting.createChart(json,"VAR_Example");<br>
-      </code>
-    </p>
-    <img src="ScatterPlotTrendExample.png"><br>
-
-    <h3><u>X-Axis/Y-Axis</u></h3>
+    <h3><et>X-Axis/Y-Axis</et></h3>
     <p>
       The <code>x-axis</code> and <code>y-axis</code> parameters define the names of the x and y-axes, being whatever string the user specifies.
-      However, in the case of a horizontal bar graph, the x and y-axes are reversed and therefore so are the axis labels, and for pie charts the x and y-axis lables do not show up on the graph at all.<br>
+      However, in the case of a horizontal bar graph, the x and y-axes are reversed and therefore so are the axis labels. For pie charts the x and y-axis lables do not show up on the graph at all.<br>
     </p>
 
     <p>
-      <u>Example:</u><br><br>
+      <et>Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {'type': 'VBar', <b><u>'x-axis': 'time'</u></b>, <b><u>'y-axis': 'position'</u></b>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        var json = {'VAR_Example': {'type': 'VBar', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
     <img src="VBarGraphExample.png"><br>
 
     <p>
-      <u>Example With Horizontal Bar Graph:</u><br><br>
+      <et>Horizontal Bar Graph Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {'type': 'HBar', <b><u>'x-axis': 'time'</u></b>, <b><u>'y-axis': 'position'</u></b>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        var json = {'VAR_Example': {'type': 'HBar', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
     <img src="HBarGraphExample.png"><br>
 
     <p>
-      <u>Example With Pie Chart:</u><br><br>
+      <et>Pie Chart Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {'type': 'Pie', <b><u>'x-axis': 'x'</u></b>, <b><u>'y-axis': 'y'</u></b>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
+        var json = {'VAR_Example': {'type': 'Pie', <em>'x-axis': 'x'</em>, <em>'y-axis': 'y'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
     <img src="PieChartExample.png"><br>
 
-    <h3><u>Series</u></h3>
+    <h3><et>Series</et></h3>
     <p>
-      The <code>series</code> parameter is used to distinguish between different data sets displayed on a graph by giving them a string label.<br>
+      The <code>series</code> parameter allows the user to distinguish between different data sets displayed on a graph by giving them a string label.<br>
     </p>
 
     <p>
-      <u>Example:</u><br><br>
+      <et>Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <b><u>'series': 'sample 1'</b></u>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},<br>
-                    "VAR_Example-1": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <b><u>'series': 'sample 2'</b></u>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},<br>
-                    "VAR_Example-2": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <b><u>'series': 'sample 3'</b></u>, 'x-data': labels, 'y-data': data3, 'modes': ['Multi']},<br>
-                    "VAR_Example-3": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <b><u>'series': 'sample 4'</b></u>, 'x-data': labels, 'y-data': data4, 'modes': ['Multi']}};<br>
+        var json = {"VAR_Example-0": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 1'</em>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},<br>
+                    <in>"VAR_Example-1": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 2'</em>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},</in><br>
+                    <in>"VAR_Example-2": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 3'</em>, 'x-data': labels, 'y-data': data3, 'modes': ['Multi']},</in><br>
+                    <in>"VAR_Example-3": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 4'</em>, 'x-data': labels, 'y-data': data4, 'modes': ['Multi']}};</in><br>
         charting.createChart(json,"VAR_Example-0");<br>
       </code>
     </p>
     <img src="LineGraphMultiExample.png">
 
-    <h3><u>X-Data/Y-Data</u></h3>
+    <h3><et>X-Data/Y-Data</et></h3>
     <p>
       The <code>x-data</code> and <code>y-data</code> parameters define the data that is used for the x and y-axes. Both axes can have numeric data and the x-axis can represent string data, however, the y-axis is only able to represent numeric data.<br>
     </p>
 
     <p>
-      <u>Numeric Data Example:</u><br><br>
+      <et>Numeric Data Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <b><u>'x-data': data2</u></b>, <u><b>'y-data': data1</u></b>, 'modes': ['Multi']},<br>
-                    "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <b><u>'x-data': data2</u></b>, <u><b>'y-data': data3</u></b>, 'modes': ['Multi']},<br>
-                    "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <b><u>'x-data': data2</u></b>, <u><b>'y-data': data4</u></b>, 'modes': ['Multi']},<br>
-                    "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <b><u>'x-data': data2</u></b>, <u><b>'y-data': data2</u></b>, 'modes': ['Multi']}};<br>
+        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data1</em>, 'modes': ['Multi']},<br>
+                    <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data3</em>, 'modes': ['Multi']},</in><br>
+                    <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data4</em>, 'modes': ['Multi']},</in><br>
+                    <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data2</em>, 'modes': ['Multi']}};</in><br>
         charting.createChart(json,"VAR_Example-0");<br>
       </code>
     </p>
     <img src="ScatterPlotRainbowExample.png">
 
     <p>
-      <u>Numeric & String Data Example:</u><br><br>
+      <et>Numeric & String Data Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <b><u>'x-data': labels</u></b>, <b><u>'y-data': data1</u></b>, 'modes': ['Multi', 'Stacked']},<br>
-                    "VAR_Example-1": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', <b><u>'x-data': labels</u></b>, <b><u>'y-data': data2</u></b>, 'modes': ['Multi', 'Stacked']},<br>
-                    "VAR_Example-2": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', <b><u>'x-data': labels</u></b>, <b><u>'y-data': data3</u></b>, 'modes': ['Multi', 'Stacked']},<br>
-                    "VAR_Example-3": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', <b><u>'x-data': labels</u></b>, <b><u>'y-data': data4</u></b>, 'modes': ['Multi', 'Stacked']}};<br>
+        var json = {"VAR_Example-0": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': labels</em>, <em>'y-data': data1</em>, 'modes': ['Multi', 'Stacked']},<br>
+                    <in>"VAR_Example-1": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', <em>'x-data': labels</em>, <em>'y-data': data2</em>, 'modes': ['Multi', 'Stacked']},</in><br>
+                    <in>"VAR_Example-2": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', <em>'x-data': labels</em>, <em>'y-data': data3</em>, 'modes': ['Multi', 'Stacked']},</in><br>
+                    <in>"VAR_Example-3": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', <em>'x-data': labels</em>, <em>'y-data': data4</em>, 'modes': ['Multi','Stacked']}};</in><br>
         charting.createChart(json,"VAR_Example-0");<br>
       </code>
     </p>
     <img src="AreaGraphRainbowExample.png">
 
-    <h3><u>Modes</u></h3>
+    <h3><et>Modes</et></h3>
     <p>
-      The <code>modes</code> parameter specifies which mode the graph will be displayed in.
+      The <code>modes</code> parameter specifies which mode the graph will be displayed in.<br><br>
       If nothing is passed in for this parameter then the graph will default to showing only one data sample.
       However, if <code>'Multi'</code> is passed in then multiple samples can be displayed on the graph; as many as there are specified in the JSON object array.<br><br>
     </p>
 
     <p>
-      <u>Single Vs. Multi Sample Example:</u><br><br>
+      <et>Single Vs. Multi Sample Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
         var json = {'VAR_Example': {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data}};<br>
@@ -242,10 +234,10 @@
 
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <b><u>'modes': ['Multi']</u></b>},<br>
-                    "VAR_Example-1": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <b><u>'modes': ['Multi']</b></u>},<br>
-                    "VAR_Example-2": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <b><u>'modes': ['Multi']</b></u>},<br>
-                    "VAR_Example-3": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <b><u>'modes': ['Multi']</b></u>}};<br>
+        var json = {"VAR_Example-0": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <em>'modes': ['Multi']</em>},<br>
+                    <in>"VAR_Example-1": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <em>'modes': ['Multi']</em>},</in><br>
+                    <in>"VAR_Example-2": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <em>'modes': ['Multi']</em>},</in><br>
+                    <in>"VAR_Example-3": {'type': Line, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <em>'modes': ['Multi']</em>}};</in><br>
         charting.createChart(json,"VAR_Example-0");<br>
       </code>
     </p>
@@ -256,86 +248,100 @@
     </p>
     
     <p>
-      <u>Multi vs. Multi Stacked Example:</u><br><br>
+      <et>Multi vs. Multi Stacked Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <b><u>'modes': ['Multi']</u></b>},<br>
-                    "VAR_Example-1": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <b><u>'modes': ['Multi']</b></u>},<br>
-                    "VAR_Example-2": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <b><u>'modes': ['Multi']</b></u>},<br>
-                    "VAR_Example-3": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <b><u>'modes': ['Multi']</b></u>}};<br>
+        var json = {"VAR_Example-0": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <em>'modes': ['Multi']</em>},<br>
+                    <in>"VAR_Example-1": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <em>'modes': ['Multi']</em>},</in><br>
+                    <in>"VAR_Example-2": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <em>'modes': ['Multi']</em>},</in><br>
+                    <in>"VAR_Example-3": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <em>'modes': ['Multi']</em>}};</in><br>
         charting.createChart(json,"VAR_Example-0");<br><br>
       </code>
       <img src="VBarGraphMultiExample.png"><br><br>
 
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <b><u>'modes': ['Multi','Stacked']</u></b>},<br>
-                    "VAR_Example-1": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <b><u>'modes': ['Multi','Stacked']</b></u>},<br>
-                    "VAR_Example-2": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <b><u>'modes': ['Multi','Stacked']</b></u>},<br>
-                    "VAR_Example-3": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <b><u>'modes': ['Multi','Stacked']</b></u>}};<br>
+        var json = {"VAR_Example-0": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <em>'modes': ['Multi','Stacked']</em>},<br>
+                    <in>"VAR_Example-1": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <em>'modes': ['Multi','Stacked']</em>},</in><br>
+                    <in>"VAR_Example-2": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <em>'modes': ['Multi','Stacked']</em>},</in><br>
+                    <in>"VAR_Example-3": {'type': VBar, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <em>'modes': ['Multi','Stacked']</em>}};</in><br>
         charting.createChart(json,"VAR_Example-0");<br><br>
       </code>
       <img src="VBarGraphMultiStackedExample.png">
     </p>
 
     <p>
-      Lastly, if <code>'Progressive'</code> is passed in, then the graph will display each individual data point taken as an incremental value that is tracked over the entire graph. 
+      If <code>'Progressive'</code> is passed in, then the graph will display each individual data point taken as an incremental value that is tracked over the entire graph. 
       And if <code>'Discrete'</code> or no specification is passed in, then the graph will show all of the data points plotted in no specific trend.<br>
     </p>
 
     <p>
-      <u>Discrete Vs. Progressive Example:</u><br><br>
+      <et>Discrete Vs. Progressive Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data <b><u>'modes': ['Discrete']</u></b>}};<br>
+        var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data <em>'modes': ['Discrete']</em>}};<br>
         charting.createChart(json,"VAR_Example");<br><br>
       </code>
       <img src="AreaGraphExample.png"><br><br>
 
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <b><u>'modes': ['Progressive']</u></b>}};<br>
+        var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <em>'modes': ['Progressive']</em>}};<br>
         charting.createChart(json,"VAR_Example");<br><br>
       </code>
       <img src="AreaGraphProgressiveExample.png">
-    </p>    
-
-    <h3><u>Color Scheme</u></h3>
-    <p>
-      <code>colorScheme</code> sets the color of the samples displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a rainbow color scheme.
-      However, the user can also designate their own color scheme to a graph.<br>
     </p>
 
     <p>
-      <u>Default Vs. User Defined Color Scheme Example:</u><br><br>
+      Lastly, if <code>'Trend'</code> is passed in to the <code>mode</code> parameter on a scatter plot, then the graph will be displayed with a trend line.<br>
+    </p>
+
+    <p>
+      <et>Scatter Plot Trend Line Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi']},<br>
-                    "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi']},<br>
-                    "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi']},<br>
-                    "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi']}},<br>
+        var json = {'VAR_Example': {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <em>'modes': ['Trend']</em>}};<br>
+        charting.createChart(json,"VAR_Example");<br>
+      </code>
+    </p>
+    <img src="ScatterPlotTrendExample.png"><br>
+
+    <h3><et>Color Scheme</et></h3>
+    <p>
+      <code>colorScheme</code> sets the color of the samples displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a rainbow color scheme.
+      However, the user can also designate their own color scheme to a graph by passing in the RGB values of the colors they wish to use.<br>
+    </p>
+
+    <p>
+      <et>Default Vs. User Defined Color Scheme Example:</et><br><br>
+      <code>
+        var charting = new DataCharting(300, 300);<br>
+        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1, 'modes': ['Multi']},<br>
+                    <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data3, 'modes': ['Multi']},</in><br>
+                    <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data4, 'modes': ['Multi']},</in><br>
+                    <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data2, 'modes': ['Multi']}},</in><br>
         charting.createChart(json,"VAR_Example-0");<br><br>
       </code>
       <img src="ScatterPlotRainbowExample.png"><br><br>
 
       <code>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi'], <b><u>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</u></b>,<br>
-                    "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi'], <b><u>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</u></b>,<br>
-                    "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi'], <b><u>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</u></b>,<br>
-                    "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi'], <b><u>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}}</u></b>,<br>
+        var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1, 'modes': ['Multi'], <em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</em>,<br>
+                    <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data3, 'modes': ['Multi'], <em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</em>,</in><br>
+                    <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data4, 'modes': ['Multi'], <em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}</em>,</in><br>
+                    <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data2, 'modes': ['Multi'], <em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']}}</em>,</in><br>
         charting.createChart(json,"VAR_Example-0");<br><br>
       </code>
       <img src="ScatterPlotUserColorExample.png">
     </p>
 
-    <h3><u>Group</u></h3>
+    <h3><et>Group</et></h3>
     <p>
-      Lastly, <code>'group'</code> can be used to group samples together into a specified color scheme.<br>
+      Lastly, <code>'group'</code> can be used to define the color scheme of a graph by passing in a group number.<br>
     </p>
 
     <p>
-      <u>Basic Color Scheme Vs. Group Example:</u><br><br>
+      <et>Basic Color Scheme Vs. Group Example:</et><br><br>
       <code>
         var charting = new DataCharting(300, 300);<br>
         var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5, 'modes': []}};<br>
@@ -346,7 +352,7 @@
       <code>
         var  groupNumber = Math.floor(Math.random()*6);<br>
         var charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5, 'modes': [], <b><u>'group': groupNumber</u></b>}}<br>
+        var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5, 'modes': [], <em>'group': groupNumber</em>}}<br>
         charting.createChart(json,"VAR_Example-0");<br><br>
       </code>
       <img src="PieChartGroupColorExample.png">
