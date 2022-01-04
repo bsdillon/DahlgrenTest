@@ -40,12 +40,12 @@
     <p>
       The graphs in the Data Charting API are created using Chart.js and JSON objects. <a href="https://www.chartjs.org/">Chart.js</a> is an open source JavaScript library used for data visualization and creating graphs. 
       First, a new DataCharting object is created defining the size of the new graphs. Then, a JSON object is created containing the parameters for each graph that will be shown. 
-      Lastly, the JSON object and graphs are passed into the <code>createChart()</code> function to be built and displayed on screen.<br><br>
+      Lastly, the JSON object and graph name are passed into the <code>createChart()</code> function for it to be built and displayed on screen.<br><br>
 
       <et>Example:</et><br><br>
       <code>
         charting = new DataCharting(300, 300);<br>
-        var json = {"VAR_Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data};<br>
+        var json = {"VAR_Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme': []}};<br>
         charting.createChart(json, "VAR_Example");<br>
       </code>
     </p>
@@ -145,7 +145,7 @@
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
-    <img src="VBarGraphExample.png"><br>
+    <img src="VBarGraphExample2.png"><br>
 
     <p>
       <et>Horizontal Bar Graph Example:</et><br><br>
@@ -155,7 +155,7 @@
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
-    <img src="HBarGraphExample.png"><br>
+    <img src="HBarGraphExample2.png"><br>
 
     <p>
       <et>Pie Chart Example:</et><br><br>
@@ -165,7 +165,7 @@
         charting.createChart(json,"VAR_Example");<br>
       </code>
     </p>
-    <img src="PieChartExample.png"><br>
+    <img src="PieChartExample2.png"><br>
 
     <h3><et>Series</et></h3>
     <p>
@@ -183,7 +183,7 @@
         charting.createChart(json,"VAR_Example-0");<br>
       </code>
     </p>
-    <img src="LineGraphMultiExample.png">
+    <img src="LineGraphExample3.png">
 
     <h3><et>X-Data/Y-Data</et></h3>
     <p>

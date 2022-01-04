@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Test Page</title>
+    <style>
+        td {border:6px outset; padding:20px;}
+    </style>
+    <script src="Chart.min.js"></script>
+    <script src="piechartlibrary.js"></script>
+    <script src="linechartlibrary.js"></script>
+    <script src="scatterchartlibrary.js"></script>
+    <script src="datacharting.js"></script>
+    <script src="chartStyle.js"></script>
+    <script>
+        function testGraphs(){
+            var data1 = dataSet(10,-10,100,function(x){return (2*x*x)-(4*x)+2;});
+            var data2 = dataSet(10,-100,100,function(x){return Math.abs((-2*x*x)+(4*x)-6);})
+            var data3 = dataSet(10,-100,100,function(x){return Math.abs((-3*x*x)-(2*x)+1);})
+            var data4 = dataSet(10,-100,100,function(x){return Math.abs((1*x*x)-(2*x)+6);})
+            var labels = ['A','B','C','D','E','F','G','H','I','J'];
+            var field = document.getElementById("field");
+            var table = document.createElement("TABLE");
+            field.appendChild(table);
+
+            var charting = new DataCharting(300, 300);
+            var row = table.insertRow();
+            let td = document.createElement("td");
+            row.append(td);
+            var json = {'VAR_Example': {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)']}};
+            td.append(charting.createChart(json,"VAR_Example"));
+
+            for(let i=0;i<2;i++)
+            {
+                let td = document.createElement("td");
+                row.append(td);
+                let v1 = "VAR_S"+'Line'+"Example-0";
+                let v2 = "VAR_S"+'Line'+"Example-1";
+                charting = new DataCharting(300, 300);
+                var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1[1], 'modes': ['Multi']},
+                            "VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2[1], 'modes': ['Multi']},
+                            "VAR_Example-2": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3[1], 'modes': ['Multi']},
+                            "VAR_Example-3": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4[1], 'modes': ['Multi']}};
+                td.append(charting.createChart(json,"VAR_Example-0"));
+            }
+
+            function dataSet(num,start,end,func)
+            {
+                let answer = [[],[]];
+                for(let i=0;i<num;i++)
+                {
+                    let x = Math.floor(Math.random()*(end-start+1)-start);
+                    answer[0].push(x);
+                    answer[1].push(func(x));
+                }
+                return answer;
+            }
+        }
+    </script>
+</head>
+<body onload = "testGraphs()">
+    <h1>This page is for testing and making graphs!</h1>
+    <div id="field">
+    </div>
+</body>
+</html>
