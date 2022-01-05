@@ -14,12 +14,14 @@
     <script src="chartStyle.js"></script>
     <script>
         function testGraphs(){
-            var data1 = dataSet(10,-10,100,function(x){return (2*x*x)-(4*x)+2;});
+            //var data1 = [[100, 90, 80, 70], [10, 20, 40 ,50], [79, 34, 887, 234]];
+            var data1 = dataSet(10,-10,100,function(x){return (2*x*x)-(4*x)+2;})
             var data2 = dataSet(10,-100,100,function(x){return Math.abs((-2*x*x)+(4*x)-6);})
             var data3 = dataSet(10,-100,100,function(x){return Math.abs((-3*x*x)-(2*x)+1);})
             var data4 = dataSet(10,-100,100,function(x){return Math.abs((1*x*x)-(2*x)+6);})
             var data5 = dataSet(10,1,10,function(x){return Math.floor(Math.random()*100+25);})
             var labels = ['A','B','C','D','E','F','G','H','I','J'];
+            var groupNumber = Math.floor(Math.random()*6);
             var field = document.getElementById("field");
             var table = document.createElement("TABLE");
             field.appendChild(table);
@@ -28,30 +30,39 @@
             var row = table.insertRow();
             let td = document.createElement("td");
             row.append(td);
-            var json = {'VAR_Example': {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': data2[1], 'y-data': data1[1], 'modes': []}};
+            var json = {'VAR_Example': {'type': 'Pie', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': []}};
             td.append(charting.createChart(json,"VAR_Example"));
 
             var charting = new DataCharting(300, 300);
             var row = table.insertRow();
             td = document.createElement("td");
             row.append(td);
-            var json = {'VAR_Example': {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Trend']}};
+            var json = {'VAR_Example': {'type': 'Pie', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'group': groupNumber}};
             td.append(charting.createChart(json,"VAR_Example"));
 
 
-            for(let i=0; i<2; i++){
-                let td = document.createElement("td");
-                row.append(td);
-                let v1 = "VAR_S"+'Line'+"Example-0";
-                let v2 = "VAR_S"+'Line'+"Example-1";
-                charting = new DataCharting(300, 300);
-                var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1[1], 'modes': []},
-                            "VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2[1], 'modes': []},
-                            "VAR_Example-2": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3[1], 'modes': []},
-                            "VAR_Example-3": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4[1], 'modes': []}};
-                td.append(charting.createChart(json,"VAR_Example-0"));
-            }
 
+            td = document.createElement("td");
+            row.append(td);
+            //let v1 = "VAR_S"+'Line'+"Example-0";
+            //let v2 = "VAR_S"+'Line'+"Example-1";
+            charting = new DataCharting(300, 300);
+            var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': data5[1], 'y-data': data1[1], 'modes': ['Multi']},
+                        "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': data5[1], 'y-data': data2[1], 'modes': ['Multi']},
+                        "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': data5[1], 'y-data': data3[1], 'modes': ['Multi']},
+                        "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': data5[1], 'y-data': data4[1], 'modes': ['Multi']}};
+            td.append(charting.createChart(json,"VAR_Example-0"));
+
+            td = document.createElement("td");
+            row.append(td);
+            //let v1 = "VAR_S"+'Line'+"Example-0";
+            //let v2 = "VAR_S"+'Line'+"Example-1";
+            charting = new DataCharting(300, 300);
+            var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': data5[1], 'y-data': data1[1], 'modes': ['Multi'], 'colorScheme': ['rgb(27,240,152)','rgb(164,0,74)','rgb(64,100,74)','rgb(54,150,274)']},
+                        "VAR_Example-1": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': data5[1], 'y-data': data2[1], 'modes': ['Multi'], 'colorScheme': ['rgb(27,240,152)','rgb(164,0,74)','rgb(64,100,74)','rgb(54,150,274)']},
+                        "VAR_Example-2": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': data5[1], 'y-data': data3[1], 'modes': ['Multi'], 'colorScheme': ['rgb(27,240,152)','rgb(164,0,74)','rgb(64,100,74)','rgb(54,150,274)']},
+                        "VAR_Example-3": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': data5[1], 'y-data': data4[1], 'modes': ['Multi'], 'colorScheme': ['rgb(27,240,152)','rgb(164,0,74)','rgb(64,100,74)','rgb(54,150,274)']}};
+            td.append(charting.createChart(json,"VAR_Example-0"));
 
             function dataSet(num,start,end,func)
             {
