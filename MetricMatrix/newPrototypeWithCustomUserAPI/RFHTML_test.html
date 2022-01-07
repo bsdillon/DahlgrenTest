@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Test Page</title>
+    <style>
+        td {border:6px outset; padding:20px;}
+    </style>
+	<script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/Chart.min.js"></script>
+    <script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/piechartlibrary.js"></script>
+    <script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/linechartlibrary.js"></script>
+    <script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/scatterchartlibrary.js"></script>
+    <script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/datacharting.js"></script>
+    <script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/chartStyle.js"></script>
+	<script>
+		function showGraphs(){
+			var lab101TestStatus = [1, 0, 0, 0];
+			var eventStatus = ["Planned", "Active", "Completed", "Locked"];
+			var field = document.getElementById("field");
+            var table = document.createElement("TABLE");
+            field.appendChild(table);
+			
+			var charting = new DataCharting(300, 300);
+            var row = table.insertRow();
+            let td = document.createElement("td");
+            row.append(td);
+            var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': eventStatus, 'y-data': lab101TestStatus, 'modes': []}};
+            td.append(charting.createChart(json,"VAR_Example-0"));
+		}
+	</script>
+	
+</head>
+<body onload = "showGraphs()">
+    <h1>This page is for testing and making graphs!</h1>
+    <div id="field">
+    </div>
+</body>
+</html>

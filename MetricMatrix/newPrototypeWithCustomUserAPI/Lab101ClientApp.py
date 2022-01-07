@@ -15,7 +15,7 @@ userList = [
 ]
 cert = "../venv/Lib/site-packages/sslserver/certs/development.crt"
 
-rootURL = "https://localhost"#https://localhost:8000""
+rootURL = "https://localhost:8000"#"https://localhost"#
 
 # post for a token using Client Credentials
 def getAccessToken(client_id, secret, cert):
@@ -211,3 +211,14 @@ for user in userList:
     access_token = getAccessToken(client_id, secret, cert)
     response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
     print(json.dumps(response.json(), indent = 2))
+
+# HTML array thing test idk
+user = userList[0]
+client_id = user["client_id"]
+secret = user["client_secret"]
+
+access_token = getAccessToken(client_id, secret, cert)
+response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+print(json.dumps(response.json(), indent = 2))
+for test in response.json():
+    print(test["eventStatus"])
