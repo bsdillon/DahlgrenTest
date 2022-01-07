@@ -12,8 +12,8 @@ import os, sys
 from django.core.wsgi import get_wsgi_application
 
 # These lines may be required for some setups
-#sys.path.append('C:/path/to/newPrototypeWithCustomUserAPI')
-#sys.path.append('C:/path/to/newPrototypeWithCustomUserAPI/newPrototypeWithCustomUserAPI')
+sys.path.append('C:/Users/Littl/Desktop/DahlgrenTest/MetricMatrix/newPrototypeWithCustomUserAPI')
+sys.path.append('C:/Users/Littl/Desktop/DahlgrenTest/MetricMatrix/newPrototypeWithCustomUserAPI/newPrototypeWithCustomUserAPI')
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'newPrototypeWithCustomUserAPI.settings')
 

@@ -14,8 +14,9 @@
     <script src="chartStyle.js"></script>
     <script>
         function testGraphs(){
+            var data1 = [10, 20, 25, 35];
             //var data1 = [[100, 90, 80, 70], [10, 20, 40 ,50], [79, 34, 887, 234]];
-            var data1 = dataSet(10,-10,100,function(x){return (2*x*x)-(4*x)+2;})
+            //var data1 = dataSet(10,-10,100,function(x){return (2*x*x)-(4*x)+2;})
             var data2 = dataSet(10,-100,100,function(x){return Math.abs((-2*x*x)+(4*x)-6);})
             var data3 = dataSet(10,-100,100,function(x){return Math.abs((-3*x*x)-(2*x)+1);})
             var data4 = dataSet(10,-100,100,function(x){return Math.abs((1*x*x)-(2*x)+6);})
@@ -30,7 +31,7 @@
             var row = table.insertRow();
             let td = document.createElement("td");
             row.append(td);
-            var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5[1], 'modes': []}};
+            var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1, 'modes': []}};
             td.append(charting.createChart(json,"VAR_Example-0"));
 
             var charting = new DataCharting(300, 300);

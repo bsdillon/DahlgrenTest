@@ -52,7 +52,7 @@
       <p>
         <et>Example:</et><br>
         <code>
-          var data1 = [[100, 90, 80, 70], [10, 20, 40 ,50], [79, 34, 887, 234],...];<br>
+          var data1 = [100, 90, 80, 70,...];<br>
           var labels = ['A','B','C',...];<br>
           var field = document.getElementById("field");<br>
           var table = document.createElement("TABLE");<br>
@@ -62,7 +62,7 @@
           var row = table.insertRow();<br>
           let td = document.createElement("td");<br>
           row.append(td);<br>
-          var json = {"VAR_Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': ['mode'], 'colorScheme': <br>
+          var json = {"VAR_Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode'], 'colorScheme': <br>
                       <in>[(RGB values)]}};</in><br>
           td.append(charting.createChart(json, "VAR_Example"));<br><br>
         </code>
@@ -94,7 +94,7 @@
       <p>
         <et>Line Graph Example:</et><br>
         <code>
-          var json = {'VAR_Example': {<em>'type': 'Line'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme':<br>
+          var json = {'VAR_Example': {<em>'type': 'Line'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
                       <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br><br>
         </code>
         <img src="LineGraphExample.png"><br><br>
@@ -103,7 +103,7 @@
       <p>
         <et>Vertical Bar Graph Example:</et><br>
         <code>
-          var json = {'VAR_Example': {<em>'type': 'VBar'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme':<br>
+          var json = {'VAR_Example': {<em>'type': 'VBar'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
                       <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
         </code>
       </p>
@@ -112,7 +112,7 @@
       <p>
         <et>Horizontal Bar Graph Example:</et><br>
         <code>
-          var json = {'VAR_Example': {<em>'type': 'HBar'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme':<br>
+          var json = {'VAR_Example': {<em>'type': 'HBar'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
                       <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
         </code>
       </p>
@@ -121,7 +121,7 @@
       <p>
         <et>Area Graph Example:</et><br>
         <code>
-          var json = {'VAR_Example': {<em>'type': 'Area'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme':<br>
+          var json = {'VAR_Example': {<em>'type': 'Area'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
                       <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
         </code>
       </p>
@@ -130,7 +130,7 @@
       <p>
         <et>Pie Chart Example:</et><br>
         <code>
-          var json = {'VAR_Example-0': {<em>'type': 'Pie'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme': []}};<br>
+          var json = {'VAR_Example-0': {<em>'type': 'Pie'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme': []}};<br>
         </code>
       </p>
       <img src="PieChartExample.png"><br><br>
@@ -138,7 +138,7 @@
       <p>
         <et>Scatter Plot Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {<em>'type': 'Scatter'</em>, 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': []}};<br>
+          var json = {"VAR_Example-0": {<em>'type': 'Scatter'</em>, 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1, 'modes': []}};<br>
         </code>
       </p>
       <img src="ScatterPlotExample.png"><br><br>
@@ -154,7 +154,7 @@
       <p>
         <et>Vertical Bar Graph Example:</et><br>
         <code>
-          var json = {'VAR_Example': {'type': 'VBar', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme':<br>
+          var json = {'VAR_Example': {'type': 'VBar', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
                       <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
         </code>
       </p>
@@ -163,7 +163,7 @@
       <p>
         <et>Horizontal Bar Graph Example:</et><br>
         <code>
-          var json = {'VAR_Example': {'type': 'HBar', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme':<br>
+          var json = {'VAR_Example': {'type': 'HBar', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
                       <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
         </code>
       </p>
@@ -172,7 +172,7 @@
       <p>
         <et>Pie Chart Example:</et><br>
         <code>
-          var json = {'VAR_Example-0': {'type': 'Pie', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data1[1], 'modes': [], 'colorScheme': []}};
+          var json = {'VAR_Example-0': {'type': 'Pie', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme': []}};<br>
         </code>
       </p>
       <img src="PieChartExample2.png"><br><br>
@@ -187,10 +187,10 @@
       <p>
         <et>Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 1'</em>, 'x-data': labels, 'y-data': data1[1], 'modes': ['Multi']},<br>
-                      <in>"VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 2'</em>, 'x-data': labels, 'y-data': data2[1], 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 3'</em>, 'x-data': labels, 'y-data': data3[1], 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 4'</em>, 'x-data': labels, 'y-data': data4[1], 'modes': ['Multi']}};</in><br>
+          var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 1'</em>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},<br>
+                      <in>"VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 2'</em>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},</in><br>
+                      <in>"VAR_Example-2": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 3'</em>, 'x-data': labels, 'y-data': data3, 'modes': ['Multi']},</in><br>
+                      <in>"VAR_Example-3": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 4'</em>, 'x-data': labels, 'y-data': data4, 'modes': ['Multi']}};</in><br>
         </code>
       </p>
       <img src="LineGraphExample3.png"><br><br>
@@ -198,18 +198,18 @@
 
     <h3><et>X-Data/Y-Data</et></h3>
     <p>
-      The <code>x-data</code> and <code>y-data</code> parameters define the data that is used for the x and y-axes. Both parameters require either a set of arrays containing numeric data, or an array containing string data.
-      Both axes can have numeric data and the x-axis can represent string data, however, the y-axis is only able to represent numeric data.<br>
+      The <code>x-data</code> and <code>y-data</code> parameters define the data that is used for the x and y-axes. Both parameters require an array of either numeric or string data. It is also possible to pass in the index of an array that is contained in a set of data arrays.
+      Both axes can have numeric data and the x-axis can represent string data, but the y-axis is only able to represent numeric data. However, this is not true for all types of scatter plots as they will only accept numeric data for both axes.<br>
     </p>
 
     <div class="ex">
       <p>
         <et>Numeric Data Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2[1]</em>, <em>'y-data': data1[1]</em>, 'modes': ['Multi']},<br>
-                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2[1]</em>, <em>'y-data': data3[1]</em>, 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2[1]</em>, <em>'y-data': data4[1]</em>, 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2[1]</em>, <em>'y-data': data2[1]</em>, 'modes':</in><br>
+          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data1</em>, 'modes': ['Multi']},<br>
+                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data3</em>, 'modes': ['Multi']},</in><br>
+                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data4</em>, 'modes': ['Multi']},</in><br>
+                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data2</em>, 'modes':</in><br>
                       <in>['Multi']}};</in><br>
         </code>
       </p>
@@ -218,13 +218,13 @@
       <p>
         <et>Numeric & String Data Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': labels</em>, <em>'y-data': data1[1]</em>, 'modes':<br>
+          var json = {"VAR_Example-0": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': labels</em>, <em>'y-data': data1</em>, 'modes':<br>
                       <in>['Multi', 'Stacked']},</in><br>
-                      <in>"VAR_Example-1": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', <em>'x-data': labels</em>, <em>'y-data': data2[1]</em>, 'modes':</in><br>
+                      <in>"VAR_Example-1": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', <em>'x-data': labels</em>, <em>'y-data': data2</em>, 'modes':</in><br>
                       <in>['Multi', 'Stacked']},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', <em>'x-data': labels</em>, <em>'y-data': data3[1]</em>, 'modes':</in><br>
+                      <in>"VAR_Example-2": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', <em>'x-data': labels</em>, <em>'y-data': data3</em>, 'modes':</in><br>
                       <in>['Multi', 'Stacked']},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', <em>'x-data': labels</em>, <em>'y-data': data4[1]</em>, 'modes':</in><br>
+                      <in>"VAR_Example-3": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', <em>'x-data': labels</em>, <em>'y-data': data4</em>, 'modes':</in><br>
                       <in>['Multi','Stacked']}};</in><br>
         </code>
       </p>
@@ -242,16 +242,16 @@
       <p>
         <et>Single Sample Example:</et><br>
         <code>
-          var json = {'VAR_Example': {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], <em>'modes': []</em>, 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)']}};<br>
+          var json = {'VAR_Example': {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <em>'modes': []</em>, 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)']}};<br><br>
         </code>
         <img src="VBarGraphExample4.png"><br><br>
 
         <et>Multi Sample Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': data5[1], 'y-data': data1[1], <em>'modes': ['Multi']</em>},<br>
-                      <in>"VAR_Example-1": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': data5[1], 'y-data': data2[1], <em>'modes': ['Multi']</em>},</in><br>
-                      <in>"VAR_Example-2": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': data5[1], 'y-data': data3[1], <em>'modes': ['Multi']</em>},</in><br>
-                      <in>"VAR_Example-3": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': data5[1], 'y-data': data4[1], <em>'modes': ['Multi']</em>}};</in><br>
+          var json = {"VAR_Example-0": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': data5, 'y-data': data1, <em>'modes': ['Multi']</em>},<br>
+                      <in>"VAR_Example-1": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': data5, 'y-data': data2, <em>'modes': ['Multi']</em>},</in><br>
+                      <in>"VAR_Example-2": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': data5, 'y-data': data3, <em>'modes': ['Multi']</em>},</in><br>
+                      <in>"VAR_Example-3": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': data5, 'y-data': data4, <em>'modes': ['Multi']</em>}};</in><br>
         </code>
       </p>
       <img src="VBarGraphMultiExample2.png"><br><br>
@@ -265,14 +265,14 @@
       <p>
         <et>Multi Stacked Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1[1], <em>'modes':</em><br>
+          var json = {"VAR_Example-0": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <em>'modes':</em><br>
                       <in><em>['Multi', 'Stacked']</em>},</in><br>
-                      <in>"VAR_Example-1": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2[1], <em>'modes':</em></in><br>
+                      <in>"VAR_Example-1": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <em>'modes':</em></in><br>
                       <in><em>['Multi', 'Stacked']</em>},</in><br>
-                      <in>"VAR_Example-2": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3[1], <em>'modes':</em></in><br>
+                      <in>"VAR_Example-2": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <em>'modes':</em></in><br>
                       <in><em>['Multi', 'Stacked']</em>},</in><br>
-                      <in>"VAR_Example-3": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4[1], <em>'modes':</em></in><br>
-                      <in><em>['Multi','Stacked']</em>}};</in><br>
+                      <in>"VAR_Example-3": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <em>'modes':</em></in><br>
+                      <in><em>['Multi','Stacked']</em>}};</in><br><br>
         </code>
         <img src="VBarGraphMultiStackedExample2.png"><br><br>
       </p>
@@ -287,15 +287,15 @@
       <p>
         <et>Discrete Example:</et><br>
         <code>
-          var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1] <em>'modes': ['Discrete']</em>, 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
+          var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <em>'modes': ['Discrete']</em>, 'colorScheme':<br>
+                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br><br>
         </code>
         <img src="AreaGraphExample3.png"><br><br>
 
         <et>Progressive Example:</et><br>
         <code>
-          var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data1[1], <em>'modes': ['Progressive']</em>, 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
+          var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <em>'modes': ['Progressive']</em>, 'colorScheme':<br>
+                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br><br>
         </code>
         <img src="AreaGraphProgressiveExample2.png"><br><br>
       </p>
@@ -309,7 +309,7 @@
       <p>
         <et>Trend Line Example:</et><br>
         <code>
-          var json = {'VAR_Example': {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': data1[1], 'y-data': data2[1], <em>'modes': ['Trend']</em>}};<br>
+          var json = {'VAR_Example': {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': data1, 'y-data': data2, <em>'modes': ['Trend']</em>}};<br>
         </code>
       </p>
       <img src="ScatterPlotTrendExample2.png"><br><br>
@@ -317,31 +317,31 @@
 
     <h3><et>Color Scheme</et></h3>
     <p>
-      <code>colorScheme</code> sets the color of the samples displayed on the graph. If this parameter is not specified, then Chart.js will default the chart to a rainbow color scheme.
-      However, the user can also designate their own color scheme to a graph by passing in the RGB values of the colors they wish to use.<br>
+      <code>colorScheme</code> sets the color of the samples displayed on the graph. If this parameter is not included in the JSON object, then Chart.js will default the chart to a rainbow color scheme.
+      If it is included, the user can designate their own color scheme to a graph by passing in the RGB values of the colors they wish to use. However, if the user does not specify any RGB values, then the graph will default to a grayscale color scheme.<br>
     </p>
 
     <div class="ex">
       <p>
         <et>Default Color Scheme Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi']},<br>
-                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi']}};</in><br>
+          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1, 'modes': ['Multi']},<br>
+                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data3, 'modes': ['Multi']},</in><br>
+                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data4, 'modes': ['Multi']},</in><br>
+                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data2, 'modes': ['Multi']}};</in><br><br>
         </code>
         <img src="ScatterPlotRainbowExample3.png"><br><br>
 
         <et>User Defined Color Scheme Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data1[1], 'modes': ['Multi'],<br>
+          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1, 'modes': ['Multi'],<br>
                       <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>},</in><br>
-                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data3[1], 'modes': ['Multi'],</in><br>
+                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data3, 'modes': ['Multi'],</in><br>
                       <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data4[1], 'modes': ['Multi'],</in><br>
+                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data4, 'modes': ['Multi'],</in><br>
                       <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2[1], 'y-data': data2[1], 'modes': ['Multi'],</in><br>
-                      <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>}};</in><br>
+                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data2, 'modes': ['Multi'],</in><br>
+                      <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>}};</in><br><br>
         </code>
         <img src="ScatterPlotUserColorExample2.png"><br><br>
       </p>
@@ -356,14 +356,14 @@
       <p>
         <et>Default Color Scheme Example:</et><br>
         <code>
-          var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5[1], 'modes': []}};<br>
+          var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data, 'modes': []}};<br><br>
         </code>
         <img src="PieChartExample3.png"><br><br>
 
         <et>Group Color Scheme Example:</et><br>
         <code>
           var  groupNumber = Math.floor(Math.random()*6);<br>
-          var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data5[1], 'modes': [], <em>'group': groupNumber</em>}}<br>
+          var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data, 'modes': [], <em>'group': groupNumber</em>}}<br><br>
         </code>
         <img src="PieChartGroupColorExample2.png">
       </p>
