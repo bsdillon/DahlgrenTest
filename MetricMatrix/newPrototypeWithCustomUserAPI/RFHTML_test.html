@@ -6,6 +6,7 @@
     <style>
         td {border:6px outset; padding:20px;}
     </style>
+	<script type="text/javascript" src="output.js"></script>
 	<script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/Chart.min.js"></script>
     <script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/piechartlibrary.js"></script>
     <script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/linechartlibrary.js"></script>
@@ -14,8 +15,15 @@
     <script src="../../RFTestReports+RFToolsExamples/RFDemoGUI/chartStyle.js"></script>
 	<script>
 		function showGraphs(){
-			var lab101TestStatus = [1, 0, 0, 0];
-			var eventStatus = ["Planned", "Active", "Completed", "Locked"];
+			var lab101TestStatus = labData.lab101.eventStatus.data;
+			var lab102TestStatus = labData.lab102.eventStatus.data;
+			var lab103TestStatus = labData.lab103.eventStatus.data;
+			var eventStatus = labData.lab101.eventStatus.labels;
+			var lab101TestPass = labData.lab101.testCasePassFail.data;
+			var lab102TestPass = labData.lab102.testCasePassFail.data;
+			var lab103TestPass = labData.lab103.testCasePassFail.data;
+			var passFail = labData.lab101.testCasePassFail.labels;
+			
 			var field = document.getElementById("field");
             var table = document.createElement("TABLE");
             field.appendChild(table);
@@ -24,8 +32,31 @@
             var row = table.insertRow();
             let td = document.createElement("td");
             row.append(td);
-            var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': eventStatus, 'y-data': lab101TestStatus, 'modes': []}};
-            td.append(charting.createChart(json,"VAR_Example-0"));
+            var json = {"VAR_Lab 101 Event Status": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': eventStatus, 'y-data': lab101TestStatus, 'modes': []}};
+            td.append(charting.createChart(json,"VAR_Lab 101 Event Status"));
+			
+			charting = new DataCharting(300, 300);
+			td = document.createElement("td");
+			row.append(td);
+            json = {"VAR_Lab 101 Pass/Fail": {'type': 'VBar', 'x-axis': 'Pass/Fail', 'y-axis': 'Count', 'series': 'Lab 101 Tests', 'x-data': passFail, 'y-data': lab101TestPass, 'modes': []}};
+            td.append(charting.createChart(json,"VAR_Lab 101 Pass/Fail"));
+			
+			charting = new DataCharting(300, 300);
+            row = table.insertRow();
+            td = document.createElement("td");
+            row.append(td);
+            json = {"VAR_All Lab Event Statuses-0": {'type': 'VBar', 'x-axis': 'Status', 'y-axis': 'Count', 'series': 'Lab 101', 'x-data': eventStatus, 'y-data': lab101TestStatus, 'modes': ['Multi']},
+					"VAR_All Lab Event Statuses-1": {'type': 'VBar', 'x-axis': 'Status', 'y-axis': 'Count', 'series': 'Lab 102', 'x-data': eventStatus, 'y-data': lab102TestStatus, 'modes': ['Multi']},
+					"VAR_All Lab Event Statuses-2": {'type': 'VBar', 'x-axis': 'Status', 'y-axis': 'Count', 'series': 'Lab 103', 'x-data': eventStatus, 'y-data': lab103TestStatus, 'modes': ['Multi']}};
+            td.append(charting.createChart(json,"VAR_All Lab Event Statuses-0"));
+			
+			charting = new DataCharting(300, 300);
+            td = document.createElement("td");
+            row.append(td);
+            json = {"VAR_All Lab Pass/Fail-0": {'type': 'VBar', 'x-axis': 'Pass/Fail', 'y-axis': 'Count', 'series': 'Lab 101', 'x-data': passFail, 'y-data': lab101TestPass, 'modes': ['Multi']},
+					"VAR_All Lab Pass/Fail-1": {'type': 'VBar', 'x-axis': 'Pass/Fail', 'y-axis': 'Count', 'series': 'Lab 102', 'x-data': passFail, 'y-data': lab102TestPass, 'modes': ['Multi']},
+					"VAR_All Lab Pass/Fail-2": {'type': 'VBar', 'x-axis': 'Pass/Fail', 'y-axis': 'Count', 'series': 'Lab 103', 'x-data': passFail, 'y-data': lab103TestPass, 'modes': ['Multi']}};
+            td.append(charting.createChart(json,"VAR_All Lab Pass/Fail-0"));
 		}
 	</script>
 	
