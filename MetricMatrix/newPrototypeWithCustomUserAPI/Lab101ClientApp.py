@@ -38,187 +38,223 @@ def getAccessToken(client_id, secret, cert):
 
 # maybe output to a file for testing purposes: output what client is making requests, permissions and authorizations, what requests they're making, expected output, what they get in reality
 # labs
-for user in userList:
-    print("Current Application: " + user["user"])
-    client_id = user["client_id"]
-    secret = user["client_secret"]
-
-    # view the labs
-    print("GET labs")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view lab101
-    print("GET lab101")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab101/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # post lab104
-    print("POST lab104")
-    access_token = getAccessToken(client_id, secret, cert)
-    newLab = {"name": "lab104", "UIC": 104}
-    response = requests.post(rootURL + "/labs/", json = newLab, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view the labs
-    print("GET labs")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view lab104
-    print("GET lab104")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab104/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # modify lab101 (PATCH and PUT both use the same permissions stuff so it should be ok don't worry about it)
-    print("PATCH lab101")
-    access_token = getAccessToken(client_id, secret, cert)
-    patch = {"UIC": 1000}
-    response = requests.patch(rootURL + "/labs/lab101/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view the labs
-    print("GET labs")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # put lab101 back
-    print("PATCH lab101")
-    access_token = getAccessToken(client_id, secret, cert)
-    patch = {"UIC": 101}
-    response = requests.patch(rootURL + "/labs/lab101/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view the labs
-    print("GET labs")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # modify lab104
-    print("PATCH lab104")
-    access_token = getAccessToken(client_id, secret, cert)
-    patch = {"UIC": 40000}
-    response = requests.patch(rootURL + "/labs/lab104/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view the labs
-    print("GET labs")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # delete lab 104
-    print("DELETE lab104")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.delete(rootURL + "/labs/lab104/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(response.status_code)
-    # view the labs
-    print("GET labs")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-
-# tests
-for user in userList:
-    print("Current Application: " + user["user"])
-    client_id = user["client_id"]
-    secret = user["client_secret"]
-
-    # view lab101 tests
-    print("GET lab101")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view lab102 tests
-    print("GET lab102")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # post a test to lab101
-    print("POST to lab101")
-    access_token = getAccessToken(client_id, secret, cert)
-    newTest = {"eventStartDateTime": "2021-11-19T00:00", "eventEndDateTime": "2022-01-01T00:00", "testCasePassFail": False, "eventStatus": "PLANNED"}
-    response = requests.post(rootURL + "/labs/lab101/tests/", json = newTest, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    if ("id" in response.json()):
-        posted101 = response.json()["id"]
-    else:
-        posted101 = None
-    # view lab101 tests
-    print("GET lab101")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view the posted test
-    print("GET lab101 new test")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab101/tests/" + str(posted101) + "/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # post a test to lab102
-    print("POST to lab102")
-    access_token = getAccessToken(client_id, secret, cert)
-    newTest = {"eventStartDateTime": "2021-11-19T00:00", "eventEndDateTime": "2022-01-01T00:00", "testCasePassFail": False, "eventStatus": "PLANNED"}
-    response = requests.post(rootURL + "/labs/lab102/tests/", json = newTest, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    if ("id" in response.json()):
-        posted102 = response.json()["id"]
-    else:
-        posted102 = None
-    # view lab102 tests
-    print("GET lab102")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view the posted test
-    print("GET lab102 new test")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab102/tests/" + str(posted102) + "/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # modify new lab101 test
-    print("PATCH lab101 new test")
-    access_token = getAccessToken(client_id, secret, cert)
-    patch = {"testCasePassFail": True}
-    response = requests.patch(rootURL + "/labs/lab101/tests/" + str(posted101) + "/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view lab101 tests
-    print("GET lab101")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # modify new lab102 test
-    print("PATCH lab102 new test")
-    access_token = getAccessToken(client_id, secret, cert)
-    patch = {"testCasePassFail": True}
-    response = requests.patch(rootURL + "/labs/lab102/tests/" + str(posted102) + "/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # view lab102 tests
-    print("GET lab102")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # delete new lab101 test
-    print("DELETE lab101 new test")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.delete(rootURL + "/labs/lab101/tests/" + str(posted101) + "/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(response.status_code)
-    # view lab101 tests
-    print("GET lab101")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
-    # delete new lab102 test
-    print("DELETE lab102 new test")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.delete(rootURL + "/labs/lab102/tests/" + str(posted102) + "/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(response.status_code)
-    # view lab102 tests
-    print("GET lab102")
-    access_token = getAccessToken(client_id, secret, cert)
-    response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-    print(json.dumps(response.json(), indent = 2))
+##for user in userList:
+##    print("Current Application: " + user["user"])
+##    client_id = user["client_id"]
+##    secret = user["client_secret"]
+##
+##    # view the labs
+##    print("GET labs")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view lab101
+##    print("GET lab101")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab101/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # post lab104
+##    print("POST lab104")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    newLab = {"name": "lab104", "UIC": 104}
+##    response = requests.post(rootURL + "/labs/", json = newLab, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view the labs
+##    print("GET labs")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view lab104
+##    print("GET lab104")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab104/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # modify lab101 (PATCH and PUT both use the same permissions stuff so it should be ok don't worry about it)
+##    print("PATCH lab101")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    patch = {"UIC": 1000}
+##    response = requests.patch(rootURL + "/labs/lab101/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view the labs
+##    print("GET labs")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # put lab101 back
+##    print("PATCH lab101")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    patch = {"UIC": 101}
+##    response = requests.patch(rootURL + "/labs/lab101/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view the labs
+##    print("GET labs")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # modify lab104
+##    print("PATCH lab104")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    patch = {"UIC": 40000}
+##    response = requests.patch(rootURL + "/labs/lab104/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view the labs
+##    print("GET labs")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # delete lab 104
+##    print("DELETE lab104")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.delete(rootURL + "/labs/lab104/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(response.status_code)
+##    # view the labs
+##    print("GET labs")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##
+### tests
+##for user in userList:
+##    print("Current Application: " + user["user"])
+##    client_id = user["client_id"]
+##    secret = user["client_secret"]
+##
+##    # view lab101 tests
+##    print("GET lab101")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view lab102 tests
+##    print("GET lab102")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # post a test to lab101
+##    print("POST to lab101")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    newTest = {"eventStartDateTime": "2021-11-19T00:00", "eventEndDateTime": "2022-01-01T00:00", "testCasePassFail": False, "eventStatus": "PLANNED"}
+##    response = requests.post(rootURL + "/labs/lab101/tests/", json = newTest, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    if ("id" in response.json()):
+##        posted101 = response.json()["id"]
+##    else:
+##        posted101 = None
+##    # view lab101 tests
+##    print("GET lab101")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view the posted test
+##    print("GET lab101 new test")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab101/tests/" + str(posted101) + "/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # post a test to lab102
+##    print("POST to lab102")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    newTest = {"eventStartDateTime": "2021-11-19T00:00", "eventEndDateTime": "2022-01-01T00:00", "testCasePassFail": False, "eventStatus": "PLANNED"}
+##    response = requests.post(rootURL + "/labs/lab102/tests/", json = newTest, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    if ("id" in response.json()):
+##        posted102 = response.json()["id"]
+##    else:
+##        posted102 = None
+##    # view lab102 tests
+##    print("GET lab102")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view the posted test
+##    print("GET lab102 new test")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab102/tests/" + str(posted102) + "/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # modify new lab101 test
+##    print("PATCH lab101 new test")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    patch = {"testCasePassFail": True}
+##    response = requests.patch(rootURL + "/labs/lab101/tests/" + str(posted101) + "/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view lab101 tests
+##    print("GET lab101")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # modify new lab102 test
+##    print("PATCH lab102 new test")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    patch = {"testCasePassFail": True}
+##    response = requests.patch(rootURL + "/labs/lab102/tests/" + str(posted102) + "/", json = patch, headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # view lab102 tests
+##    print("GET lab102")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # delete new lab101 test
+##    print("DELETE lab101 new test")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.delete(rootURL + "/labs/lab101/tests/" + str(posted101) + "/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(response.status_code)
+##    # view lab101 tests
+##    print("GET lab101")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
+##    # delete new lab102 test
+##    print("DELETE lab102 new test")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.delete(rootURL + "/labs/lab102/tests/" + str(posted102) + "/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(response.status_code)
+##    # view lab102 tests
+##    print("GET lab102")
+##    access_token = getAccessToken(client_id, secret, cert)
+##    response = requests.get(rootURL + "/labs/lab102/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+##    print(json.dumps(response.json(), indent = 2))
 
 # HTML array thing test idk
 user = userList[0]
 client_id = user["client_id"]
 secret = user["client_secret"]
 
+# add random tests to each lab here, then delete them after
+# so the data graphs look gooder
+
+jsonOutput = {}
+statusLabels = ["PLANNED", "ACTIVE", "COMPLETED", "LOCKED"]
+passLabels = ["Passed", "Failed"]
+
+# GET labs
 access_token = getAccessToken(client_id, secret, cert)
-response = requests.get(rootURL + "/labs/lab101/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
-print(json.dumps(response.json(), indent = 2))
-for test in response.json():
-    print(test["eventStatus"])
+response = requests.get(rootURL + "/labs/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+# for lab GET tests
+for lab in response.json():
+    access_token = getAccessToken(client_id, secret, cert)
+    testResponse = requests.get(rootURL + "/labs/" + lab["name"] + "/tests/", headers={"Authorization": "Bearer "+access_token}, verify = cert)
+    # put it all in the data
+    statusData = [0, 0, 0, 0]
+    passData = [0, 0]
+    if (type(testResponse.json()) is list):
+        for test in testResponse.json():
+            if (test["eventStatus"] == statusLabels[0]):
+                statusData[0] += 1
+            elif (test["eventStatus"] == statusLabels[1]):
+                statusData[1] += 1
+            elif (test["eventStatus"] == statusLabels[2]):
+                statusData[2] += 1
+            elif (test["eventStatus"] == statusLabels[3]):
+                statusData[3] += 1
+
+            if (test["testCasePassFail"]):
+                passData[0] += 1
+            else:
+                passData[1] += 1
+    eventStatusDict = {"data": statusData, "labels": statusLabels}
+    testCasePassFailDict = {"data": passData, "labels": passLabels}
+    jsonOutput[lab["name"]] = {"eventStatus": eventStatusDict, "testCasePassFail": testCasePassFailDict}
+
+# do a multigraph comparing different labs' results?
+
+with open("output.js", "w") as outputFile:
+    outputFile.write("labData = ")
+    json.dump(jsonOutput, outputFile)
