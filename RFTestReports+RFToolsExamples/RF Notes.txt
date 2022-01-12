@@ -5,9 +5,13 @@ Go to https://sites.google.com/chromium.org/driver/downloads and install chromed
 From the command line
 * pip install robotframework
 * pip install --upgrade robotframework-seleniumlibrary
-Go to the directory of the 
+Go to the directory DahlgrenTest\RFTestReports+RFToolsExamples and run the testSite to verify your setup.
+From the command line type:
+* robot testSite.robot
 
-bsd was here
+
+-------------------------------------------
+Leftovers
 
 The default file name for datadriver is the same csv as the test itself
 

@@ -3,370 +3,534 @@
   <head>
     <title>DataChartingAPI Documentation</title>
     <style>
-      em {font-style:italics; font-weight:bold; text-decoration: underline;}
-      et {text-decoration: underline;}
+      em {color:#ffffff; font-style:italics; font-weight:bold; text-decoration: underline;}
+      h3 {color:#0000ff; text-decoration: underline; text-align:center;}
       in {margin: 86px;}
-      .ex{margin: 10px;}
+      .ex{margin: 10px; border: ridge black 3px; background-color:#000000; color:#ffff00;
+         font-family: arial; font-style: italic; }
+      .ex li {list-style-position: inside;width:600px; padding-left: 40px; text-indent: -40px;}
+      div.major {margin: 0px; border: outset black 3px; background-color:#eeeeee;}
+      img {float:right; width:350px;}
     </style>
+    <script>
+      function changeType()
+      {
+        let t = document.getElementById("typeSelect").value;
+        document.getElementById("typeText").innerHTML = t;
+        document.getElementById("typeImage").src = t+"GraphExample.png";
+        let allowed = ['Line', 'HBar', 'VBar', 'Area'];
+        if(allowed.includes(t))
+        {
+          document.getElementById("typeColor").innerHTML = ", <nobr>'colorScheme': ['rgb(127,240,52)', 'rgb(64,0,174)']</nobr>";
+        }
+        else
+        {
+          document.getElementById("typeColor").innerHTML = "";
+        }
+      }
+
+      function changeOrientation()
+      {
+        let index = parseInt(document.getElementById("orientSelect").value,10)+1;
+        let texts = ["HBar", "Pie", "VBar"];
+        document.getElementById("orientType").innerHTML=texts[index];
+        let imgs = ["HBarGraphExample3.png", "PieChartAxis.png", "VBarGraphExample3.png"];
+        document.getElementById("orientImage").src = imgs[index];
+      }      
+
+      function changeDataSet()
+      {
+        let index = parseInt(document.getElementById("dsSelect").value,10);
+        let texts = ["Line", "Line", "Scatter"];
+        document.getElementById("dsType").innerHTML=texts[index];
+        let texts2 = ["categoric", "numeric2", "numeric2"];
+        document.getElementById("dsXdata").innerHTML = texts2[index];
+        let imgs = ["categoricLine.png", "categoricLine2.png", "numericScatter.png"];
+        document.getElementById("dsImage").src = imgs[index];
+      }
+
+      function updateMulti()
+      {
+        let index = parseInt(document.getElementById("multiSelect").value,10);
+        let types = ["Line","VBar"];
+        let index2 = parseInt(document.getElementById("multiSelect2").value,10);
+        let types2 = ["default","multi","stacked"];
+        let m = "'Multi'";
+        if(index2==0)
+        {
+          m="";
+        }
+
+        let s = "'Stacked'";
+        if(index2<2)
+        {
+          s="";
+        }
+
+        for(let i=0;i<3;i++)
+        {
+          document.getElementById("multiType"+i).innerHTML=types[index];
+          document.getElementById("multi"+i).innerHTML=m;
+          document.getElementById("stacked"+i).innerHTML=s;
+        }
+        document.getElementById("multiImage").src=types2[index2]+types[index]+"Set.png";
+      }
+
+      function updateProgressive()
+      {
+        let index = parseInt(document.getElementById("progressiveSelect").value,10);
+        let images = ["AreaGraphExample3.png","AreaGraphProgressiveExample2.png"];
+        document.getElementById("progressiveImage").src=images[index];
+        let text = ["","'Progressive'"];
+        document.getElementById("progressiveMode").innerHTML=text[index];
+      }
+
+      function updateTrend()
+      {
+        let index = parseInt(document.getElementById("trendSelect").value,10);
+        let images = ["ScatterPlotTrendExample2.png","ScatterPlotTrendExample1.png"];
+        document.getElementById("trendImage").src=images[index];
+        let text = ["'Trend'",""];
+        document.getElementById("trendMode").innerHTML=text[index];
+      }
+
+      function updateColor()
+      {
+        let index = parseInt(document.getElementById("colorSelect").value,10);
+        let images = ["RainbowExample.png","UserExample.png"];
+        document.getElementById("colorImage").src=images[index];
+        var tmp = "";
+        if(index==1)
+        {
+          tmp=", <em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>";
+        }
+
+        for(let i=0;i<4;i++)
+        {
+          document.getElementById("colors"+i).innerHTML=tmp;
+        }
+      }
+
+      function updateGroup()
+      {
+        let index = parseInt(document.getElementById("groupSelect").value,10);
+        document.getElementById("groupImage").src="PieChartGroup"+(index+1)+".png";
+        let text = ["","1","4",];
+        var tmp = ", <em>'group':"+text[index]+"</em>";
+        if(index==0)
+        {
+          tmp="";
+        }
+        document.getElementById("groupText").innerHTML=tmp;
+      }
+    </script>
   </head>
   <body>
-    <h1>Setting up the API</h1>
-    <p>This documentation will explain how to set up a Data Charting API.</p>
+    <h1>Data Charting API</h1>
 
-    <h2>Importing Libraries</h2>
+    <h2>Table of Contents</h2>
+    <ul>
+      <li><a href="#importLibraries">Import Libraries</a></li>
+      <li><a href="#creatingGraphs">Creating Graphs</a></li>
+      <li><a href="#datasetName">Dataset Naming</a></li>
+      <li>JSON parameters<br>
+        <ul>
+        <li><a href="#type">Chart Types</a></li>
+        <li><a href="#axis">Axis Labels</a></li>
+        <li><a href="#series">Series Names</a></li>
+        <li><a href="#dataset">Datasets</a></li>
+        <li>Modes<br>
+          <ul>
+            <li><a href="#multi">Multi</a></li>
+            <li><a href="#stack">Stacked</a></li>
+            <li><a href="#progressive">Progressive</a></li>
+            <li><a href="#trend">Trend</a></li>
+          </ul>
+        </li>
+        <li><a href="#colors">Color Scheme</a></li>
+        <li><a href="#group">Group Colors</li>
+        </ul>
+      </li>
+    </ul>
+    <br>
+
+    <div class="major">
+    <a name="importLibraries"></a><h3>Importing Libraries</h3>
     <p>
-      First, there are several JavaScript libraries that you will need to import into your code:<br>
-      <div class="ex">
-        <code>
-          Chart.min.js<br>
-          piechartlibrary.js<br>
-          linechartlibrary.js<br>
-          scatterchartLibrary.js<br>
-          datacharting.js<br>
-          chartstyle.js<br><br>
-        </code>
-      </div>
-      All of these libraries can be found in the DahlgrenTest repository in <a href="https://github.com/bsdillon/DahlgrenTest/tree/master/RFTestReports%2BRFToolsExamples/RFDemoGUI">DahlgrenTest/RFTestReports+RFToolsExamples/RFDemoGUI</a>
-      and can be included as a source script in your code.<br>
+      The Data Charting API is built using <a href="chartjs.org">Chart.js</a> licenses
+      under <a href="chartjs.org/docs/2.9.4/notes/license.html">the MIT license</a>. 
+      Chart.js <a href="https://www.chartjs.org/">Chart.js</a> is an open source 
+      JavaScript library used for data visualization and creating graphs. Chart.js is 
+      highly flexible with a variety of options available at the cost of an increased 
+      programming burden. To alleviate some of that burden, the Data Charting API has 
+      encapsulated and simplified most of those options while providing a reasonable 
+      degree of flexibility. That is the tradeoff. Less overall flexibility that Chart.js, 
+      but a lower learning curve to use the technology.
     </p>
 
-    <div class="ex">
-      <p>
-        <et>Example:</et><br>
-        <code>
-          < script src="Chart.min.js" >< /script ><br>
-          < script src="piechartlibrary.js" >< /script ><br>
-        </code>
-        etc...<br><br>
-      </p>
+    <p>
+      There are several JavaScript libraries that you will need to import into your 
+      code. Each library can be downloaded and linked into the HTML code of your 
+      choice using the technique shown below.
+    </p>
+    <ul>
+      <li><a href="Chart.min.js">Chart.min.js</a><br>
+      <li><a href="piechartlibrary.js">piechartlibrary.js</a><br>
+      <li><a href="linechartlibrary.js">linechartlibrary.js</a><br>
+      <li><a href="scatterchartLibrary.js">scatterchartLibrary.js</a><br>
+      <li><a href="datacharting.js">datacharting.js</a><br>
+      <li><a href="chartstyle.js">chartstyle.js</a><br><br>
+    </ul>
+
+    <ol class="ex">
+      <li>&lt;script src="Chart.min.js"&gt;&lt;/script&gt;</li>
+      <li>&lt;script src="piechartlibrary.js"&gt;&lt;/script&gt;</li>
+      etc...
+    </ol>
     </div>
-    
-    <h2>Creating Graphs</h2>
+    <br>
+
+    <div class="major">
+    <a name="creatingGraphs"></a><h3>Creating Graphs</h3>
     <p>
-      The graphs in the Data Charting API are created using Chart.js and JSON objects. <a href="https://www.chartjs.org/">Chart.js</a> is an open source JavaScript library used for data visualization and creating graphs. 
-      First, a new DataCharting object is created defining the size of the new graphs. Then, a JSON object is created containing the parameters the graph that will be shown.
-      Lastly, the JSON object and graph name are passed into the <code>createChart()</code> function for it to be built. The best way to have the graph displayed on screen is to append it to a table.<br>
+      All charts are created from a JSON object with a fixed set of inputs. There are
+      various options, laid out in this document, but the basic structure of the JSON
+      is constant. Additional efficiencies can be derived by formating the JSON as 
+      a result of an external library. The example below shows the JSON object being 
+      created in the JavaScript of the page.
     </p>
 
-    <div class="ex">
-      <p>
-        <et>Example:</et><br>
-        <code>
-          var data1 = [100, 90, 80, 70,...];<br>
-          var labels = ['A','B','C',...];<br>
-          var field = document.getElementById("field");<br>
-          var table = document.createElement("TABLE");<br>
-          field.appendChild(table);<br><br>
+    <ol class="ex">
+      <li>var data1 = [100, 90, 80, 70,...];</li>
+      <li>var labels = ['A','B','C',...];</li>
+      ...
+      <li>var json = {"VAR_Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode'], 'colorScheme': RGB_values}};</li>
+    </ol>
 
-          charting = new DataCharting(300, 300);<br>
-          var row = table.insertRow();<br>
-          let td = document.createElement("td");<br>
-          row.append(td);<br>
-          var json = {"VAR_Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode'], 'colorScheme': <br>
-                      <in>[(RGB values)]}};</in><br>
-          td.append(charting.createChart(json, "VAR_Example"));<br><br>
-        </code>
-      </p>
+    <p>
+      All charts must be created in the context of a DataCharting object. The object
+      defines the size of all graphs created with that object. The DataCharting object
+      can be reused, but all datasets created with the same object must have a unique
+      name. This is important when dealing with <a href="multi">multiple data sets</a> 
+      in a single chart. The example shown her uses a 300 pixel x 300 pixel chart size
+      and is creating a chart from the VAR_Example dataset defined in the JSON object 
+      above. Note that while you can define a smaller or larger size for the chart, 
+      Chart.js automatically defines the scale of the axis and thus the "zoom" level
+      of the chart.
+    </p>
+
+    <ol class="ex" start="10">
+      ...
+      <li>charting = new DataCharting(300, 300);</li>
+      <li>var mychart = charting.createChart(json, "VAR_Example");</li>
+      ...
+    </ol>
+
+    <p>
+      The DataCharting object uses the DOM to create a canvas tag and build the
+      required chart on that tag. The <code>mychart</code> object above is that
+      tag and it must be appended to an appropriate place on the page. In this 
+      case, that is a cell in a table but the exact position of any chart can be
+      defined by any number of means or hard-coded into an HTML page.
+    </p>
+
+    <ol class="ex" start="20">
+      ...
+      <li>var field = document.getElementById("field");</li>
+      <li>var table = document.createElement("TABLE");</li>
+      <li>field.appendChild(table);</li>
+      <li>var row = table.insertRow();</li>
+      <li>let td = document.createElement("td");</li>
+      <li>td.append(myChart);</li>
+      <li>row.append(td);</li>
+    </ol>
     </div>
+    <br>
 
-    <h2>Graph Components</h2>
+    <div class="major">
+    <a name="datasetName"></a><h3>Dataset Naming Requirements</h3>
     <p>
-      The different parameters for a graph, including those shown in the example above, are:
-      <ul>
-        <li>type</li>
-        <li>x-axis</li>
-        <li>y-axis</li>
-        <li>series</li>
-        <li>x-data</li>
-        <li>y-data</li>
-        <li>modes</li>
-        <li>colorScheme</li>
-        <li>group</li><br>
-      </ul>
+      DataCarting strips away certain information from the JSON message. As a result,
+      there are certain conventions and requirements for the name of the data set which
+      must be followed. There are three requirements. In all other respects the API 
+      accepts all variations.
     </p>
+    <dl>
+      <dt>Always start with 'VAR_'</dt><dd>The leading VAR_ is mandatory and is stripped
+      from the name by default.
+      <ol class="ex">
+        <li>var json = {"<em>VAR_</em>Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
+      </ol>
+      </dd>
+      <dt>Include '_' for spaces</dt><dd>The API will reverse the process to find the 
+      title of the chart
+      <ol class="ex">
+        <li>var json = {"VAR_<em>Other_Name</em>": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
+      </ol>
+      </dd>
+      <dt>Exclude '-' from names</dt><dd>The API looks for '-#' at the end of the name 
+      for <a href="multi">multiple data sets</a>. Avoid use of this character.
+      <ol class="ex">
+        <li>var json = {"VAR_Multi_Set<em>-0</em>": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
+      </ol>
+      </dd>
+    </dl>
+    </div>
+    </br>
 
-    <h3><et>Type</et></h3>
+    <div class="major">
+    <a name="type"></a><h3>Type</h3>
     <p class>
-      The <code>type</code> parameter refers to the chart type of the graph. The different types consist of line graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot.<br>
+      The <code>type</code> parameter dictates the kind of graph. The options are line 
+      graph, bar graph (vertical and horizontal), area graph, pie graph and scatter plot.
+      Chart.js actually allows multiple types to be joined, but for the sake of simplicity
+      DataCharting only allows one type per chart.
     </p>
+    <select onchange="changeType()" id="typeSelect">
+      <option value="Line">Line</option>
+      <option value="VBar">Vertical Bars</option>
+      <option value="HBar">Horizontal Bars</option>
+      <option value="Area">Area Chart</option>
+      <option value="Pie">Pie Chart</option>
+      <option value="Scatter">Scatter Plot</option>
+    </select>
 
     <div class="ex">
-      <p>
-        <et>Line Graph Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {<em>'type': 'Line'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br><br>
-        </code>
-        <img src="LineGraphExample.png"><br><br>
-      </p>
-
-      <p>
-        <et>Vertical Bar Graph Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {<em>'type': 'VBar'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
-        </code>
-      </p>
-      <img src="VBarGraphExample.png"><br><br>
-
-      <p>
-        <et>Horizontal Bar Graph Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {<em>'type': 'HBar'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
-        </code>
-      </p>
-      <img src="HBarGraphExample.png"><br><br>
-
-      <p>
-        <et>Area Graph Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {<em>'type': 'Area'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
-        </code>
-      </p>
-      <img src="AreaGraphExample.png"><br><br>
-
-      <p>
-        <et>Pie Chart Example:</et><br>
-        <code>
-          var json = {'VAR_Example-0': {<em>'type': 'Pie'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme': []}};<br>
-        </code>
-      </p>
-      <img src="PieChartExample.png"><br><br>
-
-      <p>
-        <et>Scatter Plot Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {<em>'type': 'Scatter'</em>, 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1, 'modes': []}};<br>
-        </code>
-      </p>
-      <img src="ScatterPlotExample.png"><br><br>
+    <img id="typeImage" src="LineGraphExample.png">
+    <ol>
+      <li>var json = {'VAR_Example': {<em>'type': '<span id="typeText">Line</span>'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []<span id="typeColor">, <nobr>'colorScheme': ['rgb(127,240,52)', 'rgb(64,0,174)']</nobr></span>}};</li>
+    </ol>
+    <br clear="all">
     </div>
-
-    <h3><et>X-Axis/Y-Axis</et></h3>
-    <p>
-      The <code>x-axis</code> and <code>y-axis</code> parameters define the names of the x and y-axes, being whatever string the user specifies.
-      However, in the case of a horizontal bar graph, the x and y-axes are reversed and therefore so are the axis labels. For pie charts the x and y-axis lables do not show up on the graph at all.<br>
-    </p>
-
-    <div class="ex">
-      <p>
-        <et>Vertical Bar Graph Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {'type': 'VBar', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
-        </code>
-      </p>
-      <img src="VBarGraphExample3.png"><br><br>
-
-      <p>
-        <et>Horizontal Bar Graph Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {'type': 'HBar', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br>
-        </code>
-      </p>
-      <img src="HBarGraphExample3.png"><br><br>
-
-      <p>
-        <et>Pie Chart Example:</et><br>
-        <code>
-          var json = {'VAR_Example-0': {'type': 'Pie', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [], 'colorScheme': []}};<br>
-        </code>
-      </p>
-      <img src="PieChartExample2.png"><br><br>
     </div>
+    <br>
 
-    <h3><et>Series</et></h3>
+    <div class="major">
+    <a name="axis"></a><h3>Axis Label Orientation</h3>
     <p>
-      The <code>series</code> parameter allows the user to distinguish between different data sets displayed on a graph by giving them a string label.<br>
+      The <code>x-axis</code> and <code>y-axis</code> parameters define the labels of the
+      x and y-axis. In the normal orientation (typical of vertical bar, line, area, and
+      scatter plots), the x-axis is horizontal and the y-axis is vertical. In the reflected
+      orientation (only found in horizontal bar graphs), this orientation is reversed. Of
+      course, in the case of a Pie chart, neither axis is meaningful.
     </p>
+    <select onchange="changeOrientation()" id="orientSelect">
+      <option value="1">Normal</option>
+      <option value="-1">Reflected</option>
+      <option value="0">None</option>
+    </select>
 
     <div class="ex">
-      <p>
-        <et>Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 1'</em>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},<br>
-                      <in>"VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 2'</em>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 3'</em>, 'x-data': labels, 'y-data': data3, 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <em>'series': 'sample 4'</em>, 'x-data': labels, 'y-data': data4, 'modes': ['Multi']}};</in><br>
-        </code>
-      </p>
-      <img src="LineGraphExample3.png"><br><br>
+      <img id="orientImage" src="VBarGraphExample3.png">
+      <ol>
+        <li>var json = {'VAR_Example': {'type': '<em><span id="orientType">VBar</span></em>', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []}};</li>
+      </ol>
+    <br clear="all">
     </div>
-
-    <h3><et>X-Data/Y-Data</et></h3>
-    <p>
-      The <code>x-data</code> and <code>y-data</code> parameters define the data that is used for the x and y-axes. Both parameters require an array of either numeric or string data. It is also possible to pass in the index of an array that is contained in a set of data arrays.
-      Both axes can have numeric data and the x-axis can represent string data, but the y-axis is only able to represent numeric data. However, this is not true for all types of scatter plots as they will only accept numeric data for both axes.<br>
-    </p>
-
-    <div class="ex">
-      <p>
-        <et>Numeric Data Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data1</em>, 'modes': ['Multi']},<br>
-                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data3</em>, 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data4</em>, 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': data2</em>, <em>'y-data': data2</em>, 'modes':</in><br>
-                      <in>['Multi']}};</in><br>
-        </code>
-      </p>
-      <img src="ScatterPlotRainbowExample2.png"><br><br>
-
-      <p>
-        <et>Numeric & String Data Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', <em>'x-data': labels</em>, <em>'y-data': data1</em>, 'modes':<br>
-                      <in>['Multi', 'Stacked']},</in><br>
-                      <in>"VAR_Example-1": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', <em>'x-data': labels</em>, <em>'y-data': data2</em>, 'modes':</in><br>
-                      <in>['Multi', 'Stacked']},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', <em>'x-data': labels</em>, <em>'y-data': data3</em>, 'modes':</in><br>
-                      <in>['Multi', 'Stacked']},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', <em>'x-data': labels</em>, <em>'y-data': data4</em>, 'modes':</in><br>
-                      <in>['Multi','Stacked']}};</in><br>
-        </code>
-      </p>
-      <img src="AreaGraphRainbowExample2.png"><br><br>
     </div>
+    <br>
 
-    <h3><et>Modes</et></h3>
+    <div class="major">
+    <a name="series"></a><h3>Series</h3>
     <p>
-      The <code>modes</code> parameter specifies which mode the graph will be displayed in.<br><br>
-      If nothing is passed in for this parameter then the graph will default to showing only one data sample.
-      However, if <code>'Multi'</code> is passed in then multiple samples can be displayed on the graph; as many as there are specified in the JSON object array.<br>
+      The title of the chart, the labels of the data points, and the name of the series 
+      are completely different. The <a href="#datasetName">title</a> of the JSON object 
+      appears over the chart. The labels are attached to each data point. Series, however,
+      are defined for groups of datapoints and can be used to distinguish one set of data
+      from another, especially for <a href="#multi">multiple data sets</a> in a single 
+      The <code>series</code> parameter allows any string to be used.<br><br>Note that
+      Chart.js does allow multiple Pie charts to be defined, which might necessitate 
+      multiple series, but this is NOT recommended.
     </p>
 
     <div class="ex">
-      <p>
-        <et>Single Sample Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <em>'modes': []</em>, 'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)']}};<br><br>
-        </code>
-        <img src="VBarGraphExample4.png"><br><br>
+      <img src="LineGraphExample3.png">
+      <ol>
+        <li>var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 1'</em></nobr>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},</li>
+        <li><in>"VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 2'</em></nobr>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},</in></li>
+        <li><in>"VAR_Example-2": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 3'</em></nobr>, 'x-data': labels, 'y-data': data3, 'modes': ['Multi']},</in></li>
+        <li><in>"VAR_Example-3": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 4'</em></nobr>, 'x-data': labels, 'y-data': data4, 'modes': ['Multi']}};</in></li>
+      </ol>
+    <br clear="all">
+    </div>
+    </div>
+    <br>
 
-        <et>Multi Sample Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': data5, 'y-data': data1, <em>'modes': ['Multi']</em>},<br>
-                      <in>"VAR_Example-1": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': data5, 'y-data': data2, <em>'modes': ['Multi']</em>},</in><br>
-                      <in>"VAR_Example-2": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': data5, 'y-data': data3, <em>'modes': ['Multi']</em>},</in><br>
-                      <in>"VAR_Example-3": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': data5, 'y-data': data4, <em>'modes': ['Multi']</em>}};</in><br>
-        </code>
-      </p>
-      <img src="VBarGraphMultiExample2.png"><br><br>
+    <div class="major">
+    <a name="dataset"></a><h3>X and Y Datasets</h3>
+    <p>
+      The <code>x-data</code> and <code>y-data</code> parameters define the data 
+      displayed in the chart. These have different meanings in different charts. 
+      The x data can be either categorical (e.g. "Red", "Heavy", "Alpha") or numerical, 
+      while the y data must be numerical. This means that one might have different 
+      numerical counts (y data) for "Light", "Dark", and "Medium" (x-data), but it makes 
+      no sense to reverse the situation. In fact, the x data is always as categorical
+      so that the x-data set [1,2,3,5,4] is perfectly valid and will NOT be reordered.
+      The one exception to this rule is the scatter plot which allows only numerical data
+      for either axis.
+    </p>
+    <p>
+      In the example below, note that the line will accept categorical data or out-of-order
+      numeric data for the x axis. That is because the x-data is always taken as categorical.
+      In fact, the x data could contain the same label multiple times without causing a 
+      conflict. Like having two "Daves" in the same room. This creates a psuedo-numeric
+      scale which can be confusing if your source data has duplicates or is out of order.
+      In the scatter plot, the x-data is treated as truly numeric and the order difference
+      becomes aparent.
+    </p>
+    <select onchange="changeDataSet()" id="dsSelect">
+      <option value="0">Categorical</option>
+      <option value="1">Psuedo-Numerical</option>
+      <option value="2">True Numerical</option>
+    </select>
+
+    <div class="ex">
+      <img id="dsImage" src="categoricLine.png">
+      <ol>
+        <li>var numeric1 = [1,2,3,4,5,6,7,8,9,10];</li>
+        <li>var numeric2 = [10,20,50,60,70,<b>40</b>,80,90,<b>30</b>,100];</li>
+        <li>var categoric = ['A','B','C','D','E','F','G','H','I','J'];</li>
+        <br>
+        <li>var json = {"VAR_Sample": {'type': '<span id="dsType">Line</span>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <em><nobr>'x-data': <span id="dsXdata">categoric</span>,</nobr> <nobr>'y-data': numeric1</em></nobr>, 'modes': []}}</li>
+      </ol>
+    <br clear="all">
+    </div>
+    </div>
+    <br>
+
+    <div class="major">
+    <h3>Modes</h3>
+    <p>
+      The <code>modes</code> parameter is a list allowing a variety of option for the 
+      graph. If nothing is passed in for this parameter then the graph will follow the
+      default options. The options are presented below based on their default and other
+      modes.
+    </p>
+
+    <p>
+      The <a name="multi"></a><code>'Multi'</code> mode allows several different series
+      to appear in the same chart. These must have the same title ending with a progressive
+      numerical id (e.g. "VAR_Data-0", "VAR_Data-2", ect). Do not skip any numbers in the
+      set. A single JSON object must contain all the data for that chart. Note that the
+      x-data set for the first series is assumed for all the other series so they match.
+    </p>
+
+    <p>
+      Along with multi, is an option for <a name="stack"></a><code>'Stacked'</code> data.
+      This is secondary to multi as all non-multi charts look the same. With the stacked
+      option on, all data is aggregated for each x-data value. The results may reveal
+      overal trends or percentages of each series out of the whole.
+    </p>
+    <select onchange="updateMulti()" id="multiSelect">
+      <option value="0">Line</option>
+      <option value="1">VBar</option>
+    </select>
+    <select onchange="updateMulti()" id="multiSelect2">
+      <option value="0">Single</option>
+      <option value="1">Multi</option>
+      <option value="2">Multi + Stacked</option>
+    </select>
+
+    <div class="ex">
+      <img id="multiImage" src="defaultLineSet.png">
+      <ol>
+         <li>var json = {"VAR_Sample-0": {'type': '<em><span id="multiType0">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 0', 'x-data': data1[1], 'y-data': data2[1], 'modes': [<em><span id="multi0"></span><span id="stacked0"></span></em>]},</li>
+         <li>        <in>"VAR_Sample-1": {'type': '<em><span id="multiType1">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1[1], 'y-data': data3[1], 'modes': [<em><span id="multi1"></span><span id="stacked1"></span></em>]},</in></li>
+         <li>        <in>"VAR_Sample-2": {'type': '<em><span id="multiType2">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 2', 'x-data': data1[1], 'y-data': data4[1], 'modes': [<em><span id="multi2"></span><span id="stacked2"></span></em>]},</in></li>
+         <li>        <in>}</in></li>
+      </ol>
+    <br clear="all">
     </div>
 
     <p>
-      If <code>'Mulit'</code> and <code>'Stacked'</code> are passed in, then the graph can still display multiple samples, however, the samples will be displayed stacked vertically rather than horizontally next to each other.
+      By default all values are considered discretely without respect to each other. If 
+      <a name="progressive"></a><code>'Progressive'</code> mode the graph calculates the sum of each y-value 
+      incrementally. Discrete values can show variation, but progressive values can show
+      the effects of history. Progressive values can vary in a negative or positive 
+      direction. The progressive mode has no impact on Pie or Scatter charts.
     </p>
+    <select onchange="updateProgressive()" id="progressiveSelect">
+      <option value="0">Discrete</option>
+      <option value="1">Progressive</option>
+    </select>
 
     <div class="ex">
-      <p>
-        <et>Multi Stacked Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, <em>'modes':</em><br>
-                      <in><em>['Multi', 'Stacked']</em>},</in><br>
-                      <in>"VAR_Example-1": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, <em>'modes':</em></in><br>
-                      <in><em>['Multi', 'Stacked']</em>},</in><br>
-                      <in>"VAR_Example-2": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, <em>'modes':</em></in><br>
-                      <in><em>['Multi', 'Stacked']</em>},</in><br>
-                      <in>"VAR_Example-3": {'type': 'VBar', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, <em>'modes':</em></in><br>
-                      <in><em>['Multi','Stacked']</em>}};</in><br><br>
-        </code>
-        <img src="VBarGraphMultiStackedExample2.png"><br><br>
-      </p>
+      <img id="progressiveImage"src="AreaGraphExample3.png">
+      <ol>
+        <li>var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [<em><span id="progressiveMode"></span></em>], 'colorScheme':['rgb(127,240,52)','rgb(64,0,174)']}};</li>
+      </ol>
+    <br clear="all">
     </div>
 
     <p>
-      If <code>'Progressive'</code> is passed in, then the graph will display each individual data point taken as an incremental value that is tracked over the entire graph. 
-      And if <code>'Discrete'</code> or no specification is passed in, then the graph will show all of the data points plotted in no specific trend.<br>
+      Lastly, if <a name="trend"></a><code>'Trend'</code> is passed in to the <code>mode</code> parameter on a scatter plot, then the graph will be displayed with a trend line.<br>
     </p>
+    <select onchange="updateTrend()" id="trendSelect">
+      <option value="0">Trend</option>
+      <option value="1">No-Trend</option>
+    </select>
 
-    <div class="ex">
+    <ol class="ex">
+      <img id="trendImage" src="ScatterPlotTrendExample2.png">
       <p>
-        <et>Discrete Example:</et><br>
+        Trend Line Example:<br>
         <code>
-          var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <em>'modes': ['Discrete']</em>, 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br><br>
+          var json = {'VAR_Example-0': {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1, 'y-data': data2, 'modes': [<em><span id="trendMode">'Trend'</span></em>]}};<br>
         </code>
-        <img src="AreaGraphExample3.png"><br><br>
-
-        <et>Progressive Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, <em>'modes': ['Progressive']</em>, 'colorScheme':<br>
-                      <in>['rgb(127,240,52)','rgb(64,0,174)']}};</in><br><br>
-        </code>
-        <img src="AreaGraphProgressiveExample2.png"><br><br>
       </p>
+    <br clear="all">
     </div>
-
-    <p>
-      Lastly, if <code>'Trend'</code> is passed in to the <code>mode</code> parameter on a scatter plot, then the graph will be displayed with a trend line.<br>
-    </p>
-
-    <div class="ex">
-      <p>
-        <et>Trend Line Example:</et><br>
-        <code>
-          var json = {'VAR_Example': {'type': 'Scatter', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': data1, 'y-data': data2, <em>'modes': ['Trend']</em>}};<br>
-        </code>
-      </p>
-      <img src="ScatterPlotTrendExample2.png"><br><br>
     </div>
+    <br>
 
-    <h3><et>Color Scheme</et></h3>
+    <div class="major">
+    <a name="colors"></a><h3>Color Scheme</h3>
     <p>
-      <code>colorScheme</code> sets the color of the samples displayed on the graph. If this parameter is not included in the JSON object, then Chart.js will default the chart to a rainbow color scheme.
-      If it is included, the user can designate their own color scheme to a graph by passing in the RGB values of the colors they wish to use. However, if the user does not specify any RGB values, then the graph will default to a grayscale color scheme.<br>
+      The default <code>colorScheme</code> is a rainbow of colors from red to purple with
+      a backup set of darker middle colors. The user can, however, implement a novel color
+      scheme using Red-Green-Blue values. If colorScheme is included, the novel color scheme
+      will be used. The same color schme is applied to all datasets, taking the color scheme
+      and order from the first (i.e. the '-0') JSON object.
     </p>
+    <select onchange="updateColor()" id="colorSelect">
+      <option value="0">Default colors</option>
+      <option value="1">User-defined colors</option>
+    </select>
 
     <div class="ex">
-      <p>
-        <et>Default Color Scheme Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1, 'modes': ['Multi']},<br>
-                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data3, 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data4, 'modes': ['Multi']},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data2, 'modes': ['Multi']}};</in><br><br>
-        </code>
-        <img src="ScatterPlotRainbowExample3.png"><br><br>
-
-        <et>User Defined Color Scheme Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data1, 'modes': ['Multi'],<br>
-                      <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>},</in><br>
-                      <in>"VAR_Example-1": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data3, 'modes': ['Multi'],</in><br>
-                      <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>},</in><br>
-                      <in>"VAR_Example-2": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data4, 'modes': ['Multi'],</in><br>
-                      <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>},</in><br>
-                      <in>"VAR_Example-3": {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data2, 'y-data': data2, 'modes': ['Multi'],</in><br>
-                      <in><em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>}};</in><br><br>
-        </code>
-        <img src="ScatterPlotUserColorExample2.png"><br><br>
-      </p>
+      <img id="colorImage" src="RainbowExample.png">
+      <ol>
+        <li>var json = {"VAR_Example-0": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, 'modes': ['Multi']<span id="colors0"></span>},</li>
+        <li><in>"VAR_Example-1": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, 'modes': ['Multi']<span id="colors1"></span>},</in></li>
+        <li><in>"VAR_Example-2": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 3', 'x-data': labels, 'y-data': data3, 'modes': ['Multi']<span id="colors2"></span>},</in></li>
+        <li><in>"VAR_Example-3": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 4', 'x-data': labels, 'y-data': data4, 'modes': ['Multi']<span id="colors3"></span>};</in></li>
+      </ol>
+      <br clear="all">
     </div>
+    </div>
+    <br>
 
-    <h3><et>Group</et></h3>
+    <div class="major">
+    <a name="group"></a><h3>Group</h3>
     <p>
-      Lastly, <code>'group'</code> can be used to define the color scheme of a graph by passing in a group number.<br>
+      The <code>'group'</code> parameter is another color option for graphs. The default
+      <a href="#colors">color scheme</a> is based on a rainbow set and the user can define
+      a novel color set. Groups of colors are shades of a single fixed color among the six
+      primary and secondary RGB colors.
     </p>
+    <select onchange="updateGroup()" id="groupSelect">
+      <option value="0">Default colors</option>
+      <option value="1">Group 1 colors</option>
+      <option value="2">Group 4 colors</option>
+    </select>
 
     <div class="ex">
-      <p>
-        <et>Default Color Scheme Example:</et><br>
-        <code>
-          var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data, 'modes': []}};<br><br>
-        </code>
-        <img src="PieChartExample3.png"><br><br>
-
-        <et>Group Color Scheme Example:</et><br>
-        <code>
-          var  groupNumber = Math.floor(Math.random()*6);<br>
-          var json = {"VAR_Example-0": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': labels, 'y-data': data, 'modes': [], <em>'group': groupNumber</em>}}<br><br>
-        </code>
-        <img src="PieChartGroupColorExample2.png">
-      </p>
+      <img id="groupImage" src="PieChartGroup1.png"><br><br>
+      <ol>
+        <li>var json = {"VAR_Sample": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 0', 'x-data': categoric, 'y-data': data2[1], 'modes': []<span id="groupText" ></span>}};</li>
+      </ol>
+      <br clear="all">
+    </div>
     </div>
   </body>
 </html>

@@ -13,6 +13,7 @@ New Test Event
     [Arguments]    ${CASE NAME}
     ${TEST_CASE_TIME}       oqe.Test Case Start Time
     oqe.Create Test Case    ${CASE NAME} ${TEST_CASE_TIME}
+    [Return]    ${CASE NAME} ${TEST_CASE_TIME}
 
 Assert OQE Value
     [Arguments]    ${CASE NAME}    ${STEP NAME}    ${actual}    ${expected}
@@ -48,30 +49,80 @@ Capture Screen Image
 Data Break
    oqe.Write Data   --    --    --     --   
 
-Special Data
+####################################
+#### Suite level data recording ####
+####################################
+Suite Data
    [Arguments]    ${TITLE}    ${LABEL}    ${VALUE}
-   oqe.Structured Data    ${TITLE}    ${VALUE}    ${LABEL}
+   oqe.Structured Suite Data    ${TITLE}    ${VALUE}    ${LABEL}
 
-Special Multi Data
+Suite Multi Data
    [Arguments]    ${TITLE}    ${LABEL}    @{VALUES}
    ${i} =    Evaluate    0
    FOR    ${v}    IN    @{VALUES}
-      oqe.Structured Data    ${TITLE}-${i}    ${v}    ${LABEL}
+      oqe.Structured Suite Data    ${TITLE}-${i}    ${v}    ${LABEL}
       ${i} =     Evaluate    ${i}+1
    END
 
-Report Line
+Suite Line
    [Arguments]    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
-   oqe.Add Structure    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}    ${MODES}
+   oqe.Add Suite Structure    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}    ${MODES}
 
-Report Multi Line
+Suite Multi Line
    [Arguments]    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
    ${i} =    Evaluate    0
    FOR    ${s}    IN    @{SERIES}
-      oqe.Add Structure    ${STYLE}    ${TITLE}-${i}    ${XAXIS}    ${YAXIS}    ${s}    ${MODES}_Multi
+      oqe.Add Suite Structure    ${STYLE}    ${TITLE}-${i}    ${XAXIS}    ${YAXIS}    ${s}    ${MODES}_Multi
       ${i} =     Evaluate    ${i}+1
    END
 
-Report Pie
+Suite Pie
    [Arguments]    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
-   oqe.Add Structure    Pie    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}    ${MODES}
+   oqe.Add Suite Structure    Pie    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}    ${MODES}
+
+Suite Color Scheme
+   [Arguments]    ${TITLE}    @{COLORS}
+   oqe.Set Suite Color Scheme     ${TITLE}    ${COLORS}
+
+Suite Color Group
+   [Arguments]    ${TITLE}    ${GROUP}
+   oqe.Set Suite Color Group     ${TITLE}    ${GROUP}
+
+####################################
+####  Test level data recording ####
+####################################
+Test Data
+   [Arguments]    ${TEST}    ${TITLE}    ${LABEL}    ${VALUE}
+   oqe.Structured Test Data    ${TEST}    ${TITLE}    ${VALUE}    ${LABEL}
+
+Test Multi Data
+   [Arguments]    ${TEST}    ${TITLE}    ${LABEL}    @{VALUES}
+   ${i} =    Evaluate    0
+   FOR    ${v}    IN    @{VALUES}
+      oqe.Structured Test Data    ${TEST}    ${TITLE}-${i}    ${v}    ${LABEL}
+      ${i} =     Evaluate    ${i}+1
+   END
+
+Test Line
+   [Arguments]    ${TEST}    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+   oqe.Add Test Structure    ${TEST}    ${STYLE}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}    ${MODES}
+
+Test Multi Line
+   [Arguments]    ${TEST}    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
+   ${i} =    Evaluate    0
+   FOR    ${s}    IN    @{SERIES}
+      oqe.Add Test Structure    ${TEST}    ${STYLE}    ${TITLE}-${i}    ${XAXIS}    ${YAXIS}    ${s}    ${MODES}_Multi
+      ${i} =     Evaluate    ${i}+1
+   END
+
+Test Pie
+   [Arguments]    ${TEST}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+   oqe.Add Test Structure    ${TEST}    Pie    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}    ${MODES}
+
+Test Color Scheme
+   [Arguments]    ${TEST}    ${TITLE}    @{COLORS}
+   oqe.Set Test Color Scheme     ${TEST}    ${TITLE}    ${COLORS}
+
+Test Color Group
+   [Arguments]    ${TEST}    ${TITLE}    ${GROUP}
+   oqe.Set Test Color Group     ${TEST}    ${TITLE}    @{GROUP}

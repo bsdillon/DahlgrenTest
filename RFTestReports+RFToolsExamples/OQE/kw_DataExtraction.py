@@ -15,7 +15,8 @@ class kw_DataExtraction:
       self.currentTestName = "blank"
       self.timeMark = datetime.max
       self.testCaseStart = datetime.fromtimestamp(0)
-      self.dataTitles = []
+      self.dataTitles = {}
+      self.dataTitles[''] = [] 
 
    @keyword(name='Prove it works')
    def temp(self):
@@ -46,6 +47,7 @@ class kw_DataExtraction:
       f = open(self.dataFile, "w")
       f.write("var testRuns = {};\n")
       f.write("var reportStructure = {};\n")
+      f.write("var testStructure = {};\n")
       f.close()
 
    @keyword(name='Insert Dummy Test Data')
@@ -83,7 +85,7 @@ class kw_DataExtraction:
       tmp = self.testCaseStart
       self.testCaseStart = datetime.now()
       deltaTime = str(self.testCaseStart - tmp)
-      details = details.replace("'", "**");
+      details = details.replace("'", "**")
       f = open(self.dataFile, "a")
       f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+caseName+"', Step: '"+stepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+details+"'});\n")
       f.close()
@@ -136,12 +138,12 @@ class kw_DataExtraction:
       self.timeMark = datetime.max
       return temp
 
-   @keyword(name='Add Structure')
+   @keyword(name='Add Suite Structure')
    def newStructure(self, type, title, xaxis, yaxis, series, modes):
       revised = title.replace(' ', '_')
-      if  revised in self.dataTitles:
+      if  revised in self.dataTitles['']:
          raise Exception("Cannot create additional data structure: "+revised)
-      self.dataTitles.append(revised)
+      self.dataTitles[''].append(revised)
       f = open(self.dataFile, "a")
       f.write("reportStructure['VAR_"+str(revised)+"'] = {};\n")
       f.write("reportStructure['VAR_"+str(revised)+"']['type']='"+str(type)+"';\n")
@@ -157,12 +159,98 @@ class kw_DataExtraction:
       f.write("];\n")
       f.close()
  
-   @keyword(name='Structured Data')
+   @keyword(name='Structured Suite Data')
    def structuredData(self, title, data, label):
       revised = title.replace(' ', '_')
-      if  revised not in self.dataTitles:
+      if  revised not in self.dataTitles['']:
          raise Exception("Cannot add data to unknown data structure: "+revised)
       f = open(self.dataFile, "a")
       f.write("reportStructure['VAR_"+str(revised)+"']['y-data'].push("+str(data)+");\n")
       f.write("reportStructure['VAR_"+str(revised)+"']['x-data'].push('"+str(label)+"');\n")
+      f.close()
+
+   @keyword(name='Set Suite Color Scheme')
+   def setSuiteColorScheme(self, title, colors):
+      revised = title.replace(' ', '_')
+      if  revised not in self.dataTitles['']:
+         raise Exception("7Cannot add color scheme to unknown data structure: "+revised)
+      tmp = ""
+      for color in colors:
+         tmp = tmp+"'"+color+"', "
+
+      f = open(self.dataFile, "a")
+      f.write("reportStructure['VAR_"+str(revised)+"']['colorScheme']=["+tmp+"];\n")
+      f.close()
+
+   @keyword(name='Set Suite Color Group')
+   def setSuiteColorGroup(self, title, group):
+      revised = title.replace(' ', '_')
+      if  revised not in self.dataTitles['']:
+         raise Exception("Cannot add color group to unknown data structure: "+revised)
+      f = open(self.dataFile, "a")
+      f.write("reportStructure['VAR_"+str(revised)+"']['group']="+str(group)+";\n")
+      f.close()
+
+   @keyword(name='Add Test Structure')
+   def newTestStructure(self, test, type, title, xaxis, yaxis, series, modes):
+      if  test not in self.dataTitles.keys():
+          self.dataTitles[test] = []
+          f = open(self.dataFile, "a")
+          f.write("testStructure['"+test+"'] = {};\n")
+          f.close()
+      revised = title.replace(' ', '_')
+      if  revised in self.dataTitles[test]:
+         raise Exception("Cannot create additional data structure: "+revised)
+      self.dataTitles[test].append(revised)
+      f = open(self.dataFile, "a")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"'] = {};\n")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['type']='"+str(type)+"';\n")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['x-axis']='"+str(xaxis)+"';\n")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['y-axis']='"+str(yaxis)+"';\n")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['series']='"+str(series)+"';\n")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['x-data']= [];\n")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['y-data']= [];\n")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['modes']= [")
+      setModes = modes.split('_')
+      for mode in setModes:
+         f.write("'"+mode+"', ")
+      f.write("];\n")
+      f.close()
+ 
+   @keyword(name='Structured Test Data')
+   def structuredTestData(self, test, title, data, label):
+      if  test not in self.dataTitles.keys():
+         raise Exception("Cannot add data to unknown test: "+test)
+      revised = title.replace(' ', '_')
+      if  revised not in self.dataTitles[test]:
+         raise Exception("Cannot add data to unknown data structure: "+revised)
+      f = open(self.dataFile, "a")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['y-data'].push("+str(data)+");\n")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['x-data'].push('"+str(label)+"');\n")
+      f.close()
+
+   @keyword(name='Set Test Color Scheme')
+   def setTestColorScheme(self, test, title, colors):
+      if  test not in self.dataTitles.keys():
+         raise Exception("4Cannot add color scheme to unknown test: "+test)
+      revised = title.replace(' ', '_')
+      if  revised not in self.dataTitles[test]:
+         raise Exception("3Cannot add color scheme to unknown data structure: "+revised)
+      f = open(self.dataFile, "a")
+      tmp = ""
+      for color in colors:
+         tmp = tmp+"'"+color+"', "
+
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['colorScheme']=["+tmp+"];\n")
+      f.close()
+
+   @keyword(name='Set Test Color Group')
+   def setTestColorGroup(self, test, title, group):
+      if  test not in self.dataTitles.keys():
+         raise Exception("2Cannot add color group to unknown test: "+test)
+      revised = title.replace(' ', '_')
+      if  revised not in self.dataTitles[test]:
+         raise Exception("1Cannot add color group to unknown data structure: "+revised)
+      f = open(self.dataFile, "a")
+      f.write("testStructure['"+test+"']['VAR_"+str(revised)+"']['group']="+str(group)+";\n")
       f.close()

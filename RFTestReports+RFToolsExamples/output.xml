@@ -1,100 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 4.1.2 (Python 3.10.0 on win32)" generated="20211207 15:32:12.113" rpa="false" schemaversion="2">
-<suite id="s1" name="testSite1" source="C:\Users\Benny\Documents\github\DahlgrenTest\RFTestReports+RFToolsExamples\iLabEvent\testSite1.robot">
-<test id="s1-t1" name="Test Setup">
-<kw name="Open and Verify Site">
-<msg timestamp="20211207 15:32:12.505" level="FAIL">No keyword with name 'Open and Verify Site' found.</msg>
-<status status="FAIL" starttime="20211207 15:32:12.505" endtime="20211207 15:32:12.505"/>
+<robot generator="Robot 4.1.2 (Python 3.10.0 on win32)" generated="20211229 18:05:25.083" rpa="false" schemaversion="2">
+<suite id="s1" name="testSite" source="C:\Users\Benny\Documents\github\DahlgrenTest\RFTestReports+RFToolsExamples\testSite.robot">
+<test id="s1-t1" name="Open Site">
+<kw name="kw_testsite_open">
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${SITE URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20211229 18:05:25.644" level="INFO">Opening browser 'Chrome' to base url 'https://bsdillon.github.io/DahlgrenTest/html/Testing/jsprimary.html'.</msg>
+<status status="PASS" starttime="20211229 18:05:25.644" endtime="20211229 18:05:34.234"/>
 </kw>
-<status status="FAIL" starttime="20211207 15:32:12.498" endtime="20211207 15:32:12.506">No keyword with name 'Open and Verify Site' found.</status>
+<kw name="Title Should Be" library="SeleniumLibrary">
+<arg>JavaScript Test Tool</arg>
+<doc>Verifies that the current page title equals ``title``.</doc>
+<msg timestamp="20211229 18:05:34.251" level="INFO">Page title is 'JavaScript Test Tool'.</msg>
+<status status="PASS" starttime="20211229 18:05:34.234" endtime="20211229 18:05:34.251"/>
+</kw>
+<status status="PASS" starttime="20211229 18:05:25.643" endtime="20211229 18:05:34.251"/>
+</kw>
+<status status="PASS" starttime="20211229 18:05:25.642" endtime="20211229 18:05:34.252"/>
 </test>
-<test id="s1-t2" name="Test Elements">
-<kw name="Find Grandchild">
-<var>${child}</var>
-<arg>footer</arg>
-<arg>DIV</arg>
-<kw name="Execute Javascript" library="SeleniumLibrary">
-<var>${element}</var>
-<arg>return window.document.getElementById('${parentID}').childNodes[0].className;</arg>
-<doc>Executes the given JavaScript code with possible arguments.</doc>
-<msg timestamp="20211207 15:32:12.510" level="INFO">Executing JavaScript:
-return window.document.getElementById('footer').childNodes[0].className;
-Without any arguments.</msg>
-<kw name="Capture Page Screenshot" library="SeleniumLibrary">
-<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
-<msg timestamp="20211207 15:32:12.510" level="INFO">Cannot capture screenshot because no browser is open.</msg>
-<status status="PASS" starttime="20211207 15:32:12.510" endtime="20211207 15:32:12.510"/>
+<test id="s1-t2" name="Read Date">
+<kw name="Get WebElement" library="SeleniumLibrary">
+<arg>date</arg>
+<doc>Returns the first WebElement matching the given ``locator``.</doc>
+<status status="PASS" starttime="20211229 18:05:34.272" endtime="20211229 18:05:34.309"/>
 </kw>
-<msg timestamp="20211207 15:32:12.513" level="FAIL">No browser is open.</msg>
-<status status="FAIL" starttime="20211207 15:32:12.509" endtime="20211207 15:32:12.513"/>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>date</arg>
+<arg>12/17/2020</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20211229 18:05:34.311" level="INFO">Typing text '12/17/2020' into text field 'date'.</msg>
+<status status="PASS" starttime="20211229 18:05:34.310" endtime="20211229 18:05:34.475"/>
 </kw>
-<kw name="Log" library="BuiltIn">
-<arg>Label 2 ${element}</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" starttime="20211207 15:32:12.513" endtime="20211207 15:32:12.513"/>
-</kw>
-<kw name="Execute Javascript" library="SeleniumLibrary">
-<var>${element}</var>
-<arg>return window.document.getElementById('${parentID}').childNodes[0].childNodes[0].className;</arg>
-<doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="NOT RUN" starttime="20211207 15:32:12.513" endtime="20211207 15:32:12.514"/>
+<kw name="Get Element Attribute" library="SeleniumLibrary">
+<var>${value}</var>
+<arg>//*[@id="date"]</arg>
+<arg>valueAsNumber</arg>
+<doc>Returns the value of ``attribute`` from the element ``locator``.</doc>
+<msg timestamp="20211229 18:05:34.524" level="INFO">${value} = 1608163200000</msg>
+<status status="PASS" starttime="20211229 18:05:34.475" endtime="20211229 18:05:34.524"/>
 </kw>
 <kw name="Log" library="BuiltIn">
-<arg>Label 3 ${element}</arg>
+<arg>${value}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" starttime="20211207 15:32:12.514" endtime="20211207 15:32:12.514"/>
+<msg timestamp="20211229 18:05:34.525" level="INFO">1608163200000</msg>
+<status status="PASS" starttime="20211229 18:05:34.524" endtime="20211229 18:05:34.525"/>
 </kw>
-<kw name="Execute Javascript" library="SeleniumLibrary">
-<var>${element}</var>
-<arg>return window.document.getElementById('${parentID}').childNodes[0].childNodes[0].childNodes[0].className;</arg>
-<doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="NOT RUN" starttime="20211207 15:32:12.514" endtime="20211207 15:32:12.514"/>
+<kw name="Get Element Attribute" library="SeleniumLibrary">
+<var>${value}</var>
+<arg>//*[@id="date"]</arg>
+<arg>value</arg>
+<doc>Returns the value of ``attribute`` from the element ``locator``.</doc>
+<msg timestamp="20211229 18:05:34.548" level="INFO">${value} = 2020-12-17</msg>
+<status status="PASS" starttime="20211229 18:05:34.525" endtime="20211229 18:05:34.548"/>
 </kw>
 <kw name="Log" library="BuiltIn">
-<arg>Label 4 ${element}</arg>
+<arg>${value}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" starttime="20211207 15:32:12.514" endtime="20211207 15:32:12.514"/>
+<msg timestamp="20211229 18:05:34.549" level="INFO">2020-12-17</msg>
+<status status="PASS" starttime="20211229 18:05:34.549" endtime="20211229 18:05:34.549"/>
 </kw>
-<kw name="Execute Javascript" library="SeleniumLibrary">
-<var>${element}</var>
-<arg>return window.document.getElementById('${parentID}').childNodes[0].childNodes[0].childNodes[0].childNodes[0].id;</arg>
-<doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="NOT RUN" starttime="20211207 15:32:12.514" endtime="20211207 15:32:12.514"/>
-</kw>
-<kw name="Log" library="BuiltIn">
-<arg>Label 5</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" starttime="20211207 15:32:12.515" endtime="20211207 15:32:12.515"/>
-</kw>
-<status status="FAIL" starttime="20211207 15:32:12.508" endtime="20211207 15:32:12.515"/>
-</kw>
-<kw name="Log" library="BuiltIn">
-<arg>Found ${child}</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="NOT RUN" starttime="20211207 15:32:12.516" endtime="20211207 15:32:12.516"/>
-</kw>
-<status status="FAIL" starttime="20211207 15:32:12.508" endtime="20211207 15:32:12.516">No browser is open.</status>
+<status status="PASS" starttime="20211229 18:05:34.272" endtime="20211229 18:05:34.549"/>
 </test>
-<test id="s1-t3" name="Test Teardown">
-<kw name="Close Site">
-<msg timestamp="20211207 15:32:12.524" level="FAIL">No keyword with name 'Close Site' found.</msg>
-<status status="FAIL" starttime="20211207 15:32:12.524" endtime="20211207 15:32:12.525"/>
+<test id="s1-t3" name="Date Test [Fails]">
+<kw name="kw_calendar_selectdate">
+<kw name="Get WebElement" library="SeleniumLibrary">
+<arg>date</arg>
+<doc>Returns the first WebElement matching the given ``locator``.</doc>
+<status status="PASS" starttime="20211229 18:05:34.552" endtime="20211229 18:05:34.560"/>
 </kw>
-<status status="FAIL" starttime="20211207 15:32:12.518" endtime="20211207 15:32:12.525">No keyword with name 'Close Site' found.</status>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>date</arg>
+<arg>12/17/2020</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20211229 18:05:34.560" level="INFO">Typing text '12/17/2020' into text field 'date'.</msg>
+<status status="PASS" starttime="20211229 18:05:34.560" endtime="20211229 18:05:34.649"/>
+</kw>
+<kw name="Element Attribute Value Should Be" library="SeleniumLibrary">
+<arg>date</arg>
+<arg>value</arg>
+<arg>2020-12-17</arg>
+<doc>Verifies element identified by ``locator`` contains expected attribute value.</doc>
+<msg timestamp="20211229 18:05:34.672" level="INFO">Element 'date' attribute 'value' contains value '2020-12-17'.</msg>
+<status status="PASS" starttime="20211229 18:05:34.650" endtime="20211229 18:05:34.672"/>
+</kw>
+<status status="PASS" starttime="20211229 18:05:34.552" endtime="20211229 18:05:34.672"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20211229 18:05:34.673" endtime="20211229 18:05:38.261"/>
+</kw>
+<status status="PASS" starttime="20211229 18:05:34.551" endtime="20211229 18:05:38.261"/>
 </test>
-<status status="FAIL" starttime="20211207 15:32:12.115" endtime="20211207 15:32:12.528"/>
+<status status="PASS" starttime="20211229 18:05:25.086" endtime="20211229 18:05:38.264"/>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="3" skip="0">All Tests</stat>
+<stat pass="3" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="0" fail="3" skip="0" id="s1" name="testSite1">testSite1</stat>
+<stat pass="3" fail="0" skip="0" id="s1" name="testSite">testSite</stat>
 </suite>
 </statistics>
 <errors>
-<msg timestamp="20211207 15:32:12.496" level="ERROR">Error in file 'C:\Users\Benny\Documents\github\DahlgrenTest\RFTestReports+RFToolsExamples\iLabEvent\testSite1.robot' on line 3: Resource file 'OQE\resource1.robot' does not exist.</msg>
 </errors>
 </robot>

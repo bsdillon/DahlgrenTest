@@ -199,12 +199,11 @@ function CreatePopupReport(x)
   {
     header.innerHTML = 'Test Results: '+x;
     var chartData = testRuns[x];
-    singleTestTable(Object.keys(chartData[0]), chartData);
-    generatePieChart('Test Steps Pass Rate', reportOverlay, ['Fail', 'Pass'], countPasses(chartData), ["rgb(255,0,0)","rgb(0,255,0)"]);
+    singleTestTable(x, Object.keys(chartData[0]), chartData);
   } 
 }
 
-function singleTestTable(dataheader, data)
+function singleTestTable(testTitle, dataheader, data)
 {
   var table = document.createElement("TABLE");
   reportOverlay.appendChild(table);
@@ -342,6 +341,21 @@ function singleTestTable(dataheader, data)
 
     //flip style on next line
     oddStripeStyle = !oddStripeStyle;
+  }
+
+  var charting = new DataCharting(350,350);
+  var targetCase = testTitle;
+  if(targetCase in testStructure)//there is a chart for this test
+  {
+    var keys = Object.keys(testStructure[targetCase]);
+    for(let varName of keys)
+    {
+      var pieces = varName.split('-');
+      if(pieces.length==1 || pieces[1]==='0')//non-multiple or just the first multiple
+      {
+        reportOverlay.appendChild(charting.createChart(testStructure[targetCase], varName));
+      }
+    }
   }
 }
 
