@@ -1,3 +1,5 @@
+# remember to add the javascript output part
+
 import requests
 import json
 import base64

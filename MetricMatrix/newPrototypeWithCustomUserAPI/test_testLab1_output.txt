@@ -2,8 +2,8 @@ Application: testLab1
 Check access token
 Expected status: 200
 Actual status:   200
-Expected token: XMpu2LeAHEK2TF1Q7BS38TG6qVpTND
-Actual token:   XMpu2LeAHEK2TF1Q7BS38TG6qVpTND
+Expected token: HtKOUw2bKj3GAsBgDHmTvEhxbe2xMh
+Actual token:   HtKOUw2bKj3GAsBgDHmTvEhxbe2xMh
 Expected expiration time: 15
 Actual expiration time:   15
 Expected token type: Bearer

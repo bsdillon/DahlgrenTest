@@ -77,5 +77,5 @@ class Command(BaseCommand):
                     user.delete()
                 else:
                     new_application.save()
-                    self.stdout.write(self.style.SUCCESS("New application created successfully"))
+                    self.stdout.write(self.style.SUCCESS("New application created successfully\nClient ID    : " + new_application.client_id + "\nClient Secret: " + new_application.client_secret))
 
