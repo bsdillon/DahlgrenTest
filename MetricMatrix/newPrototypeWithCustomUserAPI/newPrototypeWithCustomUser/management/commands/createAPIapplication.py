@@ -63,7 +63,7 @@ class Command(BaseCommand):
                 elif (permissions != "admin"):
                     raise ValueError
             except ValueError:
-                self.stdout.write(self.style.ERROR("Permissions must be write or readonly"))
+                self.stdout.write(self.style.ERROR("Permissions must be write, readonly, or admin"))
                 # deleting rather than never creating is probably stupid
                 user.delete()
             else:
