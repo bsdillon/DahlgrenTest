@@ -43,7 +43,7 @@ class Command(BaseCommand):
                     if (action not in ["add", "remove"]):
                         raise ValueError # uhh idk errors lmao
                 except ValueError:
-                    self.stdout.write(self.style.ERROR("Action must be grant or revoke"))
+                    self.stdout.write(self.style.ERROR("Action must be add or remove"))
                 else:
                     if (action == "add"):
                         if (user.groups.filter(name=group).exists()):
