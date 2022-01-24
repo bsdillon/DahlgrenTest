@@ -21,7 +21,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "permission",
             type=str,
-            help="The permission to grant: add, change, delete, or view"
+            help="The permission to grant or revoke: add, change, delete, or view"
         )
         parser.add_argument(
             "model",
