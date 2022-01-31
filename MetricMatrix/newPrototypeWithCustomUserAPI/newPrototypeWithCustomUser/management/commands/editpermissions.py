@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from guardian.shortcuts import assign_perm, remove_perm
 
 class Command(BaseCommand):
-    help = "Shortcut to modify user object-level permissions"
+    help = "Shortcut to modify an application's explicit object-level permissions"
 
     def add_arguments(self, parser):
         parser.add_argument(

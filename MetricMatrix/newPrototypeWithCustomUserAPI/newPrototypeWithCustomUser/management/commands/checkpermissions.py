@@ -8,7 +8,7 @@ from newPrototypeWithCustomUser.models import Lab, Test
 from guardian.shortcuts import get_objects_for_user, get_objects_for_group, get_perms_for_model
 
 class Command(BaseCommand):
-    help = "Shortcut to check user permissions"
+    help = "Shortcut to check user permissions and group membership"
 
     def add_arguments(self, parser):
         parser.add_argument(
