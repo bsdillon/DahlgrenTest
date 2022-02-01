@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 4.1.2 (Python 3.10.0 on win32)" generated="20211229 18:05:25.083" rpa="false" schemaversion="2">
+<robot generator="Robot 4.1.2 (Python 3.10.0 on win32)" generated="20220126 01:09:36.620" rpa="false" schemaversion="2">
 <suite id="s1" name="testSite" source="C:\Users\Benny\Documents\github\DahlgrenTest\RFTestReports+RFToolsExamples\testSite.robot">
 <test id="s1-t1" name="Open Site">
 <kw name="kw_testsite_open">
@@ -7,93 +7,93 @@
 <arg>${SITE URL}</arg>
 <arg>${BROWSER}</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<msg timestamp="20211229 18:05:25.644" level="INFO">Opening browser 'Chrome' to base url 'https://bsdillon.github.io/DahlgrenTest/html/Testing/jsprimary.html'.</msg>
-<status status="PASS" starttime="20211229 18:05:25.644" endtime="20211229 18:05:34.234"/>
+<msg timestamp="20220126 01:09:36.999" level="INFO">Opening browser 'Chrome' to base url 'https://bsdillon.github.io/DahlgrenTest/html/Testing/jsprimary.html'.</msg>
+<status status="PASS" starttime="20220126 01:09:36.998" endtime="20220126 01:09:42.870"/>
 </kw>
 <kw name="Title Should Be" library="SeleniumLibrary">
 <arg>JavaScript Test Tool</arg>
 <doc>Verifies that the current page title equals ``title``.</doc>
-<msg timestamp="20211229 18:05:34.251" level="INFO">Page title is 'JavaScript Test Tool'.</msg>
-<status status="PASS" starttime="20211229 18:05:34.234" endtime="20211229 18:05:34.251"/>
+<msg timestamp="20220126 01:09:42.891" level="INFO">Page title is 'JavaScript Test Tool'.</msg>
+<status status="PASS" starttime="20220126 01:09:42.870" endtime="20220126 01:09:42.892"/>
 </kw>
-<status status="PASS" starttime="20211229 18:05:25.643" endtime="20211229 18:05:34.251"/>
+<status status="PASS" starttime="20220126 01:09:36.998" endtime="20220126 01:09:42.892"/>
 </kw>
-<status status="PASS" starttime="20211229 18:05:25.642" endtime="20211229 18:05:34.252"/>
+<status status="PASS" starttime="20220126 01:09:36.997" endtime="20220126 01:09:42.893"/>
 </test>
 <test id="s1-t2" name="Read Date">
 <kw name="Get WebElement" library="SeleniumLibrary">
 <arg>date</arg>
 <doc>Returns the first WebElement matching the given ``locator``.</doc>
-<status status="PASS" starttime="20211229 18:05:34.272" endtime="20211229 18:05:34.309"/>
+<status status="PASS" starttime="20220126 01:09:42.895" endtime="20220126 01:09:42.916"/>
 </kw>
 <kw name="Input Text" library="SeleniumLibrary">
 <arg>date</arg>
 <arg>12/17/2020</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<msg timestamp="20211229 18:05:34.311" level="INFO">Typing text '12/17/2020' into text field 'date'.</msg>
-<status status="PASS" starttime="20211229 18:05:34.310" endtime="20211229 18:05:34.475"/>
+<msg timestamp="20220126 01:09:42.918" level="INFO">Typing text '12/17/2020' into text field 'date'.</msg>
+<status status="PASS" starttime="20220126 01:09:42.917" endtime="20220126 01:09:43.023"/>
 </kw>
 <kw name="Get Element Attribute" library="SeleniumLibrary">
 <var>${value}</var>
 <arg>//*[@id="date"]</arg>
 <arg>valueAsNumber</arg>
 <doc>Returns the value of ``attribute`` from the element ``locator``.</doc>
-<msg timestamp="20211229 18:05:34.524" level="INFO">${value} = 1608163200000</msg>
-<status status="PASS" starttime="20211229 18:05:34.475" endtime="20211229 18:05:34.524"/>
+<msg timestamp="20220126 01:09:43.056" level="INFO">${value} = 1608163200000</msg>
+<status status="PASS" starttime="20220126 01:09:43.024" endtime="20220126 01:09:43.056"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>${value}</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20211229 18:05:34.525" level="INFO">1608163200000</msg>
-<status status="PASS" starttime="20211229 18:05:34.524" endtime="20211229 18:05:34.525"/>
+<msg timestamp="20220126 01:09:43.057" level="INFO">1608163200000</msg>
+<status status="PASS" starttime="20220126 01:09:43.057" endtime="20220126 01:09:43.057"/>
 </kw>
 <kw name="Get Element Attribute" library="SeleniumLibrary">
 <var>${value}</var>
 <arg>//*[@id="date"]</arg>
 <arg>value</arg>
 <doc>Returns the value of ``attribute`` from the element ``locator``.</doc>
-<msg timestamp="20211229 18:05:34.548" level="INFO">${value} = 2020-12-17</msg>
-<status status="PASS" starttime="20211229 18:05:34.525" endtime="20211229 18:05:34.548"/>
+<msg timestamp="20220126 01:09:43.080" level="INFO">${value} = 2020-12-17</msg>
+<status status="PASS" starttime="20220126 01:09:43.058" endtime="20220126 01:09:43.081"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>${value}</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20211229 18:05:34.549" level="INFO">2020-12-17</msg>
-<status status="PASS" starttime="20211229 18:05:34.549" endtime="20211229 18:05:34.549"/>
+<msg timestamp="20220126 01:09:43.081" level="INFO">2020-12-17</msg>
+<status status="PASS" starttime="20220126 01:09:43.081" endtime="20220126 01:09:43.081"/>
 </kw>
-<status status="PASS" starttime="20211229 18:05:34.272" endtime="20211229 18:05:34.549"/>
+<status status="PASS" starttime="20220126 01:09:42.894" endtime="20220126 01:09:43.082"/>
 </test>
 <test id="s1-t3" name="Date Test [Fails]">
 <kw name="kw_calendar_selectdate">
 <kw name="Get WebElement" library="SeleniumLibrary">
 <arg>date</arg>
 <doc>Returns the first WebElement matching the given ``locator``.</doc>
-<status status="PASS" starttime="20211229 18:05:34.552" endtime="20211229 18:05:34.560"/>
+<status status="PASS" starttime="20220126 01:09:43.083" endtime="20220126 01:09:43.091"/>
 </kw>
 <kw name="Input Text" library="SeleniumLibrary">
 <arg>date</arg>
 <arg>12/17/2020</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<msg timestamp="20211229 18:05:34.560" level="INFO">Typing text '12/17/2020' into text field 'date'.</msg>
-<status status="PASS" starttime="20211229 18:05:34.560" endtime="20211229 18:05:34.649"/>
+<msg timestamp="20220126 01:09:43.092" level="INFO">Typing text '12/17/2020' into text field 'date'.</msg>
+<status status="PASS" starttime="20220126 01:09:43.092" endtime="20220126 01:09:43.161"/>
 </kw>
 <kw name="Element Attribute Value Should Be" library="SeleniumLibrary">
 <arg>date</arg>
 <arg>value</arg>
 <arg>2020-12-17</arg>
 <doc>Verifies element identified by ``locator`` contains expected attribute value.</doc>
-<msg timestamp="20211229 18:05:34.672" level="INFO">Element 'date' attribute 'value' contains value '2020-12-17'.</msg>
-<status status="PASS" starttime="20211229 18:05:34.650" endtime="20211229 18:05:34.672"/>
+<msg timestamp="20220126 01:09:43.180" level="INFO">Element 'date' attribute 'value' contains value '2020-12-17'.</msg>
+<status status="PASS" starttime="20220126 01:09:43.161" endtime="20220126 01:09:43.180"/>
 </kw>
-<status status="PASS" starttime="20211229 18:05:34.552" endtime="20211229 18:05:34.672"/>
+<status status="PASS" starttime="20220126 01:09:43.083" endtime="20220126 01:09:43.181"/>
 </kw>
 <kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
 <doc>Closes the current browser.</doc>
-<status status="PASS" starttime="20211229 18:05:34.673" endtime="20211229 18:05:38.261"/>
+<status status="PASS" starttime="20220126 01:09:43.181" endtime="20220126 01:09:46.468"/>
 </kw>
-<status status="PASS" starttime="20211229 18:05:34.551" endtime="20211229 18:05:38.261"/>
+<status status="PASS" starttime="20220126 01:09:43.082" endtime="20220126 01:09:46.468"/>
 </test>
-<status status="PASS" starttime="20211229 18:05:25.086" endtime="20211229 18:05:38.264"/>
+<status status="PASS" starttime="20220126 01:09:36.623" endtime="20220126 01:09:46.470"/>
 </suite>
 <statistics>
 <total>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Robot Framework Training</title>
+    <link href = "./../../common.css" rel = "stylesheet">
+    <script>
+    </script>
+  </head>
+  <body>
+    <h2>Robot Framework Training</h2>
+
+    <h3>Table of Contents</h3>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#config">System Configuration</a></li>
+      <li><a href="#session1">Activity 1 - The Simplest Example</a>
+        <ul>
+          <li><a href="#session1-instr">Step-by-step instructions</a></li>
+          <li><a href="#session1-solut">Solution Scripts</a></li>
+        </ul>
+      </li>
+      <li><a href="#session2">Activity 2 - Resources and Finding Elements</a>
+        <ul>
+          <li><a href="#session2-instr">Step-by-step instructions</a></li>
+          <li><a href="#session2-solut">Solution Scripts</a></li>
+        </ul>
+      </li>
+      <li><a href="#session3">Activity 3 - Refactoring and the OQE Library</a>
+        <ul>
+          <li><a href="#session3-instr">Step-by-step instructions</a></li>
+          <li><a href="#session3-solut">Solution Scripts</a></li>
+        </ul>
+      </li>
+      <li><a href="#session4">Activity 4 - Data Driven Testing</a>
+        <ul>
+          <li><a href="#session4-instr">Step-by-step instructions</a></li>
+          <li><a href="#session4-solut">Solution Scripts</a></li>
+        </ul>
+      </li>
+    </ul>
+    <br>
+
+    <a name="overview"></a><h3>Overview</h3>
+    <p>
+      These training activities were built to allow developers and testers to become
+      familiar with Robot Framework through a series of progressively difficult, hands
+      on activities. All four examples tests agains <a href="https://www.dvidshub.net/">
+      the DVIDS website</a> which stores a variety of public release images from various
+      Department of Defence sources. That is a website accessible anywhere in the world
+      so that this training can take place at home, without access to government systems,
+      and without specialized equipment. The training can also be done in a group or alone
+      virtually or in a physical lab.
+    </p>
+    <p>
+    <span class="red">***WARNING***</span>I highly recommend that you create your own solution
+    rather than directly copying the solution below. Your solution may vary quite a bit 
+    depending on style and word choice. You will learn more from creating your own first and
+    then comparing with the provided solution. If you get truly lost, this example script gives
+    you a solid starting place for the next session.
+    </p>
+
+    <a name="config"></a><h3>System Configuration</h3>
+    <p>
+      This training was written for a Windows 10 machine and a Chrome browser. Consequently,
+      the configuration instructions are not universal and you are responsible for making
+      necessary changes if your system is different.
+    </p>
+    <ol>
+      <li>If not installed previously, install Python 3.x on your machine. From the command line:
+          <ul>
+            <li><code>pip install robotframework</code></li>
+            <li><code>pip install --upgrade robotframework-seleniumlibrary</code></li>
+          </ul></li>
+      <li>Visit <a href="https://sites.google.com/chromium.org/driver/downloads">this site</a>
+          to download and install the chrome driver.
+          <ul>
+            <li>You will need the Chrome version number. Click on the three dot menu in 
+                the upper right corner of the browser. Select About > About Chrome Browser.</li>
+            <li>Unzip the folder and add the location to path following 
+               <a href="https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/">these instructions</a></li>
+          </ul></li>
+      <li>Download the <a href="testSite.robot" download target="_blank">first test script</a> just to verify everything is working.</li>
+      <li>From the command line type: <code>robot testSite.robot</code>. You should observe Chrome opening the DVIDS site and
+          the output below.</li>
+    </ol>
+
+    <img src="firstTest.png">
+
+    <a name="session1"></a><h2>The Simplest Example</h2>
+    <p>
+      The first test case is meant to demonstrate the basics structure of a RF script
+      and the use of Selenium library documentation. The objectives for this lesson 
+      are very simple. Learners will create a minimal viable product (MVP), a term for
+      the least amount of infrastructure and code to achieve the goal. The learner 
+      starts with a manual test procedure and progresses to an automated one. The learner
+      creates a single RF script on his/her own computer and verifies that the test runs.
+    </p>
+
+    <h3>Instructions</h3>
+    <ol><a name="session1-instr"></a>
+      <li>Start by conducting the test manually to identify the steps you will take.
+          The purpose of RF is to enact the same actions that a human would take, so
+          you are going to explore the process first to ensure you know what you want
+          RF to do.
+        <ol>
+          <li>Open a browser</li>
+          <li>Navigate to <a href="https://www.dvidshub.net/">https://www.dvidshub.net/</a></li>
+          <li>Note the title on the window</li>
+          <li>Note the appearance of the site</li>
+          <li>Close the browser</li>
+        </ol></li>
+      <li>Open notepad and save a new file as testSite0.robot. Note that when you save
+          in notepad everything is .txt by default. In order to select your own extension
+          you will need to change the <code>Save as type</code> from <code>Text Documents</code>
+          to <code>All Documents</code>. Add the following required elements to the robot 
+          script.<br>
+          <code>
+*** Settings ***<br>
+*** Variables ***<br>
+*** Keywords ***<br>
+*** Test Cases ***
+          </code></li>
+      <li>To get access to the python code for browser access through the Selenium tool, 
+          add this under <code>*** Settings ***</code>. Note that there are three spaces 
+          between the two words. RF allows you to use Tab or at least three spaces between 
+          script elements. You can use either, but it is best to be consistent in your choice.<br>
+<code>Library   SeleniumLibrary</code>
+          </li>
+      <li>Add three variables for the site in question. We could do this with any website 
+          or browser, but for consistency the group should use these for our test. You can
+          give any name to the variables that you want. All variables have the form 
+          <code>${NAME}</code>. Consider the following suggestions for variables:<br>
+          <ul>
+            <li>The name of the browser: Chrome</li>
+            <li>The URL you navigated to: https://www.dvidshub.net/</li>
+            <li>The title of the page: DVIDS - Defense Visual Information Distribution Service</li>
+          </ul>
+      </li>
+      <li>We will create test cases to automate the manual test you did in step one. Review
+          that list of actions and ask yourself:<br>
+          <ul>
+            <li>Which of these are test STEPS and which are OQE?</li>
+            <li>Does the Selenium library have keywords for these activities?</li>
+          </ul>
+          Spend some time searching the <a href="https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html#Browser%20and%20Window">Selenium library documentation</a>
+          for useful keywords.
+      </li>
+      <li>Create test cases for each of the actions. You can combine some of them if you like. 
+      The anatomy of a test case is:<br>
+<code>Some Name for the Test Case<br>
+<in>Some Keyword&nbsp;&nbsp;&nbsp;&nbsp;Any argument you need</in><br>
+<br>
+A blank line comes between each test case<br>
+<in>Four spaces precede&nbsp;&nbsp;&nbsp;&nbsp;each line</in><br>
+<in>Always use for spaces&nbsp;&nbsp;&nbsp;&nbsp;before any additional arguments</in></code>
+      </li>
+      <li>Run the test from the command line. You can verify the pass/fail of each
+   test step as it runs (you will see <span class="green">PASS</span> or <span class="red">FAIL</span>). 
+   After the test is done, you can read the automatically generated log. Watch for the screen 
+   capture in the log.<br>
+<code>robot &lt;&lt;yourtestfile&gt;&gt;</code>
+      </li>
+    </ol>
+
+    <a name="session1-solut"></a><h3>Solution Scripts</h3>
+    <a href="testSite1.robot">Example of final script</a>
+    
+    <a name="session2"></a></a><h2>Resources and Finding Elements</h2>
+    <p>
+      Start from the script you created in the previous activity. If you would prefer, you
+      can work from the solution script provided. The examples in these instructions will follow
+      from that script. This second activity is going to teach you two useful skills related to
+      RF and web-based testing. Even if you are not building and testing web-based systems, the
+      skills will be similar to what you will use in other software paradigms. Most importantly,
+      on the RF side you will learn how to refactor test steps and keywords so they can be moved
+      into resource files where they are reusable in many different tests.
+    </p>
+
+    <h3>Instructions</h3>
+    <ol><a name="session2-instr"></a>
+      <li>Open the last test script and save again as a resource file. No specific naming convention 
+          exists, but we prefer to name all robot files as .robot and a resource file as 
+          <code>resourceXXXXX.robot</code>.</li>
+      <li>In the resource file we will create keywords from the previously-defined test steps. 
+          Basically, these look exactly like the test steps, but these can be called as keywords in 
+          another test. You are free to rename the keyword to any word or even sentence that is 
+          meaningful to you in a future test.<br>
+<code>
+Open and Verify Site<br>
+<in>Open Browser&nbsp;&nbsp;&nbsp;&nbsp;${SITE URL}&nbsp;&nbsp;&nbsp;&nbsp;${BROWSER}</in><br>
+<in>Title Should Be&nbsp;&nbsp;&nbsp;&nbsp;${TITLE}</in><br>
+<in>Capture Page Screenshot&nbsp;&nbsp;&nbsp;&nbsp;EMBED</in><br>
+</code>
+      </li>
+      <li>Recreate the effect of test 0 using the resource file. You will need to add a line
+          to the settings that points to the new resource file. Then you can replace the
+          contents of the test step with a call to the newly create keywords. Make sure the
+          test still runs and passes all tests.<br>
+<code>
+Resource&nbsp;&nbsp;&nbsp;&nbsp;./resource1.robot
+</code>
+      </li>
+      <li>Learn to use developer tools. Open the DVIDS site in a open browser, click the three 
+          vertical dots or prest <code>CTRL+SHIFT+I</code>. Across the top of the new window 
+          there are tabs. Click on <code>Elements</code>. From elements, if you run your mouse 
+          over code on the right you will see sections on the left highlighted in blue. Alternatively,
+          there is an inspector button which will show the name of code elements when you mouse 
+          over sections of the actual web page.<br><br>
+          <img src="inspector.png"><br>
+      </li>
+      <li>
+          You want to use these tools to find the <code>view background image</code> button near 
+          the bottom of the page. You can expand the code until you can see all of these details.
+          It is the red ...., representing the real UML link, that we want to find.<br>
+<code>
+&lt;div id="body_content"&gt;&lt;/div&gt;<br>
+<in>&lt;div id="footer"&gt;&lt;/div&gt;</in><br>
+<in><in>&lt;div class="uk-container uk-container-center"&gt;&lt;/div&gt;</in></in><br>
+<in><in><in>&lt;div class="uk-grid"&gt;&lt;/div&gt;</in></in></in><br>
+<in><in><in><in>&lt;div class="uk-width-medium-10-10"&gt;&lt;/div&gt;</in></in></in></in><br>
+<in><in><in><in><in>&lt;a href="<span class="red">....</span>" id="view_background_image_link"&gt;&lt;/a&gt;</in></in></in></in></in>
+</code>
+      </li>
+      <li>The first task is to find the HTML tag that contains the link we want. You can use several 
+          methods to find that button. Note that the id <code>footer</code> is on the <code>div</code>
+          tag around that button. Under that are three more <code>div</code> tags and then an 
+          <code>a</code>. So we can use a couple of different routes to find the footer and navigate 
+          to the <code>a</code>.
+          <ul>
+            <li>This one uses Cascading Style Sheet (css) syntax to find elements. There are many
+                sources with <a href="https://www.w3schools.com/cssref/css_selectors.asp">instructions 
+                on CSS</a> if you are unfamiliar with the syntax. Using CSS syntax makes a lot of 
+                sense for web-based software. Here we are using <span class="red">the footer's id</span>
+                and a <span class="green">series of tags</span> below to find the right tag.<br>
+<code>
+Find More Button<br>
+<in>${id} =&nbsp;&nbsp;&nbsp;&nbsp;Get Element Attribute&nbsp;&nbsp;&nbsp;&nbsp;css:<span class="red">#footer</span> <span class="green">div div div a</span>&nbsp;&nbsp;&nbsp;&nbsp;id</in><br>
+<in>Log&nbsp;&nbsp;&nbsp;&nbsp;Found ${id}</in>
+</code>
+            </li>
+            <li>This one uses Javascript code if you prefer. We start the same way by finding the 
+                <span class="red">footer</span>, then we use <span class="green">repeated firstElementChild</span> to go down four layers.<br>
+<code>
+Find More Button 2<br>
+<in>${id} =<br>
+<in><in>Execute Javascript&nbsp;&nbsp;&nbsp;&nbsp;return document.<span class="red">getElementById("footer")</span>.</in></in><br>
+<in><in><in><span class="green">firstElementChild.firstElementChild.firstElementChild.firstElementChild</span>.id;</in></in></in>
+<in>Log&nbsp;&nbsp;&nbsp;&nbsp;Found ${id}
+</code>
+            </li>
+            <li>For more options see visit <a href="https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html#Locating%20elements">this site</a></li>
+          </ul>
+      </li>
+      <li>Use your new skills to:<br>
+        <ul>
+          <li>Find one of the top menu items and <code>Click Element</code> on it.</li>
+          <li>Find the search bar and use <code>Input Text</code> to set the search text.</li>
+          <li>After you type something into the search, find and specific text on the autocomplete.</li>
+          <li>Find and click a link at the bottom of the page.</li>
+        </ul>
+      </li>
+      <li>What OQE do you have to verify that these actions happened? There are lots of options 
+          like <code>Capture Page Screenshot</code> or <code>Capture Element Screenshot</code> 
+          and lots of "should" statements to verify contents like <code>Title Should Be</code>.</li>
+    </ol>
+
+    <a name="session2-solut"></a><h3>Solution Scripts</h3>
+    <a href="resource2.robot">Resource file</a><br>
+    <a href="testSite2.robot">Robot script</a>
+
+    <a name="session3"></a></a><h2>Refactoring and the OQE Library</h2>
+    <p>
+      Start from the script you created in the previous activity. If you would prefer, you
+      can work from the solution script provided. The examples in these instructions will follow
+      from that script. This activity will explain refactoring, a process for periodic review and
+      improvement of the reusability of your test scripts. It also makes use of the Objective Quality Evidience (OQE) library
+      which Dahlgren developed to directly connect from the RF test scripts to a fully formed
+      test report. By gaining familiarity with the OQE library, you can control the format of that
+      report.
+    </p>
+
+    <h3>Instructions</h3>
+    <ol><a name="session3-instr"></a>
+      <li>You should regularly consider moving any useful keywords into the resource file. This is a 
+          step that increases the reusability of the test. The basic strategy is to work on creating 
+          some test capability and then consider how to turn it into a reusable "lego" block for 
+          future tests. To do this, it is helpful to identify arguments (sometimes called parameters) 
+          in the keyword. A keyword with no arguments is almost literally a one trick pony. With one 
+          or more arguments it can be used for many different things.<br><br>
+
+          Here is the original keyword in testSite2.robot. It searches for an element using this 
+          specific CSS description. Similarly, the script is finding the value of the <code>id</code> 
+          attribute. Those things, however, might vary over many different uses, so we can change 
+          them to open arguments.<br><br>
+
+<code>
+Find More Button<br>
+<in>${id} =&nbsp;&nbsp;&nbsp;&nbsp;Get Element Attribute&nbsp;&nbsp;&nbsp;&nbsp;css:#footer div div div a&nbsp;&nbsp;&nbsp;&nbsp;id</in><br>
+<in>Log&nbsp;&nbsp;&nbsp;&nbsp;Found ${id}</in><br><br>
+</code>
+
+          This is an updated and more open version of the keyword. It has two <code>arguments</code>
+          and we are using them to get the right attribute. We also <code>return</code> the extracted 
+          value. This new keyword could be used for any purpose or it could be used for the original 
+          purpose.<br><br>
+
+<code>
+Find Tag and Get Attribute<br>
+<in>[Arguments]&nbsp;&nbsp;&nbsp;&nbsp;${CSS-IDENTIFIER}&nbsp;&nbsp;&nbsp;&nbsp;${ATTRIBUTE-NAME}</in><br>
+<in>${value} =&nbsp;&nbsp;&nbsp;&nbsp;Get Element Attribute&nbsp;&nbsp;&nbsp;&nbsp;${CSS-IDENTIFIER}&nbsp;&nbsp;&nbsp;&nbsp;${ATTRIBUTE-NAME}</in><br>
+<in>[Return]&nbsp;&nbsp;&nbsp;&nbsp;${value}</in><br><br>
+</code>
+          </li>
+      <li>After building the new keyword from your previous work, call that keyword and verify that 
+          the test still works as before. You might call the new keyword like this. Once the test 
+          runs and the results are the same I have REFACTORED the script. Refactoring is changing 
+          the form, but not the function of the code. It starts and ends with tests that show the 
+          changes have not altered the performance of the code. Use the refactoring steps #1 and #2 
+          as often as necessary to move generic keywords into an appropriate resource file.<br><br>
+<code>
+Test Keyword<br>
+<in>${id} =&nbsp;&nbsp;&nbsp;&nbsp;Find Tag and Get Attribute&nbsp;&nbsp;&nbsp;&nbsp;css:#footer div div div a&nbsp;&nbsp;&nbsp;&nbsp;id</in><br>
+<in>Log&nbsp;&nbsp;&nbsp;&nbsp;Found ${id}</in><br><br>
+</code>
+      </li>
+      <li>In this test we are going to introduce the reporting GUI and use some of those tools to 
+          improve the test report beyond what Robot Framework offers natively. We will start by 
+          editing a couple of files to set things up. These changes have already been made to your 
+          libraries, but you should find and verify these settings for your computer. Open the 
+          indicated files and update the file locations. If you are unfamiliar with relative file
+          paths <a href="https://desktop.arcgis.com/en/arcmap/10.3/tools/supplement/pathnames-explained-absolute-relative-unc-and-url.htm#GUID-5118AC85-57E4-4027-AC24-FB6E99FADEFF">this site</a>
+          has good instructions.<br><br>
+          <img src="OQELinks.png"><br>
+
+          <ol>
+            <li>In the robot test script, add the resource file for data extraction.<br>
+<code>Resource&nbsp;&nbsp;&nbsp;&nbsp;./../OQE/DataExtraction.resource</code>
+            </li>
+            <li>In the DataExtraction.resource file, give the paths for the two test files.
+                Originally, the library accepted two test files, but the current version just
+                uses the first. The second one is <span class="red">invalid</span>. The file
+                paths are passed from the resource file into the python script.<br>
+<code>Library&nbsp;&nbsp;&nbsp;&nbsp;kw_DataExtraction.py&nbsp;&nbsp;&nbsp;&nbsp;&lt;test file&gt;&nbsp;&nbsp;&nbsp;&nbsp;<span class="red">invalid</span>&nbsp;&nbsp;&nbsp;&nbsp;WITH NAME&nbsp;&nbsp;&nbsp;&nbsp;oqe</code>
+            </li>
+            <li>In the HTML GUI file the data source file needs to match. This is where the 
+                GUI will look for data initially and periodically while the script is active.<br>
+<code>&lt;body onload="start('./../OQE/test2.js')"&gt;</code>
+            </li>
+          </ol>    
+      </li>
+      <li>
+        We will run a few new test lines just to make sure everything is connected properly. The first
+        line sets up the test script for a new event and gives it the name "Test Suite 2". The next 
+        four lines call built in keywords built for this kind of check. Test Check is in the resource 
+        file and just logs that the resource file is connected. Prove it works is a keyword in the 
+        python script and like the previous keyword, it just logs that the python file is connected. 
+        Archive Any Previous Data finds the intended data file and stores the contents in an archive 
+        folder. This keyword is typically called at the start of any test suite to safely store data 
+        from a previous run. As part of this process it also sets up the blank data file in the 
+        intended location. The last keyword, Insert Dummy Test Data, puts a few lines of data into 
+        the file verifying that the connection is working.<br>
+<code>
+Setup OQE<br>
+<in>New Test Event&nbsp;&nbsp;&nbsp;&nbsp;Test Site 2</in><br>
+<in>Test Check</in><br>
+<in>${something} =&nbsp;&nbsp;&nbsp;&nbsp;Prove it works</in><br>
+<in>Log&nbsp;&nbsp;&nbsp;&nbsp;${something}</in><br>
+<in>Archive Any Previous Data</in><br>
+<in>Insert Dummy Test Data</in><br><br>
+</code>
+
+        After running this test, you can check for the log for the required text. Also open the HTML
+        GUI in a browser to verify the dummy data. If you see these effects, then you can be 
+        confident everything is connected.<br><br>
+        <img src="linkResults.png"><br>
+      </li>
+      <li>Now edit the test file from the previous activity. Add the DataExtraction resource and 
+          make <code>New Test Event</code> the first step of the test. These changes are required
+          for each test with the OQE GUI. You may also want to use <code>Archive Any Previous Data</code>
+          so that each run exists alone in its own dataset. You can now use the <a href="./../dataextraction/index.html">OQE library</a> instead
+          of the native RF capabilities. For the rest of this activity, go through your test and 
+          replace the use of OQE. You can work from the library documentation above just as you 
+          do with the Selenium library.</li>
+    </ol>
+
+    <a name="session3-solut"></a><h3>Solution Scripts</h3>
+    <a href="resource3.robot">Resource file</a><br>
+    <a href="testSite3.robot">Robot script</a>
+
+    <a name="session4"></a></a><h2>Data Driven Testing</h2>
+    <p>
+      Start from the script you created in the previous activity. If you would prefer, you
+      can work from the solution script provided. The examples in these instructions will follow
+      from that script. This time we will explore data driven testing where the same test can have 
+      arguments so that it serves for several different test cases. Robot Framework can do this 
+      natively or you can use one of several tools to import the data. In any case, the mechanisms 
+      are similar. We will look at what RF can do on its own.
+    </p>
+
+    <h3>Instructions</h3>
+    <ol><a name="session4-instr"></a>
+      <li>To set up a group of related tests, you need to go into settings and consider any 
+          actions that need to be taken at five key periods. With several tests in a single
+          script, these period execute in a predictable series. Each test file can start with
+          Suite Setup and end with Suite Teardown. In between, each test of the set uses
+          the same Test Setup, Test Template, and Test Teardown. The only difference between
+          the tests comes from the data passed into the test as arguments. Thus we are using
+          Data Driven Testing.
+        <ul>
+          <li><code>Suite Setup</code> - this is before any tests occur; best used for setting up 
+              any default settings, doctrine, validation, etc.</li>
+          <li><code>Test Setup</code> - This runs before each individual test; best used to reset 
+              or force a "new test" setting</li>
+          <li><code>Test Template</code> - this is the actual test.</li>
+          <li><code>Test Teardown</code> - this runs after each individual test; best used to 
+              remove any "debris" from the test site</li>
+          <li><code>Suite Teardown</code> - this is after all the tests have run; best used to 
+              collect final OQE, shut down connections, etc.</li>
+        </ul>
+        <img src="testLoop.png">
+      </li>
+      <li>Following the terms above, you MUST add the Test Template keyword. All others are
+          optional. Each of these actions MUST be used a keyword. That doesn't mean you only
+          get five keywords. You can use any of the five keywords to call others, so you still
+          have unlimited flexibility.<br>
+<code>
+*** Settings ***<br>
+Library&nbsp;&nbsp;&nbsp;&nbsp;Selenium<br>
+Suite Setup&nbsp;&nbsp;&nbsp;&nbsp;kw_Before All<br>
+Test Setup&nbsp;&nbsp;&nbsp;&nbsp;kw_Check Inventory<br>
+Test Teardown&nbsp;&nbsp;&nbsp;&nbsp;kw_Clear Status<br>
+Test Template&nbsp;&nbsp;&nbsp;&nbsp;kw_Run Test
+</code>
+      </li>
+      <li>
+        Unlike the previous activities, a data driven testing script doesn't contain any script under Test Cases
+        Instead Test Cases is a table with a single row for each test in the group. Each test has a set of arguments
+        included on the same line. All test cases must have the same number of arguments. If an argument is 
+        irrelevant for one test case, I suggest using <code>--</code> just to fill that space. You can also put
+        names above the arguments to help make the test more readable. It is suggested that you use tabs between 
+        arguments for the same reason. Note that the string of text on the far left is the name for that test
+        case and can be accessed with the ${TEST NAME} variable. Start with one test case and you can build the 
+        table over time.<br>
+<code>
+<table class="wider" cellspacing="20" cellpadding="0">
+<tr><td>*** Test Cases ***</td><td>user</td><td>password</td><td>Worded</td><td>Name</td></tr>
+<tr><td>Admin login</td><td>admin</td><td>admin</td><td>${TRUE}</td><td>Mr. Admin</td></tr>
+<tr><td>Lowly user</td><td>dummy</td><td>password123</td><td>${TRUE}</td><td>Dumbo Jr</td></tr>
+<tr><td>No user</td><td>${empty}</td><td>password456</td><td>${FALSE}</td><td>--</td></tr>
+<tr><td>No password</td><td>other</td><td>${empty}</td><td>${FALSE}</td><td>--</td></tr>
+</table>
+</code>
+      </li>
+      <li>
+        In DDT it is important to include the expected outcome as part of your test. These outcomes can be
+        used to validate your test on the fly as you are gathering the OQE. In this case, I used a true/false 
+        variable just to indicate if the login was successful. I also included the name I expect to see in the
+        account section of the page. If I don't get in, I won't check the name (last two cases). I can validate
+        these results in my test. Your Test Cases table will include a mixture of directions and data checks.
+      </li>
+      <li>
+        The Test Template keyword is special because it receives all the same arguments laid out in the table.
+        On the first line allow space for each of the arguments. Note that you do not have to use the same NAME 
+        for the arguments, but you do need to have the same NUMBER.
+<code>
+*** Keywords ***<br>
+kw_Login Test<br>
+<in>[Arguments]&nbsp;&nbsp;&nbsp;&nbsp;${user}&nbsp;&nbsp;&nbsp;&nbsp;${password}&nbsp;&nbsp;&nbsp;&nbsp;${worked}&nbsp;&nbsp;&nbsp;&nbsp;${name}</in><br>
+</code>
+      </li>
+      <li>Go through and write your test as before. Use the input data to drive the test, validate it, and report out. There are some 
+          <a href="./../best/index.html">pro tips</a> to help you in this process. Here are some suggested steps.<br>
+        <ol>
+          <li>Take all the test steps you defined in <a href="#session4-instr">activity 3</a> and move them into keywords for this script.
+              Now they will be keywords that can be called from the Test Template.</li>
+          <li>Make the Test Template keyword call each of those keywords in order. Think of this as your test script with all the details
+              in the new keywords.</li>
+          <li>Add OQE gathering for each keyword. Keywords are represented as blocks in the OQE GUI. There are also RF keywords which
+              capture any defect detected in the keyword. This is a good thing. You might check if X occurred or if Y was found as 
+              expected, but if there was anything you missed that RF did find, it will show up in the keyword status.</li>
+          <li>Go back to Test Setup and Test Teardown. Are there any actions you need taken before a test to ensure everything is ready
+              to roll? How about cleaning up after the fact? Add those if needed. Consider the worse case (that the previous step messed
+              everything up). What do you need to do.</li>
+          <li>Suite setup and teardown are a bit more abstract as we don't have another suite of tests before or after. Consider what
+              would happen if someone had to follow your test. Is there something you should do to ensure the system is in a valid state?
+              Is there something you can close that will clear your state entirely? Sometimes signing in/out entirely is just the only
+              way to clear that kind of state.</li>
+        </ol>
+      </li>
+    </ol>
+
+    <a name="session4-solut"></a><h3>Solution Scripts</h3>
+    <a href="resource4.robot">Resource file</a><br>
+    <a href="testSite4.robot">Robot script</a> - This script shows the whole test as one keyword<br>
+    <a href="testSite4a.robot">Alternate robot script</a> - This script shows separate keywords for all major test steps and the Test Template coordinating
+  </body>
+</html>

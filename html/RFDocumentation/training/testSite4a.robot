@@ -11,10 +11,10 @@ Test Template      Test Menu
 *** Variables ***
 
 *** Test Cases ***	M			H1		H2    		T								R
-Featureset		menuLinkfeatures	Features2	/feature	DVIDS - Features - Date_modified - Page 1			${TRUE}
+Featureset		menuLinkfeatures	Features	/feature	DVIDS - Features - Date_modified - Page 1			${TRUE}
 Content Search		menuLinkcontent		Content		/search		DVIDS - Search							${TRUE}
 Stories			menuLinkstories		Stories		/portfolio	DVIDS - Digital Portfolio					${TRUE}
-Units			menuLinkunits		Units		/units	 	Broken test								${TRUE}
+Units			menuLinkunits		Units		/unit	 	Broken test								${TRUE}
 News Alerts		menuLinknewswire	Newswire	/alerts	 	DVIDS - Manage Newswire						${TRUE}
 Media			menuLinkmedia		Media Requests	/mediarequest	DVIDS - Media Request						${TRUE}
 Home			menuLinkhome		Home		/		DVIDS - Defense Visual Information Distribution Service		${FALSE}
@@ -38,10 +38,10 @@ Find Menu Item
    ${a2} =    Assert OQE Value    ${HTML}    Verify link    ${href}    ${HREF}
    Record Data    ${HTML}    Menu selection    ID: ${MENU_ID}; Menu Text: ${text}; Link: ${href}
    Capture Element Image    css:#${MENU_ID}    ${HTML}    Menu button
-   IF    '''${a1}'''=='''${a2}''' and '''${a2}'''=='''PASS'''
+   IF    '''${a1}'''>='''${a2}'''
       Record Test Case    --    Found Matching Menu Item    ${a1}    --
    ELSE
-      Record Test Case    --    Found Matching Menu Item    FAIL    --
+      Record Test Case    --    Found Matching Menu Item    ${a2}    --
    END
    [TEARDOWN]    Record Test Case    --    Find Menu Item Test    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}
 

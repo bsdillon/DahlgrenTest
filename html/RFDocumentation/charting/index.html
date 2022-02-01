@@ -2,16 +2,7 @@
 <html>
   <head>
     <title>DataChartingAPI Documentation</title>
-    <style>
-      em {color:#ffffff; font-style:italics; font-weight:bold; text-decoration: underline;}
-      h3 {color:#0000ff; text-decoration: underline; text-align:center;}
-      in {margin: 86px;}
-      .ex{margin: 10px; border: ridge black 3px; background-color:#000000; color:#ffff00;
-         font-family: arial; font-style: italic; }
-      .ex li {list-style-position: inside;width:600px; padding-left: 40px; text-indent: -40px;}
-      div.major {margin: 0px; border: outset black 3px; background-color:#eeeeee;}
-      img {float:right; width:350px;}
-    </style>
+    <link href = "./../../common.css" rel = "stylesheet">
     <script>
       function changeType()
       {
@@ -21,7 +12,7 @@
         let allowed = ['Line', 'HBar', 'VBar', 'Area'];
         if(allowed.includes(t))
         {
-          document.getElementById("typeColor").innerHTML = ", <nobr>'colorScheme': ['rgb(127,240,52)', 'rgb(64,0,174)']</nobr>";
+          document.getElementById("typeColor").innerHTML = ", 'colorScheme': ['rgb(127,240,52)', 'rgb(64,0,174)']";
         }
         else
         {
@@ -126,9 +117,9 @@
     </script>
   </head>
   <body>
-    <h1>Data Charting API</h1>
+    <h2>Data Charting API</h2>
 
-    <h2>Table of Contents</h2>
+    <h3>Table of Contents</h3>
     <ul>
       <li><a href="#importLibraries">Import Libraries</a></li>
       <li><a href="#creatingGraphs">Creating Graphs</a></li>
@@ -152,7 +143,6 @@
         </ul>
       </li>
     </ul>
-    <br>
 
     <div class="major">
     <a name="importLibraries"></a><h3>Importing Libraries</h3>
@@ -174,21 +164,20 @@
       choice using the technique shown below.
     </p>
     <ul>
-      <li><a href="Chart.min.js">Chart.min.js</a><br>
-      <li><a href="piechartlibrary.js">piechartlibrary.js</a><br>
-      <li><a href="linechartlibrary.js">linechartlibrary.js</a><br>
-      <li><a href="scatterchartLibrary.js">scatterchartLibrary.js</a><br>
-      <li><a href="datacharting.js">datacharting.js</a><br>
-      <li><a href="chartstyle.js">chartstyle.js</a><br><br>
+      <li><a href="Chart.min.js">Chart.min.js</a></li>
+      <li><a href="piechartlibrary.js">piechartlibrary.js</a></li>
+      <li><a href="linechartlibrary.js">linechartlibrary.js</a></li>
+      <li><a href="scatterchartLibrary.js">scatterchartLibrary.js</a></li>
+      <li><a href="datacharting.js">datacharting.js</a></li>
+      <li><a href="chartstyle.js">chartstyle.js</a></li>
     </ul>
 
-    <ol class="ex">
+    <div  class="ex"><ol>
       <li>&lt;script src="Chart.min.js"&gt;&lt;/script&gt;</li>
       <li>&lt;script src="piechartlibrary.js"&gt;&lt;/script&gt;</li>
       etc...
-    </ol>
+    </ol></div>
     </div>
-    <br>
 
     <div class="major">
     <a name="creatingGraphs"></a><h3>Creating Graphs</h3>
@@ -200,12 +189,12 @@
       created in the JavaScript of the page.
     </p>
 
-    <ol class="ex">
+    <div  class="ex"><ol>
       <li>var data1 = [100, 90, 80, 70,...];</li>
       <li>var labels = ['A','B','C',...];</li>
       ...
       <li>var json = {"VAR_Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode'], 'colorScheme': RGB_values}};</li>
-    </ol>
+    </ol></div>
 
     <p>
       All charts must be created in the context of a DataCharting object. The object
@@ -219,12 +208,12 @@
       of the chart.
     </p>
 
-    <ol class="ex" start="10">
+    <div  class="ex"><ol start="10">
       ...
       <li>charting = new DataCharting(300, 300);</li>
       <li>var mychart = charting.createChart(json, "VAR_Example");</li>
       ...
-    </ol>
+    </ol></div>
 
     <p>
       The DataCharting object uses the DOM to create a canvas tag and build the
@@ -234,7 +223,7 @@
       defined by any number of means or hard-coded into an HTML page.
     </p>
 
-    <ol class="ex" start="20">
+    <div  class="ex"><ol start="20">
       ...
       <li>var field = document.getElementById("field");</li>
       <li>var table = document.createElement("TABLE");</li>
@@ -243,9 +232,8 @@
       <li>let td = document.createElement("td");</li>
       <li>td.append(myChart);</li>
       <li>row.append(td);</li>
-    </ol>
+    </ol></div>
     </div>
-    <br>
 
     <div class="major">
     <a name="datasetName"></a><h3>Dataset Naming Requirements</h3>
@@ -257,23 +245,20 @@
     </p>
     <dl>
       <dt>Always start with 'VAR_'</dt><dd>The leading VAR_ is mandatory and is stripped
-      from the name by default.
-      <ol class="ex">
+      from the name by default.</dd>
+      <div  class="ex"><ol>
         <li>var json = {"<em>VAR_</em>Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
-      </ol>
-      </dd>
+      </ol></div>
       <dt>Include '_' for spaces</dt><dd>The API will reverse the process to find the 
-      title of the chart
-      <ol class="ex">
+      title of the chart.</dd>
+      <div  class="ex"><ol>
         <li>var json = {"VAR_<em>Other_Name</em>": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
-      </ol>
-      </dd>
+      </ol></div>
       <dt>Exclude '-' from names</dt><dd>The API looks for '-#' at the end of the name 
-      for <a href="multi">multiple data sets</a>. Avoid use of this character.
-      <ol class="ex">
+      for <a href="multi">multiple data sets</a>. Avoid use of this character.</dd>
+      <div  class="ex"><ol>
         <li>var json = {"VAR_Multi_Set<em>-0</em>": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
-      </ol>
-      </dd>
+      </ol></div>
     </dl>
     </div>
     </br>
@@ -296,14 +281,13 @@
     </select>
 
     <div class="ex">
-    <img id="typeImage" src="LineGraphExample.png">
+    <img id="typeImage" src="LineGraphExample.png" class="float">
     <ol>
-      <li>var json = {'VAR_Example': {<em>'type': '<span id="typeText">Line</span>'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []<span id="typeColor">, <nobr>'colorScheme': ['rgb(127,240,52)', 'rgb(64,0,174)']</nobr></span>}};</li>
+      <li>var json = {'VAR_Example': {<em>'type': '<span id="typeText">Line</span>'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []<span id="typeColor">, 'colorScheme': ['rgb(127,240,52)', 'rgb(64,0,174)']</span>}};</li>
     </ol>
     <br clear="all">
     </div>
     </div>
-    <br>
 
     <div class="major">
     <a name="axis"></a><h3>Axis Label Orientation</h3>
@@ -321,14 +305,13 @@
     </select>
 
     <div class="ex">
-      <img id="orientImage" src="VBarGraphExample3.png">
+      <img id="orientImage" src="VBarGraphExample3.png" class="float">
       <ol>
         <li>var json = {'VAR_Example': {'type': '<em><span id="orientType">VBar</span></em>', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []}};</li>
       </ol>
     <br clear="all">
     </div>
     </div>
-    <br>
 
     <div class="major">
     <a name="series"></a><h3>Series</h3>
@@ -338,13 +321,15 @@
       appears over the chart. The labels are attached to each data point. Series, however,
       are defined for groups of datapoints and can be used to distinguish one set of data
       from another, especially for <a href="#multi">multiple data sets</a> in a single 
-      The <code>series</code> parameter allows any string to be used.<br><br>Note that
-      Chart.js does allow multiple Pie charts to be defined, which might necessitate 
+      The <code>series</code> parameter allows any string to be used.
+    </p>
+    <p>
+      Note that Chart.js does allow multiple Pie charts to be defined, which might necessitate 
       multiple series, but this is NOT recommended.
     </p>
 
     <div class="ex">
-      <img src="LineGraphExample3.png">
+      <img src="LineGraphExample3.png" class="float">
       <ol>
         <li>var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 1'</em></nobr>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},</li>
         <li><in>"VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 2'</em></nobr>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},</in></li>
@@ -354,7 +339,6 @@
     <br clear="all">
     </div>
     </div>
-    <br>
 
     <div class="major">
     <a name="dataset"></a><h3>X and Y Datasets</h3>
@@ -385,18 +369,16 @@
     </select>
 
     <div class="ex">
-      <img id="dsImage" src="categoricLine.png">
+      <img id="dsImage" src="categoricLine.png" class="float">
       <ol>
         <li>var numeric1 = [1,2,3,4,5,6,7,8,9,10];</li>
         <li>var numeric2 = [10,20,50,60,70,<b>40</b>,80,90,<b>30</b>,100];</li>
         <li>var categoric = ['A','B','C','D','E','F','G','H','I','J'];</li>
-        <br>
         <li>var json = {"VAR_Sample": {'type': '<span id="dsType">Line</span>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <em><nobr>'x-data': <span id="dsXdata">categoric</span>,</nobr> <nobr>'y-data': numeric1</em></nobr>, 'modes': []}}</li>
       </ol>
     <br clear="all">
     </div>
     </div>
-    <br>
 
     <div class="major">
     <h3>Modes</h3>
@@ -432,7 +414,7 @@
     </select>
 
     <div class="ex">
-      <img id="multiImage" src="defaultLineSet.png">
+      <img id="multiImage" src="defaultLineSet.png" class="float">
       <ol>
          <li>var json = {"VAR_Sample-0": {'type': '<em><span id="multiType0">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 0', 'x-data': data1[1], 'y-data': data2[1], 'modes': [<em><span id="multi0"></span><span id="stacked0"></span></em>]},</li>
          <li>        <in>"VAR_Sample-1": {'type': '<em><span id="multiType1">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1[1], 'y-data': data3[1], 'modes': [<em><span id="multi1"></span><span id="stacked1"></span></em>]},</in></li>
@@ -455,7 +437,7 @@
     </select>
 
     <div class="ex">
-      <img id="progressiveImage"src="AreaGraphExample3.png">
+      <img id="progressiveImage"src="AreaGraphExample3.png" class="float">
       <ol>
         <li>var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [<em><span id="progressiveMode"></span></em>], 'colorScheme':['rgb(127,240,52)','rgb(64,0,174)']}};</li>
       </ol>
@@ -463,25 +445,21 @@
     </div>
 
     <p>
-      Lastly, if <a name="trend"></a><code>'Trend'</code> is passed in to the <code>mode</code> parameter on a scatter plot, then the graph will be displayed with a trend line.<br>
+      Lastly, if <a name="trend"></a><code>'Trend'</code> is passed in to the <code>mode</code> parameter on a scatter plot, then the graph will be displayed with a trend line.
     </p>
     <select onchange="updateTrend()" id="trendSelect">
       <option value="0">Trend</option>
       <option value="1">No-Trend</option>
     </select>
 
-    <ol class="ex">
-      <img id="trendImage" src="ScatterPlotTrendExample2.png">
-      <p>
-        Trend Line Example:<br>
-        <code>
-          var json = {'VAR_Example-0': {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1, 'y-data': data2, 'modes': [<em><span id="trendMode">'Trend'</span></em>]}};<br>
-        </code>
-      </p>
+    <div class="ex">
+      <img id="trendImage" src="ScatterPlotTrendExample2.png" class="float">
+      <ol>
+        <li>var json = {'VAR_Example-0': {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1, 'y-data': data2, 'modes': [<em><span id="trendMode">'Trend'</span></em>]}};</li>
+      </ol>
     <br clear="all">
     </div>
     </div>
-    <br>
 
     <div class="major">
     <a name="colors"></a><h3>Color Scheme</h3>
@@ -498,7 +476,7 @@
     </select>
 
     <div class="ex">
-      <img id="colorImage" src="RainbowExample.png">
+      <img id="colorImage" src="RainbowExample.png" class="float">
       <ol>
         <li>var json = {"VAR_Example-0": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 1', 'x-data': labels, 'y-data': data1, 'modes': ['Multi']<span id="colors0"></span>},</li>
         <li><in>"VAR_Example-1": {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample 2', 'x-data': labels, 'y-data': data2, 'modes': ['Multi']<span id="colors1"></span>},</in></li>
@@ -508,7 +486,6 @@
       <br clear="all">
     </div>
     </div>
-    <br>
 
     <div class="major">
     <a name="group"></a><h3>Group</h3>
@@ -525,7 +502,7 @@
     </select>
 
     <div class="ex">
-      <img id="groupImage" src="PieChartGroup1.png"><br><br>
+      <img id="groupImage" src="PieChartGroup1.png" class="float">
       <ol>
         <li>var json = {"VAR_Sample": {'type': 'Pie', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 0', 'x-data': categoric, 'y-data': data2[1], 'modes': []<span id="groupText" ></span>}};</li>
       </ol>

@@ -12,9 +12,17 @@ body {
 }
 a:link {color:#0000ff;}
 a:visited  {color:#0000ff;}
-a:hover {color:#000099;} 
+a:hover {color:#000099;}
+.red {color:#FF0000; font-weight:bold;}
+.green {color:#00AA00; font-weight:bold;}
 code {color:blue; font-weight:bold; width:1000px;}
 .normal {color:#444444; font-weight:normal; font-style:italic; text-align:right;}
 img {border: solid black 2px; max-width:600px; display: block; margin-left: auto; margin-right: auto;}
 h2{border: solid blue; border-width:2px 0px 2px 0px; background-color:white; text-align:center; font-variant: small-caps; text-transform: capitalize;}
 h3{border: solid blue; border-width:2px 0px 2px 0px; background-color:white; text-align:center; font-variant: small-caps; text-transform: capitalize;}
+em {color:#ffffff; font-style:italics; font-weight:bold; text-decoration: underline;}
+in {margin: 16px;}
+.ex{margin: 10px; border: ridge black 3px; background-color:#000000; color:#ffff00;
+   font-family: arial; font-style: italic; width:900px;}
+.ex li {list-style-position: inside;width:500px; padding-left: 40px; text-indent: -40px;}
+img.float {float:right; width:200px;}

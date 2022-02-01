@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Robot Framework Best Practices</title>
+    <link href = "./../../common.css" rel = "stylesheet">
+    <style>
+    </style>
+    <script>
+    </script>
+  </head>
+  <body>
+    <h2>Robot Framework Best Practices</h2>
+
+    <h3>Table of Contents</h3>
+    <ul>
+      <li><a href="#">???</a></li>
+
+
+
+
+
+
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <br>
+
+<h3>Test SetupK</h3>
+
+<h3>Formatting the OQE</h3>
+<h4>Rows on Main Page</h4>
+<p>You want each test case to show up as a new row in the OQE GUI. Use the <code>New Test Event</code>
+keyword to generate that row. In this image, the white arrow points to a single test created with this
+keyword.</p>
+
+<img src="rowandblock.png">
+<h4>Blocks on Main Page</h4>
+<p>On the main page each keyword shows up as a separate red/green block. While a test can be written with 
+only one keyword, the OQE report with just one block is less informative. Consider that it could have
+1 or 20 failures and all you would see is one red block. Instead, break up the test into multiple keywords
+that make sense based on the test objectives. Major pieces of the test each turn into a separate keywords.
+In the image above, the highlighted green block is the result of a single keyword.<p>
+
+<h4>Assert Row</h4>
+<p>
+Assertion rows are used to validate specific data against expectations. This might be used for any number
+of requirements and the values are shown in the row. This makes the Pass/Fail determination and the original
+OQE available on the same line of the report.
+</p>
+<img src="assertrow.png">
+
+<h4>Data Row</h4>
+<p>
+Data rows are used to record OQE which is not being validated. This could be any number of related data points
+all of which show up with labels. This is OQE which may be of use in future analysis or for "information only"
+purposes.
+</p>
+<img src="datarow.png">
+
+<h4>Picture Row</h4>
+<p>
+A picture row shows a screen shot of either a specific element OR the whole screen. These images can be used as
+historical data to show that some aspect of the test did in fact occur. A common use is recording the button or
+element that was clicked or manipulated. Another common use is a screen capture of the tactical picture (e.g. radar).
+The image capture process is a two step process that allows the OQE library to pre-define the image name and 
+location, but the image capture itself can be done with any tool that allows this sort of directed file location
+(i.e. the original RF library). Note that only a thumbnail is shown in the report, but the full image is available 
+when someone clicks on that image.
+</p>
+<img src="picturerow.png">
+
+<h4>Keyword Teardown</h4>
+<p>
+Each keyword has a built in status that becomes available during teardown. You can use <code>${KEYWORD STATUS}</code>
+and <code>${KEYWORD MESSAGE}</code> to get any error that cropped up during that keyword.
+in the teardown (last line of the keyword) to report on overall status.
+
+<pre><code class="long">[TEARDOWN]&nbsp;&nbsp;&nbsp;&nbsp;Record Test Case&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;Find Menu Item Test&nbsp;&nbsp;&nbsp;&nbsp;${KEYWORD STATUS}&nbsp;&nbsp;&nbsp;&nbsp;${KEYWORD MESSAGE}</code></pre>
+
+<img src="keywordstatus.png"><br>
+
+This example uses the <code>Record Test Case</code> to put the data into the OQE tool. Then next two arguments are:
+<ul>
+  <li><code>${CASE NAME}</code> - Usually reserved for the individual test case and <code>${TEST NAME}</code> is often the correct input; '--' is a null option.</li>
+  <li><code>${STEP NAME}</code> - This should be the name of the step within the test and is likely the same as the name of the keyword.</li>
+</ul><br>
+
+The last two arguments are standard for the keyword teardown. The <code>${KEYWORD STATUS}</code> will be <span class="green">PASS</span> or
+<span class="red">FAIL</span>. The <code>${KEYWORD MESSAGE}</code> varies quite a bit and may be used to find out what the error was.
+</p>
+
+<h4>Data Breaks</h4>
+<p>When viewing the individual test report, it is an unbroken set of rows with data and checks. This makes
+reading particularly hard. From the test you can insert a <code>Data Break</code> which shows up as a 
+dark blue bar across the report.</p>
+<img src="databreak.png"><br>
+
+<h3>OQE and Analysis</h3>
+<h4>Assertions for Requirements</h4>
+<p>Assertions are the main way that test results are analyzed. In most test steps there
+is something that is checked, verified, compared, or otherwise expected to be true. There
+are many examples. In this case we have a specific URL that we expect to reach.  The value
+of <code>${HREF}</code> and <code>${href}</code> should match. That check generates a line
+in the OQE tool. Lines like this allow the tester to validate individual requirements.
+<pre><code>${a1} =    Assert OQE Value    ${HTML}    REQ-5678    ${href}    ${HREF}</code></pre>
+
+<h4>Multiple Assertions for Requirements</h4>
+That Pass/Fail value is also recorded in the minor variables <code>${a1}</code>. Where more
+than one check is related to a requirement, these can be combined. Note this example near
+the end of a keyword where two variables are used to record OQE. As a tester, you can 
+Pass/Fail any requirement with more complicated analysis in this way.</p>
+
+<pre><code>
+   IF    '''${a1}'''=='''${a2}''' and '''${a2}'''=='''PASS'''
+      Record Test Case    --    Found Matching Menu Item    ${a1}    REQ-1234
+   ELSE
+      Record Test Case    --    Found Matching Menu Item    FAIL    REQ-1234
+   END
+</code></pre>
+  </body>
+</html>
