@@ -93,7 +93,7 @@
         var tmp = "";
         if(index==1)
         {
-          tmp=", <em>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>";
+          tmp=", <em class='white'>'colorScheme': ['rgb(127,240,52)','rgb(64,0,174)','rgb(164,100,174)','rgb(254,150,74)']</em>";
         }
 
         for(let i=0;i<4;i++)
@@ -107,7 +107,7 @@
         let index = parseInt(document.getElementById("groupSelect").value,10);
         document.getElementById("groupImage").src="PieChartGroup"+(index+1)+".png";
         let text = ["","1","4",];
-        var tmp = ", <em>'group':"+text[index]+"</em>";
+        var tmp = ", <em class='white'>'group':"+text[index]+"</em>";
         if(index==0)
         {
           tmp="";
@@ -247,17 +247,17 @@
       <dt>Always start with 'VAR_'</dt><dd>The leading VAR_ is mandatory and is stripped
       from the name by default.</dd>
       <div  class="ex"><ol>
-        <li>var json = {"<em>VAR_</em>Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
+        <li>var json = {"<em class='white'>VAR_</em>Example": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
       </ol></div>
       <dt>Include '_' for spaces</dt><dd>The API will reverse the process to find the 
       title of the chart.</dd>
       <div  class="ex"><ol>
-        <li>var json = {"VAR_<em>Other_Name</em>": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
+        <li>var json = {"VAR_<em class='white'>Other_Name</em>": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
       </ol></div>
       <dt>Exclude '-' from names</dt><dd>The API looks for '-#' at the end of the name 
       for <a href="multi">multiple data sets</a>. Avoid use of this character.</dd>
       <div  class="ex"><ol>
-        <li>var json = {"VAR_Multi_Set<em>-0</em>": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
+        <li>var json = {"VAR_Multi_Set<em class='white'>-0</em>": {'type': chartType, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': ['mode']}};</li>
       </ol></div>
     </dl>
     </div>
@@ -283,7 +283,7 @@
     <div class="ex">
     <img id="typeImage" src="LineGraphExample.png" class="float">
     <ol>
-      <li>var json = {'VAR_Example': {<em>'type': '<span id="typeText">Line</span>'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []<span id="typeColor">, 'colorScheme': ['rgb(127,240,52)', 'rgb(64,0,174)']</span>}};</li>
+      <li>var json = {'VAR_Example': {<em class='white'>'type': '<span id="typeText">Line</span>'</em>, 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []<span id="typeColor">, 'colorScheme': ['rgb(127,240,52)', 'rgb(64,0,174)']</span>}};</li>
     </ol>
     <br clear="all">
     </div>
@@ -307,7 +307,7 @@
     <div class="ex">
       <img id="orientImage" src="VBarGraphExample3.png" class="float">
       <ol>
-        <li>var json = {'VAR_Example': {'type': '<em><span id="orientType">VBar</span></em>', <em>'x-axis': 'time'</em>, <em>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []}};</li>
+        <li>var json = {'VAR_Example': {'type': '<em class='white'><span id="orientType">VBar</span></em>', <em class='white'>'x-axis': 'time'</em>, <em class='white'>'y-axis': 'position'</em>, 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': []}};</li>
       </ol>
     <br clear="all">
     </div>
@@ -331,10 +331,10 @@
     <div class="ex">
       <img src="LineGraphExample3.png" class="float">
       <ol>
-        <li>var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 1'</em></nobr>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},</li>
-        <li><in>"VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 2'</em></nobr>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},</in></li>
-        <li><in>"VAR_Example-2": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 3'</em></nobr>, 'x-data': labels, 'y-data': data3, 'modes': ['Multi']},</in></li>
-        <li><in>"VAR_Example-3": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em>'series': 'sample 4'</em></nobr>, 'x-data': labels, 'y-data': data4, 'modes': ['Multi']}};</in></li>
+        <li>var json = {"VAR_Example-0": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em class='white'>'series': 'sample 1'</em></nobr>, 'x-data': labels, 'y-data': data1, 'modes': ['Multi']},</li>
+        <li><in>"VAR_Example-1": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em class='white'>'series': 'sample 2'</em></nobr>, 'x-data': labels, 'y-data': data2, 'modes': ['Multi']},</in></li>
+        <li><in>"VAR_Example-2": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em class='white'>'series': 'sample 3'</em></nobr>, 'x-data': labels, 'y-data': data3, 'modes': ['Multi']},</in></li>
+        <li><in>"VAR_Example-3": {'type': 'Line', 'x-axis': 'time', 'y-axis': 'position', <nobr><em class='white'>'series': 'sample 4'</em></nobr>, 'x-data': labels, 'y-data': data4, 'modes': ['Multi']}};</in></li>
       </ol>
     <br clear="all">
     </div>
@@ -374,7 +374,7 @@
         <li>var numeric1 = [1,2,3,4,5,6,7,8,9,10];</li>
         <li>var numeric2 = [10,20,50,60,70,<b>40</b>,80,90,<b>30</b>,100];</li>
         <li>var categoric = ['A','B','C','D','E','F','G','H','I','J'];</li>
-        <li>var json = {"VAR_Sample": {'type': '<span id="dsType">Line</span>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <em><nobr>'x-data': <span id="dsXdata">categoric</span>,</nobr> <nobr>'y-data': numeric1</em></nobr>, 'modes': []}}</li>
+        <li>var json = {"VAR_Sample": {'type': '<span id="dsType">Line</span>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', <em class='white'><nobr>'x-data': <span id="dsXdata">categoric</span>,</nobr> <nobr>'y-data': numeric1</em></nobr>, 'modes': []}}</li>
       </ol>
     <br clear="all">
     </div>
@@ -416,9 +416,9 @@
     <div class="ex">
       <img id="multiImage" src="defaultLineSet.png" class="float">
       <ol>
-         <li>var json = {"VAR_Sample-0": {'type': '<em><span id="multiType0">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 0', 'x-data': data1[1], 'y-data': data2[1], 'modes': [<em><span id="multi0"></span><span id="stacked0"></span></em>]},</li>
-         <li>        <in>"VAR_Sample-1": {'type': '<em><span id="multiType1">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1[1], 'y-data': data3[1], 'modes': [<em><span id="multi1"></span><span id="stacked1"></span></em>]},</in></li>
-         <li>        <in>"VAR_Sample-2": {'type': '<em><span id="multiType2">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 2', 'x-data': data1[1], 'y-data': data4[1], 'modes': [<em><span id="multi2"></span><span id="stacked2"></span></em>]},</in></li>
+         <li>var json = {"VAR_Sample-0": {'type': '<em class='white'><span id="multiType0">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 0', 'x-data': data1[1], 'y-data': data2[1], 'modes': [<em class='white'><span id="multi0"></span><span id="stacked0"></span></em>]},</li>
+         <li>        <in>"VAR_Sample-1": {'type': '<em class='white'><span id="multiType1">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1[1], 'y-data': data3[1], 'modes': [<em class='white'><span id="multi1"></span><span id="stacked1"></span></em>]},</in></li>
+         <li>        <in>"VAR_Sample-2": {'type': '<em class='white'><span id="multiType2">Line</span></em>', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 2', 'x-data': data1[1], 'y-data': data4[1], 'modes': [<em class='white'><span id="multi2"></span><span id="stacked2"></span></em>]},</in></li>
          <li>        <in>}</in></li>
       </ol>
     <br clear="all">
@@ -439,7 +439,7 @@
     <div class="ex">
       <img id="progressiveImage"src="AreaGraphExample3.png" class="float">
       <ol>
-        <li>var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [<em><span id="progressiveMode"></span></em>], 'colorScheme':['rgb(127,240,52)','rgb(64,0,174)']}};</li>
+        <li>var json = {'VAR_Example': {'type': 'Area', 'x-axis': 'time', 'y-axis': 'position', 'series': 'sample', 'x-data': labels, 'y-data': data, 'modes': [<em class='white'><span id="progressiveMode"></span></em>], 'colorScheme':['rgb(127,240,52)','rgb(64,0,174)']}};</li>
       </ol>
     <br clear="all">
     </div>
@@ -455,7 +455,7 @@
     <div class="ex">
       <img id="trendImage" src="ScatterPlotTrendExample2.png" class="float">
       <ol>
-        <li>var json = {'VAR_Example-0': {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1, 'y-data': data2, 'modes': [<em><span id="trendMode">'Trend'</span></em>]}};</li>
+        <li>var json = {'VAR_Example-0': {'type': 'Scatter', 'x-axis': 'X', 'y-axis': 'Y', 'series': 'sample 1', 'x-data': data1, 'y-data': data2, 'modes': [<em class='white'><span id="trendMode">'Trend'</span></em>]}};</li>
       </ol>
     <br clear="all">
     </div>
