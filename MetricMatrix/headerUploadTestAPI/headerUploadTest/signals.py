@@ -5,9 +5,7 @@ from django.conf import settings
 import os
 
 
-# GOD DAMN IT
-# BROKEN
-# SOMEHOW???
+# Broken somehow
 # Supposed to redo media root and url stuff, so that the link to a resource is properly connected to the model instance that contains it.
 @receiver(post_save, sender=ClassifiedUpload)
 def update_file_path(instance, created, **kwargs):
