@@ -4,6 +4,8 @@
     <title>Robot Framework Best Practices</title>
     <link href = "./../../common.css" rel = "stylesheet">
     <style>
+      td {text-align: center; border: black 1px solid;}
+      th {text-align: center; border: black 1px solid;}
     </style>
     <script>
     </script>
@@ -13,7 +15,62 @@
 
     <h3>Table of Contents</h3>
     <ul>
-      <li><a href="#">???</a></li>
+      <li><a href="#">Test Setup</a></li>
+      <li>
+        <ul>
+          <li><a href="#">Required Elements</a></li>
+          <li><a href="#">Permanence of Python Components</a></li>
+          <li><a href="#">Prefer Resource Files</a></li>
+        </ul>
+      </li>
+      <li><a href="#">Building New Tests</a></li>
+      <li>
+        <ul>
+          <li><a href="#">The Three Monsters</a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+        </ul>
+      </li>
+      <li><a href="#"></a></li>
+      <li>
+        <ul>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+        </ul>
+      </li>
+      <li><a href="#"></a></li>
+      <li>
+        <ul>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+        </ul>
+      </li>
+      <li><a href="#"></a></li>
+      <li>
+        <ul>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+          <li><a href="#"></a></li>
+        </ul>
+      </li>
+      <li><a href="#"></a></li>
+      <li>
+        <ul>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </li>
+      <li><a href="#"></a></li>
+      <li><a href="#"></a></li>
+      <li><a href="#"></a></li>
 
 
 
@@ -31,7 +88,242 @@
     </ul>
     <br>
 
-<h3>Test SetupK</h3>
+<h3>Test Setup</h3>
+<h4>Required Elements</h4>
+<p>
+Every Robot Framework script has required headers that define key portions of the script. As shown in the table below, these are (mostly)
+common for .robot and .resource files. Note that Test Cases do not exist in .resource files. Note also that resource files inherit from 
+each other and .robot files can inherit from .resource whiles. That means that if you define a setting, variable, or keyword in some 
+.resource file and then import that resource file in another script, you automatically get everything that was previously defined.
+</p>
+
+<table>
+  <tr><th>Header</th><th>Robot</th><th>Resource</th></tr>
+  <tr><td><code>*** Settings ***</code></td><td class="green">&#10004;</td><td class="green">&#10004;</td></tr>
+  <tr><td><code>*** Variables ***</code></td><td class="green">&#10004;</td><td class="green">&#10004;</td></tr>
+  <tr><td><code>*** Keywords ***</code></td><td class="green">&#10004;</td><td class="green">&#10004;</td></tr>
+  <tr><td><code>*** Test Cases ***</code></td><td class="green">&#10004;</td><td class="red">&#10008;</td></tr>
+</table>
+
+<h4>Permanence of Python Components</h4>
+<p>
+By default, all python scripts are supposed to be stateless with functions/keywords that are defined for a single 
+operation. Stateless means that it doesn't hold any information whether you did the task one time or a hundred.
+Python also allows you to create objects and these objects can have state. Even so, the Robot Framework script 
+takes each test case separately, including any object that is created during the test. If an object is initialized
+and used in test case #1, then it is destroyed and must be recreated for test case #2.
+
+<pre><code>*** Test Cases ***
+Do Something
+   Take Action and indidentally create object X    Alpha  <i>#creates the object X with the name 'Alpha'</i>
+   x.Print  <i>#this would print 'Alpha'</i>
+<i># here the object x is destroyed and the memory of 'Alpha' is lost</i>
+
+Do Something Else
+   <i>#x.Print  #this would fail and create an error because there is no object x</i>
+   Take Action and indidentally create object X    Beta  <i>#creates a new object X with the name 'Beta'</i>
+   x.Print  <i>#this would print 'Beta'</i>
+</code></pre>
+</p>
+
+<p>
+That is the default behavior, but you may also want to keep some object for several test cases. To do that,
+add one line to the Python file which will alter the scope of the object in RF. This is one of the options
+and it makes the object "live" throughout the whole of one test script. Additional details, including links
+to the relevant RF documentation, can be found <a href="https://stackoverflow.com/questions/70285982/in-robot-framework-can-you-create-one-resource-object-as-with-libraries">here</a><br><br>
+
+<code>ROBOT_LIBRARY_SCOPE = 'SUITE'</code>
+</p>
+
+<h4>Prefer Resource Files</h4>
+<p>
+Robot test scripts and the keywords developed in those scripts are one-and-done. They exist in that script
+but they are not accessible elsewhere. For reasons that do not require full explanation here, simply copying
+and pasting keywords between files is NOT the preferred means of replicating keywords. Also prefer a resource
+file as the location for anything which might be reused. Keywords created for one script should be reviewed
+and exported to the resource file as soon as the test script is functional. Once a test script is complete,
+go through and justify why any keyword exists in that test script rather than a resource file. If there is
+no or little justification, it needs to move.
+</p>
+
+<h3>Building New Tests</h3>
+<h4>The Three Monsters</h4>
+<p>
+There is a story used in refactoring circles to describe how one deals with a <em>lack</em> of knowledge
+when developing a script. The first time you are faced with a task you treat it as a monster that you just
+need to slay this once. In many cases you will be right. When you are faced with the second monster, you grit
+your teeth and do it again, hoping that this time is the last. If you ever come upon the third monster, now
+is the time to refactor.
+</p>
+
+<p>
+As with writing code, test scripts often have this kind of similarity. The naive approach is to write a new
+.robot file for every test and then each test can be run independently in all its glory. Unfortunately, this
+approach leads to a lot of redundancy, and version skew over time. Consider that you might build the first
+test early on and before you have fully developed the OQE reporting requirements. When the second test is
+built, you now have all the OQE requirements and you add them <em>without</em> altering the first test. By
+the time the third test is built you are also exportin all your logs to a central location and you include
+that in the third test script without updating the first two.
+</p>
+
+<h4>Export to Resource</h4>
+<p>
+These problems can partially be solved by exporting most keywords to a resource file. If the function already
+exists in a resource file and you add OQE reporting to it, that OQE will now be reported for <em>both</em>
+tests. If you add logging, that too will be in all three scripts. Most importantly, the test script themselves
+will look very similar and prepared for DDT. This will help you as you try to combine them.
+</p>
+
+<h4>Combining Scripts</h4>
+<p>
+In order to compare and contrast any three scripts, it is easiest line them up side by side. As you do,
+look for things that are missing from or found only in one script of the three. Adjust the spacing between the
+lines of the other scripts to compensate for the extra or missing pieces. If you have exported all your keywords
+to a .resource file, the only differences may be parameters (a most ideal state), but you may have to ask questions
+about any anomalies. If something is only found in one place, was that a unique requirement OR should it have
+appeared in all? Maybe it should be replicated across all test cases. In handling these questions, it is
+helpful to have expert testers on hand. Even so, the answer may be "just automate the test as it is". That 
+often occurs when any test procedure is the outgrowth of many hundreds of man hours and the specific knowledge
+may no longer exist.
+</p>
+
+<p>
+Once the scripts have been properly compared, it should be possible to build a single script that allows for all
+variations. This approach is called Data Driven Testing or DDT. DDT is the efficient way to build new tests or
+add functionality to old tests. While building new tests, watch for the three monsters and then combine them into
+a single DDT test as often as possible.
+</p>
+
+<h4>Conservation of Familiarity</h4>
+<p>
+According to <a href="https://en.wikipedia.org/wiki/Lehman%27s_laws_of_software_evolution">Lehman's fifth law of 
+software evolution</a>, maintaining familiarity with any set of scripts is an ongoing challenge. Combining scripts
+in this manner helps to reduce the knowledge requirements in some ways, but makes further demands in others. In
+order to identify the three monsters, you must first be familiar with them. And once you have combined the three
+into one, you won't benefit unless you can recognize the fourth, fifth, and so on. You have to know that a DDT
+test exists and that you can take advantage of it. For this reason it is sometimes required that you review the
+whole set of test scripts looking for inefficiencies and resolving discrepencies. This is common to all code
+development--including test scripts.
+</p>
+
+<h3>Data Driven Testing</h3>
+<h4>Identifying Similar Test Cases</h4>
+<p>
+Testers have been trained to minimize costs and especially to avoid duplicative effort. Therefore it may
+seem inconsistent that any test cases would have duplicate steps and yet they do. Consider that, at the lowest 
+level, we reuse the keywords for things like finding a button, reading text, reporting data, etc. Slightly
+above that level there are certain sequences of steps that are used to set up the test. For example, setting
+up the simulated test data, arranging the system to automatically deal with the simulated event, and then 
+kicking it all off might be common between many tests even though the details of the individual tests vary
+widely.
+</p>
+
+<p>
+We have found that testers, tend to look at each line of a test as completely distinct for two reasons:<br>
+<ul>
+  <li>The steps in different tests satisfy different requirements.</li>
+  <li>The differences between those steps are the embodiment of those requirements.</li>
+</ul>
+</p>
+
+<p>
+Consider the example bellow. Two sentences out of a manual test procedure that verify two different aspects of
+a telephone exchange system. Obviously these are different requirements, the first pertaining to returning a 
+call and the second related to call forwarding. Note however, that aside from the key portions highlighted in
+color, the rest of the script is identical. First isolate what is different about each test case and then one 
+can remake the tests for Data Driven Testing (DDT).
+
+<pre>
+Lift the receiver, dial <span class="green">*69</span>, wait for the <span class="red">automatic reply</span>. Hang up the phone.
+...
+Lift the receiver, dial <span class="green">*72</span>, wait for the <span class="red">ring tone</span>, <span class="blue">dial the number</span>. Hang up the phone.
+</pre>
+</p>
+
+<h4>Forging a Single Test</h4>
+<p>
+Continuing with the previous example, let's build a single test script that handles both cases. To do that we
+need to isolate the common portions, and <em>parameterize</em> the differences. Consider the line below which 
+uses the same colors. Here we can see that there are distinct actions and there is variation in only some of
+them.
+</p>
+
+<table>
+  <tr><th>Start Call</th><th class="green">Number</th><th>Wait until</th><th class="red">Response</th><th class="blue">Action</th><th>End Call</th></tr>
+</table>
+
+<p>
+In this version of the script we can see the differences between the two requirements as a set of distinct parameters.
+In Robot Framework, these are called Arguments, but it means the same thing. They are various values that can
+be put into a test at key points. Here we have a variable for the number we want to dial, the response we are
+looking for, and the action (if any) that we will take. In black are the steps that are dependent on those
+parameters. We can write that part of the script in black and wait for the parameters to be inserted.
+</p>
+
+<table>
+  <tr><th>Start Call</th><th class="green">Number</th><th>Wait until</th><th class="red">Response</th><th class="blue">Action</th><th>End Call</th></tr>
+  <tr><td>Lift the receiver, dial</td><td class="green">??</td><td>wait for the</td><td class="red">??</td><td class="blue">??</td><td>Hang up the phone</td></tr>
+  <tr><td></td><td class="green">*69</td><td></td><td class="red">automatic reply</td><td class="blue">--</td><td></td></tr>
+  <tr><td></td><td class="green">*72</td><td></td><td class="red">ring tone</td><td class="blue">dial the number</td><td></td></tr>
+</table>
+
+<h4>The Test Cases table</h4>
+<p>
+In a RF test using DDT, the Test Cases are exclusively used to represent the arguments for each test case. Note here
+that we have replicated the same three parameters and we have added a name for each test case on the left. The header
+of each parameter (i.e. N, R, and A) are not significant in the script, but they do add some clarity. You can create
+whatever name you want for the headers of this table. Note also that each test has the same number of parameters, even
+if the test doesn't need them. It is easy to see that <code>--</code> is not really a parameter and the test script
+can skip the action if no action is required.
+</p>
+
+<pre><code>
+*** Test Cases ***          N        R                 A
+Call back function          *69      automatic reply   --
+Call forwarding function    *72      ring tone         dial the number
+</code></pre>
+
+<h4>Arguments for Test Template</h4>
+<p>
+In DDT, the Test Template keyword receives a set of arguments for each test case. These arguments have names that are
+defined in the first line of the keyword and stay the same throughout. In this example you can see how the first test
+case would run and the values that would be found in each argument. Note also that the <code>${TEST NAME}</code> variable 
+is conveniently available to access the name of the test case from that table.
+</p>
+
+<pre><code>
+Template Keyword
+    [Arguments]    ${Number}    ${Response}       ${Action}
+                   <i>#*69         automatic reply   --</i>
+    Log    ${TEST NAME} <i>#Call back function</i>
+</code></pre>
+
+<h4>Writing the Test Template</h4>
+<p>
+We are going to assume quite a lot in this code sample, but the details of any test will have to be worked out completely.
+Naturally, I have not written keywords for <code>Lift Phone and Dial</code>, but you can imagine that they already exist. 
+Here you can see the simple code that sends the appropriate argument(s) to each keyword. This kind of script is valuable
+because it allows us to add new cases with DDT.
+</p>
+
+<pre><code>
+Template Keyword
+    [Arguments]    ${Number}    ${Response}       ${Action}
+    Log    ${TEST NAME}
+    Lift Phone and Dial    ${Number}
+    Wait for    ${Response}
+    Run Keyword Unless    '''${Action}'''=='--'    ${Action}
+    Hang Up
+</code></pre>
+
+<h4>Benefits of DDT</h4>
+<ul>
+  <li>Adding a new DDT test is usually as simple as adding a single line in the Test Cases table.</li>
+  <li>If there is some significantly new argument, you may need to add a new column and a couple lines of new code, but that is rare when tests are very similar.</li>
+  <li>If there is any bug or defect in the script it only needs to be fixed once. Fix it once, and the improvement affects all tests in the table.</li>
+  <li>If there is a new requirement (e.g. required output, data reporting, etc.) it can be put in once and it affects all tests in the table.</li>
+  <li>Logically, a DDT test already is broken into several keywords so that the OQE can be defined naturally along these lines. These lines also tend to correspond to requirements.</li>
+</ul>
 
 <h3>Formatting the OQE</h3>
 <h4>Rows on Main Page</h4>
