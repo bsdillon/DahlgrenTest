@@ -15,81 +15,48 @@
 
     <h3>Table of Contents</h3>
     <ul>
-      <li><a href="#">Test Setup</a></li>
-      <li>
+      <li><a href="#ts">Test Setup</a></li>
         <ul>
-          <li><a href="#">Required Elements</a></li>
-          <li><a href="#">Permanence of Python Components</a></li>
-          <li><a href="#">Prefer Resource Files</a></li>
+          <li><a href="#re">Required Elements</a></li>
+          <li><a href="#popc">Permanence of Python Components</a></li>
+          <li><a href="#prf">Prefer Resource Files</a></li>
         </ul>
-      </li>
-      <li><a href="#">Building New Tests</a></li>
-      <li>
+      <li><a href="#bnt">Building New Tests</a></li>
         <ul>
-          <li><a href="#">The Three Monsters</a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
+          <li><a href="#ttm">The Three Monsters</a></li>
+          <li><a href="#etr">Export to Resource</a></li>
+          <li><a href="#cs">Combining Scripts</a></li>
+          <li><a href="#cof">Conservation of Familiarity</a></li>
         </ul>
-      </li>
-      <li><a href="#"></a></li>
-      <li>
+      <li><a href="#ddt">Data Driven Testing</a></li>
         <ul>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
+          <li><a href="#istc">Identifying Similar Test Cases</a></li>
+          <li><a href="#fast">Forging a Single Test</a></li>
+          <li><a href="#ttct">The Test Cases Table</a></li>
+          <li><a href="#aftt">Arguments for Test Template</a></li>
+          <li><a href="#wttt">Writing the Test Template</a></li>
+          <li><a href="#bod">Benefits of DDT</a></li>
         </ul>
-      </li>
-      <li><a href="#"></a></li>
-      <li>
+      <li><a href="#fto">Formatting The OQE</a></li>
         <ul>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
+          <li><a href="#romp">Rows on Main Page</a></li>
+          <li><a href="#bomp">Blocks on Main Page</a></li>
+          <li><a href="#ar">Assert Row</a></li>
+          <li><a href="#dr">Data Row</a></li>
+          <li><a href="#pr">Picture Row</a></li>
+          <li><a href="#kt">Keyword Teardown</a></li>
+          <li><a href="#db">Data Breaks</a></li>
         </ul>
-      </li>
-      <li><a href="#"></a></li>
-      <li>
+      <li><a href="#oaa">OQE and Analysis</a></li>
         <ul>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
-          <li><a href="#"></a></li>
+          <li><a href="#afr">Assertions for Requirements</a></li>
+          <li><a href="#mafr">Multiple Assertions for Requirements</a></li>
         </ul>
-      </li>
-      <li><a href="#"></a></li>
-      <li>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </li>
-      <li><a href="#"></a></li>
-      <li><a href="#"></a></li>
-      <li><a href="#"></a></li>
-
-
-
-
-
-
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
     </ul>
     <br>
 
-<h3>Test Setup</h3>
-<h4>Required Elements</h4>
+<a name="ts"><h3>Test Setup</h3></a>
+<a name="re"><h4>Required Elements</h4></a>
 <p>
 Every Robot Framework script has required headers that define key portions of the script. As shown in the table below, these are (mostly)
 common for .robot and .resource files. Note that Test Cases do not exist in .resource files. Note also that resource files inherit from 
@@ -105,7 +72,7 @@ each other and .robot files can inherit from .resource whiles. That means that i
   <tr><td><code>*** Test Cases ***</code></td><td class="green">&#10004;</td><td class="red">&#10008;</td></tr>
 </table>
 
-<h4>Permanence of Python Components</h4>
+<a name="popc"><h4>Permanence of Python Components</h4></a>
 <p>
 By default, all python scripts are supposed to be stateless with functions/keywords that are defined for a single 
 operation. Stateless means that it doesn't hold any information whether you did the task one time or a hundred.
@@ -135,7 +102,7 @@ to the relevant RF documentation, can be found <a href="https://stackoverflow.co
 <code>ROBOT_LIBRARY_SCOPE = 'SUITE'</code>
 </p>
 
-<h4>Prefer Resource Files</h4>
+<a name="prf"><h4>Prefer Resource Files</h4></a>
 <p>
 Robot test scripts and the keywords developed in those scripts are one-and-done. They exist in that script
 but they are not accessible elsewhere. For reasons that do not require full explanation here, simply copying
@@ -146,8 +113,8 @@ go through and justify why any keyword exists in that test script rather than a 
 no or little justification, it needs to move.
 </p>
 
-<h3>Building New Tests</h3>
-<h4>The Three Monsters</h4>
+<a name="bnt"><h3>Building New Tests</h3></a>
+<a name="ttm"><h4>The Three Monsters</h4></a>
 <p>
 There is a story used in refactoring circles to describe how one deals with a <em>lack</em> of knowledge
 when developing a script. The first time you are faced with a task you treat it as a monster that you just
@@ -166,7 +133,7 @@ the time the third test is built you are also exportin all your logs to a centra
 that in the third test script without updating the first two.
 </p>
 
-<h4>Export to Resource</h4>
+<a name="etr"><h4>Export to Resource</h4></a>
 <p>
 These problems can partially be solved by exporting most keywords to a resource file. If the function already
 exists in a resource file and you add OQE reporting to it, that OQE will now be reported for <em>both</em>
@@ -174,7 +141,7 @@ tests. If you add logging, that too will be in all three scripts. Most important
 will look very similar and prepared for DDT. This will help you as you try to combine them.
 </p>
 
-<h4>Combining Scripts</h4>
+<a name="cs"><h4>Combining Scripts</h4></a>
 <p>
 In order to compare and contrast any three scripts, it is easiest line them up side by side. As you do,
 look for things that are missing from or found only in one script of the three. Adjust the spacing between the
@@ -194,7 +161,7 @@ add functionality to old tests. While building new tests, watch for the three mo
 a single DDT test as often as possible.
 </p>
 
-<h4>Conservation of Familiarity</h4>
+<a name="cof"><h4>Conservation of Familiarity</h4></a>
 <p>
 According to <a href="https://en.wikipedia.org/wiki/Lehman%27s_laws_of_software_evolution">Lehman's fifth law of 
 software evolution</a>, maintaining familiarity with any set of scripts is an ongoing challenge. Combining scripts
@@ -206,8 +173,8 @@ whole set of test scripts looking for inefficiencies and resolving discrepencies
 development--including test scripts.
 </p>
 
-<h3>Data Driven Testing</h3>
-<h4>Identifying Similar Test Cases</h4>
+<a name="ddt"><h3>Data Driven Testing</h3></a>
+<a name="istc"><h4>Identifying Similar Test Cases</h4></a>
 <p>
 Testers have been trained to minimize costs and especially to avoid duplicative effort. Therefore it may
 seem inconsistent that any test cases would have duplicate steps and yet they do. Consider that, at the lowest 
@@ -240,7 +207,7 @@ Lift the receiver, dial <span class="green">*72</span>, wait for the <span class
 </pre>
 </p>
 
-<h4>Forging a Single Test</h4>
+<a name="fast"><h4>Forging a Single Test</h4></a>
 <p>
 Continuing with the previous example, let's build a single test script that handles both cases. To do that we
 need to isolate the common portions, and <em>parameterize</em> the differences. Consider the line below which 
@@ -267,7 +234,7 @@ parameters. We can write that part of the script in black and wait for the param
   <tr><td></td><td class="green">*72</td><td></td><td class="red">ring tone</td><td class="blue">dial the number</td><td></td></tr>
 </table>
 
-<h4>The Test Cases table</h4>
+<a name="ttct"><h4>The Test Cases Table</h4></a>
 <p>
 In a RF test using DDT, the Test Cases are exclusively used to represent the arguments for each test case. Note here
 that we have replicated the same three parameters and we have added a name for each test case on the left. The header
@@ -283,7 +250,7 @@ Call back function          *69      automatic reply   --
 Call forwarding function    *72      ring tone         dial the number
 </code></pre>
 
-<h4>Arguments for Test Template</h4>
+<a name="aftt"><h4>Arguments for Test Template</h4></a>
 <p>
 In DDT, the Test Template keyword receives a set of arguments for each test case. These arguments have names that are
 defined in the first line of the keyword and stay the same throughout. In this example you can see how the first test
@@ -298,7 +265,7 @@ Template Keyword
     Log    ${TEST NAME} <i>#Call back function</i>
 </code></pre>
 
-<h4>Writing the Test Template</h4>
+<a name="wttt"><h4>Writing the Test Template</h4></a>
 <p>
 We are going to assume quite a lot in this code sample, but the details of any test will have to be worked out completely.
 Naturally, I have not written keywords for <code>Lift Phone and Dial</code>, but you can imagine that they already exist. 
@@ -316,7 +283,7 @@ Template Keyword
     Hang Up
 </code></pre>
 
-<h4>Benefits of DDT</h4>
+<a name="bod"><h4>Benefits of DDT</h4></a>
 <ul>
   <li>Adding a new DDT test is usually as simple as adding a single line in the Test Cases table.</li>
   <li>If there is some significantly new argument, you may need to add a new column and a couple lines of new code, but that is rare when tests are very similar.</li>
@@ -325,21 +292,21 @@ Template Keyword
   <li>Logically, a DDT test already is broken into several keywords so that the OQE can be defined naturally along these lines. These lines also tend to correspond to requirements.</li>
 </ul>
 
-<h3>Formatting the OQE</h3>
-<h4>Rows on Main Page</h4>
+<a name="fto"><h3>Formatting the OQE</h3></a>
+<a name="romp"><h4>Rows on Main Page</h4></a>
 <p>You want each test case to show up as a new row in the OQE GUI. Use the <code>New Test Event</code>
 keyword to generate that row. In this image, the white arrow points to a single test created with this
 keyword.</p>
 
 <img src="rowandblock.png">
-<h4>Blocks on Main Page</h4>
+<a name="bomp"><h4>Blocks on Main Page</h4></a>
 <p>On the main page each keyword shows up as a separate red/green block. While a test can be written with 
 only one keyword, the OQE report with just one block is less informative. Consider that it could have
 1 or 20 failures and all you would see is one red block. Instead, break up the test into multiple keywords
 that make sense based on the test objectives. Major pieces of the test each turn into a separate keywords.
 In the image above, the highlighted green block is the result of a single keyword.<p>
 
-<h4>Assert Row</h4>
+<a name="ar"><h4>Assert Row</h4></a>
 <p>
 Assertion rows are used to validate specific data against expectations. This might be used for any number
 of requirements and the values are shown in the row. This makes the Pass/Fail determination and the original
@@ -347,7 +314,7 @@ OQE available on the same line of the report.
 </p>
 <img src="assertrow.png">
 
-<h4>Data Row</h4>
+<a name="dr"><h4>Data Row</h4></a>
 <p>
 Data rows are used to record OQE which is not being validated. This could be any number of related data points
 all of which show up with labels. This is OQE which may be of use in future analysis or for "information only"
@@ -355,7 +322,7 @@ purposes.
 </p>
 <img src="datarow.png">
 
-<h4>Picture Row</h4>
+<a name="pr"><h4>Picture Row</h4></a>
 <p>
 A picture row shows a screen shot of either a specific element OR the whole screen. These images can be used as
 historical data to show that some aspect of the test did in fact occur. A common use is recording the button or
@@ -367,7 +334,7 @@ when someone clicks on that image.
 </p>
 <img src="picturerow.png">
 
-<h4>Keyword Teardown</h4>
+<a name="kt"><h4>Keyword Teardown</h4></a>
 <p>
 Each keyword has a built in status that becomes available during teardown. You can use <code>${KEYWORD STATUS}</code>
 and <code>${KEYWORD MESSAGE}</code> to get any error that cropped up during that keyword.
@@ -387,14 +354,14 @@ The last two arguments are standard for the keyword teardown. The <code>${KEYWOR
 <span class="red">FAIL</span>. The <code>${KEYWORD MESSAGE}</code> varies quite a bit and may be used to find out what the error was.
 </p>
 
-<h4>Data Breaks</h4>
+<a name="db"><h4>Data Breaks</h4></a>
 <p>When viewing the individual test report, it is an unbroken set of rows with data and checks. This makes
 reading particularly hard. From the test you can insert a <code>Data Break</code> which shows up as a 
 dark blue bar across the report.</p>
 <img src="databreak.png"><br>
 
-<h3>OQE and Analysis</h3>
-<h4>Assertions for Requirements</h4>
+<a name="oaa"><h3>OQE and Analysis</h3></a>
+<a name="afr"><h4>Assertions for Requirements</h4></a>
 <p>Assertions are the main way that test results are analyzed. In most test steps there
 is something that is checked, verified, compared, or otherwise expected to be true. There
 are many examples. In this case we have a specific URL that we expect to reach.  The value
@@ -402,7 +369,7 @@ of <code>${HREF}</code> and <code>${href}</code> should match. That check genera
 in the OQE tool. Lines like this allow the tester to validate individual requirements.
 <pre><code>${a1} =    Assert OQE Value    ${HTML}    REQ-5678    ${href}    ${HREF}</code></pre>
 
-<h4>Multiple Assertions for Requirements</h4>
+<a name="mafr"><h4>Multiple Assertions for Requirements</h4></a>
 That Pass/Fail value is also recorded in the minor variables <code>${a1}</code>. Where more
 than one check is related to a requirement, these can be combined. Note this example near
 the end of a keyword where two variables are used to record OQE. As a tester, you can 
