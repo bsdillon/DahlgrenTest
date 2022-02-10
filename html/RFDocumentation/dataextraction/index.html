@@ -15,46 +15,112 @@
     </ul>
     <br>
 
+    <h3>Validating Data Connection</h3>
+    <p><a href="./../training/index.html#testconnection">as described in the tutorials</a></p>
+    <dl>
+      <dt><a name=""></a><pre><code>Test Check</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>${x} =    Prove it works</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>Archive Any Previous Data</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>Insert Dummy Test Data</code></pre></dt>
+        <dd></dd>
+    </dl>
+    
     <h3>Setting Up An OQE Test</h3>
-    <p>
-      All
-    </p>
-
-* Archive Any Previous Data
-  All the data accumulates in the test.js file we pointed to earlier. If you want to split
+    <dl>
+      <dt><pre><code><a name=""></a>Archive Any Previous Data</code></pre></dt>
+        <dd>All the data accumulates in the test.js file we pointed to earlier. If you want to split
   from all previous data, call this keyword and the current data set will be moved to the 
-  archive folder ./OQE/ARCHIVE.
-
-* New Test Event    <<NAME>>
-  You MUST write this at least once before adding data to the OQE tool. The name you give will
+  archive folder <code>./OQE/ARCHIVE</code>.</dd>
+      <dt><pre><code><a name=""></a>New Test Event    ~~NAME~~</code></pre></dt>
+        <dd>You MUST write this at least once before adding data to the OQE tool. The name you give will
   be repeated for all data and you will be adding to that same report until you use this keyword
   again. This keyword can also be used to start new rows of data at any time (useful in the next
-  test event).
-  Ex. New Test Event    Check my test
-
-* Assert OQE Value    ${TEST NAME}    <<STEP NAME>>    <<ACTUAL>>    <<EXPECTED>>
-  This keyword is used to directly compare the actual and expected value. Name the step
-  something that describes the assertian.
-  Ex. Assert OQE Value    ${TEST NAME}    IFF Check    ${IFF Found}    1234
-  
-* Record Data    ${TEST NAME}    <<STEP NAME>>    <<DATA>>
-  This keyword is used to log data without pass/fail judgement. End each datum with a ';'
-  This could be a way to record the whole contents of a message or data about some event.
-  Ex. Record Data    ${TEST NAME}    MT-121    ${mt}.Number; ${mt}.Source; ${mt}.Dest;
-
-* Capture Element Image    <<IDENTIFIER>>    ${TEST NAME}    <<STEP NAME>>
-* Capture Screen Image    ${TEST NAME}    <<STEP NAME>>
-  Both of these keywords use similar conventions to capture screen shots. The images will
-  be captured in the HTML report.
-  Ex. Capture Element Image    hookTrack.LTN    ${TEST NAME}    Verify LTN
-
-* [Teardown]    Record Test Case    ${CASE NAME}    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}
-  This keyword should be used at the end of each test case. It captures the overal pass/fail
+  test event).<br>
+  <pre><code>Ex. New Test Event    Check my test</code></pre></dd>
+      <dt><a name=""></a><pre><code>
+Record Test Case    --    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}
+Record Test Case    ${CASE NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}</code></pre></dt>
+[Teardown]    Record Test Case    --    My Keyword Name    ${TEST STATUS}    ${TEST MESSAGE}
+</code></pre></dt>
+        <dd>This keyword should be used at the end of each test case. It captures the overal pass/fail
   status of the test case. You may gather pass/fail criteria with the keywords above, but
   the test itself may fail for other reasons which will be captured here in the error message.
-  You can choose to specify either the test case as whole or some specific step in the case.
-  Ex. Record Test Case    ${CASE NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
-  Ex. Record Test Case    --    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}
+  You can choose to specify either the test case as whole or some specific step in the case.<br>
+<pre><code>Ex. Record Test Case    ${CASE NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
+Ex. Record Test Case    --    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}</code></pre></dd>
+    </dl>
 
+    <h3>OQE Reporting</h3>
+    <dl>
+      <dt><a name=""></a><pre><code>Assert OQE Value    ${TEST NAME}    ~~STEP NAME~~    ~~ACTUAL~~    ~~EXPECTED~~</code></pre></dt>
+        <dd>This keyword is used to directly compare the actual and expected value. Name the step
+  something that describes the assertian.
+  <pre><code>Ex. Assert OQE Value    ${TEST NAME}    IFF Check    ${IFF Found}    1234</code></pre></dd>
+      <dt><a name=""></a><pre><code>Record Data    ${TEST NAME}    ~~STEP NAME~~    ~~DATA~~</code></pre></dt>
+        <dd>This keyword is used to log data without pass/fail judgement. End each datum with a ';'
+  This could be a way to record the whole contents of a message or data about some event.
+  <pre><code>Ex. Record Data    ${TEST NAME}    MT-121    ${mt}.Number; ${mt}.Source; ${mt}.Dest;</code></pre>
+</dd>
+      <dt><a name=""></a><pre><code>Get Image File Name</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>
+Capture Element Image    ~~IDENTIFIER~~    ${TEST NAME}    ~~STEP NAME~~
+Capture Screen Image    ${TEST NAME}    ~~STEP NAME~~</code></pre></dt>
+        <dd>Both of these keywords use similar conventions to capture screen shots. The images will
+  be captured in the HTML report.
+  <pre><code>Ex. Capture Element Image    hookTrack.LTN    ${TEST NAME}    Verify LTN</code></pre></dd>
+      <dt><a name=""></a><pre><code></code></pre></dt>
+        <dd></dd>
+    </dl>
+
+    <h3>Chart Setup</h3>
+    <dl>
+      <dt><a name=""></a><pre><code>
+Suite Line    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+Test Line    ${TEST}    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>
+Suite Multi Line    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
+Test Multi Line    ${TEST}    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
+</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>
+Suite Pie    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+Test Pie    ${TEST}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>
+Suite Color Scheme    ${TITLE}    @{COLORS}
+Test Color Scheme    ${TEST}    ${TITLE}    @{COLORS}
+</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>
+Suite Color Group    ${TITLE}    ${GROUP}
+Test Color Group    ${TEST}    ${TITLE}    ${GROUP}
+</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code></code></pre></dt>
+        <dd></dd>
+    </dl>
+
+    <h3>Chart Recording</h3>
+    <dl>
+      <dt><a name=""></a><pre><code>
+Suite Data    ${TITLE}    ${LABEL}    ${VALUE}
+Test Data    ${TEST}    ${TITLE}    ${LABEL}    ${VALUE}
+</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code>
+Suite Multi Data    ${TITLE}    ${LABEL}    @{VALUES}
+Test Multi Data    ${TEST}    ${TITLE}    ${LABEL}    @{VALUES}
+</code></pre></dt>
+        <dd></dd>
+      <dt><a name=""></a><pre><code></code></pre></dt>
+        <dd></dd>
+    </dl>
   </body>
 </html>
