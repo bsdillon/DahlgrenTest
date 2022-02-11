@@ -5,47 +5,87 @@
     <link href = "./../../common.css" rel = "stylesheet">
     <script>
     </script>
+    <style>
+      dt {background-color: white;}
+      .hang {padding-left: 40px; text-indent: -40px;}
+    </style>
   </head>
   <body>
     <h2>Data Extraction Tools</h2>
 
     <h3>Table of Contents</h3>
     <ul>
-      <li><a href="#">???</a></li>
+      <li><a href="#vdc">Validating Data Connection</a><br>
+      <ul>
+        <li><a href="#tc">Test Check</a></li>
+        <li><a href="#piw">Prove it Works</a></li>
+        <li><a href="#idtd">Insert Dummy Test Data</a></li>
+      </ul>
+      </li>
+      <li><a href="#suaot">Setting Up An OQE Test</a><br>
+      <ul>
+        <li><a href="#aapd">Archive Any Previous Data</a></li>
+        <li><a href="#nte">New Test Event</a></li>
+        <li><a href="#rtc">Record Test Case</a></li>
+      </ul>
+      </li>
+      <li><a href="#or">OQE Reporting</a>
+      <ul>
+        <li><a href="#aov">Assert OQE Value</a></li>
+        <li><a href="#rd">Record Data</a></li>
+        <li><a href="#gifn">Get Image File Name</a></li>
+        <li><a href="#cei">Capture Element Image<br>Capture Screen Image</a></li>
+      </ul>
+      </li>
+      <li><a href="#cs">Chart Setup</a><br>
+      <ul>
+        <li><a href="#sl">Suite Line<br>TestLine</a></li>
+        <li><a href="#sml">Suite Multi Line<br>Test Multi Line</a></li>
+        <li><a href="#sp">Suite Pie<br>Test Pie</a></li>
+        <li><a href="#scs">Suite Color Scheme<br>Test Color Scheme</a></li>
+        <li><a href="#scg">Suite Color Group<br>Test Color Group</a></li>
+      </ul>
+      </li>
+      <li><a href="#cr">Chart Recording</a><br>
+      <ul>
+        <li><a href="#sd">Suite Data<br>Test Data</a></li>
+        <li><a href="#smd">Suite Multi Data<br>Test Multi Data</a></li>
+      </ul>
+      </li>
     </ul>
     <br>
 
-    <h3>Validating Data Connection</h3>
+    <a name="vdc"></a><h3>Validating Data Connection</h3>
     <p>A set of keywords has been included in the OQE library to verify that the code works. When applied to a test 
     script <a href="./../training/index.html#testconnection">as described in the tutorials</a>, the output can be 
     used to verify that the data connections are working.</p>
     <dl>
-      <dt><a name=""></a><pre><code>Test Check</code></pre></dt>
+      <dt><a name="tc"></a><pre><code>Test Check</code></pre></dt>
         <dd>This keyword generates a log statement that shows the DataExtraction.resource file is connected to the
         test. Check the log, not the OQE report for that statement.</dd>
-      <dt><a name=""></a><pre><code>${x} =    Prove it works
+      <dt><a name="piw"></a><pre><code>${x} =    Prove it works
 Log    ${x}</code></pre></dt>
         <dd>These lines include the keyword <code>Prove it works</code> which verifies the connection to the Python
         code in <code>kw_DataExtraction.py</code>. The response is collected and also sent to the log.</dd>
-      <dt><a name=""></a><pre><code>Insert Dummy Test Data</code></pre></dt>
+      <dt><a name="idtd"></a><pre><code>Insert Dummy Test Data</code></pre></dt>
         <dd>This last keyword actually sends a set of default data to the <code>.js</code> file so it can be seen
         from the HTML GUI.</dd>
     </dl>
     
-    <h3>Setting Up An OQE Test</h3>
+    <a name="suaot"></a><h3>Setting Up An OQE Test</h3>
     <dl>
-      <dt><pre><code><a name=""></a>Archive Any Previous Data</code></pre></dt>
+      <dt><pre><code><a name="aapd"></a>Archive Any Previous Data</code></pre></dt>
         <dd>All the data accumulates in the <code>.js</code> file we pointed to earlier. At some point, probably the 
         beginning of a large test suite, you want to split from all previous data and get a single report containing
         all new data. This keyword moves any existing data to the archive folder just under the existing data file
         location. These are renamed after the extension so that test.js becomes test.js1, test.js2, etc.</dd>
-      <dt><pre><code><a name=""></a>New Test Event    ~~NAME~~</code></pre></dt>
+      <dt><pre><code><a name="nte"></a>New Test Event    ~~NAME~~</code></pre></dt>
         <dd>This keyword is <span class="red">REQUIRED</span> for any test. It creates space in the <code>.js</code>
         file for new data and it sets up a new row in the report GUI. You MUST write this at least once before recording 
         any data. The test <code>~~NAME~~</code> is open for definition. The OQE library automatically attributes all
         test data to that test name until <code>Archive Any Previous Data</code> is called again.<br>
         <pre><code>New Test Event    Check my test</code></pre></dd>
-      <dt><a name=""></a>
+      <dt><a name="rtc"></a>
 <pre><code>              Record Test Case    --          ~~STEP~~    ~~PASS/FAIL~~    ~~MESSAGE~~
               Record Test Case    ~~CASE~~    --          ~~PASS/FAIL~~    ~~MESSAGE~~
 [Teardown]    Record Test Case    ~~CASE~~    ~~STEP~~    ~~PASS/FAIL~~    ~~MESSAGE~~
@@ -67,23 +107,23 @@ Log    ${x}</code></pre></dt>
 </code></pre></dd>
     </dl>
 
-    <h3>OQE Reporting</h3>
+    <a name="or"></a><h3>OQE Reporting</h3>
     <dl>
-      <dt><a name=""></a><pre><code>Assert OQE Value    ${TEST NAME}    ~~STEP NAME~~    ~~ACTUAL~~    ~~EXPECTED~~</code></pre></dt>
+      <dt><a name="aov"></a><pre><code>Assert OQE Value    ${TEST NAME}    ~~STEP NAME~~    ~~ACTUAL~~    ~~EXPECTED~~</code></pre></dt>
         <dd>This keyword is used to directly compare the actual and expected value. Assertions are fairly 
         common for automatic test analysis and they come in a variety of formulas. This one is exact equality. 
         Near matches ('base' vs 'case') or partial matches ('base' vs 'baseball') will not be accepted. Use 
         <code>${TEST NAME}</code> in all cases and use the more flexible step name to describe the data being 
         compared.<br>
 <pre><code>Assert OQE Value    ${TEST NAME}    URL Check    ${URL Found}    somewheres.com</code></pre></dd>
-      <dt><a name=""></a><pre><code>Record Data    ${TEST NAME}    ~~STEP NAME~~    ~~DATA~~</code></pre></dt>
+      <dt><a name="rd"></a><pre><code>Record Data    ${TEST NAME}    ~~STEP NAME~~    ~~DATA~~</code></pre></dt>
         <dd>This keyword is used to log plain text data without the pass/fail judgement. The <code>~~DATA~~</code>
         can contain a large string of data separated by <code>';'</code>. This technique allows a large amount of OQE
         to be recorded without analysis. In theory any significant event can and should be recorded in this
         way.<br>
 <pre><code>Record Data    ${TEST NAME}    Network Message    ${msg}.Number; ${msg}.Source; ${msg}.Dest;</code></pre>
 </dd>
-      <dt><a name=""></a><pre><code>Get Image File Name    ~~CASE~~    ~~STEP~~</code></pre></dt>
+      <dt><a name="gifn"></a><pre><code>Get Image File Name    ~~CASE~~    ~~STEP~~</code></pre></dt>
         <dd>By default all images are stored in the same location as the log file. The Robot Framework
         library allows the user to define a new location for storage, but it is ideal for data driven
         testing that image names are more specific to the test. The default Robot Framework process
@@ -91,8 +131,7 @@ Log    ${x}</code></pre></dt>
         etc.). This keyword takes the name of the test case, the step, and then determines a unique name 
         that is available. This file name and path can be passed to the screen capture keywords to get and 
         store the image in the pre-defined location.</dd>
-      <dt><a name=""></a><pre><code>
-Capture Element Image<sup class="green">SELENIUM</sup>    ~~IDENTIFIER~~    ${TEST NAME}    ~~STEP NAME~~
+      <dt><a name="cei"></a><pre><code>Capture Element Image<sup class="green">SELENIUM</sup>    ~~IDENTIFIER~~    ${TEST NAME}    ~~STEP NAME~~
 Capture Screen Image<sup class="green">SELENIUM</sup>    ${TEST NAME}    ~~STEP NAME~~</code></pre></dt>
         <dd>Both of these keywords use Selenium libraries to capture images of either the whole screen or 
         specific elements. Similar keywords are required for non-web testing. Robot Framework has a built
@@ -101,55 +140,92 @@ Capture Screen Image<sup class="green">SELENIUM</sup>    ${TEST NAME}    ~~STEP 
         will be inserted directly into the HTML report. The test and step names are used in the GUI
         report.<br>
   <pre><code>Capture Element Image<sup class="green">SELENIUM</sup>    css:.username    ${TEST NAME}    Verify user</code></pre></dd>
-      <dt><a name=""></a><pre><code></code></pre></dt>
-        <dd></dd>
     </dl>
 
-    <h3>Chart Setup</h3>
+    <a name="cs"></a><h3>Chart Setup</h3>
     <dl>
-      <dt><a name=""></a><pre><code>
-Suite Line    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+      <dt><a name="sl"></a><pre><code>Suite Line    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
 Test Line    ${TEST}    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
 </code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code>
-Suite Multi Line    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
+        <dd>There are a variety of chart options which are basically the same "line".
+        This includes actual lines, areas (i.e. colored under the line), vertical and
+        horizontal bars, and scatter plots. Stacked versions of these charts (e.g. S_Line
+        are also allowed for all "line" types. These can be declared either for the suite
+        or for a specific test. When defined for the test, the first parameter specifies
+        the test which it applies to (and therefore it is generally ${TEST NAME}).
+        The other parameters are:<br>
+        <ul>
+          <li><code>${STYLE}</code> - Line | VBar | HBar | Area  | S_Line | S_VBar | S_HBar | S_Area | Scatter</li>
+          <li><code>${MODES}</code> - The various modes are well defined in <a href="./../charting/index.html#modes">this document</a></li>
+          <li class="hang"><code>${TITLE}</code> - Any string; the same title is always used to refer to this chart, especially when adding data</li>
+          <li><code>${XAXIS}</code> - Any string; this will be the label on the x axis</li>
+          <li><code>${YAXIS}</code> - Any string; this will be the label on the y axis</li>
+          <li><code>${SERIES}</code> - Any string; this will be the label on the data series.</li>
+        </ul>
+        </dd>
+      <dt><a name="sml"></a><pre><code>Suite Multi Line    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
 Test Multi Line    ${TEST}    ${STYLE}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    @{SERIES}
 </code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code>
-Suite Pie    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
+        <dd>As with the line keywords above, these keywords define a set of lines which will be
+        displayed in the same chart. All the parameters work in exactly the same way with the
+        exception of <code>@{SERIES}</code>. Note that this is a list and not a scalar value. The keywords
+        create a series of data sets for each string in the <code>@{SERIES}</code> list and data will be
+        added to the various data sets in the same cardinality and order.</dd>
+      <dt><a name="sp"></a><pre><code>Suite Pie    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
 Test Pie    ${TEST}    ${MODES}    ${TITLE}    ${XAXIS}    ${YAXIS}    ${SERIES}
 </code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code>
-Suite Color Scheme    ${TITLE}    @{COLORS}
+        <dd>The pie chart is somewhat different from the rest of the "line" charts, but the 
+        keywords are essentially the same. Note that there is no multi-pie chart at this time.</dd>
+      <dt><a name="scs"></a><pre><code>Suite Color Scheme    ${TITLE}    @{COLORS}
 Test Color Scheme    ${TEST}    ${TITLE}    @{COLORS}
 </code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code>
-Suite Color Group    ${TITLE}    ${GROUP}
+        <dd>The color scheme options are described in <a href="./../charting/index.html#colors">this document</a>.
+        This keyword allows the tester to define a color scheme that better suites the purpose
+        of the chart (e.g. Red/Green for pass/fail). These color schemes can be saved in the 
+        Robot test script and be assigned to any number of tests with this keyword.
+        The list of colors supports any number of RBG strings, but only the first is used with 
+        a single-series chart.<br>
+        <span class="red">NOTE:</span> If the cardinality of <code>@{COLORS}</code> does not match
+        <code>@{SERIES}</code> (or the number of data points for a Pie chart), the default
+        rainbow scheme is used to fill in any missing data.<br>
+        <span class="red">NOTE:</span> The chart <code>${TITLE}</code> (and <code>${TEST}</code>-<code>${TITLE}</code> for non-suite charts)
+        must exactly match the definition for color to be assigned to the right chart.</dd>
+      <dt><a name="scg"></a><pre><code>Suite Color Group    ${TITLE}    ${GROUP}
 Test Color Group    ${TEST}    ${TITLE}    ${GROUP}
 </code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code></code></pre></dt>
-        <dd></dd>
+        <dd>The color scheme options are described in <a href="./../charting/index.html#colors">this document</a>.
+        This keyword allows the tester to assign a group of related colors (i.e. shades of a color) to a chart.
+        This works well for some data sets and in any case creates a usefully graded set of colors for any chart.<br>
+        <span class="red">NOTE:</span> If the cardinality of <code>@{COLORS}</code> does not match
+        <code>@{SERIES}</code> (or the number of data points for a Pie chart), the default
+        rainbow scheme is used to fill in any missing data.<br>
+        <span class="red">NOTE:</span> The chart <code>${TITLE}</code> (and <code>${TEST}</code>-<code>${TITLE}</code> for non-suite charts)
+        must exactly match the definition for color to be assigned to the right chart.</dd>
     </dl>
 
-    <h3>Chart Recording</h3>
+    <a name="cr"></a><h3>Chart Recording</h3>
     <dl>
-      <dt><a name=""></a><pre><code>
-Suite Data    ${TITLE}    ${LABEL}    ${VALUE}
+      <dt><a name="sd"></a><pre><code>Suite Data    ${TITLE}    ${LABEL}    ${VALUE}
 Test Data    ${TEST}    ${TITLE}    ${LABEL}    ${VALUE}
 </code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code>
-Suite Multi Data    ${TITLE}    ${LABEL}    @{VALUES}
+        <dd>Data points are added to all charts one ordered pair at a time. Obviously, the
+        ordered pair is meaningless for a Pie chart (i.e. only the <code>${VALUE}</code> has
+        any significance) but in all other cases the (<code>${LABEL}</code>,<code>${VALUE}</code>)
+        pair represents the "next" datum. The x-axis data series is <a href="./../charting/index.html#dataset">only
+        numerical for scatter plots</a>, so be aware of the order of data if that is important.<br>
+        <span class="red">NOTE:</span> The chart <code>${TITLE}</code> (and <code>${TEST}</code>-<code>${TITLE}</code> for non-suite charts)
+        must exactly match the definition for data to be inserted into the right chart.</dd>
+      <dt><a name="smd"></a><pre><code>Suite Multi Data    ${TITLE}    ${LABEL}    @{VALUES}
 Test Multi Data    ${TEST}    ${TITLE}    ${LABEL}    @{VALUES}
 </code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code></code></pre></dt>
-        <dd></dd>
+        <dd>As with the scalar functions above, these keywords allow data to be incrementally 
+        added to charts. In this case, because there are multiple charts, multiple ordered
+        pairs are represented e.g. <nobr>(<code>${LABEL}</code>, <code>@{VALUES}[0]</code>),</nobr> <nobr>(<code>${LABEL}</code>, 
+        <code>@{VALUES}[1]</code>),</nobr> etc.<br>
+        <span class="red">NOTE:</span> The chart <code>${TITLE}</code> (and <code>${TEST}</code>-<code>${TITLE}</code> for non-suite charts)
+        must exactly match the definition for data to be inserted into the right chart.<br>
+        <span class="red">NOTE:</span> Also the cardinality of the <code>@{VALUES}</code> must match
+        that of <code>@{SERIES}</code> when the chart was defined.</dd>
     </dl>
   </body>
 </html>
