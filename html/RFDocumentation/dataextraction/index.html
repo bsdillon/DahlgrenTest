@@ -16,62 +16,91 @@
     <br>
 
     <h3>Validating Data Connection</h3>
-    <p><a href="./../training/index.html#testconnection">as described in the tutorials</a></p>
+    <p>A set of keywords has been included in the OQE library to verify that the code works. When applied to a test 
+    script <a href="./../training/index.html#testconnection">as described in the tutorials</a>, the output can be 
+    used to verify that the data connections are working.</p>
     <dl>
       <dt><a name=""></a><pre><code>Test Check</code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code>${x} =    Prove it works</code></pre></dt>
-        <dd></dd>
-      <dt><a name=""></a><pre><code>Archive Any Previous Data</code></pre></dt>
-        <dd></dd>
+        <dd>This keyword generates a log statement that shows the DataExtraction.resource file is connected to the
+        test. Check the log, not the OQE report for that statement.</dd>
+      <dt><a name=""></a><pre><code>${x} =    Prove it works
+Log    ${x}</code></pre></dt>
+        <dd>These lines include the keyword <code>Prove it works</code> which verifies the connection to the Python
+        code in <code>kw_DataExtraction.py</code>. The response is collected and also sent to the log.</dd>
       <dt><a name=""></a><pre><code>Insert Dummy Test Data</code></pre></dt>
-        <dd></dd>
+        <dd>This last keyword actually sends a set of default data to the <code>.js</code> file so it can be seen
+        from the HTML GUI.</dd>
     </dl>
     
     <h3>Setting Up An OQE Test</h3>
     <dl>
       <dt><pre><code><a name=""></a>Archive Any Previous Data</code></pre></dt>
-        <dd>All the data accumulates in the test.js file we pointed to earlier. If you want to split
-  from all previous data, call this keyword and the current data set will be moved to the 
-  archive folder <code>./OQE/ARCHIVE</code>.</dd>
+        <dd>All the data accumulates in the <code>.js</code> file we pointed to earlier. At some point, probably the 
+        beginning of a large test suite, you want to split from all previous data and get a single report containing
+        all new data. This keyword moves any existing data to the archive folder just under the existing data file
+        location. These are renamed after the extension so that test.js becomes test.js1, test.js2, etc.</dd>
       <dt><pre><code><a name=""></a>New Test Event    ~~NAME~~</code></pre></dt>
-        <dd>You MUST write this at least once before adding data to the OQE tool. The name you give will
-  be repeated for all data and you will be adding to that same report until you use this keyword
-  again. This keyword can also be used to start new rows of data at any time (useful in the next
-  test event).<br>
-  <pre><code>Ex. New Test Event    Check my test</code></pre></dd>
-      <dt><a name=""></a><pre><code>
-Record Test Case    --    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}
-Record Test Case    ${CASE NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}</code></pre></dt>
-[Teardown]    Record Test Case    --    My Keyword Name    ${TEST STATUS}    ${TEST MESSAGE}
+        <dd>This keyword is <span class="red">REQUIRED</span> for any test. It creates space in the <code>.js</code>
+        file for new data and it sets up a new row in the report GUI. You MUST write this at least once before recording 
+        any data. The test <code>~~NAME~~</code> is open for definition. The OQE library automatically attributes all
+        test data to that test name until <code>Archive Any Previous Data</code> is called again.<br>
+        <pre><code>New Test Event    Check my test</code></pre></dd>
+      <dt><a name=""></a>
+<pre><code>              Record Test Case    --          ~~STEP~~    ~~PASS/FAIL~~    ~~MESSAGE~~
+              Record Test Case    ~~CASE~~    --          ~~PASS/FAIL~~    ~~MESSAGE~~
+[Teardown]    Record Test Case    ~~CASE~~    ~~STEP~~    ~~PASS/FAIL~~    ~~MESSAGE~~
 </code></pre></dt>
-        <dd>This keyword should be used at the end of each test case. It captures the overal pass/fail
-  status of the test case. You may gather pass/fail criteria with the keywords above, but
-  the test itself may fail for other reasons which will be captured here in the error message.
-  You can choose to specify either the test case as whole or some specific step in the case.<br>
-<pre><code>Ex. Record Test Case    ${CASE NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
-Ex. Record Test Case    --    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}</code></pre></dd>
+        <dd>This keyword is used for a variety of purposes depending on how it is parameterized. By default, and with
+        all four parameters, it records a single row in the report with a Pass/Fail status and some message. None of 
+        these fields, however, are required and both status and message could be left out. More importantly, the test
+        case and test step are indicators of how the line should appear on the main page. The tester can use these 
+        blocks to define sections of Pass/Fail blocks on the main page. By defining either per CASE or per STEP it 
+        should be possible to arrange a kind of hierarchy e.g. Test <code>A</code> followed by Test <code>A.1</code>. 
+        Supply <code>'--'</code> for the unspecified label in the hierarchy<br><br>
+        <code>Record Test Case</code> also has particular use in the <code>[Teardown]</code> line--the last of any
+        keyword. Teardown can be used to recover any failed test, but it also can be used to assess the status of
+        the keyword. Specific variables are provided for the Pass/Fail status and any error message which has come from
+        the keyword.<br>
+<pre><code>              Record Test Case    ${TEST NAME}    --                Pass                 That worked
+              Record Test Case    --              Record Lat/Lon    Fail                 No joy
+[Teardown]    Record Test Case    ${TEST NAME}    Search for Loc    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}
+</code></pre></dd>
     </dl>
 
     <h3>OQE Reporting</h3>
     <dl>
       <dt><a name=""></a><pre><code>Assert OQE Value    ${TEST NAME}    ~~STEP NAME~~    ~~ACTUAL~~    ~~EXPECTED~~</code></pre></dt>
-        <dd>This keyword is used to directly compare the actual and expected value. Name the step
-  something that describes the assertian.
-  <pre><code>Ex. Assert OQE Value    ${TEST NAME}    IFF Check    ${IFF Found}    1234</code></pre></dd>
+        <dd>This keyword is used to directly compare the actual and expected value. Assertions are fairly 
+        common for automatic test analysis and they come in a variety of formulas. This one is exact equality. 
+        Near matches ('base' vs 'case') or partial matches ('base' vs 'baseball') will not be accepted. Use 
+        <code>${TEST NAME}</code> in all cases and use the more flexible step name to describe the data being 
+        compared.<br>
+<pre><code>Assert OQE Value    ${TEST NAME}    URL Check    ${URL Found}    somewheres.com</code></pre></dd>
       <dt><a name=""></a><pre><code>Record Data    ${TEST NAME}    ~~STEP NAME~~    ~~DATA~~</code></pre></dt>
-        <dd>This keyword is used to log data without pass/fail judgement. End each datum with a ';'
-  This could be a way to record the whole contents of a message or data about some event.
-  <pre><code>Ex. Record Data    ${TEST NAME}    MT-121    ${mt}.Number; ${mt}.Source; ${mt}.Dest;</code></pre>
+        <dd>This keyword is used to log plain text data without the pass/fail judgement. The <code>~~DATA~~</code>
+        can contain a large string of data separated by <code>';'</code>. This technique allows a large amount of OQE
+        to be recorded without analysis. In theory any significant event can and should be recorded in this
+        way.<br>
+<pre><code>Record Data    ${TEST NAME}    Network Message    ${msg}.Number; ${msg}.Source; ${msg}.Dest;</code></pre>
 </dd>
-      <dt><a name=""></a><pre><code>Get Image File Name</code></pre></dt>
-        <dd></dd>
+      <dt><a name=""></a><pre><code>Get Image File Name    ~~CASE~~    ~~STEP~~</code></pre></dt>
+        <dd>By default all images are stored in the same location as the log file. The Robot Framework
+        library allows the user to define a new location for storage, but it is ideal for data driven
+        testing that image names are more specific to the test. The default Robot Framework process
+        can create indexed copies of an image (e.g. <code>myimage-1.png</code>, <code>myimage-2.png</code>, 
+        etc.). This keyword takes the name of the test case, the step, and then determines a unique name 
+        that is available. This file name and path can be passed to the screen capture keywords to get and 
+        store the image in the pre-defined location.</dd>
       <dt><a name=""></a><pre><code>
-Capture Element Image    ~~IDENTIFIER~~    ${TEST NAME}    ~~STEP NAME~~
-Capture Screen Image    ${TEST NAME}    ~~STEP NAME~~</code></pre></dt>
-        <dd>Both of these keywords use similar conventions to capture screen shots. The images will
-  be captured in the HTML report.
-  <pre><code>Ex. Capture Element Image    hookTrack.LTN    ${TEST NAME}    Verify LTN</code></pre></dd>
+Capture Element Image<sup class="green">SELENIUM</sup>    ~~IDENTIFIER~~    ${TEST NAME}    ~~STEP NAME~~
+Capture Screen Image<sup class="green">SELENIUM</sup>    ${TEST NAME}    ~~STEP NAME~~</code></pre></dt>
+        <dd>Both of these keywords use Selenium libraries to capture images of either the whole screen or 
+        specific elements. Similar keywords are required for non-web testing. Robot Framework has a built
+        in keyword <code>Take Screenshot</code> that also allow the tester to specify the name of the 
+        image. By taking the projected image name from <code>Get Image File Name</code>, these keywords
+        will be inserted directly into the HTML report. The test and step names are used in the GUI
+        report.<br>
+  <pre><code>Capture Element Image<sup class="green">SELENIUM</sup>    css:.username    ${TEST NAME}    Verify user</code></pre></dd>
       <dt><a name=""></a><pre><code></code></pre></dt>
         <dd></dd>
     </dl>
