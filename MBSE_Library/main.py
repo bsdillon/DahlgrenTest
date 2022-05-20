@@ -16,10 +16,25 @@ if __name__ == '__main__':
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
 
 # Import Multiplication from your library
-from l_multiply import Multiplication
+from Lib import Multiplication
 
 # Instantiate a Multiplication object
 multiplication = Multiplication(2)
 
 # Call the multiply method
 print(multiplication.multiply(5))
+
+from Lib import Plantumlclass
+c1 = Plantumlclass("class1")
+
+c1.addvoidmethod("c1m1")
+c1.addmethodstring("c1m2")
+
+c2 = Plantumlclass("class2")
+c2.addmethodint("c2m1")
+c1.addmethod("c1m3")
+c1.printUML()
+c2.printUML()
+
+#need to pull image from plant uml
+#containorization
