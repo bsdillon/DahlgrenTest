@@ -1,4 +1,3 @@
-
 class Plantumlclass:
     classlist = []
     def __init__(self, UMLclass):
@@ -18,29 +17,20 @@ class Plantumlclass:
     def getClassName(self):
         return self.UMLclass
 
-    def addvoidmethod(self, method):
-        m1 = Plantumlmethod(method, "void")
-        self.methods.append(m1)
-
-    def addmethodint(self, method):
-        m1 = Plantumlmethod(method, "Int")
-        self.methods.append(m1)
-
-    def addmethodstring(self, method):
-        m1 = Plantumlmethod(method, "String")
-        self.methods.append(m1)
-
     def addmethod(self, method):
         m1 = Plantumlmethod(method, "")
         self.methods.append(m1)
+        return m1
 
     def printUML(self):
         #print(self.UMLclass)
         #print(self.methods)
 
         file1 = open(self.UMLclass + ".txt", "w")
-        content = [self.UMLclass + ' {\n' + ' \n']
+        content = ["class " + self.UMLclass + ' {\n' + ' \n--\n']
         for i in self.methods:
+            if i.getStatic():
+                content += '--'
             content += i.getMethod()
             content += ': '
             content += i.getType()
@@ -49,6 +39,7 @@ class Plantumlclass:
         self.content = content
         file1.writelines(content)
         file1.close()
+        # need to pull image from plant uml
 
     def getcontent(self):
         return self.content
@@ -57,9 +48,19 @@ class Plantumlmethod:
     def __init__(self, method, type):
         self.method = method
         self.type = type
+        self.static = False
 
     def getMethod(self):
         return self.method
 
     def getType(self):
         return self.type
+
+    def setType(self, type):
+        self.type = type
+
+    def setStatic(self):
+        self.static = True
+
+    def getStatic(self):
+        return self.static
