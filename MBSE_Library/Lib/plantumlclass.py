@@ -1,9 +1,22 @@
 
 class Plantumlclass:
+    classlist = []
     def __init__(self, UMLclass):
         self.UMLclass = UMLclass
         self.methods = []
         self.content = ""
+        self.addClasslist(self)
+
+    @staticmethod
+    def getClasslist():
+        return Plantumlclass.classlist
+
+    @staticmethod
+    def addClasslist(Plantumlclass):
+        Plantumlclass.classlist.append(Plantumlclass)
+
+    def getClassName(self):
+        return self.UMLclass
 
     def addvoidmethod(self, method):
         m1 = Plantumlmethod(method, "void")
