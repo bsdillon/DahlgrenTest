@@ -1,0 +1,125 @@
+<html>
+<script>
+  var letters =["Site A","Site B","Site C","Site D","Site E","Site F","Site G","Site H"];
+  var table=[[0,0.330286127585347,0.345036130399691,0.642604965690192,0.700723053813758,0.773877061247034,0.778974011419353,1],
+[0.0877375520722297,0.0877375520722297,0.135093596374825,0.245807023802149,0.500065716084824,0.640737595338218,0.841826229122087,1],
+[0.14431210305929,0.290941757008214,0.290941757008214,0.502640216417652,0.537282589226264,0.616148866887932,0.866671124572713,1],
+[0.0341566355962554,0.354678503899929,0.479638860122749,0.479638860122749,0.623979620456171,0.965235230261912,0.967773730947907,1],
+[0.153249670061679,0.206966559947103,0.375800916765578,0.560540167850522,0.560540167850522,0.597137743417145,0.781159326395415,1],
+[0.107896990350834,0.350606523217184,0.368771155010965,0.591631392341547,0.666505704937602,0.666505704937602,0.829702391344011,1],
+[0.0637007346877041,0.28371960927594,0.523674676290316,0.534006003201859,0.606933328656972,0.959709448606249,0.959709448606249,1],
+[0.200065848525299,0.376572869122172,0.425869666066474,0.576034250528389,0.721842484450813,0.744073450562117,1,1]]
+
+var chars = ['A','B','C','D','E','F','G','H'];
+
+function randomTable()
+{
+  for(let row = 0; row<8; row++)
+  {
+    for(let col = 0; col<8; col++)
+    {
+      if(col!=row)
+      {
+        tag = document.getElementById(chars[row]+"_"+chars[col]);
+        var val = Math.random();
+        tag.value=""+val;
+      }
+    }
+  }
+  generateTables();
+}
+
+function generateTables()
+{
+  for(let row = 0; row<8; row++)
+  {
+    var vals = [0,0,0,0,0,0,0,0];
+    var total = 0;
+    var running = 0;
+
+    for(let col = 0; col<8; col++)
+    {
+        tag = document.getElementById(chars[row]+"_"+chars[col]);
+        var v = Number.parseFloat(tag.value);
+        vals[col]=v;
+        total += v;
+    }
+
+    for(let col = 0; col<8; col++)
+    {
+        var norm = vals[col]/total;
+        tag = document.getElementById("!"+chars[row]+"_"+chars[col]);
+        tag.value=norm;
+        running += norm;
+        table[row][col]=running;
+        tag = document.getElementById("*"+chars[row]+"_"+chars[col]);
+        tag.value=running;
+    }
+  }
+
+  generateData();
+}
+
+function generateData()
+{
+   tag = document.getElementById("out");
+   var s="";
+   for(let i=0;i<1000;i++)
+   {
+     var index = Math.floor(Math.random()*8);
+     s += letters[index]+",";
+     var val = Math.random();
+     var index2=0;
+     for(;index2<7;index2++)
+     {
+       if(table[index][index2]>val)
+       {
+         break;
+       }
+     }
+     s += letters[index2]+",";
+     s += Math.floor(Math.random()*1000)+"<br>";
+   }
+   tag.innerHTML=s;
+}
+</script>
+<body onload="loader()">
+<table>
+  <tr><td></td><th>Site A</th><th>Site B</th><th>Site C</th><th>Site D</th><th>Site E</th><th>Site F</th><th>Site G</th><th>Site H</th></tr>
+  <tr><th>Site A</th><td><input type="text" size="4" readOnly value="0" id="A_A"></input></td><td><input type="text" size="4" id="A_B"></input></td><td><input type="text" size="4" id="A_C"></input></td><td><input type="text" size="4" id="A_D"></input></td><td><input type="text" size="4" id="A_E"></input></td><td><input type="text" size="4" id="A_F"></input></td><td><input type="text" size="4" id="A_G"></input></td><td><input type="text" size="4" id="A_H"></input></td></tr>
+  <tr><th>Site B</th><td><input type="text" size="4" id="B_A"></input></td><td><input type="text" size="4" readOnly value="0" id="B_B"></input></td><td><input type="text" size="4" id="B_C"></input></td><td><input type="text" size="4" id="B_D"></input></td><td><input type="text" size="4" id="B_E"></input></td><td><input type="text" size="4" id="B_F"></input></td><td><input type="text" size="4" id="B_G"></input></td><td><input type="text" size="4" id="B_H"></input></td></tr>
+  <tr><th>Site C</th><td><input type="text" size="4" id="C_A"></input></td><td><input type="text" size="4" id="C_B"></input></td><td><input type="text" size="4" readOnly value="0" id="C_C"></input></td><td><input type="text" size="4" id="C_D"></input></td><td><input type="text" size="4" id="C_E"></input></td><td><input type="text" size="4" id="C_F"></input></td><td><input type="text" size="4" id="C_G"></input></td><td><input type="text" size="4" id="C_H"></input></td></tr>
+  <tr><th>Site D</th><td><input type="text" size="4" id="D_A"></input></td><td><input type="text" size="4" id="D_B"></input></td><td><input type="text" size="4" id="D_C"></input></td><td><input type="text" size="4" readOnly value="0" id="D_D"></input></td><td><input type="text" size="4" id="D_E"></input></td><td><input type="text" size="4" id="D_F"></input></td><td><input type="text" size="4" id="D_G"></input></td><td><input type="text" size="4" id="D_H"></input></td></tr>
+  <tr><th>Site E</th><td><input type="text" size="4" id="E_A"></input></td><td><input type="text" size="4" id="E_B"></input></td><td><input type="text" size="4" id="E_C"></input></td><td><input type="text" size="4" id="E_D"></input></td><td><input type="text" size="4" readOnly value="0" id="E_E"></input></td><td><input type="text" size="4" id="E_F"></input></td><td><input type="text" size="4" id="E_G"></input></td><td><input type="text" size="4" id="E_H"></input></td></tr>
+  <tr><th>Site F</th><td><input type="text" size="4" id="F_A"></input></td><td><input type="text" size="4" id="F_B"></input></td><td><input type="text" size="4" id="F_C"></input></td><td><input type="text" size="4" id="F_D"></input></td><td><input type="text" size="4" id="F_E"></input></td><td><input type="text" size="4" readOnly value="0" id="F_F"></input></td><td><input type="text" size="4" id="F_G"></input></td><td><input type="text" size="4" id="F_H"></input></td></tr>
+  <tr><th>Site G</th><td><input type="text" size="4" id="G_A"></input></td><td><input type="text" size="4" id="G_B"></input></td><td><input type="text" size="4" id="G_C"></input></td><td><input type="text" size="4" id="G_D"></input></td><td><input type="text" size="4" id="G_E"></input></td><td><input type="text" size="4" id="G_F"></input></td><td><input type="text" size="4" readOnly value="0" id="G_G"></input></td><td><input type="text" size="4" id="G_H"></input></td></tr>
+  <tr><th>Site H</th><td><input type="text" size="4" id="H_A"></input></td><td><input type="text" size="4" id="H_B"></input></td><td><input type="text" size="4" id="H_C"></input></td><td><input type="text" size="4" id="H_D"></input></td><td><input type="text" size="4" id="H_E"></input></td><td><input type="text" size="4" id="H_F"></input></td><td><input type="text" size="4" id="H_G"></input></td><td><input type="text" size="4" readOnly value="0" id="H_H"></input></td></tr>
+</table>
+<button onclick="randomTable()">Randomize</button><button onclick="generateTables()">Use This Data</button>
+<br><br>
+<table>
+  <tr><td></td><th>Site A</th><th>Site B</th><th>Site C</th><th>Site D</th><th>Site E</th><th>Site F</th><th>Site G</th><th>Site H</th></tr>
+  <tr><th>Site A</th><td><input type="text" size="4" readOnly value="0" readOnly id="!A_A"></input></td><td><input type="text" size="4" readOnly id="!A_B"></input></td><td><input type="text" size="4" readOnly id="!A_C"></input></td><td><input type="text" size="4" readOnly id="!A_D"></input></td><td><input type="text" size="4" readOnly id="!A_E"></input></td><td><input type="text" size="4" readOnly id="!A_F"></input></td><td><input type="text" size="4" readOnly id="!A_G"></input></td><td><input type="text" size="4" readOnly id="!A_H"></input></td></tr>
+  <tr><th>Site B</th><td><input type="text" size="4" readOnly id="!B_A"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="!B_B"></input></td><td><input type="text" size="4" readOnly id="!B_C"></input></td><td><input type="text" size="4" readOnly id="!B_D"></input></td><td><input type="text" size="4" readOnly id="!B_E"></input></td><td><input type="text" size="4" readOnly id="!B_F"></input></td><td><input type="text" size="4" readOnly id="!B_G"></input></td><td><input type="text" size="4" readOnly id="!B_H"></input></td></tr>
+  <tr><th>Site C</th><td><input type="text" size="4" readOnly id="!C_A"></input></td><td><input type="text" size="4" readOnly id="!C_B"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="!C_C"></input></td><td><input type="text" size="4" readOnly id="!C_D"></input></td><td><input type="text" size="4" readOnly id="!C_E"></input></td><td><input type="text" size="4" readOnly id="!C_F"></input></td><td><input type="text" size="4" readOnly id="!C_G"></input></td><td><input type="text" size="4" readOnly id="!C_H"></input></td></tr>
+  <tr><th>Site D</th><td><input type="text" size="4" readOnly id="!D_A"></input></td><td><input type="text" size="4" readOnly id="!D_B"></input></td><td><input type="text" size="4" readOnly id="!D_C"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="!D_D"></input></td><td><input type="text" size="4" readOnly id="!D_E"></input></td><td><input type="text" size="4" readOnly id="!D_F"></input></td><td><input type="text" size="4" readOnly id="!D_G"></input></td><td><input type="text" size="4" readOnly id="!D_H"></input></td></tr>
+  <tr><th>Site E</th><td><input type="text" size="4" readOnly id="!E_A"></input></td><td><input type="text" size="4" readOnly id="!E_B"></input></td><td><input type="text" size="4" readOnly id="!E_C"></input></td><td><input type="text" size="4" readOnly id="!E_D"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="!E_E"></input></td><td><input type="text" size="4" readOnly id="!E_F"></input></td><td><input type="text" size="4" readOnly id="!E_G"></input></td><td><input type="text" size="4" readOnly id="!E_H"></input></td></tr>
+  <tr><th>Site F</th><td><input type="text" size="4" readOnly id="!F_A"></input></td><td><input type="text" size="4" readOnly id="!F_B"></input></td><td><input type="text" size="4" readOnly id="!F_C"></input></td><td><input type="text" size="4" readOnly id="!F_D"></input></td><td><input type="text" size="4" readOnly id="!F_E"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="!F_F"></input></td><td><input type="text" size="4" readOnly id="!F_G"></input></td><td><input type="text" size="4" readOnly id="!F_H"></input></td></tr>
+  <tr><th>Site G</th><td><input type="text" size="4" readOnly id="!G_A"></input></td><td><input type="text" size="4" readOnly id="!G_B"></input></td><td><input type="text" size="4" readOnly id="!G_C"></input></td><td><input type="text" size="4" readOnly id="!G_D"></input></td><td><input type="text" size="4" readOnly id="!G_E"></input></td><td><input type="text" size="4" readOnly id="!G_F"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="!G_G"></input></td><td><input type="text" size="4" readOnly id="!G_H"></input></td></tr>
+  <tr><th>Site H</th><td><input type="text" size="4" readOnly id="!H_A"></input></td><td><input type="text" size="4" readOnly id="!H_B"></input></td><td><input type="text" size="4" readOnly id="!H_C"></input></td><td><input type="text" size="4" readOnly id="!H_D"></input></td><td><input type="text" size="4" readOnly id="!H_E"></input></td><td><input type="text" size="4" readOnly id="!H_F"></input></td><td><input type="text" size="4" readOnly id="!H_G"></input></td><td><input type="text" size="4" value="0" readOnly id="!H_H"></input></td></tr>
+</table>
+<br><br>
+<table>
+  <tr><td></td><th>Site A</th><th>Site B</th><th>Site C</th><th>Site D</th><th>Site E</th><th>Site F</th><th>Site G</th><th>Site H</th></tr>
+  <tr><th>Site A</th><td><input type="text" size="4" readOnly value="0" readOnly id="*A_A"></input></td><td><input type="text" size="4" readOnly id="*A_B"></input></td><td><input type="text" size="4" readOnly id="*A_C"></input></td><td><input type="text" size="4" readOnly id="*A_D"></input></td><td><input type="text" size="4" readOnly id="*A_E"></input></td><td><input type="text" size="4" readOnly id="*A_F"></input></td><td><input type="text" size="4" readOnly id="*A_G"></input></td><td><input type="text" size="4" readOnly id="*A_H"></input></td></tr>
+  <tr><th>Site B</th><td><input type="text" size="4" readOnly id="*B_A"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="*B_B"></input></td><td><input type="text" size="4" readOnly id="*B_C"></input></td><td><input type="text" size="4" readOnly id="*B_D"></input></td><td><input type="text" size="4" readOnly id="*B_E"></input></td><td><input type="text" size="4" readOnly id="*B_F"></input></td><td><input type="text" size="4" readOnly id="*B_G"></input></td><td><input type="text" size="4" readOnly id="*B_H"></input></td></tr>
+  <tr><th>Site C</th><td><input type="text" size="4" readOnly id="*C_A"></input></td><td><input type="text" size="4" readOnly id="*C_B"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="*C_C"></input></td><td><input type="text" size="4" readOnly id="*C_D"></input></td><td><input type="text" size="4" readOnly id="*C_E"></input></td><td><input type="text" size="4" readOnly id="*C_F"></input></td><td><input type="text" size="4" readOnly id="*C_G"></input></td><td><input type="text" size="4" readOnly id="*C_H"></input></td></tr>
+  <tr><th>Site D</th><td><input type="text" size="4" readOnly id="*D_A"></input></td><td><input type="text" size="4" readOnly id="*D_B"></input></td><td><input type="text" size="4" readOnly id="*D_C"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="*D_D"></input></td><td><input type="text" size="4" readOnly id="*D_E"></input></td><td><input type="text" size="4" readOnly id="*D_F"></input></td><td><input type="text" size="4" readOnly id="*D_G"></input></td><td><input type="text" size="4" readOnly id="*D_H"></input></td></tr>
+  <tr><th>Site E</th><td><input type="text" size="4" readOnly id="*E_A"></input></td><td><input type="text" size="4" readOnly id="*E_B"></input></td><td><input type="text" size="4" readOnly id="*E_C"></input></td><td><input type="text" size="4" readOnly id="*E_D"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="*E_E"></input></td><td><input type="text" size="4" readOnly id="*E_F"></input></td><td><input type="text" size="4" readOnly id="*E_G"></input></td><td><input type="text" size="4" readOnly id="*E_H"></input></td></tr>
+  <tr><th>Site F</th><td><input type="text" size="4" readOnly id="*F_A"></input></td><td><input type="text" size="4" readOnly id="*F_B"></input></td><td><input type="text" size="4" readOnly id="*F_C"></input></td><td><input type="text" size="4" readOnly id="*F_D"></input></td><td><input type="text" size="4" readOnly id="*F_E"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="*F_F"></input></td><td><input type="text" size="4" readOnly id="*F_G"></input></td><td><input type="text" size="4" readOnly id="*F_H"></input></td></tr>
+  <tr><th>Site G</th><td><input type="text" size="4" readOnly id="*G_A"></input></td><td><input type="text" size="4" readOnly id="*G_B"></input></td><td><input type="text" size="4" readOnly id="*G_C"></input></td><td><input type="text" size="4" readOnly id="*G_D"></input></td><td><input type="text" size="4" readOnly id="*G_E"></input></td><td><input type="text" size="4" readOnly id="*G_F"></input></td><td><input type="text" size="4" readOnly value="0" readOnly id="*G_G"></input></td><td><input type="text" size="4" readOnly id="*G_H"></input></td></tr>
+  <tr><th>Site H</th><td><input type="text" size="4" readOnly id="*H_A"></input></td><td><input type="text" size="4" readOnly id="*H_B"></input></td><td><input type="text" size="4" readOnly id="*H_C"></input></td><td><input type="text" size="4" readOnly id="*H_D"></input></td><td><input type="text" size="4" readOnly id="*H_E"></input></td><td><input type="text" size="4" readOnly id="*H_F"></input></td><td><input type="text" size="4" readOnly id="*H_G"></input></td><td><input type="text" size="4" value="0" readOnly id="*H_H"></input></td></tr>
+</table>
+<p id="out"></p>
+</body>
+</html>
