@@ -1,93 +1,103 @@
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+############################################
+# Need to have only one import from library#
+############################################
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    #########################################################
+    # Lines 9-14 are for reference purposes, to be deleted.#
+    #########################################################
+    # Import Multiplication from your library
+    from Lib import Multiplication
+    # Instantiate a Multiplication object
+    multiplication = Multiplication(2)
+    # Call the multiply method
+    print(multiplication.multiply(5))
 
-# Import Multiplication from your library
-from Lib import Multiplication
+    ##########################################
+    # Testing methods to ensure proper output#
+    ##########################################
+    from Lib import PlantumlClass
 
-# Instantiate a Multiplication object
-multiplication = Multiplication(2)
+    c1 = PlantumlClass("class1")
 
-# Call the multiply method
-print(multiplication.multiply(5))
+    c1.add_method("c1m1")
+    c1.add_method("c1m2")
 
-from Lib import Plantumlclass
+    c2 = PlantumlClass("class2")
+    c2.add_method("c2m1")
 
-c1 = Plantumlclass("class1")
+    m1 = c1.add_method("c1m3")
+    m1.set_static()
+    m1.set_return_type("String")
 
-c1.addmethod("c1m1")
-c1.addmethod("c1m2")
+    c1.print_uml()
+    c2.print_uml()
 
-c2 = Plantumlclass("class2")
-c2.addmethod("c2m1")
+    from Lib.plantumlcommunicationdiagram import PlantUmlCommunicationDiagram
 
-m1 = c1.addmethod("c1m3")
-m1.setStatic()
-m1.setType("String")
+    communication_diagram = PlantUmlCommunicationDiagram("csv_communication.txt")
+    communication_diagram.print_uml()
 
-c1.printUML()
-c2.printUML()
+    #######################################
+    # Rest of file controls terminal input#
+    #######################################
+    numinput = 0
+    while numinput != 4:
+        print("1 - Add a class")
+        print("2 - Add a method")
+        print("3 - Print diagram")
+        print("4 - Exit")
 
-numinput = 0
+        numinput = int(input())
 
-while numinput != 4:
-    print("1 - Add a class")
-    print("2 - Add a method")
-    print("3 - Print diagram")
-    print("4 - Exit")
+        if numinput == 1:
+            print("What is the name of the class?")
+            classname = input()
+            PlantumlClass(classname)
 
-    numinput = int(input())
+        elif numinput == 2:
+            classlist = PlantumlClass.get_class_list()
+            print("Which class would you like to add a method to?")
+            j = 1
+            for i in classlist:
+                print(j, str(":"), i.get_class_name())
+                j = j + 1
 
-    if numinput == 1:
-        print("What is the name of the class?")
-        classname = input()
-        Plantumlclass(classname)
+            print(j, ": Cancel")
+            methodinput = int(input())
+            if methodinput < j:
+                methodinput = methodinput - 1
+                c = classlist[methodinput]
+                print("What is the name of the method?")
+                methodname = input()
+                m = c.add_method(methodname)
+                print("Static Y/N?")
+                answer = input()
+                if answer == str("Y") or answer == str("y"):
+                    m.set_static()
+                print("What will the return type be?")
+                print("1 - Void")
+                print("2 - Int")
+                print("3 - String")
+                print("5 - Boolean")
+                print("6 - Other")
+                returntype = int(input())
+                if returntype == 1:
+                    m.set_return_type("void")
+                if returntype == 2:
+                    m.set_return_type("int")
+                if returntype == 3:
+                    m.set_return_type("String")
+                if returntype == 4:
+                    m.set_return_type("boolean")
+                if returntype == 5:
+                    print("What does it return?")
+                    typeinput = input()
+                    m.set_return_type(typeinput)
 
-    elif numinput == 2:
-        classlist = Plantumlclass.getClasslist()
-        print("Which class would you like to add a method to?")
-        j = 1
-        for i in classlist:
-            print(j, str(":"), i.getClassName())
-            j = j + 1
-
-        print(j, ": Cancel")
-        methodinput = int(input())
-        if methodinput < j:
-            methodinput = methodinput - 1
-            c = classlist[methodinput]
-            print("What is the name of the method?")
-            methodname = input()
-            m = c.addmethod(methodname)
-            print("Static Y/N?")
-            answer = input()
-            if answer == str("Y") or answer == str("y"):
-                m.setStatic()
-            print("What will the return type be?")
-            print("1 - Void")
-            print("2 - Int")
-            print("3 - String")
-            print("4 - ?")
-            returntype = int(input())
-            if returntype == 1:
-                m.setType("void")
-            if returntype == 2:
-                m.setType("int")
-            if returntype == 3:
-                m.setType("String")
-            if returntype == 4:
-                m.setType("")
-
-    elif numinput == 3:
-        classlist = Plantumlclass.getClasslist()
-        for i in classlist:
-            i.printUML()
-    else:
-        break
-
-#containorization
+        elif numinput == 3:
+            classlist = PlantumlClass.get_class_list()
+            for i in classlist:
+                i.print_uml()
+        else:
+            break

@@ -1,39 +1,48 @@
-class Plantumlclass:
-    classlist = []
-    def __init__(self, UMLclass):
-        self.UMLclass = UMLclass
+from Lib.plantumlmethod import PlantumlMethod
+
+
+class PlantumlClass:
+    """
+        Instantiate a class creation.
+        Classes are needed before methods can be added.
+
+        :param uml_class: The name of the class.
+        :type uml_class: String
+        """
+
+    class_list = []
+
+    def __init__(self, uml_class):
+        self.uml_class = uml_class
         self.methods = []
         self.content = ""
-        self.addClasslist(self)
+        self.add_class_list(self)
 
     @staticmethod
-    def getClasslist():
-        return Plantumlclass.classlist
+    def get_class_list():
+        return PlantumlClass.class_list
 
     @staticmethod
-    def addClasslist(Plantumlclass):
-        Plantumlclass.classlist.append(Plantumlclass)
+    def add_class_list(plantuml_class):
+        PlantumlClass.class_list.append(plantuml_class)
 
-    def getClassName(self):
-        return self.UMLclass
+    def get_class_name(self):
+        return self.uml_class
 
-    def addmethod(self, method):
-        m1 = Plantumlmethod(method, "")
+    def add_method(self, method):
+        m1 = PlantumlMethod(method, "")
         self.methods.append(m1)
         return m1
 
-    def printUML(self):
-        #print(self.UMLclass)
-        #print(self.methods)
-
-        file1 = open(self.UMLclass + ".txt", "w")
-        content = ["class " + self.UMLclass + ' {\n' + ' \n--\n']
+    def print_uml(self):
+        file1 = open(self.uml_class + ".txt", "w")
+        content = ["class " + self.uml_class + ' {\n' + ' \n--\n']
         for i in self.methods:
-            if i.getStatic():
+            if i.get_static():
                 content += '--'
-            content += i.getMethod()
+            content += i.get_method()
             content += ': '
-            content += i.getType()
+            content += i.get_return_type()
             content += ' \n'
         content += '\n}'
         self.content = content
@@ -41,26 +50,5 @@ class Plantumlclass:
         file1.close()
         # need to pull image from plant uml
 
-    def getcontent(self):
+    def get_content(self):
         return self.content
-
-class Plantumlmethod:
-    def __init__(self, method, type):
-        self.method = method
-        self.type = type
-        self.static = False
-
-    def getMethod(self):
-        return self.method
-
-    def getType(self):
-        return self.type
-
-    def setType(self, type):
-        self.type = type
-
-    def setStatic(self):
-        self.static = True
-
-    def getStatic(self):
-        return self.static

@@ -1,0 +1,13 @@
+agent onlinestore
+agent categories
+agent item
+agent shoppingcart
+agent order
+agent inventory
+
+actor -- onlinestore : browse() 
+onlinestore -- categories : filter() 
+onlinestore -- item : view_item 
+onlinestore -- shoppingcart : add_to_cart() 
+onlinestore -- order : place_order() 
+onlinestore -- inventory : update_inventory() 

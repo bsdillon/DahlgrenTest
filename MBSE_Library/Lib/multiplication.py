@@ -22,4 +22,3 @@ class Multiplication:
         """
 
         return number * self.multiplier
-

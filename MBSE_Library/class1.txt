@@ -1,7 +1,8 @@
-class1 {
+class class1 {
  
-c1m1: void 
-c1m2: String 
-c1m3:  
+--
+c1m1:  
+c1m2:  
+--c1m3: String 
 
 }

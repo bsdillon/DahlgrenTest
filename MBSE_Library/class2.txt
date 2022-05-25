@@ -1,5 +1,6 @@
-class2 {
+class class2 {
  
-c2m1: Int 
+--
+c2m1:  
 
 }
