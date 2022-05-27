@@ -39,7 +39,7 @@ class PlantumlClass:
         content = ["class " + self.uml_class + ' {\n' + ' \n--\n']
         for i in self.methods:
             if i.get_static():
-                content += '--'
+                content += '{static} '
             content += i.get_method()
             content += ': '
             content += i.get_return_type()
