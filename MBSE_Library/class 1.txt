@@ -1,0 +1,8 @@
+class "class 1" as class_1 {
+ 
+--
+c1m1:  
+c1m2:  
+{static} -c1m3: String 
+
+}

@@ -30,16 +30,18 @@ class PlantumlClass:
         return self.uml_class
 
     def add_method(self, method):
-        m1 = PlantumlMethod(method, "")
+        m1 = PlantumlMethod(method, "", "")
         self.methods.append(m1)
         return m1
 
     def print_uml(self):
         file1 = open(self.uml_class + ".txt", "w")
-        content = ["class " + self.uml_class + ' {\n' + ' \n--\n']
+        class_name = self.uml_class
+        content = ['class "' + self.uml_class + '" as ' + class_name.replace(" ", "_") + ' {\n' + ' \n--\n']
         for i in self.methods:
             if i.get_static():
                 content += '{static} '
+            content += i.get_modifier()
             content += i.get_method()
             content += ': '
             content += i.get_return_type()

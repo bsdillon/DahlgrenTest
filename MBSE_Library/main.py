@@ -18,16 +18,17 @@ if __name__ == '__main__':
     ##########################################
     from Lib import PlantumlClass
 
-    c1 = PlantumlClass("class1")
+    c1 = PlantumlClass("class 1")
 
     c1.add_method("c1m1")
     c1.add_method("c1m2")
 
-    c2 = PlantumlClass("class2")
+    c2 = PlantumlClass("class 2")
     c2.add_method("c2m1")
 
     m1 = c1.add_method("c1m3")
     m1.set_static()
+    m1.set_modifier("private")
     m1.set_return_type("String")
 
     c1.print_uml()
@@ -35,7 +36,7 @@ if __name__ == '__main__':
 
     from Lib.plantumlcommunicationdiagram import PlantUmlCommunicationDiagram
 
-    communication_diagram = PlantUmlCommunicationDiagram("csv_communication.txt")
+    communication_diagram = PlantUmlCommunicationDiagram("testdata.txt")
     communication_diagram.print_uml()
 
     #######################################
