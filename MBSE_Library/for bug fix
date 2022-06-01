@@ -1,0 +1,27 @@
+for row in reader:
+                self.sender.append(row[0])
+                self.receiver.append(row[1])
+                self.message_type.append(row[2])
+        for i in range(len(self.sender)):
+            c = Comdia(self.sender[i], self.receiver[i])
+		c.incrament
+		print(c.getamount)
+            if c not in self.order_list:
+                self.order_list.append(c)
+            else:
+                c.increment()
+
+
+
+for i in range(len(self.sender)):
+updated = false
+     for c in self.order_list
+	if c.getsender == sender[i] and c.getreceiver == receiver[i]
+                c.increment
+		updated = true
+		break;
+     if updated == false
+         newc = Comdia(self.sender[i], self.receiver[i])
+	list.append(newc)
+         updated = true
+          
