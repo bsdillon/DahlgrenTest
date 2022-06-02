@@ -3,20 +3,10 @@
 ############################################
 
 if __name__ == '__main__':
-    #########################################################
-    # Lines 9-14 are for reference purposes, to be deleted.#
-    #########################################################
-    # Import Multiplication from your library
-    from Lib import Multiplication
-    # Instantiate a Multiplication object
-    multiplication = Multiplication(2)
-    # Call the multiply method
-    print(multiplication.multiply(5))
-
     ##########################################
     # Testing methods to ensure proper output#
     ##########################################
-    from Lib import PlantumlClass
+    from MBSE_Library import PlantumlClass
 
     c1 = PlantumlClass("class 1")
 
@@ -34,44 +24,45 @@ if __name__ == '__main__':
     c1.print_uml()
     c2.print_uml()
 
-    from Lib.plantumlcommunicationdiagram import PlantUmlCommunicationDiagram
+    from MBSE_Library import PlantUmlCommunicationDiagram
 
     communication_diagram = PlantUmlCommunicationDiagram("testdata.txt")
     communication_diagram.print_uml()
+    communication_diagram.print_sequence_uml("Site C", "Site A")
 
     #######################################
     # Rest of file controls terminal input#
     #######################################
-    numinput = 0
-    while numinput != 4:
+    num_input = 0
+    while num_input != 4:
         print("1 - Add a class")
         print("2 - Add a method")
         print("3 - Print diagram")
         print("4 - Exit")
 
-        numinput = int(input())
+        num_input = int(input())
 
-        if numinput == 1:
+        if num_input == 1:
             print("What is the name of the class?")
-            classname = input()
-            PlantumlClass(classname)
+            class_name = input()
+            PlantumlClass(class_name)
 
-        elif numinput == 2:
-            classlist = PlantumlClass.get_class_list()
+        elif num_input == 2:
+            class_list = PlantumlClass.get_class_list()
             print("Which class would you like to add a method to?")
             j = 1
-            for i in classlist:
+            for i in class_list:
                 print(j, str(":"), i.get_class_name())
                 j = j + 1
 
             print(j, ": Cancel")
-            methodinput = int(input())
-            if methodinput < j:
-                methodinput = methodinput - 1
-                c = classlist[methodinput]
+            method_input = int(input())
+            if method_input < j:
+                method_input = method_input - 1
+                c = class_list[method_input]
                 print("What is the name of the method?")
-                methodname = input()
-                m = c.add_method(methodname)
+                method_name = input()
+                m = c.add_method(method_name)
                 print("Static Y/N?")
                 answer = input()
                 if answer == str("Y") or answer == str("y"):
@@ -82,23 +73,23 @@ if __name__ == '__main__':
                 print("3 - String")
                 print("5 - Boolean")
                 print("6 - Other")
-                returntype = int(input())
-                if returntype == 1:
+                return_type = int(input())
+                if return_type == 1:
                     m.set_return_type("void")
-                if returntype == 2:
+                if return_type == 2:
                     m.set_return_type("int")
-                if returntype == 3:
+                if return_type == 3:
                     m.set_return_type("String")
-                if returntype == 4:
+                if return_type == 4:
                     m.set_return_type("boolean")
-                if returntype == 5:
+                if return_type == 5:
                     print("What does it return?")
-                    typeinput = input()
-                    m.set_return_type(typeinput)
+                    type_input = input()
+                    m.set_return_type(type_input)
 
-        elif numinput == 3:
-            classlist = PlantumlClass.get_class_list()
-            for i in classlist:
+        elif num_input == 3:
+            class_list = PlantumlClass.get_class_list()
+            for i in class_list:
                 i.print_uml()
         else:
             break

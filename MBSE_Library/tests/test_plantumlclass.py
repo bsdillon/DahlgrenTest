@@ -4,7 +4,7 @@
 #need to work on getting test to work##
 #######################################
 import unittest
-from Lib import Plantumlclass
+from MBSE_Library import Plantumlclass
 
 
 class PlantUMLTestCase(unittest.TestCase):

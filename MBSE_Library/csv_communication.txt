@@ -1,6 +1,0 @@
-actor, online store, browse()
-online store, categories, filter()
-online store, item, view_item
-online store, shopping cart, add_to_cart()
-online store, order, place_order()
-online store, inventory, update_inventory()

@@ -1,6 +1,0 @@
-class class2 {
- 
---
-c2m1:  
-
-}

@@ -1,0 +1,2 @@
+from MBSE_Library.plantumlclass import PlantumlClass
+from MBSE_Library.plantumlcommunicationdiagram import PlantUmlCommunicationDiagram
