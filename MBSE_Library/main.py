@@ -8,27 +8,40 @@ if __name__ == '__main__':
     ##########################################
     from MBSE_Library import PlantumlClass
 
-    c1 = PlantumlClass("class 1")
+    c1 = PlantumlClass("Person")
 
-    c1.add_method("c1m1")
-    c1.add_method("c1m2")
-
-    c2 = PlantumlClass("class 2")
-    c2.add_method("c2m1")
-
-    m1 = c1.add_method("c1m3")
+    m1 = c1.add_method("deposit()")
     m1.set_static()
     m1.set_modifier("private")
-    m1.set_return_type("String")
+    m1.set_return_type("void")
 
-    c1.print_uml()
-    c2.print_uml()
+    m2 = c1.add_method("withdraw()")
+    m5 = c1.add_method("get_Name()")
+
+    c2 = PlantumlClass("Bank Account")
+
+    m2.set_modifier("package_private")
+    m2.set_return_type("void")
+
+    m3 = c2.add_method("get_Balance()")
+    m3.set_modifier("public")
+    m3.set_return_type("int")
+
+    m4 = c2.add_method("set_Balance()")
+    m4.set_modifier("private")
+    m4.set_return_type("void")
+
+    m5.set_modifier("private")
+    m5.set_return_type("String")
+
+    PlantumlClass.print_uml()
 
     from MBSE_Library import PlantUmlCommunicationDiagram
 
     communication_diagram = PlantUmlCommunicationDiagram("testdata.txt")
     communication_diagram.print_uml()
     communication_diagram.print_sequence_uml("Site C", "Site A")
+    communication_diagram.print_sequence_uml_with_other_pillar("Site A", "Site B")
 
     #######################################
     # Rest of file controls terminal input#

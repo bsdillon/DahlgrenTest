@@ -8,7 +8,6 @@ class PlantUmlCommunicationDiagram:
     order_list = []
 
     def __init__(self, filename):
-        self.content = ""
         self.filename = filename
         with open(filename, 'r') as file:
             reader = csv.reader(file, delimiter=',')
@@ -29,7 +28,7 @@ class PlantUmlCommunicationDiagram:
                 self.order_list.append(sr)
 
     def print_uml(self):
-        # Prints out one connected between boxes
+        # Prints out one connection between boxes
         file = open(self.filename.replace(".txt", "") + "_communication_diagram_plantuml.txt", "w")
         content = ""
         auxiliary_list = []
@@ -51,7 +50,6 @@ class PlantUmlCommunicationDiagram:
             content += str(c.get_amount())
             content += " \n"
 
-        self.content = content
         file.writelines(content)
         file.close()
 
@@ -77,11 +75,25 @@ class PlantUmlCommunicationDiagram:
             content += str(self.message_type[j]).replace(" ", "")
             content += " \n"
 
-        self.content = content
+        file.writelines(content)
+        file.close()
+
+        # prints out full sequence diagram
+        file = open(self.filename.replace(".txt", "") + "_sequence_full_plantuml.txt", "w")
+        content = ""
+        for j in range(len(self.sender)):
+            content += str(self.sender[int(j)]).replace(" ", "")
+            content += " -> "
+            content += str(self.receiver[j]).replace(" ", "")
+            content += " : "
+            content += str(self.message_type[j]).replace(" ", "")
+            content += " \n"
+
         file.writelines(content)
         file.close()
 
     def print_sequence_uml(self, sender, receiver):
+        # prints out sequence diagram for connections between pillar A and B
         file = open(self.filename.replace(".txt", "") + "_sequence_plantuml.txt", "w")
         content = ""
         j = 0
@@ -95,7 +107,48 @@ class PlantUmlCommunicationDiagram:
                 content += " \n"
             j = j + 1
 
-        self.content = content
+        file.writelines(content)
+        file.close()
+
+    def print_sequence_uml_with_other_pillar(self, sender, receiver):
+        # prints out sequence diagram that shows connections to and from sender to all other pillars
+        # with specific pillar receiver being highlighted
+        file = open(self.filename.replace(".txt", "") + "_sequence_plantuml_with_pillar.txt", "w")
+        content = ""
+
+        j = 0
+        for i in self.sender:
+            if sender == self.receiver[j] and not i == receiver:
+                content += "pillar_x"
+                content += " -> "
+                content += str(self.receiver[j]).replace(" ", "")
+                content += " : "
+                content += str(self.message_type[j]).replace(" ", "")
+                content += " \n"
+            j = j + 1
+
+        j = 0
+        for i in self.sender:
+            if i == sender and not self.receiver[j] == receiver:
+                content += str(self.sender[int(j)]).replace(" ", "")
+                content += " -> "
+                content += "pillar_x"
+                content += " : "
+                content += str(self.message_type[j]).replace(" ", "")
+                content += " \n"
+            j = j + 1
+
+        j = 0
+        for i in self.sender:
+            if (i == sender and self.receiver[j] == receiver) or (i == receiver and self.receiver[j] == sender):
+                content += str(self.sender[int(j)]).replace(" ", "")
+                content += " -> "
+                content += str(self.receiver[j]).replace(" ", "")
+                content += " : "
+                content += str(self.message_type[j]).replace(" ", "")
+                content += " \n"
+            j = j + 1
+
         file.writelines(content)
         file.close()
 

@@ -1,0 +1,15 @@
+class "Person" as Person {
+ 
+--
+{static} -deposit(): void 
+~withdraw(): void 
+-get_Name(): String 
+}
+
+class "Bank Account" as Bank_Account {
+ 
+--
++get_Balance(): int 
+-set_Balance(): void 
+}
+

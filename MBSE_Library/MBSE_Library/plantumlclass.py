@@ -26,23 +26,26 @@ class PlantumlClass:
         self.methods.append(m1)
         return m1
 
-    def print_uml(self):
-        file1 = open(self.uml_class.replace(" ", "_") + ".txt", "w")
-        class_name = self.uml_class
-        content = ['class "' + self.uml_class + '" as ' + class_name.replace(" ", "_") + ' {\n' + ' \n--\n']
-        for i in self.methods:
-            if i.get_static():
-                content += '{static} '
-            content += i.get_modifier()
-            content += i.get_method()
-            content += ': '
-            content += i.get_return_type()
-            content += ' \n'
-        content += '\n}'
-        self.content = content
+    def get_methods(self):
+        return self.methods
+
+    @staticmethod
+    def print_uml():
+        file1 = open("class_diagram.txt", "w")
+        content = ""
+        for c in PlantumlClass.get_class_list():
+            class_name = c.get_class_name()
+            content += str('class "' + class_name + '" as ' + class_name.replace(" ", "_") + ' {\n' + ' \n--\n')
+            for i in c.get_methods():
+                if i.get_static():
+                    content += '{static} '
+                content += i.get_modifier()
+                content += i.get_method()
+                content += ': '
+                content += i.get_return_type()
+                content += ' \n'
+            content += '}\n\n'
+
         file1.writelines(content)
         file1.close()
         # need to pull image from plant uml
-
-    def get_content(self):
-        return self.content

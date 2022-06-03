@@ -1,12 +1,3 @@
-agent "Site C" as SiteC
-agent "Site F" as SiteF
-agent "Site E" as SiteE
-agent "Site H" as SiteH
-agent "Site A" as SiteA
-agent "Site D" as SiteD
-agent "Site B" as SiteB
-agent "Site G" as SiteG
-
 SiteC -> SiteH : 959 
 SiteF -> SiteG : 854 
 SiteE -> SiteH : 943 
