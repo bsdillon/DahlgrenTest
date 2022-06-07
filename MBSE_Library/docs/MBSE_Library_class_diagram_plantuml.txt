@@ -4,11 +4,26 @@ return_type: string
 static: boolean
 modifier: string
 --
-get_method: string
-get_return_type: string
-set_return_type: void
-get_static: boolean
-set_static: void
-get_modifier: string
-set_modifier: void
+get_method(): string
+get_return_type(): string
+set_return_type(string): void
+get_static(): boolean
+set_static(): void
+get_modifier(): string
+set_modifier(string): void
+}
+
+class PlantumlClass  {
+class_list: array
+uml_class: string
+methods: array
+content: string
+add_class_list(self): void
+--
+{static} get_class_list(): array
+{static}add_class_list(string): void
+get_class_name(): string
+add_method(method): object
+get_method(): array
+{static} print_uml(): void
 }
