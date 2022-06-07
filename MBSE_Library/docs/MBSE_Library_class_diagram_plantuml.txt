@@ -1,1 +1,14 @@
-
+class PlantumlMethod {
+method: string
+return_type: string
+static: boolean
+modifier: string
+--
+get_method: string
+get_return_type: string
+set_return_type: void
+get_static: boolean
+set_static: void
+get_modifier: string
+set_modifier: void
+}
