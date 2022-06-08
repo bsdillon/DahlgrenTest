@@ -45,3 +45,6 @@ get_sender(): String
 get_receiver(): String
 get_amount(): String
 }
+
+PlantumlMethod *-- PlantumlClass
+PlantUMLCommunicationDiagram --|> SenderReceiverRelationship 
