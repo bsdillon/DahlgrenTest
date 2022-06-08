@@ -40,7 +40,7 @@ print_sequence_uml_with_other_pillar(sender: String, receiver: String): void
 }
 
 class SenderReceiverRelationship {
-incrament(): void
+increment(): void
 get_sender(): String
 get_receiver(): String
 get_amount(): String
