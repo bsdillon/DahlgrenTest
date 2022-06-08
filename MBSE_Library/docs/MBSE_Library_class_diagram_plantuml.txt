@@ -27,3 +27,21 @@ add_method(method): object
 get_method(): array
 {static} print_uml(): void
 }
+
+class PlantUMLCommunicationDiagram {
+sender: array
+receiver: array
+message_type: array
+order_list: array
+--
+print_uml(): void
+print_sequence_uml(sender: String, receiver: String): void
+print_sequence_uml_with_other_pillar(sender: String, receiver: String): void
+}
+
+class SenderReceiverRelationship {
+incrament(): void
+get_sender(): String
+get_receiver(): String
+get_amount(): String
+}
