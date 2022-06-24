@@ -1,0 +1,50 @@
+class PlantumlMethod {
+method: string
+return_type: string
+static: boolean
+modifier: string
+--
+get_method(): string
+get_return_type(): string
+set_return_type(string): void
+get_static(): boolean
+set_static(): void
+get_modifier(): string
+set_modifier(string): void
+}
+
+class PlantumlClass  {
+class_list: array
+uml_class: string
+methods: array
+content: string
+add_class_list(self): void
+--
+{static} get_class_list(): array
+{static}add_class_list(string): void
+get_class_name(): string
+add_method(method): object
+get_method(): array
+{static} print_uml(): void
+}
+
+class PlantUMLCommunicationDiagram {
+sender: array
+receiver: array
+message_type: array
+order_list: array
+--
+print_uml(): void
+print_sequence_uml(sender: String, receiver: String): void
+print_sequence_uml_with_other_pillar(sender: String, receiver: String): void
+}
+
+class SenderReceiverRelationship {
+increment(): void
+get_sender(): String
+get_receiver(): String
+get_amount(): String
+}
+
+PlantumlMethod *-- PlantumlClass
+PlantUMLCommunicationDiagram --|> SenderReceiverRelationship 
