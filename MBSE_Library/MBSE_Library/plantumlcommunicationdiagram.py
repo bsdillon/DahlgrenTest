@@ -44,7 +44,7 @@ class PlantUmlCommunicationDiagram:
 
         for c in self.order_list:
             content += str(c.get_sender()).replace(" ", "")
-            content += " -- "
+            content += " --> "
             content += str(c.get_receiver()).replace(" ", "")
             content += " : "
             content += str(c.get_amount())
@@ -69,7 +69,7 @@ class PlantUmlCommunicationDiagram:
 
         for j in range(len(self.sender)):
             content += str(self.sender[int(j)]).replace(" ", "")
-            content += " -> "
+            content += " --> "
             content += str(self.receiver[j]).replace(" ", "")
             content += " : "
             content += str(self.message_type[j]).replace(" ", "")
@@ -114,7 +114,7 @@ class PlantUmlCommunicationDiagram:
         # prints out sequence diagram that shows connections to and from sender to all other pillars
         # with specific pillar receiver being highlighted
         file = open(self.filename.replace(".txt", "") + "_sequence_plantuml_with_pillar.txt", "w")
-        content = ""
+        content = "participant pillar_x \nhide unlinked \n"
 
         j = 0
         for i in self.sender:
@@ -125,10 +125,7 @@ class PlantUmlCommunicationDiagram:
                 content += " : "
                 content += str(self.message_type[j]).replace(" ", "")
                 content += " \n"
-            j = j + 1
 
-        j = 0
-        for i in self.sender:
             if i == sender and not self.receiver[j] == receiver:
                 content += str(self.sender[int(j)]).replace(" ", "")
                 content += " -> "
@@ -136,10 +133,7 @@ class PlantUmlCommunicationDiagram:
                 content += " : "
                 content += str(self.message_type[j]).replace(" ", "")
                 content += " \n"
-            j = j + 1
 
-        j = 0
-        for i in self.sender:
             if (i == sender and self.receiver[j] == receiver) or (i == receiver and self.receiver[j] == sender):
                 content += str(self.sender[int(j)]).replace(" ", "")
                 content += " -> "

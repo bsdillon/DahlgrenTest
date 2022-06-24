@@ -6,41 +6,68 @@ if __name__ == '__main__':
     ##########################################
     # Testing methods to ensure proper output#
     ##########################################
-    from MBSE_Library import PlantumlClass
+    from MBSE_Library import PlantumlClass, MBSE
 
-    c1 = PlantumlClass("Person")
+    MBSE.add_class("User")
+    MBSE.add_class("Core")
+    MBSE.add_class("Methods")
+    MBSE.add_class("Classes")
+    MBSE.add_class("Packages")
+    MBSE.add_class("csv")
+    MBSE.add_class("sender")
+    MBSE.add_class("receiver")
+    MBSE.add_class("message_attribute")
+    MBSE.add_class("filter")
+    MBSE.add_class("Communication")
+    MBSE.add_class("Sequence")
+    MBSE.add_package("ClassDiagrams")
+    MBSE.add_package("LinearDiagrams")
+    MBSE.add_class_to_package("Methods", "ClassDiagrams")
+    MBSE.add_class_to_package("Classes", "ClassDiagrams")
+    MBSE.add_class_to_package("Packages", "ClassDiagrams")
+    MBSE.add_class_to_package("csv", "LinearDiagrams")
+    MBSE.add_class_to_package("sender", "LinearDiagrams")
+    MBSE.add_class_to_package("receiver", "LinearDiagrams")
+    MBSE.add_class_to_package("message_attribute", "LinearDiagrams")
+    MBSE.add_class_to_package("filter", "LinearDiagrams")
+    MBSE.add_class_to_package("Sequence", "LinearDiagrams")
+    MBSE.add_class_to_package("Communication", "LinearDiagrams")
+    MBSE.class_color("User", "Blue")
+    MBSE.add_relationship("User", "Core", "Association")
+    MBSE.add_relationship("Core", "Methods", "Directed Association")
+    MBSE.add_relationship("Methods", "Classes", "Directed Association")
+    MBSE.add_relationship("Classes", "Packages", "Directed Association")
+    MBSE.add_relationship("Core", "csv", "Association")
+    MBSE.add_relationship("csv", "sender", "Association")
+    MBSE.add_relationship("csv", "receiver", "Association")
+    MBSE.add_relationship("csv", "message_attribute", "Association")
+    MBSE.add_relationship("sender", "filter", "Association")
+    MBSE.add_relationship("receiver", "filter", "Association")
+    MBSE.add_relationship("message_attribute", "filter", "Association")
+    MBSE.add_relationship("filter", "Sequence", "Association")
+    MBSE.add_relationship("filter", "Communication", "Association")
+    MBSE.add_method_to_class("method1", "User")
+    MBSE.add_method_to_class("method1", "Core", "public", True, "void")
+    MBSE.add_method_to_class("method2", "Core")
+    MBSE.add_variable_to_class("v1", "Core")
+    MBSE.add_variable_to_class("v1", "Core", "private", True, "String")
 
-    m1 = c1.add_method("deposit()")
-    m1.set_static()
-    m1.set_modifier("private")
-    m1.set_return_type("void")
-
-    m2 = c1.add_method("withdraw()")
-    m5 = c1.add_method("get_Name()")
-
-    c2 = PlantumlClass("Bank Account")
-
-    m2.set_modifier("package_private")
-    m2.set_return_type("void")
-
-    m3 = c2.add_method("get_Balance()")
-    m3.set_modifier("public")
-    m3.set_return_type("int")
-
-    m4 = c2.add_method("set_Balance()")
-    m4.set_modifier("private")
-    m4.set_return_type("void")
-
-    m5.set_modifier("private")
-    m5.set_return_type("String")
-
-    PlantumlClass.print_uml()
+    MBSE.load_file("40path.csv")
+    MBSE.create_box("East Coast")
+    MBSE.add_to_box("New York", "East Coast")
+    MBSE.add_to_box("Atlanta", "East Coast")
+    MBSE.add_to_box("Washington", "East Coast")
+    MBSE.color("Chicago", "red")
+    MBSE.highlight_out("Dallas")
+    MBSE.highlight_in("Denver")
+    MBSE.set_unimportant("Los Angeles")
+    MBSE.print_uml()
 
     from MBSE_Library import PlantUmlCommunicationDiagram
 
     communication_diagram = PlantUmlCommunicationDiagram("testdata.txt")
     communication_diagram.print_uml()
-    communication_diagram.print_sequence_uml("Site C", "Site A")
+    communication_diagram.print_sequence_uml("Site B", "Site A")
     communication_diagram.print_sequence_uml_with_other_pillar("Site A", "Site B")
 
     #######################################
@@ -84,8 +111,8 @@ if __name__ == '__main__':
                 print("1 - Void")
                 print("2 - Int")
                 print("3 - String")
-                print("5 - Boolean")
-                print("6 - Other")
+                print("4 - Boolean")
+                print("5 - Other")
                 return_type = int(input())
                 if return_type == 1:
                     m.set_return_type("void")
@@ -101,8 +128,6 @@ if __name__ == '__main__':
                     m.set_return_type(type_input)
 
         elif num_input == 3:
-            class_list = PlantumlClass.get_class_list()
-            for i in class_list:
-                i.print_uml()
+            MBSE.print_uml()
         else:
             break
