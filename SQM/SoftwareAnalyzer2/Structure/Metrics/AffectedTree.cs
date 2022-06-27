@@ -48,15 +48,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             missedTraces = "";
         }
 
-        public void FindCriticalCSVConnections(string fileStem, string line)
-        {
-            string outputFileName = "_critical_nodes_output.csv";
-            string fullFile = fileStem + outputFileName;
-            StreamWriter cFile = new StreamWriter(fullFile, true);
-            cFile.WriteLine(line);
-            cFile.Close();
-        }
-
         private void FindAffectedNodes(List<GraphNode> gNodes, StreamWriter s)
         {
             //for every affected graph node, trace the relationships down the chain until everything has been traced
