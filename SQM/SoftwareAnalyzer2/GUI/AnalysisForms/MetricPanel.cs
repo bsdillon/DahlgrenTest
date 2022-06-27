@@ -76,7 +76,11 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                 ModuleNavigator mn = new ModuleNavigator(directory + Path.DirectorySeparatorChar + FileText.Text, output);
                 if(csvPaths != null)
                 {
-                    mn.SetCsvInput(csvPaths);
+                    mn.SetCsvInput(csvPaths);   
+                }
+                if (criticalCsvPaths != null)
+                {
+                    mn.SetCriticalCsvInput(criticalCsvPaths);
                 }
                 //call to Navigate and DiscoverAllMembers
                 AbbreviatedGraph.Navigate(mn);
