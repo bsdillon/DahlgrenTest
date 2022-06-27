@@ -44,6 +44,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private string fileStem;
         private List<string> csvPaths;
         private string csvErrors = "";
+        //Adding CriticalCSVPaths
+        private List<string> criticalCsvPaths;
         #endregion
 
         public ModuleNavigator(string fileRoot, Label userOutput)
@@ -56,6 +58,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         public void SetCsvInput(List<string> csvRecieved)
         {
             csvPaths = csvRecieved;
+        }
+        //accept critical csv input file from metrics tab
+        public void SetCriticalCsvInput(List<string> criticalCsvRecieved)
+        {
+            criticalCsvPaths = criticalCsvRecieved;
         }
 
         //required functionality under IGraphNavigator
@@ -176,6 +183,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             
             SetOutput("Checking for any CSV Issues");
             TraceCSVLinks(current);
+
+            //Austin - adding Critical CSV Input Metric
+            TraceCriticalCSVLinks(current);
 
             SetOutput("Writing graph files");
             WriteOutGraph();
@@ -861,6 +871,110 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
             }
         }
+
+        private void TraceCriticalCSVLinks(AbbreviatedGraph current)
+        {
+            //if there are no csv files, there is nothing to trace
+            if (criticalCsvPaths == null)
+            {
+                return;
+            }
+            Console.WriteLine("Critical CSV Paths: ");
+            Console.WriteLine(string.Join(",", criticalCsvPaths.ToArray()));
+
+            foreach(String csvFile in criticalCsvPaths)
+            {
+               using (var read = new StreamReader(@csvFile))
+                {
+                    while(!read.EndOfStream)
+                    {
+                        //split CSV values
+                        var rLine = read.ReadLine();
+                        
+                        Console.WriteLine(rLine);
+                        AffectedTree aft = new AffectedTree();
+                        aft.FindCriticalCSVConnections(fileStem, rLine);
+                    }
+                }
+            }
+            //Dictionary<string, Dictionary<int, List<GraphNode>>> lineNums = GraphNode.GetLineNumDict();
+
+            ////foreach critical csv file entered by the user
+            //////foreach file in linenums (declared above). key = filename, value = dictionary<line number, list of graph nodes that have that line number>
+            ////////read the csv file
+            ////////if filename and line number match
+            //////////find all related edges
+            //foreach (String csvFile in criticalCsvPaths)
+            //{
+            //    //file in linenumdict
+            //    foreach (string fileNameKey in lineNums.Keys)
+            //    {
+            //        //trim the file name to the last part of the string behind the last directory separator char.
+            //        //e.g. /folder/another/importantFile.java -> /importantFile
+            //        //this allows safety to simply input "/importantFile"
+            //        string fileNameKeyMod = fileNameKey;
+            //        if (fileNameKey.LastIndexOf(Path.DirectorySeparatorChar) > 0)
+            //        {
+            //            fileNameKeyMod = fileNameKey.Substring(fileNameKey.LastIndexOf(Path.DirectorySeparatorChar));
+            //        }
+
+            //        using (var read = new StreamReader(@csvFile))
+            //        {
+            //            while (!read.EndOfStream)
+            //            {
+            //                //split CSV values
+            //                var rLine = read.ReadLine();
+            //                var values = rLine.Split(',');
+            //                int lineNum = -1;
+            //                bool lineUsed = false;
+            //                //user csv input format = file, line, error description, error property
+            //                string errorDescription = values[2];
+            //                string errorProp = values[3];
+
+            //                //check that each property within the csv is not found in the NodeProperties enum.
+            //                //this was already checked for, so it should not be an issue.
+            //                //if this is found, crash the program with an error
+            //                foreach (string enumProp in Enum.GetNames(typeof(NodeProperties)))
+            //                {
+            //                    if (errorProp == enumProp)
+            //                    {
+            //                        throw new InvalidDataException("Error property: " + errorProp + " cannot be used.");
+            //                    }
+            //                }
+
+            //                //if filename matches
+            //                if (fileNameKeyMod == values[0])
+            //                {
+            //                    //if line number matches, find the connections
+            //                    if (int.TryParse(values[1], out lineNum))
+            //                    {
+            //                        if (lineNums[fileNameKeyMod].ContainsKey(lineNum))
+            //                        {
+            //                            lineUsed = true;
+            //                            //line number matches an edge, trace it further
+            //                            AffectedTree at = new AffectedTree();
+            //                            at.FindCSVConnections(fileNameKeyMod, lineNum, fileStem, errorDescription, errorProp);
+            //                        }
+            //                        else
+            //                        {
+            //                            //TODO?
+            //                            //file name matches, but the line number does not. this will happen a lot...
+            //                            //likely nothing to do here unless tracking of unused values/linenums is desired
+            //                        }
+            //                    }
+
+            //                    //if a csv input field matched on filename, but the line number was never used, report it
+            //                    if (!lineUsed)
+            //                    {
+            //                        csvErrors += "Line Number: " + lineNum + " in File: " + fileNameKeyMod + " not found." + System.Environment.NewLine;
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+        }
     }        
     #endregion
 }
+
