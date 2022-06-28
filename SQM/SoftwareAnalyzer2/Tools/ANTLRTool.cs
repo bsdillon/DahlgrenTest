@@ -2249,7 +2249,7 @@ namespace SoftwareAnalyzer2.Tools
         /// </summary>
         /// <param name="answer"></param>
         private void FormatWhile(IModifiable node)
-        {
+        {   
             IModifiable target = (IModifiable)node.Parent;
             List<INavigable> children = target.Children;
             target.DropChildren();
@@ -4984,15 +4984,66 @@ namespace SoftwareAnalyzer2.Tools
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("forRangeInitializer"));
                 rangeNode.Parent = writeNode;
             }
-            else if (node.Code.Equals("while ( )"))
-            {
-                node.SetNode(Members.While);
-                // TODO
-            }
             else if (node.Code.Equals("do while ( ) ;"))
             {
-                node.SetNode(Members.DoWhile);
-                // TODO
+                
+                IModifiable target = (IModifiable)node.Parent;
+                List<INavigable> children = target.Children;
+                target.DropChildren();
+
+                IModifiable boolean = (IModifiable)NodeFactory.CreateNode(Members.Boolean, false);
+                boolean.Parent = target;
+
+                foreach (IModifiable child in node.Children)
+                {
+                    if (child.Node.Equals("expression"))
+                    {
+                        node.GetNthChild(1).Parent = boolean;
+                    }
+                    else if (child.GetChildCount() == 1 && child.GetNthChild(0).GetChildCount() == 1  && child.GetNthChild(0).GetNthChild(0).Node.Equals(Members.Scope))
+                    {
+                        node.GetNthChild(0).GetNthChild(0).GetNthChild(0).Parent = target;
+                    }
+                    else if (child.Node.Equals("statement") && child.GetNthChild(0).GetChildCount() == 0)
+                    {
+                        IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                        scope.Parent = target;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Tree structure of " + node + " is unexpected");
+                    }
+                }
+
+                target.SetNode(Members.DoWhile);
+            }
+            else if (node.Code.Equals("while ( )"))
+            {
+                IModifiable target = (IModifiable)node.Parent;
+                List<INavigable> children = node.Children;
+                target.DropChildren();
+
+                foreach (INavigable child in children)
+                {
+                    if (!child.Node.Equals("statement") && node.GetChildCount() == 2)
+                    {
+                        child.Parent = target;
+                    }
+                    else if (child.Node.Equals("statement") && child.GetNthChild(0).GetChildCount() == 0)
+                    {
+                        IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                        scope.Parent = target;
+                    }
+                    else if(child.Node.Equals("statement") && child.GetNthChild(0).GetNthChild(0).Node.Equals(Members.Scope))
+                    {
+                        child.GetNthChild(0).GetNthChild(0).Parent = target;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Tree structure of " + node + " is unexpected");
+                    }
+                }
+                target.SetNode(Members.While);
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
