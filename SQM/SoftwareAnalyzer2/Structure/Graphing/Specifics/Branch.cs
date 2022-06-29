@@ -41,22 +41,17 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             INavigable myNavigable = (INavigable)represented;
             AddControlExpression(myNavigable.GetNthChild(0));
             //Add the scope for each branch and recurse
-            //Why are we assuming a then/else scope?
-            if (thenScope != null)
+
+            thenScope = RegisterScope(myNavigable.GetNthChild(1).GetNthChild(0));
+            //No gaurantees of an else statement
+            if(myNavigable.GetChildCount() > 2 && myNavigable.GetNthChild(2).GetChildCount() != 0)
             {
-                thenScope = RegisterScope(myNavigable.GetNthChild(1).GetNthChild(0));
-            }
-            if (myNavigable.GetChildCount() > 2)  
-            {
-                if (myNavigable.GetNthChild(2).GetChildCount() > 0) 
+                INavigable scope = myNavigable.GetNthChild(2).GetNthChild(0);//else scope
+                if (scope.GetChildCount() > 0)
                 {
-                    INavigable scope = myNavigable.GetNthChild(2).GetNthChild(0);//else scope
-                    if (scope.GetChildCount() > 0)
-                    {
-                        //only else scopes with actual contents are added.
-                        //this prevents empty else blocks which are equivalent to the then block above.
-                        elseScope = RegisterScope(scope);
-                    }
+                    //only else scopes with actual contents are added.
+                    //this prevents empty else blocks which are equivalent to the then block above.
+                    elseScope = RegisterScope(scope);
                 }
             }
         }
@@ -65,10 +60,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         #region Linking
         public override void InitialLink()
         {
-            if (thenScope != null) //Not sure why this is the case with ifs without elses.
-            {
-                thenScope.InitialLink();
-            }
+            thenScope.InitialLink();
             
             if (elseScope != null)
             {
@@ -79,10 +71,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         public override void FullLink()
         {
             new ControlExpression((INavigable)myControl.Represented, new ChainArgs(this, true, new Statement(this, represented), false));
-            if (thenScope != null)
-            {
-                thenScope.FullLink();
-            }
+            thenScope.FullLink();
             
             if (elseScope != null)
             {
@@ -107,10 +96,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 g.ExploreGraph(ExploreModes.Touch);
             }
 
-            if (thenScope != null)
-            {
-                thenScope.ExploreGraph(ExploreModes.Full);
-            }
+            thenScope.ExploreGraph(ExploreModes.Full);
 
             if (elseScope != null)
             {
@@ -122,10 +108,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         {
             base.WriteEdges();
 
-            if (thenScope != null)
-            {
-                WriteMember(thenScope);
-            }
+            WriteMember(thenScope);
 
             if (elseScope != null)
             {

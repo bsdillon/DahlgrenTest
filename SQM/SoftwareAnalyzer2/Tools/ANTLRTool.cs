@@ -2362,7 +2362,7 @@ namespace SoftwareAnalyzer2.Tools
         /// </summary>
         /// <param name="answer"></param>
         /// <param name="elseBranch"></param>
-        private void PrepareIf(IModifiable node, out IModifiable elseBranch)
+        private void PrepareIf(IModifiable node, out IModifiable elseBranch) //Used for Java
         {
             List<INavigable> children2 = node.Children;
             IModifiable      target    = (IModifiable)node.Parent;
@@ -4216,7 +4216,7 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.MethodScope);
             }
-            else if (node.Parent.Parent == node.GetAncestor(Members.Else))
+            else if (node.Parent == node.GetAncestor(Members.Else))
             {
                 node.SetNode(Members.ElseScope);
             }
@@ -4363,6 +4363,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPSelectionStatementIdentifier(IModifiable node)
         {
+            // Only called once
             // TODO: fix this - tends to screw up line numbers...
             if (node.Code.Equals("switch ( )"))
             {
@@ -4371,14 +4372,80 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.Code.Equals("if ( )") || node.Code.Equals("if ( ) else"))
             {
                 node.SetNode(Members.Branch);
-                IModifiable thenNode = (IModifiable)node.GetFirstSingleLayer("statement");
-                thenNode.SetNode(Members.Then);
-                if (node.Code.Equals("if ( ) else"))
+
+                //If the then block is empty
+                //Sets the correct node type for Then and it's corresponding scope
+                if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
                 {
-                    IModifiable elseNode = (IModifiable)node.GetFirstSingleLayer("statement");
-                    elseNode.SetNode(Members.Else);
+                    IModifiable Scope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
+                    Scope.SetNode(Members.Scope);
+                    IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
+                    Then.SetNode(Members.Then);
                 }
-                
+
+                //if the Then block is not empty
+                //Sets correct node type for Then. The corresponding scope will be done later by another method
+                else
+                {
+                    INavigable thenChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetNthChild(0);
+                    IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
+                    Then.DropChildren();
+
+                    thenChildren.Parent = Then;
+                    Then.SetNode(Members.Then);
+                }
+
+                string type = null;
+                if ((node.GetFirstSingleLayer("statement") != null )&& (node.GetFirstSingleLayer("statement").GetChildCount() != 0))
+                {
+                    type = node.GetFirstSingleLayer("statement").GetNthChild(0).Code;
+                }
+
+                //If it is an if else statement
+                if (node.Code.Equals("if ( ) else") && !type.Equals("if ( ) else") && !type.Equals("if ( )")) //if it's not an else if
+                {
+                    //If the else scope is empty
+                    //Sets the correct node type for Else and it's corresponding ElseScope
+                    if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                    {
+                        IModifiable ElseScope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
+                        ElseScope.SetNode(Members.ElseScope);
+                        IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                        Else.SetNode(Members.Else);
+                    }
+
+                    //If the else scope is nonempty
+                    //Sets the correct node type for Else. ElseScope will be done my another method.
+                    else
+                    {
+                        List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").Children;
+                        IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                        Else.DropChildren();
+
+                        foreach (INavigable child in elseChildren)
+                        {
+                            child.Parent = Else;
+                        }
+                        Else.SetNode(Members.Else);
+                    }
+                }
+
+                //Processing else statement
+                else if (node.GetFirstSingleLayer("statement") != null)
+                {
+                    List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").Children;
+                    IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                    Else.DropChildren();
+
+                    IModifiable elseScope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, false);
+                    elseScope.Parent = Else;
+                    foreach (INavigable child in elseChildren)
+                    {
+                        child.Parent = elseScope;
+                    }
+
+                    Else.SetNode(Members.Else);
+                }
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
@@ -5287,6 +5354,7 @@ namespace SoftwareAnalyzer2.Tools
         /// else if statements do not produce an ElseScope node in C++ like they do in Java with only the existing code - this function corrects that
         /// </summary>
         /// <param name="answer"></param>
+        /// 
         private void CPPElseIfScopeAdder(IModifiable node)
         {
             if (node.GetNthChild(0).Node.Equals(Members.Branch))
