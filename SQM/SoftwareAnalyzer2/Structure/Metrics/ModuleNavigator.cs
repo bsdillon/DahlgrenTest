@@ -44,7 +44,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private string fileStem;
         private List<string> csvPaths;
         private string csvErrors = "";
-        //Adding CriticalCSVPaths
+        //Austin: adding CriticalCSVPaths
         private List<string> criticalCsvPaths;
         #endregion
 
@@ -59,7 +59,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         {
             csvPaths = csvRecieved;
         }
-        //accept critical csv input file from metrics tab
+        //Austin: accept critical csv input file from metrics tab
         public void SetCriticalCsvInput(List<string> criticalCsvRecieved)
         {
             criticalCsvPaths = criticalCsvRecieved;
@@ -185,7 +185,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             TraceCSVLinks(current);
 
             //Austin - adding Critical CSV Input Metric
-            TraceCriticalCSVLinks(current);
+            // TraceCriticalCSVLinks();
 
             SetOutput("Writing graph files");
             WriteOutGraph();
@@ -399,6 +399,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             summary.Append("Plant UML: " + reportCount + System.Environment.NewLine);
 
             summary.Append(csvErrors);
+
+            //Austin: Eventually we will use reportCount = TraceCriticalCSVLinks with return value of integer
+            TraceCriticalCSVLinks();
 
             //write the summary data collected
             writer.WriteLine(summary.ToString());
@@ -872,14 +875,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
-        private void TraceCriticalCSVLinks(AbbreviatedGraph current)
+        //Austin note: Starter function to trace Critical Nodes re: Metric Analysis
+        private void TraceCriticalCSVLinks()
         {
             //if there are no csv files, there is nothing to trace
             if (criticalCsvPaths == null)
             {
                 return;
             }
-            Console.WriteLine("Critical CSV Paths: ");
+            Console.WriteLine("Critical CSV Path File(s): ");
             Console.WriteLine(string.Join(",", criticalCsvPaths.ToArray()));
 
             foreach(String csvFile in criticalCsvPaths)
