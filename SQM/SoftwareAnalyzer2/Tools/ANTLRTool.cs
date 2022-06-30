@@ -1644,6 +1644,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void TryCatchModifier(IModifiable node)
         {
+            Console.WriteLine("Java Incoming tree: ");
+            node.PrintTreeText();
+
             IModifiable tryer = (IModifiable)node.GetNthChild(0);
             IModifiable tryChild;
             List<IModifiable> catchers = new List<IModifiable>();
@@ -1716,6 +1719,8 @@ namespace SoftwareAnalyzer2.Tools
             {
                 finalBlock.Parent = node;
             }
+            Console.WriteLine("\n\n\n\n Java outgoing tree: ");
+            node.PrintTreeText();
         }
         #endregion
 
@@ -4373,28 +4378,47 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Branch);
 
-                //If the then block is empty
-                //Sets the correct node type for Then and it's corresponding scope
-                if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
-                {
-                    IModifiable Scope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
-                    Scope.SetNode(Members.Scope);
-                    IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
-                    Then.SetNode(Members.Then);
-                }
+                bool Brackets = true;
 
-                //if the Then block is not empty
-                //Sets correct node type for Then. The corresponding scope will be done later by another method
-                else
+                if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
                 {
-                    INavigable thenChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetNthChild(0);
+                    Brackets = false;
                     IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
+                    List<INavigable> thenChildren = node.GetFirstSingleLayer("statement").Children;
                     Then.DropChildren();
 
-                    thenChildren.Parent = Then;
+                    IModifiable ThenScope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                    foreach (INavigable child in thenChildren)
+                    {
+                        child.Parent = ThenScope;
+                    }
+
+                    ThenScope.Parent = Then;
                     Then.SetNode(Members.Then);
                 }
 
+                if (Brackets)
+                {
+                    if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                    {
+                        IModifiable Scope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
+                        Scope.SetNode(Members.Scope);
+                        IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
+                        Then.SetNode(Members.Then);
+                    }
+
+                    //if the Then block is not empty
+                    //Sets correct node type for Then. The corresponding scope will be done later by another method
+                    else
+                    {
+                        INavigable thenChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetNthChild(0);
+                        IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
+                        Then.DropChildren();
+
+                        thenChildren.Parent = Then;
+                        Then.SetNode(Members.Then);
+                    }
+                }
                 string type = null;
                 if ((node.GetFirstSingleLayer("statement") != null )&& (node.GetFirstSingleLayer("statement").GetChildCount() != 0))
                 {
@@ -4446,6 +4470,7 @@ namespace SoftwareAnalyzer2.Tools
 
                     Else.SetNode(Members.Else);
                 }
+
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
