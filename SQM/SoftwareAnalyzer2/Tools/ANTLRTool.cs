@@ -5020,27 +5020,89 @@ namespace SoftwareAnalyzer2.Tools
             if (node.Code.Equals("for ( ; )"))
             {
                 node.SetNode(Members.For3Loop);
+
+                if (node.GetFirstSingleLayer(Members.ForInitial).GetFirstSingleLayer("expressionStatement") != null)
+                {
+                    IModifiable forInit = (IModifiable)node.GetFirstSingleLayer(Members.ForInitial);
+                    forInit.DropChildren();
+                }
+                else
+                {
+                    IModifiable forInitNode = (IModifiable)node.GetFirstSingleLayer(Members.ForInitial);
+                    List<INavigable> forInitNodeChildren = forInitNode.Children;
+                    forInitNode.DropChildren();
+                    foreach (IModifiable child in forInitNodeChildren)
+                    {
+                        //move future Field nodes out of the ForInitial
+                        if (child.Node.Equals("simpleDeclaration"))
+                        {
+                            child.Parent = node;
+                        }
+                        else
+                        {
+                            child.Parent = forInitNode;
+                        }
+                    }
+                }
+
+                IModifiable statement = (IModifiable)node.GetFirstSingleLayer("statement");
+                List<INavigable> statementChildren = null;
+                if (statement.GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                {
+                    statementChildren = statement.GetFirstSingleLayer("compoundStatement").Children;
+                }
+                else
+                {
+                    statementChildren = statement.GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.Scope).Children;
+                }
+                statement.DropChildren();
+                foreach (INavigable child in statementChildren)
+                {
+                    child.Parent = statement;
+                }
+                statement.SetNode(Members.Scope);
+
                 IModifiable updateNode = (IModifiable)node.GetFirstSingleLayer("expression");
                 if (updateNode != null)
                 {
                     updateNode.SetNode(Members.Update);
+
+                    List<INavigable> updatesChildren = updateNode.Children;
+                    updateNode.DropChildren();
+                    IModifiable updateScope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                    updateScope.Parent = updateNode;
+                    foreach (INavigable updateChild in updatesChildren)
+                    {
+                        updateChild.Parent = updateScope;
+                    }
+                }
+                else
+                {
+                    IModifiable update = (IModifiable)NodeFactory.CreateNode(Members.Update, false);
+                    IModifiable updateScope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+
+                    updateScope.Parent = update;
+                    update.Parent = node;
                 }
 
-                IModifiable forInitNode = (IModifiable)node.GetFirstSingleLayer(Members.ForInitial);
-                List<INavigable> forInitNodeChildren = forInitNode.Children;
-                forInitNode.DropChildren();
-                foreach (IModifiable child in forInitNodeChildren)
+                if (node.GetFirstSingleLayer(Members.Boolean) == null)
                 {
-                    //move future Field nodes out of the ForInitial
-                    if (child.Node.Equals("simpleDeclaration"))
-                    {
-                        child.Parent = node;
-                    }
-                    else
-                    {
-                        child.Parent = forInitNode;
-                    }
+                    IModifiable Boolean = (IModifiable)NodeFactory.CreateNode(Members.Boolean, false);
+                    IModifiable Literal = (IModifiable)NodeFactory.CreateNode(Members.Literal, false);
+                    Literal.AddCode("true", node);
+                    IModifiable Type = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
+                    IModifiable TypeName = (IModifiable)NodeFactory.CreateNode(Members.TypeName, false);
+                    TypeName.AddCode("Boolean", Type);
+
+                    TypeName.Parent = Type;
+                    Type.Parent = Literal;
+                    Literal.Parent = Boolean;
+                    Boolean.Parent = node;
+                }else
+                {
+                    //Booleans are already in the format we need
                 }
+                
             }
             else if (node.Code.Equals("for ( : )"))
             {
