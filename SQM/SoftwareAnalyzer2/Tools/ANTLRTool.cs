@@ -5158,7 +5158,6 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("do while ( ) ;"))
             {
-                
                 IModifiable target = (IModifiable)node.Parent;
                 List<INavigable> children = target.Children;
                 target.DropChildren();
@@ -5181,6 +5180,12 @@ namespace SoftwareAnalyzer2.Tools
                         IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
                         scope.Parent = target;
                     }
+                    else if (child.Node.Equals("statement") && child.GetNthChild(0).Node.Equals("declarationStatement"))
+                    {
+                        IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                        scope.Parent = target;
+                        child.Parent = scope;
+                    }
                     else
                     {
                         throw new ArgumentException("Tree structure of " + node + " is unexpected");
@@ -5191,30 +5196,57 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("while ( )"))
             {
-                IModifiable target = (IModifiable)node.Parent;
-                List<INavigable> children = node.Children;
-                target.DropChildren();
+                bool brackets = true;
 
-                foreach (INavigable child in children)
+                if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
                 {
-                    if (!child.Node.Equals("statement") && node.GetChildCount() == 2)
+                    brackets = false;
+                }
+                IModifiable target = (IModifiable)node.Parent;
+                if (brackets)
+                {
+                    List<INavigable> children = node.Children;
+                    target.DropChildren();
+
+                    foreach (INavigable child in children)
                     {
-                        child.Parent = target;
-                    }
-                    else if (child.Node.Equals("statement") && child.GetNthChild(0).GetChildCount() == 0)
-                    {
-                        IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
-                        scope.Parent = target;
-                    }
-                    else if(child.Node.Equals("statement") && child.GetNthChild(0).GetNthChild(0).Node.Equals(Members.Scope))
-                    {
-                        child.GetNthChild(0).GetNthChild(0).Parent = target;
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Tree structure of " + node + " is unexpected");
+                        if (!child.Node.Equals("statement") && node.GetChildCount() == 2)
+                        {
+                            child.Parent = target;
+                        }
+                        else if (child.Node.Equals("statement") && child.GetNthChild(0).GetChildCount() == 0)
+                        {
+                            IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                            scope.Parent = target;
+                        }
+                        else if (child.Node.Equals("statement") && child.GetNthChild(0).GetNthChild(0).Node.Equals(Members.Scope))
+                        {
+                            child.GetNthChild(0).GetNthChild(0).Parent = target;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Tree structure of " + node + " is unexpected");
+                        }
                     }
                 }
+                else
+                {
+                    IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                    node.GetFirstSingleLayer("statement").Parent = scope;
+                    scope.Parent = node;
+                    //Now I want to remove the original from While
+                    List<INavigable> whileChildren = target.GetNthChild(0).Children;
+                    target.DropChildren();
+
+                    foreach (INavigable child in whileChildren)
+                    {
+                        if (!child.Node.Equals("statement"))
+                        {
+                            child.Parent = target;
+                        }
+                    }
+                }
+
                 target.SetNode(Members.While);
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
