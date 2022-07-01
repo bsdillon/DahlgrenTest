@@ -4374,7 +4374,6 @@ namespace SoftwareAnalyzer2.Tools
                 node.SetNode(Members.Branch);
 
                 bool Brackets = true;
-
                 if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
                 {
                     Brackets = false;
@@ -4423,28 +4422,52 @@ namespace SoftwareAnalyzer2.Tools
                 //If it is an if else statement
                 if (node.Code.Equals("if ( ) else") && !type.Equals("if ( ) else") && !type.Equals("if ( )")) //if it's not an else if
                 {
-                    //If the else scope is empty
-                    //Sets the correct node type for Else and it's corresponding ElseScope
-                    if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                    bool elseBrackets = true;
+
+                    if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
                     {
-                        IModifiable ElseScope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
-                        ElseScope.SetNode(Members.ElseScope);
-                        IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
-                        Else.SetNode(Members.Else);
+                        elseBrackets = false;
                     }
 
-                    //If the else scope is nonempty
-                    //Sets the correct node type for Else. ElseScope will be done my another method.
+                    if (elseBrackets)
+                    {
+                        //If the else scope is empty
+                        //Sets the correct node type for Else and it's corresponding ElseScope
+                        if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                        {
+                            IModifiable ElseScope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
+                            ElseScope.SetNode(Members.ElseScope);
+                            IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                            Else.SetNode(Members.Else);
+                        }
+
+                        //If the else scope is nonempty
+                        //Sets the correct node type for Else. ElseScope will be done my another method.
+                        else
+                        {
+                            List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").Children;
+                            IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                            Else.DropChildren();
+
+                            foreach (INavigable child in elseChildren)
+                            {
+                                child.Parent = Else;
+                            }
+                            Else.SetNode(Members.Else);
+                        }
+                    }
                     else
                     {
-                        List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").Children;
                         IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                        List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").Children;
                         Else.DropChildren();
 
+                        IModifiable ElseScope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, false);
                         foreach (INavigable child in elseChildren)
                         {
-                            child.Parent = Else;
+                            child.Parent = ElseScope;
                         }
+                        ElseScope.Parent = Else;
                         Else.SetNode(Members.Else);
                     }
                 }
