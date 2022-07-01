@@ -1644,9 +1644,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void TryCatchModifier(IModifiable node)
         {
-            Console.WriteLine("Java Incoming tree: ");
-            node.PrintTreeText();
-
             IModifiable tryer = (IModifiable)node.GetNthChild(0);
             IModifiable tryChild;
             List<IModifiable> catchers = new List<IModifiable>();
@@ -1719,8 +1716,6 @@ namespace SoftwareAnalyzer2.Tools
             {
                 finalBlock.Parent = node;
             }
-            Console.WriteLine("\n\n\n\n Java outgoing tree: ");
-            node.PrintTreeText();
         }
         #endregion
 
