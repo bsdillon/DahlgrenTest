@@ -1,0 +1,10 @@
+@startuml
+agent "client" as client
+agent "api" as api
+agent "server" as server
+
+client -->> api : 1 
+api -->> server : 1 
+server -->> api : 1 
+api -->> client : 1 
+@enduml
