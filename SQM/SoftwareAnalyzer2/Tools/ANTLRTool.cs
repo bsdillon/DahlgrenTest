@@ -5060,6 +5060,8 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPIterationStatementHandler(IModifiable node)
         {
+            Console.WriteLine("Incoming tree");
+            node.PrintTreeText();
             if (node.Code.Equals("for ( ; )"))
             {
                 node.SetNode(Members.For3Loop);
@@ -5088,22 +5090,47 @@ namespace SoftwareAnalyzer2.Tools
                     }
                 }
 
+                Boolean brackets = false;
                 IModifiable statement = (IModifiable)node.GetFirstSingleLayer("statement");
-                List<INavigable> statementChildren = null;
-                if (statement.GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                if (statement.GetFirstSingleLayer("compoundStatement") != null)
                 {
-                    statementChildren = statement.GetFirstSingleLayer("compoundStatement").Children;
+                    brackets = true;
+                }
+                List<INavigable> statementChildren = null;
+                if(brackets)
+                {
+                    if (statement.GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                    {
+                        statementChildren = statement.GetFirstSingleLayer("compoundStatement").Children;
+                    }
+                    else
+                    {
+                        statementChildren = statement.GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.Scope).Children;
+                    }
+                    statement.DropChildren();
+                    foreach (INavigable child in statementChildren)
+                    {
+                        child.Parent = statement;
+                    }
+                    statement.SetNode(Members.Scope);
                 }
                 else
                 {
-                    statementChildren = statement.GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.Scope).Children;
+                    List<INavigable> nodeChildren = node.Children;
+                    node.DropChildren();
+                    foreach (INavigable child in nodeChildren)
+                    {
+                        if (!child.Node.Equals("statement"))
+                        {
+                            child.Parent = node;
+                        }else
+                        {
+                            IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                            child.Parent = scope;
+                            scope.Parent = node;
+                        }
+                    }
                 }
-                statement.DropChildren();
-                foreach (INavigable child in statementChildren)
-                {
-                    child.Parent = statement;
-                }
-                statement.SetNode(Members.Scope);
 
                 IModifiable updateNode = (IModifiable)node.GetFirstSingleLayer("expression");
                 if (updateNode != null)
@@ -5145,7 +5172,6 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     //Booleans are already in the format we need
                 }
-                
             }
             else if (node.Code.Equals("for ( : )"))
             {
