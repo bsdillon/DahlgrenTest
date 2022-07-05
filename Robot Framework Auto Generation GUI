@@ -1,6 +1,6 @@
 
 master = tk.Tk()
-master.title("RF AEGIS GUI")
+master.title("RF GUI WIZARD")
 master.geometry("750x1000")
 #master.config(background='blue')
 

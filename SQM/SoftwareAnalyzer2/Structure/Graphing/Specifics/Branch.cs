@@ -40,16 +40,19 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             base.Register(memberList, parentScope);
             INavigable myNavigable = (INavigable)represented;
             AddControlExpression(myNavigable.GetNthChild(0));
-
             //Add the scope for each branch and recurse
-            thenScope = RegisterScope(myNavigable.GetNthChild(1).GetNthChild(0));
 
-            INavigable scope = myNavigable.GetNthChild(2).GetNthChild(0);//else scope
-            if (scope.GetChildCount() > 0)
+            thenScope = RegisterScope(myNavigable.GetNthChild(1).GetNthChild(0));
+            //No gaurantees of an else statement
+            if(myNavigable.GetChildCount() > 2 && myNavigable.GetNthChild(2).GetChildCount() != 0)
             {
-                //only else scopes with actual contents are added.
-                //this prevents empty else blocks which are equivalent to the then block above.
-                elseScope = RegisterScope(scope);
+                INavigable scope = myNavigable.GetNthChild(2).GetNthChild(0);//else scope
+                if (scope.GetChildCount() > 0)
+                {
+                    //only else scopes with actual contents are added.
+                    //this prevents empty else blocks which are equivalent to the then block above.
+                    elseScope = RegisterScope(scope);
+                }
             }
         }
         #endregion
@@ -58,7 +61,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         public override void InitialLink()
         {
             thenScope.InitialLink();
-
+            
             if (elseScope != null)
             {
                 elseScope.InitialLink();
@@ -68,9 +71,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         public override void FullLink()
         {
             new ControlExpression((INavigable)myControl.Represented, new ChainArgs(this, true, new Statement(this, represented), false));
-
             thenScope.FullLink();
-
+            
             if (elseScope != null)
             {
                 elseScope.FullLink();

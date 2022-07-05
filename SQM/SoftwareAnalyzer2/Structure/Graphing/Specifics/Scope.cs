@@ -100,7 +100,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             foreach (INavigable a in treeNode.Children)
             {
                 NodeType type = a.Node;
-
                 if (type.IsDefinedMember)
                 {
                     ChainArgs ca = new ChainArgs(this, true, new Statement(this, a), false);

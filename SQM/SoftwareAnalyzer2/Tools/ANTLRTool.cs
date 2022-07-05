@@ -2249,7 +2249,7 @@ namespace SoftwareAnalyzer2.Tools
         /// </summary>
         /// <param name="answer"></param>
         private void FormatWhile(IModifiable node)
-        {
+        {   
             IModifiable target = (IModifiable)node.Parent;
             List<INavigable> children = target.Children;
             target.DropChildren();
@@ -2362,7 +2362,7 @@ namespace SoftwareAnalyzer2.Tools
         /// </summary>
         /// <param name="answer"></param>
         /// <param name="elseBranch"></param>
-        private void PrepareIf(IModifiable node, out IModifiable elseBranch)
+        private void PrepareIf(IModifiable node, out IModifiable elseBranch) //Used for Java
         {
             List<INavigable> children2 = node.Children;
             IModifiable      target    = (IModifiable)node.Parent;
@@ -4216,7 +4216,7 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.MethodScope);
             }
-            else if (node.Parent.Parent == node.GetAncestor(Members.Else))
+            else if (node.Parent == node.GetAncestor(Members.Else))
             {
                 node.SetNode(Members.ElseScope);
             }
@@ -4363,6 +4363,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPSelectionStatementIdentifier(IModifiable node)
         {
+            // Only called once
             // TODO: fix this - tends to screw up line numbers...
             if (node.Code.Equals("switch ( )"))
             {
@@ -4371,14 +4372,123 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.Code.Equals("if ( )") || node.Code.Equals("if ( ) else"))
             {
                 node.SetNode(Members.Branch);
-                IModifiable thenNode = (IModifiable)node.GetFirstSingleLayer("statement");
-                thenNode.SetNode(Members.Then);
-                if (node.Code.Equals("if ( ) else"))
+
+                bool Brackets = true;
+                if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
                 {
-                    IModifiable elseNode = (IModifiable)node.GetFirstSingleLayer("statement");
-                    elseNode.SetNode(Members.Else);
+                    Brackets = false;
+                    IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
+                    List<INavigable> thenChildren = node.GetFirstSingleLayer("statement").Children;
+                    Then.DropChildren();
+
+                    IModifiable ThenScope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                    foreach (INavigable child in thenChildren)
+                    {
+                        child.Parent = ThenScope;
+                    }
+
+                    ThenScope.Parent = Then;
+                    Then.SetNode(Members.Then);
                 }
-                
+
+                if (Brackets)
+                {
+                    if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                    {
+                        IModifiable Scope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
+                        Scope.SetNode(Members.Scope);
+                        IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
+                        Then.SetNode(Members.Then);
+                    }
+
+                    //if the Then block is not empty
+                    //Sets correct node type for Then. The corresponding scope will be done later by another method
+                    else
+                    {
+                        INavigable thenChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetNthChild(0);
+                        IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
+                        Then.DropChildren();
+
+                        thenChildren.Parent = Then;
+                        Then.SetNode(Members.Then);
+                    }
+                }
+                string type = null;
+                if ((node.GetFirstSingleLayer("statement") != null )&& (node.GetFirstSingleLayer("statement").GetChildCount() != 0))
+                {
+                    type = node.GetFirstSingleLayer("statement").GetNthChild(0).Code;
+                }
+
+                //If it is an if else statement
+                if (node.Code.Equals("if ( ) else") && !type.Equals("if ( ) else") && !type.Equals("if ( )")) //if it's not an else if
+                {
+                    bool elseBrackets = true;
+
+                    if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
+                    {
+                        elseBrackets = false;
+                    }
+
+                    if (elseBrackets)
+                    {
+                        //If the else scope is empty
+                        //Sets the correct node type for Else and it's corresponding ElseScope
+                        if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                        {
+                            IModifiable ElseScope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
+                            ElseScope.SetNode(Members.ElseScope);
+                            IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                            Else.SetNode(Members.Else);
+                        }
+
+                        //If the else scope is nonempty
+                        //Sets the correct node type for Else. ElseScope will be done my another method.
+                        else
+                        {
+                            List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").Children;
+                            IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                            Else.DropChildren();
+
+                            foreach (INavigable child in elseChildren)
+                            {
+                                child.Parent = Else;
+                            }
+                            Else.SetNode(Members.Else);
+                        }
+                    }
+                    else
+                    {
+                        IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                        List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").Children;
+                        Else.DropChildren();
+
+                        IModifiable ElseScope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, false);
+                        foreach (INavigable child in elseChildren)
+                        {
+                            child.Parent = ElseScope;
+                        }
+                        ElseScope.Parent = Else;
+                        Else.SetNode(Members.Else);
+                    }
+                }
+
+                //Processing else statement
+                else if (node.GetFirstSingleLayer("statement") != null)
+                {
+                    List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").Children;
+                    IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
+                    Else.DropChildren();
+
+                    IModifiable elseScope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, false);
+                    elseScope.Parent = Else;
+                    foreach (INavigable child in elseChildren)
+                    {
+                        child.Parent = elseScope;
+                    }
+
+                    Else.SetNode(Members.Else);
+                }
+
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
@@ -4953,27 +5063,89 @@ namespace SoftwareAnalyzer2.Tools
             if (node.Code.Equals("for ( ; )"))
             {
                 node.SetNode(Members.For3Loop);
+
+                if (node.GetFirstSingleLayer(Members.ForInitial).GetFirstSingleLayer("expressionStatement") != null)
+                {
+                    IModifiable forInit = (IModifiable)node.GetFirstSingleLayer(Members.ForInitial);
+                    forInit.DropChildren();
+                }
+                else
+                {
+                    IModifiable forInitNode = (IModifiable)node.GetFirstSingleLayer(Members.ForInitial);
+                    List<INavigable> forInitNodeChildren = forInitNode.Children;
+                    forInitNode.DropChildren();
+                    foreach (IModifiable child in forInitNodeChildren)
+                    {
+                        //move future Field nodes out of the ForInitial
+                        if (child.Node.Equals("simpleDeclaration"))
+                        {
+                            child.Parent = node;
+                        }
+                        else
+                        {
+                            child.Parent = forInitNode;
+                        }
+                    }
+                }
+
+                IModifiable statement = (IModifiable)node.GetFirstSingleLayer("statement");
+                List<INavigable> statementChildren = null;
+                if (statement.GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                {
+                    statementChildren = statement.GetFirstSingleLayer("compoundStatement").Children;
+                }
+                else
+                {
+                    statementChildren = statement.GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.Scope).Children;
+                }
+                statement.DropChildren();
+                foreach (INavigable child in statementChildren)
+                {
+                    child.Parent = statement;
+                }
+                statement.SetNode(Members.Scope);
+
                 IModifiable updateNode = (IModifiable)node.GetFirstSingleLayer("expression");
                 if (updateNode != null)
                 {
                     updateNode.SetNode(Members.Update);
+
+                    List<INavigable> updatesChildren = updateNode.Children;
+                    updateNode.DropChildren();
+                    IModifiable updateScope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                    updateScope.Parent = updateNode;
+                    foreach (INavigable updateChild in updatesChildren)
+                    {
+                        updateChild.Parent = updateScope;
+                    }
+                }
+                else
+                {
+                    IModifiable update = (IModifiable)NodeFactory.CreateNode(Members.Update, false);
+                    IModifiable updateScope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+
+                    updateScope.Parent = update;
+                    update.Parent = node;
                 }
 
-                IModifiable forInitNode = (IModifiable)node.GetFirstSingleLayer(Members.ForInitial);
-                List<INavigable> forInitNodeChildren = forInitNode.Children;
-                forInitNode.DropChildren();
-                foreach (IModifiable child in forInitNodeChildren)
+                if (node.GetFirstSingleLayer(Members.Boolean) == null)
                 {
-                    //move future Field nodes out of the ForInitial
-                    if (child.Node.Equals("simpleDeclaration"))
-                    {
-                        child.Parent = node;
-                    }
-                    else
-                    {
-                        child.Parent = forInitNode;
-                    }
+                    IModifiable Boolean = (IModifiable)NodeFactory.CreateNode(Members.Boolean, false);
+                    IModifiable Literal = (IModifiable)NodeFactory.CreateNode(Members.Literal, false);
+                    Literal.AddCode("true", node);
+                    IModifiable Type = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
+                    IModifiable TypeName = (IModifiable)NodeFactory.CreateNode(Members.TypeName, false);
+                    TypeName.AddCode("Boolean", Type);
+
+                    TypeName.Parent = Type;
+                    Type.Parent = Literal;
+                    Literal.Parent = Boolean;
+                    Boolean.Parent = node;
+                }else
+                {
+                    //Booleans are already in the format we need
                 }
+                
             }
             else if (node.Code.Equals("for ( : )"))
             {
@@ -4984,15 +5156,98 @@ namespace SoftwareAnalyzer2.Tools
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("forRangeInitializer"));
                 rangeNode.Parent = writeNode;
             }
-            else if (node.Code.Equals("while ( )"))
-            {
-                node.SetNode(Members.While);
-                // TODO
-            }
             else if (node.Code.Equals("do while ( ) ;"))
             {
-                node.SetNode(Members.DoWhile);
-                // TODO
+                IModifiable target = (IModifiable)node.Parent;
+                List<INavigable> children = target.Children;
+                target.DropChildren();
+
+                IModifiable boolean = (IModifiable)NodeFactory.CreateNode(Members.Boolean, false);
+                boolean.Parent = target;
+
+                foreach (IModifiable child in node.Children)
+                {
+                    if (child.Node.Equals("expression"))
+                    {
+                        node.GetNthChild(1).Parent = boolean;
+                    }
+                    else if (child.GetChildCount() == 1 && child.GetNthChild(0).GetChildCount() == 1  && child.GetNthChild(0).GetNthChild(0).Node.Equals(Members.Scope))
+                    {
+                        node.GetNthChild(0).GetNthChild(0).GetNthChild(0).Parent = target;
+                    }
+                    else if (child.Node.Equals("statement") && child.GetNthChild(0).GetChildCount() == 0)
+                    {
+                        IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                        scope.Parent = target;
+                    }
+                    else if (child.Node.Equals("statement") && child.GetNthChild(0).Node.Equals("declarationStatement"))
+                    {
+                        IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                        scope.Parent = target;
+                        child.Parent = scope;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Tree structure of " + node + " is unexpected");
+                    }
+                }
+
+                target.SetNode(Members.DoWhile);
+            }
+            else if (node.Code.Equals("while ( )"))
+            {
+                bool brackets = true;
+
+                if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
+                {
+                    brackets = false;
+                }
+                IModifiable target = (IModifiable)node.Parent;
+                if (brackets)
+                {
+                    List<INavigable> children = node.Children;
+                    target.DropChildren();
+
+                    foreach (INavigable child in children)
+                    {
+                        if (!child.Node.Equals("statement") && node.GetChildCount() == 2)
+                        {
+                            child.Parent = target;
+                        }
+                        else if (child.Node.Equals("statement") && child.GetNthChild(0).GetChildCount() == 0)
+                        {
+                            IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                            scope.Parent = target;
+                        }
+                        else if (child.Node.Equals("statement") && child.GetNthChild(0).GetNthChild(0).Node.Equals(Members.Scope))
+                        {
+                            child.GetNthChild(0).GetNthChild(0).Parent = target;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Tree structure of " + node + " is unexpected");
+                        }
+                    }
+                }
+                else
+                {
+                    IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                    node.GetFirstSingleLayer("statement").Parent = scope;
+                    scope.Parent = node;
+                    //Now I want to remove the original from While
+                    List<INavigable> whileChildren = target.GetNthChild(0).Children;
+                    target.DropChildren();
+
+                    foreach (INavigable child in whileChildren)
+                    {
+                        if (!child.Node.Equals("statement"))
+                        {
+                            child.Parent = target;
+                        }
+                    }
+                }
+
+                target.SetNode(Members.While);
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
@@ -5236,6 +5491,7 @@ namespace SoftwareAnalyzer2.Tools
         /// else if statements do not produce an ElseScope node in C++ like they do in Java with only the existing code - this function corrects that
         /// </summary>
         /// <param name="answer"></param>
+        /// 
         private void CPPElseIfScopeAdder(IModifiable node)
         {
             if (node.GetNthChild(0).Node.Equals(Members.Branch))
