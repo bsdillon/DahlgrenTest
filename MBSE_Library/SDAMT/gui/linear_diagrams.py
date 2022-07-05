@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import filedialog as fd
 
-from MBSE_Library.MBSE_Library.core import *
-import MBSE_Library.MBSE_Library.linear_diagrams.node
+from MBSE_Library.core import *
+import MBSE_Library.linear_diagrams.node
 
 
 class LinearDiagrams:
@@ -45,26 +45,6 @@ class LinearDiagrams:
         del_list = OptionMenu(self.frame2, self.d, *self.deleted)
         del_list.grid(row=6, column=1)
 
-        load_f = Button(self.frame2, text='Load file', command=self.load_file)
-        load_f.grid(row=0, column=0)
-        r1 = Radiobutton(self.frame2, text='Communication', variable=self.my_var1, value=0, command=self.view_selected)
-        r2 = Radiobutton(self.frame2, text='Sequence', variable=self.my_var1, value=1, command=self.view_selected)
-        r1.grid(row=1, column=0)
-        r2.grid(row=1, column=1)
-        add_node = Button(self.frame2, text='Create a new node')
-        add_node.grid(row=2, column=0)
-        add_relationship = Button(self.frame2, text='Create a new relationship')
-        add_relationship.grid(row=3, column=0)
-
-        highlight_in = Button(self.frame2, text='Highlight in', command=self.highlight_in)
-        highlight_in.grid(row=4, column=0)
-
-        highlight_out = Button(self.frame2, text='Highlight out', command=self.highlight_out)
-        highlight_out.grid(row=5, column=0)
-
-        delete_node = Button(self.frame2, text='Delete node', command=self.delete)
-        delete_node.grid(row=6, column=0)
-
     def run_image(self, image):
         img2 = PhotoImage(file=image)
         self.i.configure(image=img2)
@@ -103,12 +83,15 @@ class LinearDiagrams:
 
     def highlight_in(self):
         MBSE.highlight_in(self.h_i.get())
+        self.Highlighted_in.remove(self.h_i.get())
         self.view_selected()
 
     def highlight_out(self):
         MBSE.highlight_out(self.h_o.get())
+        self.Highlighted_out.remove(self.h_o.get())
         self.view_selected()
 
     def delete(self):
         MBSE.set_unimportant(self.d.get())
+        self.deleted.remove(self.d.get())
         self.view_selected()

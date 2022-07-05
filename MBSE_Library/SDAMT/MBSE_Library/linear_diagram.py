@@ -1,4 +1,4 @@
-from MBSE_Library.MBSE_Library import Relationships, Node
+from MBSE_Library import Relationships, Node
 import csv
 
 

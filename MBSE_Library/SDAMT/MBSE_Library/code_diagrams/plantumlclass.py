@@ -1,5 +1,5 @@
-from MBSE_Library.MBSE_Library.code_diagrams.plantumlmethod import PlantumlMethod
-from MBSE_Library.MBSE_Library.code_diagrams.plantumlvariables import PlantumlVariable
+from MBSE_Library.code_diagrams.plantumlmethod import PlantumlMethod
+from MBSE_Library.code_diagrams.plantumlvariables import PlantumlVariable
 
 
 class PlantumlClass:

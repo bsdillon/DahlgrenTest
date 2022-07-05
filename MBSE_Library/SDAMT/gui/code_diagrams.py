@@ -1,6 +1,6 @@
 from tkinter import *
 
-from MBSE_Library.MBSE_Library.core import *
+from MBSE_Library.core import *
 
 
 class CodeDiagrams:
@@ -33,7 +33,7 @@ class CodeDiagrams:
     def submit_new_package(self):
         package_name = self.package_var.get()
         MBSE.add_package(package_name)
-        MBSE.print_uml()
+        MBSE.print_uml("code")
         self.run_image("code_diagram.png")
 
     def new_class(self):

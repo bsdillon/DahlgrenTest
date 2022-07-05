@@ -1,4 +1,4 @@
-from MBSE_Library.MBSE_Library import PlantumlPackage, PlantumlClass
+from MBSE_Library import PlantumlPackage, PlantumlClass
 
 
 class CodeDiagram:

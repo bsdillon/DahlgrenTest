@@ -37,6 +37,22 @@ class Main:
         ######################
         # Linear Diagram tab #
         ######################
+        load_f = Button(frame2, text='Load file', command=ld.load_file)
+        load_f.grid(row=0, column=0)
+        r1 = Radiobutton(frame2, text='Communication', variable=ld.my_var1, value=0, command=ld.view_selected)
+        r2 = Radiobutton(frame2, text='Sequence', variable=ld.my_var1, value=1, command=ld.view_selected)
+        r1.grid(row=1, column=0)
+        r2.grid(row=1, column=1)
+        add_node = Button(frame2, text='Create a new node')
+        add_node.grid(row=2, column=0)
+        add_relationship = Button(frame2, text='Create a new relationship')
+        add_relationship.grid(row=3, column=0)
+        highlight_in = Button(frame2, text='Highlight in', command=ld.highlight_in)
+        highlight_in.grid(row=4, column=0)
+        highlight_out = Button(frame2, text='Highlight out', command=ld.highlight_out)
+        highlight_out.grid(row=5, column=0)
+        delete_node = Button(frame2, text='Delete node', command=ld.delete)
+        delete_node.grid(row=6, column=0)
 
         frame1.grid(row=0, column=0, sticky=W)
         frame2.grid(row=0, column=0, sticky=W)

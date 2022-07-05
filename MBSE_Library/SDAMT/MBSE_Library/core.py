@@ -1,4 +1,4 @@
-from MBSE_Library.MBSE_Library import CodeDiagram, LinearDiagram, Node, PlantumlClass, PlantumlPackage
+from MBSE_Library import CodeDiagram, LinearDiagram, Node, PlantumlClass, PlantumlPackage
 import os
 
 

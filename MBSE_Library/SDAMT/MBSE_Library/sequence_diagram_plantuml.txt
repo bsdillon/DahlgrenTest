@@ -1,6 +1,0 @@
-@startuml
-client ->api : command 
-api ->server : retrieve 
-server ->api : return 
-api ->client : return 
-@enduml
