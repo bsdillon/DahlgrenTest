@@ -5088,22 +5088,47 @@ namespace SoftwareAnalyzer2.Tools
                     }
                 }
 
+                Boolean brackets = false;
                 IModifiable statement = (IModifiable)node.GetFirstSingleLayer("statement");
-                List<INavigable> statementChildren = null;
-                if (statement.GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                if (statement.GetFirstSingleLayer("compoundStatement") != null)
                 {
-                    statementChildren = statement.GetFirstSingleLayer("compoundStatement").Children;
+                    brackets = true;
+                }
+                List<INavigable> statementChildren = null;
+                if(brackets)
+                {
+                    if (statement.GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                    {
+                        statementChildren = statement.GetFirstSingleLayer("compoundStatement").Children;
+                    }
+                    else
+                    {
+                        statementChildren = statement.GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.Scope).Children;
+                    }
+                    statement.DropChildren();
+                    foreach (INavigable child in statementChildren)
+                    {
+                        child.Parent = statement;
+                    }
+                    statement.SetNode(Members.Scope);
                 }
                 else
                 {
-                    statementChildren = statement.GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.Scope).Children;
+                    List<INavigable> nodeChildren = node.Children;
+                    node.DropChildren();
+                    foreach (INavigable child in nodeChildren)
+                    {
+                        if (!child.Node.Equals("statement"))
+                        {
+                            child.Parent = node;
+                        }else
+                        {
+                            IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                            child.Parent = scope;
+                            scope.Parent = node;
+                        }
+                    }
                 }
-                statement.DropChildren();
-                foreach (INavigable child in statementChildren)
-                {
-                    child.Parent = statement;
-                }
-                statement.SetNode(Members.Scope);
 
                 IModifiable updateNode = (IModifiable)node.GetFirstSingleLayer("expression");
                 if (updateNode != null)
@@ -5145,7 +5170,6 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     //Booleans are already in the format we need
                 }
-                
             }
             else if (node.Code.Equals("for ( : )"))
             {
@@ -5155,6 +5179,29 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable rangeNode = (IModifiable)node.GetFirstSingleLayer("forRangeInitializer").GetNthChild(0);
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("forRangeInitializer"));
                 rangeNode.Parent = writeNode;
+
+                List<INavigable> nodeChildren = node.Children;
+                node.DropChildren();
+                foreach (INavigable child in nodeChildren)
+                {
+                    if (!child.Node.Equals("statement"))
+                    {
+                        child.Parent = node;
+                    }else
+                    {
+                        //if there are brackets
+                        if (child.GetFirstSingleLayer("compoundStatement") == null)
+                        {
+                            IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                            child.GetNthChild(0).GetNthChild(0).Parent = scope;
+                            scope.Parent = node;
+                        }
+                        else
+                        {
+                            child.GetNthChild(0).GetNthChild(0).Parent = node;
+                        }
+                    }
+                }
             }
             else if (node.Code.Equals("do while ( ) ;"))
             {
