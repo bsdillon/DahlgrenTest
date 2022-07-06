@@ -17,6 +17,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //variables to hold the user-inputted csv fields
         private string errorDescription;
         private string errorProperty;
+        //Austin: variables to hold the user-inputted Critical input csv fields
+        private string criticalDescription;
+        private string criticalProperty;
         private List<GraphNode> tracedGNs = new List<GraphNode>();
         private static string missedTraces = "";
 
@@ -48,8 +51,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             missedTraces = "";
         }
 
-        public void FindCriticalCSVConnections(string fileStem, string line)
+        public void FindCriticalCSVConnections(string fileStem, string line, string criticalD, string criticalP)
         {
+            criticalDescription = criticalD;
+            criticalProperty = criticalP;
             string outputFileName = "_critical_nodes_output.csv";
             string fullFile = fileStem + outputFileName;
             StreamWriter cFile = new StreamWriter(fullFile, true);
