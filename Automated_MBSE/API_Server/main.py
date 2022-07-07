@@ -34,7 +34,7 @@ class MyServer(BaseHTTPRequestHandler):
         if command[1] == "create_method":
             MBSE.add_method_to_class(command[2], command[3])
             print("created " + command[2] + " with " + command[3])
-        MBSE.print_uml()
+        MBSE.print_uml("code")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,2 @@
 @startuml
-class "class1" as class1 {
---
-}
- 
 @enduml
