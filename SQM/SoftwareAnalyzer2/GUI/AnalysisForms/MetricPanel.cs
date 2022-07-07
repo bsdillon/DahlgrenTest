@@ -148,7 +148,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                                 //some variations of those header names are accounted for in this logic
                                 if ((values[0] == "file" || values[0] == "File" || values[0] == "Filename" || values[0] == "File name")
                                     && (values[1] == "line" || values[1] == "Line" || values[1] == "Line Number" || values[1] == "Line number")
-                                    && (values[2] == "error" || values[2] == "Error" || values[2] == "Error Details" || values[2] == "Error details")
+                                    && (values[2] == "level" || values[2] == "Level" || values[2] == "Criticality" || values[2] == "criticality")
                                     && (values[3] == "property" || values[3] == "Property" || values[3] == "Error Property" || values[3] == "Error property"))
                                 {
 
@@ -157,7 +157,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                                 else
                                 {
                                     //one or more of the column headers does not match, error
-                                    MessageBox.Show(this, fName + " does not follow the required format. Each file must have a header that contains these values: \"file, line, error, property\"", "File Format Issue");
+                                    MessageBox.Show(this, fName + " does not follow the required format. Each file must have a header that contains these values: \"file, line, criticality (or level), property\"", "File Format Issue");
                                     fileError = true;
                                 }
 

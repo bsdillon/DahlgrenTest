@@ -894,10 +894,16 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     {
                         //split CSV values
                         var rLine = read.ReadLine();
-                        
+                        var values = rLine.Split(',');
+                        int lineNum = -1;
+                        bool lineUsed = false;
+                                        //user csv input format = file, line, error description, error property
+                        string criticalDescription = values[2];
+                        string criticalProperty = values[3];
+                        Console.WriteLine("Description: " + criticalDescription + " Property: " + criticalProperty);
                         Console.WriteLine(rLine);
                         AffectedTree aft = new AffectedTree();
-                        aft.FindCriticalCSVConnections(fileStem, rLine);
+                        aft.FindCriticalCSVConnections(fileStem, rLine, criticalDescription, criticalProperty);
                     }
                 }
             }

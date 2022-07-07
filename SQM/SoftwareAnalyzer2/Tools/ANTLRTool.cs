@@ -5060,8 +5060,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPIterationStatementHandler(IModifiable node)
         {
-            Console.WriteLine("Incoming tree");
-            node.PrintTreeText();
             if (node.Code.Equals("for ( ; )"))
             {
                 node.SetNode(Members.For3Loop);
@@ -5181,6 +5179,29 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable rangeNode = (IModifiable)node.GetFirstSingleLayer("forRangeInitializer").GetNthChild(0);
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("forRangeInitializer"));
                 rangeNode.Parent = writeNode;
+
+                List<INavigable> nodeChildren = node.Children;
+                node.DropChildren();
+                foreach (INavigable child in nodeChildren)
+                {
+                    if (!child.Node.Equals("statement"))
+                    {
+                        child.Parent = node;
+                    }else
+                    {
+                        //if there are brackets
+                        if (child.GetFirstSingleLayer("compoundStatement") == null)
+                        {
+                            IModifiable scope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                            child.GetNthChild(0).GetNthChild(0).Parent = scope;
+                            scope.Parent = node;
+                        }
+                        else
+                        {
+                            child.GetNthChild(0).GetNthChild(0).Parent = node;
+                        }
+                    }
+                }
             }
             else if (node.Code.Equals("do while ( ) ;"))
             {
