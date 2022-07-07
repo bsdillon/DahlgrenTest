@@ -6,7 +6,7 @@ class CodeDiagram:
     @staticmethod
     def print_code_diagram():
         file1 = open("code_diagram.txt", "w")
-        content = ""
+        content = "@startuml\n"
         classes = []
         for c in PlantumlClass.get_class_list():
             classes.append(c.get_class_name())
@@ -31,10 +31,10 @@ class CodeDiagram:
         for i in range(len(sender)):
             content += sender[i].replace(" ", "_") + " " + relationship[i] + " " + receiver[i].replace(" ", "_") + "\n"
 
+        content += "@enduml"
         file1.writelines(content)
         file1.close()
         print("Code Diagram created successfully")
-        # need to pull image from plant uml
 
     @staticmethod
     def class_with_methods(c):

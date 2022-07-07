@@ -50,7 +50,7 @@ class LinearDiagram:
     @staticmethod
     def print_communication_diagram():
         file = open("communication_diagram_plantuml.txt", "w")
-        content = ""
+        content = "@startuml\n"
         auxiliary_list = []
         for n in LinearDiagram.nodes:
             if (n.get_name not in auxiliary_list) and n.get_importance():
@@ -63,7 +63,6 @@ class LinearDiagram:
                 elif n.get_highlighted_in():
                     content += " #lightblue"
                 content += "\n"
-        content += "\n"
 
         for o in LinearDiagram.order_list:
             stop = False
@@ -86,7 +85,7 @@ class LinearDiagram:
                 content += " : "
                 content += str(o.get_amount())
                 content += " \n"
-
+        content += "@enduml"
         file.writelines(content)
         file.close()
         print("Communication Diagram created successfully")
@@ -94,7 +93,7 @@ class LinearDiagram:
     @staticmethod
     def print_sequence_diagram():
         file = open("sequence_diagram_plantuml.txt", "w")
-        content = ""
+        content = "@startuml\n"
         auxiliary_list = []
         for b in LinearDiagram.boxes:
             content += 'box "' + b + '"\n'
@@ -112,20 +111,19 @@ class LinearDiagram:
                         content += "\n"
             content += "end box\n"
 
-        for b in LinearDiagram.boxes:
-            for n in LinearDiagram.nodes:
-                if n.get_box != b:
-                    if (n.get_name not in auxiliary_list) and n.get_importance():
-                        auxiliary_list.append(n.get_name)
-                        content += 'participant "' + str(n.get_name()) + '" as ' + n.get_name().replace(" ", "")
-                        if n.has_color:
-                            content += " #" + n.get_color()
-                        if n.get_highlighted_out():
-                            content += " #yellow"
-                        elif n.get_highlighted_in():
-                            content += " #lightblue"
-                        content += "\n"
-            content += "\n"
+        for n in LinearDiagram.nodes:
+            if not n.get_box == "":
+                if (n.get_name not in auxiliary_list) and n.get_importance():
+                    auxiliary_list.append(n.get_name)
+                    content += 'participant "' + str(n.get_name()) + '" as ' + n.get_name().replace(" ", "")
+                    if n.has_color:
+                        content += " #" + n.get_color()
+                    if n.get_highlighted_out():
+                        content += " #yellow"
+                    elif n.get_highlighted_in():
+                        content += " #lightblue"
+                    content += "\n"
+        content += "\n"
 
         for i in range(len(LinearDiagram.sender)):
             stop = False
@@ -157,7 +155,7 @@ class LinearDiagram:
                 content += " : "
                 content += str(LinearDiagram.message_type[i]).replace(" ", "")
                 content += " \n"
-
+        content += "@enduml"
         file.writelines(content)
         file.close()
         print("Sequence Diagram created successfully")

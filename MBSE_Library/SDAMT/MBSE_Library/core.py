@@ -1,8 +1,51 @@
+import pickle
+
 from MBSE_Library import CodeDiagram, LinearDiagram, Node, PlantumlClass, PlantumlPackage
 import os
 
 
 class MBSE:
+    @staticmethod
+    def load(filename):
+        cd = os.path.join(filename, "code_diagrams")
+        for file in os.scandir(cd):
+            name, extension = os.path.splitext(file)
+            if extension == '.txt':
+                print(file)
+                file_pi2 = open(file, 'rb')
+                p = pickle.load(file_pi2)
+                PlantumlPackage.package_list.append(p)
+                for c in p.get_classes():
+                    PlantumlClass.class_list.append(c)
+        cd = os.path.join(filename, "code_diagrams", "classes")
+        for file in os.scandir(cd):
+            name, extension = os.path.splitext(file)
+            if extension == '.txt':
+                file_pi2 = open(file, 'rb')
+                c = pickle.load(file_pi2)
+                PlantumlClass.class_list.append(c)
+
+    @staticmethod
+    def save(filename):
+        cd = os.path.join(filename, "code_diagrams")
+        os.makedirs(cd)
+
+        classes = []
+        for c in PlantumlClass.get_class_list():
+            classes.append(c.get_class_name())
+
+        for p in PlantumlPackage.get_package_list():
+            filehandler = open(cd + "/" + p.get_package_name() + ".txt", 'wb')
+            pickle.dump(p, filehandler)
+            for c in p.get_classes():
+                classes.remove(c.get_class_name())
+        cd = os.path.join(filename, "code_diagrams", "classes")
+        os.makedirs(cd)
+        for c in PlantumlClass.get_class_list():
+            for cc in classes:
+                if c.get_class_name() == cc:
+                    filehandler = open(cd + "/" + c.get_class_name() + ".txt", 'wb')
+                    pickle.dump(c, filehandler)
 
     @staticmethod
     def print_uml(diagram=None):

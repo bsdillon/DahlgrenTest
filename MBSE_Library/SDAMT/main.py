@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 
+from MBSE_Library import MBSE
 from gui import CodeDiagrams
 from gui import LinearDiagrams
 
@@ -12,6 +13,8 @@ class Main:
         self.build()
 
     def build(self):
+        MBSE.load("project1")
+
         notebook = ttk.Notebook(self.SDAMT)
         notebook.grid(row=0, column=0, sticky=W)
         frame2 = ttk.Frame(notebook, width=400, height=700)
@@ -53,6 +56,8 @@ class Main:
         highlight_out.grid(row=5, column=0)
         delete_node = Button(frame2, text='Delete node', command=ld.delete)
         delete_node.grid(row=6, column=0)
+        color_node = Button(frame2, text='Color node', command=ld.color)
+        color_node.grid(row=7, column=0)
 
         frame1.grid(row=0, column=0, sticky=W)
         frame2.grid(row=0, column=0, sticky=W)

@@ -6,32 +6,20 @@ if __name__ == '__main__':
     ##########################################
     # Testing methods to ensure proper output#
     ##########################################
-    from MBSE_Library import PlantumlClass, MBSE
+    from MBSE_Library import PlantumlClass, MBSE, PlantumlPackage
 
     MBSE.add_class("User")
     MBSE.add_class("Core")
-    MBSE.add_class("Methods")
-    MBSE.add_class("Classes")
-    MBSE.add_class("Packages")
-    MBSE.add_class("csv")
-    MBSE.add_class("sender")
-    MBSE.add_class("receiver")
-    MBSE.add_class("message_attribute")
-    MBSE.add_class("filter")
-    MBSE.add_class("Communication")
-    MBSE.add_class("Sequence")
-    MBSE.add_package("ClassDiagrams")
-    MBSE.add_package("LinearDiagrams")
-    MBSE.add_class_to_package("Methods", "ClassDiagrams")
-    MBSE.add_class_to_package("Classes", "ClassDiagrams")
-    MBSE.add_class_to_package("Packages", "ClassDiagrams")
-    MBSE.add_class_to_package("csv", "LinearDiagrams")
-    MBSE.add_class_to_package("sender", "LinearDiagrams")
-    MBSE.add_class_to_package("receiver", "LinearDiagrams")
-    MBSE.add_class_to_package("message_attribute", "LinearDiagrams")
-    MBSE.add_class_to_package("filter", "LinearDiagrams")
-    MBSE.add_class_to_package("Sequence", "LinearDiagrams")
-    MBSE.add_class_to_package("Communication", "LinearDiagrams")
+    MBSE.add_class("Methods", "ClassDiagrams")
+    MBSE.add_class("Classes", "ClassDiagrams")
+    MBSE.add_class("Packages", "ClassDiagrams")
+    MBSE.add_class("csv", "LinearDiagrams")
+    MBSE.add_class("sender", "LinearDiagrams")
+    MBSE.add_class("receiver", "LinearDiagrams")
+    MBSE.add_class("message_attribute", "LinearDiagrams")
+    MBSE.add_class("Communication", "LinearDiagrams")
+    MBSE.add_class("Sequence", "LinearDiagrams")
+    MBSE.add_class("filter", "LinearDiagrams")
     MBSE.class_color("User", "Blue")
     MBSE.add_relationship("User", "Core", "Association")
     MBSE.add_relationship("Core", "Methods", "Directed Association")
@@ -62,13 +50,15 @@ if __name__ == '__main__':
     MBSE.highlight_in("Denver")
     MBSE.set_unimportant("Los Angeles")
     MBSE.print_uml()
+    MBSE.save("project1")
 
     from MBSE_Library import PlantUmlCommunicationDiagram
 
-    communication_diagram = PlantUmlCommunicationDiagram("testdata.txt")
-    communication_diagram.print_uml()
-    communication_diagram.print_sequence_uml("Site B", "Site A")
-    communication_diagram.print_sequence_uml_with_other_pillar("Site A", "Site B")
+    #communication_diagram = PlantUmlCommunicationDiagram("testdata.txt")
+    #communication_diagram.print_uml()
+    #communication_diagram.print_sequence_uml("Site B", "Site A")
+    #communication_diagram.print_sequence_uml_with_other_pillar("Site A", "Site B")
+
 
     #######################################
     # Rest of file controls terminal input#
