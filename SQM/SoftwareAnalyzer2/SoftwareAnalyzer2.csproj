@@ -176,6 +176,7 @@
     <Compile Include="Structure\Metrics\StatePatternMetrics.cs" />
     <Compile Include="Structure\Metrics\Tumor.cs" />
     <Compile Include="Structure\Metrics\PlantUML.cs" />
+	<Compile Include="Structure\Metrics\PlantUMLAPI.cs" />
     <Compile Include="Structure\NodeType.cs" />
     <Compile Include="Structure\Node\IModifiable.cs" />
     <Compile Include="Structure\Node\Implementations\AbbreviatedNode.cs" />
