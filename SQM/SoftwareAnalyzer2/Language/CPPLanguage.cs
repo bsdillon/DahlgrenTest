@@ -44,6 +44,7 @@ namespace SoftwareAnalyzer2.Language
             classes.Add("float");
             classes.Add("double");
             classes.Add("Object");
+            classes.Add("string");
             
             // because this is C, every class (aka struct OR type) may have a pointer variant
             foreach (string s in new List<string>(classes)) {
@@ -68,6 +69,8 @@ namespace SoftwareAnalyzer2.Language
             mapping.Add("float", "float");
             mapping.Add("short", "short");
             mapping.Add("Short", "short");
+            //This is just to handle string literals
+            mapping.Add("String", "string");
             
 
             defaultVal = new Dictionary<string, string>();
@@ -80,6 +83,7 @@ namespace SoftwareAnalyzer2.Language
             defaultVal.Add("float", "0");
             defaultVal.Add("short", "0");
             defaultVal.Add("Object", "nullptr");
+            defaultVal.Add("string", "0");
         }
 
         public List<string> InitialPackages
