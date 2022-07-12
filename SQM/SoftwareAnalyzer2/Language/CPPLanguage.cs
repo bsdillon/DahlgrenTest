@@ -45,7 +45,8 @@ namespace SoftwareAnalyzer2.Language
             classes.Add("double");
             classes.Add("Object");
             classes.Add("string");
-            
+            classes.Add("Enum");
+
             // because this is C, every class (aka struct OR type) may have a pointer variant
             foreach (string s in new List<string>(classes)) {
                 classes.Add(s+"*");
