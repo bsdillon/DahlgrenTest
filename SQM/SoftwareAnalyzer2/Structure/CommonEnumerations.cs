@@ -121,6 +121,7 @@ namespace SoftwareAnalyzer2.Structure
         Try_Catch,
         Type,
         TypeDeclaration,
+        TYPEDEF, // CPP
         TypeName,
         Update,
         Value,

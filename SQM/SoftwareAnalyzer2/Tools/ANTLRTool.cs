@@ -912,7 +912,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("pointerOperator", "&&");
                 head.Collapse("unaryOperator", "&");
                 head.Collapse("unaryOperator", "*");
-                
+
                 //TODO: handle decltype specifier stuff better when our understanding of them has improved
                 head.RootUpModify("decltypeSpecifier", "decltypeSpecifier", CPPDecltypeHandler);
                 head.RootUpModify("linkageSpecification", "linkageSpecification", SeverBranch);
@@ -951,11 +951,13 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
                 head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
+
                 head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
                 head.RootUpModify("dotOperatorNode", "dotOperatorNode", CPPDotOperatorOrderer);
                 head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
                 head.RootUpModify("storageClassSpecifier", "storageClassSpecifier", CPPModifierModifier);
+
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
@@ -989,7 +991,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("blockDeclaration", "blockDeclaration", CPPForwardDeclarationRemover);
                 head.Collapse("blockDeclaration");
                 head.Collapse("declaration");
-                
+
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
                 head.RootUpModify("memberSpecification", "memberSpecification", ReparentChildren);
                 
@@ -999,7 +1001,9 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.RootUpModify("declarationseq", "declarationseq", ReparentChildren);
 
-                head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMemberSetAdder);
+                head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMemberSetAdder); //Important for typedef
+
+
                 head.RootUpModify(Members.Destructor, Members.Destructor, CPPDestructorMover);
                 head.RootUpModify(Members.Import, Members.Import, CPPImportMover);
                 head.Collapse("typeSpecifier");
@@ -1066,7 +1070,7 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO:? probably should merge this with some other code and remove this
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldNamer);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterNamer);
-                
+
                 head.NormalizeLines();
             }
             else {
@@ -6189,6 +6193,7 @@ namespace SoftwareAnalyzer2.Tools
             // default of an ENUM is the first element, but I can't really control that easily here - I can't use null either
             // and, I can't call easily one function within the other to simplfy things since the other one needs the children and memberSetNode from here
             // possibly temporary, but we all know how that goes
+
             IModifiable memberSetNode;
             if (children.Any(child => child.Node.Equals(memberSet)))
             {
@@ -6234,6 +6239,25 @@ namespace SoftwareAnalyzer2.Tools
             foreach (IModifiable remainder in children)
             {
                 remainder.Parent = node;
+            }
+
+            if(node.GetFirstSingleLayer(MemberSets.Classification).GetChildCount() == 0)
+            {
+                IModifiable typedef = (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
+                typedef.Parent = node.GetFirstSingleLayer(MemberSets.Classification);
+
+                if (node.GetFirstSingleLayer(MemberSets.SuperTypes) != null)
+                {
+                    if (node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstSingleLayer(Members.SuperType).Code == "")
+                    {
+                        IModifiable superType = (IModifiable)node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstSingleLayer(Members.SuperType);
+                        superType.AddCode("typedef", superType);
+
+                        superType.DropChildren();
+                        IModifiable enumType = (IModifiable)NodeFactory.CreateNode(Members.TYPEDEF, false);
+                        enumType.Parent = superType;
+                    }
+                }
             }
         }
 

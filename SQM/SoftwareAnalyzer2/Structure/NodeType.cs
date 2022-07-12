@@ -123,6 +123,7 @@ namespace SoftwareAnalyzer2.Structure
             temp.Add(Members.ENUM);
             temp.Add(Members.ANONYMOUS);
             temp.Add(Members.NAMESPACE);
+            temp.Add(Members.TYPEDEF); //CPP
             ClassTypes = temp;
 
             temp = new List<Members>();
