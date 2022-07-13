@@ -45,7 +45,7 @@
           <li><a href="#dr">Data Row</a></li>
           <li><a href="#pr">Picture Row</a></li>
           <li><a href="#kt">Keyword Teardown</a></li>
-          <li><a href="#db">Data Breaks</a></li>
+          <li><a href="#db">Functional Groups</a></li>
         </ul>
       <li><a href="#oaa">OQE and Analysis</a></li>
         <ul>
@@ -337,9 +337,10 @@ when someone clicks on that image.
 <p>
 Each keyword has a built in status that becomes available during teardown. You can use <code>${KEYWORD STATUS}</code>
 and <code>${KEYWORD MESSAGE}</code> to get any error that cropped up during that keyword.
-in the teardown (last line of the keyword) to report on overall status.
+in the teardown (last line of the keyword) to report on overall status. Note that in this example there is
+no message because the keyword passed. The next image shows an example with the fail message.
 
-<pre><code class="long">[TEARDOWN]&nbsp;&nbsp;&nbsp;&nbsp;Record Test Case&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;Find Menu Item Test&nbsp;&nbsp;&nbsp;&nbsp;${KEYWORD STATUS}&nbsp;&nbsp;&nbsp;&nbsp;${KEYWORD MESSAGE}</code></pre>
+<pre><code class="long">[TEARDOWN]&nbsp;&nbsp;&nbsp;&nbsp;Record Test Case&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;&nbsp;&nbsp;Menu Tests&nbsp;&nbsp;&nbsp;&nbsp;${KEYWORD STATUS}&nbsp;&nbsp;&nbsp;&nbsp;${KEYWORD MESSAGE}</code></pre>
 
 <img src="keywordstatus.png"><br>
 
@@ -353,10 +354,12 @@ The last two arguments are standard for the keyword teardown. The <code>${KEYWOR
 <span class="red">FAIL</span>. The <code>${KEYWORD MESSAGE}</code> varies quite a bit and may be used to find out what the error was.
 </p>
 
-<a name="db"><h4>Data Breaks</h4></a>
+<a name="db"><h4>Functional Groups</h4></a>
 <p>When viewing the individual test report, it is an unbroken set of rows with data and checks. This makes
-reading particularly hard. From the test you can insert a <code>Data Break</code> which shows up as a 
-dark blue bar across the report.</p>
+reading particularly hard. Instead the general unit of the report is the Functional Group. This begins with
+the bright green banner indicating the name of the group, followed by a series of yellow action bars and ending
+with a keyword teardown and a data break. In the middle of these groups a "soft" break can be added in a light
+green to further break up the report. These can all be added to the test as keywords.</p>
 <img src="databreak.png"><br>
 
 <a name="oaa"><h3>OQE and Analysis</h3></a>

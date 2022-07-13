@@ -1,7 +1,8 @@
 *** Settings ***
-Library   kw_DataExtraction.py    ./../../../../RFData/test2.js    ./../../../../RFData/test2other.js    WITH NAME    oqe
+Library   kw_DataExtraction.py    ./../../../../RFData/test2.js    ./../../../../RFData/test2.js    WITH NAME    oqe
 Library   OperatingSystem
 Library   Collections
+Library   ./kw_simplesikuli.py    WITH NAME    sSikuli
 
 *** Variables ***
 
@@ -30,16 +31,65 @@ Record Data
    [Arguments]   ${CASE NAME}    ${STEP NAME}    ${DATA}
    oqe.Write Data   ${CASE NAME}    ${STEP NAME}    Data     ${Data}   
 
+Record Action
+   [Arguments]   ${CASE NAME}   ${ACT DESCRIPTION}
+   oqe.Write Data    ${CASE NAME}    ${ACT DESCRIPTION}    Action    --
+
 Record Test Case
    [Arguments]   ${CASE NAME}    ${STEP NAME}    ${STATUS}    ${MESSAGE}
    oqe.Write Results   ${CASE NAME}    ${STEP NAME}    ${STATUS}     ${MESSAGE}
 
+Keyword Final
+   [Arguments]   ${CASE NAME}    ${STEP NAME}    ${STATUS}    ${MESSAGE}
+   oqe.Write Results   ${CASE NAME}    ${STEP NAME}    ${STATUS}    ${MESSAGE}
+   Data Break
+
+Record Screen Image
+   [Arguments]   ${FILE}   ${CASE NAME}    ${STEP NAME}
+   oqe.Write Image   ${CASE NAME}   ${STEP NAME}   Screenshot   ${FILE}
+
+#Sikuli
+Screen Capture
+   [Arguments]    ${PROPOSED NAME}   ${x}    ${y}    ${w}    ${h}    ${STEP NAME}
+   ${canCapture} =    Evaluate    not(${x}==${y} and ${w}==${h} and ${x}==${w} and {x}==0)
+   ${a} =    Run Keyword If    ${canCapture}    Get Next Img File    ${PROPOSED NAME}
+   sSikuli.Label Region    ${x}    ${y}    ${w}    ${h}    Label Me
+   Run Keyword If    ${canCapture}    sSikuli.Capture Screen At    ${x}    ${y}    ${w}    ${h}    ${a}
+   Run Keyword If    ${canCapture}    Record Screen Image    ${a}    ${TEST NAME}    ${STEP NAME}
+   Run Keyword If    not ${canCapture}    Record Test Case    ${TEST NAME}    ${STEP NAME}    FAIL    Image ERROR: No Region found - ${PROPOSED NAME}
+
+#Sikuli
+Screen Animation
+   [Arguments]    ${PROPOSED NAME}   ${x}    ${y}    ${w}    ${h}    ${STEP NAME}    ${number}=3
+   ${canCapture} =    Evaluate    not(${x}==$[y} and ${w}==${h} and ${x}==${w} and {x}==0)
+   ${a} =    Run Keyword If    ${canCapture}    Get Next Animation File    ${PROPOSED NAME}
+   Run Keyword If    ${canCapture}    sSikuli.Capture Animation At    ${x}    ${y}    ${w}    ${h}    ${a}[0]    ${a}[1]    ${number}
+   Run Keyword If    ${canCapture}    Record Screen Image    ${a}[1]    ${TEST NAME}    ${STEP NAME}
+   Run Keyword If    not ${canCapture}    Record Test Case    ${TEST NAME}    ${STEP NAME}    FAIL    Image ERROR: No Region found - ${PROPOSED NAME}
+
+#Sikuli
+Store Animation
+   [Arguments]    ${PROPOSED NAME}   ${x}    ${y}    ${w}    ${h}
+   ${canCapture} =    Evaluate    not(${x}==$[y} and ${w}==${h} and ${x}==${w} and {x}==0)
+   ${a} =    Run Keyword If    ${canCapture}    Get Next Temp Img File    ${PROPOSED NAME}
+   Run Keyword If    ${canCapture}    sSikuli.Capture Screen At    ${x}    ${y}    ${w}    ${h}    ${a}
+   Run Keyword If    not ${canCapture}    Record Test Case    ${TEST NAME}    Store Animation    FAIL    Image ERROR: No Region found - ${PROPOSED NAME}
+
+#Sikuli
+Finalize Animation
+   [Arguments]    ${STEP NAME}    ${PROPOSED NAME}
+   ${a} =    Get Last Temp Img File    ${PROPOSED NAME}
+   sSikuli.Complete Animation    ${a}[0]    ${a}[1]
+   Record Screen Image    ${a}[1]    ${TEST NAME}    ${STEP NAME}
+
+#Selenium
 Capture Element Image
    [Arguments]    ${CSS-IDENTIFIER}    ${CASE NAME}    ${STEP NAME}
    ${FILE} =    Get Image File Name    ${CASE NAME}    ${STEP NAME}
    Capture Element Screenshot    ${CSS-IDENTIFIER}    ${FILE}
    oqe.Write Image    ${CASE NAME}    ${STEP NAME}    Screenshot     ${FILE}
 
+#selenium
 Capture Screen Image
    [Arguments]    ${CASE NAME}    ${STEP NAME}
    ${FILE} =    Get Image File Name    ${CASE NAME}    ${STEP NAME}
@@ -48,6 +98,13 @@ Capture Screen Image
 
 Data Break
    oqe.Write Data   --    --    --     --   
+
+Soft Break
+   oqe.Write Data   **    **    --     --
+
+Banner
+   [ARGUMENTS]    ${Title}
+   oqe.Write Data    ==    ==    --    ${Title}
 
 ####################################
 #### Suite level data recording ####

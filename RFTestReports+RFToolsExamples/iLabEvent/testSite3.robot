@@ -1,62 +1,86 @@
 *** Settings ***
-Library    SeleniumLibrary
-Resource    ./../OQE/DataExtraction.resource
-Resource    ./resource3.robot
-Suite Setup        Test Setup
-Suite Teardown     Test Teardown
-Test Template      Test Menu
-#Test Setup         Test Setup
-#Test Teardown      Test Teardown
- 
+Library   SeleniumLibrary
+Resource   ./resource3.robot
+Resource   ./../OQE/DataExtraction.resource
+
 *** Variables ***
 
-*** Test Cases ***	M			H1		H2    		T								R
-Featureset		menuLinkfeatures	Features	/feature	DVIDS - Features - Date_modified - Page 1			${TRUE}
-Content Search		menuLinkcontent		Content		/search		DVIDS - Search							${TRUE}
-Stories			menuLinkstories		Stories		/portfolio	DVIDS - Digital Portfolio					${TRUE}
-Units			menuLinkunits		Units		/unit	 	DVIDS								${TRUE}
-News Alerts		menuLinknewswire	Newswire	/alerts	 	DVIDS - Manage Newswire						${TRUE}
-Media			menuLinkmedia		Media Requests	/mediarequest	DVIDS - Media Request						${TRUE}
-Home			menuLinkhome		Home		/		DVIDS - Defense Visual Information Distribution Service		${FALSE}
-
 *** Keywords ***
-Test Menu
-   [Arguments]     ${MENU_ID}    ${HTML}    ${HREF}    ${PTITLE}    ${RETURN}
-   New Test Event    Check ${TEST NAME} Menu
-   ${text} =    Find Tag and Get Attribute    css:#${MENU_ID}    innerHTML
-   ${href} =    Find Tag and Get Attribute    css:#${MENU_ID}    href
-   ${a1} =    Assert OQE Value    ${HTML}    Verify HTML    ${text}    ${HTML}
-   ${a2} =    Assert OQE Value    ${HTML}    Verify link    ${href}    ${HREF}
-   Record Data    ${HTML}    Menu selection    ID: ${MENU_ID}; Menu Text: ${text}; Link: ${href}
-   Capture Element Image    css:#${MENU_ID}    ${HTML}    Menu button
-   IF    '''${a1}'''>='''${a2}'''
-      Record Test Case    --    Found and read menu    ${a1}    --
-   ELSE
-      Record Test Case    --    Found and read menu    ${a2}    --
-   END
-   Data Break
-   Click Element    css:#${MENU_ID}
-   IF    ${RETURN}
-      Wait Until Page Does Not Contain    YOU TELL THE STORY, WE TELL THE    5
-   END
-   ${title} =    Find Tag and Get Attribute    css:title    innerHTML
-   ${a1} =    Assert OQE Value    ${HTML}    Verify link    ${title}    ${PTITLE}
-   Capture Screen Image    ${HTML}    Linked page
-   Record Test Case    --    Arrive at desired page    ${a1}    --
-   Data Break
-   IF    ${RETURN}
-      Go Back
-      Sleep    2
-      Wait Until Page Contains    YOU TELL THE STORY, WE TELL THE    5
-   END
-   ${title} =    Find Tag and Get Attribute    css:title    innerHTML
-   ${a1} =    Assert OQE Value    ${HTML}    Return to main page    ${title}    ${TITLE}
-   Record Test Case    --    Returned to root page    ${a1}    --
-   [TEARDOWN]    Record Test Case    ${TEST NAME}    --    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}
 
+*** Test Cases ***
 Test Setup
    Open and Verify Site
    Archive Any Previous Data
+   New Test Event    Test Site 2
+   Record Action    ${TEST NAME}    Open and verify site
+   [Teardown]    Record Test Case    ${TEST NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
+
+#Verify OQE
+#   Test Check
+#   ${something} =    Prove it works
+#   Log    ${something}
+#   Archive Any Previous Data
+#   Insert Dummy Test Data
+
+Find Content Menu
+   ${text} =    Find Tag and Get Attribute    css:#menuLinkcontent    innerHTML
+   ${href} =    Find Tag and Get Attribute    css:#menuLinkcontent    href
+   Record Data    ${TEST NAME}    Menu selection    Menu Text: ${text}; Link: ${href}
+   Capture Element Image    css:#menuLinkcontent    ${TEST NAME}    Content Menu
+   Click Element    css:#menuLinkcontent
+   Record Action    ${TEST NAME}    Clicked on ${text} menu
+   ${title} =    Find Tag and Get Attribute    css:title    innerHTML
+   Assert OQE Value    ${TEST NAME}    Link to search page    ${title}    DVIDS - Search
+   Capture Screen Image    ${TEST NAME}    Search Page
+   Go Back
+   Record Action    ${TEST NAME}    Returned to home
+   ${title} =    Find Tag and Get Attribute    css:title    innerHTML
+   Assert OQE Value    ${TEST NAME}    Return to main page    ${title}    ${TITLE}
+   [Teardown]    Record Test Case    ${TEST NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
+
+Search for Rubber Duck
+   Input Text    index-search-input    Rubber Duck
+   Capture Element Image    index-search-input    ${TEST NAME}    Search term
+   Press Keys    index-search-input    ENTER
+   Record Action    ${TEST NAME}    Searched for Rubber Duck
+   Capture Screen Image    ${TEST NAME}    Search results
+   Go Back
+   Record Action    ${TEST NAME}    Returned to home
+   ${title} =    Find Tag and Get Attribute    css:title    innerHTML
+   Assert OQE Value    ${TEST NAME}    Return to main page    ${title}    ${TITLE}
+   [Teardown]    Record Test Case    ${TEST NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
+
+Search for NSWC Dahlgren
+   Input Text    index-search-input    nswc
+   Sleep    2
+   Record Action    ${TEST NAME}    Input NSWC
+   Capture Element Image    css:#dvids_home_search_form div    ${TEST NAME}    Search term
+   Mouse Over    css:#dvids_home_search_form div ul li[data-value="nswc dahlgren"] a
+   Record Action    ${TEST NAME}    Find NSWC Dahlgren in autocomplete
+   Capture Screen Image    ${TEST NAME}    Auto-complete results
+   Input Text    index-search-input    ""
+   Sleep    2
+   [Teardown]    Record Test Case    ${TEST NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
+
+Repeat Step for Failure
+   Input Text    index-search-input    nswc
+   Record Action    ${TEST NAME}    Search for NSWC again
+   Sleep    2
+   Mouse Over    css:#dvids_home_search_form div ul li[data-value="nswc dahlgren"] a
+   Input Text    no-such-name    ""
+   Sleep    2
+   [Teardown]    Record Test Case    ${TEST NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
+
+Search for Contact Us Link
+   Capture Element Image    css:a[alt="Contact Us"]    ${TEST NAME}    Menu link
+   Click Element    css:a[alt="Contact Us"]
+   Record Action    ${TEST NAME}    Click Contact Us menu
+   Capture Screen Image    ${TEST NAME}    Menu link
+   Go Back
+   Record Action    ${TEST NAME}    Returned to home
+   ${title} =    Find Tag and Get Attribute    css:title    innerHTML
+   Assert OQE Value    ${TEST NAME}    Return to main page    ${title}    ${TITLE}
+   [Teardown]    Record Test Case    ${TEST NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
 
 Test Teardown
    Close Site

@@ -30,6 +30,10 @@ function waitForData(dataFile)
   var length = rawData.length;
 
   generateHeatMap(testRuns, length, rawData);
+  if(reportOpen)
+  {
+    //CreatePopupReport(reportType)
+  }
   setTimeout(function(){start(dataFile); },2000);
 }
 
@@ -176,17 +180,27 @@ function toolTip(parent, text)
 
 //----------Popup reports----------//
 var reportOverlay = 0;
+var reportType = "None";
+var reportOpen = false;
+
+function scrolled(x)
+{
+  var x = 0;
+}
 
 function closeReport()
 {
   document.getElementById("reportWindow").style.width = "0%";
+  reportOpen = false;
 }
 
 function CreatePopupReport(x)
 {
+  var wasAlreadyOpen = reportOpen
   document.getElementById("reportWindow").style.width = "100%";
   reportOverlay = document.getElementById("reportContent");
-  reportOverlay.replaceChildren();
+  reportOverlay.innerHTML="";
+  reportType = x;
 
   var header = document.createElement("H1");
   reportOverlay.appendChild(header);
@@ -200,7 +214,8 @@ function CreatePopupReport(x)
     header.innerHTML = 'Test Results: '+x;
     var chartData = testRuns[x];
     singleTestTable(x, Object.keys(chartData[0]), chartData);
-  } 
+  }
+  reportOpen = true; 
 }
 
 function singleTestTable(testTitle, dataheader, data)
@@ -251,21 +266,46 @@ function singleTestTable(testTitle, dataheader, data)
   for (let step of data)
   {
     var row = table.insertRow();
-    if(step["Case"]==='--' && step["Step"]==='--')
+    if(step["Status"]=='Action')
     {
       var cell = row.insertCell();
-      cell.classList.add("BAR");
-      cell.innerHTML = "&nbsp;"
-      cell = row.insertCell();
-      cell.classList.add("BAR");
-      cell = row.insertCell();
-      cell.classList.add("BAR");
-      cell = row.insertCell();
-      cell.classList.add("BAR");
-      cell = row.insertCell();
-      cell.classList.add("BAR");
+      cell.classList.add("Action");
+      cell.colSpan=5
+      cell.innerHTML="Action: "+step["Step"];
+    }
+    else if(step["Case"]==='--' && step["Step"]==='--')
+    {
+      var cell = row.insertCell();
+      cell.classList.add("BAR")
+      cell.colSpan=5
+    }
+    else if(step["Case"]==='==' && step["Step"]==='==')
+    {
+      var cell = row.insertCell();
+      cell.classList.add("BANNER");
+      cell.innerHTML="FUNCTIONAL GROUP: "+step["Details"];
+      cell.colSpan=5
+    }
+    else if(step["Case"]==='**' && step["Step"]==='**')
+    {
+      var cell = row.insertCell();
+      cell.classList.add("SOFT");
+      cell.colSpan=5
     }
     else if(step["Case"]==='--' || step["Step"]==='--')
+    {
+      var className = step["Status"];
+      var type = "TEST RESULT: "+step["Case"];
+      if(step["Case"]==='--')
+      {
+        type = "FUNCTIONAL GROUP: "+step["Step"];
+      }
+      var cell = row.insertCell();
+      cell.classList.add(className);
+      cell.innerHTML = className+" *** "+className+" *** "+type+" *** "+className+" *** "+className+"<br>"+step["Details"];
+      cell.colSpan=5
+    }
+    else if(false)
     {
       var className = step["Status"];
       //this is the end of the test step
@@ -302,7 +342,7 @@ function singleTestTable(testTitle, dataheader, data)
           type = step[dataheader[i]];
         }
 
-        if(i==statusCount && (contents==='PASS' || contents==='FAIL'))
+        if(i==statusCount && (contents==='PASS' || contents==='FAIL' || contents==='Screenshot' || contents==='Data'))
         {
           cell.classList.add(type);
         }

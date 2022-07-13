@@ -1,0 +1,8 @@
+
+* Download and install the latest 3.x version of Python https://www.python.org/downloads/
+  * Be sure to install pip with python (sometimes requires a "modify" reinstall).
+* Find the path (ex. C:\Users\user\AppData\Local\Programs\Python\Python310) for python and for pip
+  (ex. C:\Users\user\AppData\Local\Programs\Python\Python310\Scripts) and add those to the Path variable.
+* Use pip to install robotframework and py4j. Make sure you have the latest versions pip --upgrade robotframework
+* Download the latest Sikuli API JAR and add that path to CLASSPATH. Not the Jar, just the folder.
+* You have to create a simple Java File to access the members you will need.
