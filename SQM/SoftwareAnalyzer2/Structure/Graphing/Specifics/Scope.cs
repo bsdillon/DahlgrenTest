@@ -150,6 +150,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 {
                     //no-op; could be linked with the break or continue when those appear.
                 }
+                else if (type.Equals(Members.Operator))
+                {
+                    //no op for operators which aren't assigned to any variables
+                }
                 else
                 {
                     //Very messy logically, but this will catch anything else which comes in a scope.
