@@ -4370,6 +4370,24 @@ namespace SoftwareAnalyzer2.Tools
             if (node.Code.Equals("switch ( )"))
             {
                 node.SetNode(Members.Switch);
+                //Need to check for if it's assigning a variable.
+                if (node.GetFirstSingleLayer(Members.Boolean).GetFirstSingleLayer("declSpecifierSeq") != null)
+                {
+                    //Then it is assigning a variable. We want to just get the literal value
+                    List<INavigable> children = node.GetFirstSingleLayer(Members.Boolean).Children;
+                    IModifiable Bool = (IModifiable)node.GetFirstSingleLayer(Members.Boolean);
+                    Bool.DropChildren();
+                    foreach (INavigable child in children)
+                    {
+                        if (child.Node.Equals("initializerClause"))
+                        {
+                            IModifiable expression = (IModifiable)child;
+                            expression.Parent = Bool;
+                            expression.SetNode("expression");
+                        }
+                    }
+                    Bool.ClearCode(ClearCodeOptions.KeepLine);
+                }
             }
             else if (node.Code.Equals("if ( )") || node.Code.Equals("if ( ) else"))
             {
