@@ -28,10 +28,27 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         {
             base.Register(memberList, parentScope);
             INavigable myNavigable = (INavigable)represented;
+            
+            int count = myNavigable.GetChildCount();
+            if ( count<1 || count>2 )
+            {
+                throw new IndexOutOfRangeException("Expected 1 or 2 children for While/doWhile but received " + count + " children"); 
+            }
 
-            AddControlExpression(myNavigable.GetNthChild(0));
-
-            loop = RegisterScope(myNavigable.GetNthChild(1));
+            List<INavigable> childs = myNavigable.Children;
+            foreach(INavigable n in childs)
+            {
+                if(n.Node.Equals(Members.Scope))
+                {
+                    loop = RegisterScope(n);
+                }
+                else
+                {
+                    AddControlExpression(n);
+                }
+            }
+            
+            
         }
         #endregion
 

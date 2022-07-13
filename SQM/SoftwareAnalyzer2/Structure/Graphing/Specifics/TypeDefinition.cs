@@ -379,7 +379,18 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                         }
                         break;
                     case MemberSets.Classification:
-                        classification = set.GetNthChild(0).Node;
+                        //TODO: Currently can't handle typeDefs
+                        //if (set.GetChildCount() != 0)
+                        //{
+                            classification = set.GetNthChild(0).Node;
+                        //}
+                        //else
+                        //{
+                            //Console.WriteLine("TypeDefinition.cs Membersets.Classification not fully implemented yet!");
+                            //Console.WriteLine("\n\nset.Parent tree: ");
+                            //set.Parent.PrintTreeText();
+                            //classification = set.GetNthChild(0).Node;
+                        //}
                         break;
                     case MemberSets.SuperTypes:
                         //no op - handled during linking

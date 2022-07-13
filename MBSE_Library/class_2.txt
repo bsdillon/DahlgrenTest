@@ -1,6 +1,0 @@
-class "class 2" as class_2 {
- 
---
-c2m1:  
-
-}

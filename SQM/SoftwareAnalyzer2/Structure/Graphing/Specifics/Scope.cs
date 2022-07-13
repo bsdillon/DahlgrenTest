@@ -100,7 +100,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             foreach (INavigable a in treeNode.Children)
             {
                 NodeType type = a.Node;
-
                 if (type.IsDefinedMember)
                 {
                     ChainArgs ca = new ChainArgs(this, true, new Statement(this, a), false);
@@ -150,6 +149,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 else if (type.Equals(Members.Label) || type.Equals(Members.Break) || type.Equals(Members.Continue))
                 {
                     //no-op; could be linked with the break or continue when those appear.
+                }
+                else if (type.Equals(Members.Operator))
+                {
+                    //no op for operators which aren't assigned to any variables
                 }
                 else
                 {

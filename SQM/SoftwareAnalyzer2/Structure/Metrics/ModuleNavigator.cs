@@ -1,6 +1,7 @@
 ﻿using SoftwareAnalyzer2.Structure.Gephi;
 using SoftwareAnalyzer2.Structure.Graphing;
 using SoftwareAnalyzer2.Structure.Node;
+using SoftwareAnalyzer2.Structure.Metrics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,11 +21,13 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private Label output;
         private void SetOutput(string msg)
         {
-            if (output != null) {
+            if (output != null)
+            {
                 output.Text = msg;
                 output.Refresh();
             }
-            else {
+            else
+            {
                 Console.WriteLine(msg);
             }
         }
@@ -44,6 +47,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private string fileStem;
         private List<string> csvPaths;
         private string csvErrors = "";
+        //Austin: adding CriticalCSVPaths
+        private List<string> criticalCsvPaths;
         #endregion
 
         public ModuleNavigator(string fileRoot, Label userOutput)
@@ -57,12 +62,18 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         {
             csvPaths = csvRecieved;
         }
+        //Austin: accept critical csv input file from metrics tab
+        public void SetCriticalCsvInput(List<string> criticalCsvRecieved)
+        {
+            criticalCsvPaths = criticalCsvRecieved;
+        }
 
         //required functionality under IGraphNavigator
         public void Navigate(AbbreviatedGraph current)
         {
             MetricUtilities.Initialize();
-            if (current == null) {
+            if (current == null)
+            {
                 // Discovered when loading c++ projects
                 SetOutput("AbbreviatedGraph is null!");
                 return;
@@ -72,7 +83,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             DiscoverAllMembers(current);
 
             //Create gephi nodes for all type members.
-            foreach(AbbreviatedGraph type in MetricUtilities.AllMembers)
+            foreach (AbbreviatedGraph type in MetricUtilities.AllMembers)
             {
                 bool isInterface = false;
 
@@ -103,7 +114,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     }
                 }
 
-                Console.WriteLine("type="+type);
+                Console.WriteLine("type=" + type);
 
                 //TODO consider new means of excluding external nodes
                 //the current metric recognizes that the file was not 
@@ -113,11 +124,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 foreach (AbbreviatedGraph member in MetricUtilities.GetMembersOf(type))//look at all members in that type
                 {
-                    
-                    Console.WriteLine("member="+member);
+
+                    Console.WriteLine("member=" + member);
 
                     //Determine the initial values of the new node
-                    long myMember = MetricUtilities.GetMemberID(type,member);
+                    long myMember = MetricUtilities.GetMemberID(type, member);
 
                     long module = myMember;
 
@@ -173,9 +184,12 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StateCounter.CountAllStates();
             SetOutput("Looking for state machines");
             StatePatternMetrics.FindPatterns();
-            
+
             SetOutput("Checking for any CSV Issues");
             TraceCSVLinks(current);
+
+            //Austin - adding Critical CSV Input Metric
+            TraceCriticalCSVLinks();
 
             SetOutput("Writing graph files");
             WriteOutGraph();
@@ -207,7 +221,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             //this removes the attributes which do not need to show up
             //in the file and then writes the header for that node
             //in each of the files.
-            GephiNode[] nodes = MetricUtilities.AllNodes;            
+            GephiNode[] nodes = MetricUtilities.AllNodes;
             nodes[0].RemoveProperty(NodeProperties.QState);
             nodes[0].RemoveProperty(NodeProperties.ClassIntegrity);
             nodes[0].RemoveProperty(NodeProperties.ModuleIntegrity);
@@ -237,7 +251,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 //write state-related files
                 StatePatterns sp = (StatePatterns)n.GetProperty(NodeProperties.StateMember);
-                if (sp!=StatePatterns.None)
+                if (sp != StatePatterns.None)
                 {
                     bool skip = false;
                     switch (sp)
@@ -343,28 +357,28 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             int reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Constants.txt", StatePatterns.ConstantVariable);
             summary.Append("Constant Reports: " + reportCount + System.Environment.NewLine);
-            
+
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Settings.txt", StatePatterns.SettingVariable);
             summary.Append("Setting Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Sources.txt", StatePatterns.SettingSource);
             summary.Append("Source Object Reports: " + reportCount + System.Environment.NewLine);
-            
+
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Unread.txt", StatePatterns.UnreadStateField);
             summary.Append("Unread State Variable Reports: " + reportCount + System.Environment.NewLine);
-            
+
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_SuperMethod.txt", StatePatterns.SuperStateMember);
             summary.Append("Super State Method Reports: " + reportCount + System.Environment.NewLine);
-            
+
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Healthy.txt", StatePatterns.StateVariable);
             summary.Append("Healthy State Reports: " + reportCount + System.Environment.NewLine);
-            
+
             reportCount = StateMachineMetrics.CreateReport(fileStem + "State_Objects.txt", StatePatterns.SomeState);
             summary.Append("State Object Reports: " + reportCount + System.Environment.NewLine);
 
             reportCount = CancerInvasion.ReportTumors(fileStem + "Cancer_Tumor");
             summary.Append("Tumor Reports: " + reportCount + System.Environment.NewLine);
-            
+
             reportCount = CancerInvasion.ReportDysplasia(fileStem + "Cancer_Dysplasia");
             summary.Append("Dysplasia Reports: " + reportCount + System.Environment.NewLine);
 
@@ -382,13 +396,20 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             reportCount = ConnectivityMetrics.APIReport(fileStem + "_API");
             summary.Append("API Reports: " + reportCount + System.Environment.NewLine);
-            
+
             // TODO: CreatePlantUML needs to return an int to be used with reportCount
             // reportCount = 
             PlantUML.CreatePlantUML(fileStem + "Plant_UML.txt");
             summary.Append("Plant UML: " + reportCount + System.Environment.NewLine);
 
+
             summary.Append(csvErrors);
+            //Austin and Loveish and Parker:  Call Python Server
+            PlantUMLAPI.CreatePlantUMLAPI(fileStem + "Plant_UML.txt");
+            summary.Append("Plant UML: " + reportCount + System.Environment.NewLine);
+
+            //Austin: Eventually we will use reportCount = TraceCriticalCSVLinks with return value of integer
+            TraceCriticalCSVLinks();
 
             //write the summary data collected
             writer.WriteLine(summary.ToString());
@@ -616,7 +637,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             continue;
                         }
 
-                        if (s==null)
+                        if (s == null)
                         {
                             //should have no null connections.
                             continue;
@@ -715,18 +736,18 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private void DiscoverAllMembers(AbbreviatedGraph current)
         {
 
-            Console.WriteLine("DiscoverAllMembers("+current+") IsClassification="+current.Represented.Node.IsClassification);
+            Console.WriteLine("DiscoverAllMembers(" + current + ") IsClassification=" + current.Represented.Node.IsClassification);
 
             if (current.Represented.Node.IsClassification)
             {
                 Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> members = current.GetEdges(Relationship.Member);
                 foreach (AbbreviatedGraph m in members.Keys)
-                {   
+                {
                     Console.WriteLine(
-                        "m.Represented.Node.Equals(Members.Field)="+m.Represented.Node.Equals(Members.Field)+
-                        "  m.Represented.Code.Equals(NodeFactory.SelfReference)="+m.Represented.Code.Equals(NodeFactory.SelfReference)+
-                        "  m.Represented.Node.IsMethodDefinition="+m.Represented.Node.IsMethodDefinition+
-                        "  m.Represented.Node.Equals(Members.Value)="+m.Represented.Node.Equals(Members.Value)
+                        "m.Represented.Node.Equals(Members.Field)=" + m.Represented.Node.Equals(Members.Field) +
+                        "  m.Represented.Code.Equals(NodeFactory.SelfReference)=" + m.Represented.Code.Equals(NodeFactory.SelfReference) +
+                        "  m.Represented.Node.IsMethodDefinition=" + m.Represented.Node.IsMethodDefinition +
+                        "  m.Represented.Node.Equals(Members.Value)=" + m.Represented.Node.Equals(Members.Value)
                     );
 
                     // TODO: in C++ scans these 2 properties are always true, making no nodes be reported in the metrics.
@@ -766,7 +787,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 //dictionary of associated and related items
                 Dictionary<AbbreviatedGraph, List<AbbreviatedGraph>> nextEdges = current.GetEdges(Relationship.Member);
 
-                Console.WriteLine("nextEdges.Count = "+nextEdges.Count);
+                Console.WriteLine("nextEdges.Count = " + nextEdges.Count);
 
                 //discover all members of associated and related items also (recursive)
                 foreach (AbbreviatedGraph next in nextEdges.Keys)
@@ -784,8 +805,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 return;
             }
 
-            Dictionary <string, Dictionary<int, List<GraphNode>>> lineNums = GraphNode.GetLineNumDict();
-  
+            Dictionary<string, Dictionary<int, List<GraphNode>>> lineNums = GraphNode.GetLineNumDict();
+
             //foreach csv file entered by the user
             ////foreach file in linenums (declared above). key = filename, value = dictionary<line number, list of graph nodes that have that line number>
             //////read the csv file
@@ -800,11 +821,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     //e.g. /folder/another/importantFile.java -> /importantFile
                     //this allows safety to simply input "/importantFile"
                     string fileNameKeyMod = fileNameKey;
-                    if(fileNameKey.LastIndexOf(Path.DirectorySeparatorChar) > 0)
+                    if (fileNameKey.LastIndexOf(Path.DirectorySeparatorChar) > 0)
                     {
                         fileNameKeyMod = fileNameKey.Substring(fileNameKey.LastIndexOf(Path.DirectorySeparatorChar));
                     }
-                    
+
                     using (var read = new StreamReader(@csvFile))
                     {
                         while (!read.EndOfStream)
@@ -821,14 +842,14 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                             //check that each property within the csv is not found in the NodeProperties enum.
                             //this was already checked for, so it should not be an issue.
                             //if this is found, crash the program with an error
-                            foreach(string enumProp in Enum.GetNames(typeof(NodeProperties)))
+                            foreach (string enumProp in Enum.GetNames(typeof(NodeProperties)))
                             {
-                                if(errorProp == enumProp)
+                                if (errorProp == enumProp)
                                 {
                                     throw new InvalidDataException("Error property: " + errorProp + " cannot be used.");
                                 }
                             }
-                            
+
                             //if filename matches
                             if (fileNameKeyMod == values[0])
                             {
@@ -849,7 +870,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                                         //likely nothing to do here unless tracking of unused values/linenums is desired
                                     }
                                 }
-  
+
                                 //if a csv input field matched on filename, but the line number was never used, report it
                                 if (!lineUsed)
                                 {
@@ -861,6 +882,114 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
             }
         }
-    }        
-    #endregion
+
+        //Austin note: Starter function to trace Critical Nodes re: Metric Analysis
+        private void TraceCriticalCSVLinks()
+        {
+            //if there are no csv files, there is nothing to trace
+            if (criticalCsvPaths == null)
+            {
+                return;
+            }
+            //Key: /bubblesort, value: Dictionary<key of integer and value of LIST of Graphnodes//
+            Dictionary<string, Dictionary<int, List<GraphNode>>> lineNums = GraphNode.GetLineNumDict();
+
+            Console.WriteLine("Critical CSV Path File(s): ");
+            Console.WriteLine(string.Join(",", criticalCsvPaths.ToArray()));
+            ////foreach critical csv file entered by the user
+            //////foreach file in linenums (declared above). key = filename, value = dictionary<line number, list of graph nodes that have that line number>
+            ////////read the csv file
+            ////////if filename and line number match
+            //////////find all related edges
+            foreach (String csvFile in criticalCsvPaths)
+            {
+                ////////////see below: search through all the filenames in the database of linenums.keys, does our Error Input File name exist?
+                
+                //loop through all keys in dictionary
+                foreach (string criticalFileNameKey in lineNums.Keys)
+                {
+                    Console.WriteLine(criticalFileNameKey);
+                    Console.WriteLine(lineNums[criticalFileNameKey]);
+                    //trim the file name to the last part of the string behind the last directory separator char.
+                    //e.g. /folder/another/importantFile.java -> /importantFile
+                    //this allows safety to simply input "/importantFile"
+                    string criticalFileNameKeyMod = criticalFileNameKey;
+                    if (criticalFileNameKey.LastIndexOf(Path.DirectorySeparatorChar) > 0)
+                    {
+                        criticalFileNameKeyMod = criticalFileNameKey.Substring(criticalFileNameKey.LastIndexOf(Path.DirectorySeparatorChar));
+                    }
+
+                    using (var read = new StreamReader(@csvFile))
+                    {
+                        while (!read.EndOfStream)
+                        {
+                            //split CSV values
+                            var rLine = read.ReadLine();
+                            var values = rLine.Split(',');
+                            int lineNum = -1;
+                            bool lineUsed = false;
+                            //user csv input format = file, line, critical level description, error property
+                            string criticalDescription = values[2];
+                            string criticalProperty = values[3];
+
+                            // Console.WriteLine("Critical Level: " + criticalDescription + " Property: " + criticalProperty);
+                            // Console.WriteLine(rLine);
+                            //check that each property within the csv is not found in the NodeProperties enum.
+                            //this was already checked for, so it should not be an issue.
+                            //if this is found, crash the program with an error
+                            foreach (string enumProp in Enum.GetNames(typeof(NodeProperties)))
+                            {
+                                if (criticalProperty == enumProp)
+                                {
+                                    throw new InvalidDataException("Error property: " + criticalProperty + " cannot be used.");
+                                }
+                            }
+
+                            //AUSTIN: if values[0] matches the key we are looking into right now ('/bubblemod'), keep going
+                            // Dictionary<string, Dictionary<int, List<GraphNode>>> lineNums is full dictionary...
+                            // Dictionary<string> is how far we've gotten
+                            // e.g., lineNums["/bubblesort"] would output a Dictionary<int, List<GraphNode>> where int represents a line number within bubblesort
+                       
+                            if (criticalFileNameKeyMod == values[0])
+                            {
+                                //Verify that the user inputs an integer into values[1] - if they put "xyz", it should not work
+                                if (int.TryParse(values[1], out lineNum))
+                                {
+                                    //if line number values[1], now called lineNum, matches a line number within /bubblesort 's integer keys
+                                    // Dictionary<string, Dictionary<int, List<GraphNode>>> lineNums is full dictionary...
+                                    // Dictionary<string, Dictionary<int...>> is how far we've gotten, we have NOT gotten to GraphNodes yet!
+                                    // e.g., lineNums["/bubblesort"].ContainsKey(1) checks if line number 1 is a relevant key in bubblesort
+
+                                    if (lineNums[criticalFileNameKeyMod].ContainsKey(lineNum))
+                                    {
+                                        //At this point we know the file name AND the line number matches, so we know it's relevant, now we call functions to find the CSVconnections
+                                        Console.WriteLine("Line Number found: " + lineNum);
+                                        lineUsed = true;
+                                        //line number matches an edge, trace it further
+                                        AffectedTree aft = new AffectedTree();
+
+                                        // lineNums["/bubbleSort"][1].addRelationship(MarkAsCritical);
+
+                                        Console.WriteLine("Got to parsing lineNums and create new affected tree for Critical Stuff...");
+                                        aft.FindCriticalCSVConnections(criticalFileNameKeyMod, lineNum, fileStem, criticalDescription, criticalProperty);
+                                        
+                                    }
+                                    //if a csv input field matched on filename, but the line number was never used, report it
+                                    if (!lineUsed)
+                                    {
+                                        csvErrors += "Line Number: " + lineNum + " in File: " + criticalFileNameKeyMod + " not found." + System.Environment.NewLine;
+                                    }
+
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+                #endregion
+            }
+        }
+    }
 }
+

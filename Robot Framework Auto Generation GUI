@@ -1,0 +1,42 @@
+
+master = tk.Tk()
+master.title("RF GUI WIZARD")
+master.geometry("750x1000")
+#master.config(background='blue')
+
+variable = StringVar(master)
+variable.set('Select One')
+dropdown = OptionMenu(master, variable, 'Widget','Tab','Button','Text Field', 'Slide Bar', 'Radio Button')
+dropdown.pack()
+dropdown.place(x=350,y=10)
+
+def printname():
+    buttonname = button_name.get()
+    #buttontype = dropdown.get()
+    Label(master, text=f'The button name is: {buttonname}', pady=5).pack()
+button_name = Entry(master)
+button_name.pack(pady=15)
+button_name.place(x=100, y=5)
+btn = Button(master, text='Add Button', padx=10, pady=5, command=printname)
+btn.place(x=500, y=10)
+
+#label = tk.Label(master, text="Select Screenshot from Files", width=30)
+#label.pack(padx=200, pady=200)
+btn1 = tk.Button(master, text='Upload Screenshot', command=lambda:uploadscreenshot())
+btn1.pack(padx=200, pady=300)
+
+def uploadscreenshot():
+    global img
+    scrnshot = [('Jpg Files', '*jpg'),('PNG Files', "*.png")]
+    screenshot = tk.filedialog.askopenfilename(filetypes=scrnshot)
+    img = Image.open(screenshot)
+    img = img.resize((100,100))
+    img = ImageTk.PhotoImage(file=screenshot)
+    #e1 = tk.Label(master)
+    #e1.pack(padx=300, pady=300)
+    #e1.image = img
+
+    #btn2 = tk.Button(master, image=img)
+    #btn2.pack(padx=400, pady=600)
+
+master.mainloop()
