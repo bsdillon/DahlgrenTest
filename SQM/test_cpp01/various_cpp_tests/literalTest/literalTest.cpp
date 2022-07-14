@@ -47,9 +47,10 @@ int main()
 	
 	cout<<0x1.p0<<endl;
 	cout<<typeid(0x1.p0).name()<<endl;
-	
-	cout<<0x0.123p-1<<endl;
-	cout<<typeid(0x0.123p-1).name()<<endl;
+
+	//not until C++17!
+	//cout<<0x0.123p-1<<endl;
+	//cout<<typeid(0x0.123p-1).name()<<endl;
 	
 	cout<<3.12f<<endl;
 	cout<<typeid(3.12f).name()<<endl;
@@ -63,7 +64,7 @@ int main()
 	//not until C++17...
 	//cout<<u8'\n'<<endl;
 	//cout<<typeid(u8'\n').name()<<endl;
-	
+
 	cout<<u'猫'<<endl;
 	cout<<typeid(u'猫').name()<<endl;
 	
@@ -102,6 +103,6 @@ int main()
 	
 	cout<<nullptr<<endl;
 	cout<<typeid(nullptr).name()<<endl;
-	
+
 	return 0;
 }
