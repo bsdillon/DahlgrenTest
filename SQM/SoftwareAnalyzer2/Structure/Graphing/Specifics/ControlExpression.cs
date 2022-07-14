@@ -18,7 +18,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         public void ParseControlExpression(INavigable control, ChainArgs args)
         {
             foreach (INavigable n in control.Children)
-            {
+            {           
                 //to avoid confluence of chains for separate simple boolean expressions 
                 //we need to create new chain args for each sub-statatment
                 ChainArgs nextArgs = new ChainArgs(args.ParameterScope, args.CheckOtherChildren, args.OriginStatement, false);
@@ -73,6 +73,18 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 else if (n.Node.Equals(Members.LanguageTypeCheck))
                 {
                     TypeCheck(n, nextArgs);
+                }
+                else if (n.Node.Equals(Members.Type)) // && language is CPP Lang
+                {
+                    if((n.Parent.GetChildCount() == 2) && (n.Parent.GetFirstSingleLayer(Members.Variable) != null))
+                    {
+                        //n.Node.IsDefinedMember should be true
+                        ValueCheck(n.Parent.GetFirstSingleLayer(Members.Variable).GetFirstSingleLayer(Members.Write).GetFirstSingleLayer(Members.Literal), nextArgs);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Unknown element of boolean expression " + n);
+                    }
                 }
                 else
                 {
