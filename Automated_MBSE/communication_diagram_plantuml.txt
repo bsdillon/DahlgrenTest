@@ -1,0 +1,23 @@
+@startuml
+agent "Atlanta" as Atlanta
+agent "Denver" as Denver #lightblue
+agent "New York" as NewYork
+agent "Washington" as Washington
+agent "Dallas" as Dallas #yellow
+agent "Chicago" as Chicago #red
+Atlanta -[#powderblue,plain,thickness=4]->> Denver : 2 
+Denver -->> NewYork : 4 
+Washington -->> Dallas : 2 
+Dallas -[#gold,plain,thickness=4]->> Atlanta : 1 
+Chicago -->> NewYork : 1 
+Washington -->> Atlanta : 1 
+Atlanta -->> Chicago : 1 
+Chicago -->> Atlanta : 1 
+Dallas -[#gold,plain,thickness=4]->> Washington : 2 
+Washington -[#powderblue,plain,thickness=4]->> Denver : 2 
+NewYork -[#powderblue,plain,thickness=4]->> Denver : 1 
+Denver -->> Washington : 1 
+Denver -->> Atlanta : 1 
+NewYork -->> Dallas : 1 
+NewYork -->> Chicago : 1 
+@enduml
