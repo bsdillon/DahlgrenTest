@@ -4779,9 +4779,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="node"></param>
         private void CPPTryCatchHandler(IModifiable node)
         {
-            Console.WriteLine("Incoming tree:");
-            node.PrintTreeText();
-
             List<INavigable> handlerNodes = node.GetFirstSingleLayer("handlerSeq").Children;
             foreach (IModifiable handlerNode in handlerNodes)
             {
@@ -6053,8 +6050,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPNewExpressionHandler(IModifiable node)
         {
-            Console.WriteLine("\n\n\nIncoming tree:");
-            node.PrintTreeText();
 
             // TODO: might include arrays of objects, not clear on how to deal with that yet so for now this is what you get
             // TODO: more testing - this may not be a good if check
@@ -6081,9 +6076,6 @@ namespace SoftwareAnalyzer2.Tools
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
-
-            Console.WriteLine("Outgoing tree:");
-            node.PrintTreeText();
         }
 
         /// <summary>
