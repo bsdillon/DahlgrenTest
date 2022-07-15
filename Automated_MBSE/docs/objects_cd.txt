@@ -1,0 +1,65 @@
+@startuml
+Package Packages {
+map Packages {
+  name=> String
+  classlist=> list
+}
+map Classes {
+name=> String
+methodlist=> list
+variablelist=> list
+hascolor=> Boolean
+color=> string
+}
+
+map Variables {
+name=> String
+returntype=> String
+modifier=> String
+static=> Boolean
+}
+map Methods {
+name=> String
+returntype=> String
+modifier=> String
+static=> Boolean
+} 
+}
+
+package "Classes without a Package" as Class {
+map "Class" as Classes1 {
+name=> String
+methodlist=> list
+variablelist=> list
+hascolor=> Boolean
+color=> string
+}
+
+map "Variables" as Variables1 {
+name=> String
+returntype=> String
+modifier=> String
+static=> Boolean
+}
+map "Methods" as Methods1 {
+name=> String
+returntype=> String
+modifier=> String
+static=> Boolean
+} 
+}
+
+Map "3 lists" as Relationships {
+sender=>String
+receiver=>String
+relationship=>String
+}
+Packages -[hidden]r> Classes1
+Relationships -[hidden]l> Classes1
+Packages::classlist--> Classes
+Classes::methodlist--> Methods
+Classes::variablelist--> Variables
+Classes1::methodlist--> Methods1
+Classes1::variablelist--> Variables1
+
+@enduml
