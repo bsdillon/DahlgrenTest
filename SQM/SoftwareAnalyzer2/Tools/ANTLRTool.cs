@@ -4818,40 +4818,74 @@ namespace SoftwareAnalyzer2.Tools
             //This is going to be ugly, but it's what I need to do (Vitaliy)
             //The catch field isn't set up correctly in some cases
 
-            if (node.GetFirstSingleLayer("handlerSeq").GetFirstSingleLayer("handler").GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.CatchScope).GetFirstSingleLayer(Members.Field).GetFirstSingleLayer(Members.Variable) != null) //
+            if (node.GetFirstSingleLayer("handlerSeq").GetFirstSingleLayer("handler").GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.CatchScope).GetFirstSingleLayer(Members.Field).GetFirstSingleLayer(Members.Variable) != null)
             {
                 IModifiable field = (IModifiable)node.GetFirstSingleLayer("handlerSeq").GetFirstSingleLayer("handler").GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.CatchScope).GetFirstSingleLayer(Members.Field);
                 List<INavigable> fieldChildren = field.Children;
                 field.DropChildren();
 
+                IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
+                IModifiable modifierSet = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                bool typeAdded = false;
+
                 foreach (INavigable child in fieldChildren)
                 {
                     if (child.Node.Equals("typeSpecifierSeq"))
                     {
-                        IModifiable decl = (IModifiable)child;
-                        decl.SetNode("declSpecifier");
-                        IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
-                        decl.Parent = type;
-                        type.Parent = field;
+                        if (child.GetChildCount() == 2)
+                        {
+                            if (child.GetNthChild(0).GetNthChild(0).GetNthChild(0).Code.Equals("const"))
+                            {
+                                IModifiable cons = (IModifiable)NodeFactory.CreateNode(Members.Const, false);
+                                cons.Parent = modifierSet;
+
+                                if (!typeAdded)
+                                {
+                                    child.GetNthChild(1).GetNthChild(0).GetNthChild(0).Parent = type;
+                                    typeAdded = true;
+                                }
+                            }
+                            else if (child.GetNthChild(0).GetNthChild(0).GetNthChild(0).Code.Equals("volatile"))
+                            {
+                                IModifiable volat = (IModifiable)NodeFactory.CreateNode(Members.Volatile, false);
+                                volat.Parent = modifierSet;
+                                if (!typeAdded)
+                                {
+                                    child.GetNthChild(1).GetNthChild(0).GetNthChild(0).Parent = type;
+                                    typeAdded = true;
+                                }
+                            }
+                            else
+                            {
+                                if (!typeAdded)
+                                {
+                                    child.GetNthChild(0).GetNthChild(0).GetNthChild(0).Parent = type;
+                                    typeAdded = true;
+                                }
+                            }
+                        }
+                        else if (child.GetChildCount() == 1)
+                        {
+                            child.GetNthChild(0).GetNthChild(0).GetNthChild(0).Parent = type;
+                        }
+                        else
+                        {
+                            throw new InvalidCastException("Unexpected child format: " + child);
+                        }
+
                     }
                     else if (child.Node.Equals(Members.Variable))
                     {
-                        IModifiable initDecL = (IModifiable)NodeFactory.CreateNode("initDeclaratorList", false);
-                        IModifiable initDec = (IModifiable)NodeFactory.CreateNode("initDeclarator", false);
-                        IModifiable dec = (IModifiable)NodeFactory.CreateNode("declarator", false);
-
-                        child.Parent = dec;
-                        dec.Parent = initDec;
-                        initDec.Parent = initDecL;
-                        initDecL.Parent = field;
+                        child.Parent = field;
                     }
                     else
                     {
                         throw new InvalidCastException("Unknown Field child: " + child);
                     }
                 }
-                IModifiable modset = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
-                modset.Parent = field;
+
+                type.Parent = field;
+                modifierSet.Parent = field;
             }
         }
 
