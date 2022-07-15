@@ -1,30 +1,41 @@
-// CPP program to illustrate 
-// concept of Anonymous Class
 #include <iostream>
-using namespace std;
-  
-// Anonymous Class : Class is not having any name
-class
+
+class foo
 {
-    // data member
     int i; 
 public:
     void setData(int i)
     {
-        // this pointer is used to differentiate
-        // between data member and formal argument.
         this->i = i;
     }
     void print()
     {
-        cout << "Value for i : " << this->i << endl;
+        std::cout << "Value for i : " << this->i << std::endl;
+    }
+};
+
+// Anonymous Class : Class is not having any name
+class
+{
+    int i; 
+public:
+    void setData(int i)
+    {
+        this->i = i;
+    }
+    void print()
+    {
+        std::cout << "Value for i : " << this->i << std::endl;
     }
       
 } obj1, obj2;    // multiple objects for anonymous class
   
+
+
 // Driver function
 int main()
 {
+    foo goo;
     obj1.setData(10);
     obj1.print();
   

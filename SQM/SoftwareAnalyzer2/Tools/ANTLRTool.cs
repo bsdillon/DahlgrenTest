@@ -5471,6 +5471,8 @@ namespace SoftwareAnalyzer2.Tools
                 superTypeNode.Parent = superTypesNode;
                 IModifiable anonymousNode = (IModifiable)NodeFactory.CreateNode(Members.ANONYMOUS, false);
                 anonymousNode.Parent = superTypeNode;
+
+                superTypeNode.AddCode("anonymous", superTypeNode);
             }
             IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
             classificationNode.Parent = node;
