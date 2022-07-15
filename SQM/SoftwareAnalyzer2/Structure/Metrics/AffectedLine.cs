@@ -288,7 +288,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 //indicate that the graphnode has been printed and increment the print level
                 MarkGraphNodePrinted(g);
                 printLevel += ",";
-                //for each parent, make sure it hasn't been printed beofre, and write the graphnode and any statements to the output.
+                //for each parent, make sure it hasn't been printed before, and write the graphnode and any statements to the output.
                 foreach (GraphNode p in g.GetParentGNs())
                 {
                     if (p != null && !p.dictPrint)
@@ -342,7 +342,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             {
                 //indicate that the graphnode has been printed and increment the print level
                 MarkGraphNodePrinted(g);
-                //for each child, make sure it hasn't been printed beofre, and write the graphnode and any statements to the output.
+                //for each child, make sure it hasn't been printed before, and write the graphnode and any statements to the output.
                 foreach (GraphNode c in g.GetChildrenGNs())
                 {
                     if (c != null && !c.dictPrint)

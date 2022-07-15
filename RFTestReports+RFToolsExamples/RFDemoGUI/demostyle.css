@@ -101,12 +101,12 @@ td.data.active:hover {
   background-repeat: no-repeat;
 }
 
-td.screenshot {
+/*td.screenshot {
   background-image: url("camera.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-size: contain;
-}
+}*/
 
 td.screenshot.active:hover {
   background-image: url("camera2.png");
@@ -221,6 +221,11 @@ td.running {
 .popup td.oddRow {background-color: rgba(255,255,255,0.07);}
 .FAIL {background-color:#880000; color:#FFFFFF; text-align: center;}
 .PASS {background-color:#008800; color:#FFFFFF; text-align: center;}
-.BAR {background-color:#00454F;}
+.popup td.SOFT {background-color:#8AFF9E;}
+.popup td.BANNER {background-color:#45FF4F;}
+.popup td.BAR {background-color:#000000;}
+.popup td.Data {background-image: url("info.png"); background-position: center; background-repeat: no-repeat; background-size: 1.6em 2em; color: #00000000; background-color:#ffffff;}
+.popup td.Action {background-color:#FFFF00;}
+.popup td.Screenshot {background-image: url("camera.png"); background-position: center; background-repeat: no-repeat; background-size: 2em 2em; color: #00000000; background-color:#ffffff;}
 .popup th {background-color:#00454F; color:white; font-weight:bolder;}
 #reportContent {background-color:#FFFFFF;}

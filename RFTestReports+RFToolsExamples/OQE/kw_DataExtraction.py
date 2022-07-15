@@ -16,7 +16,17 @@ class kw_DataExtraction:
       self.timeMark = datetime.max
       self.testCaseStart = datetime.fromtimestamp(0)
       self.dataTitles = {}
-      self.dataTitles[''] = [] 
+      self.dataTitles[''] = []
+      self.PASS_TOKEN="PASS"
+      self.FAIL_TOKEN="FAIL"
+
+   @keyword(name='PASS Token')
+   def getPass(self):
+      return self.PASS_TOKEN
+
+   @keyword(name='FAIL Token')
+   def getFail(self):
+      return self.FAIL_TOKEN
 
    @keyword(name='Prove it works')
    def temp(self):
@@ -83,18 +93,27 @@ class kw_DataExtraction:
    @keyword(name='Write Results')
    def KW_OQE_writeResultToFile(self, caseName, stepName, testStatus, details):
       tmp = self.testCaseStart
+      caseName = caseName.replace('\n', '_')
+      stepName = stepName.replace('\n', '_')
       self.testCaseStart = datetime.now()
       deltaTime = str(self.testCaseStart - tmp)
       details = details.replace("'", "**")
+      details = details.replace("\n", "_")
       f = open(self.dataFile, "a")
       f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+caseName+"', Step: '"+stepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+details+"'});\n")
       f.close()
 
+   def safeFileName(self, proposedName):
+      #BSD we had some problems with absolute vs. relative path. Right now relative is still working
+      #but this is how the absolute path coudl be created.
+      #rootPath = os.path.join(os.path.dirname(os.path.abspath(self.dataFile)),  "IMG", proposedName)
+      proposedName = proposedName.replace('\n', '_')
+      proposedName = proposedName.replace('/', '_')
+      return proposedName
+
    @keyword(name='Get Next Img File')
    def checkImageFileName(self, proposedName):
-      #BSD we had some problems with absolute vs. relative path. Right now relative is still working
-      #but this is how the absolute path could be created.
-      #rootPath = os.path.join(os.path.dirname(os.path.abspath(self.dataFile)), "IMG", proposedName)
+      proposedName = self.safeFileName(proposedName)
       rootPath = os.path.dirname(self.dataFile) + "/IMG/" + proposedName
       rootPath = rootPath.replace(' ', '_')
       index = 0
@@ -105,11 +124,70 @@ class kw_DataExtraction:
          proposedPath = rootPath + str(index) + ".png"
 
       return proposedPath
+   
+   @keyword(name='Get Next Temp Img File')
+   def checkTempImageFileName(self, proposedName):
+      proposedName = self.safeFileName(proposedName)
+      rootPath = os.path.dirname(self.dataFile) + "/IMG/TEMP/" + proposedName
+      rootPath = rootPath.replace(' ', '_')
+      index = 0
+
+      proposedPath = rootPath + ".png"
+      while os.path.exists(proposedPath):
+         index = index + 1
+         proposedPath = rootPath + str(index) + ".png"
+
+      return proposedPath
+
+   @keyword(name='Get Last Temp Img File')
+   def checkTempImageFileName(self, proposedName):
+      proposedName = self.safeFileName(proposedName)
+      rootPath = os.path.dirname(self.dataFile) + "/IMG/" + proposedName
+      rootPath = rootPath.replace(' ', '_')
+      index = 0
+
+      proposedPath = rootPath + ".gif"
+      while os.path.exists(proposedPath):
+         index = index + 1
+         proposedPath = rootPath + str(index) + ".gif"
+
+      return [os.path.dirnmae(self.dataFile) + "/IMG/TEMP" , proposedPath]
+
+   @keyword(name='Get Next Animation File Parts')
+   def checkAnimFileParts(self, proposedName):
+      proposedName = self.safeFileName(proposedName)
+      rootPath = os.path.dirname(self.dataFile) + "/IMG/" + proposedName
+      rootPath = rootPath.replace(' ', '_')
+      index = 0
+
+      proposedPath = rootPath + ".gif"
+      while os.path.exists(proposedPath):
+         index = index + 1
+         proposedPath = rootPath + str(index) + ".gif"
+
+      return [os.path.dirnmae(self.dataFile) + "/IMG/TEMP" , proposedPath]
+
+
+   @keyword(name='Get Next Animation File')
+   def checkAnimFile(self, proposedName):
+      proposedName = self.safeFileName(proposedName)
+      rootPath = os.path.dirname(self.dataFile) + "/IMG/" + proposedName
+      rootPath = rootPath.replace(' ', '_')
+      index = 0
+
+      proposedPath = rootPath + ".gif"
+      while os.path.exists(proposedPath):
+         index = index + 1
+         proposedPath = rootPath + str(index) + ".gif"
+
+      return [os.path.dirnmae(self.dataFile) + "/IMG/" , proposedPath]
 
    @keyword(name='Write Image')
    def KW_OQE_writeImageToFile(self, testCaseName, testStepName, testStatus, file):
       tmp = self.testCaseStart
       self.testCaseStart = datetime.now()
+      testStepName = testStepName.replace('\n', '_')
+      testCaseName = testCaseName.replace('\n', '_')
       deltaTime = str(self.testCaseStart - tmp)
       f = open(self.dataFile, "a")
       f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+file+"'});\n")
@@ -137,6 +215,12 @@ class kw_DataExtraction:
       temp = (datetime.now() - self.timeMark).total_seconds() * 1000
       self.timeMark = datetime.max
       return temp
+
+   @keyword(name='Reset Time')
+   def resetTime(self):
+      if self.timeMark==datetime.max:
+         return
+      self.time = datetime.max
 
    @keyword(name='Add Suite Structure')
    def newStructure(self, type, title, xaxis, yaxis, series, modes):

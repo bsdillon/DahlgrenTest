@@ -66,6 +66,7 @@ namespace SoftwareAnalyzer2.Structure
         Enumerator,
         Exception,
         Exceptions,
+        Explicit, //CPP
         Field,
         File,
         Final,
@@ -73,6 +74,7 @@ namespace SoftwareAnalyzer2.Structure
         For3Loop,
         ForEachLoop,
         ForInitial,
+        Friend, //CPP
         Generic,
         Import,
         Index,
@@ -119,6 +121,7 @@ namespace SoftwareAnalyzer2.Structure
         Try_Catch,
         Type,
         TypeDeclaration,
+        TYPEDEF, // CPP
         TypeName,
         Update,
         Value,

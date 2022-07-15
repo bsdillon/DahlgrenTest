@@ -1,7 +1,7 @@
 public class ArrayElementAssignment{
 
      public static void main(String []args){
-        int[] intArray = new int[] {1,2,3,4,5};
+         int[] intArray = new int[] {1,2,3,4,5};
 		int[] otherArray = new int[5];
 		int[] anotherArray = {1,2,3,4,5};
         int pos = 2;

@@ -109,6 +109,13 @@ Log    ${x}</code></pre></dt>
 
     <a name="or"></a><h3>OQE Reporting</h3>
     <dl>
+      <dt><a name=""></a><pre><code>Banner    ~~TITLE~~</code></pre></dt>
+        <dd>
+          The Banner keyword inserts a horizontal break in the test which identifies a section of test
+          as a "Functional Group". In the test data, '==' indicates the banner and the TITLE is just 
+          the details.<br>
+<pre><code>Banner    Open Help Menu</code></pre>
+        </dd>
       <dt><a name="aov"></a><pre><code>Assert OQE Value    ${TEST NAME}    ~~STEP NAME~~    ~~ACTUAL~~    ~~EXPECTED~~</code></pre></dt>
         <dd>This keyword is used to directly compare the actual and expected value. Assertions are fairly 
         common for automatic test analysis and they come in a variety of formulas. This one is exact equality. 
@@ -123,7 +130,7 @@ Log    ${x}</code></pre></dt>
         way.<br>
 <pre><code>Record Data    ${TEST NAME}    Network Message    ${msg}.Number; ${msg}.Source; ${msg}.Dest;</code></pre>
 </dd>
-      <dt><a name="gifn"></a><pre><code>Get Image File Name    ~~CASE~~    ~~STEP~~</code></pre></dt>
+      <dt><a name="gifn"></a><pre><code>Get Image File Name    ~~TEST~~    ~~STEP~~</code></pre></dt>
         <dd>By default all images are stored in the same location as the log file. The Robot Framework
         library allows the user to define a new location for storage, but it is ideal for data driven
         testing that image names are more specific to the test. The default Robot Framework process
@@ -131,6 +138,36 @@ Log    ${x}</code></pre></dt>
         etc.). This keyword takes the name of the test case, the step, and then determines a unique name 
         that is available. This file name and path can be passed to the screen capture keywords to get and 
         store the image in the pre-defined location.</dd>
+      <dt><a name=""></a><pre><code>Record Action    ${TEST NAME}    ~~ACT DESCRIPTION~~</code></pre></dt>
+        <dd>
+          Many of the steps in a test are about the data capture or verification. These are auxilliary
+          and quite separate from the true test actions i.e. those that drive the test function itself.
+          The action banner in a bright yellow horizontal bar that identifies the action described.
+          <br>
+<pre><code>Record Action    ${TEST NAME}    Select next item for review</code></pre>
+        </dd>
+      <dt><a name=""></a><pre><code>Soft Break</code></pre></dt>
+        <dd>
+          The soft break is a light green horizontal bar across the test report. In the test data, '**' indicates the soft break.
+          It bears no text and is used with the tester's discretion to divide the Function Group into distinct sections. For 
+          example, if there is a 'before' and 'after' in a sequence it can be subdivided by a soft break.<br>
+<pre><code>Soft Break</code></pre>
+        </dd>
+      <dt><a name=""></a><pre><code>Data Break</code></pre></dt>
+        <dd>
+          The data break is a dark green horizontal bar across the test report. In the test data, '--' indicates the hard break.
+          It bears no text and is used to complete the Functional Group. Effectively the data break ends the section of the test
+          begun by the Banner.<br>
+<pre><code>Data Break</code></pre>
+        </dd>
+      <dt><a name=""></a><pre><code>Keyword Final    ${TEST NAME}    ~~STEP NAME~~    ~~STATUS~~    ~~MESSAGE~~</code></pre></dt>
+        <dd>
+          It is very common for the last line of a keyword to be a TEARDOWN and record the end of the keyword. Give the
+          regularity of this, it makes sence to create a special keyword for the purpose. It acts like Record Test Case
+          and it adds a data break afterwards. The goal is to incorporate several actions in one standard keyword. It
+          may incorporate more features later.<br>
+<pre><code>[TEARDOWN]    Keyword Final    --    Keyword Complete    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}</code></pre>
+        </dd>
       <dt><a name="cei"></a><pre><code>Capture Element Image<sup class="green">SELENIUM</sup>    ~~IDENTIFIER~~    ${TEST NAME}    ~~STEP NAME~~
 Capture Screen Image<sup class="green">SELENIUM</sup>    ${TEST NAME}    ~~STEP NAME~~</code></pre></dt>
         <dd>Both of these keywords use Selenium libraries to capture images of either the whole screen or 
@@ -140,6 +177,10 @@ Capture Screen Image<sup class="green">SELENIUM</sup>    ${TEST NAME}    ~~STEP 
         will be inserted directly into the HTML report. The test and step names are used in the GUI
         report.<br>
   <pre><code>Capture Element Image<sup class="green">SELENIUM</sup>    css:.username    ${TEST NAME}    Verify user</code></pre></dd>
+      <dt><a name="cei"></a><pre><code><sup class="green">SIKULI</sup></code></pre></dt>
+        <dd><br>
+  <pre><code><sup class="green">SIKULI</sup>    </code></pre></dd>
+
     </dl>
 
     <a name="cs"></a><h3>Chart Setup</h3>

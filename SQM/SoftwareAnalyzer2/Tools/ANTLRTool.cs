@@ -882,7 +882,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.NormalizeLines();
             }
             else if (myLang is CPPLanguage) {
-                
+
                 head.Rename("className", Members.TypeName);
                 head.Rename("functionDefinition", Members.Method);
                 head.Rename("translationUnit", Members.File);
@@ -912,7 +912,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("pointerOperator", "&&");
                 head.Collapse("unaryOperator", "&");
                 head.Collapse("unaryOperator", "*");
-                
+
                 //TODO: handle decltype specifier stuff better when our understanding of them has improved
                 head.RootUpModify("decltypeSpecifier", "decltypeSpecifier", CPPDecltypeHandler);
                 head.RootUpModify("linkageSpecification", "linkageSpecification", SeverBranch);
@@ -951,17 +951,19 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.Method, Members.Method, CPPMethodNameCorrector);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionHandler);
                 head.LeafDownModify("indexNode", "indexNode", CPPIndexOrderer);
+
                 head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
                 head.RootUpModify("dotOperatorNode", "dotOperatorNode", CPPDotOperatorOrderer);
                 head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
                 head.RootUpModify("storageClassSpecifier", "storageClassSpecifier", CPPModifierModifier);
+
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
                 head.RootUpModify("simpleDeclaration", "simpleDeclaration", CPPFieldIdentifier);
                 head.RootUpModify("forRangeDeclaration", "forRangeDeclaration", CPPFieldIdentifier);
-                head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor);
+                head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor); // Handles <<
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
                 head.RootUpModify("initializer", "initializer", CPPConstructorIdentifier);
                 head.RootUpModify("constructorInitializer", Members.MethodScope, CPPConstructorInitializerHandler);
@@ -989,7 +991,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("blockDeclaration", "blockDeclaration", CPPForwardDeclarationRemover);
                 head.Collapse("blockDeclaration");
                 head.Collapse("declaration");
-                
+
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
                 head.RootUpModify("memberSpecification", "memberSpecification", ReparentChildren);
                 
@@ -999,7 +1001,9 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.RootUpModify("declarationseq", "declarationseq", ReparentChildren);
 
-                head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMemberSetAdder);
+                head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMemberSetAdder); //Important for typedef
+
+
                 head.RootUpModify(Members.Destructor, Members.Destructor, CPPDestructorMover);
                 head.RootUpModify(Members.Import, Members.Import, CPPImportMover);
                 head.Collapse("typeSpecifier");
@@ -1066,7 +1070,7 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO:? probably should merge this with some other code and remove this
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldNamer);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterNamer);
-                
+
                 head.NormalizeLines();
             }
             else {
@@ -1305,7 +1309,7 @@ namespace SoftwareAnalyzer2.Tools
 
             if (stringType.IsMatch(literal.Code))
             {
-                t.AddCode(ApprovedLiterals.String.ToString(), literal);
+                t.AddCode(ApprovedLiterals.String.ToString(), literal);   
             }
             else if (charType.IsMatch(literal.Code))
             {
@@ -4155,7 +4159,7 @@ namespace SoftwareAnalyzer2.Tools
                     else
                     {
                         // i don't know enough yet!
-                        throw new InvalidOperationException("Unsupported node structure\a: " + node);
+                        // throw new InvalidOperationException("Unsupported node structure\a: " + node);
                     }
                 }
                 else
@@ -4178,7 +4182,7 @@ namespace SoftwareAnalyzer2.Tools
                         else
                         {
                             // TODO: Test properly???
-                            return;
+                            throw new InvalidOperationException("Unsupported node structure\a: " + node);
                         }
                     }
                     else
@@ -4242,7 +4246,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPMethodNameCorrector(IModifiable node)
         {
-            // TODO: fix this - tends to screw up line numbers...
             IModifiable declarator = (IModifiable)node.GetFirstRecursive("declarator");
             if (declarator == null)
             {
@@ -4364,7 +4367,6 @@ namespace SoftwareAnalyzer2.Tools
         private void CPPSelectionStatementIdentifier(IModifiable node)
         {
             // Only called once
-            // TODO: fix this - tends to screw up line numbers...
             if (node.Code.Equals("switch ( )"))
             {
                 node.SetNode(Members.Switch);
@@ -4373,10 +4375,11 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Branch);
 
-                bool Brackets = true;
+                bool bracketsPresent = true;
+
                 if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
                 {
-                    Brackets = false;
+                    bracketsPresent = false;
                     IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
                     List<INavigable> thenChildren = node.GetFirstSingleLayer("statement").Children;
                     Then.DropChildren();
@@ -4391,10 +4394,10 @@ namespace SoftwareAnalyzer2.Tools
                     Then.SetNode(Members.Then);
                 }
 
-                if (Brackets)
+                if (bracketsPresent)
                 {
                     if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
-                    {
+                    {   //Empty then statement
                         IModifiable Scope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
                         Scope.SetNode(Members.Scope);
                         IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
@@ -4413,14 +4416,16 @@ namespace SoftwareAnalyzer2.Tools
                         Then.SetNode(Members.Then);
                     }
                 }
-                string type = null;
+
+
+                string secondLayer = null;
                 if ((node.GetFirstSingleLayer("statement") != null )&& (node.GetFirstSingleLayer("statement").GetChildCount() != 0))
                 {
-                    type = node.GetFirstSingleLayer("statement").GetNthChild(0).Code;
+                    secondLayer = node.GetFirstSingleLayer("statement").GetNthChild(0).Code;
                 }
 
                 //If it is an if else statement
-                if (node.Code.Equals("if ( ) else") && !type.Equals("if ( ) else") && !type.Equals("if ( )")) //if it's not an else if
+                if (node.Code.Equals("if ( ) else") && !secondLayer.Equals("if ( ) else") && !secondLayer.Equals("if ( )")) //if it's not an else if
                 {
                     bool elseBrackets = true;
 
@@ -4715,7 +4720,7 @@ namespace SoftwareAnalyzer2.Tools
                         node.SetNode(Members.Constexpr);
                         break;
                     case "friend":
-                        //TODO
+                        node.SetNode(Members.Friend);
                         break;
                     case "":
                         break;
@@ -4734,7 +4739,7 @@ namespace SoftwareAnalyzer2.Tools
                         node.SetNode(Members.Virtual);
                         break;
                     case "explicit":
-                        // TODO
+                        node.SetNode(Members.Explicit);
                         break;
                     default:
                         throw new InvalidCastException("Unknown modifier: " + node);
@@ -4746,8 +4751,6 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     case "override":
                         node.SetNode(Members.Override);
-                        break;
-                    case "":
                         break;
                     default:
                         throw new InvalidCastException("Unknown modifier: " + node);
@@ -4792,7 +4795,6 @@ namespace SoftwareAnalyzer2.Tools
                 IModifiable fieldNode = (IModifiable)handlerNode.GetFirstSingleLayer(Members.Field);
                 fieldNode.Parent = catchScopeNode;
                 handlerNode.RemoveChild(fieldNode);
-                // TODO: TESTING THIS...
                 // FOR GETTING RID OF typeSpecifierSeq nodes
                 if (fieldNode.GetChildCount() > 0 && fieldNode.GetFirstSingleLayer("declarator") == null)
                 {
@@ -4820,7 +4822,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPInitializerListChecker(IModifiable node)
         {
-            // TODO: figure out what a memInitializerList is?
             List<INavigable> parameterNodes = node.Children;
             node.DropChildren();
             foreach (IModifiable parameterNode in parameterNodes)
@@ -4852,7 +4853,6 @@ namespace SoftwareAnalyzer2.Tools
             }
             else if (node.Code.Equals("( )"))
             {
-                // TODO: look a little closer at initializers...
                 IModifiable methodInvokeNode;
                 if (node.GetNthChild(0).Code.Equals(".") || node.GetNthChild(0).Code.Equals("->"))
                 {
@@ -4867,7 +4867,6 @@ namespace SoftwareAnalyzer2.Tools
                     methodInvokeNode.SetNode(Members.MethodInvoke);
                 }
 
-                // TODO: params?
                 // in such a case, the parameters of the function follow after the would-be DotOperator
                 // copy nodes, drop children, put the future DotOperator back, add a ParameterList node, add Parameter nodes for each other child
                 if (node.GetChildCount() > 1)
@@ -4938,7 +4937,6 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (node.GetNthChild(0).Code.Equals("!"))
             {
-                // TODO: pack these together
                 ((IModifiable)node.GetNthChild(0)).SetNode(Members.Boolean_Not);
                 node.GetNthChild(1).Parent = node.GetNthChild(0);
                 node.RemoveChild((IModifiable)node.GetNthChild(1));
@@ -5315,8 +5313,8 @@ namespace SoftwareAnalyzer2.Tools
             }
             else
             {
-                // TODO?
-                //errorMessages.Add("ERROR: Unsupported simpleTypeSpecifier code " + node + System.Environment.NewLine);
+                //Handled otherwise?
+                //throw new InvalidCastException("ERROR: Unsupported simpleTypeSpecifier code " + node);
             }
         }
 
@@ -5346,9 +5344,11 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
             if (classHeadNode.Code.Equals("union"))
             {
+                node.Parent.PrintTreeText();
+                throw new InvalidCastException("Need to handle unions in ANTLR");
                 // UNION??
                 // TODO: unions
-                node.AddCode(classHeadNode.Code, classHeadNode);
+                // node.AddCode(classHeadNode.Code, classHeadNode);
             }
             else if(classHeadNode.GetFirstSingleLayer("classHeadName") != null)
             {
@@ -5887,11 +5887,18 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPFieldIdentifier(IModifiable node)
         {
+            //Console.Write("Field node: " + node.Node + "    Field Code: " + node.Code + " Is type null? ");
             if (node.GetFirstSingleLayer(Members.Type) != null)
             {
                 node.SetNode(Members.Field);
                 IModifiable modSetNode = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
                 modSetNode.Parent = node;
+
+                //Console.WriteLine(" True");
+            }
+            else
+            {
+                //Console.WriteLine(" False");
             }
         }
 
@@ -6186,6 +6193,7 @@ namespace SoftwareAnalyzer2.Tools
             // default of an ENUM is the first element, but I can't really control that easily here - I can't use null either
             // and, I can't call easily one function within the other to simplfy things since the other one needs the children and memberSetNode from here
             // possibly temporary, but we all know how that goes
+
             IModifiable memberSetNode;
             if (children.Any(child => child.Node.Equals(memberSet)))
             {
@@ -6231,6 +6239,25 @@ namespace SoftwareAnalyzer2.Tools
             foreach (IModifiable remainder in children)
             {
                 remainder.Parent = node;
+            }
+
+            if(node.GetFirstSingleLayer(MemberSets.Classification).GetChildCount() == 0)
+            {
+                IModifiable typedef = (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
+                typedef.Parent = node.GetFirstSingleLayer(MemberSets.Classification);
+
+                if (node.GetFirstSingleLayer(MemberSets.SuperTypes) != null)
+                {
+                    if (node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstSingleLayer(Members.SuperType).Code == "")
+                    {
+                        IModifiable superType = (IModifiable)node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstSingleLayer(Members.SuperType);
+                        superType.AddCode("typedef", superType);
+
+                        superType.DropChildren();
+                        IModifiable enumType = (IModifiable)NodeFactory.CreateNode(Members.TYPEDEF, false);
+                        enumType.Parent = superType;
+                    }
+                }
             }
         }
 
@@ -6481,6 +6508,13 @@ namespace SoftwareAnalyzer2.Tools
             {
                 // the if is there to handle the <...> i found in a try-catch for
                 node.ClearCode(ClearCodeOptions.KeepLine);
+                node.CopyCode((IModifiable)node.GetFirstSingleLayer(Members.Variable));
+            } else
+            {
+                //Assuming it is always an object
+                IModifiable var = (IModifiable)NodeFactory.CreateNode(Members.Variable, false);
+                var.AddCode("obj", var);
+                var.Parent = node;
                 node.CopyCode((IModifiable)node.GetFirstSingleLayer(Members.Variable));
             }
         }

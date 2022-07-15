@@ -5,6 +5,7 @@ Go to https://sites.google.com/chromium.org/driver/downloads and install chromed
 From the command line
 * pip install robotframework
 * pip install --upgrade robotframework-seleniumlibrary
+* pip install robotframework-SikuliLibrary
 Go to the directory DahlgrenTest\RFTestReports+RFToolsExamples and run the testSite to verify your setup.
 From the command line type:
 * robot testSite.robot
@@ -42,3 +43,8 @@ There is a RoboCon!!!!
 
 1042-1430
 1618-1818
+
+-----------------------
+Go to https://www.jython.org/download and get the installer
+Run the installer. I have version 2.7.2
+Add the jython bin path. Verify you can 'jython' from anywhere.
