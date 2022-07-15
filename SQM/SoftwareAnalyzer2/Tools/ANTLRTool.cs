@@ -4779,6 +4779,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="node"></param>
         private void CPPTryCatchHandler(IModifiable node)
         {
+            Console.WriteLine("Incoming tree:");
+            node.PrintTreeText();
+
             List<INavigable> handlerNodes = node.GetFirstSingleLayer("handlerSeq").Children;
             foreach (IModifiable handlerNode in handlerNodes)
             {
@@ -4813,6 +4816,45 @@ namespace SoftwareAnalyzer2.Tools
                     typeNameNode.Parent = typeNode;
                     oldParent.RemoveChild(typeNameNode);
                 }
+            }
+
+            //This is going to be ugly, but it's what I need to do (Vitaliy)
+            //The catch field isn't set up correctly in some cases
+
+            if (node.GetFirstSingleLayer("handlerSeq").GetFirstSingleLayer("handler").GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.CatchScope).GetFirstSingleLayer(Members.Field).GetFirstSingleLayer(Members.Variable) != null) //
+            {
+                IModifiable field = (IModifiable)node.GetFirstSingleLayer("handlerSeq").GetFirstSingleLayer("handler").GetFirstSingleLayer("compoundStatement").GetFirstSingleLayer(Members.CatchScope).GetFirstSingleLayer(Members.Field);
+                List<INavigable> fieldChildren = field.Children;
+                field.DropChildren();
+
+                foreach (INavigable child in fieldChildren)
+                {
+                    if (child.Node.Equals("typeSpecifierSeq"))
+                    {
+                        IModifiable decl = (IModifiable)child;
+                        decl.SetNode("declSpecifier");
+                        IModifiable type = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
+                        decl.Parent = type;
+                        type.Parent = field;
+                    }
+                    else if (child.Node.Equals(Members.Variable))
+                    {
+                        IModifiable initDecL = (IModifiable)NodeFactory.CreateNode("initDeclaratorList", false);
+                        IModifiable initDec = (IModifiable)NodeFactory.CreateNode("initDeclarator", false);
+                        IModifiable dec = (IModifiable)NodeFactory.CreateNode("declarator", false);
+
+                        child.Parent = dec;
+                        dec.Parent = initDec;
+                        initDec.Parent = initDecL;
+                        initDecL.Parent = field;
+                    }
+                    else
+                    {
+                        throw new InvalidCastException("Unknown Field child: " + child);
+                    }
+                }
+                IModifiable modset = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                modset.Parent = field;
             }
         }
 
@@ -6011,6 +6053,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPNewExpressionHandler(IModifiable node)
         {
+            Console.WriteLine("\n\n\nIncoming tree:");
+            node.PrintTreeText();
+
             // TODO: might include arrays of objects, not clear on how to deal with that yet so for now this is what you get
             // TODO: more testing - this may not be a good if check
             if (node.GetFirstSingleLayer("bracedInitList") != null)
@@ -6018,7 +6063,7 @@ namespace SoftwareAnalyzer2.Tools
                 node.ClearCode(ClearCodeOptions.KeepLine);
                 node.SetNode(Members.ArrayInvoke);
                 IModifiable parameterList = (IModifiable)node.GetFirstSingleLayer("bracedInitList").GetFirstRecursive(Members.ParameterList);
-                node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").GetNthChild(0).Parent = parameterList;
+                node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").GetNthChild(0).Parent = parameterList; //obj reference not set to an instance of an obj
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newTypeId"));
             }
             else if (node.GetFirstSingleLayer(Members.TypeName) != null)
@@ -6036,6 +6081,9 @@ namespace SoftwareAnalyzer2.Tools
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
+
+            Console.WriteLine("Outgoing tree:");
+            node.PrintTreeText();
         }
 
         /// <summary>
