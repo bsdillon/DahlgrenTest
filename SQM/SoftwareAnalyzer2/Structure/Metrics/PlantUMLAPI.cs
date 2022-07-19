@@ -17,8 +17,9 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         internal static void CreatePlantUMLAPI(string filename)
         {
             // Create server (run Python server file)
-            string cmdText = "python server.py";
+            // string cmdText = "python server.py";
             // System.Diagnostics.Process.Start("powershell.exe", cmdText);
+
             Console.WriteLine("\n\n\n\n\n");
             PopulateData();
         }
@@ -38,7 +39,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     // System.Diagnostics.Process.Start("http://localhost:8080/create_class/" + type.Represented.Code);
                 }
                 AbbreviatedGraph[] members = MetricUtilities.GetMembersOf(type);
-                AbbreviatedGraph[] relationship = MetricUtilities.GetMembersOf(type);
+                // AbbreviatedGraph[] relationship = MetricUtilities.GetMembersOf(type);
                 if (members.Length == 0)
                 {
                     //this class has no members
@@ -59,7 +60,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                         Console.WriteLine("    " + member.Represented.Code + "\n");
                         // member.Represented.Node.ToString() + " " + member.Represented.Code + System.Environment.NewLine;
                     }
-                    // Attempting to access return type
+                    // Todo: Access return type
                 }
             }
         }
