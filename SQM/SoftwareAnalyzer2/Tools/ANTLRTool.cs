@@ -942,7 +942,9 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("unaryExpression", "unaryExpression", CPPUnaryExpressionHandler);
                 head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
                 head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
-                head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);
+                head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);                           
+                head.RootUpModify("simpleTypeLengthModifier", "simpleTypeLengthModifier", CPPSimpleTypeModifierHandler);         
+                head.RootUpModify("simpleTypeSignednessModifier", "simpleTypeSignednessModifier", CPPSimpleTypeModifierHandler); 
                 head.LeafDownModify("memberDeclaratorList", "memberDeclaratorList", CPPMultipleMemberDeclarationsHandler);
                 head.RootUpModify("initDeclaratorList", "initDeclaratorList", CPPMultipleInitDeclarationsHandler);
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
@@ -955,13 +957,13 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("primaryExpression", "primaryExpression", CPPPrimaryExpressionHandler);
                 head.RootUpModify("dotOperatorNode", "dotOperatorNode", CPPDotOperatorOrderer);
                 head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
-                head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler);
+                head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler); 
                 head.RootUpModify("storageClassSpecifier", "storageClassSpecifier", CPPModifierModifier);
 
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
-                head.RootUpModify("simpleDeclaration", "simpleDeclaration", CPPFieldIdentifier);
+                head.RootUpModify("simpleDeclaration", "simpleDeclaration", CPPFieldIdentifier); 
                 head.RootUpModify("forRangeDeclaration", "forRangeDeclaration", CPPFieldIdentifier);
                 head.RootUpModify("shiftExpression", Members.Operator, CPPShiftExpressionCompressor); // Handles <<
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
@@ -4750,6 +4752,7 @@ namespace SoftwareAnalyzer2.Tools
                 switch (node.Code)
                 {
                     case "override":
+                        Console.WriteLine("Case override occured!" + node);
                         node.SetNode(Members.Override);
                         break;
                     default:
@@ -5371,6 +5374,182 @@ namespace SoftwareAnalyzer2.Tools
         }
 
         /// <summary>
+        /// Supplementary function for CPPSimpleTypeModifierHandler
+        /// Handles when 
+        /// </summary>
+        private void CPPSimpleTypeModifierSubType(IModifiable node)
+        {
+            if (node.Parent.GetChildCount() == 1)
+            {
+                if (node.Node.Equals("simpleTypeLengthModifier"))
+                {
+                    node.SetNode(Members.LengthModifier);
+                }
+                else if (node.Node.Equals("simpleTypeSignednessModifier"))
+                {
+                    node.SetNode(Members.SignedModifier);
+                }
+            }
+            else if (node.Parent.Parent.GetFirstSingleLayer("simpleTypeSpecifier") == null && node.Parent.GetFirstSingleLayer("simpleTypeSpecifier") == null)
+            {
+                IModifiable parent = (IModifiable)node.Parent.Parent;
+                List<INavigable> children = parent.GetNthChild(0).Children;
+                parent.DropChildren();
+
+                int longCount = 0;
+                foreach (INavigable child in children)
+                {
+                    if (child.Node.Equals("simpleTypeLengthModifier"))
+                    {
+                        if (longCount == 0)
+                        {
+                            IModifiable lengthMod = (IModifiable)child;
+                            lengthMod.SetNode(Members.LengthModifier);
+                            lengthMod.Parent = parent;
+                            longCount++;
+                        }
+                        else if (longCount == 1)
+                        {
+                            IModifiable prim = (IModifiable)child;
+                            prim.SetNode(Members.Primitive);
+                            prim.Parent = parent;
+                            longCount++;
+                        }
+                    }
+                    else if (child.Node.Equals("simpleTypeSignednessModifier"))
+                    {
+                        IModifiable sig = (IModifiable)child;
+                        sig.SetNode(Members.SignedModifier);
+                        sig.Parent = parent;
+                    }
+                    else if (child.Node.Equals(Members.Primitive))
+                    {
+                        child.Parent = parent;
+                    }
+                }
+            }
+            else
+            {
+                IModifiable parent;
+                List<INavigable> children;
+                if (node.Equals("simpleTypeSignednessModifier"))
+                {
+                    parent = (IModifiable)node.Parent;
+                }
+                else
+                {
+                    parent = (IModifiable)node.Parent.Parent;
+                }
+
+                children = parent.Children;
+                parent.DropChildren();
+
+                foreach (INavigable child in children)
+                {
+                    if (child.Node.Equals("simpleTypeSignednessModifier"))
+                    {
+                        IModifiable simpleSigned = (IModifiable)child;
+                        simpleSigned.Parent = parent;
+                    }
+                    else
+                    {
+                        IModifiable child0 = (IModifiable)child.GetNthChild(0);
+                        IModifiable child1 = (IModifiable)child.GetNthChild(1);
+                        child0.Parent = parent;
+                        child1.Parent = parent;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Handles LengthModifier and SignedModifier
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPSimpleTypeModifierHandler(IModifiable node)
+        {
+            bool isInSubtype = node.Parent.Node.Equals(Members.Sub_Type) || node.Parent.Parent.Node.Equals(Members.Sub_Type) || node.Parent.Parent.Parent.Node.Equals(Members.Sub_Type);
+
+            if (node.Parent.GetChildCount() == 1 && !node.Code.Equals("long") && !isInSubtype)
+            {
+                if (node.Node.Equals("simpleTypeLengthModifier"))
+                {
+                    node.SetNode(Members.LengthModifier);
+                }
+                else if (node.Node.Equals("simpleTypeSignednessModifier"))
+                {
+                    node.SetNode(Members.SignedModifier);
+                }
+            }
+            else if (node.Parent.GetChildCount() == 1 && node.Code.Equals("long") && !isInSubtype)
+            {
+                //Need to see if # of longs is 1 or 2
+                int i = 0;
+                List<int> indexes = new List<int>();
+                IModifiable declSpecSeq = (IModifiable)node.Parent.Parent.Parent.Parent.Parent;
+                foreach (INavigable child in declSpecSeq.Children)
+                {
+                    if (child.GetNthChild(0).GetNthChild(0).GetNthChild(0).GetChildCount() != 0)
+                    {
+                        if (child.GetNthChild(0).GetNthChild(0).GetNthChild(0).GetNthChild(0).Code.Equals("long"))
+                        {
+                            indexes.Add(i);
+                        }
+                    }
+                    i++;
+                }
+                if (indexes.Count() == 1)
+                {
+                    if (node.Node.Equals("simpleTypeLengthModifier"))
+                    {
+                        node.SetNode(Members.LengthModifier);
+                    }
+                    else if (node.Node.Equals("simpleTypeSignednessModifier"))
+                    {
+                        node.SetNode(Members.SignedModifier);
+                    }
+                }
+                else if (indexes.Count() == 2)
+                {
+                    IModifiable lengthMod = (IModifiable)declSpecSeq.GetNthChild(indexes[0]).GetNthChild(0).GetNthChild(0).GetNthChild(0).GetNthChild(0);
+                    lengthMod.SetNode(Members.LengthModifier);
+
+                    IModifiable longPrimitive = (IModifiable)declSpecSeq.GetNthChild(indexes[1]).GetNthChild(0).GetNthChild(0).GetNthChild(0).GetNthChild(0);
+                    longPrimitive.SetNode(Members.Primitive);
+                }
+                else
+                {
+                    throw new InvalidCastException("ERROR: Too many long's in declSpecifierSeq for: " + node + ". Expected 1 or 2.");
+                }
+
+            }
+            else if (node.Parent.GetChildCount() == 2 && !isInSubtype) 
+            {
+                IModifiable longLength = (IModifiable)node.Parent.GetNthChild(0);
+                IModifiable longPrimitive = (IModifiable)node.Parent.GetNthChild(1);
+                IModifiable simpleTypeSpecifier = (IModifiable)node.Parent;
+
+                simpleTypeSpecifier.DropChildren();
+                longLength.Parent = simpleTypeSpecifier;
+                longLength.SetNode(Members.LengthModifier);
+
+                IModifiable declSpec = (IModifiable)NodeFactory.CreateNode("declSpecifier", true);
+                IModifiable typeSpec = (IModifiable)NodeFactory.CreateNode("typeSpecifier", true);
+                IModifiable trailingTypeSpec = (IModifiable)NodeFactory.CreateNode("trailingTypeSpecifier", true);
+
+                longPrimitive.SetNode(Members.Primitive);
+                longPrimitive.Parent = trailingTypeSpec;
+                trailingTypeSpec.Parent = typeSpec;
+                typeSpec.Parent = declSpec;
+                declSpec.Parent = simpleTypeSpecifier.Parent.Parent.Parent.Parent;
+
+            }
+            else if (isInSubtype)
+            {
+                CPPSimpleTypeModifierSubType(node);
+            }
+        }
+
+        /// <summary>
         /// Handles simpleTypeSpecifier nodes
         /// </summary>
         /// <param name="answer"></param>
@@ -5417,7 +5596,6 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
             if (classHeadNode.Code.Equals("union"))
             {
-                node.Parent.PrintTreeText();
                 throw new InvalidCastException("Need to handle unions in ANTLR");
                 // UNION??
                 // TODO: unions
@@ -5677,15 +5855,18 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPTemplateUsageHandler(IModifiable node)
         {
-            node.GetNthChild(1).Parent = node.GetNthChild(0);
-            node.RemoveChild((IModifiable)node.GetNthChild(1));
-            if (node.Parent.Node.Equals(Members.TypeName) || node.Parent.Node.Equals(Members.Variable))
+            if (node.GetChildCount() == 2)
             {
-                ((IModifiable)node.Parent.Parent).ReplaceChild((IModifiable)node.Parent, (IModifiable)node.GetNthChild(0));
-            }
-            else
-            {
-                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+                node.GetNthChild(1).Parent = node.GetNthChild(0);
+                node.RemoveChild((IModifiable)node.GetNthChild(1));
+                if (node.Parent.Node.Equals(Members.TypeName) || node.Parent.Node.Equals(Members.Variable))
+                {
+                    ((IModifiable)node.Parent.Parent).ReplaceChild((IModifiable)node.Parent, (IModifiable)node.GetNthChild(0));
+                }
+                else
+                {
+                    ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+                }
             }
         }
 

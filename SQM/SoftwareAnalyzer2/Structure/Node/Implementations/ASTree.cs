@@ -237,7 +237,6 @@ namespace SoftwareAnalyzer2.Structure.Node.Implementations
             // in the tree) and flags them as errors
             if (Node.IsUnknown)
             {
-                Console.WriteLine(Node.ToString());
                 answer.Add("ERROR: Trival layers still exist in the tree: " + this.ToString() + System.Environment.NewLine);
             }
 
