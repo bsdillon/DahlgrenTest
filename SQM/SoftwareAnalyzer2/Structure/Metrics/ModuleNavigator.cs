@@ -405,8 +405,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             summary.Append(csvErrors);
             //Austin and Loveish and Parker:  Call Python Server
-            PlantUMLAPI.CreatePlantUMLAPI(fileStem + "Plant_UML.txt");
-            summary.Append("Plant UML: " + reportCount + System.Environment.NewLine);
+            
+            // Uncomment once API connection is fully established -Loveish
+            // PlantUMLAPI.CreatePlantUMLAPI(fileStem + "Plant_UMLAPI.txt");
+            // summary.Append("Plant UML API: " + reportCount + System.Environment.NewLine);
 
             //Austin: Eventually we will use reportCount = TraceCriticalCSVLinks with return value of integer
             TraceCriticalCSVLinks();

@@ -320,6 +320,57 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
+        private void CreateAccessorDiagram()
+        {
+            /* NodePatternMetrics.cs
+            * 
+            * Get the corresponding classes for the field
+            * MBSE Create homeClassBox and add field's class name
+            * MBSE Add field name to box
+            * Create list: externalClassNames[]
+            * From the field, find all read/write access: directFieldAccessors[]
+            *    Get the corresponding classes from each dFA
+            *    If classes match (field and dFA)
+            *        MBSE Add class name to homeClassBox
+            *        MBSE Create light blue circle: homeMethodCircle
+            *        MBSE Add dFA name to homeMethodCircle
+            *    Else if classes do not match
+            *        MBSE Create new externalClassBox
+            *        Add class name to externalClassNames[]
+            *        MBSE Create dark blue circle: externalMethodCircle
+            *        MBSE Add dFA names to externalMethodCircle
+            *        MBSE Add red highlighted line between externalMethodCircle and homeMethodCircle boxes
+            * From the controlling methods: controlledFieldAccessors[] (accessing getter/setter without messing with direct field)
+            *    If class matches homeClassBox
+            *        MBSE Create light green circle: homeMethodCircle
+            *        MBSE Add cFA name to homeMethodCircle
+            *    Else if class matches name in externalClassName[]
+            *        MBSE Add cFA name to externalClassBox
+            *        MBSE Create dark green circle: externalMethodCircle
+            *        MBSE Add cFA name to externalMethodCircle
+            *    Else
+            *        MBSE Create new externalClassBox
+            *        Add class name to externalClassNames[]
+            *        MBSE Create dark green circle: externalMethodCircle
+            *        MBSE Add cFA name to externalMethodCircle   
+            * 
+            * 
+            * What if the same class appears twice?
+            *   + Add to same box
+            *   + Keep track in list
+            * What other considerations am I missing? 
+            *   + Highlight
+            *   + Circle
+            *   + externalClassNames[]
+            *   - Colors for different types of classes 
+            *       - ANONYMOUS - purple
+            *       - CLASS - white
+            *       - ENUM - orange
+            *       - INTERFACE - grey
+            *       - NAMESPACE (packages) - pink
+            */
+        }
+
         internal static int DecoratorReport(string filename)
         {
             int count = 1;
