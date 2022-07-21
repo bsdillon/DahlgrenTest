@@ -81,6 +81,22 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                         //n.Node.IsDefinedMember should be true
                         ValueCheck(n.Parent.GetFirstSingleLayer(Members.Variable).GetFirstSingleLayer(Members.Write).GetFirstSingleLayer(Members.Literal), nextArgs);
                     }
+                    else if ((n.Parent.GetChildCount() == 3))
+                    {
+                        if(n.Parent.GetFirstSingleLayer(Members.MethodInvoke) != null)
+                        {
+                            if (n.Parent.GetFirstSingleLayer(Members.MethodInvoke).Code.Equals("__builtin_va_arg"))
+                            {
+                                //TODO: va_arg expressions
+                                throw new InvalidOperationException("__builtin_va_arg as boolean expression not yet supported: " + n);
+                            }
+                        }
+                        else
+                        {
+                            //TODO: int i = 0 type expressions
+                            throw new InvalidOperationException("Node as boolean expression not yet supported: " + n);
+                        }
+                    }
                     else
                     {
                         throw new InvalidOperationException("Unknown element of boolean expression " + n);

@@ -926,6 +926,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("pointerDeclarator", "pointerDeclarator", CPPExpressionHandler);
                 head.Rename("castExpression", Members.Cast);
                 head.RootUpModify("parameterDeclarationList", "parameterDeclarationList", ReparentChildren);
+                head.RootUpModify("parameterDeclarationClause", "parameterDeclarationClause", ReparentChildren);
                 head.RootUpModify("simpleTemplateId", "simpleTemplateId", CPPTemplateUsageHandler);
                 head.RootUpModify("nestedNameSpecifier", "nestedNameSpecifier", CPPNestedNameHandler);
                 head.RootUpModify("noPointerDeclarator", "noPointerDeclarator", CPPEarlyNoPointerDeclaratorHandler);
@@ -969,7 +970,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberFieldIdentifier);
                 head.RootUpModify("initializer", "initializer", CPPConstructorIdentifier);
                 head.RootUpModify("constructorInitializer", Members.MethodScope, CPPConstructorInitializerHandler);
-                head.RootUpModify("newExpression", "newExpression", CPPNewExpressionHandler);
+                head.RootUpModify("newExpression", "newExpression", CPPNewExpressionHandler);  //Messes up arrays
                 head.RootUpModify("tryBlock", Members.Try_Catch, CPPTryCatchHandler);
                 head.RootUpModify("handlerSeq", "handlerSeq",ReparentChildren);
                 head.RootUpModify("enumeratorDefinition", "enumeratorDefinition", CPPEnumeratorDefinitionHandler);
@@ -4898,6 +4899,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPInitializerListChecker(IModifiable node)
         {
+            //Console.WriteLine("CPPInitializerListChecker was called!");
+            //node.Parent.Parent.Parent.PrintTreeText();
+            //Console.WriteLine("\n\n\n");
             List<INavigable> parameterNodes = node.Children;
             node.DropChildren();
             foreach (IModifiable parameterNode in parameterNodes)
@@ -5930,6 +5934,10 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPParameterHandler(IModifiable node)
         {
+            //Console.WriteLine("CPPParameterHandler was called!");
+            //node.PrintTreeText();
+            //Console.WriteLine("\n\n\n");
+
             if (node.GetChildCount() > 1)
             {
                 List<INavigable> children = node.Children;
@@ -6267,16 +6275,42 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPNewExpressionHandler(IModifiable node)
         {
-
             // TODO: might include arrays of objects, not clear on how to deal with that yet so for now this is what you get
             // TODO: more testing - this may not be a good if check
+            node.ClearCode(ClearCodeOptions.KeepLine);
+            node.SetNode(Members.ArrayInvoke);
+            IModifiable parameterList = (IModifiable)node.GetFirstSingleLayer("bracedInitList").GetFirstRecursive(Members.ParameterList);
+            node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").GetNthChild(0).Parent = parameterList; //obj reference not set to an instance of an obj 
+            node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newTypeId"));
             if (node.GetFirstSingleLayer("bracedInitList") != null)
             {
-                node.ClearCode(ClearCodeOptions.KeepLine);
-                node.SetNode(Members.ArrayInvoke);
-                IModifiable parameterList = (IModifiable)node.GetFirstSingleLayer("bracedInitList").GetFirstRecursive(Members.ParameterList);
-                node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").GetNthChild(0).Parent = parameterList; //obj reference not set to an instance of an obj
-                node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newTypeId"));
+                /*
+                if (node.GetFirstSingleLayer("bracedInitList").GetNthChild(0).GetChildCount() == 0)
+                {
+                    node.ClearCode(ClearCodeOptions.KeepLine);
+                    node.SetNode(Members.ArrayInvoke);
+                    IModifiable parameterList = (IModifiable)node.GetFirstSingleLayer("bracedInitList").GetFirstRecursive(Members.ParameterList);
+                    node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").GetNthChild(0).Parent = parameterList; //obj reference not set to an instance of an obj 
+                    node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newTypeId"));
+                }
+                else
+                {
+                    node.ClearCode(ClearCodeOptions.KeepLine);
+                    node.SetNode(Members.Array);
+
+                    IModifiable newTypeId = (IModifiable)node.GetFirstSingleLayer("newTypeId");
+                    List<INavigable> children = newTypeId.Children;
+                    newTypeId.DropChildren();
+
+                    foreach (INavigable child in children)
+                    {
+                        if (!child.Equals("noPointerNewDeclarator"))
+                        {
+                            child.Parent = newTypeId;
+                        }
+                    }
+                }
+                */
             }
             else if (node.GetFirstSingleLayer(Members.TypeName) != null)
             {
@@ -6293,6 +6327,9 @@ namespace SoftwareAnalyzer2.Tools
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
+            //Console.WriteLine("CPPNewExpressionHandler outgoing tree: ");
+            //node.PrintTreeText();
+            //Console.WriteLine("\n\n\n");
         }
 
         /// <summary>
@@ -6333,6 +6370,11 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPLateNoPointerDeclaratorHandler(IModifiable node)
         {
+            //Console.WriteLine("CPPLateNoPointerDeclaratorHandler incoming tree: ");
+            //node.PrintTreeText();
+            //Console.WriteLine("\n\n\n");
+
+
             if (node.Code.Equals("[ ]"))
             {
                 // TODO: attach arraySizeParameter to uninstantiated arrays in typedef

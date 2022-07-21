@@ -33,7 +33,9 @@ int main(){
   std::vector<int> intArray1{1,2,3,4,5};  
   std::map<std::string,int> myMap{{"Scott",1976}, {"Dijkstra",1972}};
 
-  // Initialization of a const heap array
+  int foo[7];
+
+  //Initialization of a const heap array
   const float* pData= new const float[3]{1.1,2.2,3.3};
 
   Array arr;

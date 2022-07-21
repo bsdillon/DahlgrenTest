@@ -25,6 +25,10 @@ int function(int x, int y ... ){
 }
 
 int main(){
+	while (int x = 0)
+	{
+		
+	}
 	std::cout << function() << std::endl;
 	std::cout << function(1) << std::endl;
 	std::cout << function(1,2) << std::endl;
