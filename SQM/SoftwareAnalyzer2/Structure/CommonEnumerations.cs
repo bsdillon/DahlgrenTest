@@ -57,6 +57,7 @@ namespace SoftwareAnalyzer2.Structure
         Constructor,
         ConstructorInvoke,
         Continue,
+        LengthModifier, // CPP Data length modifiers
         DotOperator,
         DoWhile,
         Default,
@@ -104,6 +105,7 @@ namespace SoftwareAnalyzer2.Structure
         Scope,
         SelfConstructorInvoke,
         SelfReference,
+        SignedModifier,
         Statement,
         Static,
         Sub_Type,
