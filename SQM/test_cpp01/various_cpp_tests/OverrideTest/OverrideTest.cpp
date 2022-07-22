@@ -36,18 +36,18 @@ void Box::Print() const {
 }
 
 int main(int argc, char** argv) {
-  Rectangle rectangle(5.0, 3.0);
+  //Rectangle rectangle(5.0, 3.0);
 
   // Outputs: Length = 5.0; Width = 3.0
-  rectangle.Print();
+  //rectangle.Print();
 
-  Box box(6.0, 5.0, 4.0);
+  //Box box(6.0, 5.0, 4.0);
 
   // The pointer to the most overridden method in the vtable in on Box::print,
   // but this call does not illustrate overriding.
-  box.Print();
+  //box.Print();
 
   // This call illustrates overriding.
   // outputs: Length = 6.0; Width = 5.0; Height= 4.0
-  static_cast<Rectangle&>(box).Print();
+  //static_cast<Rectangle&>(box).Print();
 }

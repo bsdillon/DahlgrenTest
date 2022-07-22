@@ -4756,7 +4756,15 @@ namespace SoftwareAnalyzer2.Tools
                         Console.WriteLine("Case override occured!" + node);
                         node.SetNode(Members.Override);
                         break;
+                    //case "":
+                    //    if (node.Equals("virtualSpecifierSeq(-1):"))
+                    //    {
+                    //        //node.SetNode(Members.Virtual);
+                    //        Console.WriteLine("This was called");
+                    //    }
+                    //    break;
                     default:
+                        Console.WriteLine("Node code: [" + node.Code + "]"); 
                         throw new InvalidCastException("Unknown modifier: " + node);
                 }
             }
@@ -4899,9 +4907,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPInitializerListChecker(IModifiable node)
         {
-            //Console.WriteLine("CPPInitializerListChecker was called!");
-            //node.Parent.Parent.Parent.PrintTreeText();
-            //Console.WriteLine("\n\n\n");
             List<INavigable> parameterNodes = node.Children;
             node.DropChildren();
             foreach (IModifiable parameterNode in parameterNodes)
@@ -5934,10 +5939,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPParameterHandler(IModifiable node)
         {
-            //Console.WriteLine("CPPParameterHandler was called!");
-            //node.PrintTreeText();
-            //Console.WriteLine("\n\n\n");
-
             if (node.GetChildCount() > 1)
             {
                 List<INavigable> children = node.Children;
@@ -6275,61 +6276,89 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPNewExpressionHandler(IModifiable node)
         {
-            // TODO: might include arrays of objects, not clear on how to deal with that yet so for now this is what you get
-            // TODO: more testing - this may not be a good if check
             node.ClearCode(ClearCodeOptions.KeepLine);
             node.SetNode(Members.ArrayInvoke);
-            IModifiable parameterList = (IModifiable)node.GetFirstSingleLayer("bracedInitList").GetFirstRecursive(Members.ParameterList);
-            node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").GetNthChild(0).Parent = parameterList; //obj reference not set to an instance of an obj 
-            node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newTypeId"));
-            if (node.GetFirstSingleLayer("bracedInitList") != null)
+
+            if (node.GetChildCount() == 1)
             {
-                /*
-                if (node.GetFirstSingleLayer("bracedInitList").GetNthChild(0).GetChildCount() == 0)
+                if (node.GetFirstSingleLayer("bracedInitList") != null)
                 {
-                    node.ClearCode(ClearCodeOptions.KeepLine);
-                    node.SetNode(Members.ArrayInvoke);
                     IModifiable parameterList = (IModifiable)node.GetFirstSingleLayer("bracedInitList").GetFirstRecursive(Members.ParameterList);
                     node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").GetNthChild(0).Parent = parameterList; //obj reference not set to an instance of an obj 
                     node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newTypeId"));
                 }
-                else
+                else if (node.GetFirstSingleLayer(Members.TypeName) != null)
                 {
-                    node.ClearCode(ClearCodeOptions.KeepLine);
-                    node.SetNode(Members.Array);
-
-                    IModifiable newTypeId = (IModifiable)node.GetFirstSingleLayer("newTypeId");
-                    List<INavigable> children = newTypeId.Children;
-                    newTypeId.DropChildren();
-
-                    foreach (INavigable child in children)
+                    ((IModifiable)node.GetFirstSingleLayer(Members.TypeName)).SetNode(Members.ConstructorInvoke);
+                    if (node.GetFirstSingleLayer("newPlacement") != null)
                     {
-                        if (!child.Equals("noPointerNewDeclarator"))
+                        IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
+                        writeNode.Parent = node.GetFirstSingleLayer("newPlacement").GetNthChild(0);
+                        node.GetFirstSingleLayer(Members.ConstructorInvoke).Parent = writeNode;
+                        node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.ConstructorInvoke));
+                        node.ReplaceChild((IModifiable)node.GetFirstSingleLayer("newPlacement"), (IModifiable)node.GetFirstSingleLayer("newPlacement").GetNthChild(0));
+                    }
+                    node.GetFirstRecursive("newInitializer").Parent = node.GetFirstRecursive(Members.ConstructorInvoke);
+                    node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
+                    ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
+                }
+                else if (node.GetFirstSingleLayer("newTypeId") != null)
+                {
+                    if (node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator") != null)
+                    {
+                        string name = node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer(Members.Primitive).Code;
+                        name = name + " " + node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").Code;
+                        node.AddCode(name, node);
+
+                        List<INavigable> children = node.GetFirstSingleLayer("newTypeId").GetFirstSingleLayer("noPointerNewDeclarator").Children;
+                        node.DropChildren();
+                        IModifiable paramList = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                        
+                        foreach (INavigable child in children)
                         {
-                            child.Parent = newTypeId;
+                            IModifiable param = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
+                            child.Parent = param;
+                            param.Parent = paramList;
+                        }
+                        paramList.Parent = node;
+                    }
+                }
+            }
+            else if (node.GetChildCount() == 2) 
+            {
+                IModifiable arr = (IModifiable)NodeFactory.CreateNode(Members.Array, false);
+
+                List<INavigable> children = node.Children;
+                IModifiable parent = (IModifiable)node.Parent;
+                parent.DropChildren();
+                arr.Parent = parent;
+
+                foreach (INavigable child in children)
+                {
+                    if (child.GetFirstSingleLayer(Members.ParameterList) != null)
+                    {
+                        child.GetFirstSingleLayer(Members.ParameterList).Parent = arr;
+                    }
+                    else if (child.GetChildCount() == 1)
+                    {
+                        IModifiable paramList = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                        IModifiable param = (IModifiable)NodeFactory.CreateNode(Members.Parameter, false);
+                        child.GetNthChild(0).Parent = param;
+                        param.Parent = paramList;
+                        paramList.Parent = arr;
+                    }
+                    //Now I need this to be formatted as an array
+                    if (parent.GetNthChild(0).GetFirstSingleLayer(Members.ParameterList) != null)
+                    {
+                        List<INavigable> arrChildren = parent.GetNthChild(0).GetFirstSingleLayer(Members.ParameterList).Children;
+                        arr.DropChildren();
+                        foreach (INavigable arrchild in arrChildren)
+                        {
+                            arrchild.GetNthChild(0).Parent = parent.GetNthChild(0);
                         }
                     }
                 }
-                */
             }
-            else if (node.GetFirstSingleLayer(Members.TypeName) != null)
-            {
-                ((IModifiable)node.GetFirstSingleLayer(Members.TypeName)).SetNode(Members.ConstructorInvoke);
-                if (node.GetFirstSingleLayer("newPlacement") != null)
-                {
-                    IModifiable writeNode = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
-                    writeNode.Parent = node.GetFirstSingleLayer("newPlacement").GetNthChild(0);
-                    node.GetFirstSingleLayer(Members.ConstructorInvoke).Parent = writeNode;
-                    node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.ConstructorInvoke));
-                    node.ReplaceChild((IModifiable)node.GetFirstSingleLayer("newPlacement"), (IModifiable)node.GetFirstSingleLayer("newPlacement").GetNthChild(0));
-                }
-                node.GetFirstRecursive("newInitializer").Parent = node.GetFirstRecursive(Members.ConstructorInvoke);
-                node.RemoveChild((IModifiable)node.GetFirstSingleLayer("newInitializer"));
-                ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
-            }
-            //Console.WriteLine("CPPNewExpressionHandler outgoing tree: ");
-            //node.PrintTreeText();
-            //Console.WriteLine("\n\n\n");
         }
 
         /// <summary>
@@ -6370,19 +6399,26 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPLateNoPointerDeclaratorHandler(IModifiable node)
         {
-            //Console.WriteLine("CPPLateNoPointerDeclaratorHandler incoming tree: ");
-            //node.PrintTreeText();
-            //Console.WriteLine("\n\n\n");
-
-
             if (node.Code.Equals("[ ]"))
             {
                 // TODO: attach arraySizeParameter to uninstantiated arrays in typedef
-                IModifiable arraySizeParameter = null;
-                if (node.GetChildCount() > 1)
+                //IModifiable arraySizeParameter = null;
+                //if (node.GetChildCount() > 1)
+                //{
+                //    arraySizeParameter = (IModifiable)node.GetNthChild(1);
+                //    node.RemoveChild(arraySizeParameter);
+                //}
+                if (node.GetFirstSingleLayer("literal") != null)
                 {
-                    arraySizeParameter = (IModifiable)node.GetNthChild(1);
-                    node.RemoveChild(arraySizeParameter);
+                    List<INavigable> children = node.Children;
+                    node.DropChildren();
+                    foreach (INavigable child in children)
+                    {
+                        if (!child.Node.Equals("literal"))
+                        {
+                            child.Parent = node;
+                        }
+                    }
                 }
 
                 IModifiable targetNode = (IModifiable)node.GetFirstRecursive("bracedInitList");
@@ -6418,12 +6454,12 @@ namespace SoftwareAnalyzer2.Tools
                                 }
                             }
                         }
-                        if (arraySizeParameter != null)
-                        {
-                            IModifiable parameterListExtra = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
-                            parameterListExtra.Parent = arrayNode;
-                            arraySizeParameter.Parent = parameterListExtra;
-                        }
+                        //if (arraySizeParameter != null)
+                        //{
+                        //    IModifiable parameterListExtra = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+                        //    parameterListExtra.Parent = arrayNode;
+                        //    arraySizeParameter.Parent = parameterListExtra;
+                        //}
                     }
                 }
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));

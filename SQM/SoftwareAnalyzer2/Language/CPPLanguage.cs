@@ -64,12 +64,13 @@ namespace SoftwareAnalyzer2.Language
             mapping.Add("bool", "bool");
             mapping.Add("boolean", "bool");
             mapping.Add("Boolean", "bool");
-            mapping.Add("double", "double");
+            mapping.Add("double", "double");//dec(long)  type(long) -> type("long long")
             mapping.Add("Double", "double");
             mapping.Add("Float", "float");
             mapping.Add("float", "float");
             mapping.Add("short", "short");
             mapping.Add("Short", "short");
+            mapping.Add("long long", "64_int");
             //This is just to handle string literals
             mapping.Add("String", "string");
             
