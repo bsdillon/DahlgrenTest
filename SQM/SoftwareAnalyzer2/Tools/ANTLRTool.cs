@@ -959,7 +959,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("enumSpecifier", "enumSpecifier", CPPEnumSpecifierHandler);
                 head.RootUpModify("declSpecifierSeq", "declSpecifierSeq", CPPDeclSpecifierHandler); 
                 head.RootUpModify("storageClassSpecifier", "storageClassSpecifier", CPPModifierModifier);
-
+                
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterHandler);
                 head.RootUpModify(Members.Write, Members.Write, CPPWriteNodeOrderer);
                 head.RootUpModify("memberdeclaration", "memberdeclaration", CPPMemberModifierSetAdjuster);
@@ -4753,16 +4753,14 @@ namespace SoftwareAnalyzer2.Tools
                 switch (node.Code)
                 {
                     case "override":
-                        Console.WriteLine("Case override occured!" + node);
                         node.SetNode(Members.Override);
                         break;
-                    //case "":
-                    //    if (node.Equals("virtualSpecifierSeq(-1):"))
-                    //    {
-                    //        //node.SetNode(Members.Virtual);
-                    //        Console.WriteLine("This was called");
-                    //    }
-                    //    break;
+                    case "":
+                    if (node.Node.Equals("virtualSpecifierSeq"))
+                    {
+                         node.SetNode(Members.Virtual);
+                    }
+                    break;
                     default:
                         Console.WriteLine("Node code: [" + node.Code + "]"); 
                         throw new InvalidCastException("Unknown modifier: " + node);
@@ -5409,6 +5407,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="node"></param>
         private void CPPDeclSpecifierHandler(IModifiable node)
         {
+            //Console.WriteLine("\n\n\nIncoming CPPDeclSpecifierHandler tree");
+            //node.Parent.Parent.PrintTreeText();
+            //Console.WriteLine("\n\n");
 
             if (node.Parent == node.GetAncestor(Members.Method)) 
             {
@@ -5419,9 +5420,15 @@ namespace SoftwareAnalyzer2.Tools
                 node.SetNode(Members.Type);
             }
 
+            if (node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("functionSpecifier") != null)
+            {
+                IModifiable virtualFunc = (IModifiable)node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("functionSpecifier");
+                virtualFunc.SetNode(Members.Virtual);
+            }
+
             //The purpose of the following is to reformat data types.
             //It doesn't catch all cases (and can't at this level)
-            if (node.GetNthChild(0).GetFirstSingleLayer(Members.MethodInvoke) == null && node.GetFirstSingleLayer("declSpecifier") != null)
+            if (node.GetNthChild(0).GetFirstSingleLayer(Members.MethodInvoke) == null && node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("typeSpecifier") != null)
             {
                 List<INavigable> declChildren = node.Children;
                 string primitiveName = "";
@@ -5555,6 +5562,10 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPClassSpecifierHandler(IModifiable node)
         {
+            //Console.WriteLine("\n\nIncoming CPPClassSpecifierHandler tree:");
+            //node.PrintTreeText();
+            //Console.WriteLine("\n\n");
+
             node.ClearCode(ClearCodeOptions.ClearAll);
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
             if (classHeadNode.Code.Equals("union"))
@@ -5694,6 +5705,10 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPDeclaratorHandler(IModifiable node)
         {
+            //Console.WriteLine("\n\nIncoming CPPDeclaratorHandler tree:");
+            //node.Parent.PrintTreeText();
+            //Console.WriteLine("\n\n");
+
             if (!node.Parent.Node.Equals(Members.Method))
             {
                 if (node.GetChildCount() == 2 && node.GetNthChild(1).Node.Equals(Members.ParameterList))
@@ -5718,8 +5733,17 @@ namespace SoftwareAnalyzer2.Tools
                         }
                         if (node.Parent.GetFirstSingleLayer("virtualSpecifierSeq") != null)
                         {
+                            if (node.GetFirstSingleLayer("virtualSpecifierSeq") != null)
+                            {
+                                if (node.GetFirstSingleLayer("virtualSpecifierSeq").Code.Equals("override"))
+                                {
+                                    IModifiable oRide = (IModifiable)node.GetFirstSingleLayer("virtualSpecifierSeq");
+                                    oRide.SetNode(Members.Override);
+                                }
+                            }
                             node.Parent.GetFirstSingleLayer("virtualSpecifierSeq").Parent = memberDeclarationNode;
                         }
+                        
                         memberDeclarationNode.ReplaceChild((IModifiable)memberDeclarationNode.GetNthChild(0), (IModifiable)node.GetNthChild(0));
                     }
                     else
@@ -6080,6 +6104,27 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPModifierSender(IModifiable node)
         {
+            //Console.WriteLine("\n\nCPPModifierSender incoming tree:");
+            //node.Parent.PrintTreeText();
+            //Console.WriteLine("\n\n");
+            if (node.Parent.GetFirstSingleLayer(Members.Virtual) != null)
+            {
+                IModifiable nodeParent = (IModifiable)node.Parent;
+                List<INavigable> children = nodeParent.Children;
+                IModifiable vrt = (IModifiable)nodeParent.GetFirstSingleLayer(Members.Virtual);
+                nodeParent.DropChildren();
+
+                foreach (INavigable child in children)
+                {
+                    Console.WriteLine(child);
+                    if (!child.Node.Equals(Members.Virtual))
+                    {
+                        child.Parent = nodeParent;
+                    }
+                }
+
+                vrt.Parent = node.Parent.GetFirstSingleLayer(Members.Method).GetFirstSingleLayer(MemberSets.ModifierSet);
+            }
             if (node.Node.Equals("declSpecifier") && node.Code.Equals(""))
             {
                 return;
@@ -6096,8 +6141,13 @@ namespace SoftwareAnalyzer2.Tools
                 targetNode = (IModifiable)targetNode.Parent;
                 
             }
+
             node.Parent = targetNode.GetFirstSingleLayer(MemberSets.ModifierSet);
             (oldParent).RemoveChild(node);
+
+            //Console.WriteLine("\n\nCPPModifierSender outgoing tree:");
+            //node.Parent.Parent.Parent.PrintTreeText();
+            //Console.WriteLine("\n\n");
         }
 
         /// <summary>
@@ -6596,6 +6646,9 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPConstructorInitializerHandler(IModifiable node)
         {
+            Console.WriteLine("\n\nCPPConstructorInitializerHandler incoming tree:");
+            node.PrintTreeText();
+            Console.WriteLine("\n\n");
             // making an executive decision on how to represent these original AST nodes as SQM nodes
             ReparentChildren((IModifiable)node.GetNthChild(0));
             List<INavigable> children = node.Children;
@@ -6634,6 +6687,9 @@ namespace SoftwareAnalyzer2.Tools
                     child.RemoveChild((IModifiable)child.GetNthChild(1));
                 }
             }
+            Console.WriteLine("\n\nCPPConstructorInitializerHandler outgoing tree:");
+            node.PrintTreeText();
+            Console.WriteLine("\n\n");
         }
 
         /// <summary>
