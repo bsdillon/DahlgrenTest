@@ -70,10 +70,44 @@ namespace SoftwareAnalyzer2.Language
             mapping.Add("float", "float");
             mapping.Add("short", "short");
             mapping.Add("Short", "short");
-            mapping.Add("long long", "64_int");
-            //This is just to handle string literals
             mapping.Add("String", "string");
+
+            //The following is based off:
+            //https://en.cppreference.com/w/cpp/language/types
+            /*
+            mapping.Add("short", "16_int");
+            mapping.Add("short int", "16_int");
+            mapping.Add("signed short", "16_int");
+            mapping.Add("signed short int", "16_int");
+
+            mapping.Add("unsigned short", "16_int");
+            mapping.Add("unsigned short int", "16_int");
+            mapping.Add("int", "16_int");
+            mapping.Add("signed", "16_int");
+            mapping.Add("signed int", "16_int");
+
+            mapping.Add("unsigned", "16_int");
+            mapping.Add("unsigned int", "16_int");
+            mapping.Add("16_int", "16_int");
             
+            mapping.Add("long", "32_int");
+            mapping.Add("long int", "32_int");
+            mapping.Add("signed long", "32_int");
+            mapping.Add("signed long int", "32_int");
+
+            mapping.Add("unsigned long", "32_int");
+            mapping.Add("unsigned long int", "32_int");
+            mapping.Add("32_int", "32_int");
+
+            mapping.Add("long long", "64_int");
+            mapping.Add("long long int", "64_int");
+            mapping.Add("signed long long", "64_int");
+            mapping.Add("signed long long int", "64_int");
+            mapping.Add("unsigned long long", "64_int");
+            mapping.Add("unsigned long long int", "64_int");
+            mapping.Add("64_int", "64_int");
+            */
+
 
             defaultVal = new Dictionary<string, string>();
             defaultVal.Add("int", "0");
