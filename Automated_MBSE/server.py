@@ -7,16 +7,33 @@ serverPort = 8080
 class MyServer(BaseHTTPRequestHandler):
 
     def do_POST(self):
-        #self.send_response(200)
+        self.send_response(200)
         self.send_response_only(200)
-        print("works")
-        print(self.command)
-        print(self.headers)
-        print(self.connection)
-        print(self.request)
         content_len = int(self.headers.get('Content-Length'))
-        post_body = self.rfile.read(content_len)
-        print(post_body)
+        command = str(self.rfile.read(content_len))
+        command = command.split('=')
+        print(command)
+        # /create_package/package_name
+        if command[0] == "b'create_package":
+            MBSE.add_package(command[1][:-1])
+            print("created " + command[1][:-1])
+
+        # /create_class/class_name
+        elif command[0] == "b'create_class":
+            MBSE.add_class(command[1][:-1])
+            print("created " + command[1][:-1])
+
+        # /create_method/class_name/method_name
+        # Class_name = " + member.Represented.Code + " = " + static + " = " + scope;
+        elif command[0] == "b'create_method":
+            MBSE.add_method_to_class(command[2], command[1], command[4], bool(command[3]), "")
+            print("created " + command[1] + " with " + command[3])
+        elif command[0] == "b'print_uml":
+            MBSE.print_uml()
+        else:
+            print("error")
+        print("received")
+        MBSE.print_uml("code")
 
     def do_GET(self):
         self.send_response(200)
@@ -28,27 +45,8 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<p>Your request was received and is processing.</p>", "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
         print(self.path)
-        command = self.path.split('/')
+        command = self.path.split('=')
         print(command)
-
-        # /create_package/package_name
-        if command[1] == "create_package":
-            MBSE.add_package(command[2])
-            print("created " + command[2])
-
-        # /create_class/class_name
-        elif command[1] == "create_class":
-            MBSE.add_class(command[2])
-            print("created " + command[2])
-
-        # /create_method/class_name/method_name
-        elif command[1] == "create_method":
-            MBSE.add_method_to_class(command[2], command[3])
-            print("created " + command[2] + " with " + command[3])
-        else:
-            print("error")
-        print("received")
-        MBSE.print_uml("code")
 
 
 if __name__ == "__main__":

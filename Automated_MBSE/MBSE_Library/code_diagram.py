@@ -37,6 +37,54 @@ class CodeDiagram:
         print("Code Diagram created successfully")
 
     @staticmethod
+    def print_method_diagram():
+        file1 = open("method_diagram.txt", "w")
+        content = "@startuml\n"
+
+        for c in PlantumlClass.get_class_list():
+            if c.get_methods():
+                content += "map " + c.get_class_name() + " {\n"
+                for m in c.get_methods():
+                    content += m.get_modifier()
+                    if m.get_static():
+                        content += "__" + m.get_method() + "__"
+                    else:
+                        content += m.get_method()
+                    content += " => " + m.get_return_type() + "\n"
+                content += "}\n"
+
+        for c in PlantumlClass.get_class_list():
+            for m in c.get_methods():
+                if m.get_call_classes():
+                    for i in range(len(m.get_call_classes())):
+                        content += c.get_class_name() + "::"
+                        content += m.get_modifier()
+                        if m.get_static():
+                            content += "__" + m.get_method() + "__"
+                        else:
+                            content += m.get_method()
+                        content += " --> "
+                        call_c = m.get_call_classes()
+                        call_m = m.get_call_methods()
+                        for cc in PlantumlClass.get_class_list():
+                            if cc.get_class_name() == str(call_c[i]):
+                                for mm in cc.get_methods():
+                                    print(mm.get_method())
+                                    print(call_m[i])
+                                    if mm.get_method() == call_m[i]:
+                                        content += cc.get_class_name() + "::"
+                                        content += mm.get_modifier()
+                                        if mm.get_static():
+                                            content += "__" + mm.get_method() + "__"
+                                        else:
+                                            content += mm.get_method()
+                                        content += "\n"
+        content += "@enduml"
+        file1.writelines(content)
+        file1.close()
+        print("Method Diagram created successfully")
+
+    @staticmethod
     def class_with_methods(c):
         content = ""
         class_name = c.get_class_name()

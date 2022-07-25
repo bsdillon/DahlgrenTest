@@ -1,0 +1,10 @@
+@startuml
+map User {
+method3 => 
+}
+map Core {
++__method1__ => void
+method2 => 
+}
+User::method3 --> Core::+__method1__
+@enduml

@@ -34,31 +34,36 @@ if __name__ == '__main__':
     MBSE.add_relationship("message_attribute", "filter", "Association")
     MBSE.add_relationship("filter", "Sequence", "Association")
     MBSE.add_relationship("filter", "Communication", "Association")
-    MBSE.add_method_to_class("method1", "User")
+    MBSE.add_method_to_class("method3", "User")
     MBSE.add_method_to_class("method1", "Core", "public", True, "void")
     MBSE.add_method_to_class("method2", "Core")
     MBSE.add_variable_to_class("v1", "Core")
     MBSE.add_variable_to_class("v1", "Core", "private", True, "String")
 
-    MBSE.load_file("40path.csv")
-    MBSE.create_box("East Coast")
-    MBSE.add_to_box("New York", "East Coast")
-    MBSE.add_to_box("Atlanta", "East Coast")
-    MBSE.add_to_box("Washington", "East Coast")
+    MBSE.add_method_connection("User", "method3", "Core", "method1")
+
+    # MBSE.create_box("East Coast")
+    # MBSE.add_to_box("New York", "East Coast")
+    # MBSE.add_to_box("Atlanta", "East Coast")
+    # MBSE.add_to_box("Washington", "East Coast")
     MBSE.color("Chicago", "red")
     MBSE.highlight_out("Dallas")
     MBSE.highlight_in("Denver")
-    MBSE.set_unimportant("Los Angeles")
+    #MBSE.load_file("40path.csv")
+    #MBSE.set_unimportant("Los Angeles")
+
+    #MBSE.load_linear_diagram("projectbob")
     MBSE.print_uml()
-    MBSE.save("project1")
+    #MBSE.compare("graph11", "graph12")
+    #MBSE.save_code_diagram("project1")
+    #MBSE.save_linear_diagram("graph12")
 
     from MBSE_Library import PlantUmlCommunicationDiagram
 
-    #communication_diagram = PlantUmlCommunicationDiagram("testdata.txt")
-    #communication_diagram.print_uml()
-    #communication_diagram.print_sequence_uml("Site B", "Site A")
-    #communication_diagram.print_sequence_uml_with_other_pillar("Site A", "Site B")
-
+    # communication_diagram = PlantUmlCommunicationDiagram("testdata.txt")
+    # communication_diagram.print_uml()
+    # communication_diagram.print_sequence_uml("Site B", "Site A")
+    # communication_diagram.print_sequence_uml_with_other_pillar("Site A", "Site B")
 
     #######################################
     # Rest of file controls terminal input#

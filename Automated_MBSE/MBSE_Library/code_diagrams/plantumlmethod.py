@@ -5,6 +5,8 @@ class PlantumlMethod:
         self.return_type = return_type
         self.static = False
         self.modifier = modifier
+        self.call_classes = []
+        self.call_methods = []
 
     def get_method(self):
         return self.method
@@ -35,3 +37,13 @@ class PlantumlMethod:
             return "#"
         else:
             return ""
+
+    def add_method_connection(self, class_receiver, method_receiver):
+        self.call_classes.append(class_receiver)
+        self.call_methods.append(method_receiver)
+
+    def get_call_classes(self):
+        return self.call_classes
+
+    def get_call_methods(self):
+        return self.call_methods

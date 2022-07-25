@@ -1,3 +1,6 @@
+import os
+import pickle
+
 from MBSE_Library import Relationships, Node
 import csv
 
@@ -158,3 +161,140 @@ class LinearDiagram:
         file.writelines(content)
         file.close()
         print("Sequence Diagram created successfully")
+
+    @staticmethod
+    def ld_compare(model1, model2):
+        sender1 = []
+        receiver1 = []
+        message1 = []
+        order1 = []
+        node1 = []
+
+        sender2 = []
+        receiver2 = []
+        message2 = []
+        order2 =[]
+        node2 = []
+
+        # Load model1
+        cd = os.path.join(model1, "linear_diagrams", "nodes")
+        for file in os.scandir(cd):
+            name, extension = os.path.splitext(file)
+            if extension == '.txt':
+                file_pi2 = open(file, 'rb')
+                c = pickle.load(file_pi2)
+                node1.append(c)
+
+        with open(model1 + "/linear_diagrams/edges/edges.csv", 'r') as file:
+            reader = csv.reader(file, delimiter=',')
+            for row in reader:
+                sender1.append(row[0])
+                receiver1.append(row[1])
+                message1.append(row[2])
+
+        for i in range(len(sender1)):
+            updated = False
+            for o in order1:
+                if o.get_sender() == sender1[i] and o.get_receiver() == receiver1[i]:
+                    o.increment()
+                    updated = True
+                    break
+            if not updated:
+                r = Relationships(sender1[i], receiver1[i])
+                order1.append(r)
+        cd = os.path.join(model2, "linear_diagrams", "nodes")
+        for file in os.scandir(cd):
+            name, extension = os.path.splitext(file)
+            if extension == '.txt':
+                file_pi2 = open(file, 'rb')
+                c = pickle.load(file_pi2)
+                node2.append(c)
+
+        # Load model2
+        with open(model2 + "/linear_diagrams/edges/edges.csv", 'r') as file:
+            reader = csv.reader(file, delimiter=',')
+            for row in reader:
+                sender2.append(row[0])
+                receiver2.append(row[1])
+                message2.append(row[2])
+
+        for i in range(len(sender2)):
+            updated = False
+            for o in order2:
+                if o.get_sender() == sender2[i] and o.get_receiver() == receiver2[i]:
+                    o.increment()
+                    updated = True
+                    break
+            if not updated:
+                r = Relationships(sender2[i], receiver2[i])
+                order2.append(r)
+
+        # Compare/print diagrams (Sequence)
+        file = open("compared.txt", "w")
+        content = "@startuml\n"
+
+        nodecopy1 = []
+        nodecopy2 = []
+
+        for n1 in node1:
+            nodecopy1.append(n1)
+        for n2 in node2:
+            nodecopy2.append(n2)
+
+        for n1 in node1:
+            for n2 in node2:
+                if n1.get_name() == n2.get_name():
+                    nodecopy1.remove(n1)
+                    nodecopy2.remove(n2)
+                    if n1.get_importance() and n2.get_importance():
+                        content += 'participant "' + str(n1.get_name()) + '" as ' + n1.get_name().replace(" ", "")
+                        content += "\n"
+                    elif n1.get_importance():
+                        content += 'participant "' + n1.get_name() + '" as ' + n1.get_name().replace(" ", "") + " #red"
+                        content += "\n"
+                    elif n2.get_importance():
+                        content += 'participant "' + n1.get_name() + '" as ' + n1.get_name().replace(" ", "") + " #green"
+                        content += "\n"
+                    else:
+                        print("error comparing " + n1.get_name() + " and " + n2.get_name())
+        for n in nodecopy1:
+            content += 'participant "' + n.get_name() + '" as ' + n.get_name().replace(" ", "") + " #red"
+            content += "\n"
+        for n in nodecopy2:
+            content += 'participant "' + n.get_name() + '" as ' + n.get_name().replace(" ", "") + " #green"
+            content += "\n"
+
+        for i in range(len(LinearDiagram.sender)):
+            stop = False
+            for n in LinearDiagram.nodes:
+                if LinearDiagram.sender[i] == n.get_name() and not n.get_importance():
+                    stop = True
+            for n in LinearDiagram.nodes:
+                if LinearDiagram.receiver[i] == n.get_name() and not n.get_importance():
+                    stop = True
+            if not stop:
+                out_list = []
+                in_list = []
+                for n in LinearDiagram.nodes:
+                    if n.get_highlighted_in():
+                        in_list.append(n.get_name())
+                    if n.get_highlighted_out():
+                        out_list.append(n.get_name())
+
+                content += str(LinearDiagram.sender[i]).replace(" ", "")
+                content += " -"
+                if LinearDiagram.sender[i] in out_list:
+                    content += "[#yellow]>"
+                elif LinearDiagram.receiver[i] in in_list:
+                    content += "[#lightblue]>"
+                else:
+                    content += ">"
+
+                content += str(LinearDiagram.receiver[i]).replace(" ", "")
+                content += " : "
+                content += str(LinearDiagram.message_type[i]).replace(" ", "")
+                content += " \n"
+        content += "@enduml"
+        file.writelines(content)
+        file.close()
+        print("Diagrams compared successfully")
