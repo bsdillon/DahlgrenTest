@@ -299,6 +299,10 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                                     else
                                     {
                                         csvPaths.Add(fName);
+                                        if (csvPaths != null){ 
+                                            CriticalcheckBox1.Visible = !CriticalcheckBox1.Visible;
+                                        }
+                                        
                                     }
                                 }
                             }
@@ -308,9 +312,15 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             }
             //display the filepath(s) the user selected
             filePathTextBox.Text = String.Join(", ", csvPaths);
+
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CriticalcheckBox1_CheckedChanged(object sender, EventArgs e)
         {
 
         }

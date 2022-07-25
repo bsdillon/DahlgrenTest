@@ -47,17 +47,19 @@
             // fileNameLabel
             // 
             this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(3, 16);
+            this.fileNameLabel.Location = new System.Drawing.Point(4, 20);
+            this.fileNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.fileNameLabel.Name = "fileNameLabel";
-            this.fileNameLabel.Size = new System.Drawing.Size(52, 13);
+            this.fileNameLabel.Size = new System.Drawing.Size(69, 17);
             this.fileNameLabel.TabIndex = 0;
             this.fileNameLabel.Text = "File name";
             // 
             // FileText
             // 
-            this.FileText.Location = new System.Drawing.Point(72, 13);
+            this.FileText.Location = new System.Drawing.Point(96, 16);
+            this.FileText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.FileText.Name = "FileText";
-            this.FileText.Size = new System.Drawing.Size(136, 20);
+            this.FileText.Size = new System.Drawing.Size(180, 22);
             this.FileText.TabIndex = 1;
             // 
             // fileOverwrite
@@ -65,17 +67,19 @@
             this.fileOverwrite.AutoSize = true;
             this.fileOverwrite.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fileOverwrite.ForeColor = System.Drawing.Color.Red;
-            this.fileOverwrite.Location = new System.Drawing.Point(58, 16);
+            this.fileOverwrite.Location = new System.Drawing.Point(77, 20);
+            this.fileOverwrite.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.fileOverwrite.Name = "fileOverwrite";
-            this.fileOverwrite.Size = new System.Drawing.Size(11, 13);
+            this.fileOverwrite.Size = new System.Drawing.Size(12, 17);
             this.fileOverwrite.TabIndex = 3;
             this.fileOverwrite.Text = "!";
             // 
             // ModuleButton
             // 
-            this.ModuleButton.Location = new System.Drawing.Point(30, 366);
+            this.ModuleButton.Location = new System.Drawing.Point(40, 450);
+            this.ModuleButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.ModuleButton.Name = "ModuleButton";
-            this.ModuleButton.Size = new System.Drawing.Size(142, 22);
+            this.ModuleButton.Size = new System.Drawing.Size(189, 27);
             this.ModuleButton.TabIndex = 4;
             this.ModuleButton.Text = "Create Module Graph";
             this.ModuleButton.UseVisualStyleBackColor = true;
@@ -83,9 +87,10 @@
             // 
             // output
             // 
-            this.output.Location = new System.Drawing.Point(6, 36);
+            this.output.Location = new System.Drawing.Point(8, 44);
+            this.output.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.output.Name = "output";
-            this.output.Size = new System.Drawing.Size(202, 17);
+            this.output.Size = new System.Drawing.Size(269, 21);
             this.output.TabIndex = 5;
             this.output.Text = "label1";
             this.output.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -93,10 +98,10 @@
             // csvCheckBox
             // 
             this.csvCheckBox.AutoSize = true;
-            this.csvCheckBox.Location = new System.Drawing.Point(6, 55);
-            this.csvCheckBox.Margin = new System.Windows.Forms.Padding(2);
+            this.csvCheckBox.Location = new System.Drawing.Point(8, 68);
+            this.csvCheckBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.csvCheckBox.Name = "csvCheckBox";
-            this.csvCheckBox.Size = new System.Drawing.Size(110, 17);
+            this.csvCheckBox.Size = new System.Drawing.Size(143, 21);
             this.csvCheckBox.TabIndex = 6;
             this.csvCheckBox.Text = "CSV Input File(s)?";
             this.csvCheckBox.UseVisualStyleBackColor = true;
@@ -104,21 +109,21 @@
             // 
             // filePathTextBox
             // 
-            this.filePathTextBox.Location = new System.Drawing.Point(9, 76);
-            this.filePathTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.filePathTextBox.Location = new System.Drawing.Point(12, 94);
+            this.filePathTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.filePathTextBox.Multiline = true;
             this.filePathTextBox.Name = "filePathTextBox";
             this.filePathTextBox.ReadOnly = true;
-            this.filePathTextBox.Size = new System.Drawing.Size(189, 85);
+            this.filePathTextBox.Size = new System.Drawing.Size(251, 104);
             this.filePathTextBox.TabIndex = 7;
             this.filePathTextBox.Visible = false;
             // 
             // browseButton
             // 
-            this.browseButton.Location = new System.Drawing.Point(6, 178);
-            this.browseButton.Margin = new System.Windows.Forms.Padding(2);
+            this.browseButton.Location = new System.Drawing.Point(8, 219);
+            this.browseButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(70, 24);
+            this.browseButton.Size = new System.Drawing.Size(93, 30);
             this.browseButton.TabIndex = 8;
             this.browseButton.Text = "Browse";
             this.browseButton.UseVisualStyleBackColor = true;
@@ -128,10 +133,9 @@
             // formatExample
             // 
             this.formatExample.AutoSize = true;
-            this.formatExample.Location = new System.Drawing.Point(6, 163);
-            this.formatExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.formatExample.Location = new System.Drawing.Point(8, 201);
             this.formatExample.Name = "formatExample";
-            this.formatExample.Size = new System.Drawing.Size(166, 13);
+            this.formatExample.Size = new System.Drawing.Size(228, 17);
             this.formatExample.TabIndex = 9;
             this.formatExample.Text = "Format: file, line, error, property, ...";
             this.formatExample.Visible = false;
@@ -142,10 +146,10 @@
             // 
             // criticalBrowseButton
             // 
-            this.criticalBrowseButton.Location = new System.Drawing.Point(6, 329);
-            this.criticalBrowseButton.Margin = new System.Windows.Forms.Padding(2);
+            this.criticalBrowseButton.Location = new System.Drawing.Point(8, 405);
+            this.criticalBrowseButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.criticalBrowseButton.Name = "criticalBrowseButton";
-            this.criticalBrowseButton.Size = new System.Drawing.Size(70, 24);
+            this.criticalBrowseButton.Size = new System.Drawing.Size(93, 30);
             this.criticalBrowseButton.TabIndex = 10;
             this.criticalBrowseButton.Text = "Browse";
             this.criticalBrowseButton.UseVisualStyleBackColor = true;
@@ -154,12 +158,12 @@
             // 
             // criticalFilePathTextBox
             // 
-            this.criticalFilePathTextBox.Location = new System.Drawing.Point(9, 227);
-            this.criticalFilePathTextBox.Margin = new System.Windows.Forms.Padding(2);
+            this.criticalFilePathTextBox.Location = new System.Drawing.Point(12, 279);
+            this.criticalFilePathTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.criticalFilePathTextBox.Multiline = true;
             this.criticalFilePathTextBox.Name = "criticalFilePathTextBox";
             this.criticalFilePathTextBox.ReadOnly = true;
-            this.criticalFilePathTextBox.Size = new System.Drawing.Size(189, 85);
+            this.criticalFilePathTextBox.Size = new System.Drawing.Size(251, 104);
             this.criticalFilePathTextBox.TabIndex = 11;
             this.criticalFilePathTextBox.Visible = false;
             this.criticalFilePathTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
@@ -167,10 +171,9 @@
             // criticalFormatExample
             // 
             this.criticalFormatExample.AutoSize = true;
-            this.criticalFormatExample.Location = new System.Drawing.Point(6, 314);
-            this.criticalFormatExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.criticalFormatExample.Location = new System.Drawing.Point(8, 386);
             this.criticalFormatExample.Name = "criticalFormatExample";
-            this.criticalFormatExample.Size = new System.Drawing.Size(166, 13);
+            this.criticalFormatExample.Size = new System.Drawing.Size(228, 17);
             this.criticalFormatExample.TabIndex = 12;
             this.criticalFormatExample.Text = "Format: file, line, error, property, ...";
             this.criticalFormatExample.Visible = false;
@@ -178,18 +181,20 @@
             // CriticalcheckBox1
             // 
             this.CriticalcheckBox1.AutoSize = true;
-            this.CriticalcheckBox1.Location = new System.Drawing.Point(6, 206);
-            this.CriticalcheckBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.CriticalcheckBox1.Location = new System.Drawing.Point(8, 254);
+            this.CriticalcheckBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CriticalcheckBox1.Name = "CriticalcheckBox1";
-            this.CriticalcheckBox1.Size = new System.Drawing.Size(153, 17);
+            this.CriticalcheckBox1.Size = new System.Drawing.Size(200, 21);
             this.CriticalcheckBox1.TabIndex = 13;
             this.CriticalcheckBox1.Text = "Critical Security Functions?";
             this.CriticalcheckBox1.UseVisualStyleBackColor = true;
+            this.CriticalcheckBox1.Visible = false;
+            this.CriticalcheckBox1.CheckedChanged += new System.EventHandler(this.CriticalcheckBox1_CheckedChanged);
             this.CriticalcheckBox1.Click += new System.EventHandler(this.criticalCsvCheckBox_CheckedChanged);
             // 
             // MetricPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.CriticalcheckBox1);
             this.Controls.Add(this.criticalFormatExample);
@@ -204,8 +209,9 @@
             this.Controls.Add(this.fileOverwrite);
             this.Controls.Add(this.FileText);
             this.Controls.Add(this.fileNameLabel);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MetricPanel";
-            this.Size = new System.Drawing.Size(211, 409);
+            this.Size = new System.Drawing.Size(281, 503);
             this.ResumeLayout(false);
             this.PerformLayout();
 

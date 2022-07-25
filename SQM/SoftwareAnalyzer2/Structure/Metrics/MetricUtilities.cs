@@ -700,28 +700,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             throw new InvalidOperationException("There is no record of GephiNode " + m);
         }
 
-        //this function converts a GraphNode to an abbrievatedgraph, and then uses the abbreviated graph to find any related GephiNodes
-        //any GephiNode found has the user-inputted "error property" added to the property dictionary with the value of the user-inputted "error description"
-        internal static void GephiFromGraphNode(GraphNode gn, string errorD, string errorP)
-        {
-            AbbreviatedGraph aG = AbbreviatedGraph.Create(NodeFactory.CreateNode(gn.Represented.Node.ToString(), gn.Represented.Code, gn.Represented.FileName, gn.Represented.GetFileLineRange()));
-
-            foreach (INode r in representedIndex.Keys)
-            {
-                //the comparison between INodes is not working as intended, but these comparisons ensure a match
-                if(r.Node == aG.Represented.Node &&
-                   r.Code == aG.Represented.Code &&
-                   r.FileName == aG.Represented.FileName &&
-                   r.GetFileLineRange() == aG.Represented.GetFileLineRange() &&
-                   GephiExists(representedIndex[r].Item2))
-                {
-                    //add the user-inputted error property/description into the GephiNode that corresponds with the GraphNode.
-                    GephiNode gephiN = GephiFromGraph(representedIndex[r].Item2);
-                    //the .gph file has already been outputted by the time this logic is reached, but the property will be added to the programmatic GephiNode
-                    gephiN.AddProperty(errorP, errorD);
-                }
-            }
-        }
         internal static GephiNode[] AllNodes
         {
             get

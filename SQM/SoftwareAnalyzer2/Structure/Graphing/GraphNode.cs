@@ -115,72 +115,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         #region Fields
         //fields to keep track of the affected line numbers, relationships, parents, children, statements, etc. based on csv inputs
         private Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>> relationshipsTo = new Dictionary<Relationship, Dictionary<GraphNode, List<Statement>>>();
-        private static Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = new Dictionary<string, Dictionary<int, List<GraphNode>>>();
-        private List<GraphNode> parentGNs = new List<GraphNode>();
-        private List<GraphNode> childrenGNs = new List<GraphNode>();
-        private static Dictionary<GraphNode, int> combinedDict = new Dictionary<GraphNode, int>();
-        public Dictionary<string, List<int>> statementDetails = new Dictionary<string, List<int>>();
         public bool outputPrint = false;
         public bool dictPrint = false;
-
-        public List<GraphNode> GetParentGNs() { return parentGNs; }
-        public List<GraphNode> GetChildrenGNs() { return childrenGNs; }
-        public Dictionary<GraphNode, int> GetCombinedDict() { return combinedDict; }
-
-
-        //child node does the calling, passing in the parent node as a parameter
-        public void AddToParentAndChildrenLists(GraphNode g)
-        {
-            //parents can be null
-            if (g == null)
-            {
-                this.parentGNs.Add(g);
-                InsertIntoCombinedDict(g);
-            }
-            //this else-if starts the process of avoiding any parents becoming their own children or children becoming their own parents, causing problems with recursion
-            else if (!this.childrenGNs.Contains(g) && !g.parentGNs.Contains(this) && this != g)
-            {
-                if (!this.IsSimulated && !g.IsSimulated)
-                {
-                    //avoiding children-parents continued
-                    if (!this.parentGNs.Contains(g))
-                    {
-                        this.parentGNs.Add(g);
-                        //combineddict is a dictionary that holds all of the children and parent values. it is used to avoid duplicate printouts in the output
-                        InsertIntoCombinedDict(g);
-                    }
-                    //avoiding children-parents continued
-                    if (g != null && !g.childrenGNs.Contains(this))
-                    {
-                        g.childrenGNs.Add(this);
-                        InsertIntoCombinedDict(this);
-                    }
-                }
-            }
-        }
-
-        //used to prevent printing duplicate values/nodes within the output file
-        private void InsertIntoCombinedDict(GraphNode g)
-        {
-            if (g != null)
-            {
-                if (combinedDict.ContainsKey(g))
-                {
-                    combinedDict[g] = combinedDict[g] + 1;
-                }
-                else
-                {
-                    combinedDict[g] = 1;
-                }
-            }
-
-        }
-        
-        //linenumdict is built using the nodes/edges from the .gph file
-        public static Dictionary<string, Dictionary<int, List<GraphNode>>> GetLineNumDict()
-        {
-            return lineNumDict;
-        }
 
         protected INode represented;
         public INode Represented
@@ -576,7 +512,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
         #region Save
         protected bool explored = false;
-        public bool traced = false;
         protected long myNodeID = -1;
         private int parentLineNum = -1;
         /// <summary>
@@ -651,8 +586,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
         public void WriteNode()
         {
-            //store this node in linenumdict for use in tracing errors
-            WriteToLineDict(lineNumDict, this, represented.FileName, represented.GetLineStart(), true);
             string graph = "Node\t" + myNodeID + "\t" + represented.Node;
 
             if (represented.Code.Length == 0)
@@ -727,50 +660,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                 fileName = " ";
             }
             graphFile.WriteLine("Edge\t" + source + "\t" + destination + "\t" + scope + "\t" + r + "\t" + weight + "\t" + lineNumber + "\t" + fileName);
-
-            //store this edge in linenumdict for use in tracing errors
-            WriteToLineDict(lineNumDict, gn, fileName, lineNumber, true);
-        }
-
-        private void WriteToLineDict(Dictionary<string, Dictionary<int, List<GraphNode>>> dict, GraphNode gn, string fileName, int lineNumber, bool trimFileN)
-        {
-            //simulated graphnodes are not very meaningful for tracing errors
-            if(fileName != null)
-            {       
-                //trim filename for affected dict, but not linenumber dict
-                if(trimFileN && fileName.LastIndexOf(Path.DirectorySeparatorChar) > 0)
-                {
-                    fileName = fileName.Substring(fileName.LastIndexOf(Path.DirectorySeparatorChar));
-                }
-                
-                Dictionary<int, List<GraphNode>> gnLine = new Dictionary<int, List<GraphNode>>();
-                gnLine[lineNumber] = new List<GraphNode>();
-                gnLine[lineNumber].Add(gn);
-
-                //add to linenumber dictionary
-                //does the dict contain the filename?
-                if (!dict.ContainsKey(fileName))
-                {
-                    dict.Add(fileName, gnLine);
-                }
-                else
-                {
-                    //if the dict contains the filename, does it also contain the line number?
-                    if (dict[fileName].ContainsKey(lineNumber))
-                    {
-                        //if it doesn't contain the exact graphnode we are inserting, insert it
-                        if (!dict[fileName][lineNumber].Contains(gn))
-                        {
-                            dict[fileName][lineNumber].Add(gn);
-                        }
-                    }
-                    else
-                    {
-                        //if it doesn't contain the line number, safe to insert.
-                        dict[fileName].Add(lineNumber, gnLine[lineNumber]);
-                    }
-                }
-            }
         }
 
         protected const long NO_SCOPE = -1;

@@ -12,7 +12,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 {
     class AffectedTree
     {
-        private Dictionary<string, Dictionary<int, List<GraphNode>>> lineNumDict = GraphNode.GetLineNumDict();
+        private List<TraceTree> trees = new List<TraceTree>();
         private AffectedLine al;
         //variables to hold the user-inputted csv fields
         private string errorDescription;
@@ -21,10 +21,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private string criticalDescription;
         private string criticalProperty;
         //Austin: new placeholder AffectedLine, trying to duplicate al to separate output to the new output file
-        private AffectedLine acl;
-        private List<GraphNode> tracedGNs = new List<GraphNode>();
-        private static string missedTraces = "";
-
         public AffectedTree()
         {
         }
@@ -40,21 +36,22 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             StreamWriter gFile = new StreamWriter(fullFile, true);
 
-            List<GraphNode> relatedGNodes = lineNumDict[fileName][lineNum];
-
-            al = new AffectedLine();
             //find all graphnodes that are related to the line number entered by the user
-            FindAffectedNodes(relatedGNodes, gFile, al);
-            
+            TraceTree root = new TraceTree(fileName, lineNum, errorP + ": " + errorD);
+            FindAffectedNodes(root, AbbreviatedGraph.GetNodes(fileName,lineNum));
+
             //csv output
-            al.OutputCSVErrors(gFile, fileName, lineNum);
+            root.TraceDown(gFile, "");
 
             gFile.WriteLine(missedTraces);
             gFile.Close();
             missedTraces = "";
         }
-        public void FindCriticalCSVConnections(string fileName, int lineNum, string fileStem, string criticalD, string criticalP)
+        public void FindCriticalCSVConnections(string fileName, int lineNum, string criticalFileName, int criticalLineNum, string fileStem, string criticalD, string criticalP, string errorD, string errorP)
         {
+            criticalProperty = errorP;
+            criticalDescription = errorD;
+
             errorDescription = criticalD;
             errorProperty = criticalP;
             string outputFileName = "_critical_nodes_output.csv";
@@ -63,33 +60,39 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             //I have a dictionary- here's the fileNamekey (e.g., "/bubblemod- line 2") and returns the list of graph nodes
 
             // e.g., lineNums["/bubblesort"] would output a Dictionary<int, List<GraphNode>>
-            // e.g., lineNumber["/bubblesort"][1] would output a List of GraphNodes that are related to /bubbleSort line number 1
+            // e.g., lineNumDict["/bubblesort"][1] would output a List of GraphNodes that are related to /bubbleSort line number 1
+            Console.WriteLine("****AJF: relatedGNodes is: lineNumDict[" + fileName + "][" + lineNum + "]");
+            Console.WriteLine("****AJF: criticalrelatedGdGNodes is: lineNumDict[" + criticalFileName + "][" + criticalLineNum + "]");
 
-            List<GraphNode> relatedGNodes = lineNumDict[fileName][lineNum];
+            //List<GraphNode> relatedCriticalGNodes = lineNumDict[criticalFileName][criticalLineNum];
 
-            acl = new AffectedLine();
+            //acl = new AffectedLine();
             //find all graphnodes that are related to the line number entered by the user
-            Console.WriteLine("Is it at FindAffectedNodes for Critical?");
-            FindAffectedNodes(relatedGNodes, cFile, acl);
-            Console.WriteLine("Got through FindAffectedNodes");
+            Console.WriteLine("****AJF: File Stem: " + fileStem);
+            //FindAffectedNodes(relatedGNodes, cFile, acl);
+            //Console.WriteLine("Got through FindAffectedNodes");
             //csv output
-            acl.OutputCSVErrors(cFile, fileName, lineNum);
-            Console.WriteLine("finished outputting CSV errors");
+            //AffectedLine acl;
+            //BSD should be some form of trace tree
+            //traceTree.TraceUp(cFile);
+            //acl.OutputCSVErrors(cFile, fileName, lineNum);
+            //Console.WriteLine("finished outputting CSV errors");
             cFile.WriteLine(missedTraces);
+            cFile.WriteLine("****AJF: Does this file have access to Critical Nodes? Critical Description: " + criticalD + " Critical Props: " + criticalP);
             cFile.Close();
-            Console.WriteLine("closed file");
+            //Console.WriteLine("closed file");
             missedTraces = "";
         }
 
-        private void FindAffectedNodes(List<GraphNode> gNodes, StreamWriter s, AffectedLine line)
+        private void FindAffectedNodes(TraceTree root, List<AbbreviatedGraph> gNodes)
         {
             //for every affected graph node, trace the relationships down the chain until everything has been traced
-            foreach (GraphNode g in gNodes)
+            foreach (AbbreviatedGraph g in gNodes)
             {
-                Console.WriteLine("does a single graphnode exist?");
+                //Console.WriteLine("does a single graphnode exist?");
                 if (!g.Represented.Node.IsClassification)
                 {
-                    Console.WriteLine("got to classification?");
+                    //Console.WriteLine("got to classification?");
                     //constructor, literal, statement, return type, return, method are potential future cases to consider
                     //field, param, local variable**, return value, method are used in the state tracing
 
@@ -100,28 +103,30 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     switch (g.Represented.Node.GetMyMember())
                     {
                         case Members.Field:
-                            Console.WriteLine("field reached");
-                            TraceField(g, Relationship.na, Members.Null, null, line);
+                            //Console.WriteLine("field reached");
+                            TraceField(TraceTree.ConditionalLinkToParent(root, g));
                             break;
                         case Members.Parameter:
-                            Console.WriteLine("parameter reached");
-                            TraceParameter(g, Relationship.na, Members.Null, null, line);
+                            //Console.WriteLine("parameter reached");
+                            TraceParameter(TraceTree.ConditionalLinkToParent(root, g));
                             break;
                         case Members.Method:
-                            Console.WriteLine("method reached");
-                            TraceMethod(g, Relationship.na, Members.Null, null, line);
+                            //Console.WriteLine("method reached");
+                            TraceMethod(TraceTree.ConditionalLinkToParent(root, g));
                             break;
                         case Members.MethodScope:
-                            Console.WriteLine("methodscope reached");
-                            if (g.ParentScope.Represented.Node.GetMyMember() == Members.Method)
+
+                            AbbreviatedGraph p = g.findParentScope();
+                            //Console.WriteLine("methodscope reached");
+                            if (p.Represented.Node.GetMyMember() == Members.Method)
                             {
-                                Console.WriteLine("methodscope if-then reached");
-                                TraceMethod(g.ParentScope, Relationship.na, Members.Null, null, line);
+                                //Console.WriteLine("methodscope if-then reached");
+                                TraceMethod(TraceTree.ConditionalLinkToParent(root, p));
                             }
                             break;
                         case Members.Branch:
-                            Console.WriteLine("tracebranch reached");
-                            TraceBranch(g, Relationship.na, Members.Null, null, line);
+                            //Console.WriteLine("tracebranch reached");
+                            TraceBranch(TraceTree.ConditionalLinkToParent(root, g));
                             break;
                         default:
                             //default functionality unnecessary? (subject to change)
@@ -133,8 +138,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             CleanTracedGNs();
         }
 
+        private List<AbbreviatedGraph> tracedGNs = new List<AbbreviatedGraph>();
+        private static string missedTraces = "";
+
         //mark the GraphNode parameter as traced, and add it to the static tracedGNs list
-        private void MarkGraphNodeTraced(GraphNode g)
+        private void MarkGraphNodeTraced(AbbreviatedGraph g)
         {
             g.traced = true;
             tracedGNs.Add(g);
@@ -143,7 +151,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //reset the value of "traced" in each graphnode in case the user enters multiple filenames/line numbers to track.
         private void CleanTracedGNs()
         {
-            foreach (GraphNode g in tracedGNs)
+            foreach (AbbreviatedGraph g in tracedGNs)
             {
                 g.traced = false;
             }
@@ -151,283 +159,332 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         }
 
         //tracing field nodes
-        private void TraceField(GraphNode gn, Relationship re, Members m, GraphNode gnPar, AffectedLine line)
+        private void TraceField(TraceTree parent)
         {
-            //don't retrace any fields that have already been marked.
-            if (!gn.traced && !gn.IsSimulated)
+            AbbreviatedGraph gn = parent.GetGnode();
+            List<AbbreviatedGraph> set = new List<AbbreviatedGraph>();
+            //eventually, more relationships may be relevant to trace. future work would add in other conditional tracing here
+            set.AddRange(gn.GetEdges(Relationship.WrittenBy).Keys.ToArray());
+            Relationship r = Relationship.WrittenBy;
+            foreach (AbbreviatedGraph grphNde in set)
             {
-                MarkGraphNodeTraced(gn);
-                gn.AddToParentAndChildrenLists(gnPar);
-                Console.WriteLine("tracefield function reached");
-                //this line seems to be necessary to trace everything. maybe redundant in some cases
-                line.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
-                Console.WriteLine("writetoaffecteddict successfully passed");
-                foreach (Relationship r in gn.GetRelationshipsTo().Keys)
+                /*
+                 * Same comment as below
+                if (grphNde.Represented.Node.GetMyMember() != Members.Literal)
                 {
-                    //eventually, more relationships may be relevant to trace. future work would add in other conditional tracing here
-                    if (r == Relationship.WrittenBy || r == Relationship.ReturnType)
-                    {
-                        foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
-                        {
-                            if (grphNde.Represented.Node.GetMyMember() != Members.Literal)
-                            {
-                                line.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
-                            }
+                    line.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
+                }
+                */
 
-                            //field wants to trace back to anything it is related to.
-                            if (grphNde.Represented.Node.Equals(Members.Parameter))
-                            {
-                                TraceParameter(grphNde, r, Members.Field, gn, line);
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.Method))
-                            {
-                                TraceMethod(grphNde, r, Members.Field, gn, line);
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.Branch))
-                            {
-                                TraceBranch(grphNde, r, Members.Field, gn, line);
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.Field))
-                            {
-                                TraceField(grphNde, r, Members.Field, gn, line);
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.Constructor))
-                            {
-                                //do nothing
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.Literal))
-                            {
-                                //do nothing
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
-                            {
-                                //do nothing
-                            }
-                            else
-                            {
-                                //case not accounted for. error message to user.
-                                missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceField()\n";
-                            }
-
-                        }
-                    }
-                    //candidate read is necessary when it relates to methods/return values
-                    else if (r == Relationship.CandidateRead)
-                    {
-                        foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
-                        {
-                            if (grphNde.Represented.Node.Equals(Members.Method))
-                            {
-                                TraceMethod(grphNde, r, Members.Field, gn, line);
-                            }
-                        }
-                    }
-                    else if (r == Relationship.Accesses)
-                    {
-                        //Accesses will be relevant once the CandidateRead issue (github issue #329) is fixed
-                    }
+                TraceTree child = TraceTree.ConditionalLinkToParent(parent, grphNde);
+                //field wants to trace back to anything it is related to.
+                if (grphNde.Represented.Node.Equals(Members.Parameter))
+                {
+                    TraceParameter(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Method))
+                {
+                    TraceMethod(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Branch))
+                {
+                    TraceBranch(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Field))
+                {
+                    TraceField(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Constructor))
+                {
+                    //do nothing
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Literal))
+                {
+                    //do nothing
+                }
+                else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    //case not accounted for. error message to user.
+                    missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceField()\n";
                 }
             }
+
+            set = new List<AbbreviatedGraph>();
+            set.AddRange(gn.GetEdges(Relationship.ReturnType).Keys.ToArray());
+            r = Relationship.ReturnType;
+            foreach (AbbreviatedGraph grphNde in set)
+            {
+                /*
+                 * Probably no longer needed:
+                 * 1. this is just writing to the affected dictionary which probably belongs in TraceTree
+                 * 2. This doesn't seem to continue the tree
+                 * 3. Literals are things like "Hi" and 3 which cannot be affected by errors.
+                if (grphNde.Represented.Node.GetMyMember() != Members.Literal)
+                {
+                    line.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
+                }
+                */
+
+                TraceTree child = TraceTree.ConditionalLinkToParent(parent, grphNde);
+                //field wants to trace back to anything it is related to.
+                if (grphNde.Represented.Node.Equals(Members.Parameter))
+                {
+                    TraceParameter(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Method))
+                {
+                    TraceMethod(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Branch))
+                {
+                    TraceBranch(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Field))
+                {
+                    TraceField(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Constructor))
+                {
+                    //do nothing
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Literal))
+                {
+                    //do nothing
+                }
+                else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    //case not accounted for. error message to user.
+                    missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceField()\n";
+                }
+            }
+
+            set = new List<AbbreviatedGraph>();
+            //candidate read is necessary when it relates to methods/return values
+            set.AddRange(gn.GetEdges(Relationship.CandidateRead).Keys.ToArray());
+            r = Relationship.CandidateRead;
+            foreach (AbbreviatedGraph grphNde in gn.GetEdges(r).Keys)
+            {
+                if (grphNde.Represented.Node.Equals(Members.Method))
+                {
+                    TraceMethod(TraceTree.ConditionalLinkToParent(parent, grphNde));
+                }
+            }
+
+            //Accesses will be relevant once the CandidateRead issue (github issue #329) is fixed
         }
 
         //tracing parameter nodes
-        private void TraceParameter(GraphNode gn, Relationship re, Members m, GraphNode gnPar, AffectedLine line)
+        private void TraceParameter(TraceTree parent)
         {
-            //don't retrace any fields that have already been marked.
-            if (!gn.traced && !gn.IsSimulated)
+            AbbreviatedGraph gn = parent.GetGnode();
+            Relationship r = Relationship.CandidateRead;
+            foreach (AbbreviatedGraph grphNde in gn.GetEdges(r).Keys)
             {
-                MarkGraphNodeTraced(gn);
-                gn.AddToParentAndChildrenLists(gnPar);
-                line.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
-
-                foreach (Relationship r in gn.GetRelationshipsTo().Keys)
+                TraceTree child = TraceTree.ConditionalLinkToParent(parent, grphNde);
+                //There are many members that could be relevant in the future. This logic provides the user with the most important traces
+                if (grphNde.Represented.Node.Equals(Members.Method))
                 {
-                    if (r == Relationship.CandidateRead)
-                    {
-                        foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
-                        {
-                            line.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
-                            //There are many members that could be relevant in the future. This logic provides the user with the most important traces
-                            if (grphNde.Represented.Node.Equals(Members.Method))
-                            {
-                                TraceMethod(grphNde, r, Members.Parameter, gn, line);
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.Parameter))
-                            {
-                                grphNde.AddToParentAndChildrenLists(gn);
-                                TraceParameter(grphNde, r, Members.Parameter, gn, line);
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.Branch))
-                            {
-                                TraceBranch(grphNde, r, Members.Parameter, gn, line);
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.Field))
-                            {
-                                TraceField(grphNde, r, Members.Parameter, gn, line);
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
-                            {
-                                //do nothing
-                            }
-                            else if (grphNde.Represented.Node.Equals(Members.For3Loop))
-                            {
-                                //do nothing
-                            }
-                            else
-                            {
-                                //case not accounted for. error message to user.
-                                missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()\n";
-                            }
-                        }
-                    }
+                    TraceMethod(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Parameter))
+                {
+                    TraceParameter(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Branch))
+                {
+                    TraceBranch(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Field))
+                {
+                    TraceField(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
+                {
+                    //do nothing
+                }
+                else if (grphNde.Represented.Node.Equals(Members.For3Loop))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    //case not accounted for. error message to user.
+                    missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()\n";
                 }
             }
         }
 
         //tracing method nodes
-        private void TraceMethod(GraphNode gn, Relationship re, Members m, GraphNode gnPar, AffectedLine line)
+        private void TraceMethod(TraceTree parent)
         {
-            //don't retrace any fields that have already been marked.
-            if (!gn.traced && !gn.IsSimulated)
+            AbbreviatedGraph FromParent = parent.GetGnode();
+            //Other relationships are subject to be added here in the future
+            Relationship r = Relationship.CandidateRead;
+            foreach (AbbreviatedGraph grphNde in FromParent.GetEdges(r).Keys)
             {
-                MarkGraphNodeTraced(gn);
-                if(gnPar != null)
-                {
-                    gnPar.AddToParentAndChildrenLists(gn);
-                }
-                line.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
-
-                foreach (Relationship r in gn.GetRelationshipsTo().Keys)
-                {
-                    //Other relationships are subject to be added here in the future
-                    if (r == Relationship.CandidateRead)
-                    {
-                        foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
-                        {
-                            gn.AddToParentAndChildrenLists(grphNde);
-                            line.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
-                        }
-                    }
-                    //return value is neccesary in most cases (subject to change)
-                    else if (r == Relationship.ReturnValue)
-                    {
-                        foreach (GraphNode grphNode in gn.GetRelationshipsTo()[r].Keys)
-                        {
-                            grphNode.AddToParentAndChildrenLists(gn);
-                            line.WriteStatementToAffectedDict(gn, grphNode, r, errorDescription, errorProperty);
-                            TraceReturnValue(grphNode, r, Members.Method, gn, line);
-                        }
-                    }
-                    //control is rarer than return value, but relevant
-                    else if (r == Relationship.Control)
-                    {
-                        foreach (GraphNode grphNde in gn.GetRelationshipsTo()[r].Keys)
-                        {
-                            gn.AddToParentAndChildrenLists(grphNde);
-                            line.WriteStatementToAffectedDict(gn, grphNde, r, errorDescription, errorProperty);
-                        }
-                    }
-                }
+                //This shows that the method (return type below) is affecting the incoming parent as in int x = methodY();
+                TraceTree.ConditionalLinkToParent(parent, grphNde);
             }
 
+            //return value is neccesary in most cases (subject to change)
+            r = Relationship.ReturnValue;
+            foreach (AbbreviatedGraph grphNode in FromParent.GetEdges(r).Keys)
+            {
+                //Theoretically this grphNode should be identical with the grphNode above. Not sure but should be.
+                //TODO check this assumption
+                TraceReturnValue(TraceTree.ConditionalLinkToParent(parent, grphNode));
+            }
+
+            //control is rarer than return value, but relevant
+            r = Relationship.Control;
+            foreach (AbbreviatedGraph grphNde in FromParent.GetEdges(r).Keys)
+            {
+                //Theoretically this should be like the tracebranch below. ajf see ln 276
+                TraceTree child = TraceTree.ConditionalLinkToParent(parent, grphNde);
+                if (grphNde.Represented.Node.Equals(Members.Method))
+                {
+                    TraceMethod(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Parameter))
+                {
+                    TraceParameter(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Branch))
+                {
+                    TraceBranch(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.Field))
+                {
+                    TraceField(child);
+                }
+                else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
+                {
+                    //do nothing
+                }
+                else if (grphNde.Represented.Node.Equals(Members.For3Loop))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    //case not accounted for. error message to user.
+                    missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()\n";
+                }
+            }
         }
 
         //tracing branch nodes
-        private void TraceBranch(GraphNode gn, Relationship re, Members m, GraphNode gnPar, AffectedLine line)
+        private void TraceBranch(TraceTree parent)
         {
-            //don't retrace any fields that have already been marked.
-            if (!gn.traced && !gn.IsSimulated)
-            {
-                MarkGraphNodeTraced(gn);
-                gn.AddToParentAndChildrenLists(gnPar);
-                Branch b = (Branch)gn;
-                //get all of the line numbers in the affected branch (if/else)
-                List<Tuple<int, int>> bList = b.GetBranchLineNums();
+            AbbreviatedGraph gn = parent.GetGnode();
+            TraceTree child = TraceTree.ConditionalLinkToParent(parent, gn);
+            //gn.AddToParentAndChildrenLists(gnPar);
 
-                if (bList != null)
+            //get all of the line numbers in the affected branch (if/else)
+            int start = gn.Represented.GetLineStart();
+            int stop = gn.Represented.GetLineStop();
+            for (int i = start; i <= stop; i++)
+            {
+                //TODO this needs to have logic to check each line and follow them.
+                foreach (AbbreviatedGraph grphNde in AbbreviatedGraph.GetNodes(gn.Represented.FileName,i))
                 {
-                    foreach (Tuple<int, int> t in bList)
+                    //Theoretically this should be like the tracebranch below. ajf see ln 276
+                    TraceTree c2 = TraceTree.ConditionalLinkToParent(child, grphNde);
+                    if (grphNde.Represented.Node.Equals(Members.Method))
                     {
-                        for (int i = t.Item1; i <= t.Item2; i++)
-                        {
-                            line.WriteToAffectedDict(gn, gn.Represented.FileName, i, false, re, errorDescription, errorProperty);
-                        }
+                        TraceMethod(c2);
+                    }
+                    else if (grphNde.Represented.Node.Equals(Members.Parameter))
+                    {
+                        TraceParameter(c2);
+                    }
+                    else if (grphNde.Represented.Node.Equals(Members.Branch))
+                    {
+                        TraceBranch(c2);
+                    }
+                    else if (grphNde.Represented.Node.Equals(Members.Field))
+                    {
+                        TraceField(c2);
+                    }
+                    else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
+                    {
+                        //do nothing
+                    }
+                    else if (grphNde.Represented.Node.Equals(Members.For3Loop))
+                    {
+                        //do nothing
+                    }
+                    else
+                    {
+                        //case not accounted for. error message to user.
+                        missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()\n";
                     }
                 }
+
+                
             }
         }
 
         //tracing returnvalue nodes
-        private void TraceReturnValue(GraphNode gn, Relationship re, Members m, GraphNode gnPar, AffectedLine line)
+        private void TraceReturnValue(TraceTree parent)
         {
-            gn.AddToParentAndChildrenLists(gnPar);
+            AbbreviatedGraph gn = parent.GetGnode();
 
-            //don't retrace any fields that have already been marked.
-            if (!gn.traced && !gn.IsSimulated)
+            Relationship r = Relationship.WrittenBy;
+            foreach (AbbreviatedGraph grphNode in gn.GetEdges(r).Keys)
             {
-                MarkGraphNodeTraced(gn);
-
-                if (gn.Represented.Node.Equals(Members.Field))
+                //There are many members that could be relevant in the future. This logic provides the user with the most important traces
+                if (grphNode.Represented.Node.Equals(Members.Field))
                 {
-                    line.WriteToAffectedDict(gn, gn.Represented.FileName, gn.Represented.GetLineStart(), false, re, errorDescription, errorProperty);
-                }
-
-                foreach (Relationship r in gn.GetRelationshipsTo().Keys)
-                {
-                    if (r == Relationship.WrittenBy)
+                    /*
+                     * Not sure why this is linking to parent of field instead of to field.
+                    foreach (AbbreviatedGraph p in gn.GetParentGNs())
                     {
-                        foreach (GraphNode grphNode in gn.GetRelationshipsTo()[r].Keys)
-                        {
-                            //There are many members that could be relevant in the future. This logic provides the user with the most important traces
-                            if (grphNode.Represented.Node.Equals(Members.Field))
-                            {
-                                foreach (GraphNode p in gn.GetParentGNs())
-                                {
-                                    grphNode.AddToParentAndChildrenLists(p);
-                                }
-
-                                TraceField(grphNode, r, Members.Return, gn, line);
-                            }
-                            else if (grphNode.Represented.Node.Equals(Members.Literal))
-                            {
-                                //do nothing
-                            }
-                            else if (grphNode.Represented.Node.Equals(Members.Method))
-                            {
-                                //do nothing
-                            }
-                            else if (grphNode.Represented.Node.Equals(Members.Parameter))
-                            {
-                                //do nothing
-                            }
-                            else if (grphNode.Represented.Node.Equals(Members.ArrayInvoke))
-                            {
-                                //do nothing
-                            }
-                            else if (grphNode.Represented.Node.Equals(Members.Constructor))
-                            {
-                                //do nothing
-                            }
-                            else
-                            {
-                                //case not accounted for. throw error message to user
-                                missedTraces += grphNode.Represented.Node.ToString() + " not accounted for in TraceReturnValue()\n";
-                            }
-                        }
+                        grphNode.AddToParentAndChildrenLists(p);
                     }
+                    
+                    This was the original recursive step independent of p
+                    TraceField(grphNode, r, Members.Return, gn, line);
+                    */
+
+                    //BSD probably right, see note above
+                    TraceTree child = TraceTree.ConditionalLinkToParent(parent, grphNode);
+                    TraceField(child);
+                }
+                else if (grphNode.Represented.Node.Equals(Members.Literal))
+                {
+                    //do nothing
+                }
+                else if (grphNode.Represented.Node.Equals(Members.Method))
+                {
+                    //do nothing
+                }
+                else if (grphNode.Represented.Node.Equals(Members.Parameter))
+                {
+                    //do nothing
+                }
+                else if (grphNode.Represented.Node.Equals(Members.ArrayInvoke))
+                {
+                    //do nothing
+                }
+                else if (grphNode.Represented.Node.Equals(Members.Constructor))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    //case not accounted for. throw error message to user
+                    missedTraces += grphNode.Represented.Node.ToString() + " not accounted for in TraceReturnValue()\n";
                 }
             }
         }
-        /* template trace function
-        private void Trace(GraphNode gn)
-        {
-            //don't retrace any fields that have already been marked.
-            if (!gn.traced && !gn.IsSimulated)
-            {
-                MarkGraphNodeTraced(gn);
-
-            }
-        }
-        */
     }
 }

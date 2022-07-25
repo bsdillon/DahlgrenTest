@@ -197,6 +197,6 @@ namespace SoftwareAnalyzer2.Structure
         TypeCheck,
         LiteralBoundary,
         CompareBoundary,
-        na
+        StartTree
     }
 }

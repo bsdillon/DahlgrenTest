@@ -21,7 +21,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         private static void JoinDecoratorMethods()
         {
-            List<GephiNode[]> set = new List<GephiNode[]>();
             foreach (GephiNode m in MetricUtilities.AllNodes)
             {
                 NodeType mType = m.Category;
@@ -41,16 +40,21 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
 
                 AbbreviatedGraph[] returnType = method.GetEdges(Relationship.ReturnType).Keys.ToArray();
+           
                 AbbreviatedGraph[] returnFromMethod = method.GetEdges(Relationship.ReturnValue).Keys.ToArray();
+                //Console.WriteLine("AJF *******: Parameteres[0]" + parameters[0]);
 
                 AbbreviatedGraph[] paramType = parameters[0].GetEdges(Relationship.InstanceOf).Keys.ToArray();
+
+                Console.WriteLine("AJF ******* ParamType: " + paramType[0]);
+                //Console.WriteLine("AJF ******* Return Type: " + returnType[0]);
 
                 if (paramType.Length != 1)
                 {
                     //there is an error in the graph formulation
                     throw new InvalidDataException("Malformatted graph: " + method + " does not have a required parameter");
                 }
-
+                
                 if (!paramType[0].Equals(returnType[0]))
                 {
                     //we are only interested in methods with a return type which matches that type.
