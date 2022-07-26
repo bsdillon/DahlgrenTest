@@ -2,12 +2,12 @@
 Package Packages {
 map Packages {
   name=> String
-  classlist=> list
+  classlist=> array<Classes>
 }
 map Classes {
 name=> String
-methodlist=> list
-variablelist=> list
+methodlist=> array<Methods>
+variablelist=> array<Variables>
 hascolor=> Boolean
 color=> string
 }
@@ -23,14 +23,16 @@ name=> String
 returntype=> String
 modifier=> String
 static=> Boolean
+call_classes => array <String>
+call_methods => array <String>
 } 
 }
 
 package "Classes without a Package" as Class {
 map "Class" as Classes1 {
 name=> String
-methodlist=> list
-variablelist=> list
+methodlist=> array<Methods>
+variablelist=> array<Variables>
 hascolor=> Boolean
 color=> string
 }
@@ -46,13 +48,15 @@ name=> String
 returntype=> String
 modifier=> String
 static=> Boolean
+call_classes => array <String>
+call_methods => array <String>
 } 
 }
 
 Map "3 lists" as Relationships {
-sender=>String
-receiver=>String
-relationship=>String
+sender=> array<String>
+receiver=>array<String>
+relationship=>array<String>
 }
 Packages -[hidden]r> Classes1
 Relationships -[hidden]l> Classes1
