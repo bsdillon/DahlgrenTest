@@ -1,0 +1,41 @@
+@startuml
+package "code_diagrams" as CodeDiagrams {
+class "Methods" as Methods {
+--
+}
+class "Variables" as Variables {
+--
+}
+class "Classes" as Classes {
+--
+}
+class "Packages" as Packages {
+--
+}
+}
+package "linear_Diagrams" as LinearDiagrams {
+
+class "Relationships" as Relationships {
+--
+}
+class "Nodes" as Nodes {
+--
+}
+}
+class "Core" as Core {
+--
+}
+class "CodeDiagram" {
+}
+class "LinearDiagram" {
+}
+Core --> CodeDiagram
+Core --> LinearDiagram
+CodeDiagram --> Packages
+CodeDiagram --> Classes
+Packages --> Classes
+Classes --> Methods
+Classes --> Variables
+LinearDiagram --> Nodes
+LinearDiagram --> Relationships
+@enduml
