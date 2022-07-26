@@ -1,13 +1,50 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from MBSE_Library import MBSE
+import cgi
 hostName = "localhost"
 serverPort = 8080
 
 
 class MyServer(BaseHTTPRequestHandler):
+    def _set_headers(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
 
     def do_POST(self):
-        self.send_response(200)
+        self._set_headers()
+        form = cgi.FieldStorage(
+            fp=self.rfile,
+            headers=self.headers,
+            environ={'REQUEST_METHOD': 'POST'}
+        )
+        for v1 in form.keys():
+            print(v1)
+            print(form.getvalue(v1))
+            if v1 == "create_class":
+                MBSE.add_class(form.getvalue(v1))
+            if v1 == "create_method":
+                method_name = ""
+                class_name = ""
+                isStatic = False
+                scope = ""
+                return_type = ""
+                for v2 in form.keys():
+                    if v2 == "create_method":
+                        class_name = form.getvalue(v2)
+                    if v2 == "method_name":
+                        method_name = form.getvalue(v2)
+                    if v2 == "return_type":
+                        return_type = form.getvalue(v2)
+                    if v2 == "scope":
+                        scope = form.getvalue(v2)
+                    if v2 == "static":
+                        isStatic = bool(form.getvalue(v2))
+                print(method_name)
+                MBSE.add_method_to_class(method_name, class_name, scope, isStatic, return_type)
+
+        MBSE.print_uml()
+        '''self.send_response(200)
         self.send_response_only(200)
         content_len = int(self.headers.get('Content-Length'))
         command = str(self.rfile.read(content_len))
@@ -33,7 +70,7 @@ class MyServer(BaseHTTPRequestHandler):
         else:
             print("error")
         print("received")
-        MBSE.print_uml("code")
+        MBSE.print_uml("code")'''
 
     def do_GET(self):
         self.send_response(200)
