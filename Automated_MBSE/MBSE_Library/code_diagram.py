@@ -69,16 +69,14 @@ class CodeDiagram:
                         for cc in PlantumlClass.get_class_list():
                             if cc.get_class_name() == str(call_c[i]):
                                 for mm in cc.get_methods():
-                                    print(mm.get_method())
-                                    print(call_m[i])
                                     if mm.get_method() == call_m[i]:
-                                        content += cc.get_class_name() + "::"
+                                        content += '"' + cc.get_class_name() + "::"
                                         content += mm.get_modifier()
                                         if mm.get_static():
                                             content += "__" + mm.get_method() + "__"
                                         else:
                                             content += mm.get_method()
-                                        content += "\n"
+                                        content += '"\n'
         content += "@enduml"
         file1.writelines(content)
         file1.close()

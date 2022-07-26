@@ -21,7 +21,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             string path = directory + Path.DirectorySeparatorChar + fileName + ".gph";
             nodes.Clear();
             indices.Clear();
-            int counter = 0;
 
             if (File.Exists(path))
             {
@@ -74,9 +73,9 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                             object relationship = Enum.Parse(typeof(Relationship), parts[4]);
                             string weight = parts[5];
 
-                           
                             //Console.WriteLine("AJF*******Corresponding Node to this Edge is: " + String.Join(" ", nodes[statementID]));
-                            
+
+                            //statement = nodes[source];
                             if (statementID != -1)
                             {
                                 if (nodes.ContainsKey(statementID))
@@ -89,29 +88,27 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                                         
                                         //Console.WriteLine("AJF******* " + statement.Represented.GetLineStart() + statement.Represented.FileName);
                                     }
-                                    counter++;
                                     //Console.WriteLine("AJF ******: " + counter + "|0| " + parts[0] + "  |1| " + parts[1] + " |2| " + parts[2] + " |3| " + parts[3] + " |4| " + parts[4] + " |5| " + parts[5] + " LineStart: " + statement.Represented.GetLineStart() + " Filename: " + statement.Represented.FileName);
                                     //nodes[long.Parse(parts[1])], nodes[long.Parse(parts[2])]
-                                    
-                                    
-                                        if (parts.Length > 6)
-                                        {
-                                            int linenum = int.Parse(parts[6]);
-                                            string filenam = parts[7];
-                                            //something like x writes to y on line 123 of file.java
-                                            edges.Add(new object[] { nodes[source], nodes[destination], statement, relationship, weight, linenum, filenam });
-                                            //source:1 destination:2 scope:3 r:4 weight:5 lineNumber:6 fileName:7
-                                        }
-                                        else
-                                        {
-                                            //something like x is of type y where line number and file make no sense
-                                            edges.Add(new object[] { nodes[source], nodes[destination], statement, relationship, weight });
-                                            //source:1 destination:2 scope:3 r:4 weight:5
-                                        }
-                                    
                                     statements[statement.Represented.FileName].Add(statement);
                                 }
-                            } 
+                            }
+
+
+                            if (parts.Length > 6)
+                            {
+                                int linenum = int.Parse(parts[6]);
+                                string filenam = parts[7];
+                                //something like x writes to y on line 123 of file.java
+                                edges.Add(new object[] { nodes[source], nodes[destination], statement, relationship, weight, linenum, filenam });
+                                //source:1 destination:2 scope:3 r:4 weight:5 lineNumber:6 fileName:7
+                            }
+                            else
+                            {
+                                //something like x is of type y where line number and file make no sense
+                                edges.Add(new object[] { nodes[source], nodes[destination], statement, relationship, weight });
+                                //source:1 destination:2 scope:3 r:4 weight:5
+                            }
                         }
                        
                         data = sr.ReadLine();

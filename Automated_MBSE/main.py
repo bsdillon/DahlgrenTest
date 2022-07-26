@@ -6,7 +6,7 @@ if __name__ == '__main__':
     ##########################################
     # Testing methods to ensure proper output#
     ##########################################
-    from MBSE_Library import PlantumlClass, MBSE, PlantumlPackage
+    from MBSE_Library import PlantumlClass, MBSE
 
     MBSE.add_class("User")
     MBSE.add_class("Core")
@@ -37,6 +37,10 @@ if __name__ == '__main__':
     MBSE.add_method_to_class("method3", "User")
     MBSE.add_method_to_class("method1", "Core", "public", True, "void")
     MBSE.add_method_to_class("method2", "Core")
+    MBSE.add_method_to_class("method1", "receiver")
+    MBSE.add_method_to_class("method1", "Methods")
+    MBSE.add_method_to_class("method1", "sender")
+    MBSE.add_method_to_class("method1", "filter")
     MBSE.add_variable_to_class("v1", "Core")
     MBSE.add_variable_to_class("v1", "Core", "private", True, "String")
 

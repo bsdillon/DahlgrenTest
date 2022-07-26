@@ -75,7 +75,6 @@ class LinearDiagrams:
             self.Highlighted_out.append(n.get_name())
             self.deleted.append(n.get_name())
             self.colored.append(n.get_name())
-        MBSE.print_uml()
         self.view_selected()
 
     def highlight_in(self):
