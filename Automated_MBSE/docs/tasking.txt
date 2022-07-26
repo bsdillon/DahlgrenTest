@@ -1,12 +1,6 @@
--develop method graph that shows connections between graphs and implement into "zoom" (How to visualize is pretty much done but need to write how to actually do it)
-
 -User document how to use library/gui/server (August 1st)
 
--highlight changes between different graphs so user can compare them (Doug suggestion; I think comparing them externally and highlighting the differences through a 
-column in a csv is not the best way to apporach this. I am able to save the models and can probably pretty easily compare them to each other in the library. This
-may in fact not only be easier then going the csv route(need to rewrite how linear diagrams are loaded), but also gives another shiny feature that the library 
-can itself compare digital models without external tools. Codediagrams are not read through csv files(yet, (not entirely practical)) so if we went the csv route
-we would not have the ability to compare code diagrams)
+-Edit Squence diagram changes so that connections between nodes are highlighted(edges) and not just the nodes themselves
 
 -support for Enums or interfaces or other forms of classes
 
@@ -16,9 +10,6 @@ we would not have the ability to compare code diagrams)
 
 -Add parameters for functions (dont know how I forgot this is represented in class diagrams but should be fairly easy to implement. Should look into if this is the
 spot where the library should store connections for method graphs)
-
--Write ability to save linear diagrams and relationships between code diagrams (can easily save objects using pickle. Relationships are stored in different arrays/
-objects that the actual packages/methods/classes are stored. Haven't yet done linear diagrams. Easy to implement just need to do it)
 
 ############################
 #PLANT UML STYLING COMMANDS#
