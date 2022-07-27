@@ -1003,9 +1003,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("simpleDeclaration", ";");
 
                 head.RootUpModify("declarationseq", "declarationseq", ReparentChildren);
-
                 head.RootUpModify(Members.TypeDeclaration, Members.TypeDeclaration, CPPTypeDeclarationMemberSetAdder); //Important for typedef
-
 
                 head.RootUpModify(Members.Destructor, Members.Destructor, CPPDestructorMover);
                 head.RootUpModify(Members.Import, Members.Import, CPPImportMover);
@@ -1073,6 +1071,12 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO:? probably should merge this with some other code and remove this
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldNamer);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterNamer);
+
+                //Need to turn :: into dotOperators
+                head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionOperator);
+                head.RootUpModify(Members.Variable, Members.Variable, CPPScopeResolutionOperator);
+                head.RootUpModify(Members.Method, Members.Method, CPPScopeResolutionOperator);
+                head.RootUpModify(Members.TypeName, Members.TypeName, CPPScopeResolutionOperator);
 
                 head.NormalizeLines();
             }
@@ -5407,10 +5411,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="node"></param>
         private void CPPDeclSpecifierHandler(IModifiable node)
         {
-            //Console.WriteLine("\n\n\nIncoming CPPDeclSpecifierHandler tree");
-            //node.Parent.Parent.PrintTreeText();
-            //Console.WriteLine("\n\n");
-
             if (node.Parent == node.GetAncestor(Members.Method)) 
             {
                 node.SetNode(Members.ReturnType);
@@ -5419,8 +5419,7 @@ namespace SoftwareAnalyzer2.Tools
             {
                 node.SetNode(Members.Type);
             }
-
-            if (node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("functionSpecifier") != null)
+            if (node.GetFirstSingleLayer("declSpecifier") != null && node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("functionSpecifier") != null)
             {
                 IModifiable virtualFunc = (IModifiable)node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("functionSpecifier");
                 virtualFunc.SetNode(Members.Virtual);
@@ -5428,6 +5427,12 @@ namespace SoftwareAnalyzer2.Tools
 
             //The purpose of the following is to reformat data types.
             //It doesn't catch all cases (and can't at this level)
+
+            if (node.GetChildCount() == 0 || node.GetFirstSingleLayer("declSpecifier") == null || node.GetFirstRecursive(Members.TypeName) != null)
+            {
+                return;
+            }
+
             if (node.GetNthChild(0).GetFirstSingleLayer(Members.MethodInvoke) == null && node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("typeSpecifier") != null)
             {
                 List<INavigable> declChildren = node.Children;
@@ -5562,10 +5567,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPClassSpecifierHandler(IModifiable node)
         {
-            //Console.WriteLine("\n\nIncoming CPPClassSpecifierHandler tree:");
-            //node.PrintTreeText();
-            //Console.WriteLine("\n\n");
-
             node.ClearCode(ClearCodeOptions.ClearAll);
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
             if (classHeadNode.Code.Equals("union"))
@@ -5705,10 +5706,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPDeclaratorHandler(IModifiable node)
         {
-            //Console.WriteLine("\n\nIncoming CPPDeclaratorHandler tree:");
-            //node.Parent.PrintTreeText();
-            //Console.WriteLine("\n\n");
-
             if (!node.Parent.Node.Equals(Members.Method))
             {
                 if (node.GetChildCount() == 2 && node.GetNthChild(1).Node.Equals(Members.ParameterList))
@@ -6895,6 +6892,76 @@ namespace SoftwareAnalyzer2.Tools
             }
             node.DropChildren();
             newMethodScopeNode.Parent = node;
+        }
+        /// <summary>
+        /// Replaces the CPP scope resolution operator '::'.
+        /// Currently, LHS is turned into namespace and last node on RHS is turned into MethodInvoke
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPScopeResolutionOperator (IModifiable node)
+        {
+            if (!node.Code.Contains("::"))
+            {
+                return;
+            }
+            string code = node.Code;
+            List<INavigable> children = node.Children;
+            node.DropChildren();
+            IModifiable parent = (IModifiable)node.Parent;
+            parent.RemoveChild(node);
+            parent.ClearCode(ClearCodeOptions.KeepLine);
+            IModifiable refr = node;
+            string temp;
+            int ind;
+            int i = 0;
+            int occurances = Regex.Matches(code, "::").Count;
+
+            while (i < occurances)
+            {
+                ind = code.IndexOf(':');
+                if (code[ind + 1] == ':')
+                {
+                    if (ind - 1 >= 0)
+                    {
+                        temp = code.Substring(0, ind - 1);
+                        code = code.Remove(0, ind + 3);
+                    }
+                    else
+                    {
+                        temp = "GLOBAL";
+                        code = code.Remove(0, ind + 3);
+                    }
+                    IModifiable nameS= (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
+                    nameS.AddCode(temp, nameS);
+                    nameS.SetLine(node);
+                    if (i == 0)
+                    {
+                        nameS.Parent = parent;
+                        IModifiable dotOp = (IModifiable)NodeFactory.CreateNode(Members.DotOperator, false);
+                        dotOp.Parent = nameS;
+                        refr = dotOp;
+                    }
+                    else
+                    {
+                        nameS.Parent = refr;
+                        IModifiable dotOp = (IModifiable)NodeFactory.CreateNode(Members.DotOperator, false);
+                        dotOp.Parent = nameS;
+                        refr = dotOp;
+                    }
+                } else
+                {
+                    throw new ArgumentException("Unexpected scope resolution operator structure for: " + node);
+                }
+                i++;
+            }
+            node.ClearCode(ClearCodeOptions.KeepLine);
+            node.AddCode(code, node);
+            node.Parent = refr;
+
+            foreach (INavigable child in children)
+            {
+                child.Parent = node;
+            }
         }
 
         /// <summary>

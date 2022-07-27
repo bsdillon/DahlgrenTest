@@ -12,6 +12,7 @@ class Car {        // The class
       year = z;
     }
 	friend bool operator==(const Car &lhs, const Car &rhs);
+  friend bool bigFunny(const Car &lhs, const Car &rhs);
 };
 
 bool operator==(const Car &lhs, const Car &rhs){

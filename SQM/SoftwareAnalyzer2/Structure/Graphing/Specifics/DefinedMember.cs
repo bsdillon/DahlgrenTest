@@ -71,6 +71,12 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 case Members.SynchBlock:
                     answer = new SynchBlock(node);
                     break;
+                case Members.NAMESPACE:
+                    //NAMESPACE needs to be implemented
+                    throw new InvalidCastException("Unrecognized control structure type: " + node.Node);
+                case Members.Destructor:
+                    //Destructors needs to be implemented
+                    throw new InvalidCastException("Unrecognized control structure type: " + node.Node);
                 default:
                     throw new InvalidCastException("Unrecognized control structure type: " + node.Node);
             }

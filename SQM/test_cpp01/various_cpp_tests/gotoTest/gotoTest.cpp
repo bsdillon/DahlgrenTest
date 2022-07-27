@@ -4,14 +4,32 @@ struct Object {
     // non-trivial destructor
     ~Object() { std::cout << "d"; }
 };
+
+struct Object2 {
+    int m_i;
+    int m_j;
+    int m_k;
+
+    Object2(int i, int j, int k) 
+    {
+        m_i = i;
+        m_j = j;
+        m_k = k;
+    }
+    int getI() { return m_i; }
+    int getJ() { return m_j; }
+    int getK() { return m_k; }
+};
  
-struct Trivial {
-    double d1;
-    double d2;
-}; // trivial ctor and dtor
+//struct Trivial {
+//    double d1;
+//    double d2;
+//}; // trivial ctor and dtor
  
 int main()
 {
+
+    /*
     int a = 10;
  
     // loop using goto
@@ -49,5 +67,8 @@ label2:
         goto label3; // jumps forward, out of scope of obj3
     }
 label3: ;
+
+    */
+   return 0;
  
 }

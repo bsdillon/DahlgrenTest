@@ -154,6 +154,19 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 {
                     //no op for operators which aren't assigned to any variables
                 }
+                else if (type.Equals(Members.NAMESPACE))
+                {
+                    if (a.GetNthChild(0).Node.Equals(Members.DotOperator) && a.GetNthChild(0).GetChildCount() == 1)
+                    {
+                        //This is where we need to link NAMESPACES
+                        //For now, just throw error
+                        throw new InvalidCastException("LinkScope found unhandled " + type + " within method " + method.Represented);
+                    }
+                    else
+                    {
+                        throw new InvalidCastException("LinkScope found unhandled " + type + " within method " + method.Represented);
+                    }
+                }
                 else
                 {
                     //Very messy logically, but this will catch anything else which comes in a scope.

@@ -1300,10 +1300,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                     //a match is found, now continue the chain
                     if (next == null)
                     {
-                        //Console.WriteLine("targetNode and targetNode Parent VVV:");
-                        //targetNode.PrintTreeText();
-                        //targetNode.Parent.PrintTreeText();
-                        //Console.WriteLine("^^^");
                         throw new InvalidOperationException("Cannot use reference " + targetNode + " to type " + importedType + " as a defined member.");
                     }
                     else

@@ -67,6 +67,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                     }
                     else if (returnType == TypeDefinition.VoidType)
                     {
+                       // Console.WriteLine("!!!!!!!!!AAA" + returnType + " --- " + this.represented.FileName);
                         throw new InvalidOperationException(represented + " has a void return type; Return value cannot be accessed");
                     }
 
@@ -153,7 +154,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         public override void InitialLink()
         {
             INavigable returned = ((INavigable)represented).GetFirstSingleLayer(Members.ReturnType);
-            
+
             if (methodType != Members.Inline && returned.GetChildCount() > 0)
             {
                 SetReturnType(returned.GetNthChild(0));
