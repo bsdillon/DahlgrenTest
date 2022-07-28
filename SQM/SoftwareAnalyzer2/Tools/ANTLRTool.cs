@@ -1071,13 +1071,13 @@ namespace SoftwareAnalyzer2.Tools
                 // TODO:? probably should merge this with some other code and remove this
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldNamer);
                 head.RootUpModify(Members.Parameter, Members.Parameter, CPPParameterNamer);
-
                 //Need to turn :: into dotOperators
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPScopeResolutionOperator);
                 head.RootUpModify(Members.Variable, Members.Variable, CPPScopeResolutionOperator);
                 head.RootUpModify(Members.Method, Members.Method, CPPScopeResolutionOperator);
                 head.RootUpModify(Members.TypeName, Members.TypeName, CPPScopeResolutionOperator);
-
+                //Renames function operators
+                head.RootUpModify("operatorFunctionId", "operatorFunctionId", CPPFunctionOperatorCorrector);
                 head.NormalizeLines();
             }
             else {
@@ -6961,6 +6961,24 @@ namespace SoftwareAnalyzer2.Tools
             foreach (INavigable child in children)
             {
                 child.Parent = node;
+            }
+        }
+        /// <summary>
+        /// Removes function operator nodes and renames the method to the operator
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPFunctionOperatorCorrector (IModifiable node)
+        {
+            if (node.Parent.Node.Equals(Members.Method))
+            {
+                IModifiable parent = (IModifiable)node.Parent;
+                string code = node.GetNthChild(0).Code;
+                parent.AddCode(code, node);
+                parent.RemoveChild(node);
+            }
+            else
+            {
+                throw new ArgumentException("Unexpected parent for function operator: " + node);
             }
         }
 
