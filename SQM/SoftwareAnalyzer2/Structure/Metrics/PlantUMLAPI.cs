@@ -1,4 +1,6 @@
-using SoftwareAnalyzer2.Structure.Metrics;
+//Commenting out until we can find a proper place to store the server and MBSE library
+
+/*using SoftwareAnalyzer2.Structure.Metrics;
 using SoftwareAnalyzer2.Structure.Gephi;
 using SoftwareAnalyzer2.Structure.Graphing;
 using SoftwareAnalyzer2.Structure.Node;
@@ -8,32 +10,31 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
+using System.Net;
+using System.Text;
 
 namespace SoftwareAnalyzer2.Structure.Metrics
 {
     class PlantUMLAPI
     {
         // TODO: Needs to return an int if used as reportCount in ModuleNavigator.cs
-        private static string PlantUMLAPIReport = "";
+        private static string url = "http://localhost:8080";
         internal static void CreatePlantUMLAPI(string filename)
         {
-            StreamWriter writer = new StreamWriter(filename);
-            StringBuilder sb = new StringBuilder();
 
-            // Create server (run Python server file)
-            // string cmdText = "python server.py";
-            // System.Diagnostics.Process.Start("powershell.exe", cmdText);
-
-            Console.WriteLine("\n\n\n\n\n");
+            // Create server (run Python server file) 
+            // TODO: run server in linux
+            string cmdText = "python server.py"; //change this to path of server.py
+            System.Diagnostics.Process.Start("powershell.exe", cmdText);
             PopulateData();
-            writer.WriteLine(PlantUMLAPIReport);
-            writer.Close();
         }
         internal static void PopulateData()
         {
-            PlantUMLAPIReport += "@startuml \r\n";
+           
             foreach (AbbreviatedGraph type in MetricUtilities.AllMembers)
             {
+                string Class_name = "";   
                 // Console.WriteLine(type);
                 if (type.Represented.Node.Equals(Members.INTERFACE) || type.Represented.FileName.Equals("--"))
                 {
@@ -43,9 +44,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 }
                 if (type.Represented.Node.Equals(Members.CLASS))
                 {
-                    // Console.WriteLine(type.Represented.Code);
-                    // System.Diagnostics.Process.Start("http://localhost:8080/create_class/" + type.Represented.Code);
-                    PlantUMLAPIReport += type.Represented.Node.ToString() + " " + type.Represented.Code + " {" + System.Environment.NewLine;  
+                    Class_name = type.Represented.Code;   
+                using (var wb = new WebClient())
+            {
+                    wb.UploadString(url, "http://localhost:8080?&create_class=" + Class_name);
+                    }
                 }
                 AbbreviatedGraph[] members = MetricUtilities.GetMembersOf(type);
                 // AbbreviatedGraph[] relationship = MetricUtilities.GetMembersOf(type);
@@ -54,40 +57,45 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     //this class has no members
                     continue;
                 }
-                foreach (AbbreviatedGraph member in members)
-                {                    
+                foreach (AbbreviatedGraph member in members) {
                     if (member.Represented.Node.Equals(Members.Method))
                     {
-                        PlantUMLAPIReport += member.Represented.Node.ToString() + " " + member.Represented.Code + "()" + System.Environment.NewLine;
-                        // Console.WriteLine("    " + member.Represented.Code + "\n");
-                        foreach (AbbreviatedGraph m in member.GetEdges(Relationship.Annotation).Keys.ToArray()) 
+                        Console.WriteLine("First loop");
+                        Console.WriteLine(member.Represented.Code);
+                        string scope = "";
+                        bool isStatic = false;
+                        foreach (AbbreviatedGraph m in member.GetEdges(Relationship.Annotation).Keys.ToArray())
                         {
-                            if (m.Represented.Node.Equals(Members.Static)) 
+                            Console.WriteLine("Second loop");
+                            Console.WriteLine(m.Represented.Node.ToString());
+                       
+                            if (m.Represented.Node.Equals(Members.Static))
                             {
-                                PlantUMLAPIReport += "Static" + System.Environment.NewLine;
-                                // Console.WriteLine("        Static\n");
+                                isStatic = true;
                             }
                             if (m.Represented.Node.Equals(Members.Public))
                             {
-                                PlantUMLAPIReport += "Public" + System.Environment.NewLine;
-                                // Console.WriteLine("        Public\n");
-                            } else if (m.Represented.Node.Equals(Members.Private))
+                                scope = "public";
+                            }
+                            else if (m.Represented.Node.Equals(Members.Private))
                             {
-                                PlantUMLAPIReport += "Private" + System.Environment.NewLine;
-                                // Console.WriteLine("        Private\n");
-                            } else if (m.Represented.Node.Equals(Members.Protected))
+                                scope = "private";
+                            }
+                            else if (m.Represented.Node.Equals(Members.Protected))
                             {
-                                PlantUMLAPIReport += "Protected" + System.Environment.NewLine;
-                                // Console.WriteLine("        Protected\n");
+                                scope = "protected";
                             }
                         }
-                    }
+			                using (var wb = new WebClient())
+                            {
+                            Console.WriteLine(isStatic);
+                                wb.UploadString(url, "http://localhost:8080?&create_method=" + Class_name + "&method_name="+ member.Represented.Code + "&scope=" + scope + "&static=" + isStatic + "&return_type= ");
+                            }
+                       }
                     // Todo: Accessing relationships between methods
                     // Todo: Access return type
                 }
-                PlantUMLAPIReport += "} \r\n";
             }
-            PlantUMLAPIReport += "@enduml";
         }
     }
-}
+}*/
