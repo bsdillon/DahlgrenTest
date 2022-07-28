@@ -24,7 +24,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             // string cmdText = "python server.py";
             // System.Diagnostics.Process.Start("powershell.exe", cmdText);
 
-            Console.WriteLine("\n\n\n\n\n");
+            //Console.WriteLine("\n\n\n\n\n");
             PopulateData();
             writer.WriteLine(PlantUMLAPIReport);
             writer.Close();

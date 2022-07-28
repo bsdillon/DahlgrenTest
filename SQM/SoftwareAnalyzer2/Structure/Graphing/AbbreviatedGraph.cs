@@ -153,7 +153,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
 
         public static List<AbbreviatedGraph> GetNodes(string file, int line)
         {
-            if(lineNumDict.ContainsKey(file) && lineNumDict[file].ContainsKey(line))
+            if (lineNumDict.ContainsKey(file) && lineNumDict[file].ContainsKey(line))
             {
                 return lineNumDict[file][line];
             }
@@ -165,8 +165,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             //simulated graphnodes are not very meaningful for tracing errors
             if (fileName != null)
             {
-        
-                //trim filename for affected dict, but not linenumber dict
+                //e.g. /folder/another/importantFile.java -> /importantFile
                 if (trimFileN && fileName.LastIndexOf(Path.DirectorySeparatorChar) > 0)
                 {
                     fileName = fileName.Substring(fileName.LastIndexOf(Path.DirectorySeparatorChar));
@@ -290,6 +289,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         internal static void Navigate(IGraphNavigator nav)
         {
             nav.Navigate(root);
+            Console.WriteLine("did it get through Navigate(IGraphNavigator nav)?");
         }
 
         public bool IsChildScopeOf(AbbreviatedGraph parentContext)

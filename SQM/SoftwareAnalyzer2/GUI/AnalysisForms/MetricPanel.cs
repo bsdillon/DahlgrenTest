@@ -85,6 +85,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
                 //call to Navigate and DiscoverAllMembers
                 AbbreviatedGraph.Navigate(mn);
                 MessageBox.Show(this, "Module file complete");
+                
             }
         }
 

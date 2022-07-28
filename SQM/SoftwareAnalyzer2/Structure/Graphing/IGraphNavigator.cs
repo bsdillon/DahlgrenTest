@@ -10,5 +10,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
     {
         //navigates the graph using the current node as the root
         void Navigate(AbbreviatedGraph current);
+        
     }
 }

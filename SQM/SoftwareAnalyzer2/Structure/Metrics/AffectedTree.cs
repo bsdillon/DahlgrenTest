@@ -26,10 +26,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         }
 
         //find all of the related filenames and linenumbers associated with the user's csv input file and mark gephinodes with the user-inputted error property/description
-        public void FindCSVConnections(string fileName, int lineNum, string fileStem, string errorD, string errorP)
+        public void FindCSVConnections(TraceTree root, List<AbbreviatedGraph> nodes, string fileStem)
         {
-            errorDescription = errorD;
-            errorProperty = errorP;
             //change the "outputFileName" variable to change the name of the output file.
             string outputFileName = "_errors_output.csv";
             string fullFile = fileStem + outputFileName;
@@ -37,8 +35,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             StreamWriter gFile = new StreamWriter(fullFile, true);
 
             //find all graphnodes that are related to the line number entered by the user
-            TraceTree root = new TraceTree(fileName, lineNum, errorP + ": " + errorD);
-            FindAffectedNodes(root, AbbreviatedGraph.GetNodes(fileName,lineNum));
+            FindAffectedNodes(root, nodes);
 
             //csv output
             root.TraceDown(gFile, "");
@@ -52,8 +49,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             criticalProperty = errorP;
             criticalDescription = errorD;
 
-            errorDescription = criticalD;
-            errorProperty = criticalP;
             string outputFileName = "_critical_nodes_output.csv";
             string fullFile = fileStem + outputFileName;
             StreamWriter cFile = new StreamWriter(fullFile, false);
@@ -103,30 +98,46 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                     switch (g.Represented.Node.GetMyMember())
                     {
                         case Members.Field:
-                            //Console.WriteLine("field reached");
-                            TraceField(TraceTree.ConditionalLinkToParent(root, g));
+                            TraceTree field = TraceTree.ConditionalLinkToParent(root, g);
+                            if (field != null)
+                            {
+                                TraceField(field);
+                            }
                             break;
                         case Members.Parameter:
-                            //Console.WriteLine("parameter reached");
-                            TraceParameter(TraceTree.ConditionalLinkToParent(root, g));
+                            TraceTree parameter = TraceTree.ConditionalLinkToParent(root, g);
+                            if (parameter != null)
+                            {
+                                TraceParameter(parameter);
+                            }
+                            
                             break;
                         case Members.Method:
-                            //Console.WriteLine("method reached");
-                            TraceMethod(TraceTree.ConditionalLinkToParent(root, g));
+                            TraceTree method = TraceTree.ConditionalLinkToParent(root, g);
+                            if( method != null)
+                            {           
+                                TraceMethod(method);
+                            }
+                            
                             break;
                         case Members.MethodScope:
-
                             AbbreviatedGraph p = g.findParentScope();
-                            //Console.WriteLine("methodscope reached");
                             if (p.Represented.Node.GetMyMember() == Members.Method)
                             {
-                                //Console.WriteLine("methodscope if-then reached");
-                                TraceMethod(TraceTree.ConditionalLinkToParent(root, p));
+                                TraceTree methodscope = TraceTree.ConditionalLinkToParent(root, p);
+                                if(methodscope != null)
+                                {
+                                    TraceMethod(methodscope);
+                                }
+                                
                             }
                             break;
                         case Members.Branch:
-                            //Console.WriteLine("tracebranch reached");
-                            TraceBranch(TraceTree.ConditionalLinkToParent(root, g));
+                            TraceTree branch = TraceTree.ConditionalLinkToParent(root, g);
+                            if(branch != null)
+                            {
+                                TraceBranch(branch);
+                            }
                             break;
                         default:
                             //default functionality unnecessary? (subject to change)
@@ -180,19 +191,32 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 //field wants to trace back to anything it is related to.
                 if (grphNde.Represented.Node.Equals(Members.Parameter))
                 {
-                    TraceParameter(child);
+                    if(child != null)
+                    {
+                        TraceParameter(child);
+                    }
+                   
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Method))
                 {
-                    TraceMethod(child);
+                    if(child != null)
+                    {
+                        TraceMethod(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Branch))
                 {
-                    TraceBranch(child);
+                    if(child != null)
+                    {
+                        TraceBranch(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Field))
                 {
-                    TraceField(child);
+                    if(child != null)
+                    {
+                        TraceField(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Constructor))
                 {
@@ -233,19 +257,31 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 //field wants to trace back to anything it is related to.
                 if (grphNde.Represented.Node.Equals(Members.Parameter))
                 {
-                    TraceParameter(child);
+                    if(child != null)
+                    {
+                        TraceParameter(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Method))
                 {
-                    TraceMethod(child);
+                    if(child != null)
+                    {
+                        TraceMethod(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Branch))
                 {
-                    TraceBranch(child);
+                    if(child != null)
+                    {
+                        TraceBranch(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Field))
                 {
-                    TraceField(child);
+                    if(child != null)
+                    {
+                        TraceField(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Constructor))
                 {
@@ -274,7 +310,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             {
                 if (grphNde.Represented.Node.Equals(Members.Method))
                 {
-                    TraceMethod(TraceTree.ConditionalLinkToParent(parent, grphNde));
+                    TraceTree q = TraceTree.ConditionalLinkToParent(parent, grphNde);
+                    if (q != null)
+                    {
+                        TraceMethod(q);
+                    }
                 }
             }
 
@@ -292,19 +332,31 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 //There are many members that could be relevant in the future. This logic provides the user with the most important traces
                 if (grphNde.Represented.Node.Equals(Members.Method))
                 {
-                    TraceMethod(child);
+                    if (child != null)
+                    {
+                        TraceMethod(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Parameter))
                 {
-                    TraceParameter(child);
+                    if(child!=null)
+                    {
+                        TraceParameter(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Branch))
                 {
-                    TraceBranch(child);
+                    if (child != null)
+                    {
+                        TraceBranch(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Field))
                 {
-                    TraceField(child);
+                    if (child != null)
+                    {
+                        TraceField(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
                 {
@@ -340,7 +392,11 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             {
                 //Theoretically this grphNode should be identical with the grphNode above. Not sure but should be.
                 //TODO check this assumption
-                TraceReturnValue(TraceTree.ConditionalLinkToParent(parent, grphNode));
+                TraceTree q = TraceTree.ConditionalLinkToParent(parent, grphNode);
+                if (q != null)
+                {
+                    TraceReturnValue(q);
+                }
             }
 
             //control is rarer than return value, but relevant
@@ -351,19 +407,31 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 TraceTree child = TraceTree.ConditionalLinkToParent(parent, grphNde);
                 if (grphNde.Represented.Node.Equals(Members.Method))
                 {
-                    TraceMethod(child);
+                    if (child != null)
+                    {
+                        TraceMethod(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Parameter))
                 {
-                    TraceParameter(child);
+                    if (child != null)
+                    {
+                        TraceParameter(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Branch))
                 {
-                    TraceBranch(child);
+                    if (child != null)
+                    {
+                        TraceBranch(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.Field))
                 {
-                    TraceField(child);
+                    if (child != null)
+                    {
+                        TraceField(child);
+                    }
                 }
                 else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
                 {
@@ -394,42 +462,58 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             for (int i = start; i <= stop; i++)
             {
                 //TODO this needs to have logic to check each line and follow them.
-                foreach (AbbreviatedGraph grphNde in AbbreviatedGraph.GetNodes(gn.Represented.FileName,i))
+                foreach (AbbreviatedGraph grphNde in AbbreviatedGraph.GetNodes(gn.Represented.FileName, i))
                 {
                     //Theoretically this should be like the tracebranch below. ajf see ln 276
-                    TraceTree c2 = TraceTree.ConditionalLinkToParent(child, grphNde);
-                    if (grphNde.Represented.Node.Equals(Members.Method))
+                    if (child != null)
                     {
-                        TraceMethod(c2);
-                    }
-                    else if (grphNde.Represented.Node.Equals(Members.Parameter))
-                    {
-                        TraceParameter(c2);
-                    }
-                    else if (grphNde.Represented.Node.Equals(Members.Branch))
-                    {
-                        TraceBranch(c2);
-                    }
-                    else if (grphNde.Represented.Node.Equals(Members.Field))
-                    {
-                        TraceField(c2);
-                    }
-                    else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
-                    {
-                        //do nothing
-                    }
-                    else if (grphNde.Represented.Node.Equals(Members.For3Loop))
-                    {
-                        //do nothing
-                    }
-                    else
-                    {
-                        //case not accounted for. error message to user.
-                        missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()\n";
-                    }
-                }
+                        TraceTree c2 = TraceTree.ConditionalLinkToParent(child, grphNde);
 
-                
+
+                        if (grphNde.Represented.Node.Equals(Members.Method))
+                        {
+                            if (c2 != null)
+                            {
+                                TraceMethod(c2);
+                            }
+                        }
+                        else if (grphNde.Represented.Node.Equals(Members.Parameter))
+                        {
+                            if (c2 != null)
+                            {
+                                TraceParameter(c2);
+                            }
+                        }
+                        else if (grphNde.Represented.Node.Equals(Members.Branch))
+                        {
+                            if (c2 != null)
+                            {
+                                TraceBranch(c2);
+                            }
+                        }
+                        else if (grphNde.Represented.Node.Equals(Members.Field))
+                        {
+                            if (c2 != null)
+                            {
+                                TraceField(c2);
+                            }
+                        }
+                        else if (grphNde.Represented.Node.Equals(Members.ArrayInvoke))
+                        {
+                            //do nothing
+                        }
+                        else if (grphNde.Represented.Node.Equals(Members.For3Loop))
+                        {
+                            //do nothing
+                        }
+                        else
+                        {
+                            //case not accounted for. error message to user.
+                            missedTraces += grphNde.Represented.Node.ToString() + " not accounted for in TraceParameter()\n";
+                        }
+                    }
+
+                }
             }
         }
 
@@ -457,7 +541,10 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                     //BSD probably right, see note above
                     TraceTree child = TraceTree.ConditionalLinkToParent(parent, grphNode);
-                    TraceField(child);
+                    if(child != null)
+                    {
+                        TraceField(child);
+                    }
                 }
                 else if (grphNode.Represented.Node.Equals(Members.Literal))
                 {

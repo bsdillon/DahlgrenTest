@@ -31,6 +31,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             ConsiderIntegrity();
             FilterDysplasia();
             FindTumors();
+            
         }
 
         /// <summary>

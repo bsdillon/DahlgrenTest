@@ -44,23 +44,37 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             this.file = file;
             this.line = line;
             this.error = error;
-            this.label = "TraceTree:"+ parent.file + ":" + parent.line + ":" + parent.error;
+            this.label = "TraceTree:" + file + ":" + line + ":" + error;
             TraceTree.AllTrees.Add(this.label, this);
         }
         #endregion
 
         #region ConditionalLinktoParent/Child
+        /// <summary>
+        /// Conditional link makes several checks for a valid child node associated with the child graph
+        /// BUT it may return a null if those conditions are not found. It will create a new TraceTree and
+        /// append it to the parent ONLY if 
+        /// * Child is not simulated
+        /// * Child has not been seen in this tree before.
+        /// 
+        /// In all other cases it returns a null -- so beware
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="child"></param>
+        /// <returns></returns>
         public static TraceTree ConditionalLinkToParent(TraceTree parent, AbbreviatedGraph child)
         {
             if(child.IsSimulated)
             {
                 return null;
             }
+            
 
             if(!MetricUtilities.GephiExists(child))
             {
                 //create one just for this purpose
                 MetricUtilities.InitializeGephiNode(child, child, MetricUtilities.NextModule(), NodePatterns.None, AccessPatterns.None, false);
+                
             }
 
             GephiNode myChild = MetricUtilities.GephiFromGraph(child);

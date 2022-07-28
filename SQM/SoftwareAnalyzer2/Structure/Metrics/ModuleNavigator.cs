@@ -75,6 +75,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         //required functionality under IGraphNavigator
         public void Navigate(AbbreviatedGraph current)
         {
+            Console.WriteLine("did it get into Navigate in ModuleNavigator.cs?");
             MetricUtilities.Initialize();
             if (current == null)
             {
@@ -191,15 +192,18 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             SetOutput("Checking for any CSV Issues");
             TraceCSVLinks(current);
-
+            Console.WriteLine("did it get through traceCSVlinks?");
             //Austin - adding Critical CSV Input Metric
             TraceCriticalCSVLinks();
-
+            Console.WriteLine("did it get through criticallinks?");
             SetOutput("Writing graph files");
             WriteOutGraph();
+            Console.WriteLine("did it get through graph files?");
             SetOutput("Writing metric reports");
             WriteMetricReports();
+            Console.WriteLine("did it get through metricreports?");
             SetOutput("Done");
+            Console.WriteLine("did it get through everything in Navigate?");
         }
 
         #region Report Writing
@@ -441,6 +445,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             CountAll.FindPackages(heatMapNodes, heatMapEdges);
             heatMapEdges.Close();
             heatMapNodes.Close();
+
         }
 
         /// <summary>
@@ -806,89 +811,60 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         private void TraceCSVLinks(AbbreviatedGraph current)
         {
+            Console.WriteLine("Are CSV links being traced?");
             //if there are no csv files, there is nothing to trace
             if (csvPaths == null)
             {
                 return;
             }
 
-            //Dictionary<string, Dictionary<int, List<GraphNode>>> lineNums = GraphNode.GetLineNumDict();
-
             //foreach csv file entered by the user
             ////foreach file in linenums (declared above). key = filename, value = dictionary<line number, list of graph nodes that have that line number>
             //////read the csv file
             //////if filename and line number match
             ////////find all related edges
-            /*
-             * foreach (String csvFile in csvPaths)
+            foreach (String csvFile in csvPaths)
             {
-                //file in linenumdict
-                foreach (string fileNameKey in lineNums.Keys)
+                using (var read = new StreamReader(@csvFile))
                 {
-                    //trim the file name to the last part of the string behind the last directory separator char.
-                    //e.g. /folder/another/importantFile.java -> /importantFile
-                    //this allows safety to simply input "/importantFile"
-                    string fileNameKeyMod = fileNameKey;
-                    if (fileNameKey.LastIndexOf(Path.DirectorySeparatorChar) > 0)
+                    while (!read.EndOfStream)
                     {
-                        fileNameKeyMod = fileNameKey.Substring(fileNameKey.LastIndexOf(Path.DirectorySeparatorChar));
-                    }
+                        //split CSV values
+                        var rLine = read.ReadLine();
+                        var values = rLine.Split(',');
+                        //user csv input format = file, line, error description, error property
+                        string errorDescription = values[2];
+                        string errorProp = values[3];
 
-                    using (var read = new StreamReader(@csvFile))
-                    {
-                        while (!read.EndOfStream)
+                        //check that each property within the csv is not found in the NodeProperties enum.
+                        //this was already checked for, so it should not be an issue.
+                        //if this is found, crash the program with an error
+                        foreach (string enumProp in Enum.GetNames(typeof(NodeProperties)))
                         {
-                            //split CSV values
-                            var rLine = read.ReadLine();
-                            var values = rLine.Split(',');
-                            int lineNum = -1;
-                            bool lineUsed = false;
-                            //user csv input format = file, line, error description, error property
-                            string errorDescription = values[2];
-                            string errorProp = values[3];
-
-                            //check that each property within the csv is not found in the NodeProperties enum.
-                            //this was already checked for, so it should not be an issue.
-                            //if this is found, crash the program with an error
-                            foreach (string enumProp in Enum.GetNames(typeof(NodeProperties)))
+                            if (errorProp == enumProp)
                             {
-                                if (errorProp == enumProp)
-                                {
-                                    throw new InvalidDataException("Error property: " + errorProp + " cannot be used.");
-                                }
+                                throw new InvalidDataException("Error property: " + errorProp + " cannot be used.");
                             }
+                        }
 
-                            //if filename matches
-                            if (fileNameKeyMod == values[0])
+                        int lineNum = -1;
+                        bool succeeded = int.TryParse(values[1], out lineNum);
+
+                        if(succeeded)
+                        {
+                            List<AbbreviatedGraph> nodes = AbbreviatedGraph.GetNodes(values[0], lineNum);
+                            if(nodes.Count>0)
                             {
-                                //if line number matches, find the connections
-                                if (int.TryParse(values[1], out lineNum))
-                                {
-                                    if (lineNums[fileNameKeyMod].ContainsKey(lineNum))
-                                    {
-                                        lineUsed = true;
-                                        //line number matches an edge, trace it further
-                                        AffectedTree at = new AffectedTree();
-                                        at.FindCSVConnections(fileNameKeyMod, lineNum, fileStem, errorDescription, errorProp);
-                                    }
-                                    else
-                                    {
-                                        //TODO?
-                                        //file name matches, but the line number does not. this will happen a lot...
-                                        //likely nothing to do here unless tracking of unused values/linenums is desired
-                                    }
-                                }
-
-                                //if a csv input field matched on filename, but the line number was never used, report it
-                                if (!lineUsed)
-                                {
-                                    csvErrors += "Line Number: " + lineNum + " in File: " + fileNameKeyMod + " not found." + System.Environment.NewLine;
-                                }
+                                AffectedTree at = new AffectedTree();
+                                //find all graphnodes that are related to the line number entered by the user
+                                TraceTree root = new TraceTree(values[0], lineNum, errorProp + ": " + errorDescription);
+                                at.FindCSVConnections(root, nodes, fileStem);
+                                csvErrors += "Line Number: " + lineNum + " in File: " + values[0] + " not found." + System.Environment.NewLine;
                             }
                         }
                     }
                 }
-            }*/
+            }
         }
 
         //Austin note: Starter function to trace Critical Nodes re: Metric Analysis

@@ -55,6 +55,7 @@ namespace SoftwareAnalyzer2.Structure.Gephi
         private long nodeIndex = 0;
         public void Navigate(AbbreviatedGraph current)
         {
+            Console.WriteLine("did it get to GephiNavigator?");
             CreateNode(current, 0);
             RecursiveNavigation(current, 0);
         }
