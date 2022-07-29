@@ -1,4 +1,10 @@
-//Commenting out until we can find a proper place to store the server and MBSE library
+//Commented out because you need DahlgrenTest/Automated_MBSE to run. 
+//In order to run this. Get MBSE_library and server.py from Automated_MBSE
+//and change line 34 to be the path to the location of server.py
+//ensure server.py and MBSE_library are in the same directory
+//The MBSE outputs will be in the directory as well
+//This will only work on windows if you want it to work on Linux
+//change line 35 to run server.py in Linux fashion
 
 /*using SoftwareAnalyzer2.Structure.Metrics;
 using SoftwareAnalyzer2.Structure.Gephi;
