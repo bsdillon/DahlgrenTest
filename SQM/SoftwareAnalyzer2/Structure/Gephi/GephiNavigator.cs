@@ -40,6 +40,7 @@ namespace SoftwareAnalyzer2.Structure.Gephi
             temp.Add(Members.TypeDeclaration);
             temp.Add(Members.Field);
             temp.Add(Members.Method);
+            temp.Add(Members.NAMESPACE);
             StructureElements = temp;
         }
 

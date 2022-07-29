@@ -16,6 +16,7 @@ struct Object2 {
         m_j = j;
         m_k = k;
     }
+    void Something() {  }
     int getI() { return m_i; }
     int getJ() { return m_j; }
     int getK() { return m_k; }

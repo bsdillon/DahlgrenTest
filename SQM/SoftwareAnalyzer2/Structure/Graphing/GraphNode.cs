@@ -499,10 +499,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         {
             if (typeName.Length == 0)
             {
-                try { int x = 0; int y = 1 / x; }catch(Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
                 throw new InvalidOperationException("Cannot search for Type with empty name");
             }
             //search up the graph for the nearest type declaration in this tree

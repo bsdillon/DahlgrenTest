@@ -30,9 +30,9 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             INavigable myNavigable = (INavigable)represented;
             
             int count = myNavigable.GetChildCount();
-            if ( count<1 || count>2 )
+            if ( count<1 || count>3 )
             {
-                throw new IndexOutOfRangeException("Expected 1 or 2 children for While/doWhile but received " + count + " children"); 
+                throw new IndexOutOfRangeException("Expected 1-3 children for While/doWhile but received " + count + " children"); 
             }
 
             List<INavigable> childs = myNavigable.Children;
@@ -42,9 +42,13 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 {
                     loop = RegisterScope(n);
                 }
-                else
+                else if (n.Node.Equals(Members.Boolean))
                 {
                     AddControlExpression(n);
+                }
+                else if (n.Node.Equals(MemberSets.Fields))
+                {
+                    RegisterFields(n);
                 }
             }
             
@@ -55,11 +59,20 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         #region Linking
         public override void InitialLink()
         {
+            foreach (Field f in AllFields)
+            {
+                f.InitialLink();
+            }
             loop.InitialLink();
         }
 
         public override void FullLink()
         {
+            foreach (Field f in AllFields)
+            {
+                f.FullLink();
+            }
+
             new ControlExpression((INavigable)myControl.Represented, new ChainArgs(this, true, new Statement(this, represented), false));
 
             loop.FullLink();
@@ -76,6 +89,10 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
             }
 
             explored = true;
+            foreach (DefinedMember d in AllFields)
+            {
+                d.ExploreGraph(ExploreModes.Full);
+            }
 
             foreach (GraphNode g in FindRelationships())
             {
@@ -88,6 +105,11 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         protected override void WriteEdges()
         {
             base.WriteEdges();
+
+            foreach (DefinedMember d in AllFields)
+            {
+                WriteMember(d);
+            }
 
             WriteMember(loop);
         }

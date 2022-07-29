@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstdarg>
-
 int function(){
 	return 0;
 }
@@ -23,9 +22,13 @@ int function(int x, int y ... ){
 	va_end(args);
 	return 3;
 }
-
 int main(){
 	while (int x = 0)
+	{
+		
+	}
+	int y=0;
+	while (y = 1)
 	{
 		
 	}

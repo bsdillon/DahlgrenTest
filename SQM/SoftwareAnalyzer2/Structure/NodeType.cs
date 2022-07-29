@@ -130,6 +130,7 @@ namespace SoftwareAnalyzer2.Structure
             temp.Add(Members.Constructor);
             temp.Add(Members.Method);
             temp.Add(Members.Inline);
+            temp.Add(Members.Destructor);
             MethodDefinitions = temp;
 
             temp = new List<Members>();

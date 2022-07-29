@@ -32,6 +32,9 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 case Members.Constructor:
                     answer = new InvokableMember(node);
                     break;
+                case Members.Destructor:
+                    answer = new InvokableMember(node);
+                    break;
                 case Members.ArrayInvoke:
                     answer = new AnonArray(node);
                     break;
@@ -71,11 +74,25 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                 case Members.SynchBlock:
                     answer = new SynchBlock(node);
                     break;
-                case Members.NAMESPACE:
-                    //NAMESPACE needs to be implemented
-                    throw new InvalidCastException("Unrecognized control structure type: " + node.Node);
-                case Members.Destructor:
-                    //Destructors needs to be implemented
+                case Members.Variable://occurs when a method name includes namespace
+                    //Vitaliy dealing with namespaces
+                    //The issue is that during registration a method like int type::method() needs to be registered before 
+                    // we can gaurantee type exists.
+                    //On a statement during linking type::method() is perfectly legal and type is treated as a variable in Java.
+                    /*
+                    TypeDefinition temp = this.SearchScopeForType(a.Code);
+
+                    if (a.GetNthChild(0).Node.Equals(Members.DotOperator) && a.GetNthChild(0).GetChildCount() == 1)
+                    {
+                        //This is where we need to link NAMESPACES
+                        //For now, just throw error
+                        throw new InvalidCastException("LinkScope found unhandled " + type + " within method " + method.Represented);
+                    }
+                    else
+                    {
+                        throw new InvalidCastException("LinkScope found unhandled " + type + " within method " + method.Represented);
+                    }
+                    */
                     throw new InvalidCastException("Unrecognized control structure type: " + node.Node);
                 default:
                     throw new InvalidCastException("Unrecognized control structure type: " + node.Node);

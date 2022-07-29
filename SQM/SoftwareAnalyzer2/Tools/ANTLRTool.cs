@@ -1063,6 +1063,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.Collapse("expressionList");
                 head.Collapse("handler", "catch ( )");
 
+                head.RootUpModify(Members.Boolean, Members.Boolean, CPPBooleanCorrector);
                 // TODO: move all these up above the collapses
                 head.RootUpModify(Members.Field, Members.Field, CPPConstructorInvokeCheck);
                 head.RootUpModify(Members.MethodInvoke, Members.MethodInvoke, CPPDestructorCorrector);
@@ -1078,6 +1079,7 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify(Members.TypeName, Members.TypeName, CPPScopeResolutionOperator);
                 //Renames function operators
                 head.RootUpModify("operatorFunctionId", "operatorFunctionId", CPPFunctionOperatorCorrector);
+                //Reworks Boolean structure
                 head.NormalizeLines();
             }
             else {
@@ -4299,6 +4301,13 @@ namespace SoftwareAnalyzer2.Tools
                 if (node.Code.Contains("~"))
                 {
                     node.SetNode(Members.Destructor);
+                    IModifiable returnTypeNode = (IModifiable)NodeFactory.CreateNode(Members.ReturnType, false);
+                    returnTypeNode.Parent = node;
+                    node.AddCode(node.GetFirstSingleLayer(Members.TypeName).Code, node);
+                    node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.TypeName));
+                    IModifiable voidNode = (IModifiable)NodeFactory.CreateNode(Members.Primitive, false);
+                    voidNode.AddCode(" void", voidNode);
+                    voidNode.Parent = returnTypeNode;
                 }
                 else
                 {
@@ -6931,7 +6940,7 @@ namespace SoftwareAnalyzer2.Tools
                         temp = "GLOBAL";
                         code = code.Remove(0, ind + 3);
                     }
-                    IModifiable nameS= (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
+                    IModifiable nameS= (IModifiable)NodeFactory.CreateNode(Members.Variable, false);
                     nameS.AddCode(temp, nameS);
                     nameS.SetLine(node);
                     if (i == 0)
@@ -6981,7 +6990,92 @@ namespace SoftwareAnalyzer2.Tools
                 throw new ArgumentException("Unexpected parent for function operator: " + node);
             }
         }
+        /// <summary>
+        /// Creates a field based off a list of elements
+        /// Elements usually include type and variable
+        /// </summary>
+        /// <param name="answer"></param>
+        private IModifiable FieldMaker(List<INavigable> elements)
+        {
+            IModifiable Field = (IModifiable)NodeFactory.CreateNode(Members.Field, false);
+            IModifiable modSet = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+            modSet.Parent = Field;
+            foreach (INavigable element in elements)
+            {
+                if (element.Node.Equals(Members.Type))
+                {
+                    element.Parent = Field;
+                }
+                else if (element.Node.Equals(Members.Variable))
+                {
+                    element.Parent = Field;
+                }
+                else //This could be something like literal or methodInvoke
+                {
+                    IModifiable write = (IModifiable)NodeFactory.CreateNode(Members.Write, false);
+                    write.AddCode("=", write);
+                    element.Parent = write;
+                    write.Parent = Field;
+                }
+            }
+            Field.GetFirstSingleLayer(Members.Write).Parent = Field.GetFirstSingleLayer(Members.Variable);
+            Field.RemoveChild((IModifiable)Field.GetFirstSingleLayer(Members.Write));
+            return Field;
+        }
+        /// <summary>
+        /// Reworks boolean expressions with 3 elements
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPP3BoolCorrector (IModifiable node)
+        {
+            List<INavigable> children = node.Children;
+            foreach (INavigable child in children)
+            {
+                if (!child.Node.Equals(Members.Variable))
+                {
+                    node.RemoveChild((IModifiable)child);
+                }
+            }
+            IModifiable Field = FieldMaker(children);
+            if (node.GetFirstSingleLayer(MemberSets.Fields) != null)
+            {
+                Field.Parent = node.GetFirstSingleLayer(MemberSets.Fields);
+            }
+            else
+            {
+                IModifiable Fields = (IModifiable)NodeFactory.CreateNode(MemberSets.Fields, false);
+                Fields.Parent = node.Parent;
+                Field.Parent = Fields;
+            }
+            IModifiable var1 = (IModifiable)NodeFactory.CreateNode(Members.Variable, false);
+            var1.AddCode(node.GetFirstSingleLayer(Members.Variable).Code, (IModifiable)node.GetFirstSingleLayer(Members.Variable));
+            node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.Variable));
+            var1.Parent = node;
+        }
 
+        /// <summary>
+        /// Reorganizes boolean expressions in while and if statements.
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPBooleanCorrector (IModifiable node)
+        {
+            if (node.GetChildCount() == 3)
+            {
+                CPP3BoolCorrector(node);
+            }
+            else if (node.GetFirstSingleLayer(Members.Variable) != null && node.GetChildCount() == 1)// Case of assignment
+            {
+                if (node.GetFirstSingleLayer(Members.Variable).GetFirstSingleLayer(Members.Write) != null)
+                {
+                    IModifiable var1 = (IModifiable)node.GetFirstSingleLayer(Members.Variable);
+                    IModifiable var2 = (IModifiable)NodeFactory.CreateNode(Members.Variable, false);
+                    var2.AddCode(var1.Code, var1);
+                    node.RemoveChild(var1);
+                    var2.Parent = node;
+                    var1.Parent = node.Parent.Parent;
+                }
+            }
+        }
         /// <summary>
         /// Handles decltypeSpecifier nodes that actually deal with the decltype specifier
         /// Currently just renames the node and drops all children

@@ -67,7 +67,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
                     }
                     else if (returnType == TypeDefinition.VoidType)
                     {
-                       // Console.WriteLine("!!!!!!!!!AAA" + returnType + " --- " + this.represented.FileName);
                         throw new InvalidOperationException(represented + " has a void return type; Return value cannot be accessed");
                     }
 
@@ -99,9 +98,9 @@ namespace SoftwareAnalyzer2.Structure.Graphing.Specifics
         public InvokableMember(INode node)
         {
             Members type = node.Node.GetMembers();
-            if (!(type == Members.Method || type == Members.Inline || type == Members.Constructor))
+            if (!(type == Members.Method || type == Members.Inline || type == Members.Constructor || type == Members.Destructor))
             {
-                throw new InvalidCastException("Invokables must be methods, constructors or inlines. Type " + type + " is undefined");
+                throw new InvalidCastException("Invokables must be methods, constructors, destructors, or inlines. Type " + type + " is undefined");
             }
 
             represented = node;
