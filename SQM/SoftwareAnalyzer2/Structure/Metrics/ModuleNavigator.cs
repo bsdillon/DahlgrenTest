@@ -47,11 +47,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         private string fileStem;
         private List<string> csvPaths;
         private string csvErrors = "";
-        //Austin: adding CriticalCSVPaths and necessary variables 
         private List<string> criticalCsvPaths;
-        private String cDescription = "testvalue";
-        private String cProperty = "testvalue";
-        private int criticalLineNum = -1;
+
 
         #endregion
 
@@ -66,7 +63,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
         {
             csvPaths = csvRecieved;
         }
-        //Austin: accept critical csv input file from metrics tab
+        //accept critical (safety critical functions) csv input file from metrics tab
         public void SetCriticalCsvInput(List<string> criticalCsvRecieved)
         {
             criticalCsvPaths = criticalCsvRecieved;
@@ -192,18 +189,14 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
             SetOutput("Checking for any CSV Issues");
             TraceCSVLinks(current);
-            Console.WriteLine("did it get through traceCSVlinks?");
-            //Austin - adding Critical CSV Input Metric
+            //Unfinished Feature, does not output
+            SetOutput("Checking for any Critical CSV Issues");
             TraceCriticalCSVLinks();
-            Console.WriteLine("did it get through criticallinks?");
             SetOutput("Writing graph files");
             WriteOutGraph();
-            Console.WriteLine("did it get through graph files?");
             SetOutput("Writing metric reports");
             WriteMetricReports();
-            Console.WriteLine("did it get through metricreports?");
             SetOutput("Done");
-            Console.WriteLine("did it get through everything in Navigate?");
         }
 
         #region Report Writing
@@ -416,7 +409,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             //PlantUMLAPI.CreatePlantUMLAPI(fileStem + "Plant_UMLAPI.txt");
             //summary.Append("Plant UML API: " + reportCount + System.Environment.NewLine);
 
-            //Austin: Eventually we will use reportCount = TraceCriticalCSVLinks with return value of integer
+            //Eventually we will use reportCount = TraceCriticalCSVLinks with return value of integer
             //TraceCriticalCSVLinks();
 
             //write the summary data collected
@@ -808,7 +801,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
         private void TraceCSVLinks(AbbreviatedGraph current)
         {
-            Console.WriteLine("Are CSV links being traced?");
             //if there are no csv files, there is nothing to trace
             if (csvPaths == null)
             {
@@ -864,147 +856,15 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             }
         }
 
-        //Austin note: Starter function to trace Critical Nodes re: Metric Analysis
         private void TraceCriticalCSVLinks()
         {
-
             //if there are no csv files, there is nothing to trace
             if (criticalCsvPaths == null || csvPaths == null)
             {
                 return;
             }
-            //Key: /bubblesort, value: Dictionary<key of integer and value of LIST of Graphnodes//
-            // Dictionary<string, Dictionary<int, List<GraphNode>>> lineNums = GraphNode.GetLineNumDict();
-            //Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>> affectedDictionary = AffectedLine.GetAffectedDict();
-
-            Console.WriteLine("****AJF: Critical CSV Path File(s): ");
-            Console.WriteLine("****AJF: " + string.Join(",", criticalCsvPaths.ToArray()));
-            Console.WriteLine("****AJF: Regular CSV Path File(s): ");
-            Console.WriteLine("****AJF: " + string.Join(",", csvPaths.ToArray()));
-
-            ////Parse critical file inputs
-            /*
-                foreach (String criticalCsvFile in criticalCsvPaths)
-            {
-                Console.WriteLine("****AJF: Individual Critical CSV File: " + criticalCsvFile);
-                //foreach (string criticalFileNameKey in lineNums.Keys)
-                //{   
-                using (var readcritical = new StreamReader(@criticalCsvFile))
-                {
-                    while (!readcritical.EndOfStream)
-                    {
-                        var criticalRLine = readcritical.ReadLine();
-                        var criticalValues = criticalRLine.Split(',');
-                        criticalLineNum = -1;
-                        bool criticalLineUsed = false;
-                        //criticalValues[0] = file name
-                        //criticalValues[1] = line number
-                        cDescription = criticalValues[2];
-                        cProperty = criticalValues[3];
-                        ////Austin note: mutability property between criticalD and P, shorten "critical" and extend the different part (Property) (Description)
-                        foreach (string enumProp in Enum.GetNames(typeof(NodeProperties)))
-                        {
-                            if (cProperty == enumProp)
-                            {
-                                throw new InvalidDataException("Error property: " + cProperty + " cannot be used.");
-                            }
-                        }
-
-                        if (affectedDictionary.ContainsKey(criticalValues[0]))
-                        {
-                            Console.WriteLine("****AJF: Dictionary contains file: " + criticalValues[0]);
-                            //Verify that the user inputs an integer into values[1] - if they put "xyz", it should not work
-                            if (int.TryParse(criticalValues[1], out criticalLineNum))
-                            {
-                                Console.WriteLine("****AJF: User has correctly put in an integer. Searching AffectedDictionary...");
-                                //if line number values[1], now called criticallineNum, matches a line number within /bubblesort 's integer keys
-                                // Dictionary<string, Dictionary<int, List<Dictionary<GraphNode, Relationship>>>> affectedDictionary is full dictionary...
-                                // Dictionary<string, Dictionary<int...>> is how far we've gotten, we have NOT gotten to GraphNodes yet!
-                                // e.g., lineNums["/bubblesort"].ContainsKey(1) checks if line number 1 is a relevant key in bubblesort
-                                if (affectedDictionary[criticalValues[0]].ContainsKey(criticalLineNum))
-                                {
-                                    Console.WriteLine("****AJF: Dictionary contains a node for line:" + criticalLineNum + " in file: " + criticalValues[0]);
-                                    List<Dictionary<GraphNode, Relationship>> inFileOnLine = affectedDictionary[criticalValues[0]][criticalLineNum];
-                                    Console.WriteLine("****AJF: These are the graphnodes that correspond to that: ");
-                                    
-                                    foreach (Dictionary<GraphNode, Relationship> StartingPoint in inFileOnLine)
-                                    {
-                                        Console.WriteLine("****AJF: Moving into next sub-dictionary <GraphNode, Relationship>");
-
-                                        foreach (GraphNode gn in StartingPoint.Keys)
-                                        {
-                                            Console.WriteLine("****AJF: -----This individual graphnode is:");
-                                            Console.WriteLine("****AJF: " + gn.Represented.ToString() + ": " + StartingPoint[gn]);
-                                            Console.WriteLine("****AJF: ----------------Parent Nodes");
-                                            //GetAllParents(gn, StartingPoint);
-                                        }
-                                        ///FIGURE OUT: What is in the graphnode that you actually need? Maybe come back to this place and ask if it matches filename and line number?
-                                        ///Maybe try out printing all of bubblesort (line 934?), or print out all line numbers that are contained within affecteddictionary.criticalvalues
-                                        ///from there, check out what is in the graph node
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }*/
-
-            //}
+            //Cleaned up notes as old code not aligned to TraceTree data structure
         }
-
-        //Austin note: recursion is 1. base case (exit condition), 2. make a step
-        /*
-         * private bool ParentCheck(GraphNode gn)
-        {
-            if (gn != null)
-            {
-                if (gn.GetParentGNs() != null)
-                {
-                    if (gn.GetParentGNs().Count() > 0)
-                    {
-                        Console.WriteLine("****AJF: Parents exist!");
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-       private void GetAllParents(GraphNode gn, Dictionary<GraphNode, Relationship> StartingPoint)
-        {
-            //If you got StartTree as your relationship, that's IT! You're done!
-            //IF the startingpoint[gn] is start-of-tree, then you're done! GetAllParents will find next one up.
-            //If there's a relationship that happens on that line, I can say "that error came from somewhere else" - then we follow the link
-            if (!StartingPoint[gn].Equals(Relationship.StartTree))
-            {
-                //if NOT that, this is start of recursion step
-                //GetAllParents(gn);
-                ///withOUT recursion... just get the parent, grandparent, greatgrandparent
-                ////(if those exist) ... may need to rewrite ParentCheck and still use it eventually
-                ///IF parentcheck has a parent, check it. Maybe 3 for-each loops.
-            }
-            Console.WriteLine("****AJF:Entering GetAllParents(graphnode gn)...");
-
-            if (!ParentCheck(gn))
-            {
-                Console.WriteLine("****AJF:No more parents - exiting...");
-                return;
-            }
-
-            foreach (GraphNode parentgraph in gn.GetParentGNs())
-            {
-                Console.WriteLine("****AJF:-----calling GetAllParents");
-                GetAllParents(parentgraph, StartingPoint);
-            }
-        }
-        */
     }
 }
 

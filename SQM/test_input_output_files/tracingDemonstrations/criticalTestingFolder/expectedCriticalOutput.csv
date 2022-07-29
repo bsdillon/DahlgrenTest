@@ -1,0 +1,3 @@
+Lines affected by input file:\bubblesort - line number: [125] AND included in Critical input file:\bubblesort - line number: [138],,
+[\bubblesort::141](originated from: Method(138:23-33): isAscending * 2),,
+,,[\bubblesort::138](Method(138:23-33): isAscending * 2)

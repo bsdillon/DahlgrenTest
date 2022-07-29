@@ -89,7 +89,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             }
         }
 
-        private void csvCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void CsvCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             //when the user indicates that they have csv files to add, the browse/filepath text box appear
             if(csvPaths != null)
@@ -102,7 +102,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             formatExample.Visible = !formatExample.Visible;
         }
 
-        private void criticalCsvCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void CriticalCsvCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             //when the user indicates that they have csv files to add, the browse/filepath text box appear
             if (criticalCsvPaths != null)
@@ -115,7 +115,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             criticalFormatExample.Visible = !criticalFormatExample.Visible;
         }
 
-        private void criticalBrowseButton_Click(object sender, EventArgs e)
+        private void CriticalBrowseButton_Click(object sender, EventArgs e)
         {
             openFileDialog1.FileName = "";
             openFileDialog1.Filter = "CSV Files|*.csv|All Files|*.*";
@@ -213,7 +213,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
             criticalFilePathTextBox.Text = String.Join(", ", criticalCsvPaths);
         }
 
-        private void browseButton_Click(object sender, EventArgs e)
+        private void BrowseButton_Click(object sender, EventArgs e)
         {
             openFileDialog1.FileName = "";
             openFileDialog1.Filter = "CSV Files|*.csv|All Files|*.*";
@@ -316,7 +316,7 @@ namespace SoftwareAnalyzer2.GUI.AnaylsisForms
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void TextBox1_TextChanged(object sender, EventArgs e)
         {
 
         }

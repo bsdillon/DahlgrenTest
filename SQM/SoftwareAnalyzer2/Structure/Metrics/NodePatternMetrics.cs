@@ -32,31 +32,17 @@ namespace SoftwareAnalyzer2.Structure.Metrics
 
                 AbbreviatedGraph method = MetricUtilities.GraphFromGephi(m);
                 AbbreviatedGraph[] parameters = method.GetEdges(Relationship.FormalParameter).Keys.ToArray();
-
-                //AJF: This method.GetEdges seems to not return anything - returnType.length is always 0?
-
-                Console.WriteLine("AJF ******* : keys? : " + method.GetEdges(Relationship.ReturnType).Keys.Count);
-                if (method.GetEdges(Relationship.ReturnType).Keys.Count == 0)
-                {
-                    Console.WriteLine("AJF ***********************************METHOD INFO********************: " + method.ToString() + method.GetType());
-                }
                 AbbreviatedGraph[] returnType = method.GetEdges(Relationship.ReturnType).Keys.ToArray();
                 
-                //AJF: We added the || function, is this what you want? Ask at 2PM 07/25/2022
                 if (parameters.Length != 1)
                 {
                     //we are only interested in methods with exactly one parameter.
                     continue;
-                }
-                
-                
+                }     
+              
                 AbbreviatedGraph[] returnFromMethod = method.GetEdges(Relationship.ReturnValue).Keys.ToArray();
-                Console.WriteLine("AJF *******: Parameters[0]" + parameters[0]);
 
-                AbbreviatedGraph[] paramType = parameters[0].GetEdges(Relationship.InstanceOf).Keys.ToArray();
-
-                Console.WriteLine("AJF ******* ParamType: " + paramType[0]);
-                
+                AbbreviatedGraph[] paramType = parameters[0].GetEdges(Relationship.InstanceOf).Keys.ToArray();                
 
                 if (paramType.Length != 1)
                 {
@@ -66,10 +52,8 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 
                 if(returnType.Length != 0)
                 {
-                    Console.WriteLine("AJF ******* Return Type: " + returnType.Length);
                     if (!paramType[0].Equals(returnType[0]))
                     {
-                        Console.WriteLine("AJF ***** if paramType does not equal ReturnType");
                         //we are only interested in methods with a return type which matches that type.
                         continue;
                     }

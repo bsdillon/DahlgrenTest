@@ -105,7 +105,7 @@
             this.csvCheckBox.TabIndex = 6;
             this.csvCheckBox.Text = "CSV Input File(s)?";
             this.csvCheckBox.UseVisualStyleBackColor = true;
-            this.csvCheckBox.CheckedChanged += new System.EventHandler(this.csvCheckBox_CheckedChanged);
+            this.csvCheckBox.CheckedChanged += new System.EventHandler(this.CsvCheckBox_CheckedChanged);
             // 
             // filePathTextBox
             // 
@@ -128,7 +128,7 @@
             this.browseButton.Text = "Browse";
             this.browseButton.UseVisualStyleBackColor = true;
             this.browseButton.Visible = false;
-            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
+            this.browseButton.Click += new System.EventHandler(this.BrowseButton_Click);
             // 
             // formatExample
             // 
@@ -154,7 +154,7 @@
             this.criticalBrowseButton.Text = "Browse";
             this.criticalBrowseButton.UseVisualStyleBackColor = true;
             this.criticalBrowseButton.Visible = false;
-            this.criticalBrowseButton.Click += new System.EventHandler(this.criticalBrowseButton_Click);
+            this.criticalBrowseButton.Click += new System.EventHandler(this.CriticalBrowseButton_Click);
             // 
             // criticalFilePathTextBox
             // 
@@ -166,7 +166,7 @@
             this.criticalFilePathTextBox.Size = new System.Drawing.Size(251, 104);
             this.criticalFilePathTextBox.TabIndex = 11;
             this.criticalFilePathTextBox.Visible = false;
-            this.criticalFilePathTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.criticalFilePathTextBox.TextChanged += new System.EventHandler(this.TextBox1_TextChanged);
             // 
             // criticalFormatExample
             // 
@@ -190,7 +190,7 @@
             this.CriticalcheckBox1.UseVisualStyleBackColor = true;
             this.CriticalcheckBox1.Visible = false;
             this.CriticalcheckBox1.CheckedChanged += new System.EventHandler(this.CriticalcheckBox1_CheckedChanged);
-            this.CriticalcheckBox1.Click += new System.EventHandler(this.criticalCsvCheckBox_CheckedChanged);
+            this.CriticalcheckBox1.Click += new System.EventHandler(this.CriticalCsvCheckBox_CheckedChanged);
             // 
             // MetricPanel
             // 

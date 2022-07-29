@@ -34,7 +34,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                     {
                         string[] parts = data.Split("\t".ToCharArray(), StringSplitOptions.None);
                         if (parts.Length == 0) { 
-                            //Console.WriteLine("AJF *******: Blank Line found in .gph file!");
                             continue;
                         }
 
@@ -61,7 +60,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                             long l = long.Parse(parts[1]);
                             nodes.Add(l, g);
                             indices.Add(g, l);
-                            //Console.WriteLine("AJF*******" + parts[0] +" " + parts[1] + " " + parts[2] + " created");
                         }
                         else
                         { 
@@ -73,7 +71,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                             object relationship = Enum.Parse(typeof(Relationship), parts[4]);
                             string weight = parts[5];
 
-                            //Console.WriteLine("AJF*******Corresponding Node to this Edge is: " + String.Join(" ", nodes[statementID]));
 
                             //statement = nodes[source];
                             if (statementID != -1)
@@ -83,13 +80,8 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                                     statement = nodes[statementID];
                                     if (!statements.ContainsKey(statement.Represented.FileName))
                                     {
-                                        //Console.WriteLine("AJF ******  Statement ID does not equal 1 and is contained in nodes AND is not already contained in statements array" + String.Join(" ", parts) + "created with statementID of: " + statementID);
-                                        statements.Add(statement.Represented.FileName, new List<AbbreviatedGraph>());
-                                        
-                                        //Console.WriteLine("AJF******* " + statement.Represented.GetLineStart() + statement.Represented.FileName);
+                                        statements.Add(statement.Represented.FileName, new List<AbbreviatedGraph>());            
                                     }
-                                    //Console.WriteLine("AJF ******: " + counter + "|0| " + parts[0] + "  |1| " + parts[1] + " |2| " + parts[2] + " |3| " + parts[3] + " |4| " + parts[4] + " |5| " + parts[5] + " LineStart: " + statement.Represented.GetLineStart() + " Filename: " + statement.Represented.FileName);
-                                    //nodes[long.Parse(parts[1])], nodes[long.Parse(parts[2])]
                                     statements[statement.Represented.FileName].Add(statement);
                                 }
                             }
@@ -144,7 +136,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
                 sr.Close();
             }
             return worked;
-            //Console.WriteLine("AJF******* Counter For Edges: " + counter);
         }
 
 
@@ -289,7 +280,6 @@ namespace SoftwareAnalyzer2.Structure.Graphing
         internal static void Navigate(IGraphNavigator nav)
         {
             nav.Navigate(root);
-            Console.WriteLine("did it get through Navigate(IGraphNavigator nav)?");
         }
 
         public bool IsChildScopeOf(AbbreviatedGraph parentContext)
@@ -328,7 +318,7 @@ namespace SoftwareAnalyzer2.Structure.Graphing
             return keys[0];
         }
 
-        //Probably should be taken out and shot. Looks like a revision of a MetricUtilities funciton
+        //Probably should be taken out and shot. Looks like a revision of a MetricUtilities function
         //this function converts a GraphNode to an abbrievatedgraph, and then uses the abbreviated graph to find any related GephiNodes
         //any GephiNode found has the user-inputted "error property" added to the property dictionary with the value of the user-inputted "error description"
         /*        internal static void GephiFromGraphNode(GraphNode gn, string errorD, string errorP)

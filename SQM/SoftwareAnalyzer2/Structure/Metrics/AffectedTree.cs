@@ -13,14 +13,7 @@ namespace SoftwareAnalyzer2.Structure.Metrics
     class AffectedTree
     {
         private List<TraceTree> trees = new List<TraceTree>();
-        private AffectedLine al;
-        //variables to hold the user-inputted csv fields
-        private string errorDescription;
-        private string errorProperty;
-        //Austin: variables to hold the user-inputted Critical input csv fields
-        private string criticalDescription;
-        private string criticalProperty;
-        //Austin: new placeholder AffectedLine, trying to duplicate al to separate output to the new output file
+
         public AffectedTree()
         {
         }
@@ -44,38 +37,20 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             gFile.Close();
             missedTraces = "";
         }
-        public void FindCriticalCSVConnections(string fileName, int lineNum, string criticalFileName, int criticalLineNum, string fileStem, string criticalD, string criticalP, string errorD, string errorP)
+        public void FindCriticalCSVConnections(TraceTree root, List<AbbreviatedGraph> nodes, string fileStem)
         {
-            criticalProperty = errorP;
-            criticalDescription = errorD;
-
+            //The beginnings of writing the separate output file to show the confluence of where Safety Critical Nodes input matches with original CSV connections output
             string outputFileName = "_critical_nodes_output.csv";
             string fullFile = fileStem + outputFileName;
-            StreamWriter cFile = new StreamWriter(fullFile, false);
-            //I have a dictionary- here's the fileNamekey (e.g., "/bubblemod- line 2") and returns the list of graph nodes
+            StreamWriter gFile = new StreamWriter(fullFile, false);
 
-            // e.g., lineNums["/bubblesort"] would output a Dictionary<int, List<GraphNode>>
-            // e.g., lineNumDict["/bubblesort"][1] would output a List of GraphNodes that are related to /bubbleSort line number 1
-            Console.WriteLine("****AJF: relatedGNodes is: lineNumDict[" + fileName + "][" + lineNum + "]");
-            Console.WriteLine("****AJF: criticalrelatedGdGNodes is: lineNumDict[" + criticalFileName + "][" + criticalLineNum + "]");
+            //Find all graphnodes that are related to the line number entered by the user
+            FindAffectedNodes(root, nodes);
 
-            //List<GraphNode> relatedCriticalGNodes = lineNumDict[criticalFileName][criticalLineNum];
-
-            //acl = new AffectedLine();
-            //find all graphnodes that are related to the line number entered by the user
-            Console.WriteLine("****AJF: File Stem: " + fileStem);
-            //FindAffectedNodes(relatedGNodes, cFile, acl);
-            //Console.WriteLine("Got through FindAffectedNodes");
-            //csv output
-            //AffectedLine acl;
-            //BSD should be some form of trace tree
-            //traceTree.TraceUp(cFile);
-            //acl.OutputCSVErrors(cFile, fileName, lineNum);
-            //Console.WriteLine("finished outputting CSV errors");
-            cFile.WriteLine(missedTraces);
-            cFile.WriteLine("****AJF: Does this file have access to Critical Nodes? Critical Description: " + criticalD + " Critical Props: " + criticalP);
-            cFile.Close();
-            //Console.WriteLine("closed file");
+            //Csv output
+            root.TraceDown(gFile, "");
+            gFile.WriteLine(missedTraces);
+            gFile.Close();
             missedTraces = "";
         }
 
@@ -403,7 +378,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
             r = Relationship.Control;
             foreach (AbbreviatedGraph grphNde in FromParent.GetEdges(r).Keys)
             {
-                //Theoretically this should be like the tracebranch below. ajf see ln 276
                 TraceTree child = TraceTree.ConditionalLinkToParent(parent, grphNde);
                 if (grphNde.Represented.Node.Equals(Members.Method))
                 {
@@ -464,7 +438,6 @@ namespace SoftwareAnalyzer2.Structure.Metrics
                 //TODO this needs to have logic to check each line and follow them.
                 foreach (AbbreviatedGraph grphNde in AbbreviatedGraph.GetNodes(gn.Represented.FileName, i))
                 {
-                    //Theoretically this should be like the tracebranch below. ajf see ln 276
                     if (child != null)
                     {
                         TraceTree c2 = TraceTree.ConditionalLinkToParent(child, grphNde);
