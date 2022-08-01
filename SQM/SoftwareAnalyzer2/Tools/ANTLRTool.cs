@@ -5038,7 +5038,7 @@ namespace SoftwareAnalyzer2.Tools
                 node.RemoveChild((IModifiable)node.GetNthChild(1));
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
-            else if (node.GetNthChild(0).Code.Equals("-"))
+            else if (node.GetNthChild(0).Code.Equals("-") || node.GetNthChild(0).Code.Equals("+"))
             {
                 ((IModifiable)node.GetNthChild(0)).SetNode(Members.Operator);
                 node.GetNthChild(1).Parent = node.GetNthChild(0);
@@ -5456,34 +5456,46 @@ namespace SoftwareAnalyzer2.Tools
                 foreach (INavigable child in declChildren)
                 {
                     trailing = (IModifiable)child.GetNthChild(0).GetFirstSingleLayer("trailingTypeSpecifier");
-                    //Need to check if current child is long long or long
-                    if (trailing.GetFirstSingleLayer("simpleTypeSpecifier") != null)
+                    if (trailing == null && (IModifiable)child.GetFirstSingleLayer("storageClassSpecifier") != null)
                     {
                         if (!lineIsAccountedFor)
                         {
-                            source = (IModifiable)trailing.GetFirstSingleLayer("simpleTypeSpecifier").GetNthChild(0);
+                            source = (IModifiable)child.GetFirstSingleLayer("storageClassSpecifier");
                             lineIsAccountedFor = true;
                         }
-                        //if it's long long
-                        if (trailing.GetFirstSingleLayer("simpleTypeSpecifier").GetChildCount() == 2)
-                        {
-                            primitiveName = primitiveName + " long long";
-                        }
-                        else
-                        {
-                            primitiveName = primitiveName + " " + trailing.GetFirstSingleLayer("simpleTypeSpecifier").GetNthChild(0).Code;
-                        }
+                        primitiveName = primitiveName + " " + child.GetFirstSingleLayer("storageClassSpecifier").Code;
                     }
                     else
                     {
-                        if (trailing.GetFirstSingleLayer(Members.Primitive) != null)
+                        //Need to check if current child is long long or long
+                        if (trailing.GetFirstSingleLayer("simpleTypeSpecifier") != null)
                         {
                             if (!lineIsAccountedFor)
                             {
-                                source = (IModifiable)trailing.GetFirstSingleLayer(Members.Primitive);
+                                source = (IModifiable)trailing.GetFirstSingleLayer("simpleTypeSpecifier").GetNthChild(0);
                                 lineIsAccountedFor = true;
                             }
-                            primitiveName = primitiveName + " " + trailing.GetFirstSingleLayer(Members.Primitive).Code;
+                            //if it's long long
+                            if (trailing.GetFirstSingleLayer("simpleTypeSpecifier").GetChildCount() == 2)
+                            {
+                                primitiveName = primitiveName + " long long";
+                            }
+                            else
+                            {
+                                primitiveName = primitiveName + " " + trailing.GetFirstSingleLayer("simpleTypeSpecifier").GetNthChild(0).Code;
+                            }
+                        }
+                        else
+                        {
+                            if (trailing.GetFirstSingleLayer(Members.Primitive) != null)
+                            {
+                                if (!lineIsAccountedFor)
+                                {
+                                    source = (IModifiable)trailing.GetFirstSingleLayer(Members.Primitive);
+                                    lineIsAccountedFor = true;
+                                }
+                                primitiveName = primitiveName + " " + trailing.GetFirstSingleLayer(Members.Primitive).Code;
+                            }
                         }
                     }
                 }
@@ -6652,9 +6664,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPConstructorInitializerHandler(IModifiable node)
         {
-            Console.WriteLine("\n\nCPPConstructorInitializerHandler incoming tree:");
-            node.PrintTreeText();
-            Console.WriteLine("\n\n");
             // making an executive decision on how to represent these original AST nodes as SQM nodes
             ReparentChildren((IModifiable)node.GetNthChild(0));
             List<INavigable> children = node.Children;
@@ -6693,9 +6702,6 @@ namespace SoftwareAnalyzer2.Tools
                     child.RemoveChild((IModifiable)child.GetNthChild(1));
                 }
             }
-            Console.WriteLine("\n\nCPPConstructorInitializerHandler outgoing tree:");
-            node.PrintTreeText();
-            Console.WriteLine("\n\n");
         }
 
         /// <summary>
@@ -6909,8 +6915,15 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPScopeResolutionOperator (IModifiable node)
         {
-            if (!node.Code.Contains("::"))
+            if (!node.Code.Contains("::") && !node.Code.Equals("~"))
             {
+                return;
+            }
+            if (node.Code.Equals("~"))
+            {
+                node.SetNode(Members.Operator);
+                IModifiable nodeChild = (IModifiable)node.GetNthChild(0);
+                nodeChild.SetNode(Members.Variable);
                 return;
             }
             string code = node.Code;

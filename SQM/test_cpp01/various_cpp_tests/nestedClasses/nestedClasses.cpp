@@ -1,11 +1,7 @@
 #include <iostream>
 
+/*
 class a {
-    /*class nested { // private member
-	public:
-        void gooby() { std::cout << "g() was called!" << std::endl; }
-    };
-    */
    class b {
         class c { // private member
 	        class d {
@@ -24,12 +20,10 @@ class a {
         public:
         static c bf() { return c{}; }
     };
-
-
-
     public:
     static b af() { return b{}; }
 };
+*/
 
 class aa
 {
@@ -53,6 +47,7 @@ class aa
     };
 };
 
+
 class Aye 
 {
 public: 
@@ -60,12 +55,15 @@ public:
    // Only declaration
    void fun();
 };
+
   
 // Definition outside class using ::
 void Aye::fun()
 {
    std::cout << "fun() called";
 }
+
+
 
 namespace NamespaceE{
     class ClassE{
@@ -79,8 +77,8 @@ namespace NamespaceE{
 
 class ClassG {
 public:
-    static int get_x() { return x;}
-    static int x;
+    static int get_x1() { return x1;}
+    const static int x1 = 3;
 };
 
 enum class EnumA{
@@ -100,22 +98,26 @@ int C = 0;
 
 int main()
 {
-    
-    //enclose::nested n1 = enclose::f(); // error: 'nested' is private
+    //Working in SQM VVV
     ::C = 1;
     int X = 0;
     std::cout << X::count << std::endl;
     EnumA enum_value = EnumA::First;
-    int gx1 = ClassG::x;
-    int gx2 = ClassG::get_x();
+    int gx1 = ClassG::x1;
+    int gx2 = ClassG::get_x1();
     NamespaceE::ClassE::ClassE1 e1;
     e1.x = 7;
-    Aye a;
-    a.fun();
-    a::af().bf().cf().ef().fooby();
     aa::bb::cc::dd::ee::goo();
-    enclose::fooby().g(); // OK: does not name 'nested'
-    auto n2 = enclose::f(); // OK: does not name 'nested'
-    n2.g();
+    //Working in SQM ^^^
+
+
+    //Not working in SQM VVV
+    Aye ah;
+    ah.fun();
+    //Not working in SQM ^^^
+    
+    
+    //a::af().bf().cf().ef().fooby();
+    
     return 0;
 }
