@@ -1,8 +1,8 @@
 class PlantumlVariable:
 
-    def __init__(self, variable, type, modifier):
+    def __init__(self, variable, return_type, modifier):
         self.variable = variable
-        self.type = type
+        self.return_type = return_type
         self.static = False
         self.modifier = modifier
 
@@ -10,10 +10,10 @@ class PlantumlVariable:
         return self.variable
 
     def get_type(self):
-        return self.type
+        return self.return_type
 
-    def set_type(self, type):
-        self.type = type
+    def set_type(self, return_type):
+        self.return_type = return_type
 
     def set_static(self):
         self.static = True

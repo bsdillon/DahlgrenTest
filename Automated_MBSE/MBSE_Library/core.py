@@ -54,7 +54,7 @@ class MBSE:
 
         cd = os.path.join(filename, "linear_diagrams", "edges")
         os.makedirs(cd)
-        f = open(filename + "\linear_diagrams\edges\edges.csv", "w")
+        f = open(filename + "/linear_diagrams/edges/edges.csv", "w")
         content = ""
         for i in range(len(LinearDiagram.sender)):
             content += (LinearDiagram.sender[i] + "," + LinearDiagram.receiver[i] + "," + LinearDiagram.message_type[i]+"\n")
@@ -119,14 +119,14 @@ class MBSE:
                     pickle.dump(c, filehandler)
 
     @staticmethod
-    def print_uml(diagram = None):
+    def print_uml(diagram=None):
         if diagram == "code":
             CodeDiagram.print_code_diagram()
             try:
                 os.system('cmd /c "java -jar plantuml.jar code_diagram.txt"')
             except None:
                 print("Error loading PlantUML image. Check if Plantuml is installed")
-        if diagram == "method":
+        elif diagram == "method":
             CodeDiagram.print_method_diagram()
             try:
                 os.system('cmd /c "java -jar plantuml.jar code_diagram.txt"')
@@ -159,7 +159,7 @@ class MBSE:
     ################
 
     @staticmethod
-    def add_package(package_name):
+    def create_package(package_name):
         """
             Creates a package.
 
@@ -174,7 +174,7 @@ class MBSE:
         PlantumlPackage(package_name)
 
     @staticmethod
-    def add_class(class_name, package_name=None):
+    def create_class(class_name, package_name=None):
         """
             Add a class to the diagram.
 
@@ -233,7 +233,7 @@ class MBSE:
             if p.get_package_name() == package_name:
                 for c in PlantumlClass.class_list:
                     if c.get_class_name() == class_name:
-                        p.add_class(c)
+                        p.create_class(c)
 
     @staticmethod
     def add_method_to_class(method_name, class_name, modifier="", static=False, return_type=""):
@@ -292,7 +292,7 @@ class MBSE:
                     v.set_static()
 
     @staticmethod
-    def class_color(class_name, color):
+    def color_class(class_name, color):
         """
             Adds a color to a class.
 
@@ -393,7 +393,7 @@ class MBSE:
         LinearDiagram.boxes.append(box_name)
 
     @staticmethod
-    def add_to_box(node, box_name):
+    def add_to_box(node, box_name): 
         for n in Node.get_nodes():
             if n.get_name() == node:
                 n.set_box_name(box_name)

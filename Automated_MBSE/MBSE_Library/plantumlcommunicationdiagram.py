@@ -1,4 +1,7 @@
-import csv
+###########################################
+# Deprecated. Used for reference purposes #
+###########################################
+'''import csv
 
 
 class PlantUmlCommunicationDiagram:
@@ -164,4 +167,4 @@ class SenderReceiverRelationship:
         return str(self.receiver)
 
     def get_amount(self):
-        return self.amount
+        return self.amount'''

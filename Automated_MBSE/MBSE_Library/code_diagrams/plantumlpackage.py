@@ -1,6 +1,3 @@
-from MBSE_Library.code_diagrams.plantumlclass import PlantumlClass
-
-
 class PlantumlPackage:
     package_list = []
 

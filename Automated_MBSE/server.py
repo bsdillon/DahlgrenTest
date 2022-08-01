@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from MBSE_Library import MBSE
 import cgi
+
 hostName = "localhost"
 serverPort = 8080
 
@@ -19,10 +20,8 @@ class MyServer(BaseHTTPRequestHandler):
             environ={'REQUEST_METHOD': 'POST'}
         )
         for v1 in form.keys():
-            print(v1)
-            print(form.getvalue(v1))
             if v1 == "create_class":
-                MBSE.add_class(form.getvalue(v1))
+                MBSE.create_class(form.getvalue(v1))
             if v1 == "create_method":
                 method_name = ""
                 class_name = ""
@@ -39,38 +38,12 @@ class MyServer(BaseHTTPRequestHandler):
                     if v2 == "scope":
                         scope = form.getvalue(v2)
                     if v2 == "static":
-                        isStatic = bool(form.getvalue(v2))
-                print(method_name)
+                        if form.getvalue(v2) == "True":
+                            isStatic = True
+
                 MBSE.add_method_to_class(method_name, class_name, scope, isStatic, return_type)
 
-        MBSE.print_uml()
-        '''self.send_response(200)
-        self.send_response_only(200)
-        content_len = int(self.headers.get('Content-Length'))
-        command = str(self.rfile.read(content_len))
-        command = command.split('=')
-        print(command)
-        # /create_package/package_name
-        if command[0] == "b'create_package":
-            MBSE.add_package(command[1][:-1])
-            print("created " + command[1][:-1])
-
-        # /create_class/class_name
-        elif command[0] == "b'create_class":
-            MBSE.add_class(command[1][:-1])
-            print("created " + command[1][:-1])
-
-        # /create_method/class_name/method_name
-        # Class_name = " + member.Represented.Code + " = " + static + " = " + scope;
-        elif command[0] == "b'create_method":
-            MBSE.add_method_to_class(command[2], command[1], command[4], bool(command[3]), "")
-            print("created " + command[1] + " with " + command[3])
-        elif command[0] == "b'print_uml":
-            MBSE.print_uml()
-        else:
-            print("error")
-        print("received")
-        MBSE.print_uml("code")'''
+        MBSE.print_uml("code")
 
     def do_GET(self):
         self.send_response(200)
@@ -81,9 +54,6 @@ class MyServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes("<body>", "utf-8"))
         self.wfile.write(bytes("<p>Your request was received and is processing.</p>", "utf-8"))
         self.wfile.write(bytes("</body></html>", "utf-8"))
-        print(self.path)
-        command = self.path.split('=')
-        print(command)
 
 
 if __name__ == "__main__":

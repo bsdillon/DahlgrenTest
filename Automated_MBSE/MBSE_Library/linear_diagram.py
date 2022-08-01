@@ -173,7 +173,7 @@ class LinearDiagram:
         sender2 = []
         receiver2 = []
         message2 = []
-        order2 =[]
+        order2 = []
         node2 = []
 
         # Load model1

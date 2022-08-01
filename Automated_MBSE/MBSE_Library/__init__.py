@@ -1,5 +1,4 @@
 from MBSE_Library.code_diagrams.plantumlclass import PlantumlClass
-from MBSE_Library.plantumlcommunicationdiagram import PlantUmlCommunicationDiagram
 from MBSE_Library.code_diagrams.plantumlmethod import PlantumlMethod
 from MBSE_Library.code_diagrams.plantumlpackage import PlantumlPackage
 from MBSE_Library.linear_diagrams.relationships import Relationships

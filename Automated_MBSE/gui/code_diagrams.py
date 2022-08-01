@@ -32,7 +32,7 @@ class CodeDiagrams:
 
     def submit_new_package(self):
         package_name = self.package_var.get()
-        MBSE.add_package(package_name)
+        MBSE.create_package(package_name)
         MBSE.print_uml("code")
         self.run_image("code_diagram.png")
 
@@ -56,9 +56,9 @@ class CodeDiagrams:
         class_name = self.class_var.get()
         package_name = self.package_var.get()
         if package_name == "":
-            MBSE.add_class(class_name)
+            MBSE.create_class(class_name)
         else:
-            MBSE.add_class(class_name, package_name)
+            MBSE.create_class(class_name, package_name)
         MBSE.print_uml("code")
         self.run_image("code_diagram.png")
 

@@ -57,13 +57,13 @@ class CodeDiagram:
             for m in c.get_methods():
                 if m.get_call_classes():
                     for i in range(len(m.get_call_classes())):
-                        content += c.get_class_name() + "::"
+                        content += '"' + c.get_class_name() + "::"
                         content += m.get_modifier()
                         if m.get_static():
                             content += "__" + m.get_method() + "__"
                         else:
                             content += m.get_method()
-                        content += " --> "
+                        content += '" --> '
                         call_c = m.get_call_classes()
                         call_m = m.get_call_methods()
                         for cc in PlantumlClass.get_class_list():

@@ -16,4 +16,3 @@ class Relationships:
 
     def get_amount(self):
         return self.amount
-
