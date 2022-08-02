@@ -13,6 +13,17 @@ class MBSE:
 
     @staticmethod
     def load_linear_diagram(filename):
+        """
+            Loads the linear diagram.
+
+            Loads the linear diagram digital model that can be edited now.
+
+            Parameters
+            ----------
+            filename : str
+                The name of the folder that you want the model to be loaded from.
+
+            """
         cd = os.path.join(filename, "linear_diagrams", "nodes")
         for file in os.scandir(cd):
             name, extension = os.path.splitext(file)
@@ -41,6 +52,17 @@ class MBSE:
 
     @staticmethod
     def save_linear_diagram(filename):
+        """
+            Saves the linear diagram.
+
+            Saves the linear diagram digital model that can be loaded into the library later.
+
+            Parameters
+            ----------
+            filename : str
+                The name of the folder that you want the model to be saved in.
+
+            """
         cd = os.path.join(filename, "linear_diagrams")
         os.makedirs(cd)
 
@@ -78,6 +100,17 @@ class MBSE:
 
     @staticmethod
     def load_code_diagram(filename):
+        """
+            Loads the code diagram.
+
+            Loads the code diagram digital model that can be edited now.
+
+            Parameters
+            ----------
+            filename : str
+                The name of the folder that you want the model to be loaded from.
+
+            """
         cd = os.path.join(filename, "code_diagrams")
         for file in os.scandir(cd):
             name, extension = os.path.splitext(file)
@@ -98,6 +131,17 @@ class MBSE:
 
     @staticmethod
     def save_code_diagram(filename):
+        """
+            Saves the code diagram.
+
+            Saves the code diagram digital model that can be loaded into the library later.
+
+            Parameters
+            ----------
+            filename : str
+                The name of the folder that you want the model to be saved in.
+
+            """
         cd = os.path.join(filename, "code_diagrams")
         os.makedirs(cd)
 
@@ -120,6 +164,18 @@ class MBSE:
 
     @staticmethod
     def print_uml(diagram=None):
+        """
+            Prints the UML diagrams.
+
+            Prints the UML diagrams. Can optionally specify a specific diagram to be printed out.
+
+            Parameters
+            ----------
+            diagram : str
+                (Optional) The name of the specific diagram to be printed out. code, method, sequence, or communication.
+                Can put it one option or if no option is put in will print out all diagrams.
+
+            """
         if diagram == "code":
             CodeDiagram.print_code_diagram()
             try:
@@ -176,9 +232,9 @@ class MBSE:
     @staticmethod
     def create_class(class_name, package_name=None):
         """
-            Add a class to the diagram.
+            Creates a class.
 
-            Add a class to the diagram, can optionally specify the name of the package the class is in.
+            Creates a class to be added to the diagram. Can optionally specify the name of the package the class is in.
 
             Parameters
             ----------
