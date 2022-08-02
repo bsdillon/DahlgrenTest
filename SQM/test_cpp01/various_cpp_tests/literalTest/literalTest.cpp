@@ -5,6 +5,9 @@ using namespace std;
 
 int main()
 {
+    cout << "This is "   "one long string that is "     "combined"
+    " no matter "                "how much space is between them" << endl;
+
 	cout<<true<<endl;
 	cout<<typeid(true).name()<<endl;
 	

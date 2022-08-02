@@ -5847,6 +5847,33 @@ namespace SoftwareAnalyzer2.Tools
             {
                 ((IModifiable)node.Parent).ReplaceChild(node, (IModifiable)node.GetNthChild(0));
             }
+            else if (node.Code.Equals(""))
+            {
+                //This should join strings that have spaces between
+                //Note: this is different than concatenating strings or shiftoperators
+                //Turns: ["this "    "is a"  " test"] into: ["this is a test"]
+                if (node.GetChildCount() > 1) 
+                {
+                    string code = "\"";
+                    int i = 0;
+                    foreach (INavigable child in node.Children)
+                    {
+                        string temp = child.Code;
+                        temp = temp.Replace("\"", "");
+                        code = code + temp;
+                        if (i != 0)
+                        {
+                            node.RemoveChild((IModifiable)child);
+                        }
+                        i++;
+                    }
+                    code = code + "\"";
+                    //If we receive unexpected nodes, it should hopefully break here
+                    ((IModifiable)node.GetFirstSingleLayer("literal")).ClearCode(ClearCodeOptions.KeepLine);
+                    ((IModifiable)node.GetFirstSingleLayer("literal")).AddCode(code, (IModifiable)node.GetFirstSingleLayer("literal"));
+                    ReparentChildren(node);
+                }
+            }
             else
             {
                 // TODO
