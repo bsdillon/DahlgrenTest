@@ -6734,6 +6734,8 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable dotNode = (IModifiable)NodeFactory.CreateNode(Members.DotOperator, false);
             dotNode.Parent = futureParent;
             node.Parent = dotNode;
+            IModifiable paramList = (IModifiable)NodeFactory.CreateNode(Members.ParameterList, false);
+            paramList.Parent = node;
         }
 
         /// <summary>
