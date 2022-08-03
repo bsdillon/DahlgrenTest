@@ -4395,7 +4395,6 @@ namespace SoftwareAnalyzer2.Tools
                 {
                     if (child.Node.Equals("statement"))
                     {
-                        Console.WriteLine("node.Node.Equals(\"statement\") is true!");
                         if(!ThenOccured)//Replace child with Then and scope
                         {
                             ((IModifiable)child).SetNode(Members.Then);
@@ -5354,7 +5353,13 @@ namespace SoftwareAnalyzer2.Tools
             {
                 return;
             }
-
+            if (node.GetFirstRecursive(Members.TypeDeclaration) != null)
+            {
+                if (node.GetFirstRecursive(Members.TypeDeclaration).Code == "union")
+                {
+                    return;
+                }
+            }
             if (node.GetNthChild(0).GetFirstSingleLayer(Members.MethodInvoke) == null && node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("typeSpecifier") != null)
             {
                 List<INavigable> declChildren = node.Children;
@@ -5505,11 +5510,24 @@ namespace SoftwareAnalyzer2.Tools
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
             if (classHeadNode.Code.Equals("union"))
             {
-                throw new InvalidCastException("Need to handle unions in ANTLR");
-                // UNION??
-                // TODO: unions
-                // node.AddCode(classHeadNode.Code, classHeadNode);
+                node.AddCode(node.GetFirstSingleLayer("classHead").GetFirstRecursive(Members.TypeName).Code, classHeadNode);
+
+                //Adding classification
+                IModifiable Classification = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
+                Classification.Parent = node;
+                classHeadNode.Parent = Classification;
+                ((IModifiable)Classification.GetNthChild(0)).SetNode("classKey");
+                ((IModifiable)Classification.GetNthChild(0)).DropChildren();
+
+                //Adding modset
+                IModifiable modset = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                modset.Parent = node;
+
+                node.RemoveChild((IModifiable)node.GetFirstSingleLayer("classKey"));
+                return;
             }
+            //Why can't we just treat unions the same way as structs?
+            //Unions can only hold one data type at a time, but otherwise act very similar to structs
             else if(classHeadNode.GetFirstSingleLayer("classHeadName") != null)
             {
                 node.AddCode(classHeadNode.GetFirstSingleLayer("classHeadName").GetNthChild(0).Code, (IModifiable)classHeadNode.GetFirstSingleLayer("classKey"));
@@ -6451,9 +6469,10 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPClassKeyHandler(IModifiable node)
         {
-            if (node.Code.Equals("class") || node.Code.Equals("struct"))
+            if (node.Code.Equals("class") || node.Code.Equals("struct") || node.Code.Equals("union"))
             {
                 // structs are considered classes per BD's specification
+                // unions are considered like structs per Vitaliy's never ending wisdom
                 node.ClearCode(ClearCodeOptions.KeepLine);
                 node.SetNode(Members.CLASS);
             }
