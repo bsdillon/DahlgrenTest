@@ -445,7 +445,8 @@ class MBSE:
         LinearDiagram.load_file(filename)
 
     @staticmethod
-    def set_unimportant(node):"""
+    def set_unimportant(node):
+        """
             Hides a node in the linear diagram.
 
             Hides a node in the linear diagram. Node will still exist but will not be shown on the diagram.
@@ -463,28 +464,91 @@ class MBSE:
 
     @staticmethod
     def color(node, color):
+         """
+            Colors a node in the linear diagram.
+
+            Colors a node in the linear diagram. Color can be name of color or hexadecimal value.
+
+            Parameters
+            ----------
+            node : str
+                The name of the node to be colored in the diagram.
+            color : str
+                The name of the color or the hexadecimal value.
+
+
+            """
         for n in Node.get_nodes():
             if n.get_name() == node:
                 n.set_color(color)
 
     @staticmethod
     def highlight_out(node):
+        """
+            Highlights out a node in the linear diagram.
+
+            Highlights out a node in the linear diagram. Highlighs all of the edges leading out of a node.
+
+            Parameters
+            ----------
+            node : str
+                The name of the node to be highlighted out in the diagram.
+
+
+            """
         for n in Node.get_nodes():
             if n.get_name() == node:
                 n.set_highlighted_out()
 
     @staticmethod
     def highlight_in(node):
+        """
+            Highlights in a node in the linear diagram.
+
+            Highlights in a node in the linear diagram. Highlighs all of the edges leading into a node.
+
+            Parameters
+            ----------
+            node : str
+                The name of the node to be highlighted in in the diagram.
+
+
+            """
         for n in Node.get_nodes():
             if n.get_name() == node:
                 n.set_highlighted_in()
 
     @staticmethod
     def create_box(box_name):
+        """
+            Creates a box for the linear diagram.
+
+            Creates a box for the linear diagram. Nodes can be added to a box.
+
+            Parameters
+            ----------
+            box_name : str
+                The name of the box to be created.
+
+
+            """
         LinearDiagram.boxes.append(box_name)
 
     @staticmethod
-    def add_to_box(node, box_name): 
+    def add_to_box(node, box_name):
+        """
+            Adds a node to a box for the linear diagram.
+
+            Adds a node to a box for the linear diagram. Box should be created before adding nodes to it. 
+
+            Parameters
+            ----------
+            node : str
+                The name of the node to be added to a box.
+            box_name : str
+                The name of the box the node should be added to.
+
+            """
         for n in Node.get_nodes():
             if n.get_name() == node:
                 n.set_box_name(box_name)
