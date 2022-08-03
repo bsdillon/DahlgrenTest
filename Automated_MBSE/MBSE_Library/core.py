@@ -9,6 +9,19 @@ class MBSE:
 
     @staticmethod
     def compare(model1, model2):
+        """
+            Compares two linear diagrams.
+
+            Compares two linear diagrams and shows the differences between them.
+
+            Parameters
+            ----------
+            model1 : str
+                The name of the folder that you want the first and primary model to be loaded from.
+            model2 : str
+                The name of the folder that you want the second and model that shos the changes to be loaded from.
+
+            """
         LinearDiagram.ld_compare(model1, model2)
 
     @staticmethod
@@ -418,10 +431,32 @@ class MBSE:
     ##################
     @staticmethod
     def load_file(filename):
+        """
+            Loads a CSV file.
+
+            Loads a CSV file to create a linear diagram. Can be a .csv or .txt
+
+            Parameters
+            ----------
+            filename : str
+                The name of the file to load to data from.
+
+            """
         LinearDiagram.load_file(filename)
 
     @staticmethod
-    def set_unimportant(node):
+    def set_unimportant(node):"""
+            Hides a node in the linear diagram.
+
+            Hides a node in the linear diagram. Node will still exist but will not be shown on the diagram.
+
+            Parameters
+            ----------
+            node : str
+                The name of the node to be hidden in the diagram.
+
+
+            """
         for n in Node.get_nodes():
             if n.get_name() == node:
                 n.set_importance()
