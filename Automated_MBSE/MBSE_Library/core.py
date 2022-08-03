@@ -23,6 +23,7 @@ class MBSE:
 
             """
         LinearDiagram.ld_compare(model1, model2)
+        # sends strings to ld_compare method in linear_diagram.py
 
     @staticmethod
     def load_linear_diagram(filename):
@@ -241,6 +242,7 @@ class MBSE:
 
             """
         PlantumlPackage(package_name)
+        # creates a PlanumlPackage object in code_diagrams/plantumlpackage.py
 
     @staticmethod
     def create_class(class_name, package_name=None):
@@ -269,6 +271,7 @@ class MBSE:
             if not need_new_package:
                 p = PlantumlPackage(package_name)
                 p.add_class(c)
+        # creates a PlanumlClass object in code_diagrams/plantumlclass.py
 
     @staticmethod
     def add_class_to_package(class_name, package_name):
@@ -378,6 +381,7 @@ class MBSE:
         for c in PlantumlClass.class_list:
             if c.get_class_name() == class_name:
                 c.set_color(color)
+        # edits the color property of the class object
 
     @staticmethod
     def add_relationship(sender, receiver, relationship_type):
