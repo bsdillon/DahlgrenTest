@@ -943,8 +943,8 @@ namespace SoftwareAnalyzer2.Tools
                 head.RootUpModify("unaryExpression", "unaryExpression", CPPUnaryExpressionHandler);
                 head.RootUpModify("equalityExpression", "equalityExpression", CPPEqualityExpressionHandler);
                 head.RootUpModify("relationalExpression", "relationalExpression", CPPRelationalExpressionHandler);
-                head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);     
-                
+                head.RootUpModify("simpleTypeSpecifier", "simpleTypeSpecifier", CPPSimpleTypeHandler);
+
                 head.LeafDownModify("memberDeclaratorList", "memberDeclaratorList", CPPMultipleMemberDeclarationsHandler);
                 head.RootUpModify("initDeclaratorList", "initDeclaratorList", CPPMultipleInitDeclarationsHandler);
                 head.RootUpModify("memberSpecification", "memberSpecification", CPPMemberSpecificationHandler);
@@ -4390,126 +4390,39 @@ namespace SoftwareAnalyzer2.Tools
             else if (node.Code.Equals("if ( )") || node.Code.Equals("if ( ) else"))
             {
                 node.SetNode(Members.Branch);
-
-                bool bracketsPresent = true;
-
-                if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
+                bool ThenOccured = false;
+                foreach (INavigable child in node.Children)
                 {
-                    bracketsPresent = false;
-                    IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
-                    List<INavigable> thenChildren = node.GetFirstSingleLayer("statement").Children;
-                    Then.DropChildren();
-
-                    IModifiable ThenScope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
-                    foreach (INavigable child in thenChildren)
+                    if (child.Node.Equals("statement"))
                     {
-                        child.Parent = ThenScope;
-                    }
-
-                    ThenScope.Parent = Then;
-                    Then.SetNode(Members.Then);
-                }
-
-                if (bracketsPresent)
-                {
-                    if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
-                    {   //Empty then statement
-                        IModifiable Scope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
-                        Scope.SetNode(Members.Scope);
-                        IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
-                        Then.SetNode(Members.Then);
-                    }
-
-                    //if the Then block is not empty
-                    //Sets correct node type for Then. The corresponding scope will be done later by another method
-                    else
-                    {
-                        INavigable thenChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetNthChild(0);
-                        IModifiable Then = (IModifiable)node.GetFirstSingleLayer("statement");
-                        Then.DropChildren();
-
-                        thenChildren.Parent = Then;
-                        Then.SetNode(Members.Then);
-                    }
-                }
-
-
-                string secondLayer = null;
-                if ((node.GetFirstSingleLayer("statement") != null )&& (node.GetFirstSingleLayer("statement").GetChildCount() != 0))
-                {
-                    secondLayer = node.GetFirstSingleLayer("statement").GetNthChild(0).Code;
-                }
-
-                //If it is an if else statement
-                if (node.Code.Equals("if ( ) else") && !secondLayer.Equals("if ( ) else") && !secondLayer.Equals("if ( )")) //if it's not an else if
-                {
-                    bool elseBrackets = true;
-
-                    if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("declarationStatement") != null)
-                    {
-                        elseBrackets = false;
-                    }
-
-                    if (elseBrackets)
-                    {
-                        //If the else scope is empty
-                        //Sets the correct node type for Else and it's corresponding ElseScope
-                        if (node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").GetChildCount() == 0)
+                        Console.WriteLine("node.Node.Equals(\"statement\") is true!");
+                        if(!ThenOccured)//Replace child with Then and scope
                         {
-                            IModifiable ElseScope = (IModifiable)node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement");
-                            ElseScope.SetNode(Members.ElseScope);
-                            IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
-                            Else.SetNode(Members.Else);
+                            ((IModifiable)child).SetNode(Members.Then);
+                            List<INavigable> children = child.Children;
+                            ((IModifiable)child).DropChildren();
+                            IModifiable ThenScope = (IModifiable)NodeFactory.CreateNode(Members.Scope, false);
+                            ThenScope.Parent = child;
+                            foreach(INavigable kid in children)
+                            {
+                                kid.Parent = ThenScope;
+                            }
+                            ThenOccured = true;
                         }
-
-                        //If the else scope is nonempty
-                        //Sets the correct node type for Else. ElseScope will be done my another method.
                         else
                         {
-                            List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").GetFirstSingleLayer("compoundStatement").Children;
-                            IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
-                            Else.DropChildren();
-
-                            foreach (INavigable child in elseChildren)
+                            ((IModifiable)child).SetNode(Members.Else);
+                            List<INavigable> children = child.Children;
+                            ((IModifiable)child).DropChildren();
+                            IModifiable ElseScope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, false);
+                            ElseScope.Parent = child;
+                            foreach(INavigable kid in children)
                             {
-                                child.Parent = Else;
+                                kid.Parent = ElseScope;
                             }
-                            Else.SetNode(Members.Else);
                         }
                     }
-                    else
-                    {
-                        IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
-                        List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").Children;
-                        Else.DropChildren();
-
-                        IModifiable ElseScope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, false);
-                        foreach (INavigable child in elseChildren)
-                        {
-                            child.Parent = ElseScope;
-                        }
-                        ElseScope.Parent = Else;
-                        Else.SetNode(Members.Else);
-                    }
                 }
-
-                //Processing else statement
-                else if (node.GetFirstSingleLayer("statement") != null)
-                {
-                    List<INavigable> elseChildren = node.GetFirstSingleLayer("statement").Children;
-                    IModifiable Else = (IModifiable)node.GetFirstSingleLayer("statement");
-                    Else.DropChildren();
-
-                    IModifiable elseScope = (IModifiable)NodeFactory.CreateNode(Members.ElseScope, false);
-                    elseScope.Parent = Else;
-                    foreach (INavigable child in elseChildren)
-                    {
-                        child.Parent = elseScope;
-                    }
-
-                    Else.SetNode(Members.Else);
-                }
-
             }
             node.ClearCode(ClearCodeOptions.KeepLine);
         }
@@ -5852,9 +5765,18 @@ namespace SoftwareAnalyzer2.Tools
                 //This should join strings that have spaces between
                 //Note: this is different than concatenating strings or shiftoperators
                 //Turns: ["this "    "is a"  " test"] into: ["this is a test"]
+                //OR large literals
                 if (node.GetChildCount() > 1) 
                 {
-                    string code = "\"";
+                    if (!node.GetNthChild(0).Node.Equals("literal"))
+                    {
+                        return;
+                    }
+                    string code = "";
+                    if (node.GetNthChild(0).Code.Contains("\""))
+                    {
+                        code = "\"";
+                    }
                     int i = 0;
                     foreach (INavigable child in node.Children)
                     {
@@ -5867,7 +5789,10 @@ namespace SoftwareAnalyzer2.Tools
                         }
                         i++;
                     }
-                    code = code + "\"";
+                    if (node.GetNthChild(0).Code.Contains("\""))
+                    {
+                        code = code + "\"";
+                    }
                     //If we receive unexpected nodes, it should hopefully break here
                     ((IModifiable)node.GetFirstSingleLayer("literal")).ClearCode(ClearCodeOptions.KeepLine);
                     ((IModifiable)node.GetFirstSingleLayer("literal")).AddCode(code, (IModifiable)node.GetFirstSingleLayer("literal"));
