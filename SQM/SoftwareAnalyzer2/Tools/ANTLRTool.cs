@@ -997,7 +997,7 @@ namespace SoftwareAnalyzer2.Tools
 
                 head.RootUpModify(Members.Field, Members.Field, CPPFieldRelevantNodeIncluder);
                 head.RootUpModify("memberSpecification", "memberSpecification", ReparentChildren);
-                
+
                 //head.RootUpModify("simpleDeclaration", "simpleDeclaration", ReparentChildren);
                 head.Collapse("simpleDeclaration");
                 head.Collapse("simpleDeclaration", ";");
@@ -5353,15 +5353,13 @@ namespace SoftwareAnalyzer2.Tools
             {
                 return;
             }
-            if (node.GetFirstRecursive(Members.TypeDeclaration) != null)
-            {
-                if (node.GetFirstRecursive(Members.TypeDeclaration).Code == "union")
-                {
-                    return;
-                }
-            }
             if (node.GetNthChild(0).GetFirstSingleLayer(Members.MethodInvoke) == null && node.GetFirstSingleLayer("declSpecifier").GetFirstSingleLayer("typeSpecifier") != null)
             {
+                if (node.GetFirstRecursive("typeSpecifier").GetFirstSingleLayer(Members.TypeDeclaration) != null)
+                {
+                    //Needs more testing, might break primitives
+                    return;
+                }
                 List<INavigable> declChildren = node.Children;
                 string primitiveName = "";
                 bool lineIsAccountedFor = false;
@@ -5524,6 +5522,7 @@ namespace SoftwareAnalyzer2.Tools
                 modset.Parent = node;
 
                 node.RemoveChild((IModifiable)node.GetFirstSingleLayer("classKey"));
+                ((IModifiable)node.GetAncestor("declSpecifierSeq").Parent).ReplaceChild((IModifiable)node.GetAncestor("declSpecifierSeq"), node);
                 return;
             }
             //Why can't we just treat unions the same way as structs?

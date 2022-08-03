@@ -7,6 +7,7 @@ struct Employee
     double wage {-1};
 };
 
+
 class Employer
 {
 private:
@@ -33,12 +34,14 @@ public:
     }
 };
 
-//union onion
-//{
-//    int a;
-//    char b;
-//    bool c;
-//};
+
+union onion
+{
+    int a;
+    char b;
+    bool c;
+};
+
 
 int main()
 {
