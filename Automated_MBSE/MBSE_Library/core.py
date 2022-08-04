@@ -53,7 +53,7 @@ class MBSE:
                 LinearDiagram.receiver.append(row[1])
                 LinearDiagram.message_type.append(row[2])
 
-        for i in range(len(LinearDiagram.sender)):
+        for i in range(len(LinearDiagram.sender)): # searches if a node sends to and receives to the same multiple times and then increments
             updated = False
             for o in LinearDiagram.order_list:
                 if o.get_sender() == LinearDiagram.sender[i] and o.get_receiver() == LinearDiagram.receiver[i]:
@@ -190,6 +190,8 @@ class MBSE:
                 Can put it one option or if no option is put in will print out all diagrams.
 
             """
+        # sends command to print diagram which generates a .txt file with plant uml syntax and then opens hidden cmd prompt
+        # to run the plantuml.jar on the outputted .txt file which generates a .png image
         if diagram == "code":
             CodeDiagram.print_code_diagram()
             try:
@@ -306,6 +308,8 @@ class MBSE:
                 for c in PlantumlClass.class_list:
                     if c.get_class_name() == class_name:
                         p.create_class(c)
+        # searches to see if the class and package the user created already exist or not. If one or both do 
+        # not exist, they are created by making a new PlantUMLPackage/PlantUMLClass object
 
     @staticmethod
     def add_method_to_class(method_name, class_name, modifier="", static=False, return_type=""):
@@ -334,6 +338,7 @@ class MBSE:
                 m.set_return_type(return_type)
                 if static:
                     m.set_static()
+        # searches all classes to find the one user is referring to. Creates method object and stores inside afformentioned class object
 
     @staticmethod
     def add_variable_to_class(variable_name, class_name, modifier="", static=False, return_type=""):
@@ -362,6 +367,7 @@ class MBSE:
                 v.set_type(return_type)
                 if static:
                     v.set_static()
+        # searches all classes to find the one user is referring to. Creates variable object and stores inside afformentioned class object
 
     @staticmethod
     def color_class(class_name, color):
@@ -405,6 +411,7 @@ class MBSE:
                 for r in PlantumlClass.class_list:
                     if r.get_class_name() == receiver:
                         s.add_relationship(r, relationship_type)
+        # Searches all classes to find classes with inputted names and then creates a relationship object
 
     @staticmethod
     def add_method_connection(class_sender, method_sender, class_receiver, method_receiver):
@@ -429,6 +436,7 @@ class MBSE:
                 for m in c.get_methods():
                     if m.get_method() == method_sender:
                         m.add_method_connection(class_receiver, method_receiver)
+        # Searches all classes to find classes with inputted names and then searches all methods in that class to edit variable in the method
 
     ##################
     # Linear Diagrams#
