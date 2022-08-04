@@ -2,11 +2,19 @@
 
 struct Employee
 {
-    int id {-1};
-    int age {-1};
-    double wage {-1};
-};
+    int m_id {-1};
+    int m_age {-1};
+    double m_wage {-1};
 
+    void setData(int id, int age, double wage)
+    {
+        m_id = id;
+        m_age = age;
+        m_wage = wage;
+    }
+}emp1{001, 24, 100000}, emp2{002, 26, 100000}, emp3{003, 53, 180000};
+
+Employee emp4 = {4, 28, 110000};
 
 class Employer
 {
@@ -26,30 +34,31 @@ public:
         std::cout << "Employees:" << std::endl;
         for(Employee x : employees)
         {
-            if (x.id != -1)
+            if (x.m_id != -1)
             {
-                std::cout << "id: " << x.id << ";  Age: " << x.age << ";  Wage: " << x.wage << std::endl;
+                std::cout << "id: " << x.m_id << ";  Age: " << x.m_age << ";  Wage: " << x.m_wage << std::endl;
             }
         }
     }
 };
-
 
 union onion
 {
     int a;
     char b;
     bool c;
-};
-
+}o{3}, o2{true};
 
 int main()
 {
     Employer Robert;
-    Robert.addEmployee(Employee{001, 24, 100000}, 0);
+    Robert.addEmployee(emp1, 0);
+    Robert.addEmployee(emp2, 1);
+    Robert.addEmployee(emp3, 2);
+    Robert.addEmployee(emp4, 3);
     Robert.PrintEmployees();
 
-    onion o = {(int)4000000000}; //Should be long long int
+    o = {(int)16}; //Should be long long int
     //o.a should now be active, with undefined behavior from o.b and o.c
 
     std::cout << "o = {(int)16}:" << std::endl;
@@ -69,5 +78,6 @@ int main()
     std::cout << "o.a is now " << o.a << "\n"
               << "o.b is now " << o.b << "\n"
               << "o.c is now " << o.c << std::endl;
+    
     return 0;
 }

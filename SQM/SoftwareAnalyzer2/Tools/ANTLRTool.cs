@@ -5497,7 +5497,35 @@ namespace SoftwareAnalyzer2.Tools
             primitive.SetLine(source);
             primitive.Parent = node;
         }
+        /// <summary>
+        /// SubFunction for CPPClassSpecifierHandler
+        /// Used to format objects instantiated on the definition of a struct or union
+        /// </summary>
+        /// <param name="answer"></param>
+        private void HandleDefinitionInstantiation(IModifiable node)
+        {
+            IModifiable target = (IModifiable)node.GetAncestor("simpleDeclaration");
+            if (target.GetFirstSingleLayer("initDeclaratorList") != null)
+            {
+                IModifiable typeNameNode = (IModifiable)node.GetFirstSingleLayer("classHead").GetFirstRecursive(Members.TypeName);
+                foreach (INavigable child in target.GetFirstSingleLayer("initDeclaratorList").Children)
+                {
+                    IModifiable Field = (IModifiable)NodeFactory.CreateNode(Members.Field, false);
+                    //Need to see if the child is being assigned anything
+                    if (child.GetFirstSingleLayer("initializer") != null)
+                    {
+                        child.GetFirstSingleLayer("initializer").GetNthChild(0).Parent = child.GetFirstRecursive(Members.Variable);
+                    }
+                    child.GetFirstRecursive(Members.Variable).Parent = Field;
+                    IModifiable Type = (IModifiable)NodeFactory.CreateNode(Members.Type, false);
+                    typeNameNode.Parent = Type;
+                    Type.Parent = Field;
+                    Field.Parent = target.GetAncestor("declarationseq");
+                }
 
+                target.RemoveChild((IModifiable)target.GetFirstSingleLayer("initDeclaratorList"));
+            }
+        }
         /// <summary>
         /// Prepares all the relevant nodes from classSpecifier nodes
         /// </summary>
@@ -5506,6 +5534,18 @@ namespace SoftwareAnalyzer2.Tools
         {
             node.ClearCode(ClearCodeOptions.ClearAll);
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
+            //Need to handle objects made on definition here
+            if (classHeadNode.Code.Equals("union"))
+            {
+                HandleDefinitionInstantiation(node);
+            }
+            else if (classHeadNode.GetFirstSingleLayer("classKey") != null)
+            {
+                if (classHeadNode.GetFirstSingleLayer("classKey").Code.Equals("struct"))
+                {
+                    HandleDefinitionInstantiation(node);
+                }
+            }
             if (classHeadNode.Code.Equals("union"))
             {
                 node.AddCode(node.GetFirstSingleLayer("classHead").GetFirstRecursive(Members.TypeName).Code, classHeadNode);
@@ -5577,6 +5617,7 @@ namespace SoftwareAnalyzer2.Tools
                 anonymousNode.Parent = superTypeNode;
 
                 superTypeNode.AddCode("anonymous", superTypeNode);
+
             }
             IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
             classificationNode.Parent = node;
