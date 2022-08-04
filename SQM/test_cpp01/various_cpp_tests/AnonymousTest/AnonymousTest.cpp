@@ -12,7 +12,7 @@ public:
     {
         std::cout << "Value for i : " << this->i << std::endl;
     }
-};
+}foo1, foo2;
 
 // Anonymous Class : Class is not having any name
 class
@@ -28,7 +28,7 @@ public:
         std::cout << "Value for i : " << this->i << std::endl;
     }
       
-} obj1, obj2;    // multiple objects for anonymous class
+} Anon1, Anon2;    // multiple objects for anonymous class
   
 
 
@@ -36,10 +36,10 @@ public:
 int main()
 {
     foo goo;
-    obj1.setData(10);
-    obj1.print();
+    Anon1.setData(10);
+    Anon1.print();
   
-    obj2.setData(20);
-    obj2.print();
+    Anon2.setData(20);
+    Anon2.print();
     return 0;
 }

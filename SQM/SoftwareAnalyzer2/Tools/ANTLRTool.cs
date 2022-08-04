@@ -5535,16 +5535,9 @@ namespace SoftwareAnalyzer2.Tools
             node.ClearCode(ClearCodeOptions.ClearAll);
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
             //Need to handle objects made on definition here
-            if (classHeadNode.Code.Equals("union"))
+            if (classHeadNode.GetFirstSingleLayer("classHeadName") != null)
             {
                 HandleDefinitionInstantiation(node);
-            }
-            else if (classHeadNode.GetFirstSingleLayer("classKey") != null)
-            {
-                if (classHeadNode.GetFirstSingleLayer("classKey").Code.Equals("struct"))
-                {
-                    HandleDefinitionInstantiation(node);
-                }
             }
             if (classHeadNode.Code.Equals("union"))
             {
@@ -5617,7 +5610,6 @@ namespace SoftwareAnalyzer2.Tools
                 anonymousNode.Parent = superTypeNode;
 
                 superTypeNode.AddCode("anonymous", superTypeNode);
-
             }
             IModifiable classificationNode = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
             classificationNode.Parent = node;

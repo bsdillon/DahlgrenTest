@@ -49,8 +49,49 @@ union onion
     bool c;
 }o{3}, o2{true};
 
+
+typedef int JEREMY; 
+
+class BOB
+{
+private:
+int X = 0;
+public:
+    BOB(int x) {X = x;}
+    void Print() {std::cout << "x = " << X << std::endl;}
+}aye(2);
+
+// Anonymous Class : Class is not having any name
+class
+{
+    int i; 
+public:
+    void setData(int i)
+    {
+        this->i = i;
+    }
+    void print()
+    {
+        std::cout << "Value for i : " << this->i << std::endl;
+    }
+      
+} Anon1, Anon2;    // multiple objects for anonymous class
+
+/*
+typedef struct {
+    double x;
+    double y;
+} Point;
+*/
+
 int main()
 {
+    JEREMY x = 3;
+    aye.Print();
+    //Point a {1, 2};
+    //a.x = 3;
+    //std::cout << "x: " << a.x << ";  y: " << a.y << std::endl;
+    
     Employer Robert;
     Robert.addEmployee(emp1, 0);
     Robert.addEmployee(emp2, 1);
@@ -79,5 +120,6 @@ int main()
               << "o.b is now " << o.b << "\n"
               << "o.c is now " << o.c << std::endl;
     
+
     return 0;
 }
