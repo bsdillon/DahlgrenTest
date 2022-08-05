@@ -5561,6 +5561,29 @@ namespace SoftwareAnalyzer2.Tools
 
             if (classHeadNode.Code.Equals("union"))
             {
+                if (node.GetFirstSingleLayer("classHead").GetFirstSingleLayer("classHeadName") == null)
+                {
+                    //Handle typedef unions
+                    IModifiable classKey = (IModifiable)NodeFactory.CreateNode("classKey", false);
+                    classKey.AddCode(node.GetFirstSingleLayer("classHead").Code, (IModifiable)node.GetFirstSingleLayer("classHead"));
+                    classKey.Parent = classHeadNode;
+
+                    IModifiable classHeadName = (IModifiable)NodeFactory.CreateNode("classHeadName", false);
+                    IModifiable typeName = (IModifiable)NodeFactory.CreateNode(Members.TypeName, false);
+
+                    typeName.AddCode(node.GetAncestor(Members.TypeDeclaration).Code, (IModifiable)node.GetAncestor(Members.TypeDeclaration));
+                    typeName.Parent = classHeadName;
+                    classHeadName.Parent = classHeadNode;
+
+                    IModifiable classification = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
+                    classKey.Parent = classification;
+                    IModifiable modSet = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+
+                    classification.Parent = node;
+                    modSet.Parent = node;
+                    node.PrintTreeText();
+                    return;
+                }
                 node.AddCode(node.GetFirstSingleLayer("classHead").GetFirstRecursive(Members.TypeName).Code, classHeadNode);
 
                 //Adding classification
@@ -6617,6 +6640,9 @@ namespace SoftwareAnalyzer2.Tools
                             if (child.Node.Equals("classHead"))
                             {
                                 continue;
+                            } else if (child.Node.Equals(MemberSets.Classification))
+                            {
+                                ((IModifiable)node.GetFirstSingleLayer(MemberSets.Classification)).DropChildren();
                             }
                             foreach (INavigable kid in child.Children)
                             {
