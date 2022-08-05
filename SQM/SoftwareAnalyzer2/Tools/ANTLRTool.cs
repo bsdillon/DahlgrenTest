@@ -5539,6 +5539,26 @@ namespace SoftwareAnalyzer2.Tools
             {
                 HandleDefinitionInstantiation(node);
             }
+            else if (classHeadNode.GetFirstSingleLayer("classKey") != null)
+            {
+                if (classHeadNode.GetFirstSingleLayer("classKey").Code.Equals("struct"))
+                {
+                    //This is a typedef struct
+                    IModifiable classHeadName = (IModifiable)NodeFactory.CreateNode("classHeadName", false);
+                    IModifiable typeName = (IModifiable)NodeFactory.CreateNode("TypeName", false);
+                    typeName.AddCode(node.GetAncestor(Members.TypeDeclaration).Code, (IModifiable)node.GetAncestor(Members.TypeDeclaration));
+                    typeName.Parent = classHeadName;
+                    classHeadName.Parent = classHeadNode;
+
+                    IModifiable classification = (IModifiable)NodeFactory.CreateNode(MemberSets.Classification, false);
+                    IModifiable modSet = (IModifiable)NodeFactory.CreateNode(MemberSets.ModifierSet, false);
+                    classHeadNode.GetFirstSingleLayer("classKey").Parent = classification;
+                    classification.Parent = node;
+                    modSet.Parent = node;
+                    return;
+                }
+            }
+
             if (classHeadNode.Code.Equals("union"))
             {
                 node.AddCode(node.GetFirstSingleLayer("classHead").GetFirstRecursive(Members.TypeName).Code, classHeadNode);
@@ -6569,9 +6589,50 @@ namespace SoftwareAnalyzer2.Tools
 
             return children;
         }
+        /// <summary>
+        /// Convenience function for CPPTypeDeclarationMemberSetAdder, Handles all TypeDefs
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPHandleTypeDefs(IModifiable node)
+        {
+            if (!(node.GetFirstSingleLayer(MemberSets.Classification).GetChildCount() == 0))
+            {
+                return;
+            }
+            IModifiable typedef = (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
+            typedef.Parent = node.GetFirstSingleLayer(MemberSets.Classification);
 
+            if (node.GetFirstSingleLayer(MemberSets.SuperTypes) != null)
+            {
+                if (node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstSingleLayer(Members.SuperType).Code == "")
+                {
+                    IModifiable superType = (IModifiable)node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstSingleLayer(Members.SuperType);
+                    superType.AddCode("typedef", superType);
+
+                    IModifiable target = (IModifiable)node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstRecursive(Members.TypeDeclaration);
+                    if (target != null)
+                    {
+                        foreach (INavigable child in target.Children)
+                        {
+                            if (child.Node.Equals("classHead"))
+                            {
+                                continue;
+                            }
+                            foreach (INavigable kid in child.Children)
+                            {
+                            kid.Parent = node.GetFirstSingleLayer(child.Node.GetMemberSets());
+                            }
+                        }
+                    }
+                    superType.DropChildren();
+                    IModifiable enumType = (IModifiable)NodeFactory.CreateNode(Members.TYPEDEF, false);
+                    enumType.Parent = superType;
+                }
+            }
+        }
         /// <summary>
         /// Adds all MemberSets to TypeDeclaration nodes as required
+        /// Also adds TYPEDEFS
         /// </summary>
         /// <param name="answer"></param>
         private void CPPTypeDeclarationMemberSetAdder(IModifiable node)
@@ -6602,24 +6663,8 @@ namespace SoftwareAnalyzer2.Tools
                 remainder.Parent = node;
             }
 
-            if(node.GetFirstSingleLayer(MemberSets.Classification).GetChildCount() == 0)
-            {
-                IModifiable typedef = (IModifiable)NodeFactory.CreateNode(Members.NAMESPACE, false);
-                typedef.Parent = node.GetFirstSingleLayer(MemberSets.Classification);
-
-                if (node.GetFirstSingleLayer(MemberSets.SuperTypes) != null)
-                {
-                    if (node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstSingleLayer(Members.SuperType).Code == "")
-                    {
-                        IModifiable superType = (IModifiable)node.GetFirstSingleLayer(MemberSets.SuperTypes).GetFirstSingleLayer(Members.SuperType);
-                        superType.AddCode("typedef", superType);
-
-                        superType.DropChildren();
-                        IModifiable enumType = (IModifiable)NodeFactory.CreateNode(Members.TYPEDEF, false);
-                        enumType.Parent = superType;
-                    }
-                }
-            }
+            //Handles TYPEDEF
+            CPPHandleTypeDefs(node);
         }
 
         /// <summary>
