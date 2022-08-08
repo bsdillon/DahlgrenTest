@@ -1,9 +1,6 @@
 /***
- * This is a test program creating functions with sikulix that can be implemented in future RF projects
- * Functions may need modification inorder to be implemented, this just provides the basic idea of the function
- * Matthew Rose (V51)
- * Work in progress, Last updated (7/26/22)
- */
+ * Functions may need modification in order to be implemented, this just provides the basic idea of the function
+ ***/
 import org.sikuli.script.*;
 import javax.imageio.ImageIO;
 import java.io.*;
@@ -14,7 +11,7 @@ public class SikulixTestFunctions {
 
     //use main method to test functions as going
     public static void main(String[] args) throws FindFailed {
-
+    
     }
 
     /**
@@ -39,7 +36,7 @@ public class SikulixTestFunctions {
      * @param region an element or window
      * @param filepath path to save the screenshot to
      */
-    public static void captureScreen(Region region, String filepath){
+    public static void Screenshot(Region region, String filepath){
         ScreenImage ScreenSC = region.getScreen().capture();
         try {
             BufferedImage screenShot = ScreenSC.getImage();
@@ -53,30 +50,66 @@ public class SikulixTestFunctions {
     }
 
     /**
-     * Finds an element based on a pre-existing image file
-     * @param filepath path of the image you want to find
-     * @return a match object to be used in fuctions such as click, capture, etc
-     * @throws FindFailed if the match can not be found, meaning the path was incorrect
+     * Locates an element on the screen and moves it to a new location
+     * @param region a pattern object of the element to be moved
+     * @param x the x-coordinate of the upper left hand corner of the new location
+     * @param y the y-coordinate of the upper left hand corner of the new location
+     * @throws FindFailed throws a find failed exception if the element can not be located on the screen
      */
-    public static Match findElement(String filepath) throws FindFailed{
-        Screen screen = new Screen(0);
-        try {
-            return screen.find(filepath);
-        }catch(FindFailed e){
-            System.out.println();
-        }
-        return null;
-    }
-
-
-
-
-
-    /*public static void moveWindow(Region region, String FilePath, int x, int y) throws FindFailed{
+    public static void moveWindow(Pattern region, int x, int y) throws FindFailed{
         //Sets screen object to the current monitor
         Screen screen = new Screen(0);
         Location newWindowLocation = new Location(x, y);
         //finds the clickPoint and moves it to the specified (x,y)
-        screen.dragDrop(screen.find(region), newWindowLocation);
-    }*/
+        try {
+            Match match = screen.find(region);
+            screen.dragDrop(match, newWindowLocation);
+        }catch (FindFailed e ){
+            System.out.println("Find failed on "+ region.toString());
+        }
+    }
+
+    /**
+     * Finds a textbox and enters text in it
+     * @param region the area of the text box
+     * @param text the text to be entered into the text box
+     * @throws FindFailed throws error if the text box cannot be found
+     */
+    public static void enterText(Pattern region, String text) throws FindFailed{
+        Screen s = new Screen(0);
+        try{
+            s.find(region).type(text);
+        }catch(FindFailed e){
+            System.out.println("Find failed on " + region.toString());
+        }
+    }
+
+    /**
+     * Finds an element on the screen and clicks it
+     * @param region a pattern object, of the element to be clicked
+     * @throws FindFailed throws a find failed exception if the element can not be located on the screen
+     */
+    public static void click(Pattern region) throws FindFailed{
+        Screen s = new Screen(0);
+        try{
+            s.find(region).click();
+        }catch (FindFailed e){
+            System.out.println("Find failed on " + region.toString());
+        }
+    }
+
+    /**
+     * Finds an element on the screen and preforms a double click
+     * @param region a pattern object of the element to be clicked
+     * @throws FindFailed throws a find failed exception if the element can not be found on the screen
+     */
+    public static void doubleClick(Pattern region) throws FindFailed{
+        Screen s = new Screen(0);
+        try{
+            s.find(region).doubleClick();
+        }catch (FindFailed e){
+            System.out.println("Find failed on " + region.toString());
+        }
+    }
 }
+
