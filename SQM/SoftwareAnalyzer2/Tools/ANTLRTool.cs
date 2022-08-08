@@ -5581,7 +5581,6 @@ namespace SoftwareAnalyzer2.Tools
 
                     classification.Parent = node;
                     modSet.Parent = node;
-                    node.PrintTreeText();
                     return;
                 }
                 node.AddCode(node.GetFirstSingleLayer("classHead").GetFirstRecursive(Members.TypeName).Code, classHeadNode);
