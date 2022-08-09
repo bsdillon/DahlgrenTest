@@ -725,7 +725,7 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="expectedToken"></param>
         /// <returns></returns>
         private bool decomposeToken(IModifiable node, string foundtoken, string expectedToken)
-        {
+        {    
             //Console.Error.WriteLine("decomposeToken(node="+node+" foundtoken="+foundtoken+" expectedToken="+expectedToken+")");
             //Sample token: [@22,169:169=',',<64>,8:32]
             int token1 = expectedToken.IndexOf('\'');
@@ -745,9 +745,9 @@ namespace SoftwareAnalyzer2.Tools
 
             //this allows for the possibility of an ' character within the token 
             //and finds the exact bounds of the token by taking that into account
-            int token2 = expectedToken.LastIndexOf('\'', expectedToken.Length - 1);
-
-            if (token2 == -1 || token2 == token1)
+            //int token2 = expectedToken.LastIndexOf('\'', expectedToken.Length - 1);
+            int token2 = expectedToken.LastIndexOf(",<", expectedToken.Length - 1) - 1;
+            if (token2 < 0 || token2 == token1 - 1) //  token2 == 0 || token2 == token1
             {
                 errorMessages.Add("ERROR: Secondary token character ' not found\r\n");
                 return false;
@@ -755,8 +755,15 @@ namespace SoftwareAnalyzer2.Tools
 
             //extracts the token as defined by those bounds
             string   candidateToken = expectedToken.Substring(token1 + 1, (token2 - token1) - 1);
-            string[] parts          = expectedToken.Substring(token2 + 1).Split(",:]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
+            string[] parts =
+            {
+                expectedToken.Substring(expectedToken.IndexOf(",<") + 1, (expectedToken.IndexOf(">,")) - expectedToken.IndexOf(",<")),
+                expectedToken.Substring(expectedToken.IndexOf(">,") + 2, expectedToken.LastIndexOf(":") - (expectedToken.IndexOf(">,") + 2)),
+                expectedToken.Substring(expectedToken.LastIndexOf(":") + 1, expectedToken.IndexOf("]") - (expectedToken.LastIndexOf(":") + 1))
+            };
+            //Incorrect  =[@18,454:454=',',<','>,12:25])
+            //string[] parts          = expectedToken.Substring(token2 + 1).Split(",:]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             //extracts the line and character positions of this token
             if (parts.Length < 2)
             {
