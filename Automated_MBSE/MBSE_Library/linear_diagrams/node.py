@@ -1,16 +1,23 @@
+####################################################
+# Stores a node and all relative information for it#
+####################################################
+
 class Node:
 
     nodes = []
+    # list of all the nodes
 
     def __init__(self, name):
-        self.name = name
-        self.has_color = False
-        self.color = ""
-        self.highlighted_out = False
-        self.highlighted_in = False
-        self.importance = True
-        self.add_nodes_list(self)
-        self.box = ""
+        self.name = name  # the name of the node
+        self.has_color = False  # by default there is no color
+        # //developer's note: Can probably get rid of boolean entirely and instead just check if the color String in not
+        # // empty. Similar to how the box string is handled
+        self.color = ""  # empty string to be populated when called
+        self.highlighted_out = False  # by default there are no highlights
+        self.highlighted_in = False  # by default there are no highlights
+        self.importance = True  # by default is important
+        self.add_nodes_list(self)  # calls add_nodes_list() on object creation to add object to list of all nodes
+        self.box = ""  # empty string to represent no box
 
     def get_name(self):
         return self.name

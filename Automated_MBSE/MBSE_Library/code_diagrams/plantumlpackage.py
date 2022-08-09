@@ -1,10 +1,14 @@
+##########################################################################
+# Represents and stores all information for packages in the code diagram #
+##########################################################################
+
 class PlantumlPackage:
     package_list = []
 
     def __init__(self, uml_package):
-        self.uml_package = uml_package
-        self.classes = []
-        self.add_package_list(self)
+        self.uml_package = uml_package  # the name of the package
+        self.classes = []  # the objects of all the classes within the package
+        self.add_package_list(self)  # calls add_package_list() to add the package name to the list of packages
 
     @staticmethod
     def get_package_list():

@@ -58,8 +58,8 @@ if __name__ == '__main__':
     MBSE.color("Chicago", "red")
     MBSE.highlight_out("Dallas")
     MBSE.highlight_in("Denver")
-    #MBSE.load_file("40path.csv")
-    #MBSE.set_unimportant("Los Angeles")
+    MBSE.load_file("40path.csv")
+    MBSE.set_unimportant("Los Angeles")
 
     #MBSE.load_linear_diagram("projectbob")
     MBSE.print_uml()

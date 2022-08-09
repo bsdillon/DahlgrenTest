@@ -2,9 +2,10 @@ from MBSE_Library import PlantumlPackage, PlantumlClass
 
 
 class CodeDiagram:
+    # // developer's note: should be moved to code_diagrams package so that core.py is the only file in this directory
 
     @staticmethod
-    def print_code_diagram():
+    def print_code_diagram():  # generates plantUML syntax for a class diagram
         file1 = open("code_diagram.txt", "w")
         content = "@startuml\n"
         classes = []
@@ -15,14 +16,14 @@ class CodeDiagram:
             package_name = p.get_package_name()
             content += str('package "' + package_name + '" as ' + package_name.replace(" ", "_") + ' {\n')
             for c in p.get_classes():
-                content += CodeDiagram.class_with_methods(c)
+                content += CodeDiagram.class_with_methods(c)  # generates a class box for the specific class
                 classes.remove(c.get_class_name())
             content += "}\n"
 
         for c in PlantumlClass.get_class_list():
             for cc in classes:
                 if c.get_class_name() == cc:
-                    content += CodeDiagram.class_with_methods(c) + " \n"
+                    content += CodeDiagram.class_with_methods(c) + " \n"  # generates a class box for the specific class
 
         sender = PlantumlClass.get_sender()
         receiver = PlantumlClass.get_receiver()
@@ -37,7 +38,7 @@ class CodeDiagram:
         print("Code Diagram created successfully")
 
     @staticmethod
-    def print_method_diagram():
+    def print_method_diagram():  # generates plantUML syntax for a method diagram
         file1 = open("method_diagram.txt", "w")
         content = "@startuml\n"
 
@@ -83,7 +84,7 @@ class CodeDiagram:
         print("Method Diagram created successfully")
 
     @staticmethod
-    def class_with_methods(c):
+    def class_with_methods(c):  # generates Plantuml syntax for a class box with methods and variables
         content = ""
         class_name = c.get_class_name()
         content += str('class "' + class_name + '" as ' + class_name.replace(" ", "_"))

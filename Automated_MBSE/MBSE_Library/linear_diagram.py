@@ -6,16 +6,23 @@ import csv
 
 
 class LinearDiagram:
-    sender = []
-    receiver = []
-    message_type = []
-    order_list = []
-    nodes = []
-    boxes = []
+    # // developer's note: should be moved to code_diagrams package so that core.py is the only file in this directory
+
+    # creates a model for the LinearDiagram
+    sender = []  # every node that sends something
+    receiver = []  # every node that receives something
+    message_type = []  # the message that is being sent/received
+    # these three should be lined up so that they are parallel, i.e., sender[3] is the node that sends to receiver[3]
+    # and message_type[3] is the message that is being sent from sender[3] to receiver[3]
+
+    nodes = []  # an array of every single unique node object
+    order_list = []  # an array of every single existing sender[] to receiver[] combination
+    boxes = []  # list of names of all boxes
 
     @staticmethod
-    def load_file(filename):
-        with open(filename, 'r') as file:
+    def load_file(filename):  # Load file as in, csv file, not loading in a previously created model but rather creating
+        # a brand new one
+        with open(filename, 'r') as file:  # Reads a csv file and appends it to the sender/receiver/message_type arrays
             reader = csv.reader(file, delimiter=',')
             for row in reader:
                 LinearDiagram.sender.append(row[0])
@@ -43,12 +50,6 @@ class LinearDiagram:
             if not updated:
                 r = Relationships(LinearDiagram.sender[i], LinearDiagram.receiver[i])
                 LinearDiagram.order_list.append(r)
-
-    @staticmethod
-    def set_unimportant(node):
-        for n in LinearDiagram.nodes:
-            if n.get_name == node:
-                n.set_unimporatant()
 
     @staticmethod
     def print_communication_diagram():
@@ -163,20 +164,24 @@ class LinearDiagram:
         print("Sequence Diagram created successfully")
 
     @staticmethod
-    def ld_compare(model1, model2):
+    def ld_compare(model1, model2):  # compares two linear diagrams and shows the differences between them. Only works
+        # for sequence diagrams and does not show the changes between edges yet, only differences between nodes
+
+        # create model of first diagram
         sender1 = []
         receiver1 = []
         message1 = []
         order1 = []
         node1 = []
 
+        # create model of second diagram
         sender2 = []
         receiver2 = []
         message2 = []
         order2 = []
         node2 = []
 
-        # Load model1
+        # Load model1 to model
         cd = os.path.join(model1, "linear_diagrams", "nodes")
         for file in os.scandir(cd):
             name, extension = os.path.splitext(file)
@@ -210,7 +215,7 @@ class LinearDiagram:
                 c = pickle.load(file_pi2)
                 node2.append(c)
 
-        # Load model2
+        # Load model2 to model
         with open(model2 + "/linear_diagrams/edges/edges.csv", 'r') as file:
             reader = csv.reader(file, delimiter=',')
             for row in reader:
@@ -253,7 +258,7 @@ class LinearDiagram:
                         content += 'participant "' + n1.get_name() + '" as ' + n1.get_name().replace(" ", "") + " #red"
                         content += "\n"
                     elif n2.get_importance():
-                        content += 'participant "' + n1.get_name() + '" as ' + n1.get_name().replace(" ", "") + " #green"
+                        content += 'participant "' + n1.get_name() + '" as ' + n1.get_name().replace(" ", "")+" #green"
                         content += "\n"
                     else:
                         print("error comparing " + n1.get_name() + " and " + n2.get_name())
@@ -264,7 +269,10 @@ class LinearDiagram:
             content += 'participant "' + n.get_name() + '" as ' + n.get_name().replace(" ", "") + " #green"
             content += "\n"
 
-        for i in range(len(LinearDiagram.sender)):
+        # TODO
+        # need to compare edges in the comparing of two linear diagrams
+        # below code prints out a normal sequence diagram, for reference when writing edge comparison
+        '''for i in range(len(LinearDiagram.sender)):
             stop = False
             for n in LinearDiagram.nodes:
                 if LinearDiagram.sender[i] == n.get_name() and not n.get_importance():
@@ -293,7 +301,7 @@ class LinearDiagram:
                 content += str(LinearDiagram.receiver[i]).replace(" ", "")
                 content += " : "
                 content += str(LinearDiagram.message_type[i]).replace(" ", "")
-                content += " \n"
+                content += " \n"'''
         content += "@enduml"
         file.writelines(content)
         file.close()

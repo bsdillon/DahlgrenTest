@@ -1,12 +1,18 @@
+#########################################################################
+# Represents and stores all information for methods in the code diagram #
+#########################################################################
+
 class PlantumlMethod:
 
     def __init__(self, method, return_type, modifier):
-        self.method = method
-        self.return_type = return_type
-        self.static = False
-        self.modifier = modifier
-        self.call_classes = []
-        self.call_methods = []
+        self.method = method  # the name of the method
+        self.return_type = return_type  # the return type
+        self.static = False  # whether the method is static or not
+        self.modifier = modifier  # the scope of the method
+        # //developer's note: should probably just rename this variable and references to scope
+        self.call_classes = []  # the classes that this method interacts with (method diagrams)
+        self.call_methods = []  # the methods that this method specifically interacts with. Should be methods within
+        # previous class (method diagrams)
 
     def get_method(self):
         return self.method

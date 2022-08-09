@@ -19,11 +19,11 @@ class MBSE:
             model1 : str
                 The name of the folder that you want the first and primary model to be loaded from.
             model2 : str
-                The name of the folder that you want the second and model that shos the changes to be loaded from.
+                The name of the folder that you want the second and model that shows the changes to be loaded from.
 
             """
         LinearDiagram.ld_compare(model1, model2)
-        # sends strings to ld_compare method in linear_diagram.py
+        # Send strings to ld_compare method in linear_diagram.py
 
     @staticmethod
     def load_linear_diagram(filename):
@@ -53,7 +53,8 @@ class MBSE:
                 LinearDiagram.receiver.append(row[1])
                 LinearDiagram.message_type.append(row[2])
 
-        for i in range(len(LinearDiagram.sender)): # searches if a node sends to and receives to the same multiple times and then increments
+        for i in range(len(LinearDiagram.sender)):  # searches if a node sends to and receives to the same multiple
+            # times and then increments
             updated = False
             for o in LinearDiagram.order_list:
                 if o.get_sender() == LinearDiagram.sender[i] and o.get_receiver() == LinearDiagram.receiver[i]:
@@ -93,7 +94,7 @@ class MBSE:
         f = open(filename + "/linear_diagrams/edges/edges.csv", "w")
         content = ""
         for i in range(len(LinearDiagram.sender)):
-            content += (LinearDiagram.sender[i] + "," + LinearDiagram.receiver[i] + "," + LinearDiagram.message_type[i]+"\n")
+            content += (LinearDiagram.sender[i]+","+LinearDiagram.receiver[i]+","+LinearDiagram.message_type[i]+"\n")
         f.write(content)
         f.close()
 
@@ -187,11 +188,11 @@ class MBSE:
             ----------
             diagram : str
                 (Optional) The name of the specific diagram to be printed out. code, method, sequence, or communication.
-                Can put it one option or if no option is put in will print out all diagrams.
+                Can put in one option or if no option is there it will print out all diagrams.
 
             """
-        # sends command to print diagram which generates a .txt file with plant uml syntax and then opens hidden cmd prompt
-        # to run the plantuml.jar on the outputted .txt file which generates a .png image
+        # sends command to print diagram which generates a .txt file with plant uml syntax and then opens hidden cmd
+        # prompt to run the plantuml.jar on the outputted .txt file which generates a .png image
         if diagram == "code":
             CodeDiagram.print_code_diagram()
             try:
@@ -222,7 +223,8 @@ class MBSE:
             LinearDiagram.print_communication_diagram()
             LinearDiagram.print_sequence_diagram()
             try:
-                os.system('cmd /c "java -jar plantuml.jar code_diagram.txt method_diagram.txt communication_diagram_plantuml.txt sequence_diagram_plantuml.txt"')
+                os.system('cmd /c "java -jar plantuml.jar code_diagram.txt method_diagram.txt '
+                          'communication_diagram_plantuml.txt sequence_diagram_plantuml.txt"')
             except None:
                 print("Error loading PlantUML image. Check if Plantuml is installed")
 
@@ -244,7 +246,7 @@ class MBSE:
 
             """
         PlantumlPackage(package_name)
-        # creates a PlanumlPackage object in code_diagrams/plantumlpackage.py
+        # creates a PlantumlPackage object in code_diagrams/plantumlpackage.py
 
     @staticmethod
     def create_class(class_name, package_name=None):
@@ -273,7 +275,7 @@ class MBSE:
             if not need_new_package:
                 p = PlantumlPackage(package_name)
                 p.add_class(c)
-        # creates a PlanumlClass object in code_diagrams/plantumlclass.py
+        # creates a PlantumlClass object in code_diagrams/plantumlclass.py
 
     @staticmethod
     def add_class_to_package(class_name, package_name):
@@ -338,7 +340,8 @@ class MBSE:
                 m.set_return_type(return_type)
                 if static:
                     m.set_static()
-        # searches all classes to find the one user is referring to. Creates method object and stores inside afformentioned class object
+        # searches all classes to find the one user is referring to. Creates method object and stores inside
+        # aforementioned class object
 
     @staticmethod
     def add_variable_to_class(variable_name, class_name, modifier="", static=False, return_type=""):
@@ -367,7 +370,8 @@ class MBSE:
                 v.set_type(return_type)
                 if static:
                     v.set_static()
-        # searches all classes to find the one user is referring to. Creates variable object and stores inside afformentioned class object
+        # searches all classes to find the one user is referring to. Creates variable object and stores inside
+        # aforementioned class object
 
     @staticmethod
     def color_class(class_name, color):
@@ -436,7 +440,8 @@ class MBSE:
                 for m in c.get_methods():
                     if m.get_method() == method_sender:
                         m.add_method_connection(class_receiver, method_receiver)
-        # Searches all classes to find classes with inputted names and then searches all methods in that class to edit variable in the method
+        # Searches all classes to find classes with inputted names and then searches all methods in that class to edit
+        # variable in the method
 
     ##################
     # Linear Diagrams#
@@ -476,20 +481,20 @@ class MBSE:
 
     @staticmethod
     def color(node, color):
-         """
-            Colors a node in the linear diagram.
+        """
+                    Colors a node in the linear diagram.
 
-            Colors a node in the linear diagram. Color can be name of color or hexadecimal value.
+                    Colors a node in the linear diagram. Color can be the name of color or hexadecimal value.
 
-            Parameters
-            ----------
-            node : str
-                The name of the node to be colored in the diagram.
-            color : str
-                The name of the color or the hexadecimal value.
+                    Parameters
+                    ----------
+                    node : str
+                        The name of the node to be colored in the diagram.
+                    color : str
+                        The name of the color or the hexadecimal value.
 
 
-            """
+                    """
         for n in Node.get_nodes():
             if n.get_name() == node:
                 n.set_color(color)
@@ -499,7 +504,7 @@ class MBSE:
         """
             Highlights out a node in the linear diagram.
 
-            Highlights out a node in the linear diagram. Highlighs all of the edges leading out of a node.
+            Highlights out a node in the linear diagram. Highlights all the edges leading out of a node.
 
             Parameters
             ----------
@@ -517,12 +522,12 @@ class MBSE:
         """
             Highlights in a node in the linear diagram.
 
-            Highlights in a node in the linear diagram. Highlighs all of the edges leading into a node.
+            Highlights in a node in the linear diagram. Highlights all the edges leading into a node.
 
             Parameters
             ----------
             node : str
-                The name of the node to be highlighted in in the diagram.
+                The name of the node to be highlighted in the diagram.
 
 
             """

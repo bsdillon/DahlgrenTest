@@ -1,3 +1,7 @@
+#########################################################################
+# Represents and stores all information for a class in the code diagram #
+#########################################################################
+
 from MBSE_Library.code_diagrams.plantumlmethod import PlantumlMethod
 from MBSE_Library.code_diagrams.plantumlvariables import PlantumlVariable
 
@@ -9,13 +13,15 @@ class PlantumlClass:
     receiver = []
     relationship = []
 
-    def __init__(self, uml_class):
-        self.uml_class = uml_class
-        self.methods = []
-        self.variables = []
-        self.add_class_list(self)
-        self.has_color = False
-        self.color = ""
+    def __init__(self, name):
+        self.name = name  # name of the class
+        self.methods = []  # list of all the methods in the class
+        self.variables = []  # list of all the variables in the class
+        self.add_class_list(self)  # calls add_class_list
+        self.has_color = False  # by default there is no color
+        # //developers note: Can probably get rid of boolean entirely and instead just check if the color String in not
+        # // empty. Similar to how the box string is handled
+        self.color = ""  # empty string to be populated when called
 
     @staticmethod
     def get_class_list():
@@ -26,7 +32,7 @@ class PlantumlClass:
         PlantumlClass.class_list.append(plantuml_class)
 
     def get_class_name(self):
-        return self.uml_class
+        return self.name
 
     def add_method(self, method):
         m1 = PlantumlMethod(method, "", "")
