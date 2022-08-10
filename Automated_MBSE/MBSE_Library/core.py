@@ -410,6 +410,7 @@ class MBSE:
                 The relationship between the classes
 
             """
+        # //developer's note: should check if relationship_type is a valid string type and if not return error
         for s in PlantumlClass.class_list:
             if s.get_class_name() == sender:
                 for r in PlantumlClass.class_list:
