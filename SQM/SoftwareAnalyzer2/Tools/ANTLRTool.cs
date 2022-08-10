@@ -2888,7 +2888,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void MethodInvokeModifier(IModifiable node)
         {
-            //node.Parent.PrintTreeText();
             node.SetNode(Members.MethodInvoke);
             IModifiable method = ((IModifiable)node.GetNthChild(0).GetNonTrivialChild());
             String      s      = method.Code;
@@ -5541,7 +5540,6 @@ namespace SoftwareAnalyzer2.Tools
         {
             node.ClearCode(ClearCodeOptions.ClearAll);
             IModifiable classHeadNode = (IModifiable)node.GetFirstSingleLayer("classHead");
-            //Need to handle objects made on definition here
             if (classHeadNode.GetFirstSingleLayer("classHeadName") != null)
             {
                 HandleDefinitionInstantiation(node);
@@ -5732,7 +5730,50 @@ namespace SoftwareAnalyzer2.Tools
                 }
             }
         }
+        /// <summary>
+        ///Complimentary function to CPPDeclaratorHandler
+        ///Used to handle function pointers in CPP
+        /// </summary>
+        /// <param name="answer"></param>
+        private void CPPFunctionPointerHandler(IModifiable node)
+        {
+            IModifiable method = (IModifiable)NodeFactory.CreateNode(Members.Method, false);
+            IModifiable target = (IModifiable)node.GetAncestor("simpleDeclaration");
+            ((IModifiable)target.GetFirstSingleLayer("declSpecifierSeq")).Clone().Parent = method;
+            IModifiable nodeClone = node.Clone();
+            nodeClone.Parent = method;
+            nodeClone.GetFirstSingleLayer("noPointerDeclarator").GetNthChild(0).Parent = method.GetFirstSingleLayer("declarator");
+            ((IModifiable)method.GetFirstSingleLayer("declarator")).RemoveChild((IModifiable)method.GetFirstSingleLayer("declarator").GetFirstSingleLayer("noPointerDeclarator"));
+            IModifiable funcBody = ((IModifiable)node.GetAncestor("functionBody")).Clone();
+            funcBody.DropChildren();
+            funcBody.ClearCode(ClearCodeOptions.ClearAll);
+            IModifiable compStatement = (IModifiable)NodeFactory.CreateNode("compoundStatement", false);
+            compStatement.Parent = funcBody;
+            funcBody.Parent = method;
 
+            //Segment for adding variables into the parameter list
+            int i = 0;
+            IModifiable paramtrs = (IModifiable)method.GetFirstSingleLayer("declarator").GetFirstSingleLayer(Members.ParameterList);
+            foreach (INavigable parameter in paramtrs.Children)
+            {
+                IModifiable variable = (IModifiable)NodeFactory.CreateNode(Members.Variable, false);
+                variable.AddCode("x" + i, (IModifiable)parameter.GetNthChild(0));
+                variable.Parent = parameter;
+                i++;
+            }
+
+            IModifiable decl = ((IModifiable)node.GetAncestor("declaration")).Clone();
+            decl.DropChildren();
+            decl.ClearCode(ClearCodeOptions.ClearAll);
+            method.Parent = decl;
+            decl.Parent = (IModifiable)node.GetAncestor(Members.Method).Parent.Parent;
+
+            //Now I want to clean up whats left from where its called.
+            ((IModifiable)node.GetAncestor("simpleDeclaration")).RemoveChild((IModifiable)node.GetAncestor("simpleDeclaration").GetFirstSingleLayer("declSpecifierSeq"));
+            node.GetFirstSingleLayer("noPointerDeclarator").GetFirstSingleLayer(Members.Variable).Parent = node;
+            node.RemoveChild((IModifiable)node.GetFirstSingleLayer("noPointerDeclarator"));
+            node.RemoveChild((IModifiable)node.GetFirstSingleLayer(Members.ParameterList));
+        }
         /// <summary>
         /// Handles declarator nodes
         /// </summary>
@@ -5741,6 +5782,14 @@ namespace SoftwareAnalyzer2.Tools
         {
             if (!node.Parent.Node.Equals(Members.Method))
             {
+                //Function pointers
+                if (node.Parent.GetFirstSingleLayer("initializer") != null)
+                {
+                    if (node.Parent.GetFirstSingleLayer("initializer").GetFirstSingleLayer(Members.Write) != null && node.GetChildCount() == 2)
+                    {
+                        CPPFunctionPointerHandler(node);
+                    }
+                }    
                 if (node.GetChildCount() == 2 && node.GetNthChild(1).Node.Equals(Members.ParameterList))
                 {
                     // TODO: operators...

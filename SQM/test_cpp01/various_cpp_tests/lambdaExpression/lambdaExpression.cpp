@@ -1,6 +1,6 @@
 //#include <functional>
 #include <iostream>
-#include <vector>
+//#include <vector>
 
 
 /*
@@ -17,19 +17,27 @@ void ForEach (const std::vector<int>& values, void(*func)(int))
   }
 }
 */
-void HelloWorld(int a)
+void nothing(int x)
 {
-  std::cout << "Hello world! " << a << std::endl;
+
+}
+
+void HelloWorld(int a, double b, char c)
+{
+  std::cout << "Hello world! " << a << b << c <<std::endl;
 }
 
 int main()
 {
-  void(*function)(int) = HelloWorld;
-  function(1);
+  void(*function)(int, double, char) = HelloWorld;
+  function(1, 2, 'c');
 
-  int x = 5;
-  int* y = &x;
-  std::cout << *y << std::endl;
+  int x = 1;
+  int y = 2;
+  x = y;
+  //int x = 5;
+  //int* y = &x;
+  //std::cout << *y << std::endl;
 
   //std::vector<int> values = {1, 5, 4, 2, 3};
   //ForEach(values, PrintValue);
