@@ -1,0 +1,19 @@
+def writepydocs(f="."):
+    for filename in os.listdir(r'C:\Users\Work\Documents\GitHub\DahlgrenTest\Automated_MBSE\MBSE_Library' + f.replace(".", "\\")):
+        if filename == "__pycache__":
+            continue
+        if filename.endswith(".py"):
+            print(filename)
+            pydoc.writedoc("MBSE_Library" + f + filename.replace(".py", ""))
+        else:
+            pydoc.writedoc("MBSE_Library" + f + filename)
+            writepydocs(f + filename + ".")
+
+
+if __name__ == '__main__':
+    ##########################################
+    # Testing methods to ensure proper output#
+    ##########################################
+    from MBSE_Library import MBSE
+
+    writepydocs()
