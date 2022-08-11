@@ -46,3 +46,9 @@ STD::PAIR [ArrayInitializers\arrayInitializers.cpp]
 Pairs are not yet implemented in CPP. Not sure where to handle this, maybe in the same location
 as arrays in ANTLRtool.
 
+---
+
+Keywork "using" [usingDeclarations\usingDeclarations.cpp]
+
+
+The keyword "using" is not fully implemented.
