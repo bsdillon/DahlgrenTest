@@ -8,45 +8,68 @@ import java.awt.image.BufferedImage;
 
 public class SikulixTestFunctions {
 
-
     //use main method to test functions as going
-    public static void main(String[] args) throws FindFailed {
-    
+    public static void main(String[] args){
+    //example of creating a pattern object from a saved image
+    Pattern google = new Pattern("Path to screen shot of google icon");
+    Pattern TextBox = new Pattern("Path to screen shot of a text box");
+    Pattern Text = new Pattern("Path to scrennshot of text");
+
+    captureElement(google, "savefilepath");
+    Screenshot(google,"savefilepath");
+    moveWindow(google, 300, 300);
+    click(google);
+    doubleClick(google);
+    enterText(TextBox, "Hello world");
+    ReadText(Text);
+
+
     }
 
     /**
-     * Takes a screenshot of a region and saves it to the file path
-     * @param region an element or a window to take a screenshot of
+     * Takes a pattern object of a saved image, finds it and takes a screenshot
+     * @param pattern an element or a window to take a screenshot of
      * @param filepath path to save the screenshot to
      */
-    public static void captureElement(Region region, String filepath){
-        ScreenImage elementSC = region.getScreen().capture(region);
+    public static void captureElement(Pattern pattern, String filepath) {
+        Screen s = new Screen(0);
         try {
-            BufferedImage screenShot = elementSC.getImage();
-            File outputFile = new File(filepath);
-            ImageIO.write(screenShot, "png", outputFile);
-        }catch(IOException e){
-            System.out.println("could not save image");
-            System.out.println();
+            Match imageRegion = s.find(pattern);
+            ScreenImage elementSC = s.capture(imageRegion);
+                BufferedImage screenShot = elementSC.getImage();
+                File outputFile = new File(filepath);
+                ImageIO.write(screenShot, "png", outputFile);
+                }catch (IOException e) {
+                    System.out.println("could not save image");
+                    System.out.println();
+                }catch (FindFailed e) {
+            System.out.println("Find failed on " + pattern.toString());
         }
+
     }
 
     /**
-     * Captures the full screen the region is in and saves it to the filepath
-     * @param region an element or window
+     * Takes in a pattern object of a screenshot, finds it and captures the entire screen that it's on
+     * @param pattern a screenshot of an element or window
      * @param filepath path to save the screenshot to
      */
-    public static void Screenshot(Region region, String filepath){
-        ScreenImage ScreenSC = region.getScreen().capture();
+    public static void Screenshot(Pattern pattern, String filepath){
+        Screen s = new Screen(0);
         try {
-            BufferedImage screenShot = ScreenSC.getImage();
-            File outputFile = new File(filepath);
-            ImageIO.write(screenShot, "png", outputFile);
-        }catch(IOException e){
-            System.out.println("could not save image");
-            System.out.println();
+            Match imageRegion = s.find(pattern);
+            ScreenImage ScreenSC = s.capture(imageRegion);
+                try {
+                    BufferedImage screenShot = ScreenSC.getImage();
+                    File outputFile = new File(filepath);
+                    ImageIO.write(screenShot, "png", outputFile);
+                }
+                catch (IOException e) {
+                    System.out.println("could not save image");
+                    System.out.println();
+                }
+        }catch (FindFailed e) {
+            System.out.println("Find failed on " + pattern.toString());
         }
-
     }
 
     /**
@@ -56,7 +79,7 @@ public class SikulixTestFunctions {
      * @param y the y-coordinate of the upper left hand corner of the new location
      * @throws FindFailed throws a find failed exception if the element can not be located on the screen
      */
-    public static void moveWindow(Pattern region, int x, int y) throws FindFailed{
+    public static void moveWindow(Pattern region, int x, int y){
         //Sets screen object to the current monitor
         Screen screen = new Screen(0);
         Location newWindowLocation = new Location(x, y);
@@ -75,7 +98,7 @@ public class SikulixTestFunctions {
      * @param text the text to be entered into the text box
      * @throws FindFailed throws error if the text box cannot be found
      */
-    public static void enterText(Pattern region, String text) throws FindFailed{
+    public static void enterText(Pattern region, String text){
         Screen s = new Screen(0);
         try{
             s.find(region).type(text);
@@ -89,7 +112,7 @@ public class SikulixTestFunctions {
      * @param region a pattern object, of the element to be clicked
      * @throws FindFailed throws a find failed exception if the element can not be located on the screen
      */
-    public static void click(Pattern region) throws FindFailed{
+    public static void click(Pattern region){
         Screen s = new Screen(0);
         try{
             s.find(region).click();
@@ -103,7 +126,7 @@ public class SikulixTestFunctions {
      * @param region a pattern object of the element to be clicked
      * @throws FindFailed throws a find failed exception if the element can not be found on the screen
      */
-    public static void doubleClick(Pattern region) throws FindFailed{
+    public static void doubleClick(Pattern region){
         Screen s = new Screen(0);
         try{
             s.find(region).doubleClick();
@@ -111,5 +134,15 @@ public class SikulixTestFunctions {
             System.out.println("Find failed on " + region.toString());
         }
     }
+    public static String ReadText(Pattern pattern){
+        OCR ocr = new OCR();
+        Screen s = new Screen(0);
+        try {
+            Match textArea = s.find(pattern);
+            return ocr.readText(textArea);
+        } catch (FindFailed e){
+            System.out.println("Find Failed on " + pattern.toString());
+        }
+    return "could not read text";
+    }
 }
-
