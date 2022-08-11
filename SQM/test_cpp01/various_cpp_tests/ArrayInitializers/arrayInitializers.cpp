@@ -13,6 +13,8 @@ int main() {
   
   int multiUnknown [][2] = {{0,1}, {0,1}, {2,3}, {4,5}};
   
+  std::pair<int, int> *arrPos = new std::pair<int, int>[2];
+
   for (int i : uniform) {
       cout<<i<<endl;
   }

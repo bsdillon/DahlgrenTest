@@ -7,6 +7,7 @@ class outside
 public:
       int x;
 	  static int y;
+      int getX();
       class inside
       {
       public:
@@ -23,7 +24,9 @@ public:
 };
 int outside::inside::y = 5; 
 int outside::inside::deeperInside::y = 10; 
-  
+
+outside::getX() {return x;};
+
 int main(){
     outside A;
     outside::inside B;

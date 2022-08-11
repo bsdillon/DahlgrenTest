@@ -1,3 +1,5 @@
+#include <vector>
+
 int main(){
 	bool x = true;
 	while(x){
@@ -17,5 +19,8 @@ int main(){
 		}while(x);
 	}while(!x);
 	
+	std::vector<bool> vis(2, false);
+	while (viz[1]) y = false;
+
 	return 0;
 }

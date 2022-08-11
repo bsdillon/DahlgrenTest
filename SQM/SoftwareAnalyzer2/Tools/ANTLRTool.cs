@@ -760,7 +760,7 @@ namespace SoftwareAnalyzer2.Tools
             {
                 expectedToken.Substring(expectedToken.IndexOf(",<") + 1, (expectedToken.IndexOf(">,")) - expectedToken.IndexOf(",<")),
                 expectedToken.Substring(expectedToken.IndexOf(">,") + 2, expectedToken.LastIndexOf(":") - (expectedToken.IndexOf(">,") + 2)),
-                expectedToken.Substring(expectedToken.LastIndexOf(":") + 1, expectedToken.IndexOf("]") - (expectedToken.LastIndexOf(":") + 1))
+                expectedToken.Substring(expectedToken.LastIndexOf(":") + 1, (expectedToken.Length-1) - (expectedToken.LastIndexOf(":") + 1))
             };
             //Incorrect  =[@18,454:454=',',<','>,12:25])
             //string[] parts          = expectedToken.Substring(token2 + 1).Split(",:]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
