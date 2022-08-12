@@ -6222,9 +6222,6 @@ namespace SoftwareAnalyzer2.Tools
         /// <param name="answer"></param>
         private void CPPModifierSender(IModifiable node)
         {
-            //Console.WriteLine("\n\nCPPModifierSender incoming tree:");
-            //node.Parent.PrintTreeText();
-            //Console.WriteLine("\n\n");
             if (node.Parent.GetFirstSingleLayer(Members.Virtual) != null)
             {
                 IModifiable nodeParent = (IModifiable)node.Parent;
@@ -6261,11 +6258,8 @@ namespace SoftwareAnalyzer2.Tools
             }
 
             node.Parent = targetNode.GetFirstSingleLayer(MemberSets.ModifierSet);
-            (oldParent).RemoveChild(node);
+            (oldParent).RemoveChild(node); 
 
-            //Console.WriteLine("\n\nCPPModifierSender outgoing tree:");
-            //node.Parent.Parent.Parent.PrintTreeText();
-            //Console.WriteLine("\n\n");
         }
 
         /// <summary>

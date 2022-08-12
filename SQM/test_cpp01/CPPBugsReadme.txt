@@ -52,3 +52,11 @@ Keywork "using" [usingDeclarations\usingDeclarations.cpp]
 
 
 The keyword "using" is not fully implemented.
+
+---
+
+Storage Specifiers [storageSpecifiers\storageSpecifiers.cpp]
+
+Not all storage specifiers are implemented. In the AST of the reference CPP, some are dropped.
+It is not as simple as adding a case to CPPModifierModifier as sometimes modifiers arent placed
+under ModiferSet. Other times, the code of the storageClassSpecifier node is just missing.
