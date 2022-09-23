@@ -12,10 +12,13 @@
     <script src="chartStyle.js"></script>
     <script src="demoGUI.js"></script>
 </head>
-<body onload = "start('./../../../../RFData/test2.js')" class="background"  id="body">
+<body onload = "start('./../../../../RFData/test2.js','./../../../../RFData/archive.js')" class="background"  id="body">
 <div id = "header">
   <img id="mainLogo" src="totallogo.png" width="200" height="75">
 </div>
+ <div class="dataSelect">
+    <label>Data File: </label><select id="selectData"></select>
+ </div>
  <div id = "main" class = "div">
    <br>
     <div style="float: left;">

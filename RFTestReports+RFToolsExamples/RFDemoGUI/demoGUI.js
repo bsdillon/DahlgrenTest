@@ -1,5 +1,10 @@
-function start(dataFile)
+var dataFile = ""
+
+function start(newFile, archiveFile)
 {
+  //Find the selectData object and populat from archiveFile
+
+  dataFile = newFile;
   var currentData = document.getElementById("dataSourceFile");
   if(currentData)
   {
@@ -13,10 +18,10 @@ function start(dataFile)
   var head= document.getElementsByTagName('head')[0];
   head.appendChild(script);
 
-  setTimeout(function(){waitForData(dataFile); },100);
+  setTimeout(function(){waitForData(); },100);
 }
 
-function waitForData(dataFile)
+function waitForData()
 {
   if(!testRuns)
   {

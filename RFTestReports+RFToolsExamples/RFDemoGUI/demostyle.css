@@ -229,3 +229,14 @@ td.running {
 .popup td.Screenshot {background-image: url("camera.png"); background-position: center; background-repeat: no-repeat; background-size: 2em 2em; color: #00000000; background-color:#ffffff;}
 .popup th {background-color:#00454F; color:white; font-weight:bolder;}
 #reportContent {background-color:#FFFFFF;}
+
+.dataSelect {   background-color: GhostWhite;
+   width:300;
+   border-radius: 10px;
+   margin: 5px;
+   box-shadow:
+   12px 12px 16px 0 rgba(255, 255, 255, 0.5) inset,
+   -18px -18px 22px 0 rgba(0, 0, 0, .15) inset;
+   width:300;
+}
+label {font-size: 16pt; color: rgb(0,59,79); font-weight:bold;}
