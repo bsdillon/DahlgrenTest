@@ -1,4 +1,0 @@
-- Issue / Request for new feature
-- Steps to reproduce ?
-- Expected steps
-- Screenshot/additional information
