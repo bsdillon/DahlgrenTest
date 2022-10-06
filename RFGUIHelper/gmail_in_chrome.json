@@ -1,0 +1,218 @@
+[
+    {
+        "name": "Tab1",
+        "type": "Tab",
+        "X": 13,
+        "Y": 5,
+        "width": 197,
+        "height": 33,
+        "group": "ChromeTabs"
+    },
+    {
+        "name": "Tab2",
+        "type": "Tab",
+        "X": 216,
+        "Y": 9,
+        "width": 186,
+        "height": 27,
+        "group": "ChromeTabs"
+    },
+    {
+        "name": "Tab3",
+        "type": "Tab",
+        "X": 411,
+        "Y": 4,
+        "width": 186,
+        "height": 36,
+        "group": "ChromeTabs"
+    },
+    {
+        "name": "EmailSearch",
+        "type": "Text Field",
+        "X": 388,
+        "Y": 142,
+        "width": 775,
+        "height": 51,
+        "group": ""
+    },
+    {
+        "name": "GmailAnchor",
+        "type": "Anchor",
+        "X": 72,
+        "Y": 142,
+        "width": 149,
+        "height": 48,
+        "group": ""
+    },
+    {
+        "name": "SearchSettings",
+        "type": "Dropdown",
+        "X": 1168,
+        "Y": 146,
+        "width": 42,
+        "height": 43,
+        "group": ""
+    },
+    {
+        "name": "MoreBoxes",
+        "type": "Dropdown",
+        "X": 36,
+        "Y": 514,
+        "width": 123,
+        "height": 35,
+        "group": ""
+    },
+    {
+        "name": "MoreLabels",
+        "type": "Dropdown",
+        "X": 33,
+        "Y": 711,
+        "width": 122,
+        "height": 28,
+        "group": ""
+    },
+    {
+        "name": "PrimaryTab",
+        "type": "Tab",
+        "X": 322,
+        "Y": 281,
+        "width": 323,
+        "height": 52,
+        "group": "GmailTabs"
+    },
+    {
+        "name": "PromotionsTab",
+        "type": "Tab",
+        "X": 646,
+        "Y": 281,
+        "width": 288,
+        "height": 52,
+        "group": "GmailTabs"
+    },
+    {
+        "name": "SocialTab",
+        "type": "Tab",
+        "X": 946,
+        "Y": 287,
+        "width": 265,
+        "height": 45,
+        "group": "GmailTabs"
+    },
+    {
+        "name": "Refresh",
+        "type": "Button",
+        "X": 415,
+        "Y": 224,
+        "width": 37,
+        "height": 34,
+        "group": ""
+    },
+    {
+        "name": "Compose",
+        "type": "Button",
+        "X": 10,
+        "Y": 222,
+        "width": 185,
+        "height": 68,
+        "group": ""
+    },
+    {
+        "name": "CheckboxEmail1",
+        "type": "Checkbox",
+        "X": 347,
+        "Y": 357,
+        "width": 16,
+        "height": 17,
+        "group": ""
+    },
+    {
+        "name": "CheckboxEmail2",
+        "type": "Checkbox",
+        "X": 344,
+        "Y": 407,
+        "width": 17,
+        "height": 17,
+        "group": ""
+    },
+    {
+        "name": "CheckboxEmail3",
+        "type": "Checkbox",
+        "X": 345,
+        "Y": 460,
+        "width": 17,
+        "height": 14,
+        "group": ""
+    },
+    {
+        "name": "Email1",
+        "type": "Button",
+        "X": 411,
+        "Y": 343,
+        "width": 1219,
+        "height": 41,
+        "group": ""
+    },
+    {
+        "name": "Email2",
+        "type": "Button",
+        "X": 410,
+        "Y": 395,
+        "width": 1004,
+        "height": 34,
+        "group": ""
+    },
+    {
+        "name": "Email3",
+        "type": "Button",
+        "X": 412,
+        "Y": 441,
+        "width": 1079,
+        "height": 41,
+        "group": ""
+    },
+    {
+        "name": "RBasTab1",
+        "type": "Radio Button",
+        "X": 383,
+        "Y": 282,
+        "width": 226,
+        "height": 48,
+        "group": "RadiobuttonTab"
+    },
+    {
+        "name": "RBasTab2",
+        "type": "Radio Button",
+        "X": 689,
+        "Y": 289,
+        "width": 196,
+        "height": 33,
+        "group": "RadiobuttonTab"
+    },
+    {
+        "name": "RBasTab3",
+        "type": "Radio Button",
+        "X": 974,
+        "Y": 295,
+        "width": 138,
+        "height": 25,
+        "group": "RadiobuttonTab"
+    },
+    {
+        "name": "Webpage",
+        "type": "Text Field",
+        "X": 178,
+        "Y": 52,
+        "width": 1331,
+        "height": 29,
+        "group": ""
+    },
+    {
+        "name": "EmailScrollBar",
+        "type": "Scroll Bar",
+        "X": 1838,
+        "Y": 270,
+        "width": 13,
+        "height": 750,
+        "group": ""
+    }
+]
