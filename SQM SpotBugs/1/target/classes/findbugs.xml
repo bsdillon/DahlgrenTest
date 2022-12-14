@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<FindbugsPlugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="findbugsplugin.xsd"
-        pluginid="1.1">
-
-        <Detector class="MyDetector" reports="MY_BUG" />
-
-        <BugPattern abbrev="MY" type="MY_BUG" category="CORRECTNESS" />
-</FindbugsPlugin>

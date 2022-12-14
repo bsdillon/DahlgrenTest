@@ -1,0 +1,52 @@
+1. Enact the test manually to determine the procedure and OQE
+* Open a browser
+* Navigate to https://www.dvidshub.net/
+* Note the title on the window
+* Note the appearance of the site
+* Close the browser
+
+2. Create a Robot Framework Script which has the following required elements.
+*** Settings ***
+*** Variables ***
+*** Keywords ***
+*** Test Cases ***
+
+3. To get access to the python code for browser access through the Selenium tool, 
+   add this under settings
+Library   SeleniumLibrary
+
+4. Add three variables for the site in question. We could do this with any website 
+   or browser, but for consistency the group should use these for our test. You can
+   give any name to the variables that you want. All variables have the form ${NAME}.
+The name of the browser: Chrome
+The URL you navigated to: https://www.dvidshub.net/
+The title of the page: DVIDS - Defense Visual Information Distribution Service
+
+5. We will create test cases to automate the manual test you did above. Let's work
+   here first by answering some questions. 
+
+   Which of these are test STEPS and which are OQE?
+* Open a browser
+* Navigate to https://www.dvidshub.net/
+* Note the title on the window
+* Note the appearance of the site
+* Close the browser
+
+   From the RF Selenium site what are the keywords that can effect each of these 
+   actions? This may require some searching.
+   https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html#Browser%20and%20Window
+
+6. Create test cases for each of the actions. You can combine some of them if
+   you like. The anatomy of a test case is:
+Some Name for the Test Case
+    Some Keyword    Any parameter you need
+
+A blank line comes between each test case
+    Four spaces precede     each line
+    Always use for spaces    before any additional parameters
+
+7. Run the test from the command line. You can verify the pass/fail of each
+   test step as it runs (you will see PASS in green or FAIL in red). After 
+   the test is done, you can read the automatically generated log. Watch
+   for the screen capture in the log.
+robot <<yourtestfile>>

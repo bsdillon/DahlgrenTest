@@ -1,0 +1,13 @@
+Lines affected by input file:\otherGuy - line number: [14]
+[\otherGuy::14](Branch(14-22):  * 3)
+,[\stateful::21](originated from: Field(4:18-27): otherState)
+,,[\stateful::19](Method(19:17-29): getOtherState * 5)
+,,,[\otherGuy::3](Field(3:19-23): state * 4)
+,,,,[\otherGuy::16](Scope(16-17):  * 3)
+,,,,[\otherGuy::21](ElseScope(21-22):  * 3)
+,,,,[\otherGuy::14](originated from: Field(3:19-23): state * 4)
+,,,,[\otherGuy::16](originated from: Field(3:19-23): state * 4)
+,,,,[\otherGuy::21](originated from: Field(3:19-23): state * 4)
+,,,[\stateful::24](Parameter(24:36-40): value * 3)
+
+

@@ -1,2 +1,0 @@
-javac SikuliEntryPoint.java
-java SikuliEntryPoint

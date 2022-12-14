@@ -1,182 +1,282 @@
 import tkinter as tk
 from imagewindow import ImageWindow
-from tkinter import ttk
+from tkinter import ttk, messagebox as mb, filedialog as fd, simpledialog as sd
 import json
-from widget import Widget
+from widget import EditorState, Widget, WidgetEditor
+from PIL import Image, ImageTk
+from pathlib import Path
+import shutil
+import os
+from yetiwriter import writeYeti
 
-# FIRST WINDOW
-# This window contains any action items for configuring the items and their information
+CONFIG_DIR = './configs'
+PROJECT_FILE = "project.json"
+THUMBNAIL = (25, 18)
 
 class MainWindow():
     def __init__(self):
-        window = tk.Tk()
+        self.test = None
+        self.projFile = None
+        self.window = tk.Tk()
+        self.window.protocol("WM_DELETE_WINDOW", self.closeWindow)
 
-        self.test = ImageWindow(self)
-        window.title("RF GUI WIZARD")
-        window.geometry("600x500")
+        menubar = tk.Menu(self.window)
+        self.window.config(menu=menubar)
+        filemenu = tk.Menu(menubar, tearoff=0)
+        filemenu.add_command(label="New", command=self.newProject)
+        filemenu.add_command(label="Open", command=self.getProjectName)
+        filemenu.add_command(label="Save", command=self.saveProject)
+        #BSD may be added later
+        #filemenu.add_command(label="Save as...", command=self.saveAsProject)
+        filemenu.add_command(label="Close", command=self.closeProject)
+        filemenu.add_separator()
+        filemenu.add_command(label="Exit", command=self.closeWindow)
+        menubar.add_cascade(label="File", menu=filemenu)
+
+        filemenu = tk.Menu(menubar, tearoff=0)
+        filemenu.add_command(label="Clear All", command=self.clearEntries)
+        filemenu.add_command(label="Export YETI", command=self.exportYeti)
+        #BSD may be added later
+        #filemenu.add_command(label="Add Image", command=self.addImage)
+        menubar.add_cascade(label="Actions", menu=filemenu)
+
+
+        self.window.title("RF GUI WIZARD")
+        self.window.geometry("600x500")
 
         self.widget_list = []
+        self.images=[]
 
-        frame = tk.Frame(window)
-        frame.grid()
+        frame = tk.Frame(self.window)
+        self.window.rowconfigure(0,weight=1)#forces frame to resize with window
+        self.window.columnconfigure(0,weight=1)
+        frame.grid(row=0, column=0, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        windowName = tk.Label(frame, text="Anchor File Name:")
-        windowName.grid(row=0, column=0)
+        cNames = ("name_c", "type_c", "X_c", "Y_c", "Width_c", "Height_c")
+        self.table = ttk.Treeview(frame, columns=cNames)
+        frame.rowconfigure(1,weight=1)#gives the table the majority of the space
+        frame.columnconfigure(0,weight=1)
+        self.table.grid(row=1, column=0, columnspan=5, sticky=tk.N+tk.S+tk.E+tk.W)
 
-        self.anchorFileName = tk.Entry(frame)
-        self.anchorFileName.grid(row=0, column=1)
+        self.table.column("#0", anchor=tk.CENTER, width=50, stretch=True)
+        self.table.column("name_c", anchor=tk.CENTER, width=80)
+        self.table.column("type_c", anchor=tk.CENTER, width=80)
+        self.table.column("X_c", anchor=tk.CENTER, width=80)
+        self.table.column("Y_c", anchor=tk.CENTER, width=80)
+        self.table.column("Width_c", anchor=tk.CENTER, width=80)
+        self.table.column("Height_c", anchor=tk.CENTER, width=80)
 
-        exportJSON = tk.Button(frame, text='Export to JSON', command=self.exportToJSON)
-        exportJSON.grid(row=0, column=2)
+        self.table.heading("#0", text="Icon")
+        self.table.heading("name_c", text="Name")
+        self.table.heading("type_c", text="Type")
+        self.table.heading("X_c", text="X")
+        self.table.heading("Y_c", text="Y")
+        self.table.heading("Width_c", text="Width")
+        self.table.heading("Height_c", text="Height")
+        self.table.bind("<Button 1>", self.edit)
 
-        deleteSelection = tk.Button(frame, text='Delete Selection', command=self.delete)
-        deleteSelection.grid(row=0, column=3)
+    def newProject(self):
+        project = sd.askstring("Project", "\t\tAssign a project name\t\t")
+        if project == "" or project == None:
+            mb.showerror(title="Error", message="Project name is empty", parent=self.window)
+            return
 
-        clear = tk.Button(frame, text='Clear Entries', command=self.clearEntries)
-        clear.grid(row=0, column=4)
+        projPath = os.path.join(CONFIG_DIR, project)
+        if os.path.exists(projPath):
+            mb.showerror(title="Error", message="Project '"+project+"' already exists", parent=self.window)
+            return
+            
+        # we have a valid, new project name and we will configure for that
+        Path(projPath).mkdir(parents=True, exist_ok=False)
+        projFile = os.path.join(projPath, PROJECT_FILE)
 
-        #Here is where you can add more columns to the 'spreadsheet'
-        table = ttk.Treeview(frame, show='headings', columns=(
-            "Name", "Type", "X", "Y", "Width", "Height", "Group"), height=18)
-        self.table = table
-        table['show'] = 'headings'
-        table.grid(row=1, column=0, columnspan=5)
+        #get the first image for the project
+        self.imageList = []
+        name = fd.askopenfilename(parent=self.window, title="Select GUI Screenshot", filetypes=[("PNG","*.png"), ("PNG","*.PNG"), ("BMP","*.bmp"), ("BMP","*.BMP"),])
+        if name == "":
+            mb.showerror(title="Error", message="Image file not found", parent=self.window)
+            return
+        nameOnly = os.path.basename(name)
+        newName = os.path.join(projPath, nameOnly)
+        self.imageList.append(str(Path(newName).absolute()))
+        shutil.copyfile(name, newName)
+            
+        self.exportJSON(projFile)
+        self.openProject(projPath)
 
-        table['columns'] = ('Name', 'Type', 'X', 'Y', 'Width', 'Height', 'Group')
+    def getProjectName(self):
+        temp = fd.askdirectory(initialdir=CONFIG_DIR,mustexist=True,title="Select a project")
+        if temp == "":
+            mb.showerror(title="Error", message="Project not selected", parent=self.window)
+            return
+        self.openProject(temp)
 
-        table.column("#0", width=0,  stretch=False)
-        table.column("Name", anchor=tk.CENTER, width=80)
-        table.column("Type", anchor=tk.CENTER, width=80)
-        table.column("X", anchor=tk.CENTER, width=80)
-        table.column("Y", anchor=tk.CENTER, width=80)
-        table.column("Width", anchor=tk.CENTER, width=80)
-        table.column("Height", anchor=tk.CENTER, width=80)
-        table.column("Group", anchor=tk.CENTER, width=80)
+    def openProject(self, directory):
+        self.projPath = directory
+        self.projFile = os.path.join(self.projPath,PROJECT_FILE)
+        self.imageList = []
+        self.importJSON(self.projFile)
 
-        table.heading("#0", text="", anchor=tk.CENTER)
-        table.heading("Name", text="Name", anchor=tk.CENTER)
-        table.heading("Type", text="Type", anchor=tk.CENTER)
-        table.heading("X", text="X", anchor=tk.CENTER)
-        table.heading("Y", text="Y", anchor=tk.CENTER)
-        table.heading("Width", text="Width", anchor=tk.CENTER)
-        table.heading("Height", text="Height", anchor=tk.CENTER)
-        table.heading("Group", text="Group", anchor=tk.CENTER)
-        table.bind("<Button 1>", self.edit)
+    def importJSON(self, file):
 
-    def exportToJSON(self):
-        children = self.table.get_children()
-        tempList = []
-        for x in children:
-            print(self.table.item(x))
-            tempVals = self.table.item(x).get('values')
-            tempW = Widget(tempVals[0], tempVals[1],
-                        tempVals[2], tempVals[3], tempVals[4], tempVals[5], tempVals[6])
-            tempList.append(tempW)
-        for x in tempList:
-            x.print()
-        # jsonString = json.dumps(master.widget_list[1])
-        results = [obj.to_dict() for obj in tempList]
-        jsdata = json.dumps(results)
-        print(jsdata)
-        print("Started writing JSON data into a file")
-        with open("developer.json", "w") as write_file:
-            json.dump(results, write_file)  # encode dict into JSON
-        print("Done writing JSON data into .json file")
+        with open(file, "r") as read_file:
+            dictionary = json.load(read_file)
+        self.clearEntries()
+        self.projPath = dictionary["Path"]
+        self.projFile = dictionary["File"]
+        self.imageList = []
+        for img in dictionary["Images"]:
+            self.imageList.append(img)
 
+        self.test = ImageWindow(self, self.projPath)
+        self.test.loadImageNames(self.imageList)
+
+        self.widget_list = []
+        for w in dictionary["Widgets"]:
+            widget = Widget.FromDictionary(w)
+            self.test.updateImage(widget)
+            self.newTableEntry(Image.open(self.imageList[0]), widget)
+
+    def exportYeti(self):
+        writeYeti(self.widget_list, self.projPath, self.window)
+
+    def exportJSON(self, file):
+        tempList = {}
+        absFile = Path(file).absolute()
+        path = absFile.parent
+        tempList["Path"] = str(path)
+        tempList["File"] = str(absFile)
+        tempList["Images"]= self.imageList
+        wList = []
+        for w in self.widget_list:
+            wList.append(w.to_dict())
+
+            #updates the icond for that widget
+            if w.hasValue('Image file name'):
+                w.image.save(self.projPath+"/"+w.getValue('Image file name'))
+
+        tempList["Widgets"] = wList
+
+        with open(file, "w") as write_file:
+            json.dump(tempList, write_file)
+
+    def saveProject(self):
+        if self.projFile == None:
+            mb.showerror(title="Error", message="No project is open at this time", parent=self.window)
+
+        self.exportJSON(self.projFile)
+
+    #BSD may not be needed for some time or ever
+    # def saveAsProject(self):
+    #     project = sd.askstring("Project", "\t\tAssign a project name\t\t")
+    #     if project == "":
+    #         mb.showerror(title="Error", message="Project name is empty", parent=self.window)
+    #         return
+        
+    #     projPath = os.path.join(CONFIG_DIR, project)
+    #     if os.path.exists(projPath):
+    #         mb.showerror(title="Error", message="Project '"+project+"' already exists", parent=self.window)
+    #         return
+
+    def closeProject(self):
+        response = mb.askyesnocancel("Save changes?", "\tDo you want to save any changes?\t")
+
+        if response == None:
+            return response
+        elif response: #True for "Yes" option
+            self.saveProject()
+        
+        self.clearEntries()
+        self.projPath = None
+        self.projFile = None
+        self.imageList = []
+
+        if self.test != None:
+            self.test.top.destroy()
+            self.test = None
+
+        return response
+
+    def closeTest(self):
+        response = self.closeProject()
+        if response == None:
+            return
+
+    def closeWindow(self):
+        response = self.closeProject()
+        if response == None:
+            return
+
+        self.window.quit()
+
+    def newTableEntry(self, rootImage, w:Widget):
+        self.widget_list.append(w)
+
+        tmp = (int(w.getValue("X")), int(w.getValue("Y")), int(w.getValue("width")), int(w.getValue("height")))
+        img1 = rootImage.crop((tmp[0], tmp[1], tmp[0]+tmp[2], tmp[1]+tmp[3]))
+        img1.thumbnail(THUMBNAIL)
+        self.images.append(ImageTk.PhotoImage(img1))
+
+        self.table.insert(parent='',
+            index='end',
+            text='',
+            image=self.images[-1],
+            values=(w.getValue("name"),
+                    w.getValue("type"),
+                    w.getValue("X"),
+                    w.getValue("Y"),
+                    w.getValue("width"),
+                    w.getValue("height")
+                    )
+            )
+ 
     def clearEntries(self):
         for item in self.table.get_children():
             self.table.delete(item)
 
+        if hasattr('self', 'test'):
+            for w in self.widget_list:
+                self.test.deleteOverlays(w)
+
+        self.widget_list.clear()
+
     def edit(self, event):
-        # if table.get_children == :
-            # return
-        if self.table.identify_region(event.x, event.y) == 'cell':
-            # the user clicked on a cell
-
-            def ok(event):
-                """Change item value."""
-                self.table.set(item, column, entry.get())
-                entry.destroy()
-
-            column = self.table.identify_column(event.x)  # identify column
-            item = self.table.identify_row(event.y)  # identify item
-            x, y, width, height = self.table.bbox(item, column)
-            value = self.table.set(item, column)
-
-        elif self.table.identify_region(event.x, event.y) == 'heading':
-            # the user clicked on a heading
-
-            def ok(event):
-                """Change heading text."""
-                self.table.heading(column, text=entry.get())
-                entry.destroy()
-
-            column = self.table.identify_column(event.x)  # identify column
-            # table.bbox work sonly with items so we have to get the bbox of the heading differently
-            # get x and width (same as the one of any cell in the column)
-            x, y, width, _ = self.table.bbox(self.table.get_children('')[0], column)
-            # get vertical coordinates (y1, y2)
-            y2 = y
-            # get bottom coordinate
-            while self.table.identify_region(event.x, y2) != 'heading':
-                y2 -= 1
-            # get top coordinate
-            y1 = y2
-            while self.table.identify_region(event.x, y1) == 'heading':
-                y1 -= 1
-            height = y2 - y1
-            y = y1
-            value = self.table.heading(column, 'text')
-
-        elif self.table.identify_region(event.x, event.y) == 'nothing':
-            column = self.table.identify_column(event.x)  # identify column
-            # check whether we are below the last row:
-            x, y, width, height = self.table.bbox(self.table.get_children('')[-1], column)
-            if event.y > y:
-
-                def ok(event):
-                    """Change item value."""
-                    # create item
-                    item = self.table.insert("", "end", values=("", ""))
-                    self.table.set(item, column, entry.get())
-                    entry.destroy()
-
-                y += height
-                value = ""
-            else:
-                return
-        else:
+        row_ID = self.table.identify_row(event.y)
+        values = self.table.item(row_ID)["values"] #gets a list of the values
+        if len(values)<1:
+            #nothing found
             return
-        # display the Entry
-        entry = ttk.Entry(self.table)  # create edition entry
-        entry.place(x=x, y=y, width=width, height=height,
-                    anchor='nw')  # display entry on top of cell
-        entry.insert(0, value)  # put former value in entry
-        entry.bind('<FocusOut>', lambda e: entry.destroy())
-        entry.bind('<Return>', ok)  # validate with Enter
-        entry.focus_set()
 
-    def delete(self):
-        # Get selected item to Delete
-        selected_item = self.table.selection()[0]
-        self.table.delete(selected_item)
+        found = False
+        for w in self.widget_list:
+            if w.getValue("name") == values[0]:
+                found = True
+                WidgetEditor.Edit(w, self.window, self.test, reviseWidget=True)
+                if w.editor.completed == EditorState.COMPLETE:
+                    #update the widget
+                    self.test.updateImage(w)
+                    img1 = w.image.copy()
+                    img1.thumbnail(THUMBNAIL)
+                    self.images.append(ImageTk.PhotoImage(img1))
 
-    def newTableEntry(self, coords, type):
-        self.table.insert(parent='',
-            index='end',
-            text='',
-            values=("",  # needs to be populated by the user
-                    # "",
-                    self.variable.get(),
-                    # firstClick.coords,
-                    # secondClick.coords,
-                    coords[0],
-                    coords[1],
-                    coords[2]-coords[0],
-                    coords[3]-coords[1],
-                    ""  # needs to be populated by the user
-                    )
-            )
-        tempW = Widget("", type, coords[0], coords[1],
-                    coords[2]-coords[0], coords[3]-coords[1], "")
-        self.widget_list.append(tempW)
+                    #TODO there should be some garbage collection here.
+                    # the old image is still in self.images
+                    self.table.item(row_ID, 
+                                    text="", 
+                                    image=self.images[-1],
+                                    values=(w.getValue("name"),
+                                        w.getValue("type"),
+                                        w.getValue("X"),
+                                        w.getValue("Y"),
+                                        w.getValue("width"),
+                                        w.getValue("height")
+                                        ))
+                elif w.editor.completed == EditorState.DELETED:
+                    self.test.deleteOverlays(w)
+                    self.widget_list.remove(w)
+                    self.table.delete(row_ID)
+                return
+
+        if not found:
+            mb.showerror(title="Edit Error", message="Could not find "+values[0]+" to edit", parent=self.window)
+            return

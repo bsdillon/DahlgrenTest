@@ -1,9 +1,0 @@
-Lines affected by input file:\Main - line number: [12]
-[\Main::12](originated from: Method(8:16-25): bubblesort)
-[\Main::8](Parameter(8:38-41): list)
-[\Main::5](originated from: CLASS(1:7-10): Main * 2)
-[\Main::15](originated from: Method(15:24-34): isAscending * 2)
-,[\Main::29](originated from: Field(17:12-20): ascending)
-,,,[\Main::19](originated from: Method(15:24-34): isAscending * 2)
-
-

@@ -1,0 +1,114 @@
+1. Start from test script 1 (i.e. the previous lesson).
+
+2. You should regularly consider moving any useful keywords into the resource file. This is a 
+   step that increases the reusability of the test. The basic strategy is to work on creating 
+   some test capability and then consider how to turn it into a reusable "lego" block for 
+   future tests. To do this, it is helpful to identify parameters in the keyword. A keyword 
+   with no parameters is almost literally a one trick pony. With one or more parameters it can
+   be used for many different things. 
+
+   Here is the original keyword in testSite1.robot. It searches for an element using this 
+   specific CSS description. Similarly, the script is finding the value of the id attribute.
+   Those things, however, might vary over many different uses, so we can change them to open
+   parameters.
+
+Find More Button
+   ${id} =    Get Element Attribute	css:#footer div div div a    id
+   Log     Found ${id}
+
+   This is an updated and more open version of the keyword. It has two paramters (arguments)
+   and we are using them to get the right attribute. We also return the extracted value.
+   This new keyword could be used for any purpose or it could be used for the original purpose.
+
+Find Tag and Get Attribute
+   [Arguments]    ${CSS-IDENTIFIER}    ${ATTRIBUTE-NAME}
+   ${value} =    Get Element Attribute	${CSS-IDENTIFIER}    ${ATTRIBUTE-NAME}
+   [Return]    ${value}
+
+3. After building the new keyword from your previous work, call that keyword and verify that 
+   the test still works as before. In my case I might call the new keyword like this. Once
+   the test runs and the results are the same I have REFACTORED the script. Refactoring is 
+   changing the form, but not the function of the code. It starts and ends with tests that
+   show the changes have not altered the performance of the code. Use the refactoring steps
+   #2 and #3 as often as necessary to move generic keywords into an appropriate resource file.
+
+Test Keyword
+   ${id} =    Find Tag and Get Attribute    css:#footer div div div a    id
+   Log     Found ${id}
+
+4. In this test we are going to introduce the reporting GUI and use some of those tools to 
+   improve the test report beyond what Robot Framework offers natively. We will start by editing
+   a couple of files to set things up. These changes have already been made to your libraries,
+   but you should find and verify these settings for your computer. You can also see how the links
+   work in OQELinks.png.
+
+#1 IN THE TEST SCRIPT - ./iLabEvent/testSite2.robot (or your equivalent) - Point to the OQE resource file
+Resource   ./../OQE/DataExtraction.resource
+
+#2 IN THE RESOURCE FILE - ./OQE/DataExtraction.resource - Give the name of two test files we will use.
+Library   kw_DataExtraction.py    ./../OQE/test2.js    ./../OQE/test2other.js    WITH NAME    oqe
+The file names are parameters to the python code which alter the file locations where data 
+will be put.
+
+#3 IN THE HTML FILE - ./RFDemoGUI/demoGUI.html - Change the data source file location to match
+    <body onload="start('./../OQE/test2.js')">
+
+5. We will run a few new test lines just to make sure everything is connected properly. The first line
+   sets up the test script for a new event and gives it the name "Test Suite 2". The next four lines
+   call built in keywords built for this kind of check. Test Check is in the resource file and just
+   logs that the resource file is connected. Prove it works is a keyword in the python script and like
+   the previous keyword, it just logs that the python file is connected. Archive Any Previous Data finds
+   the intended data file and stores the contents in an archive folder. This keyword is typically called
+   at the start of any test suite to safely store data from a previous run. As part of this process it
+   also sets up the blank data file in the intended location. The last keyword, Insert Dummy Test Data,
+   puts a few lines of data into the file verifying that the connection is working.
+
+Setup OQE
+   New Test Event    Test Site 2
+   Test Check
+   ${something} =    Prove it works
+   Log    ${something}
+   Archive Any Previous Data
+   Insert Dummy Test Data
+
+   After running this test, you can check for the log for the required text. Also open the HTML GUI in
+   a browser to verify the dummy data. If you see these effects, then you can be confident everything is
+   connected.
+
+6. Replace the OQE gathering steps from your test with references to the newly linked OQE GUI.
+   Some of the OQE keywords to consider are:
+* Archive Any Previous Data
+  All the data accumulates in the test.js file we pointed to earlier. If you want to split
+  from all previous data, call this keyword and the current data set will be moved to the 
+  archive folder ./OQE/ARCHIVE.
+
+* New Test Event    <<NAME>>
+  You MUST write this at least once before adding data to the OQE tool. The name you give will
+  be repeated for all data and you will be adding to that same report until you use this keyword
+  again. This keyword can also be used to start new rows of data at any time (useful in the next
+  test event).
+  Ex. New Test Event    Check my test
+
+* Assert OQE Value    ${TEST NAME}    <<STEP NAME>>    <<ACTUAL>>    <<EXPECTED>>
+  This keyword is used to directly compare the actual and expected value. Name the step
+  something that describes the assertian.
+  Ex. Assert OQE Value    ${TEST NAME}    IFF Check    ${IFF Found}    1234
+  
+* Record Data    ${TEST NAME}    <<STEP NAME>>    <<DATA>>
+  This keyword is used to log data without pass/fail judgement. End each datum with a ';'
+  This could be a way to record the whole contents of a message or data about some event.
+  Ex. Record Data    ${TEST NAME}    MT-121    ${mt}.Number; ${mt}.Source; ${mt}.Dest;
+
+* Capture Element Image    <<IDENTIFIER>>    ${TEST NAME}    <<STEP NAME>>
+* Capture Screen Image    ${TEST NAME}    <<STEP NAME>>
+  Both of these keywords use similar conventions to capture screen shots. The images will
+  be captured in the HTML report.
+  Ex. Capture Element Image    hookTrack.LTN    ${TEST NAME}    Verify LTN
+
+* [Teardown]    Record Test Case    ${CASE NAME}    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}
+  This keyword should be used at the end of each test case. It captures the overal pass/fail
+  status of the test case. You may gather pass/fail criteria with the keywords above, but
+  the test itself may fail for other reasons which will be captured here in the error message.
+  You can choose to specify either the test case as whole or some specific step in the case.
+  Ex. Record Test Case    ${CASE NAME}    --    ${TEST STATUS}    ${TEST MESSAGE}
+  Ex. Record Test Case    --    ${STEP NAME}    ${TEST STATUS}    ${TEST MESSAGE}

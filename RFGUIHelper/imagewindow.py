@@ -1,127 +1,228 @@
 import tkinter as tk
-from tkinter import OptionMenu, StringVar, Canvas, filedialog as fd
-from PIL import ImageTk, ImageGrab
+from tkinter import messagebox, ttk, filedialog as fd
+from PIL import Image, ImageTk
+from widget import EditorState, Widget, WidgetEditor
+from imageUpdate import ImageUpdater
+from tkinter.simpledialog import askstring
 
-# SECOND WINDOW
-# This window is for displaying the image that will be scraped for item coordinates
+class SelectionState:
+    INACTIVE = 0
+    SELECT_FIRST = 1
+    SELECT_SECOND = 2
+    MAX = 3
 
-class ImageWindow():
-    def __init__(self, master):
+class ImageWindow(ImageUpdater):
+    def __init__(self, master, imagePath):
+        self.master = master
+        self.imagePath = imagePath
+
+        top = tk.Toplevel(master.window)
+        self.top = top
+        top.protocol("WM_DELETE_WINDOW", master.closeTest)
+
+        self.overlays = []
+        self.imageList = {}
+        self.selectedImage = tk.StringVar()
+        self.imageCombo = ttk.Combobox(top, textvariable=self.selectedImage)
+        self.imageCombo.bind('<<ComboboxSelected>>', self.changeSelectedImage)
+        self.imageCombo.grid(row=0, column=0)
+
+        self.selectionStage = SelectionState.INACTIVE
+        self.instructions = tk.Label(top, text='Load a GUI Image')
+        self.instructions.config(anchor=tk.CENTER)
+        self.instructions.grid(row=0, column=1)
+
         HEIGHT = 300
         WIDTH = 300
+        self.top.rowconfigure(index=2, weight=1)
+        self.top.columnconfigure(index=0, weight=1)
+        frame2 = tk.Frame(top, width=WIDTH, height=HEIGHT, bg="#000000")
+        frame2.grid(row=2, column=0, columnspan=3, sticky=tk.N+tk.E+tk.W+tk.S)
 
-        top = tk.Toplevel()
-        self.top = top
-
-        frame2 = tk.Frame(top, width=WIDTH, height=HEIGHT)
-        frame2.grid()
-
-        addImage = tk.Button(frame2, text='Click to Open File', command=self.loadImage)
-        addImage.grid(row=0, column=0)
-
-        self.selectPoints = tk.Button(frame2, text='Start Selecting Points', command=self.togglePointSelection)
-        self.selectPoints.grid(row=0, column=1)
-
-        self.variable = StringVar(top)
-        self.variable.set('Type')
-        dropdown = OptionMenu(frame2, self.variable, 'Anchor', 'Button', 'Radio Button',
-                            'Widget', 'Tab', 'Text Field', 'Scroll Bar', 'Dropdown', 'Checkbox')
-        dropdown.grid(row=0, column=2)
-
-        self.master = master
-        self.pointSelectionStatus = False
-
-        self.count = 0
-        self.second_count = 0
-        self.firstCoord = [-1,-1]
-        self.secondCoord = [-1,-1]
-
-        self.canvas = Canvas(frame2, bg='#2FF2FF', width=500,
-                        height=300, scrollregion=(0, 0, 600, 600))
-
-        self.canvas.grid(row=1, column=0, columnspan=3)
-
-        self.canvas.update()
-
-        # Add image to the Canvas Items
-        # canvas.create_image(0,0,anchor=tk.NW)
+        self.canvas = tk.Canvas(frame2, bg='#dddddd',width=300,height=300,scrollregion=(0,0,300,300))
         self.image_container = self.canvas.create_image(0, 0, anchor="nw")
+        self.canvas.bind("<Button 1>", self.clickCanvas)
 
+        self.scrollbarV = ttk.Scrollbar(frame2, orient="vertical", command=self.canvas.yview)
+        self.scrollbarH = ttk.Scrollbar(frame2, orient="horizontal", command=self.canvas.xview)
+        
+        self.scrollbarV.pack(side="right", fill="y")
+        self.scrollbarH.pack(side="bottom", fill="x")
+        self.canvas.pack(side="left", fill="both", expand=True)
+
+        scrollable_frame = ttk.Frame(self.canvas)
+        scrollable_frame.pack(side="left", fill="both", expand=True)
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(
+                scrollregion=self.canvas.bbox("all")
+            )
+        )
+
+        self.canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=self.scrollbarV.set)
+        self.canvas.configure(xscrollcommand=self.scrollbarH.set)
         self.canvas.update()
-        top.bind("<Button 2>", self.firstClick)
-        top.bind("<Button 1>", self.getCords)
 
-    def start(self):
-        self.top.mainloop()
+    def restartStateMachine(self):
+        self.instructions.config(text="Select First Point")
+        self.selectionStage = SelectionState.SELECT_FIRST
 
+#todo May be OBE
     def loadImage(self):
-        name = fd.askopenfilename()
-        img = ImageTk.PhotoImage(file=name)
-        self.img = img
-        print(name)
-        self.canvas.config(height=img.height(), width=img.width())
-        print("img w/h: " + str(img.width()), str(img.height()))
-        self.canvas.itemconfig(self.image_container, image=img)
-        self.canvas.config(height=img.height(), width=img.width())
+        name = fd.askopenfilename(parent=self.top, filetypes=[("PNG","*.png"), ("PNG","*.PNG"), ("BMP","*.bmp"), ("BMP","*.BMP"),])
+        if name == "":
+            messagebox.showerror(title="Error", message="Image file not found", parent=self.top)
+            return
+
+        project = askstring("Project", "Assign a project name")
+        if project == "":
+            messagebox.showerror(title="Error", message="Project name is empty", parent=self.top)
+            return
+
+    def changeSelectedImage(self, _):
+        value = self.selectedImage.get()
+        if value == "": #Occurs when the window is created and before an image is selected
+            return
+        self.img = Image.open(self.imageList[value])
+        self.tkImg = ImageTk.PhotoImage(self.img)
+        self.canvas.itemconfig(self.image_container, image=self.tkImg)
+        self.canvas.config(scrollregion=(0,0,self.img.width,self.img.height))
         self.canvas.update()
-        print(str(self.canvas.winfo_width()) + " " + str(self.canvas.winfo_height()))
 
-    def togglePointSelection(self):
-        if self.pointSelectionStatus == False:
-            self.pointSelectionStatus = True
-            self.selectPoints.config(text="Stop Selecting Points")
-        else:
-            self.pointSelectionStatus = False
-            self.selectPoints.config(text="Start Selecting Points")
+        #Move to next state
+        self.restartStateMachine()
+        
+    def loadImageNames(self, list):
+        self.imageList = {}
+        tmp = []
+        for l in list:
+            pieces = l.split("\\")
+            tmp.append(pieces[-1])
+            self.imageList[tmp[-1]]=l
+        self.imageCombo['values'] = tmp
+        self.selectedImage.set(tmp[0])
+        self.changeSelectedImage(None)
 
-    def firstClick(self, eventorigin):
-        x0 = eventorigin.x
-        y0 = eventorigin.y
-        # print("Corner 1",x0,y0, variable.get())
-        self.firstCoord = [x0, y0]
-        return x0, y0
+    def clickCanvas(self, event):
+        loc = [self.canvas.canvasx(event.x), self.canvas.canvasy(event.y)]
+        if loc[0]>self.img.width or loc[1]>self.img.height:
+            messagebox.showerror(title="Click Error", message="All points must be on the image", parent=self.top)
+            self.restartStateMachine()
+            return
+        if self.selectionStage == SelectionState.SELECT_FIRST:
+            if self.pointAlreadyCovered(loc[0], loc[1]):
+                messagebox.showerror(title="Click Error", message="First point must be OUTSIDE all existing widgets", parent=self.top)
+                self.restartStateMachine()
+                return
 
-    def secondClick(self, eventorigin):
-        x0 = eventorigin.x
-        y0 = eventorigin.y
-        # print("Corner 2",x0,y0, variable.get())
-        self.secondCoord = [x0, y0]
-        return x0, y0
+            self.instructions.config(text="Select Second Point")
+            self.firstCoord = [loc[0], loc[1]]
+            self.selectionStage = SelectionState.SELECT_SECOND
+        elif self.selectionStage == SelectionState.SELECT_SECOND:
+            self.secondCoord = [loc[0], loc[1]]
+            if (self.secondCoord[0]<=self.firstCoord[0]) or (self.secondCoord[1]<=self.firstCoord[1]):
+                #error state restarts the clicking process
+                messagebox.showerror(title="Click Error", message="Second point MUST be right and below first point", parent=self.top)
+                self.restartStateMachine()
+                return
+            if self.pointAlreadyCovered(self.secondCoord[0], self.secondCoord[1]):
+                messagebox.showerror(title="Click Error", message="Second point must be OUTSIDE all existing widgets", parent=self.top)
+                self.restartStateMachine()
+                return
+            if self.boxOverlaps(self.firstCoord[0], self.firstCoord[1], self.secondCoord[0], self.secondCoord[1]):
+                messagebox.showerror(title="Click Error", message="Selected region overlaps another", parent=self.top)
+                self.restartStateMachine()
+                return
 
-    def getCords(self, eventorigin):
-        if self.pointSelectionStatus:
-            if self.count == 0:
-                self.firstClick(eventorigin)
-                self.count = self.count+1
-            else:
-                self.secondClick(eventorigin)
-                self.canvas.update()
-                coords = self.firstCoord + self.firstCoord
-                self.master.newTableEntry(coords, self.variable.get())
-                # master.widget_list[master.second_count].print()
-                self.second_count += 1
-                offX, offY = self.canvas.winfo_rootx(), self.canvas.winfo_rooty()
-                self.canvas.update()
-                # print(x,y)
+            #with two points we can define a widget
+            tempW = Widget("Anchor", self.firstCoord[0], self.firstCoord[1],
+                    self.secondCoord[0]-self.firstCoord[0], self.secondCoord[1]-self.firstCoord[1])
 
-                if self.variable.get() == "Anchor":
-                    small_pic = ImageGrab.grab(
-                        bbox=(coords[0]+offX, coords[1]+offY, coords[2]+offX, coords[3]+offY))
-                    small_pic.save(self.anchorFileName.get() + ".png")
-                    small_pic.show()
-                self.count = 0
-                # capture()
+            #capture the image of the widget
+            tempW.image = self.img.crop((self.firstCoord[0], self.firstCoord[1],self.secondCoord[0], self.secondCoord[1]))
+    
+            WidgetEditor.Edit(tempW, self.top, self)
 
-                # save_canvas()
+            if tempW.editor.completed == EditorState.COMPLETE:
+                #update the master table
+                self.master.newTableEntry(self.img.copy(), tempW)
 
-    def capture(self):
-        self.canvas.update()
-        x0 = self.canvas.winfo_rootx()
-        y0 = self.canvas.winfo_rooty()
-        x1 = x0 + self.canvas.winfo_width()
-        y1 = y0 + self.canvas.winfo_height()
-        # print(x0, y0, x1, y1)
-        # print(canvas.winfo_screenheight(), canvas.winfo_screenwidth())
-        im = ImageGrab.grab((x0, y0, x1, y1))
-        im.save(self.master.anchorFileName.get() + '.png')  # Can also say im.show() to display it
-        # im.show()
+            #either completed or not, restart the machine
+            self.restartStateMachine()
+
+    def pointAlreadyCovered(self, x, y):
+        for w in self.overlays:
+            box = self.canvas.bbox(w.imageID)
+            if box[0]<x and x<box[2] and box[1]<y and y<box[3]:
+                return True
+        return False
+
+    def boxOverlaps(self, x1, y1, x2, y2):
+        for w in self.overlays:
+            box = self.canvas.bbox(w.imageID)
+            # According to stack overflow, this is the simplest check for overlap between objects in 2 dimensions
+            # https://stackoverflow.com/questions/20925818/algorithm-to-check-if-two-boxes-overlap            
+            if x2>=box[0] and box[2]>=x1 and y2>=box[1] and box[3]>=y1:
+                return True
+        return False
+
+    def getImageSavePath(self):
+        return self.imagePath
+
+    def getImageBounds(self):
+        return [self.img.width, self.img.height]
+
+    def cropImage(self, x, y, w, h):
+        return self.img.crop((x, y, x+w, y+h))
+
+    def updateImage(self, widget):
+        self.deleteOverlays(widget)
+
+        widget.overlay = self.createOverlay(
+                                            widget.getValue("name"), 
+                                            widget.getValue("X"),
+                                            widget.getValue("Y"),
+                                            widget.getValue("width"),
+                                            widget.getValue("height"))
+
+            #create a new image for the master window to display
+        widget.image = self.cropImage(
+                                    int(widget.getValue("X")),
+                                    int(widget.getValue("Y")),
+                                    int(widget.getValue("width")),
+                                    int(widget.getValue("height")))
+
+    def deleteOverlays(self, widget):
+        if hasattr(widget, 'overlay'):
+            #widget has overlay, so delete all elements from canvas before rebuild
+            self.canvas.delete(widget.overlay.textID2)
+            self.canvas.delete(widget.overlay.textID)
+            self.canvas.delete(widget.overlay.rectID)
+            self.canvas.delete(widget.overlay.imageID)
+            self.overlays.remove(widget.overlay)
+            delattr(widget, "overlay")
+
+    def createOverlay(self, text, x1Str, y1Str, wStr, hStr):
+        x1 = int(x1Str)
+        y1 = int(y1Str)
+        w = int(wStr)
+        h = int(hStr)
+        fill="#ff0000"
+        alpha = 128
+        fill = self.top.winfo_rgb(fill) + (alpha,)
+        image = Image.new('RGBA', (w, h), fill)
+        overlay = ImageTk.PhotoImage(image)
+        self.overlays.append(overlay)
+        overlay.imageID = self.canvas.create_image(x1, y1, image=self.overlays[-1], anchor='nw')
+        overlay.rectID = self.canvas.create_rectangle(x1, y1, x1+w, y1+h)
+
+        tags = (text,)
+        overlay.textID = self.canvas.create_text(x1, y1, text=text, fill="#000000", tags=tags, font=('Arial','14','bold'))
+        overlay.textID2 = self.canvas.create_text(x1, y1, text=text, fill="#ffff00", tags=tags, font=('Arial','14','bold'))
+        bounds= self.canvas.bbox(overlay.textID)
+        w = (w - (bounds[2]-bounds[0]))/2
+        h = (h - (bounds[3]- bounds[1]))/2
+        self.canvas.moveto(overlay.textID, x1 + w, y1 + h)
+        self.canvas.moveto(overlay.textID2, x1 + w - 2, y1 + h - 2)
+        return overlay

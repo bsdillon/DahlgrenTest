@@ -1,0 +1,648 @@
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@44e870ab
+nop[0](1)
+Position: -1
+
+   0: aload_0[42](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@33de4e0e
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 5, index = 0:TestCases this)
+Position: 3
+
+   1: invokespecial[183](3) 1 in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@34341df6
+invokespecial[183](3) 1
+<init>
+<init>
+Position: 3
+
+   4: return[177](1) in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@1fecd3c1
+return[177](1)
+Position: 3
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@20dffc2d
+nop[0](1)
+Position: -1
+
+   0: aload_0[42](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@61307806
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 26, index = 0:TestCases this)
+Position: 8
+
+   1: getfield[180](3) 7 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@757f127b
+getfield[180](3) 7
+arr
+Position: 8
+
+   4: aload_0[42](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@c74b5ce
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 26, index = 0:TestCases this)
+Position: 8
+
+   5: getfield[180](3) 13 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@53151ef9
+getfield[180](3) 13
+age
+Position: 8
+
+   8: invokestatic[184](3) 17 in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@3187acd5
+invokestatic[184](3) 17
+[Lorg.apache.bcel.generic.Type;@3ce68c54
+valueOf
+valueOf
+Position: 8
+
+  11: invokevirtual[182](3) 23 in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@159584c3
+invokevirtual[182](3) 23
+[Lorg.apache.bcel.generic.Type;@6e8cb25e
+add
+add
+Position: 8
+
+  14: pop[87](1) in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@62614a5e
+pop[87](1)
+Position: 8
+
+  15: getstatic[178](3) 29 in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@6a6dfe6a
+getstatic[178](3) 29
+Position: 9
+
+  18: aload_0[42](1) in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@5367dc78
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 26, index = 0:TestCases this)
+Position: 9
+
+  19: invokevirtual[182](3) 35 in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@58f29a08
+invokevirtual[182](3) 35
+[Lorg.apache.bcel.generic.Type;@302918f2
+getName
+getName
+Position: 9
+
+  22: invokevirtual[182](3) 39 in basic block 10:
+[Ljava.lang.reflect.TypeVariable;@35b23e33
+invokevirtual[182](3) 39
+[Lorg.apache.bcel.generic.Type;@58dbb0e1
+println
+println
+Position: 9
+
+  25: return[177](1) in basic block 10:
+[Ljava.lang.reflect.TypeVariable;@14354328
+return[177](1)
+Position: 10
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@6c2337d4
+nop[0](1)
+Position: -1
+
+   0: aload_0[42](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@4844dfc5
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 52, index = 0:TestCases this)
+LocalVariable(start_pc = 0, length = 52, index = 1:java.lang.String[] args)
+Position: 12
+
+   1: ldc[18](2) 45 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@4d9d3294
+ldc[18](2) 45
+Position: 12
+
+   3: invokevirtual[182](3) 47 in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@738f040c
+invokevirtual[182](3) 47
+[Lorg.apache.bcel.generic.Type;@667103e
+setName
+setName
+Position: 12
+
+   6: aload_0[42](1) in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@68b34dc0
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 52, index = 0:TestCases this)
+LocalVariable(start_pc = 0, length = 52, index = 1:java.lang.String[] args)
+Position: 13
+
+   7: invokestatic[184](3) 50 in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@4c9ecbd0
+invokestatic[184](3) 50
+[Lorg.apache.bcel.generic.Type;@47ba192b
+random
+random
+Position: 13
+
+  10: ldc2_w[20](3) 56 in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@79e21702
+ldc2_w[20](3) 56
+Position: 13
+
+  13: dmul[107](1) in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@b4d98b3
+dmul[107](1)
+Position: 13
+
+  14: d2i[142](1) in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@31b70241
+d2i[142](1)
+Position: 13
+
+  15: putfield[181](3) 13 in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@2653261d
+putfield[181](3) 13
+age
+Position: 13
+
+  18: aload_0[42](1) in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@4fe07fd2
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 52, index = 0:TestCases this)
+LocalVariable(start_pc = 0, length = 52, index = 1:java.lang.String[] args)
+Position: 14
+
+  19: new[187](3) 24 in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@288fee9d
+new[187](3) 24
+Position: 14
+
+  22: dup[89](1) in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@212344c7
+dup[89](1)
+Position: 14
+
+  23: invokespecial[183](3) 58 in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@1effed30
+invokespecial[183](3) 58
+<init>
+<init>
+Position: 14
+
+  26: putfield[181](3) 7 in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@522d0fd2
+putfield[181](3) 7
+arr
+Position: 14
+
+  29: aload_0[42](1) in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@581f80c
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 52, index = 0:TestCases this)
+LocalVariable(start_pc = 0, length = 52, index = 1:java.lang.String[] args)
+Position: 15
+
+  30: getfield[180](3) 13 in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@3ebf8107
+getfield[180](3) 13
+age
+Position: 15
+
+  33: iconst_4[7](1) in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@5f487d8d
+iconst_4[7](1)
+Position: 15
+
+  34: if_icmplt[161](3) -> 47 in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@6521ba29
+if_icmplt[161](3) -> 47
+0
+Position: 15
+
+  47: aload_0[42](1) in basic block 9:
+[Ljava.lang.reflect.TypeVariable;@6f6a6f19
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 52, index = 0:TestCases this)
+LocalVariable(start_pc = 0, length = 52, index = 1:java.lang.String[] args)
+Position: 18
+
+  37: getstatic[178](3) 29 in basic block 10:
+[Ljava.lang.reflect.TypeVariable;@2d1f6c4a
+getstatic[178](3) 29
+Position: 16
+
+  40: aload_0[42](1) in basic block 10:
+[Ljava.lang.reflect.TypeVariable;@31a7c871
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 52, index = 0:TestCases this)
+LocalVariable(start_pc = 0, length = 52, index = 1:java.lang.String[] args)
+Position: 16
+
+  41: getfield[180](3) 13 in basic block 10:
+[Ljava.lang.reflect.TypeVariable;@593fdc9e
+getfield[180](3) 13
+age
+Position: 16
+
+  48: invokevirtual[182](3) 62 in basic block 13:
+[Ljava.lang.reflect.TypeVariable;@65117207
+invokevirtual[182](3) 62
+[Lorg.apache.bcel.generic.Type;@333a2fd3
+method
+method
+Position: 18
+
+  51: return[177](1) in basic block 13:
+[Ljava.lang.reflect.TypeVariable;@3c519d85
+return[177](1)
+Position: 19
+
+  44: invokevirtual[182](3) 59 in basic block 14:
+[Ljava.lang.reflect.TypeVariable;@1bad6dbd
+invokevirtual[182](3) 59
+[Lorg.apache.bcel.generic.Type;@7542a585
+println
+println
+Position: 16
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@17645849
+nop[0](1)
+Position: -1
+
+   0: bipush[16](2) 100 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@27695295
+bipush[16](2) 100
+Position: 21
+
+   2: istore_1[60](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@57d90340
+istore_1[60](1)
+Position: 21
+
+   3: return[177](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@37d7fab3
+return[177](1)
+Position: 22
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@2445a10
+nop[0](1)
+Position: -1
+
+   0: aload_0[42](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@6f544d37
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 5, index = 0:TestCases this)
+Position: 24
+
+   1: getfield[180](3) 65 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@7088809e
+getfield[180](3) 65
+name
+Position: 24
+
+   4: areturn[176](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@7882ee5e
+areturn[176](1)
+Position: 24
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@58b6af84
+nop[0](1)
+Position: -1
+
+   0: aload_0[42](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@15467c50
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 6, index = 0:TestCases this)
+LocalVariable(start_pc = 0, length = 6, index = 1:java.lang.String s)
+Position: 27
+
+   1: aload_1[43](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@21fe8216
+aload_1[43](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 6, index = 0:TestCases this)
+LocalVariable(start_pc = 0, length = 6, index = 1:java.lang.String s)
+Position: 27
+
+   2: putfield[181](3) 65 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@4e616869
+putfield[181](3) 65
+name
+Position: 27
+
+   5: return[177](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@23c624ae
+return[177](1)
+Position: 28
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@544787a
+nop[0](1)
+Position: -1
+
+   0: aload_0[42](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@507fa4f6
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 5, index = 0:TestCases this)
+Position: 30
+
+   1: getfield[180](3) 13 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@1518bcb0
+getfield[180](3) 13
+age
+Position: 30
+
+   4: ireturn[172](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@7e919e9
+ireturn[172](1)
+Position: 30
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@214826c6
+nop[0](1)
+Position: -1
+
+   0: aload_0[42](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@c3d7e0d
+aload_0[42](1)
+java.lang.Object
+1
+LocalVariable(start_pc = 0, length = 5, index = 0:TestCases this)
+Position: 33
+
+   1: getfield[180](3) 7 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@5c90ae06
+getfield[180](3) 7
+arr
+Position: 33
+
+   4: areturn[176](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@1379c22c
+areturn[176](1)
+Position: 33
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@73e7a893
+nop[0](1)
+Position: -1
+
+   0: iconst_0[3](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@144d6df4
+iconst_0[3](1)
+Position: 36
+
+   1: istore[54](2) 5 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@4df401e5
+istore[54](2) 5
+Position: 36
+
+   3: iload[21](2) 5 in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@1041d2d5
+iload[21](2) 5
+Position: 37
+
+   5: ireturn[172](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@5e2c437e
+ireturn[172](1)
+Position: 37
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@21f1b782
+nop[0](1)
+Position: -1
+
+   0: iconst_0[3](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@4c676170
+iconst_0[3](1)
+Position: 40
+
+   1: istore_1[60](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@52aec553
+istore_1[60](1)
+Position: 40
+
+   2: iload_1[27](1) in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@6e254bcb
+iload_1[27](1)
+Position: 41
+
+   3: iconst_2[5](1) in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@42c4bc2a
+iconst_2[5](1)
+Position: 41
+
+   4: if_icmpge[162](3) -> 13 in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@35df39e3
+if_icmpge[162](3) -> 13
+Position: 41
+
+  13: return[177](1) in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@117fe656
+return[177](1)
+Position: 44
+
+   7: iinc[132](3) 1 1 in basic block 5:
+[Ljava.lang.reflect.TypeVariable;@55c08ca1
+iinc[132](3) 1 1
+Position: 42
+
+  10: goto[167](3) -> 2 in basic block 5:
+[Ljava.lang.reflect.TypeVariable;@32825fdf
+goto[167](3) -> 2
+Position: 42
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@7e5e784d
+nop[0](1)
+Position: -1
+
+   0: iconst_0[3](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@10fd6c86
+iconst_0[3](1)
+Position: 46
+
+   1: istore_1[60](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@41895fbc
+istore_1[60](1)
+Position: 46
+
+   2: iload_1[27](1) in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@61558cf5
+iload_1[27](1)
+Position: 46
+
+   3: iconst_2[5](1) in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@6c441c82
+iconst_2[5](1)
+Position: 46
+
+   4: if_icmpge[162](3) -> 13 in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@17a6d4d0
+if_icmpge[162](3) -> 13
+Position: 46
+
+  13: return[177](1) in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@1cd91d27
+return[177](1)
+Position: 49
+
+   7: iinc[132](3) 1 1 in basic block 5:
+[Ljava.lang.reflect.TypeVariable;@51a6086d
+iinc[132](3) 1 1
+Position: 46
+
+  10: goto[167](3) -> 2 in basic block 5:
+[Ljava.lang.reflect.TypeVariable;@1d4aaed7
+goto[167](3) -> 2
+Position: 46
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@3c6bf9fa
+nop[0](1)
+Position: -1
+
+   0: iconst_0[3](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@688feb75
+iconst_0[3](1)
+Position: 51
+
+   1: istore_1[60](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@90b7369
+istore_1[60](1)
+Position: 51
+
+   2: iinc[132](3) 1 1 in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@417f4889
+iinc[132](3) 1 1
+Position: 53
+
+   5: iload_1[27](1) in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@22b8dd75
+iload_1[27](1)
+Position: 54
+
+   6: iconst_2[5](1) in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@35fb5e14
+iconst_2[5](1)
+Position: 54
+
+   7: if_icmplt[161](3) -> 2 in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@67b9f3f9
+if_icmplt[161](3) -> 2
+0
+Position: 54
+
+  10: return[177](1) in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@5cb9d487
+return[177](1)
+Position: 55
+
+  -1: nop[0](1) in basic block 0:
+[Ljava.lang.reflect.TypeVariable;@388ee910
+nop[0](1)
+Position: -1
+
+   0: iconst_0[3](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@576a0beb
+iconst_0[3](1)
+Position: 57
+
+   1: istore_1[60](1) in basic block 2:
+[Ljava.lang.reflect.TypeVariable;@7f641cc4
+istore_1[60](1)
+Position: 57
+
+   2: iload_1[27](1) in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@6d6be243
+iload_1[27](1)
+Position: 57
+
+   3: iconst_2[5](1) in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@22624097
+iconst_2[5](1)
+Position: 57
+
+   4: if_icmpge[162](3) -> 26 in basic block 3:
+[Ljava.lang.reflect.TypeVariable;@25503263
+if_icmpge[162](3) -> 26
+Position: 57
+
+  26: return[177](1) in basic block 4:
+[Ljava.lang.reflect.TypeVariable;@7a8d9831
+return[177](1)
+Position: 62
+
+   7: iconst_2[5](1) in basic block 5:
+[Ljava.lang.reflect.TypeVariable;@48c604d9
+iconst_2[5](1)
+Position: 58
+
+   8: istore_2[61](1) in basic block 5:
+[Ljava.lang.reflect.TypeVariable;@781083ae
+istore_2[61](1)
+Position: 58
+
+   9: iload_2[28](1) in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@5cf765e5
+iload_2[28](1)
+Position: 58
+
+  10: iconst_4[7](1) in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@4a2d325a
+iconst_4[7](1)
+Position: 58
+
+  11: if_icmpge[162](3) -> 20 in basic block 6:
+[Ljava.lang.reflect.TypeVariable;@3235070a
+if_icmpge[162](3) -> 20
+Position: 58
+
+  20: iinc[132](3) 1 1 in basic block 7:
+[Ljava.lang.reflect.TypeVariable;@4ec4ff11
+iinc[132](3) 1 1
+Position: 57
+
+  23: goto[167](3) -> 2 in basic block 7:
+[Ljava.lang.reflect.TypeVariable;@29fb7361
+goto[167](3) -> 2
+Position: 57
+
+  14: iinc[132](3) 2 1 in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@ae72be6
+iinc[132](3) 2 1
+Position: 58
+
+  17: goto[167](3) -> 9 in basic block 8:
+[Ljava.lang.reflect.TypeVariable;@107060e7
+goto[167](3) -> 9
+Position: 58
+

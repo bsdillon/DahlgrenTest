@@ -5,5 +5,7 @@ ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
 master = MainWindow()
 
-master.test.start()
-#master.mainloop()
+master.window.mainloop()
+# test.start()
+#         self.top.lift()
+#         self.top.mainloop()

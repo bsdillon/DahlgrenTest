@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module MBSE_Library.core</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="MBSE_Library.html"><font color="#ffffff">MBSE_Library</font></a>.core</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cwork%5Cdocuments%5Cgithub%5Cdahlgrentest%5Cautomated_mbse%5Cmbse_library%5Ccore.py">c:\users\work\documents\github\dahlgrentest\automated_mbse\mbse_library\core.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="csv.html">csv</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="pickle.html">pickle</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="MBSE_Library.core.html#MBSE">MBSE</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MBSE">class <strong>MBSE</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Static methods defined here:<br>
+<dl><dt><a name="MBSE-add_class_to_package"><strong>add_class_to_package</strong></a>(class_name, package_name)</dt><dd><tt>Adds&nbsp;a&nbsp;class&nbsp;to&nbsp;a&nbsp;package.<br>
+&nbsp;<br>
+Adds&nbsp;a&nbsp;class&nbsp;to&nbsp;a&nbsp;package.&nbsp;If&nbsp;class&nbsp;or&nbsp;package&nbsp;with&nbsp;name&nbsp;does&nbsp;not&nbsp;exist,&nbsp;it&nbsp;will&nbsp;be&nbsp;created.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+class_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;class<br>
+package_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;package</tt></dd></dl>
+
+<dl><dt><a name="MBSE-add_method_connection"><strong>add_method_connection</strong></a>(class_sender, method_sender, class_receiver, method_receiver)</dt><dd><tt>Adds&nbsp;a&nbsp;connection&nbsp;between&nbsp;classes.<br>
+&nbsp;<br>
+Adds&nbsp;a&nbsp;connection&nbsp;between&nbsp;classes.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+class_sender&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;sender&nbsp;class<br>
+method_sender&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;sender&nbsp;method<br>
+class_receiver&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;receiver&nbsp;class<br>
+method_receiver:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;receiver&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="MBSE-add_method_to_class"><strong>add_method_to_class</strong></a>(method_name, class_name, modifier='', static=False, return_type='')</dt><dd><tt>Adds&nbsp;a&nbsp;method&nbsp;to&nbsp;a&nbsp;class.<br>
+&nbsp;<br>
+Adds&nbsp;a&nbsp;method&nbsp;to&nbsp;a&nbsp;class.&nbsp;Can&nbsp;optionally&nbsp;add&nbsp;modifiers&nbsp;to&nbsp;the&nbsp;method&nbsp;now.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+method_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;method<br>
+class_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;class<br>
+modifier&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Optional)&nbsp;Whether&nbsp;the&nbsp;method&nbsp;is&nbsp;public,&nbsp;private,&nbsp;package-private,&nbsp;or&nbsp;protected<br>
+static&nbsp;:&nbsp;bool<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Optional)&nbsp;Whether&nbsp;the&nbsp;method&nbsp;is&nbsp;static(True)&nbsp;or&nbsp;not(False).&nbsp;By&nbsp;default,&nbsp;is&nbsp;false.<br>
+return_type:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Optional)&nbsp;The&nbsp;return&nbsp;type&nbsp;of&nbsp;the&nbsp;method.&nbsp;Str,&nbsp;int,&nbsp;bool,&nbsp;etc.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-add_relationship"><strong>add_relationship</strong></a>(sender, receiver, relationship_type)</dt><dd><tt>Adds&nbsp;relationships&nbsp;between&nbsp;classes.<br>
+&nbsp;<br>
+Adds&nbsp;a&nbsp;relationship&nbsp;between&nbsp;two&nbsp;specified&nbsp;classes.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+sender&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;sender&nbsp;class.<br>
+receiver&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;receiver&nbsp;class.<br>
+relationship_type:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;relationship&nbsp;between&nbsp;the&nbsp;classes</tt></dd></dl>
+
+<dl><dt><a name="MBSE-add_to_box"><strong>add_to_box</strong></a>(node, box_name)</dt><dd><tt>Adds&nbsp;a&nbsp;node&nbsp;to&nbsp;a&nbsp;box&nbsp;for&nbsp;the&nbsp;linear&nbsp;diagram.<br>
+&nbsp;<br>
+Adds&nbsp;a&nbsp;node&nbsp;to&nbsp;a&nbsp;box&nbsp;for&nbsp;the&nbsp;linear&nbsp;diagram.&nbsp;Box&nbsp;should&nbsp;be&nbsp;created&nbsp;before&nbsp;adding&nbsp;nodes&nbsp;to&nbsp;it.&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+node&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;node&nbsp;to&nbsp;be&nbsp;added&nbsp;to&nbsp;a&nbsp;box.<br>
+box_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;box&nbsp;the&nbsp;node&nbsp;should&nbsp;be&nbsp;added&nbsp;to.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-add_variable_to_class"><strong>add_variable_to_class</strong></a>(variable_name, class_name, modifier='', static=False, return_type='')</dt><dd><tt>Adds&nbsp;a&nbsp;variable&nbsp;to&nbsp;a&nbsp;class.<br>
+&nbsp;<br>
+Adds&nbsp;a&nbsp;variable&nbsp;to&nbsp;a&nbsp;class.&nbsp;Can&nbsp;optionally&nbsp;add&nbsp;modifiers&nbsp;to&nbsp;the&nbsp;variable&nbsp;now.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+variable_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;variable<br>
+class_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;class<br>
+modifier&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Optional)&nbsp;Whether&nbsp;the&nbsp;variable&nbsp;is&nbsp;public,&nbsp;private,&nbsp;package-private,&nbsp;or&nbsp;protected<br>
+static&nbsp;:&nbsp;bool<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Optional)&nbsp;Whether&nbsp;the&nbsp;variable&nbsp;is&nbsp;static(True)&nbsp;or&nbsp;not(False).&nbsp;By&nbsp;default,&nbsp;is&nbsp;false.<br>
+return_type:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Optional)&nbsp;The&nbsp;return&nbsp;type&nbsp;of&nbsp;the&nbsp;variable.&nbsp;Str,&nbsp;int,&nbsp;bool,&nbsp;etc.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-color"><strong>color</strong></a>(node, color)</dt><dd><tt>Colors&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;linear&nbsp;diagram.<br>
+&nbsp;<br>
+Colors&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;linear&nbsp;diagram.&nbsp;Color&nbsp;can&nbsp;be&nbsp;the&nbsp;name&nbsp;of&nbsp;color&nbsp;or&nbsp;hexadecimal&nbsp;value.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+node&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;node&nbsp;to&nbsp;be&nbsp;colored&nbsp;in&nbsp;the&nbsp;diagram.<br>
+color&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;color&nbsp;or&nbsp;the&nbsp;hexadecimal&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-color_class"><strong>color_class</strong></a>(class_name, color)</dt><dd><tt>Adds&nbsp;a&nbsp;color&nbsp;to&nbsp;a&nbsp;class.<br>
+&nbsp;<br>
+Adds&nbsp;a&nbsp;color&nbsp;to&nbsp;a&nbsp;class.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+class_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;class&nbsp;you&nbsp;want&nbsp;to&nbsp;color.<br>
+color&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;color.&nbsp;Can&nbsp;also&nbsp;but&nbsp;a&nbsp;hexadecimal&nbsp;color&nbsp;value.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-compare"><strong>compare</strong></a>(model1, model2)</dt><dd><tt>Compares&nbsp;two&nbsp;linear&nbsp;diagrams.<br>
+&nbsp;<br>
+Compares&nbsp;two&nbsp;linear&nbsp;diagrams&nbsp;and&nbsp;shows&nbsp;the&nbsp;differences&nbsp;between&nbsp;them.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+model1&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;folder&nbsp;that&nbsp;you&nbsp;want&nbsp;the&nbsp;first&nbsp;and&nbsp;primary&nbsp;model&nbsp;to&nbsp;be&nbsp;loaded&nbsp;from.<br>
+model2&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;folder&nbsp;that&nbsp;you&nbsp;want&nbsp;the&nbsp;second&nbsp;and&nbsp;model&nbsp;that&nbsp;shows&nbsp;the&nbsp;changes&nbsp;to&nbsp;be&nbsp;loaded&nbsp;from.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-create_box"><strong>create_box</strong></a>(box_name)</dt><dd><tt>Creates&nbsp;a&nbsp;box&nbsp;for&nbsp;the&nbsp;linear&nbsp;diagram.<br>
+&nbsp;<br>
+Creates&nbsp;a&nbsp;box&nbsp;for&nbsp;the&nbsp;linear&nbsp;diagram.&nbsp;Nodes&nbsp;can&nbsp;be&nbsp;added&nbsp;to&nbsp;a&nbsp;box.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+box_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;box&nbsp;to&nbsp;be&nbsp;created.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-create_class"><strong>create_class</strong></a>(class_name, package_name=None)</dt><dd><tt>Creates&nbsp;a&nbsp;class.<br>
+&nbsp;<br>
+Creates&nbsp;a&nbsp;class&nbsp;to&nbsp;be&nbsp;added&nbsp;to&nbsp;the&nbsp;diagram.&nbsp;Can&nbsp;optionally&nbsp;specify&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;package&nbsp;the&nbsp;class&nbsp;is&nbsp;in.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+class_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;class<br>
+package_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Optional)&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;package&nbsp;the&nbsp;class&nbsp;will&nbsp;be&nbsp;added&nbsp;to.&nbsp;Will&nbsp;create&nbsp;a&nbsp;new&nbsp;package&nbsp;if&nbsp;no&nbsp;package<br>
+&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;name&nbsp;exists&nbsp;yet</tt></dd></dl>
+
+<dl><dt><a name="MBSE-create_package"><strong>create_package</strong></a>(package_name)</dt><dd><tt>Creates&nbsp;a&nbsp;package.<br>
+&nbsp;<br>
+Creates&nbsp;a&nbsp;package&nbsp;to&nbsp;be&nbsp;added&nbsp;to&nbsp;the&nbsp;diagram.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+package_name&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;package</tt></dd></dl>
+
+<dl><dt><a name="MBSE-highlight_in"><strong>highlight_in</strong></a>(node)</dt><dd><tt>Highlights&nbsp;in&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;linear&nbsp;diagram.<br>
+&nbsp;<br>
+Highlights&nbsp;in&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;linear&nbsp;diagram.&nbsp;Highlights&nbsp;all&nbsp;the&nbsp;edges&nbsp;leading&nbsp;into&nbsp;a&nbsp;node.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+node&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;node&nbsp;to&nbsp;be&nbsp;highlighted&nbsp;in&nbsp;the&nbsp;diagram.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-highlight_out"><strong>highlight_out</strong></a>(node)</dt><dd><tt>Highlights&nbsp;out&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;linear&nbsp;diagram.<br>
+&nbsp;<br>
+Highlights&nbsp;out&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;linear&nbsp;diagram.&nbsp;Highlights&nbsp;all&nbsp;the&nbsp;edges&nbsp;leading&nbsp;out&nbsp;of&nbsp;a&nbsp;node.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+node&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;node&nbsp;to&nbsp;be&nbsp;highlighted&nbsp;out&nbsp;in&nbsp;the&nbsp;diagram.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-load_code_diagram"><strong>load_code_diagram</strong></a>(filename)</dt><dd><tt>Loads&nbsp;the&nbsp;code&nbsp;diagram.<br>
+&nbsp;<br>
+Loads&nbsp;the&nbsp;code&nbsp;diagram&nbsp;digital&nbsp;model&nbsp;that&nbsp;can&nbsp;be&nbsp;edited&nbsp;now.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+filename&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;folder&nbsp;that&nbsp;you&nbsp;want&nbsp;the&nbsp;model&nbsp;to&nbsp;be&nbsp;loaded&nbsp;from.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-load_file"><strong>load_file</strong></a>(filename)</dt><dd><tt>Loads&nbsp;a&nbsp;CSV&nbsp;file.<br>
+&nbsp;<br>
+Loads&nbsp;a&nbsp;CSV&nbsp;file&nbsp;to&nbsp;create&nbsp;a&nbsp;linear&nbsp;diagram.&nbsp;Can&nbsp;be&nbsp;a&nbsp;.csv&nbsp;or&nbsp;.txt<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+filename&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;file&nbsp;to&nbsp;load&nbsp;to&nbsp;data&nbsp;from.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-load_linear_diagram"><strong>load_linear_diagram</strong></a>(filename)</dt><dd><tt>Loads&nbsp;the&nbsp;linear&nbsp;diagram.<br>
+&nbsp;<br>
+Loads&nbsp;the&nbsp;linear&nbsp;diagram&nbsp;digital&nbsp;model&nbsp;that&nbsp;can&nbsp;be&nbsp;edited&nbsp;now.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+filename&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;folder&nbsp;that&nbsp;you&nbsp;want&nbsp;the&nbsp;model&nbsp;to&nbsp;be&nbsp;loaded&nbsp;from.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-print_uml"><strong>print_uml</strong></a>(diagram=None)</dt><dd><tt>Prints&nbsp;the&nbsp;UML&nbsp;diagrams.<br>
+&nbsp;<br>
+Prints&nbsp;the&nbsp;UML&nbsp;diagrams.&nbsp;Can&nbsp;optionally&nbsp;specify&nbsp;a&nbsp;specific&nbsp;diagram&nbsp;to&nbsp;be&nbsp;printed&nbsp;out.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+diagram&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(Optional)&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;specific&nbsp;diagram&nbsp;to&nbsp;be&nbsp;printed&nbsp;out.&nbsp;code,&nbsp;method,&nbsp;sequence,&nbsp;or&nbsp;communication.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Can&nbsp;put&nbsp;in&nbsp;one&nbsp;option&nbsp;or&nbsp;if&nbsp;no&nbsp;option&nbsp;is&nbsp;there&nbsp;it&nbsp;will&nbsp;print&nbsp;out&nbsp;all&nbsp;diagrams.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-save_code_diagram"><strong>save_code_diagram</strong></a>(filename)</dt><dd><tt>Saves&nbsp;the&nbsp;code&nbsp;diagram.<br>
+&nbsp;<br>
+Saves&nbsp;the&nbsp;code&nbsp;diagram&nbsp;digital&nbsp;model&nbsp;that&nbsp;can&nbsp;be&nbsp;loaded&nbsp;into&nbsp;the&nbsp;library&nbsp;later.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+filename&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;folder&nbsp;that&nbsp;you&nbsp;want&nbsp;the&nbsp;model&nbsp;to&nbsp;be&nbsp;saved&nbsp;in.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-save_linear_diagram"><strong>save_linear_diagram</strong></a>(filename)</dt><dd><tt>Saves&nbsp;the&nbsp;linear&nbsp;diagram.<br>
+&nbsp;<br>
+Saves&nbsp;the&nbsp;linear&nbsp;diagram&nbsp;digital&nbsp;model&nbsp;that&nbsp;can&nbsp;be&nbsp;loaded&nbsp;into&nbsp;the&nbsp;library&nbsp;later.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+filename&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;folder&nbsp;that&nbsp;you&nbsp;want&nbsp;the&nbsp;model&nbsp;to&nbsp;be&nbsp;saved&nbsp;in.</tt></dd></dl>
+
+<dl><dt><a name="MBSE-set_unimportant"><strong>set_unimportant</strong></a>(node)</dt><dd><tt>Hides&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;linear&nbsp;diagram.<br>
+&nbsp;<br>
+Hides&nbsp;a&nbsp;node&nbsp;in&nbsp;the&nbsp;linear&nbsp;diagram.&nbsp;Node&nbsp;will&nbsp;still&nbsp;exist&nbsp;but&nbsp;will&nbsp;not&nbsp;be&nbsp;shown&nbsp;on&nbsp;the&nbsp;diagram.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+node&nbsp;:&nbsp;str<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;node&nbsp;to&nbsp;be&nbsp;hidden&nbsp;in&nbsp;the&nbsp;diagram.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

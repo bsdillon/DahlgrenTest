@@ -1,0 +1,1059 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MagicDrawProfile="http://www.omg.org/spec/UML/20131001/MagicDrawProfile" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.omg.org/spec/UML/20131001/MagicDrawProfile UML_Standard_Profile.MagicDraw_Profile.profile.uml#_1HhlOoZrEeqK_OYXLUrfkw">
+  <uml:Profile xmi:id="_16_0_1_f00036a_1237831215750_155653_727" name="Choreography" visibility="public" URI="" metamodelReference="_16_0_1_f00036a_1237831215750_155653_727_packageImportcreatedOnLoad">
+    <eAnnotations xmi:id="_1EtSBIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <contents xmi:type="ecore:EPackage" xmi:id="_1EtSBYZrEeqK_OYXLUrfkw" name="Choreography" nsURI="http://BPMN2_Profile/Choreography/_16_0_1_f00036a_1237831215750_155653_727" nsPrefix="Choreography">
+        <eAnnotations xmi:id="_1EtSBoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/4.0.0/UML">
+          <references xmi:type="uml:Profile" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_1_f00036a_1237831290703_507741_728"/>
+        </eAnnotations>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSB4ZrEeqK_OYXLUrfkw" name="Choreography" eSuperTypes="_1EtSEYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSCIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_16_0_8740266_1237648559856_123924_5872"/>
+          <eAnnotations xmi:id="_1EtSCYZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSCoZrEeqK_OYXLUrfkw" name="base_Activity" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSC4ZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSF4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Activity"/>
+            </contents>
+            <contents xmi:type="ecore:EAttribute" xmi:id="_1EtSDYZrEeqK_OYXLUrfkw" name="isClosed" ordered="false" lowerBound="1" defaultValueLiteral="false">
+              <eAnnotations xmi:id="_1EtSDoZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSGYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+            </contents>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSEYZrEeqK_OYXLUrfkw" name="Collaboration_Collaboration" eSuperTypes="_1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSEoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_8740266_1237650398759_586753_6469"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSE4ZrEeqK_OYXLUrfkw" name="choreographyRef" ordered="false" upperBound="-1" eType="_1EtSB4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSFYZrEeqK_OYXLUrfkw" name="messageFlow" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtSVYZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSF4ZrEeqK_OYXLUrfkw" name="base_Activity" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Activity"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSGYZrEeqK_OYXLUrfkw" name="isClosed" ordered="false" lowerBound="1" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSG4ZrEeqK_OYXLUrfkw" name="conversationAssociations" ordered="false" upperBound="-1" eType="_1EtSsIZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSHYZrEeqK_OYXLUrfkw" name="participantAssociations" ordered="false" upperBound="-1" eType="_1EtS9oZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSH4ZrEeqK_OYXLUrfkw" name="artifacts" ordered="false" upperBound="-1" eType="_1EtS_YZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSIYZrEeqK_OYXLUrfkw" name="messageFlowAssociations" ordered="false" upperBound="-1" eType="_1EtTCYZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSI4ZrEeqK_OYXLUrfkw" name="conversations" ordered="false" upperBound="-1" eType="_1EtSuYZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSJYZrEeqK_OYXLUrfkw" name="correlationKeys" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtS24ZrEeqK_OYXLUrfkw" containment="true"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSKIZrEeqK_OYXLUrfkw" name="Infrastructure_RootElement" abstract="true" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSKYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Infrastructure.profile.uml#_16_0_8740266_1237649724957_935697_6182"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtSKoZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSK4ZrEeqK_OYXLUrfkw" name="base_Property" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSLIZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSU4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSLoZrEeqK_OYXLUrfkw" name="base_ActivityPartition" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSL4ZrEeqK_OYXLUrfkw" source="redefines" references="_1EtST4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityPartition"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSMYZrEeqK_OYXLUrfkw" name="base_Dependency" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSMoZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSRYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSNIZrEeqK_OYXLUrfkw" name="base_ActivityNode" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSNYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSS4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSN4ZrEeqK_OYXLUrfkw" name="base_Classifier" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSOIZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSSYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSOoZrEeqK_OYXLUrfkw" name="base_ActivityEdge" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSO4ZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSR4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSPYZrEeqK_OYXLUrfkw" name="base_Comment" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSPoZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSTYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Comment"/>
+            </contents>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSQYZrEeqK_OYXLUrfkw" name="Foundation_BaseElement" abstract="true">
+          <eAnnotations xmi:id="_1EtSQoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Foundation.profile.uml#_16_0_8740266_1237644581771_381208_4876"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSQ4ZrEeqK_OYXLUrfkw" name="id" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSRYZrEeqK_OYXLUrfkw" name="base_Dependency" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSR4ZrEeqK_OYXLUrfkw" name="base_ActivityEdge" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSSYZrEeqK_OYXLUrfkw" name="base_Classifier" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSS4ZrEeqK_OYXLUrfkw" name="base_ActivityNode" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSTYZrEeqK_OYXLUrfkw" name="base_Comment" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Comment"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtST4ZrEeqK_OYXLUrfkw" name="base_ActivityPartition" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityPartition"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSUYZrEeqK_OYXLUrfkw" name="base_Package" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSU4ZrEeqK_OYXLUrfkw" name="base_Property" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSVYZrEeqK_OYXLUrfkw" name="Collaboration_MessageFlow" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSVoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_3750177_1237716788859_965438_1398"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtSV4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_1EtSWIZrEeqK_OYXLUrfkw" key="documentation" value="A Message Flow MUST connect two separate Pools. They connect either to the Pool boundary or&#xA;to Flow Objects within the Pool boundary. They MUST NOT connect two objects within the same&#xA;Pool."/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSWYZrEeqK_OYXLUrfkw" name="messageRef" ordered="false" eType="_1EtSYIZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSW4ZrEeqK_OYXLUrfkw" name="base_InformationFlow" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//InformationFlow"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSXYZrEeqK_OYXLUrfkw" name="messageType" ordered="false" lowerBound="1" eType="_1EtSq4ZrEeqK_OYXLUrfkw" defaultValueLiteral="Initiating"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSYIZrEeqK_OYXLUrfkw" name="Common_BPMNMessage" eSuperTypes="_1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSYYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_8740266_1237650649885_377657_6552"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSYoZrEeqK_OYXLUrfkw" name="itemRef" ordered="false" eType="_1EtSZ4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSZIZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSZ4ZrEeqK_OYXLUrfkw" name="Common_ItemDefinition" eSuperTypes="_1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSaIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_5_8740266_1244791481937_600631_1178"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSaYZrEeqK_OYXLUrfkw" name="itemKind" ordered="false" lowerBound="1" eType="_1EtSdIZrEeqK_OYXLUrfkw" defaultValueLiteral="Information"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSa4ZrEeqK_OYXLUrfkw" name="structureRef" ordered="false">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSbYZrEeqK_OYXLUrfkw" name="isCollection" ordered="false" lowerBound="1" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSb4ZrEeqK_OYXLUrfkw" name="import" ordered="false" eType="_1EtSeIZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtScYZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EEnum" xmi:id="_1EtSdIZrEeqK_OYXLUrfkw" name="Common_ItemKind">
+          <eAnnotations xmi:id="_1EtSdYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Enumeration" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_5_8740266_1244791512468_998019_1202"/>
+          </eAnnotations>
+          <eLiterals xmi:id="_1EtSdoZrEeqK_OYXLUrfkw" name="Physical"/>
+          <eLiterals xmi:id="_1EtSd4ZrEeqK_OYXLUrfkw" name="Information" value="1"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSeIZrEeqK_OYXLUrfkw" name="Infrastructure_Import">
+          <eAnnotations xmi:id="_1EtSeYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Infrastructure.profile.uml#_16_0_1_8740266_1240209882161_737679_671"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSeoZrEeqK_OYXLUrfkw" name="definition" ordered="false" lowerBound="1" eType="_1EtShIZrEeqK_OYXLUrfkw" eOpposite="_1EtSloZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSfIZrEeqK_OYXLUrfkw" name="importType" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSfoZrEeqK_OYXLUrfkw" name="location" ordered="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSgIZrEeqK_OYXLUrfkw" name="namespace" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSgoZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtShIZrEeqK_OYXLUrfkw" name="Infrastructure_Definitions" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtShYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Infrastructure.profile.uml#_16_0_1_8740266_1240209875771_947625_441"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtShoZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSh4ZrEeqK_OYXLUrfkw" name="base_Package" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSiIZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSUYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSioZrEeqK_OYXLUrfkw" name="relationships" ordered="false" upperBound="-1" eType="_1EtSmYZrEeqK_OYXLUrfkw" containment="true" eOpposite="_1EtSqIZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSjIZrEeqK_OYXLUrfkw" name="targetNamespace" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSjoZrEeqK_OYXLUrfkw" name="expressionLanguage" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSkIZrEeqK_OYXLUrfkw" name="typeLanguage" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSkoZrEeqK_OYXLUrfkw" name="exporter" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtSlIZrEeqK_OYXLUrfkw" name="exporterVersion" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSloZrEeqK_OYXLUrfkw" name="imports" ordered="false" upperBound="-1" eType="_1EtSeIZrEeqK_OYXLUrfkw" containment="true" eOpposite="_1EtSeoZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSmYZrEeqK_OYXLUrfkw" name="Foundation_BPMNRelationship" abstract="true" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSmoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Foundation.profile.uml#_16_0_8740266_1237649803286_770948_6394"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtSm4ZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSnIZrEeqK_OYXLUrfkw" name="base_Dependency" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSnYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSRYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSn4ZrEeqK_OYXLUrfkw" name="base_Classifier" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSoIZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSSYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSooZrEeqK_OYXLUrfkw" name="base_ActivityNode" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSo4ZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSS4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSpYZrEeqK_OYXLUrfkw" name="base_ActivityEdge" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSpoZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSR4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSqIZrEeqK_OYXLUrfkw" name="definition" ordered="false" lowerBound="1" eType="_1EtShIZrEeqK_OYXLUrfkw" eOpposite="_1EtSioZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EEnum" xmi:id="_1EtSq4ZrEeqK_OYXLUrfkw" name="BPMN2Profile_Supplementary_MessageType">
+          <eAnnotations xmi:id="_1EtSrIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1EtSrYZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Profile_Supplementary_MessageType"/>
+            <references xmi:type="uml:Enumeration" href="BPMN2_Profile.profile.uml#_17_0_3beta_8740266_1347616281390_289866_3295"/>
+          </eAnnotations>
+          <eLiterals xmi:id="_1EtSroZrEeqK_OYXLUrfkw" name="Initiating"/>
+          <eLiterals xmi:id="_1EtSr4ZrEeqK_OYXLUrfkw" name="Reply" value="1"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSsIZrEeqK_OYXLUrfkw" name="Conversation_ConversationAssociation" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSsYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.Conversation.profile.uml#_16_5_3_8740266_1250098665960_19441_1770"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSsoZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtStIZrEeqK_OYXLUrfkw" name="innerConversationNodeRef" ordered="false" eType="_1EtSuYZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtStoZrEeqK_OYXLUrfkw" name="outerConversationNodeRef" ordered="false" upperBound="-1" eType="_1EtSuYZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtSuYZrEeqK_OYXLUrfkw" name="Conversation_ConversationNode" abstract="true" eSuperTypes="_1EtS1oZrEeqK_OYXLUrfkw _1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtSuoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.Conversation.profile.uml#_16_5_3_8740266_1250147139435_449298_2106"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtSu4ZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSvIZrEeqK_OYXLUrfkw" name="base_Comment" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSvYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSTYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Comment"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSv4ZrEeqK_OYXLUrfkw" name="base_Classifier" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSwIZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSSYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSwoZrEeqK_OYXLUrfkw" name="base_Dependency" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSw4ZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSRYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSxYZrEeqK_OYXLUrfkw" name="base_ActivityEdge" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSxoZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSR4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityEdge"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSyIZrEeqK_OYXLUrfkw" name="base_ActivityPartition" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSyYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtST4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityPartition"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtSy4ZrEeqK_OYXLUrfkw" name="base_Package" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtSzIZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSUYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Package"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtSzoZrEeqK_OYXLUrfkw" name="base_CallBehaviorAction" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallBehaviorAction"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS0IZrEeqK_OYXLUrfkw" name="base_StructuredActivityNode" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuredActivityNode"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS0oZrEeqK_OYXLUrfkw" name="correlationKeys" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtS24ZrEeqK_OYXLUrfkw" containment="true"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtS1oZrEeqK_OYXLUrfkw" name="Collaboration_InteractionNode" abstract="true">
+          <eAnnotations xmi:id="_1EtS14ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_9beta_8740266_1276071133837_773602_3177"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS2IZrEeqK_OYXLUrfkw" name="Collaboration_InteractionNode_base_Element" ordered="false" lowerBound="1">
+            <eAnnotations xmi:id="_1EtS2YZrEeqK_OYXLUrfkw" source="redefines" references="_1EtUHoZrEeqK_OYXLUrfkw"/>
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtS24ZrEeqK_OYXLUrfkw" name="Common_CorrelationKey" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtS3IZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283501747592_800875_1970"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS3YZrEeqK_OYXLUrfkw" name="correlationPropertyRef" ordered="false" upperBound="-1" eType="_1EtS4oZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS34ZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtS4oZrEeqK_OYXLUrfkw" name="Common_CorrelationProperty" eSuperTypes="_1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtS44ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283774573583_426500_2333"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS5IZrEeqK_OYXLUrfkw" name="correlationPropertyRetievalExpression" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtS64ZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS5oZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtS6IZrEeqK_OYXLUrfkw" name="type" ordered="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtS64ZrEeqK_OYXLUrfkw" name="Common_CorrelationPropertyRetrievalExpression" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtS7IZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283775910566_736272_2583"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtS7YZrEeqK_OYXLUrfkw" name="mesagePathLanguage" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS74ZrEeqK_OYXLUrfkw" name="messagePathBody" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS8YZrEeqK_OYXLUrfkw" name="messageRef" ordered="false" lowerBound="1" eType="_1EtSYIZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtS84ZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtS9oZrEeqK_OYXLUrfkw" name="Collaboration_ParticipantAssociation" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtS94ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_5_8740266_1244797919922_80273_1722"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtS-IZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtS-YZrEeqK_OYXLUrfkw" name="base_Dependency" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtS-oZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSRYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+            </contents>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtS_YZrEeqK_OYXLUrfkw" name="Artifacts_BPMNArtifact" abstract="true" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtS_oZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Artifacts.profile.uml#_16_0_8740266_1237651077654_989576_6634"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtS_4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_1EtTAIZrEeqK_OYXLUrfkw" key="documentation" value="An Artifact MUST NOT be a target for Sequence Flow&#xD;&#xA;An Artifact MUST NOT be a source for Sequence Flow&#xD;&#xA;An Artifact MUST NOT be a source for Message Flow&#xD;&#xA;An Artifact MUST NOT be a target for Message Flow"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtTAYZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtTAoZrEeqK_OYXLUrfkw" name="base_Comment" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtTA4ZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSTYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Comment"/>
+            </contents>
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtTBYZrEeqK_OYXLUrfkw" name="base_Dependency" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtTBoZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSRYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+            </contents>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTCYZrEeqK_OYXLUrfkw" name="Collaboration_MessageFlowAssociation" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTCoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_5_3_8740266_1250098861027_27419_1805"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtTC4ZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtTDIZrEeqK_OYXLUrfkw" name="base_Dependency" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtTDYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSRYZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Dependency"/>
+            </contents>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTEIZrEeqK_OYXLUrfkw" name="GlobalChoreographyTask" eSuperTypes="_1EtSB4ZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTEYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_16_0_8740266_1237648531997_779888_5848"/>
+          <eAnnotations xmi:id="_1EtTEoZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtTE4ZrEeqK_OYXLUrfkw" name="base_Activity" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtTFIZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSF4ZrEeqK_OYXLUrfkw _1EtSCoZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Activity"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTFoZrEeqK_OYXLUrfkw" name="initiatingParticipantRef" ordered="false" lowerBound="1" eType="_1EtTGYZrEeqK_OYXLUrfkw" eOpposite="_1EtTNYZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTGYZrEeqK_OYXLUrfkw" name="Collaboration_Participant" eSuperTypes="_1EtS1oZrEeqK_OYXLUrfkw _1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTGoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_8740266_1237649802864_474179_6348"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtTG4ZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtTHIZrEeqK_OYXLUrfkw" name="base_Property" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtTHYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSU4ZrEeqK_OYXLUrfkw _1EtSK4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTH4ZrEeqK_OYXLUrfkw" name="endpointRefs" ordered="false" upperBound="-1" eType="_1EtTOYZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTIYZrEeqK_OYXLUrfkw" name="partnerRoleRef" ordered="false" eType="_1EtTPoZrEeqK_OYXLUrfkw" changeable="false" eOpposite="_1EtTQoZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTI4ZrEeqK_OYXLUrfkw" name="partnerEntityRef" ordered="false" eType="_1EtTRYZrEeqK_OYXLUrfkw" changeable="false" eOpposite="_1EtTS4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtTJYZrEeqK_OYXLUrfkw" name="minimum" ordered="false" lowerBound="1" defaultValueLiteral="0">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtTJ4ZrEeqK_OYXLUrfkw" name="numParticipants" ordered="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtTKYZrEeqK_OYXLUrfkw" name="maximum" ordered="false" lowerBound="1" defaultValueLiteral="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTK4ZrEeqK_OYXLUrfkw" name="processRef" ordered="false" eType="_1EtTToZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTLYZrEeqK_OYXLUrfkw" name="interfaceRef" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTL4ZrEeqK_OYXLUrfkw" name="base_Event" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTMYZrEeqK_OYXLUrfkw" name="base_ControlNode" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ControlNode"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTM4ZrEeqK_OYXLUrfkw" name="base_Action" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTNYZrEeqK_OYXLUrfkw" name="globalChoreographyTask" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtTEIZrEeqK_OYXLUrfkw" eOpposite="_1EtTFoZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTOYZrEeqK_OYXLUrfkw" name="Collaboration_EndPoint" eSuperTypes="_1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTOoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_5_8740266_1244796015320_977933_1487"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTO4ZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTPoZrEeqK_OYXLUrfkw" name="Collaboration_PartnerRole" eSuperTypes="_1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTP4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_5_8740266_1244796707282_224354_1588"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTQIZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTQoZrEeqK_OYXLUrfkw" name="participantRef" ordered="false" upperBound="-1" eType="_1EtTGYZrEeqK_OYXLUrfkw" eOpposite="_1EtTIYZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTRYZrEeqK_OYXLUrfkw" name="Collaboration_PartnerEntity" eSuperTypes="_1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTRoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_5_8740266_1244796769126_902342_1631"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTR4ZrEeqK_OYXLUrfkw" name="base_Actor" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Actor"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTSYZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTS4ZrEeqK_OYXLUrfkw" name="participantRef" ordered="false" lowerBound="1" eType="_1EtTGYZrEeqK_OYXLUrfkw" eOpposite="_1EtTI4ZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTToZrEeqK_OYXLUrfkw" name="Process_BPMNProcess" eSuperTypes="_1EtTYoZrEeqK_OYXLUrfkw _1EtTw4ZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTT4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.profile.uml#_16_0_8740266_1237637877166_566043_1526"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTUIZrEeqK_OYXLUrfkw" name="base_Activity" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Activity"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtTUoZrEeqK_OYXLUrfkw" name="processType" ordered="false" lowerBound="1" eType="_1EtTyIZrEeqK_OYXLUrfkw" defaultValueLiteral="none"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtTVIZrEeqK_OYXLUrfkw" name="isClosed" ordered="false" lowerBound="1" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTVoZrEeqK_OYXLUrfkw" name="supports" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtTToZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtTWIZrEeqK_OYXLUrfkw" name="state" ordered="false" lowerBound="1" eType="_1EtTzoZrEeqK_OYXLUrfkw" defaultValueLiteral="inactive"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTWoZrEeqK_OYXLUrfkw" name="resources" ordered="false" upperBound="-1" eType="_1EtT3YZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTXIZrEeqK_OYXLUrfkw" name="defintitionalCollaborationRef" ordered="false" eType="_1EtSEYZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTXoZrEeqK_OYXLUrfkw" name="correlationSubscriptions" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtUAYZrEeqK_OYXLUrfkw" containment="true"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTYoZrEeqK_OYXLUrfkw" name="Common_CallableElement" abstract="true" eSuperTypes="_1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTY4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_8740266_1237638041823_446641_1644"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTZIZrEeqK_OYXLUrfkw" name="supportedInterfacesRefs" ordered="false" upperBound="-1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Interface"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTZoZrEeqK_OYXLUrfkw" name="ioSpecification" ordered="false" eType="_1EtTa4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTaIZrEeqK_OYXLUrfkw" name="base_Behavior" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Behavior"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTa4ZrEeqK_OYXLUrfkw" name="Data_InputOutputSpecification" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTbIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_3_8740266_1250511912448_199968_2191"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTbYZrEeqK_OYXLUrfkw" name="dataInputs" ordered="false" upperBound="-1" eType="_1EtTeIZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTb4ZrEeqK_OYXLUrfkw" name="dataOutputs" ordered="false" upperBound="-1" eType="_1EtTrYZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTcYZrEeqK_OYXLUrfkw" name="inputSets" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtTk4ZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTc4ZrEeqK_OYXLUrfkw" name="outputSets" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtToIZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTdYZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTeIZrEeqK_OYXLUrfkw" name="Data_DataInput" eSuperTypes="_1EtTiYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTeYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1245911208343_668975_884"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtTeoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_1EtTe4ZrEeqK_OYXLUrfkw" key="documentation" value="DataInput must not have incoming DataAssociations"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtTfIZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtTfYZrEeqK_OYXLUrfkw" name="base_CentralBufferNode" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtTfoZrEeqK_OYXLUrfkw" source="redefines" references="_1EtTi4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CentralBufferNode"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtTgIZrEeqK_OYXLUrfkw" name="isCollection" ordered="false" lowerBound="1" eType="_1EtTjoZrEeqK_OYXLUrfkw" defaultValueLiteral="false"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTgoZrEeqK_OYXLUrfkw" name="inputSetRefs" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtTk4ZrEeqK_OYXLUrfkw" derived="true" eOpposite="_1EtTnYZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtThIZrEeqK_OYXLUrfkw" name="inputSetWithWhileExecuting" ordered="false" upperBound="-1" eType="_1EtTk4ZrEeqK_OYXLUrfkw" eOpposite="_1EtTl4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtThoZrEeqK_OYXLUrfkw" name="inputSetWithOptional" ordered="false" upperBound="-1" eType="_1EtTk4ZrEeqK_OYXLUrfkw" eOpposite="_1EtTmYZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTiYZrEeqK_OYXLUrfkw" name="Data_ItemAwareElement" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTioZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1245224494785_557876_2719"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTi4ZrEeqK_OYXLUrfkw" name="base_CentralBufferNode" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CentralBufferNode"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EEnum" xmi:id="_1EtTjoZrEeqK_OYXLUrfkw" name="BPMN2Profile_Supplementary_isCollection_dataInput">
+          <eAnnotations xmi:id="_1EtTj4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1EtTkIZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Profile_Supplementary_isCollection_dataInput"/>
+            <references xmi:type="uml:Enumeration" href="BPMN2_Profile.profile.uml#_17_0_1_8740266_1313511113246_766855_2084"/>
+          </eAnnotations>
+          <eLiterals xmi:id="_1EtTkYZrEeqK_OYXLUrfkw" name="true"/>
+          <eLiterals xmi:id="_1EtTkoZrEeqK_OYXLUrfkw" name="false" value="1"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTk4ZrEeqK_OYXLUrfkw" name="Data_InputSet" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTlIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1245920222316_228692_1449"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTlYZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTl4ZrEeqK_OYXLUrfkw" name="whileExecutingInputRefs" ordered="false" upperBound="-1" eType="_1EtTeIZrEeqK_OYXLUrfkw" eOpposite="_1EtThIZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTmYZrEeqK_OYXLUrfkw" name="optionalInputRefs" ordered="false" upperBound="-1" eType="_1EtTeIZrEeqK_OYXLUrfkw" eOpposite="_1EtThoZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTm4ZrEeqK_OYXLUrfkw" name="outputSetRefs" ordered="false" upperBound="-1" eType="_1EtToIZrEeqK_OYXLUrfkw" eOpposite="_1EtTqoZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTnYZrEeqK_OYXLUrfkw" name="dataInputRefs" ordered="false" upperBound="-1" eType="_1EtTeIZrEeqK_OYXLUrfkw" derived="true" eOpposite="_1EtTgoZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtToIZrEeqK_OYXLUrfkw" name="Data_OutputSet" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtToYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_6_8740266_1256816869314_438060_899"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTooZrEeqK_OYXLUrfkw" name="dataOutputRefs" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtTrYZrEeqK_OYXLUrfkw" eOpposite="_1EtTu4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTpIZrEeqK_OYXLUrfkw" name="optionalOutput" ordered="false" upperBound="-1" eType="_1EtTrYZrEeqK_OYXLUrfkw" eOpposite="_1EtTt4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTpoZrEeqK_OYXLUrfkw" name="whileExecutingOutput" ordered="false" upperBound="-1" eType="_1EtTrYZrEeqK_OYXLUrfkw" eOpposite="_1EtTuYZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTqIZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTqoZrEeqK_OYXLUrfkw" name="inputSetRefs" ordered="false" upperBound="-1" eType="_1EtTk4ZrEeqK_OYXLUrfkw" eOpposite="_1EtTm4ZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTrYZrEeqK_OYXLUrfkw" name="Data_DataOutput" eSuperTypes="_1EtTiYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTroZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_6_8740266_1256021393710_905436_1051"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtTr4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_1EtTsIZrEeqK_OYXLUrfkw" key="documentation" value="DataInput must not have incoming DataAssociations"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtTsYZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtTsoZrEeqK_OYXLUrfkw" name="base_CentralBufferNode" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtTs4ZrEeqK_OYXLUrfkw" source="redefines" references="_1EtTi4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CentralBufferNode"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtTtYZrEeqK_OYXLUrfkw" name="isCollection" ordered="false" lowerBound="1" eType="_1EtTvoZrEeqK_OYXLUrfkw" defaultValueLiteral="false"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTt4ZrEeqK_OYXLUrfkw" name="outputSetWithOptional" ordered="false" upperBound="-1" eType="_1EtToIZrEeqK_OYXLUrfkw" eOpposite="_1EtTpIZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTuYZrEeqK_OYXLUrfkw" name="outputSetWithWhileExecuting" ordered="false" upperBound="-1" eType="_1EtToIZrEeqK_OYXLUrfkw" eOpposite="_1EtTpoZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTu4ZrEeqK_OYXLUrfkw" name="outputSetRefs" ordered="false" upperBound="-1" eType="_1EtToIZrEeqK_OYXLUrfkw" eOpposite="_1EtTooZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EEnum" xmi:id="_1EtTvoZrEeqK_OYXLUrfkw" name="BPMN2Profile_Supplementary_isCollection_dataOutput">
+          <eAnnotations xmi:id="_1EtTv4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1EtTwIZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Profile_Supplementary_isCollection_dataOutput"/>
+            <references xmi:type="uml:Enumeration" href="BPMN2_Profile.profile.uml#_17_0_1_8740266_1313511359130_257964_2163"/>
+          </eAnnotations>
+          <eLiterals xmi:id="_1EtTwYZrEeqK_OYXLUrfkw" name="true"/>
+          <eLiterals xmi:id="_1EtTwoZrEeqK_OYXLUrfkw" name="false" value="1"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtTw4ZrEeqK_OYXLUrfkw" name="Common_FlowElementsContainer" abstract="true" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtTxIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_19_0beta_8740266_1488895516288_519256_7996"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtTxYZrEeqK_OYXLUrfkw" name="base_Element" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EEnum" xmi:id="_1EtTyIZrEeqK_OYXLUrfkw" name="Process_ProcessType">
+          <eAnnotations xmi:id="_1EtTyYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Enumeration" href="BPMN2_Profile.Process.profile.uml#_16_0_1_8740266_1240309539395_82912_2299"/>
+          </eAnnotations>
+          <eLiterals xmi:id="_1EtTyoZrEeqK_OYXLUrfkw" name="none"/>
+          <eLiterals xmi:id="_1EtTy4ZrEeqK_OYXLUrfkw" name="public" value="1"/>
+          <eLiterals xmi:id="_1EtTzIZrEeqK_OYXLUrfkw" name="non-executable" value="2"/>
+          <eLiterals xmi:id="_1EtTzYZrEeqK_OYXLUrfkw" name="executable" value="3"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EEnum" xmi:id="_1EtTzoZrEeqK_OYXLUrfkw" name="BPMN2Profile_Supplementary_ProcessState">
+          <eAnnotations xmi:id="_1EtTz4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1EtT0IZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Profile_Supplementary_ProcessState"/>
+            <references xmi:type="uml:Enumeration" href="BPMN2_Profile.profile.uml#_16_6_3750177_1257222099875_8873_473"/>
+          </eAnnotations>
+          <eLiterals xmi:id="_1EtT0YZrEeqK_OYXLUrfkw" name="inactive"/>
+          <eLiterals xmi:id="_1EtT0oZrEeqK_OYXLUrfkw" name="ready" value="1"/>
+          <eLiterals xmi:id="_1EtT04ZrEeqK_OYXLUrfkw" name="withdrawn" value="2"/>
+          <eLiterals xmi:id="_1EtT1IZrEeqK_OYXLUrfkw" name="active" value="3"/>
+          <eLiterals xmi:id="_1EtT1YZrEeqK_OYXLUrfkw" name="terminated" value="4"/>
+          <eLiterals xmi:id="_1EtT1oZrEeqK_OYXLUrfkw" name="failing" value="5"/>
+          <eLiterals xmi:id="_1EtT14ZrEeqK_OYXLUrfkw" name="failed" value="6"/>
+          <eLiterals xmi:id="_1EtT2IZrEeqK_OYXLUrfkw" name="completing" value="7"/>
+          <eLiterals xmi:id="_1EtT2YZrEeqK_OYXLUrfkw" name="completed" value="8"/>
+          <eLiterals xmi:id="_1EtT2oZrEeqK_OYXLUrfkw" name="compensating" value="9"/>
+          <eLiterals xmi:id="_1EtT24ZrEeqK_OYXLUrfkw" name="compensated" value="10"/>
+          <eLiterals xmi:id="_1EtT3IZrEeqK_OYXLUrfkw" name="closed" value="11"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtT3YZrEeqK_OYXLUrfkw" name="Activities_ResourceRole" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtT3oZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_5_8740266_1244713345166_593929_2531"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtT34ZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtT4IZrEeqK_OYXLUrfkw" name="base_Property" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtT4YZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSU4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtT44ZrEeqK_OYXLUrfkw" name="resourceParameterBindings" ordered="false" upperBound="-1" eType="_1EtT6IZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtT5YZrEeqK_OYXLUrfkw" name="ResourceAssignmentExpression" ordered="false" eType="_1EtT-oZrEeqK_OYXLUrfkw" containment="true"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtT6IZrEeqK_OYXLUrfkw" name="Activities_ResourceParameterBinding">
+          <eAnnotations xmi:id="_1EtT6YZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_5_3_8740266_1250576684998_224045_2925"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtT6oZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtT7IZrEeqK_OYXLUrfkw" name="parameterRef" ordered="false" lowerBound="1" eType="_1EtT8IZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtT7oZrEeqK_OYXLUrfkw" name="expression" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtT8IZrEeqK_OYXLUrfkw" name="Common_ResourceParameter" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw _1EtSKIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtT8YZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_5_8740266_1244704554015_182559_903"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtT8oZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtT84ZrEeqK_OYXLUrfkw" name="base_Property" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtT9IZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSU4ZrEeqK_OYXLUrfkw _1EtSK4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Property"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtT9oZrEeqK_OYXLUrfkw" name="isRequired" ordered="false" lowerBound="1" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtT-oZrEeqK_OYXLUrfkw" name="Activities_ResourceAssignmentExpression" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtT-4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_5_3_8740266_1250576896044_364496_3071"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtT_IZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtT_oZrEeqK_OYXLUrfkw" name="expression" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUAYZrEeqK_OYXLUrfkw" name="Common_CorrelationSubscription" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUAoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283759706321_4893_1531"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUA4ZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUBYZrEeqK_OYXLUrfkw" name="correlationKeyRef" ordered="false" lowerBound="1" eType="_1EtS24ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUB4ZrEeqK_OYXLUrfkw" name="correlationPropertyBinding" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtUCoZrEeqK_OYXLUrfkw" containment="true"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUCoZrEeqK_OYXLUrfkw" name="Common_CorrelationPropertyBinding" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUC4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_9_8740266_1283759839383_722581_1624"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUDIZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtUDoZrEeqK_OYXLUrfkw" name="dataPathLanguage" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUEIZrEeqK_OYXLUrfkw" name="dataPathBody" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUEoZrEeqK_OYXLUrfkw" name="correlationPropertyRef" ordered="false" lowerBound="1" eType="_1EtS4oZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUFYZrEeqK_OYXLUrfkw" name="Common_FlowNode" abstract="true" eSuperTypes="_1EtUHIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUFoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_8740266_1237644125503_750651_4550"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtUF4ZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtUGIZrEeqK_OYXLUrfkw" name="base_ActivityNode" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtUGYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSS4ZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
+            </contents>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUHIZrEeqK_OYXLUrfkw" name="Common_FlowElement" abstract="true" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUHYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_8740266_1237644621725_548355_4902"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUHoZrEeqK_OYXLUrfkw" name="base_Element" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUIYZrEeqK_OYXLUrfkw" name="Events_BoundaryEvent" abstract="true" eSuperTypes="_1EtUKoZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUIoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641748331_422070_2771"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtUI4ZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtUJIZrEeqK_OYXLUrfkw" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtUJYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtULIZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//AcceptEventAction"/>
+            </contents>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUJ4ZrEeqK_OYXLUrfkw" name="attachedToRef" ordered="false" lowerBound="1" eType="_1EtUWYZrEeqK_OYXLUrfkw" derived="true" eOpposite="_1EtUb4ZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUKoZrEeqK_OYXLUrfkw" name="Events_CatchEvent" abstract="true" eSuperTypes="_1EtUNYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUK4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641621612_869487_2723"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtULIZrEeqK_OYXLUrfkw" name="base_AcceptEventAction" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//AcceptEventAction"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtULoZrEeqK_OYXLUrfkw" name="dataOutputs" ordered="false" upperBound="-1" eType="_1EtTrYZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUMIZrEeqK_OYXLUrfkw" name="dataOutputAssociation" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtUP4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUMoZrEeqK_OYXLUrfkw" name="outputSet" ordered="false" eType="_1EtToIZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUNYZrEeqK_OYXLUrfkw" name="Events_BPMNEvent" abstract="true" eSuperTypes="_1EtUFYZrEeqK_OYXLUrfkw _1EtS1oZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUNoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641605674_934279_2699"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUN4ZrEeqK_OYXLUrfkw" name="base_Event" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUOYZrEeqK_OYXLUrfkw" name="base_Action" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUO4ZrEeqK_OYXLUrfkw" name="base_ControlNode" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ControlNode"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUP4ZrEeqK_OYXLUrfkw" name="Data_DataOutputAssociation" eSuperTypes="_1EtUSIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUQIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1246257724328_295069_1548"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtUQYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_1EtUQoZrEeqK_OYXLUrfkw" key="documentation" value="The source of DataAssociation shall be DataOutput&#xD;&#xA;The target of DataAssociation can be every item-aware element visible to the current scope, e.g. a Data Object, a&#xA;Property or an Expression."/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_1EtUQ4ZrEeqK_OYXLUrfkw" source="duplicates">
+            <contents xmi:type="ecore:EReference" xmi:id="_1EtURIZrEeqK_OYXLUrfkw" name="base_ObjectFlow" ordered="false" lowerBound="1">
+              <eAnnotations xmi:id="_1EtURYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtUSoZrEeqK_OYXLUrfkw"/>
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectFlow"/>
+            </contents>
+          </eAnnotations>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUSIZrEeqK_OYXLUrfkw" name="Data_DataAssociation" eSuperTypes="_1EtSQYZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUSYZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_0_8740266_1237636522548_366795_447"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUSoZrEeqK_OYXLUrfkw" name="base_ObjectFlow" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ObjectFlow"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUTIZrEeqK_OYXLUrfkw" name="assignment" ordered="false" upperBound="-1" eType="_1EtUUYZrEeqK_OYXLUrfkw" containment="true"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtUToZrEeqK_OYXLUrfkw" name="transformation" ordered="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUUYZrEeqK_OYXLUrfkw" name="Data_Assignment">
+          <eAnnotations xmi:id="_1EtUUoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Data.profile.uml#_16_5_8740266_1246255710774_776142_891"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUU4ZrEeqK_OYXLUrfkw" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUVYZrEeqK_OYXLUrfkw" name="from" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUV4ZrEeqK_OYXLUrfkw" name="to" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUWYZrEeqK_OYXLUrfkw" name="Activities_BPMNActivity" abstract="true" eSuperTypes="_1EtUFYZrEeqK_OYXLUrfkw _1EtS1oZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUWoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.Process.Activities.profile.uml#_16_0_8740266_1237637296819_637466_814"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtUW4ZrEeqK_OYXLUrfkw" name="isForCompensation" ordered="false" lowerBound="1" defaultValueLiteral="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtUXYZrEeqK_OYXLUrfkw" name="startQuantity" ordered="false" lowerBound="1" defaultValueLiteral="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtUX4ZrEeqK_OYXLUrfkw" name="completionQuantity" ordered="false" lowerBound="1" defaultValueLiteral="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Integer"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUYYZrEeqK_OYXLUrfkw" name="resources" ordered="false" upperBound="-1" eType="_1EtT3YZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUY4ZrEeqK_OYXLUrfkw" name="default" ordered="false" eType="_1EtUc4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtUZYZrEeqK_OYXLUrfkw" name="state" ordered="false" lowerBound="1" eType="_1EtUeoZrEeqK_OYXLUrfkw" defaultValueLiteral="none"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUZ4ZrEeqK_OYXLUrfkw" name="base_Action" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Action"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUaYZrEeqK_OYXLUrfkw" name="ioSpecification" ordered="false" eType="_1EtTa4ZrEeqK_OYXLUrfkw"/>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUa4ZrEeqK_OYXLUrfkw" name="base_Event" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Event"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUbYZrEeqK_OYXLUrfkw" name="base_ControlNode" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ControlNode"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUb4ZrEeqK_OYXLUrfkw" name="boundaryEventRefs" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtUIYZrEeqK_OYXLUrfkw" derived="true" eOpposite="_1EtUJ4ZrEeqK_OYXLUrfkw"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUc4ZrEeqK_OYXLUrfkw" name="Common_SequenceFlow" eSuperTypes="_1EtUHIZrEeqK_OYXLUrfkw">
+          <eAnnotations xmi:id="_1EtUdIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <references xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_3750177_1237715949968_954009_1021"/>
+          </eAnnotations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUdYZrEeqK_OYXLUrfkw" name="base_ControlFlow" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ControlFlow"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_1EtUd4ZrEeqK_OYXLUrfkw" name="isImmediate" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EEnum" xmi:id="_1EtUeoZrEeqK_OYXLUrfkw" name="BPMN2Profile_Supplementary_Activity_State">
+          <eAnnotations xmi:id="_1EtUe4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+            <details xmi:id="_1EtUfIZrEeqK_OYXLUrfkw" key="originalName" value="BPMN2 Profile_Supplementary_Activity_State"/>
+            <references xmi:type="uml:Enumeration" href="BPMN2_Profile.profile.uml#_16_6_8740266_1256814253129_933701_487"/>
+          </eAnnotations>
+          <eLiterals xmi:id="_1EtUfYZrEeqK_OYXLUrfkw" name="none"/>
+          <eLiterals xmi:id="_1EtUfoZrEeqK_OYXLUrfkw" name="ready" value="1"/>
+          <eLiterals xmi:id="_1EtUf4ZrEeqK_OYXLUrfkw" name="active" value="2"/>
+          <eLiterals xmi:id="_1EtUgIZrEeqK_OYXLUrfkw" name="cancelled" value="3"/>
+          <eLiterals xmi:id="_1EtUgYZrEeqK_OYXLUrfkw" name="aborting" value="4"/>
+          <eLiterals xmi:id="_1EtUgoZrEeqK_OYXLUrfkw" name="aborted" value="5"/>
+          <eLiterals xmi:id="_1EtUg4ZrEeqK_OYXLUrfkw" name="completing" value="6"/>
+          <eLiterals xmi:id="_1EtUhIZrEeqK_OYXLUrfkw" name="completed" value="7"/>
+        </eClassifiers>
+        <eSubpackages xmi:id="_1EtUhYZrEeqK_OYXLUrfkw" name="ChoreographyActivities" nsURI="http:///Choreography/ChoreographyActivities.ecore" nsPrefix="Choreography.ChoreographyActivities">
+          <eAnnotations xmi:id="_1EtUhoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/4.0.0/UML" references="_16_5_3_8740266_1250096647021_41331_1287"/>
+          <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUh4ZrEeqK_OYXLUrfkw" name="SubChoreography" eSuperTypes="_1EtUjoZrEeqK_OYXLUrfkw">
+            <eAnnotations xmi:id="_1EtUiIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_16_0_8740266_1237649089094_776879_6081"/>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUiYZrEeqK_OYXLUrfkw" name="base_StructuredActivityNode" ordered="false" lowerBound="1">
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//StructuredActivityNode"/>
+            </eStructuralFeatures>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUi4ZrEeqK_OYXLUrfkw" name="referencedDiagram" ordered="false" lowerBound="1">
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Element"/>
+            </eStructuralFeatures>
+          </eClassifiers>
+          <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUjoZrEeqK_OYXLUrfkw" name="ChoreographyActivity" abstract="true" eSuperTypes="_1EtUFYZrEeqK_OYXLUrfkw">
+            <eAnnotations xmi:id="_1EtUj4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_16_0_8740266_1237648955390_220706_6006"/>
+            <eAnnotations xmi:id="_1EtUkIZrEeqK_OYXLUrfkw" source="duplicates">
+              <contents xmi:type="ecore:EReference" xmi:id="_1EtUkYZrEeqK_OYXLUrfkw" name="base_Classifier" ordered="false" lowerBound="1">
+                <eAnnotations xmi:id="_1EtUkoZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSSYZrEeqK_OYXLUrfkw"/>
+                <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Classifier"/>
+              </contents>
+              <contents xmi:type="ecore:EReference" xmi:id="_1EtUlIZrEeqK_OYXLUrfkw" name="base_ActivityNode" ordered="false" lowerBound="1">
+                <eAnnotations xmi:id="_1EtUlYZrEeqK_OYXLUrfkw" source="redefines" references="_1EtSS4ZrEeqK_OYXLUrfkw _1EtUGIZrEeqK_OYXLUrfkw"/>
+                <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ActivityNode"/>
+              </contents>
+            </eAnnotations>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUl4ZrEeqK_OYXLUrfkw" name="participantRefs" lowerBound="2" upperBound="-1" eType="_1EtTGYZrEeqK_OYXLUrfkw"/>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUmYZrEeqK_OYXLUrfkw" name="initiatingParticipantRef" ordered="false" lowerBound="1" eType="_1EtTGYZrEeqK_OYXLUrfkw"/>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUm4ZrEeqK_OYXLUrfkw" name="boundaryEventRefs" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtUIYZrEeqK_OYXLUrfkw" derived="true"/>
+          </eClassifiers>
+          <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUnoZrEeqK_OYXLUrfkw" name="CallChoreography" eSuperTypes="_1EtUjoZrEeqK_OYXLUrfkw">
+            <eAnnotations xmi:id="_1EtUn4ZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_16_0_8740266_1237649035344_424713_6033"/>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUoIZrEeqK_OYXLUrfkw" name="base_CallBehaviorAction" ordered="false" lowerBound="1">
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//CallBehaviorAction"/>
+            </eStructuralFeatures>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUooZrEeqK_OYXLUrfkw" name="participantAssociations" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtS9oZrEeqK_OYXLUrfkw" containment="true"/>
+          </eClassifiers>
+          <eClassifiers xmi:type="ecore:EClass" xmi:id="_1EtUpYZrEeqK_OYXLUrfkw" name="ChoreographyTask" eSuperTypes="_1EtUjoZrEeqK_OYXLUrfkw">
+            <eAnnotations xmi:id="_1EtUpoZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_16_0_8740266_1237649070656_245387_6057"/>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUp4ZrEeqK_OYXLUrfkw" name="base_OpaqueAction" ordered="false" lowerBound="1">
+              <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueAction"/>
+            </eStructuralFeatures>
+            <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1EtUqYZrEeqK_OYXLUrfkw" name="messageFlow" ordered="false" lowerBound="1" upperBound="-1" eType="_1EtSVYZrEeqK_OYXLUrfkw" containment="true"/>
+          </eClassifiers>
+        </eSubpackages>
+      </contents>
+    </eAnnotations>
+    <ownedComment xmi:id="_16_5_3_8740266_1252482567598_558700_1434" annotatedElement="_16_0_1_f00036a_1237831215750_155653_727" body="Choreographies are designed in BPMN to allow stand-alone, scalable models of these Participant interactions. However, since BPMN provides other Business Process modeling views, Choreographies are designed to fit within BPMN Collaboration diagrams to display of the relationship between the Choreography and Orchestration Processes."/>
+    <packageImport xmi:id="_16_0_1_f00036a_1237831215750_155653_727_packageImportcreatedOnLoad">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_METAMODELS/UML.metamodel.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0primitiveTypesChoreography">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packageImport xmi:id="_0javaPrimitiveTypesChoreography">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_16_0_8740266_1237648559856_123924_5872" name="Choreography" visibility="public">
+      <ownedComment xmi:id="_16_5_3_8740266_1250138226432_456606_1101" annotatedElement="_16_0_8740266_1237648559856_123924_5872" body="A Choreography is a type of process, but differs in purpose and behavior from a standard BPMN Process. A standard Process, or an Orchestration Process, is more familiar to most process modelers and defines the flow of Activities of a specific PartnerEntity or organization. In contrast, Choreography formalizes the way business Participants coordinate their interactions. The focus is not on orchestrations of the work performed within these Participants, but rather on the exchange of information (Messages) between these Participants."/>
+      <generalization xmi:id="_16_9beta_8740266_1276251644737_787742_5817">
+        <general xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_8740266_1237650398759_586753_6469"/>
+      </generalization>
+      <ownedAttribute xmi:id="_16_5_3_8740266_1250138294837_524449_1103" name="base_Activity" visibility="private" association="_16_5_3_8740266_1250138294837_750762_1102">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Activity"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_16_5_3_8740266_1250138324914_980469_1136" name="isClosed" visibility="private">
+        <ownedComment xmi:id="_16_5_3_8740266_1250138385335_43905_1141" annotatedElement="_16_5_3_8740266_1250138324914_980469_1136" body="A Boolean value specifying whether Choreography Activities not modeled in the Choreography can occur when the Choreography is carried out. If the value is true, they MAY NOT occur. If the value is false, they MAY occur."/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_6_8740266_1257328608481_861170_502" name="" visibility="public" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_6_8740266_1257328608481_979449_503" name="" visibility="public" value="1"/>
+        <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_16_5_3_8740266_1250138345101_517322_1138" name="" visibility="public"/>
+        <redefinedProperty href="BPMN2_Profile.Collaboration.profile.uml#_16_5_3_8740266_1250144809403_983901_1958"/>
+      </ownedAttribute>
+      <icon xmi:id="_16_6_8740266_1260178822776_223176_435" content="47 49 46 38 39 61 10 0 10 0 a2 0 0 0 0 0 ff ff ff ff ff cc ac ac ac 4d 4d 4d ff ff ff 0 0 0 0 0 0 21 f9 4 1 0 0 5 0 2c 0 0 0 0 10 0 10 0 0 3 31 58 ba dc fe 30 3e 42 6b 75 64 e8 bd c9 b2 19 a7 79 a 21 9c e6 a9 a 64 91 b2 ab da 82 e2 c5 84 1c 15 50 d a8 13 3b 89 b c8 13 da 84 c8 24 32 1 0 3b " format="GIF" location="D:\BPMN\Images_temp\icons_1204\choreography1.gif"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_16_0_8740266_1237648531997_779888_5848" name="GlobalChoreographyTask" visibility="public">
+      <ownedComment xmi:id="_16_5_3_8740266_1250144188442_974717_1842" annotatedElement="_16_0_8740266_1237648531997_779888_5848" body="A GlobalChoreographyTask is a reusable, atomic Choreography Task definition that can be called from within any Choreography by a Call Choreography Activity."/>
+      <generalization xmi:id="_16_9beta_8740266_1276253965730_526916_5845" general="_16_0_8740266_1237648559856_123924_5872"/>
+      <ownedAttribute xmi:id="_16_5_3_8740266_1250144302503_174109_1904" name="initiatingParticipantRef" visibility="private" association="_16_5_3_8740266_1250144302503_197475_1903">
+        <type xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_8740266_1237649802864_474179_6348"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_9beta_8740266_1276254103699_553518_5877" name="" visibility="public" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9beta_8740266_1276254103699_152248_5878" name="" visibility="public" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_16_6_8740266_1259235731716_132229_445" name="base_Activity" visibility="private" association="_16_6_8740266_1259235731716_104595_444">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Activity"/>
+      </ownedAttribute>
+      <icon xmi:id="_16_6_8740266_1260179555521_965176_569" content="47 49 46 38 39 61 10 0 10 0 a2 0 0 0 0 0 ff ff ff ff ff cc ac ac ac 4d 4d 4d ff ff ff 0 0 0 0 0 0 21 f9 4 1 0 0 5 0 2c 0 0 0 0 10 0 10 0 0 3 34 58 ba dc fe 30 36 42 ab a5 8b 8c cd fb 26 85 d6 1 24 e0 51 42 2a 0 6a 9b a2 2a eb aa 70 2a 93 6e bd c6 b9 c8 95 a6 e c8 e7 11 66 2e 48 89 72 c9 64 24 0 0 3b " format="GIF" location="D:\BPMN\Images_temp\icons_1204\Choreography global.gif"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_16_5_3_8740266_1250096647021_41331_1287" name="ChoreographyActivities" visibility="public" URI="">
+      <ownedComment xmi:id="_16_5_3_8740266_1252482634207_865530_1435" annotatedElement="_16_5_3_8740266_1250096647021_41331_1287" body="A Choreography Activity represents a point in a Choreography flow where an interaction occurs between two (2) or more Participants."/>
+      <packagedElement xmi:type="uml:Extension" xmi:id="_16_5_3_8740266_1250139763225_448416_1504" name="" visibility="public" memberEnd="_16_5_3_8740266_1250139763225_605412_1505 _16_5_3_8740266_1250139763225_758320_1506" navigableOwnedEnd="_16_5_3_8740266_1250139763225_758320_1506">
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_5_3_8740266_1250139763225_758320_1506" name="extension_ChoreographySubProcess" visibility="private" type="_16_0_8740266_1237649089094_776879_6081" aggregation="composite" association="_16_5_3_8740266_1250139763225_448416_1504">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_5_3_8740266_1250139763225_491742_1507" name="" visibility="public"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_5_3_8740266_1250139763225_482963_1508" name="" visibility="public" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Extension" xmi:id="_16_5_3_8740266_1250139568671_542842_1426" name="" visibility="public" memberEnd="_16_5_3_8740266_1250139568671_11972_1427 _16_5_3_8740266_1250139568671_336904_1428" navigableOwnedEnd="_16_5_3_8740266_1250139568671_336904_1428">
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_5_3_8740266_1250139568671_336904_1428" name="extension_ChoreographyTask" visibility="private" type="_16_0_8740266_1237649070656_245387_6057" aggregation="composite" association="_16_5_3_8740266_1250139568671_542842_1426">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_5_3_8740266_1250139568671_453465_1429" name="" visibility="public"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_5_3_8740266_1250139568671_980846_1430" name="" visibility="public" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Stereotype" xmi:id="_16_0_8740266_1237649089094_776879_6081" name="SubChoreography" visibility="public">
+        <ownedComment xmi:id="_16_5_3_8740266_1250139390266_173476_1379" annotatedElement="_16_0_8740266_1237649089094_776879_6081" body="A Choreography Sub-Process is a compound Activity in that it has detail that is defined as a flow of other Activities, in this case, a Choreography. Each Choreography Sub-Process involves two (2) or more Participants. The name of the Choreography Sub-Process and each of the Participants are all displayed in&#xA;the different bands that make up the shape’s graphical notation. There are two (2) more Participant Bands and one Sub-Process Name Band.&#xA;The Choreography Sub-Process can be in a collapsed view that hides its details, or a Choreography Sub-Process can be expanded to show its details (a Choreography Process) within the Choreography Process in which it is contained (see Figure 12-19). In the collapsed form, the Sub-Process object uses a marker to distinguish it as a Choreography Sub-Process, rather than a Choreography Task."/>
+        <generalization xmi:id="_16_0_8740266_1237649129297_202380_6105" general="_16_0_8740266_1237648955390_220706_6006"/>
+        <ownedAttribute xmi:id="_16_5_3_8740266_1250139763225_605412_1505" name="base_StructuredActivityNode" visibility="private" association="_16_5_3_8740266_1250139763225_448416_1504">
+          <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#StructuredActivityNode"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_6_8740266_1259667538118_721081_434" name="referencedDiagram" visibility="private">
+          <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Element"/>
+        </ownedAttribute>
+        <icon xmi:id="_16_6_8740266_1259659665772_539677_679" content="47 49 46 38 39 61 10 0 10 0 a2 0 0 0 0 0 ff ff ff ff ff cc ac ac ac 4d 4d 4d ff ff ff 0 0 0 0 0 0 21 f9 4 1 0 0 5 0 2c 0 0 0 0 10 0 10 0 0 3 2d 58 ba dc fe 8e c8 49 e5 22 23 eb 9d 49 c1 5c d8 11 42 69 9e a7 84 ae a6 ca ae ee 9b 92 f2 5c db 77 29 89 a2 7 f2 9d 4b 65 8 29 16 12 0 3b " format="GIF" location="D:\BPMN\Images_temp\gif_elements\Choreography subprocess copy.gif"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Extension" xmi:id="_16_5_3_8740266_1250140062522_440486_1613" name="" visibility="public" memberEnd="_16_5_3_8740266_1250140062522_543768_1614 _16_5_3_8740266_1250140062522_650087_1615" navigableOwnedEnd="_16_5_3_8740266_1250140062522_650087_1615">
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_5_3_8740266_1250140062522_650087_1615" name="extension_CallChoreographyActivity" visibility="private" type="_16_0_8740266_1237649035344_424713_6033" aggregation="composite" association="_16_5_3_8740266_1250140062522_440486_1613">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_5_3_8740266_1250140062522_714283_1616" name="" visibility="public"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_5_3_8740266_1250140062522_827468_1617" name="" visibility="public" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Stereotype" xmi:id="_16_0_8740266_1237648955390_220706_6006" name="ChoreographyActivity" visibility="public" isAbstract="true">
+        <ownedComment xmi:id="_16_5_3_8740266_1250138825576_586215_1313" annotatedElement="_16_0_8740266_1237648955390_220706_6006" body="A Choreography Activity represents a point in a Choreography flow where an interaction occurs between two (2) or more Participants.&#xA;The Choreography Activity class is an abstract element, sub-classing from FlowElement. When Choreography Activities are defined they are contained within a Choreography or a&#xA;Choreography Sub-Process, which are FlowElementContainers (other FlowElementContainers are not allowed to contain Choreography Activities)."/>
+        <generalization xmi:id="_16_0_8740266_1237648973984_928642_6030">
+          <general xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.profile.uml#_16_0_8740266_1237644125503_750651_4550"/>
+        </generalization>
+        <ownedAttribute xmi:id="_16_5_3_8740266_1250138844279_252501_1341" name="participantRefs" visibility="private" isOrdered="true" association="_16_5_3_8740266_1250138844279_908544_1340">
+          <ownedComment xmi:id="_16_5_3_8740266_1250138985823_446481_1374" annotatedElement="_16_5_3_8740266_1250138844279_252501_1341" body="A Choreography Activity has two (2) or more Participants"/>
+          <type xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_8740266_1237649802864_474179_6348"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_5_3_8740266_1250138883513_21305_1351" name="" visibility="public" value="2"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_5_3_8740266_1250138883513_83291_1352" name="" visibility="public" value="*"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_5_3_8740266_1250138903669_129063_1360" name="initiatingParticipantRef" visibility="private" association="_16_5_3_8740266_1250138903669_366221_1359">
+          <ownedComment xmi:id="_16_5_3_8740266_1250138991526_773672_1375" annotatedElement="_16_5_3_8740266_1250138903669_129063_1360" body="One (1) of the Participants will be the one that initiates the Choreography Activity"/>
+          <type xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_8740266_1237649802864_474179_6348"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_5_3_8740266_1250138926528_295155_1370" name="" visibility="public" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_5_3_8740266_1250138926528_807921_1371" name="" visibility="public" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_6_8740266_1256830152541_438471_3589" name="base_Classifier" visibility="private" association="_16_6_8740266_1256830152541_428228_3588">
+          <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Classifier"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_6_8740266_1256830152557_840370_3594" name="base_ActivityNode" visibility="private" association="_16_6_8740266_1256830152557_620842_3593">
+          <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ActivityNode"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_17_0_1beta1_8740266_1302788548846_698367_1777" name="boundaryEventRefs" visibility="private" isDerived="true">
+          <type xmi:type="uml:Stereotype" href="BPMN2_Profile.CoreStructure.Common.Events.profile.uml#_16_0_8740266_1237641748331_422070_2771"/>
+          <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_17_0_1beta1_8740266_1302788548861_434164_1779" name="" visibility="public"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_17_0_1beta1_8740266_1302788548846_58392_1778" name="" visibility="public" value="*"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Stereotype" xmi:id="_16_0_8740266_1237649035344_424713_6033" name="CallChoreography" visibility="public">
+        <ownedComment xmi:id="_16_5_3_8740266_1250139995190_134426_1568" annotatedElement="_16_0_8740266_1237649035344_424713_6033" body="A Call Choreography identifies a point in the Process where a global Choreography or a Global Choreography Task is used. The Call Choreography acts as a place holder for the inclusion of the Choreography element it is calling. This pre-defined called Choreography element&#xA;becomes a part of the definition of the parent Choreography.&#xA;A Call Choreography object shares the same shape as the Choreography Task and SubChoreography, which is a rectangle that has rounded corners, two (2) or more Participant Bands, and an Activity Name Band. However, the target of what the Choreography Activity calls will determine the details of its shape."/>
+        <generalization xmi:id="_16_0_8740266_1237649131922_372496_6108" general="_16_0_8740266_1237648955390_220706_6006"/>
+        <ownedAttribute xmi:id="_16_5_3_8740266_1250140062522_543768_1614" name="base_CallBehaviorAction" visibility="private" association="_16_5_3_8740266_1250140062522_440486_1613">
+          <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#CallBehaviorAction"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_5_3_8740266_1250161724122_289304_6499" name="participantAssociations" visibility="private" aggregation="composite" association="_16_5_3_8740266_1250161724122_632675_6497">
+          <ownedComment xmi:id="_16_5_3_8740266_1250161724137_536993_6501" annotatedElement="_16_5_3_8740266_1250161724122_289304_6499" body="Specifies how Participants in a nested Choreography or GlobalChoreographyTask match up with the Participants in the Choreography referenced by the Call Choreography."/>
+          <type xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_5_8740266_1244797919922_80273_1722"/>
+          <lowerValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_5_3_8740266_1250161724122_570686_6500" name="" visibility="public"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_5_3_8740266_1250161724137_251316_6502" name="" visibility="public" value="*"/>
+        </ownedAttribute>
+        <icon xmi:id="_16_6_8740266_1259659620304_220517_678" content="47 49 46 38 39 61 10 0 10 0 a2 0 0 0 0 0 ff ff ff ff ff cc ac ac ac 4d 4d 4d ff ff ff 0 0 0 0 0 0 21 f9 4 1 0 0 5 0 2c 0 0 0 0 10 0 10 0 0 3 2b 58 ba dc fe 8e c8 49 e5 aa 78 96 39 ba ff d5 27 7a 94 60 9e a8 59 a6 ec ca a2 ee ab 4e 32 cc 8d 62 88 77 5a 96 5d 3e d 64 98 0 0 3b " format="GIF" location="D:\BPMN\Images_temp\gif_elements\Call choreography task copy.GIF"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Extension" xmi:id="_16_6_8740266_1256830152541_428228_3588" name="" visibility="public" memberEnd="_16_6_8740266_1256830152541_438471_3589 _16_6_8740266_1256830152541_188442_3590" navigableOwnedEnd="_16_6_8740266_1256830152541_188442_3590">
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_6_8740266_1256830152541_188442_3590" name="extension_ChoreographyActivity" visibility="private" type="_16_0_8740266_1237648955390_220706_6006" aggregation="composite" association="_16_6_8740266_1256830152541_428228_3588">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_6_8740266_1256830152541_264295_3591" name="" visibility="public"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_6_8740266_1256830152541_312338_3592" name="" visibility="public" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Stereotype" xmi:id="_16_0_8740266_1237649070656_245387_6057" name="ChoreographyTask" visibility="public">
+        <ownedComment xmi:id="_16_5_3_8740266_1250139252412_466651_1376" annotatedElement="_16_0_8740266_1237649070656_245387_6057" body="A Choreography Task is an atomic Activity in a Choreography Process. It represents an Interaction, which is a coherent set (1 or more) of Message exchanges between two (2) Participants. Using a Collaboration diagram to view these elements (see page 143 for more information on Collaboration), we&#xA;would see the two (2) Pools representing the two (2) Participants of the Interaction (see Figure 12-7). The communication between the Participants is shown as a Message Flow.&#xA;&#xA;The interaction defined by a Choreography Task can be shown in an expanded format through a Collaboration diagram. "/>
+        <generalization xmi:id="_16_0_8740266_1237649134657_978175_6112" general="_16_0_8740266_1237648955390_220706_6006"/>
+        <ownedAttribute xmi:id="_16_5_3_8740266_1250139568671_11972_1427" name="base_OpaqueAction" visibility="private" association="_16_5_3_8740266_1250139568671_542842_1426">
+          <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#OpaqueAction"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_16_6_1_8740266_1261467943409_173856_489" name="messageFlow" visibility="private" aggregation="composite" association="_16_6_1_8740266_1261467943409_367020_488">
+          <type xmi:type="uml:Stereotype" href="BPMN2_Profile.Collaboration.profile.uml#_16_0_3750177_1237716788859_965438_1398"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_9beta_8740266_1276255844918_769832_6089" name="" visibility="public" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9beta_8740266_1276255844918_475453_6090" name="" visibility="public" value="*"/>
+        </ownedAttribute>
+        <icon xmi:id="_16_6_8740266_1259659686897_922583_680" content="47 49 46 38 39 61 10 0 10 0 a2 0 0 0 0 0 ff ff ff ff ff cc ac ac ac 4d 4d 4d ff ff ff 0 0 0 0 0 0 21 f9 4 1 0 0 5 0 2c 0 0 0 0 10 0 10 0 0 3 28 58 ba dc fe 30 ca 49 aa bd 75 91 c1 bb e7 44 b1 7d 24 48 8 68 aa aa d5 ea a6 ed eb 56 65 19 8e 35 a8 61 fc e4 ff c0 4 0 3b " format="GIF" location="D:\BPMN\Images_temp\gif_elements\Choreography task copy.GIF"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Extension" xmi:id="_16_6_8740266_1256830152557_620842_3593" name="" visibility="public" memberEnd="_16_6_8740266_1256830152557_840370_3594 _16_6_8740266_1256830152557_356869_3595" navigableOwnedEnd="_16_6_8740266_1256830152557_356869_3595">
+        <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_6_8740266_1256830152557_356869_3595" name="extension_ChoreographyActivity" visibility="private" type="_16_0_8740266_1237648955390_220706_6006" aggregation="composite" association="_16_6_8740266_1256830152557_620842_3593">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_6_8740266_1256830152557_795468_3596" name="" visibility="public"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_6_8740266_1256830152557_542650_3597" name="" visibility="public" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_5_3_8740266_1250138844279_908544_1340" name="" visibility="public" memberEnd="_16_5_3_8740266_1250138844279_252501_1341 _16_5_3_8740266_1250138844279_145905_1342">
+        <ownedEnd xmi:id="_16_5_3_8740266_1250138844279_145905_1342" name="" visibility="private" type="_16_0_8740266_1237648955390_220706_6006" association="_16_5_3_8740266_1250138844279_908544_1340"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_6_1_8740266_1261467943409_367020_488" name="" visibility="public" memberEnd="_16_6_1_8740266_1261467943409_173856_489 _16_6_1_8740266_1261467943409_857158_490">
+        <ownedEnd xmi:id="_16_6_1_8740266_1261467943409_857158_490" name="" visibility="private" type="_16_0_8740266_1237649070656_245387_6057" association="_16_6_1_8740266_1261467943409_367020_488"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_5_3_8740266_1250138903669_366221_1359" name="" visibility="public" memberEnd="_16_5_3_8740266_1250138903669_129063_1360 _16_5_3_8740266_1250138903669_961078_1361">
+        <ownedEnd xmi:id="_16_5_3_8740266_1250138903669_961078_1361" name="" visibility="private" type="_16_0_8740266_1237648955390_220706_6006" association="_16_5_3_8740266_1250138903669_366221_1359"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_16_5_3_8740266_1250161724122_632675_6497" name="" visibility="public" memberEnd="_16_5_3_8740266_1250161724122_289304_6499 _16_5_3_8740266_1250161724122_442240_6498">
+        <ownedEnd xmi:id="_16_5_3_8740266_1250161724122_442240_6498" name="" visibility="private" type="_16_0_8740266_1237649035344_424713_6033" association="_16_5_3_8740266_1250161724122_632675_6497"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Extension" xmi:id="_16_5_3_8740266_1250138294837_750762_1102" name="" visibility="public" memberEnd="_16_5_3_8740266_1250138294837_524449_1103 _16_5_3_8740266_1250138294837_405514_1104" navigableOwnedEnd="_16_5_3_8740266_1250138294837_405514_1104">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_5_3_8740266_1250138294837_405514_1104" name="extension_Choreography" visibility="private" type="_16_0_8740266_1237648559856_123924_5872" aggregation="composite" association="_16_5_3_8740266_1250138294837_750762_1102">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_5_3_8740266_1250138294837_817604_1105" name="" visibility="public"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_5_3_8740266_1250138294837_864937_1106" name="" visibility="public" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Extension" xmi:id="_16_6_8740266_1259235731716_104595_444" name="" visibility="public" memberEnd="_16_6_8740266_1259235731716_132229_445 _16_6_8740266_1259235731716_894695_446" navigableOwnedEnd="_16_6_8740266_1259235731716_894695_446">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_6_8740266_1259235731716_894695_446" name="extension_GlobalChoreographyTask" visibility="private" type="_16_0_8740266_1237648531997_779888_5848" aggregation="composite" association="_16_6_8740266_1259235731716_104595_444">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_6_8740266_1259235731716_805828_447" name="" visibility="public"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_6_8740266_1259235731716_965031_448" name="" visibility="public" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_16_5_3_8740266_1250144302503_197475_1903" name="" visibility="public">
+      <memberEnd href="#_16_5_3_8740266_1250144302503_174109_1904"/>
+      <memberEnd href="BPMN2_Profile.Collaboration.profile.uml#_16_5_3_8740266_1250144302503_463710_1905"/>
+    </packagedElement>
+    <profileApplication xmi:id="_be00301_1073394351331_445580_2profileApplicationChoreography">
+      <eAnnotations xmi:id="_8-lYCIZrEeqK_OYXLUrfkw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_1HhlOoZrEeqK_OYXLUrfkw"/>
+      </eAnnotations>
+      <appliedProfile href="UML_Standard_Profile.MagicDraw_Profile.profile.uml#_be00301_1073394351331_445580_2"/>
+    </profileApplication>
+  </uml:Profile>
+  <MagicDrawProfile:TODO_Owner xmi:id="_8-lYCYZrEeqK_OYXLUrfkw" base_Element="_16_0_8740266_1237649035344_424713_6033">
+    <TODO>Mapping is not defined</TODO>
+  </MagicDrawProfile:TODO_Owner>
+  <MagicDrawProfile:TODO_Owner xmi:id="_8-vJCoZrEeqK_OYXLUrfkw" base_Element="_16_0_8740266_1237648531997_779888_5848">
+    <TODO>Mapping is not defined</TODO>
+  </MagicDrawProfile:TODO_Owner>
+  <MagicDrawProfile:TODO_Owner xmi:id="_8-vJEYZrEeqK_OYXLUrfkw" base_Element="_16_0_8740266_1237648559856_123924_5872">
+    <TODO>Mapping is not defined</TODO>
+  </MagicDrawProfile:TODO_Owner>
+  <MagicDrawProfile:TODO_Owner xmi:id="_8-vJGoZrEeqK_OYXLUrfkw" base_Element="_16_0_8740266_1237649070656_245387_6057">
+    <TODO>Mapping is not defined</TODO>
+  </MagicDrawProfile:TODO_Owner>
+  <MagicDrawProfile:TODO_Owner xmi:id="_8-vJG4ZrEeqK_OYXLUrfkw" base_Element="_16_0_8740266_1237649089094_776879_6081">
+    <TODO>Mapping is not defined</TODO>
+  </MagicDrawProfile:TODO_Owner>
+</xmi:XMI>
