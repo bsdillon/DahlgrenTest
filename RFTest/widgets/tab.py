@@ -4,7 +4,8 @@ class Tab(Widget):
     ROBOT_AUTO_KEYWORDS = False
 
     def __init__(self, name:str, imageLibrary):
-        Widget.__init__(self, imageLibrary)
+        Widget.__init__(self)
+        self.configureWidget(imageLibrary)
         self.name = "Tab["+name+"]"
 
     def LogAll(self):
@@ -17,4 +18,7 @@ class Tab(Widget):
         raise NotImplementedError
 
     def find(self):
+        raise NotImplementedError
+
+    def getState(self):
         raise NotImplementedError

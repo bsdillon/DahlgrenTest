@@ -1,6 +1,7 @@
 import os.path
 import shutil
-from robot.libraries.BuiltIn import BuiltIn
+
+ROBOT_AUTO_KEYWORDS = False
 
 letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 

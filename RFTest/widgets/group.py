@@ -5,7 +5,8 @@ class Group(Widget):
     GROUP = "~group~"
 
     def __init__(self, name:str, imageLibrary):
-        Widget.__init__(self, imageLibrary)
+        Widget.__init__(self)
+        self.configureWidget(imageLibrary)
         self.name = "Group["+name+"]"
         self.widgets = []
 
@@ -34,4 +35,7 @@ class Group(Widget):
         raise NotImplementedError
 
     def setGroup(self, _):
+        raise NotImplementedError
+
+    def getState(self):
         raise NotImplementedError

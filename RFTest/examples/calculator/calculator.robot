@@ -1,8 +1,8 @@
 *** Settings ***
-Resource    ./../OQE/DataExtraction.resource
-Library    ./genericwindow.py    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator    C:/Users/Benny/Documents/RFData    WITH NAME    calc
-Library    Process
+Library    genericwindow.py    WITH NAME    calc
 Library    String
+
+Resource    switch.resource
 
 Suite Setup        Suite Start
 Test Setup         Test Start
@@ -11,17 +11,19 @@ Test Teardown      Test End
 Suite Teardown     Suite End
 
 *** Variables ***
-${DATA PATH} =    C:/Users/Benny/Documents/RFData
+
 
 *** Test Cases ***
 Calc 1+4=5     1    4    add    5
 Calc 2-7=-5    2    7    subtract    -5
 Calc 3x5=15    3    5    times    15
 Calc 8/2=4     8    2    divide    4
+Calc 7-1=6     7    1    subtract    6
 
 *** Keywords ***
 Test Calculator
     [ARGUMENTS]    ${operand1}    ${operand2}    ${operator}    ${output}
+    Verify Calculator Mode    Standard
     Log    ${TEST NAME}
     ${answer} =    Math Problem    ${operand1}    ${operator}    ${operand2}
     ${r} =    Assert OQE Values Equal    ${TEST NAME}    Answer    ${answer}    ${output}
@@ -62,23 +64,18 @@ Parse Number
     END
 
 Suite Start
-    Configure Image Library    Sikuli    ${DATA PATH}
-    Set Log Level    TRACE
-    Start Process   calc
-    Wait Until Keyword Succeeds    2x    3s    calc.Find
-    Archive Any Previous Data
+    calc.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator    ${DATA PATH}
+
+    Setup Header
+
+    calc.Find
     ${tmp} =    calc.Document API
     Log    ${tmp}
-
-Test Start
-    New Test Event    ${TEST NAME}
-
+    #calc.Debug Window
+    
 Test End
     calc.Click    clear
     calc.Click    clear
     ${n} =    calc.Read    Output
     ${r} =    Assert OQE Values Equal    ${TEST NAME}    Verify Clear    ${n}    0
 
-Suite End
-    calc.Click    close_button
-    Log    All done

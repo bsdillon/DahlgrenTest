@@ -1,6 +1,7 @@
 *** Settings ***
-Resource    ./../OQE/DataExtraction.resource
-Library    ./PaintTester.py    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/paint    C:/Users/Benny/Documents/RFData    WITH NAME    paint
+Resource   DataExtraction.resource
+Library    genericwindow.py    WITH NAME    paintHome
+Library    genericwindow.py    WITH NAME    paintView
 Library    Process
 
 Suite Setup        Suite Start
@@ -11,7 +12,6 @@ Suite Teardown     Suite End
 
 *** Variables ***
 ${DATA PATH} =    C:/Users/Benny/Documents/RFData
-${myproc} =    MadeupProcessID
 
 *** Test Cases ***
 One Test     None
@@ -20,33 +20,44 @@ One Test     None
 Test Paint
     [ARGUMENTS]    ${empty}
     Log    ${TEST NAME}
-    paint.Press    fill
-    paint.Press    red
-    paint.Press    canvas
-    Sleep    2s
+    paintHome.Move     200    50
+    paintHome.Click    viewTab
+
+    paintView.Find
+    ${a} =   paintView.Check State    rulerBox
+    Run Keyword If    '${a}'=='Checked'    paintView.Click    rulerBox
+    ${a} =   paintView.Check State    gridBox
+    Run Keyword If    '${a}'=='Checked'    paintView.Click    gridBox
+    ${a} =   paintView.Check State    statusBox
+    Run Keyword If    '${a}'=='Checked'    paintView.Click    statusBox
+
+    paintHome.Find
+    paintHome.Click    homeTab
+    paintHome.Scroll    vertScroll    Down
+    paintHome.Scroll    vertScroll    Up
+
     # ${file} =    paint.Capture Image    canvas
     # Record Screen Image    ${file}    ${TEST NAME}    Red Screen
-    paint.Press    green
-    paint.Press    canvas
     # ${file} =    paint.Capture Image    canvas
     # Record Screen Image    ${file}    ${TEST NAME}    Green Screen
 
 
 Suite Start
+    paintHome.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/paint    C:/Users/Benny/Documents/RFData
+    paintView.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/paint2    C:/Users/Benny/Documents/RFData
     Configure Image Library    Sikuli    ${DATA PATH}
     Set Log Level    TRACE
-    ${proc} =    Start Process   mspaint
-    Set Suite Variable    ${myProc}    ${proc}
-    Sleep    5s
-    Wait Until Keyword Succeeds    2x    3s    paint.Find
+    ${proc} =    Start Process    mspaint
+    Wait Until Keyword Succeeds    2x    3s    paintHome.Find
     Archive Any Previous Data
-    ${tmp} =    paint.Document API
+    ${tmp} =    paintHome.Document API
+    Log    ${tmp}
+    ${tmp} =    paintView.Document API
     Log    ${tmp}
 
 Test Start
     New Test Event    ${TEST NAME}
 
 Suite End
-    Log    Terminating Process ${myproc}
-    Terminate Process    ${myproc}    kill=True
+    paintHome.Click    closeButton
     Log    All done

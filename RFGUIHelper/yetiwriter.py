@@ -18,8 +18,9 @@ def writeYeti(widgets, projPath, parentWindow):
         fullName = fullName + "_"+version
 
     #parse important details from widgets
-    uniqueImports = {}
+    uniqueImports = []
     anchorFiles = []
+    movePoints = []
     x = 10000
     y = 10000
     w = 0
@@ -28,8 +29,9 @@ def writeYeti(widgets, projPath, parentWindow):
     for some_widget in widgets:
         name = some_widget.getValue("name")
         type = some_widget.getValue("type")
-        if not type in uniqueImports:
-            uniqueImports[type] = YetiImports[type]
+        tmp = YetiImports[type]
+        if not tmp in uniqueImports:
+            uniqueImports.append(tmp) 
 
         tempX = int(some_widget.getValue("X"))
         tempY = int(some_widget.getValue("Y"))
@@ -48,6 +50,9 @@ def writeYeti(widgets, projPath, parentWindow):
 
         if type=="Anchor":
             anchorFiles.append((some_widget.getValue('Image file name'), tempX, tempY, name))
+        elif type=="MovePoint":
+            movePoints.append((some_widget.getValue('Image file name'), tempX, tempY, name))
+            # movePoints.append((name, tempX, tempY, tempW, tempH))
         else:
             dims = "("+str(tempX)+", "+str(tempY)+", "+str(tempW)+", "+str(tempH)+")"
             widgetCode = widgetCode + ((TAB*2)+"tmp = "+YetiTypes[type]+"(self, '"+name+"', "+dims+")\n")
@@ -61,8 +66,8 @@ def writeYeti(widgets, projPath, parentWindow):
         #write all the imports
         write_file.write("from robot.api.deco import keyword\n")
         write_file.write("from yeti.window import Window\n")
-        for key in uniqueImports.keys():
-            write_file.write(uniqueImports[key]+"\n")
+        for line in uniqueImports:
+            write_file.write(line+"\n")
         write_file.write("\n")
         #end of imports
 
@@ -81,13 +86,20 @@ def writeYeti(widgets, projPath, parentWindow):
         write_file.write((TAB*2)+"unfocused=[]\n")
         #Currently, YETI has a different method to "get" the widgets by name
         # write_file.write((TAB*2)+"self.widgets={}\n")
-        write_file.write((TAB*2)+"self.anchors={}\n\n")
+        write_file.write((TAB*2)+"self.anchors={}\n")
+        write_file.write((TAB*2)+"self.movePoints={}\n\n")
         write_file.write((TAB*2)+"#Add all anchors in window\n")
         for anc in anchorFiles:
             write_file.write((TAB*2)+"tmp = "+YetiTypes['Anchor']+"('"+anc[0]+"', "+str(x - anc[1])+", "+str(y - anc[2])+", 0, 0)\n")
             write_file.write((TAB*2)+"self.anchors['"+anc[3]+"']=tmp\n")
             write_file.write((TAB*2)+"self.widgets['"+anc[3]+"']=tmp\n")
             write_file.write((TAB*2)+"focused.append(tmp)\n\n")
+        for mp in movePoints:
+            write_file.write((TAB*2)+"tmp = "+YetiTypes['MovePoint']+"('"+anc[0]+"', "+str(x - anc[1])+", "+str(y - anc[2])+", 0, 0)\n")
+            write_file.write((TAB*2)+"self.movePoints['"+anc[3]+"']=tmp\n")
+            write_file.write((TAB*2)+"self.widgets['"+anc[3]+"']=tmp\n")
+            # write_file.write((TAB*2)+"tmp = "+YetiTypes['MovePoint']+"('"+anc[0]+"', "+str(x - anc[1])+", "+str(y - anc[2])+", 0, 0)\n")
+        
         write_file.write((TAB*2)+"super("+fullName+", self).__init__('"+fullName+" Window', [x,y,w,h], focused, unfocused)\n\n")
 
         write_file.write((TAB*2)+"#Add all widgets to window\n")

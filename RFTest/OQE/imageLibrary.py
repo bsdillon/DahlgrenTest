@@ -5,7 +5,6 @@ import subprocess
 from OQE.filemaker import *
 from threading import Event, Thread
 import pathlib
-from robot.libraries.BuiltIn import BuiltIn
 
 class MouseButtons:
     LEFT = 1
@@ -14,19 +13,37 @@ class MouseButtons:
     SCROLL_UP = 4
     SCROLL_DOWN = 5
 
-class imageLibrary:
+class imagelibrary:
+    '''
+    ImageLibrary is the parent of libraries that work with the GUI and manage image
+    capture. There are 4 \n\n
+    *Watcher Functions* - Create and halt "watchers" that monitor a segment of the GUI\n\n
+    *Test Configuration* - Setup and configure the imagelibrary for testing\n\n
+    *Image Functions* - Capture images, revise images, create animations, etc.\n\n
+    *GUI Operations* - Interact with the GUI e.g. read, write, click, etc.
+    '''
     ROBOT_AUTO_KEYWORDS = False
+
+    @keyword(name="Configure Image Path")
+    def configureImagePath(self, dataPath):
+        '''
+        Part of *Test Configuration*\n\n
+        dataPath - the absolute path to the data folder
+        '''
+        self.imgPath = dataPath + "/IMG"
+        self.tempPath = dataPath + "/IMG/TEMP"
+        self.watcherPath = dataPath + "/IMG/WATCHER"
+        self.usable=True
 
     @keyword(name="Start Watcher at Element")
     def startWatcher(self, name:str, description:str, rateSeconds:float=1, limit:int=-1):
         '''
-        A.K.A "Click Watcher at Element" under Robot Framework
-        Generates a click event on this GUI element.
-        :param: name - proposed name to be given to watcher
-        :param: description - text identifies the element
-        :param: rateSeconds - the number of seconds between images; default is 1second
-        :param: limit - total number of images ot take; default -1 indicates no end
-        :return: the true name used for watcher
+        Part of *Watcher Functions*\n\n
+        Generates a click event on this GUI element. Returns the true name used for the watcher\n\n
+        name - proposed name to be given to watcher\n\n
+        description - text identifies the element\n\n
+        rateSeconds - the number of seconds between images; default is 1second\n\n
+        limit - total number of images ot take; default -1 indicates no end\n\n
         '''
         self.findElement(description)
         return self.startWatcher3(name, rateSeconds, limit)
@@ -34,16 +51,15 @@ class imageLibrary:
     @keyword(name="Start Watcher at")
     def startWatcher2(self, name:str, x:str, y:str, w:str, h:str, rateSeconds:float=1, limit:int=-1):
         '''
-        A.K.A "Start Watcher at" under Robot Framework
-        Generates a click event on this GUI element.
-        :param: name - proposed name to be given to watcher
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
-        :param: rateSeconds - the number of seconds between images; default is 1second
-        :param: limit - total number of images ot take; default -1 indicates no end
-        :return: the true name used for watcher
+        Part of *Watcher Functions*\n\n
+        Generates a click event on this GUI element. Returns the true name of the watcher\n\n
+        name - proposed name to be given to watcher\n\n
+        x coordinate of the desired read region\n\n
+        y coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
+        rateSeconds - the number of seconds between images; default is 1 second\n\n
+        limit - total number of images ot take; default -1 indicates no end\n\n
         '''
         self.findElementFromPoint(x,y,w,h)
         return self.startWatcher3(name, rateSeconds, limit)
@@ -51,11 +67,11 @@ class imageLibrary:
     def startWatcher3(self, name:str, rateSeconds:float, limit:int):
         """
         Creates a Watcher object and saves it in self.watchers
-        as a tupple "trueName":[Watcher, runEvent].
-        :param: name - proposed name for the watcher
-        :param: rateSeconds - the number of seconds between images; default is 1second
-        :param: limit - total number of images ot take; default -1 indicates no end
-        :return: the true name (derived from proposed name) of the Watcher
+        as a tupple "trueName":[Watcher, runEvent]. Returns the true name (derived
+        from the proposed name) of the watcher.\n\n
+        name - proposed name for the watcher\n\n
+        rateSeconds - the number of seconds between images; default is 1second\n\n
+        limit - total number of images ot take; default -1 indicates no end\n\n
         """
         if self.foundElement == None:
             raise Exception("Element was not found")
@@ -86,11 +102,11 @@ class imageLibrary:
     def createWatcher(self, baseName, runEvent, thing, rateSeconds, limit):
         '''
         This is the threaded method for watchers
-        :param: baseName - the name used for creating all images in this watcher
-        :param: runEvent - used to communicat across threads
-        :param: thing - whatever we are taking picutres of
-        :param: rateSeconds - the number of seconds between images; default is 1second
-        :param: limit - total number of images ot take; default -1 indicates no end
+        baseName - the name used for creating all images in this watcher
+        runEvent - used to communicat across threads
+        thing - whatever we are taking picutres of
+        rateSeconds - the number of seconds between images; default is 1second
+        limit - total number of images ot take; default -1 indicates no end
         '''
         count = 0
         if not self.usable:
@@ -104,7 +120,7 @@ class imageLibrary:
     @keyword(name="Halt All Watchers")
     def haltAllWatchers(self):
         '''
-        A.K.A "Halt All Watchers" under Robot Framework
+        Part of *Watcher Functions*\n\n
         Stops any watcher threads still running at the end of the test
         '''
         for name in self.watchers:
@@ -120,10 +136,10 @@ class imageLibrary:
     @keyword(name="Halt Watcher")
     def haltWatcher(self, name:str):
         '''
-        A.K.A "Halt Watcher" under Robot Framework
-        Uses the name of the Watcher to find it, halt it, delete it from memory, and return the resulting GIF file path.
-        :param: name - true name of the Watcher
-        :return: the gif file created by the watcher
+        Part of *Watcher Functions*\n\n
+        Uses the name of the Watcher to find it, halt it, delete it from memory, and 
+        return the resulting GIF file path. Returns the GIF file created by the watcher.\n\n
+        name - true name of the Watcher
         '''
         answer = None
         if name in self.watchers:
@@ -145,6 +161,12 @@ class imageLibrary:
 
     @keyword(name="Get Next Img File")
     def getImageFile(self, proposed):
+        '''
+        Part of *Image Functions*\n\n
+        Takes in a proposed name, determines what the file system can support, and then
+        returns the accepted name.\n\n
+        proposed - the name the test would prefer to use
+        '''
         if not self.usable:
             raise FileNotFoundError("Cannot use ImageLibrary before 'Configure Image Path'")
 
@@ -153,9 +175,9 @@ class imageLibrary:
     @keyword(name="Read from Element")
     def read(self, description):
         '''
-        A.K.A "Read from Element" under Robot Framework
-        :param: description - text identifies the element
-        :return: text found at that element
+        Part of *GUI Operations*\n\n
+        Find the element described and returns the text found there.\n\n
+        description - text identifies the element\n\n
         '''
         self.findElement(description)
         return self.read3()
@@ -163,23 +185,46 @@ class imageLibrary:
     @keyword(name="Read from")
     def read2(self, x, y, w, h):
         '''
-        A.K.A "Read from" under Robot Framework
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
-        :return: text found at the region
+        Part of *GUI Operations*\n\n
+        Find the region and returns the text found there.
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
         '''
         self.findElementFromPoint(x,y,w,h)
         return self.read3()
 
+    @keyword(name="Highlight at Element")
+    def highlightElement(self, description):
+        '''
+        Part of *GUI Operations*\n\n
+        Generates a highlight event on this GUI region.\n\n
+        description - text identifies the element
+        '''
+        self.findElement(description)
+        self.highlightElement3()
+
+    @keyword(name="Highlight at")
+    def highlightElement2(self, x, y, w, h):
+        '''
+        Part of *GUI Operations*\n\n
+        Generates a highlight event on this GUI region.\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region
+        '''
+        self.findElementFromPoint(x, y, w, h)
+        self.highlightElement3()
+
     @keyword(name="Click at Element")
     def click(self, description, button=MouseButtons.LEFT):
         '''
-        A.K.A "Click at Element" under Robot Framework
-        Generates a click event on this GUI element.
-        :param: description - text identifies the element
-        :param: button - one of the MouseButtons set (Left by default)
+        Part of *GUI Operations*\n\n
+        Generates a click event on this GUI element.\n\n
+        description - text identifies the element\n\n
+        button - one of the MouseButtons set (Left by default)
         '''
         self.findElement(description)
         self.click3(button)
@@ -187,13 +232,13 @@ class imageLibrary:
     @keyword(name="Click at")
     def click2(self, x, y, w, h, button=MouseButtons.LEFT):
         '''
-        A.K.A "Click at" under Robot Framework
-        Generates a click event on this GUI region.
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
-        :param: button - one of the MouseButtons set (Left by default)
+        Part of *GUI Operations*\n\n
+        Generates a click event on this GUI region.\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
+        button - one of the MouseButtons set (Left by default)
         '''
         self.findElementFromPoint(x, y, w, h)
         self.click3(button)
@@ -201,10 +246,9 @@ class imageLibrary:
     @keyword(name="Double Click at Element")
     def dclick(self, description):
         '''
-        A.K.A "Double Click at Element" under Robot Framework
-        Generates a double click event on this GUI element.
-        :param: description - text identifies the element
-        :return: 
+        Part of *GUI Operations*\n\n
+        Generates a double click event on this GUI element.\n\n
+        description - text identifies the element
         '''
         self.findElement(description)
         self.dclick3()
@@ -212,12 +256,12 @@ class imageLibrary:
     @keyword(name="Double Click at")
     def dclick2(self, x, y, w, h):
         '''
-        A.K.A "Double Click at" under Robot Framework
-        Generates a double click event on this GUI element.
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
+        Part of *GUI Operations*\n\n
+        Generates a double click event on this GUI element.\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region
         '''
         self.findElementFromPoint(x, y, w, h)
         self.dclick3()
@@ -225,10 +269,10 @@ class imageLibrary:
     @keyword(name="Write Text at Element")
     def write(self, description, text):
         '''
-        A.K.A "Write Text at Element" under Robot Framework
-        Inserts the given text in this GUI element.
-        :param: description - text identifies the element
-        :param: text to insert in the GUI element
+        Part of *GUI Operations*\n\n
+        Inserts the given text in this GUI element.\n\n
+        description - text identifies the element\n\n
+        text to insert in the GUI element
         '''
         self.findElement(description)
         self.write3(text)
@@ -236,13 +280,13 @@ class imageLibrary:
     @keyword(name="Write Text at")
     def write2(self, x, y, w, h, text):
         '''
-        A.K.A "Write Text at" under Robot Framework
-        Inserts the given text in this GUI region.
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
-        :param: text to insert in the GUI element
+        Part of *GUI Operations*\n\n
+        Inserts the given text in this GUI region.\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
+        text to insert in the GUI element
         '''
         self.findElementFromPoint(x, y, w, h)
         self.write3(text)
@@ -250,11 +294,11 @@ class imageLibrary:
     @keyword(name="Drag Element To")
     def move(self, description, endX, endY):
         '''
-        A.K.A "Drag Element To" under Robot Framework
-        Generated a click and drag event moving the GUI element to the end location
-        :param: description - text identifies the element
-        :param: endX coordinate of desired end location
-        :param: endY coordinate of desired end location
+        Part of *GUI Operations*\n\n
+        Generated a click and drag event moving the GUI element to the end location\n\n
+        description - text identifies the element\n\n
+        endX - coordinate of desired end location\n\n
+        endY - coordinate of desired end location\n\n
         '''
         self.findElement(description)
         self.move3(endX, endY)
@@ -262,14 +306,14 @@ class imageLibrary:
     @keyword(name="Drag To")
     def move2(self, x, y, w, h, endX, endY):
         '''
-        A.K.A "Drag To" under Robot Framework
-        Generated a click and drag event moving the GUI region to the end location
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
-        :param: endX coordinate of desired end location
-        :param: endY coordinate of desired end location
+        Part of *GUI Operations*\n\n
+        Generated a click and drag event moving the GUI region to the end location\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
+        endX - coordinate of desired end location\n\n
+        endY - coordinate of desired end location\n\n
         '''
         self.findElementFromPoint(x, y, w, h)
         self.move3(endX, endY)
@@ -277,9 +321,9 @@ class imageLibrary:
     @keyword(name="Capture Temporary Image at Element")
     def captureTemp(self, description):
         '''
-        A.K.A "Capture Temporary Image at Elmeent" under Robot Framework
-        Creates an image of the GUI element in the IMG/TEMP/ space
-        :param: description - text identifies the element
+        Part of *Image Functions*\n\n
+        Creates an image of the GUI element in the IMG/TEMP/ space\n\n
+        description - text identifies the element
         '''
         self.findElement(description)
         self.captureTemp3()
@@ -287,12 +331,12 @@ class imageLibrary:
     @keyword(name="Capture Temporary Image at")
     def captureTemp2(self, x, y, w, h):
         '''
-        A.K.A "Capture Temporary Image at" under Robot Framework
-        creates an image of the GUI region in the IMG/TEMP/ space
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
+        Part of *Image Functions*\n\n
+        Creates an image of the GUI region in the IMG/TEMP/ space\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region
         '''
         self.findElementFromPoint(x, y, w, h)
         self.captureTemp3()
@@ -314,11 +358,11 @@ class imageLibrary:
     @keyword(name="Capture Image at Element")
     def capture(self, description, name=None):
         '''
-        A.K.A "Capture Image at Element" under Robot Framework
-        creates an image of the GUI element in the IMG/ space
-        :param: description - text identifies the element
-        :param: name (proposed) of the desired image file
-        :return: name of the actual image file
+        Part of *Image Functions*\n\n
+        Creates an image of the GUI element in the IMG/ space. Returns the name of the 
+        actual image file.\n\n
+        description - text identifies the element\n\n
+        name - (proposed) of the desired image file
         '''
         self.findElement(description)
         return self.capture3(name)
@@ -326,14 +370,14 @@ class imageLibrary:
     @keyword(name="Capture Image at")
     def capture2(self, x, y, w, h, name=None):
         '''
-        A.K.A "Capture Image at" under Robot Framework
-        creates an image of the GUI region in the IMG/ space
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
-        :param: name (proposed) of the desired image file
-        :return: name of the actual image file
+        Part of *Image Functions*\n\n
+        Creates an image of the GUI region in the IMG/ space. Returns the actual
+        image file created.\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
+        name - (proposed) of the desired image file
         '''
         self.findElementFromPoint(x, y, w, h)
         tmp = self.capture3(name)
@@ -347,8 +391,8 @@ class imageLibrary:
         which IS defined by each library.
 
         creates an image of the GUI element in the IMG/ space
-        :param: name (proposed) of the desired image file
-        :return: name of the actual image file
+        name (proposed) of the desired image file
+        Return -name of the actual image file
         '''
         if self.foundElement == None:
             raise Exception("Element was not found")
@@ -360,12 +404,12 @@ class imageLibrary:
     @keyword(name="Capture Small GIF at Element")
     def captureSmall(self, description, number, name=None):
         '''
-        A.K.A "Capture Small GIF at Element" under Robot Framework
-        creates an animated image of the GUI element in the IMG/ space
-        :param: description - text identifies the element
-        :param: number of slides in the GIF
-        :param: name (proposed) of the desired image file
-        :return: name of the actual GIF file
+        Part of *Image Functions*\n\n
+        Creates an animated image of the GUI element in the IMG/ space. Returns the actual
+        GIF file created.\n\n
+        description - text identifies the element\n\n
+        number - of slides in the GIF\n\n
+        name - (proposed) of the desired image file
         '''
         self.findElement(description)
         return self.captureSmall3(number, name)
@@ -373,15 +417,15 @@ class imageLibrary:
     @keyword(name="Capture Small GIF at")
     def captureSmall2(self, x, y, w, h, number, name=None):
         '''
-        A.K.A "Capture Small GIF at" under Robot Framework
-        creates an animated image of the GUI region in the IMG/ space
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
-        :param: number of slides in the GIF
-        :param: name (proposed) of the desired image file
-        :return: name of the actual GIF file
+        Part of *Image Functions*\n\n
+        Creates an animated image of the GUI region in the IMG/ space. Returns the 
+        actual GIF file created.\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
+        number - of slides in the GIF\n\n
+        name - (proposed) of the desired image file
         '''
         self.findElementFromPoint(x, y, w, h)
         return self.captureSmall3(number, name)
@@ -395,9 +439,9 @@ class imageLibrary:
 
         captures a series of GIF frames in temporary storage and
         then creates one GIF out of those frames.
-        :param: number of slides in the GIF
-        :param: name (proposed) of the desired image file
-        :return: name of the actual GIF file
+        number of slides in the GIF
+        name (proposed) of the desired image file
+        Return -name of the actual GIF file
         '''
         if self.foundElement == None:
             raise Exception("Element was not found")
@@ -408,13 +452,42 @@ class imageLibrary:
             time.sleep(.2)
         return self.convertToGIF(name)
 
+    @keyword(name="Search Region at Element")
+    def searchRegion(self, description, targetImage):
+        '''
+        Part of *Image Functions*\n\n
+        Searches the region from self.foundElement for
+        the image indicated by the given file. Returns 
+        (x,y) location of target OR (-1,-1)\n\n
+        description - text identifies the element\n\n
+        targetImage - absolute path of target image file\n\n
+        '''
+        self.findElement(description)
+        return self.searchRegion3(targetImage)
+
+    @keyword(name="Search Region At")
+    def searchRegion2(self, x, y, w, h, targetImage):
+        '''
+        Part of *Image Functions*\n\n
+        Searches the region from self.foundElement for
+        the image indicated by the given file. Returns 
+        (x,y) location of target OR (-1,-1)\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
+        targetImage - absolute path of target image file\n\n
+        '''
+        self.findElementFromPoint(x, y, w, h)
+        return self.searchRegion3(targetImage)
+
     @keyword(name="Convert to GIF")
     def convertToGIF(self, name=None, sourcePath=None, key="*"):
         '''
-        A.K.A "Convert to GIF" under Robot Framework
-        Collects all images in the IMG/TEMP/ folder into one GIF
-        :param: name (proposed) of the desired image file
-        :return: name of the actual GIF file
+        Part of *Image Functions*\n\n
+        Collects all images in the IMG/TEMP/ folder into one GIF. Returns the actual
+        GIF file created.\n\n
+        name - (proposed) of the desired image file
         '''
         if not self.usable:
             raise FileNotFoundError("Cannot use ImageLibrary before 'Configure Image Path'")
@@ -451,23 +524,22 @@ class imageLibrary:
         self.watchers = {}
         self.usable=False
 
-    @keyword(name="Configure Image Path")
-    def configureImagePath(self, dataPath):
-        self.imgPath = dataPath + "/IMG"
-        self.tempPath = dataPath + "/IMG/TEMP"
-        self.watcherPath = dataPath + "/IMG/WATCHER"
-        self.usable=True
-
     def read3(self):
         """
         Reads text as indicated by self.foundElement
-        :return: Text found
+        Return -Text found
         """
+        raise NotImplementedError
+
+    def highlightElement3(self):
+        '''
+        Generates a highlight event on this GUI region.
+        '''
         raise NotImplementedError
 
     def click3(self, button=MouseButtons.LEFT):
         """
-        :param: button one of the MouseButtons set (Left by default)
+        button one of the MouseButtons set (Left by default)
         Performs click as indicated by self.foundElement
         """
         raise NotImplementedError
@@ -481,35 +553,46 @@ class imageLibrary:
     def write3(self, text):
         """
         Writes text as indicated by self.foundElement
-        :param text: Characters to be written
+        text: Characters to be written
         """
         raise NotImplementedError
 
     def move3(self, endX, endY):
         """
         Moves to (endX, endY) as indicated by self.foundElement
-        :param endX: Desired x coordinate
-        :param endY: Desired y coordinate
+        endX: Desired x coordinate
+        endY: Desired y coordinate
         """
+        raise NotImplementedError
+
+    def searchRegion3(self, targetImage):
+        '''
+        Searches the region from self.foundElement for
+        the image indicated by the given file. Returns 
+        (x,y) location of target OR (-1,-1)
+        targetImage: Absolute file path for desired image.
+        '''
         raise NotImplementedError
 
     @keyword(name="Capture Screen")
     def captureScreen(self, name=None):
         """
-        Takes an image of the entire screen
-        :param name: The desired file name; defaults to image---.png
+        Part of *Image Functions*\n\n
+        Takes an image of the entire screen\n\n
+        name - The desired file name; defaults to image---.png
         """
         raise NotImplementedError
     
     @keyword(name="Capture Screen At")
     def captureLimitedScreen(self, x, y, w, h, name=None):
         """
-        Takes an image of the specified region of the screen
-        :param: x coordinate of the desired read region
-        :param: y coordinate of the desired read region
-        :param: w - width of the desired read region
-        :param: h - height of the desired read region
-        :param name: The desired file name; defaults to image---.png
+        Part of *Image Functions*\n\n
+        Takes an image of the specified region of the screen.\n\n
+        x - coordinate of the desired read region\n\n
+        y - coordinate of the desired read region\n\n
+        w - width of the desired read region\n\n
+        h - height of the desired read region\n\n
+        name - The desired file name; defaults to image---.png
         """
         raise NotImplementedError
 
@@ -518,10 +601,10 @@ class imageLibrary:
         Based on tool-specific capabilities, take a picture
         at the specified region, saving it at the specified
         path and with the given file name.
-        :param path: Any file path may be used, but IMG/ and IMG/TEMP are suggested
-        :param thing: May be defined by the specific tool e.g. some tools need an XYWH region
-        :param name: The desired file name; defaults to image---.png
-        :return: the filename of the created image
+        path: Any file path may be used, but IMG/ and IMG/TEMP are suggested
+        thing: May be defined by the specific tool e.g. some tools need an XYWH region
+        name: The desired file name; defaults to image---.png
+        Return -the filename of the created image
         """
         raise NotImplementedError
 
@@ -530,8 +613,8 @@ class imageLibrary:
         Defined for tool-specific element interaction
         based on a text input. Find the emelement and
         save some hook in self.foundElement
-        :param description: Specific to each tool e.g. CSS description or image file
-        :return: (x, y) location of element; (0, 0) if not found
+        description: Specific to each tool e.g. CSS description or image file
+        Return -(x, y) location of element; (0, 0) if not found
         """
         raise NotImplementedError
 
@@ -540,9 +623,9 @@ class imageLibrary:
         Defined for tool-specific element interaction
         based on an XYWH region. Find the emelement and
         save some hook in self.foundElement
-        :param x: x Coordinate of the desired region
-        :param y: y Coordinate of the desired region
-        :param w: width of the desired region
-        :param h: height of the desired region
+        x: x Coordinate of the desired region
+        y: y Coordinate of the desired region
+        w: width of the desired region
+        h: height of the desired region
         """
         raise NotImplementedError

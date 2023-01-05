@@ -72,6 +72,17 @@ public class SikuliEntryPoint {
         return new Region(x,y,w,h);
     }
 
+    public void DebugHighlight(Region reg) {
+        log("Highlighting region "+reg);
+        reg.highlight(.25);
+    }
+
+    public Match findImage(Region reg, String imgFile) {
+        log("Searching region "+reg+" for image "+imgFile);
+        Pattern p = createPattern(imgFile);
+        return reg.exists(p);
+    }
+
     public Match findPattern(String imagePath, int screenID) throws FindFailed
     {
       Pattern p = createPattern(imagePath);

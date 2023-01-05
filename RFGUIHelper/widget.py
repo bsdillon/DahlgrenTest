@@ -6,6 +6,7 @@ from valuebuttons import ValueButtons
 
 WidgetTypes = {
     'Anchor': ['Image file name'],
+    'MovePoint': [],
     'Button': [],
     'Radio Button': ['Group'],
     'Tab': ['Group'],
@@ -17,7 +18,8 @@ WidgetTypes = {
 }
 
 YetiImports = {
-    'Anchor': 'from yeti.anchor import Anchor',
+    'Anchor': 'from yeti.anchor import TitleBar',
+    'MovePoint': 'from yeti.anchor import TitleBar',
     'Button': 'from yeti.button import Button',
     'Radio Button': 'from yeti.radiobutton import RadioButton',
     'Tab': '',
@@ -29,6 +31,7 @@ YetiImports = {
 
 YetiTypes = {
     'Anchor': 'TitleBar',
+    'MovePoint': 'TitleBar',
     'Button': 'Button',
     'Radio Button': 'RadioButton',
     'Tab': '',

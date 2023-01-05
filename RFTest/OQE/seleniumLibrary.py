@@ -1,6 +1,6 @@
 from robot.api.deco import keyword
 from PIL import Image
-from OQE.imageLibrary import imageLibrary, MouseButtons
+from OQE.imagelibrary import imagelibrary, MouseButtons
 from OQE.filemaker import *
 #documentation at https://www.selenium.dev/documentation/webdriver/
 from selenium import webdriver
@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 
-class seleniumLibrary(imageLibrary):
+class seleniumlibrary(imagelibrary):
    ROBOT_LIBRARY_SCOPE = 'SUITE'
    ROBOT_AUTO_KEYWORDS = False
 
@@ -63,7 +63,7 @@ class seleniumLibrary(imageLibrary):
    @keyword(name="Capture Screen")
    def captureScreen(self, name:str=None):
       """
-      Selenium has the ability to capture the whole screen
+      Already documented as part of imagelibrary
       """
       next = nextFile(self.imgPath, name)
       fileName = self.browser.get_screenshot_as_file(next)
@@ -72,8 +72,7 @@ class seleniumLibrary(imageLibrary):
    @keyword(name="Capture Screen At")
    def captureLimitedScreen(self, x, y, w, h, name:str=None):
       """
-      Selenium can capture the whole screen and then limit
-      the size of the file to a specific region
+      Already documented as part of imagelibrary
       """
       savedFile = self.captureScreen(name)
       img = Image.open(savedFile)
@@ -107,10 +106,17 @@ class seleniumLibrary(imageLibrary):
       self.foundElement = self.browser.execute_script( script, midX, midY)
 
    def __init__(self):
-      imageLibrary.__init__(self)
+      imagelibrary.__init__(self)
 
    @keyword(name="Configure Selenium")
    def configureSelenium(self, browser, site):
+      '''
+      Part of *Test Configuration*\n\n
+      Sets up the browser and URL of the test in question. Opens up the
+      URL in question as part of the test.\n\n
+      browser - One of {FF, CH, MS} for Firefox, Chrome, or Edge.\n\n
+      site - A specific URL to be accessed in the test.
+      '''
       self.type = browser
       if self.type == "FF":
          self.browser = webdriver.Firefox()
@@ -120,11 +126,5 @@ class seleniumLibrary(imageLibrary):
          self.browser = webdriver.Edge()
       else:
          raise NotImplemented("SeleniumLibrary: Unknown browser type '"+self.type+"'")
-      try:
-         self.actionChain = ActionChains(self.browser)
-         self.browser.get(site)
-      except Exception as err:
-         import traceback
-         BuiltIn().log_to_console("SeleniumLibrary: Error in configuration "+str(err))
-         BuiltIn().log_to_console(str(traceback.format_exception(type(err), err, err.__traceback__)))
-         raise err
+      self.actionChain = ActionChains(self.browser)
+      self.browser.get(site)

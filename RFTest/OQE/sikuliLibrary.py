@@ -1,13 +1,13 @@
-from OQE.imageLibrary import imageLibrary, MouseButtons
+from OQE.imagelibrary import imagelibrary, MouseButtons
 from OQE.filemaker import *
 from pathlib import Path
 from py4j.java_gateway import JavaGateway
 gateway = JavaGateway()#connect to JVM
-from OQE.textReader import textReader
+from OQE.textreader import textreader
 
-minimumMatch = 0.97
+MINIMUM_MATCH_PERCENT = 0.97
 
-class sikuliLibrary(imageLibrary):
+class sikulilibrary(imagelibrary):
    ROBOT_LIBRARY_SCOPE = 'SUITE'
    ROBOT_AUTO_KEYWORDS = False
 
@@ -17,8 +17,13 @@ class sikuliLibrary(imageLibrary):
 
       a = self.foundElement
       file = self.capture2(a.getX(), a.getY(), a.getW(), a.getH())
-      output = textReader().getText(file, deleteAfter=False)
+      output = textreader().getText(file, deleteAfter=False)
       return output
+
+   def highlightElement3(self):
+      if self.foundElement == None:
+         raise Exception("Element was not found")
+      self.foundElement.highlight(.25)
 
    def click3(self, button):
       if self.foundElement == None:
@@ -30,7 +35,6 @@ class sikuliLibrary(imageLibrary):
          self.foundElement.rightClick()
       else:
          raise NotImplemented("Sikuli does not implement mouse button#"+str(button))
-
 
    def dclick3(self):
       if self.foundElement == None:
@@ -47,7 +51,26 @@ class sikuliLibrary(imageLibrary):
          raise Exception("Element was not found")
       location = gateway.entry_point.createLocation( int(endX), int(endY))
       screen = gateway.entry_point.getScreen(0)
-      screen.dragDrop(self.foundElement, location);
+      screen.dragDrop(self.foundElement, location)
+
+   def searchRegion3(self, targetImage):
+      '''
+      Searches the region from self.foundElement for
+      the image indicated by the given file. Returns 
+      (x,y) location of target OR (-1,-1)
+      targetImage: Absolute file path for desired image.
+      '''
+      if self.foundElement == None:
+         raise Exception("Element was not found")
+
+      temp = gateway.entry_point.findImage(self.foundElement, targetImage)
+
+      if temp!=None and temp.getScore() >= MINIMUM_MATCH_PERCENT:
+         self.foundElement = temp
+         t = temp.getTarget()
+         return (int(t.getX()),int(t.getY()))
+
+      return (-1, -1)
 
    def picture(self, path, thing, name=None):
       screen = gateway.entry_point.getScreen()
@@ -60,29 +83,21 @@ class sikuliLibrary(imageLibrary):
    def findElement(self, description):
       path = Path(os.path.join(".", description))
       if path.is_file() and os.path.exists(description):
-         try:
-            pattern = gateway.entry_point.createPattern(description)
-            screen = gateway.entry_point.getScreen(0)
-            import time
-            time.sleep(10)
-            temp = screen.find(pattern)
-            if temp.getScore() >= minimumMatch:
-               self.foundElement = temp
-               t = temp.getTarget()
-               return (int(t.getX()),int(t.getY()))
-         except Exception as err:
-            import traceback
-            BuiltIn().log_to_console("Sikuli could not find "+description)
-            BuiltIn().log_to_console(str(traceback.format_exception(type(err), err, err.__traceback__)))
-            raise err
+         pattern = gateway.entry_point.createPattern(description)
+         screen = gateway.entry_point.getScreen(0)
+         temp = screen.find(pattern)
+         if temp.getScore() >= MINIMUM_MATCH_PERCENT:
+            self.foundElement = temp
+            t = temp.getTarget()
+            return (int(t.getX()),int(t.getY()))
 
-      return (0, 0)
+      raise ValueError("Cannot find widget")                
 
    def findElementFromPoint(self, x, y, w, h):
       self.foundElement = gateway.entry_point.createRegion(int(x), int(y), int(w), int(h))
 
    def __init__(self):
-      imageLibrary.__init__(self)
+      imagelibrary.__init__(self)
       import random
       self.myID = random.randint(1, 1000)
       # try:
