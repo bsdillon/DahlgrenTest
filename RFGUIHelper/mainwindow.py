@@ -105,7 +105,7 @@ class MainWindow():
         self.openProject(projPath)
 
     def getProjectName(self):
-        temp = fd.askdirectory(initialdir=CONFIG_DIR,mustexist=True,title="Select a project")
+        temp = fd.askdirectory(initialdir=CONFIG_DIR,mustexist=True,title="Select a project", filetypes=[("JSON","*.JSON"), ("json","*.json")])
         if temp == "":
             mb.showerror(title="Error", message="Project not selected", parent=self.window)
             return
@@ -122,20 +122,26 @@ class MainWindow():
         with open(file, "r") as read_file:
             dictionary = json.load(read_file)
         self.clearEntries()
-        self.projPath = dictionary["Path"]
-        self.projFile = dictionary["File"]
         self.imageList = []
-        for img in dictionary["Images"]:
-            self.imageList.append(img)
-
-        self.test = ImageWindow(self, self.projPath)
-        self.test.loadImageNames(self.imageList)
-
+        self.projPath = ""
+        self.projFile = ""
         self.widget_list = []
-        for w in dictionary["Widgets"]:
-            widget = Widget.FromDictionary(w)
-            self.test.updateImage(widget)
-            self.newTableEntry(Image.open(self.imageList[0]), widget)
+        self.test = None
+	try:
+            self.projPath = dictionary["Path"]
+            self.projFile = dictionary["File"]
+            for img in dictionary["Images"]:
+                self.imageList.append(img)
+
+            self.test = ImageWindow(self, self.projPath)
+            self.test.loadImageNames(self.imageList)
+
+            for w in dictionary["Widgets"]:
+                widget = Widget.FromDictionary(w)
+                self.test.updateImage(widget)
+                self.newTableEntry(Image.open(self.imageList[0]), widget)
+        except:
+            raise IOError("JSON is corrupt or does not support RFGUIHelper")
 
     def exportYeti(self):
         writeYeti(self.widget_list, self.projPath, self.window)
