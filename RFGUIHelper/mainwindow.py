@@ -127,7 +127,7 @@ class MainWindow():
         self.projFile = ""
         self.widget_list = []
         self.test = None
-	try:
+        try:
             self.projPath = dictionary["Path"]
             self.projFile = dictionary["File"]
             for img in dictionary["Images"]:

@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 5.0.1 (Python 3.10.8 on win32)" generated="20230105 14:36:21.255" rpa="false" schemaversion="3">
-<suite id="s1" name="Programmer" source="C:\Users\Benny\Documents\github\DahlgrenTest\RFTest\examples\calculator\programmer.robot">
-<kw name="Suite Start" type="SETUP">
-<kw name="Configure" library="program">
-<arg>Sikuli</arg>
-<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/programmerCal</arg>
-<arg>${DATA PATH}</arg>
-<doc>Sets up the details of the generic window for a specific test</doc>
-<status status="PASS" starttime="20230105 14:36:22.601" endtime="20230105 14:36:22.635"/>
-</kw>
-<kw name="Configure" library="radioMenu">
-<arg>Sikuli</arg>
-<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/radioMenu</arg>
-<arg>${DATA PATH}</arg>
-<doc>Sets up the details of the generic window for a specific test</doc>
-<status status="PASS" starttime="20230105 14:36:22.635" endtime="20230105 14:36:22.643"/>
-</kw>
-<kw name="Setup Header" library="switch">
+<robot generator="Robot 5.0.1 (Python 3.10.8 on win32)" generated="20230109 00:06:43.646" rpa="false" schemaversion="3">
+<suite id="s1" name="newProgrammer" source="C:\Users\Benny\Documents\github\DahlgrenTest\RFTest\examples\calculator\newProgrammer.robot">
+<test id="s1-t1" name="Setup Test" line="9">
 <kw name="Configure Image Library" library="DataExtraction">
 <arg>Sikuli</arg>
-<arg>${DATA PATH}</arg>
+<arg>C:/Users/Benny/Documents/RFData</arg>
 <doc>Part of *Test Setup*.
 Determines the _type_ of test as either Sikuli or Selenium. Other options may follow
 The function also sets the datapath for all images and test data files.
@@ -40,10 +25,10 @@ Using the data path and image library. Best to do so during test setup.</doc>
 <arg>${imageLib}</arg>
 <arg>sikuliLib</arg>
 <doc>Makes a variable available everywhere within the scope of the current suite.</doc>
-<msg timestamp="20230105 14:36:22.647" level="INFO">${imageLib} = sikuliLib</msg>
-<status status="PASS" starttime="20230105 14:36:22.647" endtime="20230105 14:36:22.647"/>
+<msg timestamp="20230109 00:06:45.199" level="INFO">${imageLib} = sikuliLib</msg>
+<status status="PASS" starttime="20230109 00:06:45.199" endtime="20230109 00:06:45.214"/>
 </kw>
-<status status="PASS" starttime="20230105 14:36:22.646" endtime="20230105 14:36:22.647"/>
+<status status="PASS" starttime="20230109 00:06:45.198" endtime="20230109 00:06:45.214"/>
 </kw>
 <kw name="Run Keyword If" library="BuiltIn">
 <arg>'${type}'=='Selenium'</arg>
@@ -51,7 +36,7 @@ Using the data path and image library. Best to do so during test setup.</doc>
 <arg>${browser}</arg>
 <arg>${url}</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230105 14:36:22.647" endtime="20230105 14:36:22.648"/>
+<status status="PASS" starttime="20230109 00:06:45.214" endtime="20230109 00:06:45.216"/>
 </kw>
 <kw name="Run Keyword" library="BuiltIn">
 <arg>${imageLib}.Configure Image Path</arg>
@@ -60,77 +45,77 @@ Using the data path and image library. Best to do so during test setup.</doc>
 <kw name="Configure Image Path" library="sikuliLib">
 <arg>${datapath}</arg>
 <doc>Part of *Test Configuration*</doc>
-<status status="PASS" starttime="20230105 14:36:22.648" endtime="20230105 14:36:22.652"/>
+<status status="PASS" starttime="20230109 00:06:45.216" endtime="20230109 00:06:45.220"/>
 </kw>
-<status status="PASS" starttime="20230105 14:36:22.648" endtime="20230105 14:36:22.652"/>
+<status status="PASS" starttime="20230109 00:06:45.216" endtime="20230109 00:06:45.220"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>Data Path configured</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20230105 14:36:22.653" level="INFO">Data Path configured</msg>
-<status status="PASS" starttime="20230105 14:36:22.653" endtime="20230105 14:36:22.653"/>
+<msg timestamp="20230109 00:06:45.220" level="INFO">Data Path configured</msg>
+<status status="PASS" starttime="20230109 00:06:45.220" endtime="20230109 00:06:45.220"/>
 </kw>
 <kw name="Configure Data Path" library="oqe">
 <arg>${datapath}</arg>
 <doc>Part of *Test Setup*.</doc>
-<status status="PASS" starttime="20230105 14:36:22.653" endtime="20230105 14:36:22.654"/>
+<status status="PASS" starttime="20230109 00:06:45.221" endtime="20230109 00:06:45.221"/>
 </kw>
-<status status="PASS" starttime="20230105 14:36:22.645" endtime="20230105 14:36:22.654"/>
+<status status="PASS" starttime="20230109 00:06:45.197" endtime="20230109 00:06:45.222"/>
 </kw>
 <kw name="Set Log Level" library="BuiltIn">
 <arg>TRACE</arg>
 <doc>Sets the log threshold to the specified level and returns the old level.</doc>
-<msg timestamp="20230105 14:36:22.655" level="INFO">Log level changed from INFO to TRACE.</msg>
-<msg timestamp="20230105 14:36:22.655" level="TRACE">Return: 'INFO'</msg>
-<status status="PASS" starttime="20230105 14:36:22.654" endtime="20230105 14:36:22.655"/>
+<msg timestamp="20230109 00:06:45.262" level="INFO">Log level changed from INFO to TRACE.</msg>
+<msg timestamp="20230109 00:06:45.262" level="TRACE">Return: 'INFO'</msg>
+<status status="PASS" starttime="20230109 00:06:45.261" endtime="20230109 00:06:45.262"/>
 </kw>
 <kw name="Archive Any Previous Data" library="oqe">
 <doc>Part of *Test Setup*</doc>
-<msg timestamp="20230105 14:36:22.655" level="TRACE">Arguments: [  ]</msg>
-<msg timestamp="20230105 14:36:22.687" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:22.655" endtime="20230105 14:36:22.687"/>
+<msg timestamp="20230109 00:06:45.264" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:45.276" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:45.264" endtime="20230109 00:06:45.277"/>
 </kw>
-<kw name="Configure" library="header">
+<kw name="Configure" library="program">
 <arg>Sikuli</arg>
-<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead</arg>
-<arg>${DATA PATH}</arg>
+<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc</arg>
+<arg>C:/Users/Benny/Documents/RFData</arg>
 <doc>Sets up the details of the generic window for a specific test</doc>
-<msg timestamp="20230105 14:36:22.687" level="TRACE">Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead' | 'C:/Users/Benny/Documents/RFData' ]</msg>
-<msg timestamp="20230105 14:36:22.688" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:45.309" level="TRACE">Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc' | 'C:/Users/Benny/Documents/RFData' ]</msg>
+<msg timestamp="20230109 00:06:45.310" level="DEBUG">Command to send: c
 t
 addImagePath
 sC:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest
-i551
+i921
 e
 </msg>
-<msg timestamp="20230105 14:36:22.689" level="DEBUG">Answer received: !yv</msg>
-<msg timestamp="20230105 14:36:22.690" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:22.687" endtime="20230105 14:36:22.690"/>
+<msg timestamp="20230109 00:06:45.329" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:45.330" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:45.309" endtime="20230109 00:06:45.330"/>
 </kw>
-<kw name="Configure" library="typeMenu">
+<kw name="Configure" library="radios">
 <arg>Sikuli</arg>
-<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calcMenu</arg>
-<arg>${DATA PATH}</arg>
+<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/bsradios</arg>
+<arg>C:/Users/Benny/Documents/RFData</arg>
 <doc>Sets up the details of the generic window for a specific test</doc>
-<msg timestamp="20230105 14:36:22.690" level="TRACE">Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calcMenu' | 'C:/Users/Benny/Documents/RFData' ]</msg>
-<msg timestamp="20230105 14:36:22.691" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:45.331" level="TRACE">Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/bsradios' | 'C:/Users/Benny/Documents/RFData' ]</msg>
+<msg timestamp="20230109 00:06:45.331" level="DEBUG">Command to send: c
 t
 addImagePath
 sC:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest
-i434
+i993
 e
 </msg>
-<msg timestamp="20230105 14:36:22.694" level="DEBUG">Answer received: !yv</msg>
-<msg timestamp="20230105 14:36:22.694" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:22.690" endtime="20230105 14:36:22.694"/>
+<msg timestamp="20230109 00:06:45.332" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:45.349" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:45.330" endtime="20230109 00:06:45.349"/>
 </kw>
 <kw name="Start Process" library="Process">
 <arg>calc</arg>
 <doc>Starts a new process on background.</doc>
-<msg timestamp="20230105 14:36:22.695" level="TRACE">Arguments: [ 'calc' ]</msg>
-<msg timestamp="20230105 14:36:22.695" level="INFO">Starting process:
+<msg timestamp="20230109 00:06:45.370" level="TRACE">Arguments: [ 'calc' ]</msg>
+<msg timestamp="20230109 00:06:45.370" level="INFO">Starting process:
 calc</msg>
-<msg timestamp="20230105 14:36:22.695" level="DEBUG">Process configuration:
+<msg timestamp="20230109 00:06:45.370" level="DEBUG">Process configuration:
 cwd:     C:\Users\Benny\Documents\github\DahlgrenTest\RFTest
 shell:   False
 stdout:  PIPE
@@ -138,56 +123,56 @@ stderr:  PIPE
 stdin:   PIPE
 alias:   None
 env:     None</msg>
-<msg timestamp="20230105 14:36:22.700" level="TRACE">Return: &lt;Popen: returncode: None args: ['calc']&gt;</msg>
-<status status="PASS" starttime="20230105 14:36:22.695" endtime="20230105 14:36:22.700"/>
+<msg timestamp="20230109 00:06:45.378" level="TRACE">Return: &lt;Popen: returncode: None args: ['calc']&gt;</msg>
+<status status="PASS" starttime="20230109 00:06:45.369" endtime="20230109 00:06:45.378"/>
 </kw>
 <kw name="Wait Until Keyword Succeeds" library="BuiltIn">
 <arg>2x</arg>
 <arg>3s</arg>
-<arg>header.Find</arg>
+<arg>program.Find</arg>
 <doc>Runs the specified keyword and retries if it fails.</doc>
-<msg timestamp="20230105 14:36:22.701" level="TRACE">Arguments: [ '2x' | '3s' | 'header.Find' ]</msg>
-<kw name="Find" library="header">
+<msg timestamp="20230109 00:06:45.380" level="TRACE">Arguments: [ '2x' | '3s' | 'program.Find' ]</msg>
+<kw name="Find" library="program">
 <doc>Called to locate any anchor for the window and revise relative locations to 
 widgets.</doc>
-<msg timestamp="20230105 14:36:22.701" level="TRACE">Arguments: [  ]</msg>
-<msg timestamp="20230105 14:36:22.702" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:45.380" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:45.381" level="DEBUG">Command to send: c
 t
 createPattern
-sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png
 e
 </msg>
-<msg timestamp="20230105 14:36:22.750" level="DEBUG">Answer received: !yro1006</msg>
-<msg timestamp="20230105 14:36:22.750" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:45.387" level="DEBUG">Answer received: !yro181</msg>
+<msg timestamp="20230109 00:06:45.387" level="DEBUG">Command to send: c
 t
 getScreen
 i0
 e
 </msg>
-<msg timestamp="20230105 14:36:22.766" level="DEBUG">Answer received: !yro1007</msg>
-<msg timestamp="20230105 14:36:22.766" level="DEBUG">Command to send: c
-o1007
+<msg timestamp="20230109 00:06:45.398" level="DEBUG">Answer received: !yro182</msg>
+<msg timestamp="20230109 00:06:45.399" level="DEBUG">Command to send: c
+o182
 find
-ro1006
+ro181
 e
 </msg>
-<msg timestamp="20230105 14:36:23.351" level="DEBUG">Answer received: !xro1008</msg>
-<msg timestamp="20230105 14:36:23.351" level="DEBUG">Command to send: p
-ro1008
+<msg timestamp="20230109 00:06:45.945" level="DEBUG">Answer received: !xro183</msg>
+<msg timestamp="20230109 00:06:45.945" level="DEBUG">Command to send: p
+ro183
 e
 </msg>
-<msg timestamp="20230105 14:36:23.351" level="DEBUG">Answer received: !ysFindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png: (25x23) seen at (85, 86) with 1.00 in R[0,0 1366x768]@S(0)\n  Line 2291, in file Region.java\n\r\n	at org.sikuli.script.Region.find(Region.java:2291)\r\n	at sun.reflect.GeneratedMethodAccessor22.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\r\n	at java.lang.reflect.Method.invoke(Unknown Source)\r\n	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)\r\n	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)\r\n	at py4j.Gateway.invoke(Gateway.java:282)\r\n	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)\r\n	at py4j.commands.CallCommand.execute(CallCommand.java:79)\r\n	at py4j.GatewayConnection.run(GatewayConnection.java:238)\r\n	at java.lang.Thread.run(Unknown Source)\r\n</msg>
-<msg timestamp="20230105 14:36:23.352" level="DEBUG">Command to send: p
-ro1008
+<msg timestamp="20230109 00:06:45.945" level="DEBUG">Answer received: !ysFindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png: (29x26) seen at (84, 85) with 1.00 in R[0,0 1366x768]@S(0)\n  Line 2291, in file Region.java\n\r\n	at org.sikuli.script.Region.find(Region.java:2291)\r\n	at sun.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\r\n	at java.lang.reflect.Method.invoke(Unknown Source)\r\n	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)\r\n	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)\r\n	at py4j.Gateway.invoke(Gateway.java:282)\r\n	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)\r\n	at py4j.commands.CallCommand.execute(CallCommand.java:79)\r\n	at py4j.GatewayConnection.run(GatewayConnection.java:238)\r\n	at java.lang.Thread.run(Unknown Source)\r\n</msg>
+<msg timestamp="20230109 00:06:45.946" level="DEBUG">Command to send: p
+ro183
 e
 </msg>
-<msg timestamp="20230105 14:36:23.353" level="DEBUG">Answer received: !ysFindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png: (25x23) seen at (85, 86) with 1.00 in R[0,0 1366x768]@S(0)\n  Line 2291, in file Region.java\n\r\n	at org.sikuli.script.Region.find(Region.java:2291)\r\n	at sun.reflect.GeneratedMethodAccessor22.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\r\n	at java.lang.reflect.Method.invoke(Unknown Source)\r\n	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)\r\n	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)\r\n	at py4j.Gateway.invoke(Gateway.java:282)\r\n	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)\r\n	at py4j.commands.CallCommand.execute(CallCommand.java:79)\r\n	at py4j.GatewayConnection.run(GatewayConnection.java:238)\r\n	at java.lang.Thread.run(Unknown Source)\r\n</msg>
-<msg timestamp="20230105 14:36:23.353" level="FAIL">Py4JJavaError: An error occurred while calling o1007.find.
-: FindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png: (25x23) seen at (85, 86) with 1.00 in R[0,0 1366x768]@S(0)
+<msg timestamp="20230109 00:06:45.947" level="DEBUG">Answer received: !ysFindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png: (29x26) seen at (84, 85) with 1.00 in R[0,0 1366x768]@S(0)\n  Line 2291, in file Region.java\n\r\n	at org.sikuli.script.Region.find(Region.java:2291)\r\n	at sun.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\r\n	at java.lang.reflect.Method.invoke(Unknown Source)\r\n	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)\r\n	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)\r\n	at py4j.Gateway.invoke(Gateway.java:282)\r\n	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)\r\n	at py4j.commands.CallCommand.execute(CallCommand.java:79)\r\n	at py4j.GatewayConnection.run(GatewayConnection.java:238)\r\n	at java.lang.Thread.run(Unknown Source)\r\n</msg>
+<msg timestamp="20230109 00:06:45.947" level="FAIL">Py4JJavaError: An error occurred while calling o182.find.
+: FindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png: (29x26) seen at (84, 85) with 1.00 in R[0,0 1366x768]@S(0)
   Line 2291, in file Region.java
 
 	at org.sikuli.script.Region.find(Region.java:2291)
-	at sun.reflect.GeneratedMethodAccessor22.invoke(Unknown Source)
+	at sun.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
 	at java.lang.reflect.Method.invoke(Unknown Source)
 	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
@@ -198,15 +183,15 @@ e
 	at py4j.GatewayConnection.run(GatewayConnection.java:238)
 	at java.lang.Thread.run(Unknown Source)
 </msg>
-<msg timestamp="20230105 14:36:23.356" level="DEBUG">Command to send: p
-ro1008
+<msg timestamp="20230109 00:06:45.951" level="DEBUG">Command to send: p
+ro183
 e
 </msg>
-<msg timestamp="20230105 14:36:23.357" level="DEBUG">Answer received: !ysFindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png: (25x23) seen at (85, 86) with 1.00 in R[0,0 1366x768]@S(0)\n  Line 2291, in file Region.java\n\r\n	at org.sikuli.script.Region.find(Region.java:2291)\r\n	at sun.reflect.GeneratedMethodAccessor22.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\r\n	at java.lang.reflect.Method.invoke(Unknown Source)\r\n	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)\r\n	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)\r\n	at py4j.Gateway.invoke(Gateway.java:282)\r\n	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)\r\n	at py4j.commands.CallCommand.execute(CallCommand.java:79)\r\n	at py4j.GatewayConnection.run(GatewayConnection.java:238)\r\n	at java.lang.Thread.run(Unknown Source)\r\n</msg>
-<msg timestamp="20230105 14:36:23.357" level="DEBUG">Traceback (most recent call last):
+<msg timestamp="20230109 00:06:45.951" level="DEBUG">Answer received: !ysFindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png: (29x26) seen at (84, 85) with 1.00 in R[0,0 1366x768]@S(0)\n  Line 2291, in file Region.java\n\r\n	at org.sikuli.script.Region.find(Region.java:2291)\r\n	at sun.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)\r\n	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)\r\n	at java.lang.reflect.Method.invoke(Unknown Source)\r\n	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)\r\n	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)\r\n	at py4j.Gateway.invoke(Gateway.java:282)\r\n	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)\r\n	at py4j.commands.CallCommand.execute(CallCommand.java:79)\r\n	at py4j.GatewayConnection.run(GatewayConnection.java:238)\r\n	at java.lang.Thread.run(Unknown Source)\r\n</msg>
+<msg timestamp="20230109 00:06:45.951" level="DEBUG">Traceback (most recent call last):
   File "C:\Users\Benny\Documents\github\DahlgrenTest\RFTest\widgets\window.py", line 44, in find
     loc = anchor.find()
-  File "C:\Users\Benny\Documents\github\DahlgrenTest\RFTest\widgets\widget.py", line 124, in find
+  File "C:\Users\Benny\Documents\github\DahlgrenTest\RFTest\widgets\widget.py", line 122, in find
     return self.tester.findElement(self.description)
   File "C:\Users\Benny\Documents\github\DahlgrenTest\RFTest\OQE\sikulilibrary.py", line 88, in findElement
     temp = screen.find(pattern)
@@ -214,12 +199,12 @@ e
     return_value = get_return_value(
   File "C:\Users\Benny\AppData\Local\Programs\Python\Python310\lib\site-packages\py4j\protocol.py", line 326, in get_return_value
     raise Py4JJavaError(
-py4j.protocol.Py4JJavaError: An error occurred while calling o1007.find.
-: FindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png: (25x23) seen at (85, 86) with 1.00 in R[0,0 1366x768]@S(0)
+py4j.protocol.Py4JJavaError: An error occurred while calling o182.find.
+: FindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png: (29x26) seen at (84, 85) with 1.00 in R[0,0 1366x768]@S(0)
   Line 2291, in file Region.java
 
 	at org.sikuli.script.Region.find(Region.java:2291)
-	at sun.reflect.GeneratedMethodAccessor22.invoke(Unknown Source)
+	at sun.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
 	at java.lang.reflect.Method.invoke(Unknown Source)
 	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
@@ -229,620 +214,859 @@ py4j.protocol.Py4JJavaError: An error occurred while calling o1007.find.
 	at py4j.commands.CallCommand.execute(CallCommand.java:79)
 	at py4j.GatewayConnection.run(GatewayConnection.java:238)
 	at java.lang.Thread.run(Unknown Source)</msg>
-<status status="FAIL" starttime="20230105 14:36:22.701" endtime="20230105 14:36:23.357"/>
-</kw>
-<kw name="Find" library="header">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<msg timestamp="20230105 14:36:26.364" level="TRACE">Arguments: [  ]</msg>
-<msg timestamp="20230105 14:36:26.365" level="DEBUG">Command to send: c
-t
-createPattern
-sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png
-e
-</msg>
-<msg timestamp="20230105 14:36:26.366" level="DEBUG">Answer received: !yro1009</msg>
-<msg timestamp="20230105 14:36:26.367" level="DEBUG">Command to send: c
-t
-getScreen
-i0
-e
-</msg>
-<msg timestamp="20230105 14:36:26.367" level="DEBUG">Answer received: !yro1010</msg>
-<msg timestamp="20230105 14:36:26.367" level="DEBUG">Command to send: c
-o1010
-find
-ro1009
-e
-</msg>
-<msg timestamp="20230105 14:36:26.734" level="DEBUG">Answer received: !yro1011</msg>
-<msg timestamp="20230105 14:36:26.734" level="DEBUG">Command to send: c
-o1011
-getScore
-e
-</msg>
-<msg timestamp="20230105 14:36:26.735" level="DEBUG">Answer received: !yd0.999998927116394</msg>
-<msg timestamp="20230105 14:36:26.735" level="DEBUG">Command to send: c
-o1011
-getTarget
-e
-</msg>
-<msg timestamp="20230105 14:36:26.735" level="DEBUG">Answer received: !yro1012</msg>
-<msg timestamp="20230105 14:36:26.735" level="DEBUG">Command to send: c
-o1012
-getX
-e
-</msg>
-<msg timestamp="20230105 14:36:26.735" level="DEBUG">Answer received: !yi97</msg>
-<msg timestamp="20230105 14:36:26.735" level="DEBUG">Command to send: c
-o1012
-getY
-e
-</msg>
-<msg timestamp="20230105 14:36:26.736" level="DEBUG">Answer received: !yi97</msg>
-<msg timestamp="20230105 14:36:26.736" level="TRACE">Return: 'calcIcon'</msg>
-<status status="PASS" starttime="20230105 14:36:26.362" endtime="20230105 14:36:26.736"/>
-</kw>
-<msg timestamp="20230105 14:36:26.736" level="TRACE">Return: 'calcIcon'</msg>
-<status status="PASS" starttime="20230105 14:36:22.700" endtime="20230105 14:36:26.736"/>
-</kw>
-<msg timestamp="20230105 14:36:26.736" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:22.645" endtime="20230105 14:36:26.736"/>
+<status status="FAIL" starttime="20230109 00:06:45.380" endtime="20230109 00:06:45.951"/>
 </kw>
 <kw name="Find" library="program">
 <doc>Called to locate any anchor for the window and revise relative locations to 
 widgets.</doc>
-<msg timestamp="20230105 14:36:26.737" level="TRACE">Arguments: [  ]</msg>
-<msg timestamp="20230105 14:36:26.737" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:48.963" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:48.963" level="DEBUG">Command to send: c
 t
 createPattern
-sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/programmerCal/calcAnchor.png
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png
 e
 </msg>
-<msg timestamp="20230105 14:36:26.740" level="DEBUG">Answer received: !yro1013</msg>
-<msg timestamp="20230105 14:36:26.740" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:48.965" level="DEBUG">Answer received: !yro184</msg>
+<msg timestamp="20230109 00:06:48.965" level="DEBUG">Command to send: c
 t
 getScreen
 i0
 e
 </msg>
-<msg timestamp="20230105 14:36:26.740" level="DEBUG">Answer received: !yro1014</msg>
-<msg timestamp="20230105 14:36:26.741" level="DEBUG">Command to send: c
-o1014
+<msg timestamp="20230109 00:06:48.967" level="DEBUG">Answer received: !yro185</msg>
+<msg timestamp="20230109 00:06:48.967" level="DEBUG">Command to send: c
+o185
 find
-ro1013
+ro184
 e
 </msg>
-<msg timestamp="20230105 14:36:27.113" level="DEBUG">Answer received: !yro1015</msg>
-<msg timestamp="20230105 14:36:27.113" level="DEBUG">Command to send: c
-o1015
+<msg timestamp="20230109 00:06:49.350" level="DEBUG">Answer received: !yro186</msg>
+<msg timestamp="20230109 00:06:49.350" level="DEBUG">Command to send: c
+o186
 getScore
 e
 </msg>
-<msg timestamp="20230105 14:36:27.113" level="DEBUG">Answer received: !yd0.999998152256012</msg>
-<msg timestamp="20230105 14:36:27.114" level="DEBUG">Command to send: c
-o1015
+<msg timestamp="20230109 00:06:49.350" level="DEBUG">Answer received: !yd1.0</msg>
+<msg timestamp="20230109 00:06:49.350" level="DEBUG">Command to send: c
+o186
 getTarget
 e
 </msg>
-<msg timestamp="20230105 14:36:27.114" level="DEBUG">Answer received: !yro1016</msg>
-<msg timestamp="20230105 14:36:27.114" level="DEBUG">Command to send: c
-o1016
+<msg timestamp="20230109 00:06:49.351" level="DEBUG">Answer received: !yro187</msg>
+<msg timestamp="20230109 00:06:49.351" level="DEBUG">Command to send: c
+o187
 getX
 e
 </msg>
-<msg timestamp="20230105 14:36:27.114" level="DEBUG">Answer received: !yi100</msg>
-<msg timestamp="20230105 14:36:27.114" level="DEBUG">Command to send: c
-o1016
+<msg timestamp="20230109 00:06:49.351" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:49.351" level="DEBUG">Command to send: c
+o187
 getY
 e
 </msg>
-<msg timestamp="20230105 14:36:27.114" level="DEBUG">Answer received: !yi101</msg>
-<msg timestamp="20230105 14:36:27.114" level="TRACE">Return: 'calcAnchor'</msg>
-<status status="PASS" starttime="20230105 14:36:26.737" endtime="20230105 14:36:27.114"/>
+<msg timestamp="20230109 00:06:49.351" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:49.352" level="TRACE">Return: 'calcIcon'</msg>
+<status status="PASS" starttime="20230109 00:06:48.962" endtime="20230109 00:06:49.352"/>
+</kw>
+<msg timestamp="20230109 00:06:49.352" level="TRACE">Return: 'calcIcon'</msg>
+<status status="PASS" starttime="20230109 00:06:45.380" endtime="20230109 00:06:49.352"/>
 </kw>
 <kw name="Document API" library="program">
 <var>${tmp}</var>
 <doc>Returns a single string containing a set of all widgets in the window and 
 their available functions.</doc>
-<msg timestamp="20230105 14:36:27.115" level="TRACE">Arguments: [  ]</msg>
-<msg timestamp="20230105 14:36:27.115" level="TRACE">Return: 'Window[programmerCal]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[calcAnchor]: find, click, doubleClick, capture, captureSmall\n\tMovePoint[menuBar]: move, click, doubleClick, read, capture, captureSmall\n\tTextField[calculatorType]: read, write, capture, captureSmall\n\tButton[hamburgerMenu]: read, click, doubleClick, capture, captureSmall\n\tButton[bitshiftMenu]: read, click, doubleClick, capture, captureSmall\n\tButton[closeButton]: read, click, doubleClick, capture, captureSmall\n'</msg>
-<msg timestamp="20230105 14:36:27.115" level="INFO">${tmp} = Window[programmerCal]: find, setGroup, move, setLocation, click, capture, captureSmall
-	Achor[calcAnchor]: find, click, doubleClick, capture, captureSmall
-	MovePoint[menuBar]: move, click, doubleClick...</msg>
-<status status="PASS" starttime="20230105 14:36:27.115" endtime="20230105 14:36:27.115"/>
+<msg timestamp="20230109 00:06:49.353" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:49.353" level="TRACE">Return: 'Window[progCalc]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[calcIcon]: find, click, doubleClick, capture, captureSmall\n\tButton[closeButton]: read, click, doubleClick, capture, captureSmall\n\tButton[hamburgerMenu]: read, click, doubleClick, capture, captureSmall\n\tTextField[calcType]: read, write, capture, captureSmall\n\tButton[bitShift]: read, click, doubleClick, capture, captureSmall\n'</msg>
+<msg timestamp="20230109 00:06:49.354" level="INFO">${tmp} = Window[progCalc]: find, setGroup, move, setLocation, click, capture, captureSmall
+	Achor[calcIcon]: find, click, doubleClick, capture, captureSmall
+	Button[closeButton]: read, click, doubleClick, capt...</msg>
+<status status="PASS" starttime="20230109 00:06:49.353" endtime="20230109 00:06:49.354"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>${tmp}</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20230105 14:36:27.116" level="TRACE">Arguments: [ 'Window[programmerCal]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[calcAnchor]: find, click, doubleClick, capture, captureSmall\n\tMovePoint[menuBar]: move, click, doubleClick, read, capture, captureSmall\n\tTextField[calculatorType]: read, write, capture, captureSmall\n\tButton[hamburgerMenu]: read, click, doubleClick, capture, captureSmall\n\tButton[bitshiftMenu]: read, click, doubleClick, capture, captureSmall\n\tButton[closeButton]: read, click, doubleClick, capture, captureSmall\n' ]</msg>
-<msg timestamp="20230105 14:36:27.116" level="INFO">Window[programmerCal]: find, setGroup, move, setLocation, click, capture, captureSmall
-	Achor[calcAnchor]: find, click, doubleClick, capture, captureSmall
-	MovePoint[menuBar]: move, click, doubleClick, read, capture, captureSmall
-	TextField[calculatorType]: read, write, capture, captureSmall
-	Button[hamburgerMenu]: read, click, doubleClick, capture, captureSmall
-	Button[bitshiftMenu]: read, click, doubleClick, capture, captureSmall
+<msg timestamp="20230109 00:06:49.354" level="TRACE">Arguments: [ 'Window[progCalc]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[calcIcon]: find, click, doubleClick, capture, captureSmall\n\tButton[closeButton]: read, click, doubleClick, capture, captureSmall\n\tButton[hamburgerMenu]: read, click, doubleClick, capture, captureSmall\n\tTextField[calcType]: read, write, capture, captureSmall\n\tButton[bitShift]: read, click, doubleClick, capture, captureSmall\n' ]</msg>
+<msg timestamp="20230109 00:06:49.355" level="INFO">Window[progCalc]: find, setGroup, move, setLocation, click, capture, captureSmall
+	Achor[calcIcon]: find, click, doubleClick, capture, captureSmall
 	Button[closeButton]: read, click, doubleClick, capture, captureSmall
+	Button[hamburgerMenu]: read, click, doubleClick, capture, captureSmall
+	TextField[calcType]: read, write, capture, captureSmall
+	Button[bitShift]: read, click, doubleClick, capture, captureSmall
 </msg>
-<msg timestamp="20230105 14:36:27.116" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:27.115" endtime="20230105 14:36:27.116"/>
+<msg timestamp="20230109 00:06:49.355" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:49.354" endtime="20230109 00:06:49.355"/>
 </kw>
-<kw name="Document API" library="radioMenu">
+<kw name="Document API" library="radios">
 <var>${tmp}</var>
 <doc>Returns a single string containing a set of all widgets in the window and 
 their available functions.</doc>
-<msg timestamp="20230105 14:36:27.116" level="TRACE">Arguments: [  ]</msg>
-<msg timestamp="20230105 14:36:27.116" level="TRACE">Return: 'Window[radioMenu]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[firstLabel]: find, click, doubleClick, capture, captureSmall\n\tRadioButton[arithRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[logicRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[rotateRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[rcarryRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n'</msg>
-<msg timestamp="20230105 14:36:27.116" level="INFO">${tmp} = Window[radioMenu]: find, setGroup, move, setLocation, click, capture, captureSmall
-	Achor[firstLabel]: find, click, doubleClick, capture, captureSmall
-	RadioButton[arithRadio]: setGroup, read, click, ...</msg>
-<status status="PASS" starttime="20230105 14:36:27.116" endtime="20230105 14:36:27.116"/>
+<msg timestamp="20230109 00:06:49.355" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:49.356" level="TRACE">Return: 'Window[bsradios]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[textAnchor]: find, click, doubleClick, capture, captureSmall\n\tRadioButton[arithRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[logicRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[circRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[carryRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n'</msg>
+<msg timestamp="20230109 00:06:49.356" level="INFO">${tmp} = Window[bsradios]: find, setGroup, move, setLocation, click, capture, captureSmall
+	Achor[textAnchor]: find, click, doubleClick, capture, captureSmall
+	RadioButton[arithRadio]: setGroup, read, click, d...</msg>
+<status status="PASS" starttime="20230109 00:06:49.355" endtime="20230109 00:06:49.356"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>${tmp}</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20230105 14:36:27.117" level="TRACE">Arguments: [ 'Window[radioMenu]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[firstLabel]: find, click, doubleClick, capture, captureSmall\n\tRadioButton[arithRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[logicRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[rotateRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[rcarryRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n' ]</msg>
-<msg timestamp="20230105 14:36:27.117" level="INFO">Window[radioMenu]: find, setGroup, move, setLocation, click, capture, captureSmall
-	Achor[firstLabel]: find, click, doubleClick, capture, captureSmall
+<msg timestamp="20230109 00:06:49.357" level="TRACE">Arguments: [ 'Window[bsradios]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[textAnchor]: find, click, doubleClick, capture, captureSmall\n\tRadioButton[arithRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[logicRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[circRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n\tRadioButton[carryRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState\n' ]</msg>
+<msg timestamp="20230109 00:06:49.357" level="INFO">Window[bsradios]: find, setGroup, move, setLocation, click, capture, captureSmall
+	Achor[textAnchor]: find, click, doubleClick, capture, captureSmall
 	RadioButton[arithRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState
 	RadioButton[logicRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState
-	RadioButton[rotateRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState
-	RadioButton[rcarryRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState
+	RadioButton[circRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState
+	RadioButton[carryRadio]: setGroup, read, click, doubleClick, capture, captureSmall, getState
 </msg>
-<msg timestamp="20230105 14:36:27.117" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:27.117" endtime="20230105 14:36:27.117"/>
+<msg timestamp="20230109 00:06:49.357" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:49.356" endtime="20230109 00:06:49.357"/>
 </kw>
-<msg timestamp="20230105 14:36:27.117" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:22.600" endtime="20230105 14:36:27.117"/>
-</kw>
-<test id="s1-t1" name="Dummy Case" line="16">
-<kw name="Test Start" library="switch" type="SETUP">
-<msg timestamp="20230105 14:36:27.121" level="TRACE">Arguments: [  ]</msg>
-<kw name="New Test Event" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<doc>Part of *Test Setup*.
-New Test Event corresponds with output functions that create a new
-data structure in the test data and a new line in the report.</doc>
-<msg timestamp="20230105 14:36:27.121" level="TRACE">Arguments: [ ${CASE NAME}='Dummy Case' ]</msg>
-<kw name="Create Test Case" library="oqe">
-<var>${FULL TEST}</var>
-<arg>${CASE NAME}</arg>
-<doc>Part of *Test Setup*</doc>
-<msg timestamp="20230105 14:36:27.122" level="TRACE">Arguments: [ 'Dummy Case' ]</msg>
-<msg timestamp="20230105 14:36:27.123" level="TRACE">Return: 'Dummy Case 2023-01-05 14:36:27.122751'</msg>
-<msg timestamp="20230105 14:36:27.124" level="INFO">${FULL TEST} = Dummy Case 2023-01-05 14:36:27.122751</msg>
-<status status="PASS" starttime="20230105 14:36:27.122" endtime="20230105 14:36:27.124"/>
-</kw>
-<msg timestamp="20230105 14:36:27.124" level="TRACE">Return: 'Dummy Case 2023-01-05 14:36:27.122751'</msg>
-<status status="PASS" starttime="20230105 14:36:27.121" endtime="20230105 14:36:27.124"/>
-</kw>
-<msg timestamp="20230105 14:36:27.124" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:27.121" endtime="20230105 14:36:27.124"/>
-</kw>
-<kw name="Test Calculator">
-<arg>None</arg>
-<msg timestamp="20230105 14:36:27.126" level="TRACE">Arguments: [ ${dummy}='None' ]</msg>
-<kw name="Verify Calculator Mode" library="switch">
-<arg>ProgrammerXXXXXX</arg>
-<msg timestamp="20230105 14:36:27.126" level="TRACE">Arguments: [ ${mode}='ProgrammerXXXXXX' ]</msg>
-<kw name="Banner" library="DataExtraction">
-<arg>Check Mode</arg>
-<doc>Part of *Report Formatting*</doc>
-<msg timestamp="20230105 14:36:27.127" level="TRACE">Arguments: [ ${Title}='Check Mode' ]</msg>
-<kw name="Write Data" library="oqe">
-<arg>==</arg>
-<arg>==</arg>
-<arg>--</arg>
-<arg>${Title}</arg>
-<doc>Part of *Output Functions*</doc>
-<msg timestamp="20230105 14:36:27.127" level="TRACE">Arguments: [ '==' | '==' | '--' | 'Check Mode' ]</msg>
-<msg timestamp="20230105 14:36:27.128" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:27.127" endtime="20230105 14:36:27.128"/>
-</kw>
-<msg timestamp="20230105 14:36:27.128" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:27.126" endtime="20230105 14:36:27.129"/>
-</kw>
-<kw name="FAIL Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230105 14:36:27.129" level="TRACE">Arguments: [  ]</msg>
-<msg timestamp="20230105 14:36:27.129" level="TRACE">Return: 'FAIL'</msg>
-<msg timestamp="20230105 14:36:27.129" level="INFO">${status} = FAIL</msg>
-<status status="PASS" starttime="20230105 14:36:27.129" endtime="20230105 14:36:27.129"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Verifying Calculator Mode</arg>
-<doc>Part of *Recording Data*</doc>
-<msg timestamp="20230105 14:36:27.130" level="TRACE">Arguments: [ ${CASE NAME}='Dummy Case' | ${ACT DESCRIPTION}='Verifying Calculator Mode' ]</msg>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<msg timestamp="20230105 14:36:27.130" level="TRACE">Arguments: [ 'Dummy Case' | 'Verifying Calculator Mode' | 'Action' | '--' ]</msg>
-<msg timestamp="20230105 14:36:27.131" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:27.130" endtime="20230105 14:36:27.131"/>
-</kw>
-<msg timestamp="20230105 14:36:27.131" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:27.129" endtime="20230105 14:36:27.131"/>
-</kw>
-<kw name="Find" library="header">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<msg timestamp="20230105 14:36:27.132" level="TRACE">Arguments: [  ]</msg>
-<msg timestamp="20230105 14:36:27.132" level="DEBUG">Command to send: c
+<kw name="Debug Window" library="program">
+<doc>Uses the image library debug feature to identify the GUI component.</doc>
+<msg timestamp="20230109 00:06:49.357" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:49.358" level="DEBUG">Command to send: c
 t
 createPattern
-sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png
 e
 </msg>
-<msg timestamp="20230105 14:36:27.139" level="DEBUG">Answer received: !yro1017</msg>
-<msg timestamp="20230105 14:36:27.139" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:49.359" level="DEBUG">Answer received: !yro188</msg>
+<msg timestamp="20230109 00:06:49.359" level="DEBUG">Command to send: c
 t
 getScreen
 i0
 e
 </msg>
-<msg timestamp="20230105 14:36:27.144" level="DEBUG">Answer received: !yro1018</msg>
-<msg timestamp="20230105 14:36:27.144" level="DEBUG">Command to send: c
-o1018
+<msg timestamp="20230109 00:06:49.362" level="DEBUG">Answer received: !yro189</msg>
+<msg timestamp="20230109 00:06:49.362" level="DEBUG">Command to send: c
+o189
 find
-ro1017
+ro188
 e
 </msg>
-<msg timestamp="20230105 14:36:27.519" level="DEBUG">Answer received: !yro1019</msg>
-<msg timestamp="20230105 14:36:27.519" level="DEBUG">Command to send: c
-o1019
+<msg timestamp="20230109 00:06:49.759" level="DEBUG">Answer received: !yro190</msg>
+<msg timestamp="20230109 00:06:49.759" level="DEBUG">Command to send: c
+o190
 getScore
 e
 </msg>
-<msg timestamp="20230105 14:36:27.519" level="DEBUG">Answer received: !yd0.999998927116394</msg>
-<msg timestamp="20230105 14:36:27.520" level="DEBUG">Command to send: c
-o1019
+<msg timestamp="20230109 00:06:49.760" level="DEBUG">Answer received: !yd1.0</msg>
+<msg timestamp="20230109 00:06:49.760" level="DEBUG">Command to send: c
+o190
 getTarget
 e
 </msg>
-<msg timestamp="20230105 14:36:27.520" level="DEBUG">Answer received: !yro1020</msg>
-<msg timestamp="20230105 14:36:27.520" level="DEBUG">Command to send: c
-o1020
+<msg timestamp="20230109 00:06:49.760" level="DEBUG">Answer received: !yro191</msg>
+<msg timestamp="20230109 00:06:49.760" level="DEBUG">Command to send: c
+o191
 getX
 e
 </msg>
-<msg timestamp="20230105 14:36:27.520" level="DEBUG">Answer received: !yi97</msg>
-<msg timestamp="20230105 14:36:27.520" level="DEBUG">Command to send: c
-o1020
+<msg timestamp="20230109 00:06:49.760" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:49.761" level="DEBUG">Command to send: c
+o191
 getY
 e
 </msg>
-<msg timestamp="20230105 14:36:27.520" level="DEBUG">Answer received: !yi97</msg>
-<msg timestamp="20230105 14:36:27.520" level="TRACE">Return: 'calcIcon'</msg>
-<status status="PASS" starttime="20230105 14:36:27.132" endtime="20230105 14:36:27.521"/>
-</kw>
-<kw name="Read" library="header">
-<var>${type}</var>
-<arg>typeText</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230105 14:36:27.521" level="TRACE">Arguments: [ 'typeText' ]</msg>
-<msg timestamp="20230105 14:36:27.522" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:49.761" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:49.761" level="DEBUG">Command to send: c
+o190
+highlight
+d0.25
+e
+</msg>
+<msg timestamp="20230109 00:06:50.328" level="DEBUG">Answer received: !yro192</msg>
+<msg timestamp="20230109 00:06:50.328" level="DEBUG">Command to send: m
+d
+o192
+e
+</msg>
+<msg timestamp="20230109 00:06:50.328" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:50.328" level="DEBUG">Command to send: c
 t
 createRegion
-i116
-i127
-i145
+i530
+i86
+i27
 i22
 e
 </msg>
-<msg timestamp="20230105 14:36:27.524" level="DEBUG">Answer received: !yro1021</msg>
-<msg timestamp="20230105 14:36:27.524" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:50.329" level="DEBUG">Answer received: !yro193</msg>
+<msg timestamp="20230109 00:06:50.329" level="DEBUG">Command to send: c
+o193
+highlight
+d0.25
+e
+</msg>
+<msg timestamp="20230109 00:06:50.887" level="DEBUG">Answer received: !yro194</msg>
+<msg timestamp="20230109 00:06:50.887" level="DEBUG">Command to send: m
+d
+o194
+e
+</msg>
+<msg timestamp="20230109 00:06:50.888" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:50.888" level="DEBUG">Command to send: c
+t
+createRegion
+i81
+i122
+i32
+i27
+e
+</msg>
+<msg timestamp="20230109 00:06:50.889" level="DEBUG">Answer received: !yro195</msg>
+<msg timestamp="20230109 00:06:50.889" level="DEBUG">Command to send: c
+o195
+highlight
+d0.25
+e
+</msg>
+<msg timestamp="20230109 00:06:51.457" level="DEBUG">Answer received: !yro196</msg>
+<msg timestamp="20230109 00:06:51.457" level="DEBUG">Command to send: m
+d
+o196
+e
+</msg>
+<msg timestamp="20230109 00:06:51.458" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:51.458" level="DEBUG">Command to send: c
+t
+createRegion
+i113
+i122
+i140
+i36
+e
+</msg>
+<msg timestamp="20230109 00:06:51.459" level="DEBUG">Answer received: !yro197</msg>
+<msg timestamp="20230109 00:06:51.459" level="DEBUG">Command to send: c
+o197
+highlight
+d0.25
+e
+</msg>
+<msg timestamp="20230109 00:06:52.027" level="DEBUG">Answer received: !yro198</msg>
+<msg timestamp="20230109 00:06:52.027" level="DEBUG">Command to send: m
+d
+o198
+e
+</msg>
+<msg timestamp="20230109 00:06:52.027" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:52.027" level="DEBUG">Command to send: c
+t
+createRegion
+i174
+i360
+i101
+i31
+e
+</msg>
+<msg timestamp="20230109 00:06:52.028" level="DEBUG">Answer received: !yro199</msg>
+<msg timestamp="20230109 00:06:52.028" level="DEBUG">Command to send: c
+o199
+highlight
+d0.25
+e
+</msg>
+<msg timestamp="20230109 00:06:52.584" level="DEBUG">Answer received: !yro200</msg>
+<msg timestamp="20230109 00:06:52.584" level="DEBUG">Command to send: m
+d
+o200
+e
+</msg>
+<msg timestamp="20230109 00:06:52.584" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:52.584" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:49.357" endtime="20230109 00:06:52.585"/>
+</kw>
+<status status="PASS" starttime="20230109 00:06:45.167" endtime="20230109 00:06:52.587"/>
+</test>
+<test id="s1-t2" name="Check Mode" line="25">
+<kw name="Find" library="program">
+<doc>Called to locate any anchor for the window and revise relative locations to 
+widgets.</doc>
+<msg timestamp="20230109 00:06:52.591" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:52.592" level="DEBUG">Command to send: c
+t
+createPattern
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png
+e
+</msg>
+<msg timestamp="20230109 00:06:52.628" level="DEBUG">Answer received: !yro201</msg>
+<msg timestamp="20230109 00:06:52.628" level="DEBUG">Command to send: c
+t
+getScreen
+i0
+e
+</msg>
+<msg timestamp="20230109 00:06:52.632" level="DEBUG">Answer received: !yro202</msg>
+<msg timestamp="20230109 00:06:52.632" level="DEBUG">Command to send: c
+o202
+find
+ro201
+e
+</msg>
+<msg timestamp="20230109 00:06:53.250" level="DEBUG">Answer received: !yro203</msg>
+<msg timestamp="20230109 00:06:53.250" level="DEBUG">Command to send: c
+o203
+getScore
+e
+</msg>
+<msg timestamp="20230109 00:06:53.250" level="DEBUG">Answer received: !yd1.0</msg>
+<msg timestamp="20230109 00:06:53.250" level="DEBUG">Command to send: c
+o203
+getTarget
+e
+</msg>
+<msg timestamp="20230109 00:06:53.250" level="DEBUG">Answer received: !yro204</msg>
+<msg timestamp="20230109 00:06:53.251" level="DEBUG">Command to send: c
+o204
+getX
+e
+</msg>
+<msg timestamp="20230109 00:06:53.251" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:53.251" level="DEBUG">Command to send: c
+o204
+getY
+e
+</msg>
+<msg timestamp="20230109 00:06:53.251" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:53.251" level="TRACE">Return: 'calcIcon'</msg>
+<status status="PASS" starttime="20230109 00:06:52.591" endtime="20230109 00:06:53.251"/>
+</kw>
+<kw name="Read" library="program">
+<var>${a}</var>
+<arg>calcType</arg>
+<doc>Read and return text from the intended widget</doc>
+<msg timestamp="20230109 00:06:53.252" level="TRACE">Arguments: [ 'calcType' ]</msg>
+<msg timestamp="20230109 00:06:53.253" level="DEBUG">Command to send: c
+t
+createRegion
+i113
+i122
+i140
+i36
+e
+</msg>
+<msg timestamp="20230109 00:06:53.255" level="DEBUG">Answer received: !yro205</msg>
+<msg timestamp="20230109 00:06:53.256" level="DEBUG">Command to send: c
 t
 getScreen
 e
 </msg>
-<msg timestamp="20230105 14:36:27.527" level="DEBUG">Answer received: !yro1022</msg>
-<msg timestamp="20230105 14:36:27.528" level="DEBUG">Command to send: c
-o1022
+<msg timestamp="20230109 00:06:53.258" level="DEBUG">Answer received: !yro206</msg>
+<msg timestamp="20230109 00:06:53.258" level="DEBUG">Command to send: c
+o206
 capture
-ro1021
+ro205
 e
 </msg>
-<msg timestamp="20230105 14:36:27.547" level="DEBUG">Answer received: !yro1023</msg>
-<msg timestamp="20230105 14:36:27.548" level="DEBUG">Command to send: c
-o1023
+<msg timestamp="20230109 00:06:53.277" level="DEBUG">Answer received: !yro207</msg>
+<msg timestamp="20230109 00:06:53.278" level="DEBUG">Command to send: c
+o207
 getFilename
 e
 </msg>
-<msg timestamp="20230105 14:36:27.577" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_1755638584\\sikuliximage-1672947387569.png</msg>
-<msg timestamp="20230105 14:36:28.017" level="TRACE">Return: 'Programmer'</msg>
-<msg timestamp="20230105 14:36:28.017" level="INFO">${type} = Programmer</msg>
-<status status="PASS" starttime="20230105 14:36:27.521" endtime="20230105 14:36:28.018"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Check current mode</arg>
-<arg>${type}</arg>
-<arg>${mode}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230105 14:36:28.019" level="TRACE">Arguments: [ ${CASE NAME}='Dummy Case' | ${STEP NAME}='Check current mode' | ${actual}='Programmer' | ${expected}='ProgrammerXXXXXX' ]</msg>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230105 14:36:28.019" level="TRACE">Arguments: [ 'Programmer' | 'ProgrammerXXXXXX' ]</msg>
-<msg timestamp="20230105 14:36:28.020" level="TRACE">Return: 'FAIL'</msg>
-<msg timestamp="20230105 14:36:28.020" level="INFO">${TEST_STATUS} = FAIL</msg>
-<status status="PASS" starttime="20230105 14:36:28.019" endtime="20230105 14:36:28.020"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<msg timestamp="20230105 14:36:28.020" level="TRACE">Arguments: [ 'Dummy Case_Check current mode' | 'Values Equal' | 'FAIL' | 'Actual: Programmer, Expected: ProgrammerXXXXXX' ]</msg>
-<msg timestamp="20230105 14:36:28.021" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:28.020" endtime="20230105 14:36:28.021"/>
-</kw>
-<msg timestamp="20230105 14:36:28.022" level="TRACE">Return: 'FAIL'</msg>
-<status status="PASS" starttime="20230105 14:36:28.018" endtime="20230105 14:36:28.022"/>
+<msg timestamp="20230109 00:06:53.309" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_338785168\\sikuliximage-1673240813300.png</msg>
+<msg timestamp="20230109 00:06:53.771" level="TRACE">Return: 'Programmer'</msg>
+<msg timestamp="20230109 00:06:53.771" level="INFO">${a} = Programmer</msg>
+<status status="PASS" starttime="20230109 00:06:53.252" endtime="20230109 00:06:53.771"/>
 </kw>
 <kw name="Run Keyword If" library="BuiltIn">
-<arg>'${type}'!='${mode}'</arg>
-<arg>Switch Calculator Type</arg>
-<arg>${mode}</arg>
+<arg>'${a}'!='Programmer'</arg>
+<arg>Change Mode</arg>
+<arg>Programmer</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<msg timestamp="20230105 14:36:28.022" level="TRACE">Arguments: [ "'Programmer'!='ProgrammerXXXXXX'" | 'Switch Calculator Type' | '${mode}' ]</msg>
-<kw name="Switch Calculator Type" library="switch">
-<arg>${mode}</arg>
-<msg timestamp="20230105 14:36:28.023" level="TRACE">Arguments: [ ${type}='ProgrammerXXXXXX' ]</msg>
-<kw name="Evaluate" library="BuiltIn">
-<var>${message}</var>
-<arg>Could not change to mode ${type}</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230105 14:36:28.024" level="TRACE">Arguments: [ 'Could not change to mode ProgrammerXXXXXX' ]</msg>
-<msg timestamp="20230105 14:36:28.024" level="DEBUG">Command to send: m
-d
-o1017
-e
-</msg>
-<msg timestamp="20230105 14:36:28.025" level="DEBUG">Answer received: !yv</msg>
-<msg timestamp="20230105 14:36:28.025" level="DEBUG">Command to send: m
-d
-o1018
-e
-</msg>
-<msg timestamp="20230105 14:36:28.025" level="DEBUG">Answer received: !yv</msg>
-<msg timestamp="20230105 14:36:28.025" level="DEBUG">Command to send: m
-d
-o1019
-e
-</msg>
-<msg timestamp="20230105 14:36:28.025" level="DEBUG">Answer received: !yv</msg>
-<msg timestamp="20230105 14:36:28.025" level="DEBUG">Command to send: m
-d
-o1020
-e
-</msg>
-<msg timestamp="20230105 14:36:28.025" level="DEBUG">Answer received: !yv</msg>
-<msg timestamp="20230105 14:36:28.025" level="DEBUG">Command to send: m
-d
-o1022
-e
-</msg>
-<msg timestamp="20230105 14:36:28.026" level="DEBUG">Answer received: !yv</msg>
-<msg timestamp="20230105 14:36:28.026" level="DEBUG">Command to send: m
-d
-o1023
-e
-</msg>
-<msg timestamp="20230105 14:36:28.026" level="DEBUG">Answer received: !yv</msg>
-<msg timestamp="20230105 14:36:28.026" level="FAIL">Evaluating expression 'Could not change to mode ProgrammerXXXXXX' failed: SyntaxError: invalid syntax (&lt;string&gt;, line 1)</msg>
-<msg timestamp="20230105 14:36:28.050" level="DEBUG">Traceback (most recent call last):
-  None
-RuntimeError: Evaluating expression 'Could not change to mode ProgrammerXXXXXX' failed: SyntaxError: invalid syntax (&lt;string&gt;, line 1)</msg>
-<status status="FAIL" starttime="20230105 14:36:28.023" endtime="20230105 14:36:28.050"/>
+<msg timestamp="20230109 00:06:53.775" level="TRACE">Arguments: [ "'Programmer'!='Programmer'" | 'Change Mode' | 'Programmer' ]</msg>
+<msg timestamp="20230109 00:06:53.776" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:53.775" endtime="20230109 00:06:53.776"/>
 </kw>
-<kw name="Soft Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.051" endtime="20230105 14:36:28.051"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Switch Calculator Type</arg>
-<doc>Part of *Recording Data*</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.051" endtime="20230105 14:36:28.051"/>
-</kw>
-<kw name="Click" library="header">
-<arg>hamburgerMenu</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.051" endtime="20230105 14:36:28.052"/>
-</kw>
-<kw name="Sleep" library="BuiltIn">
-<arg>1s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.052" endtime="20230105 14:36:28.052"/>
-</kw>
-<kw name="Find" library="typeMenu">
+<status status="PASS" starttime="20230109 00:06:52.590" endtime="20230109 00:06:53.777"/>
+</test>
+<test id="s1-t3" name="Change BitShift" line="30">
+<kw name="Find" library="program">
 <doc>Called to locate any anchor for the window and revise relative locations to 
 widgets.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.052" endtime="20230105 14:36:28.052"/>
-</kw>
-<kw name="Run Keyword And Return Status" library="BuiltIn">
-<var>${status}</var>
-<arg>typeMenu.Click</arg>
-<arg>${type}</arg>
-<doc>Runs the given keyword with given arguments and returns the status as a Boolean value.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.052" endtime="20230105 14:36:28.052"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>not ${status}</arg>
-<arg>header.Click</arg>
-<arg>calcIcon</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.053" endtime="20230105 14:36:28.053"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<var>${message}</var>
-<arg>not ${status}</arg>
-<arg>Evaluate</arg>
-<arg>Menu did not have ${type}</arg>
-<arg>ELSE</arg>
-<arg>Evaluate</arg>
-<arg>${message}</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.053" endtime="20230105 14:36:28.053"/>
-</kw>
-<kw name="Sleep" library="BuiltIn">
-<arg>1s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.053" endtime="20230105 14:36:28.053"/>
-</kw>
-<kw name="Read" library="header">
-<var>${new_type}</var>
-<arg>typeText</arg>
-<doc>Read and return text from the intended widget</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.053" endtime="20230105 14:36:28.054"/>
-</kw>
-<kw name="Capture Image" library="header">
-<var>${file}</var>
-<arg>typeText</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.054" endtime="20230105 14:36:28.054"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>Correct Mode</arg>
-<doc>Part of *Recording Data*</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.054" endtime="20230105 14:36:28.054"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${a}</var>
-<arg>${TEST NAME}</arg>
-<arg>Verify mode change</arg>
-<arg>${new_type}</arg>
-<arg>${type}</arg>
-<doc>Part of *Comparisons*</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.054" endtime="20230105 14:36:28.054"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${a}'=='FAIL'</arg>
-<arg>Fail</arg>
-<arg>${message}</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.055" endtime="20230105 14:36:28.055"/>
-</kw>
-<status status="FAIL" starttime="20230105 14:36:28.023" endtime="20230105 14:36:28.056"/>
-</kw>
-<status status="FAIL" starttime="20230105 14:36:28.022" endtime="20230105 14:36:28.056"/>
-</kw>
-<kw name="PASS Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.056" endtime="20230105 14:36:28.057"/>
-</kw>
-<kw name="Keyword Final" library="DataExtraction" type="TEARDOWN">
-<arg>--</arg>
-<arg>Verifying Calculator Mode</arg>
-<arg>${status}</arg>
-<arg>--</arg>
-<doc>Part of *Recording Data*</doc>
-<msg timestamp="20230105 14:36:28.057" level="TRACE">Arguments: [ ${CASE NAME}='--' | ${STEP NAME}='Verifying Calculator Mode' | ${STATUS}='FAIL' | ${MESSAGE}='--' ]</msg>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>${STATUS}</arg>
-<arg>${MESSAGE}</arg>
-<doc>Part of *Output Functions*</doc>
-<msg timestamp="20230105 14:36:28.058" level="TRACE">Arguments: [ '--' | 'Verifying Calculator Mode' | 'FAIL' | '--' ]</msg>
-<msg timestamp="20230105 14:36:28.059" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:28.058" endtime="20230105 14:36:28.060"/>
-</kw>
-<kw name="Data Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
-<msg timestamp="20230105 14:36:28.060" level="TRACE">Arguments: [  ]</msg>
-<kw name="Write Data" library="oqe">
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<msg timestamp="20230105 14:36:28.061" level="TRACE">Arguments: [ '--' | '--' | '--' | '--' ]</msg>
-<msg timestamp="20230105 14:36:28.061" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:28.060" endtime="20230105 14:36:28.061"/>
-</kw>
-<msg timestamp="20230105 14:36:28.061" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:28.060" endtime="20230105 14:36:28.062"/>
-</kw>
-<msg timestamp="20230105 14:36:28.062" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:28.057" endtime="20230105 14:36:28.062"/>
-</kw>
-<status status="FAIL" starttime="20230105 14:36:27.126" endtime="20230105 14:36:28.063"/>
+<msg timestamp="20230109 00:06:53.810" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:53.811" level="DEBUG">Command to send: c
+t
+createPattern
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png
+e
+</msg>
+<msg timestamp="20230109 00:06:53.818" level="DEBUG">Answer received: !yro208</msg>
+<msg timestamp="20230109 00:06:53.819" level="DEBUG">Command to send: c
+t
+getScreen
+i0
+e
+</msg>
+<msg timestamp="20230109 00:06:53.819" level="DEBUG">Answer received: !yro209</msg>
+<msg timestamp="20230109 00:06:53.820" level="DEBUG">Command to send: c
+o209
+find
+ro208
+e
+</msg>
+<msg timestamp="20230109 00:06:54.361" level="DEBUG">Answer received: !yro210</msg>
+<msg timestamp="20230109 00:06:54.361" level="DEBUG">Command to send: c
+o210
+getScore
+e
+</msg>
+<msg timestamp="20230109 00:06:54.362" level="DEBUG">Answer received: !yd1.0</msg>
+<msg timestamp="20230109 00:06:54.362" level="DEBUG">Command to send: c
+o210
+getTarget
+e
+</msg>
+<msg timestamp="20230109 00:06:54.362" level="DEBUG">Answer received: !yro211</msg>
+<msg timestamp="20230109 00:06:54.362" level="DEBUG">Command to send: c
+o211
+getX
+e
+</msg>
+<msg timestamp="20230109 00:06:54.362" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:54.362" level="DEBUG">Command to send: c
+o211
+getY
+e
+</msg>
+<msg timestamp="20230109 00:06:54.363" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:54.363" level="TRACE">Return: 'calcIcon'</msg>
+<status status="PASS" starttime="20230109 00:06:53.810" endtime="20230109 00:06:54.363"/>
 </kw>
 <kw name="Click" library="program">
-<arg>bitshiftMenu</arg>
+<arg>bitShift</arg>
 <doc>Clicks on the intended widget</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.063" endtime="20230105 14:36:28.063"/>
-</kw>
-<kw name="Sleep" library="BuiltIn">
-<arg>.5s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.063" endtime="20230105 14:36:28.064"/>
-</kw>
-<kw name="Find" library="radioMenu">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.064" endtime="20230105 14:36:28.064"/>
-</kw>
-<kw name="Click" library="radioMenu">
-<arg>rotateRadio</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="NOT RUN" starttime="20230105 14:36:28.064" endtime="20230105 14:36:28.064"/>
-</kw>
-<status status="FAIL" starttime="20230105 14:36:27.125" endtime="20230105 14:36:28.065"/>
-</kw>
-<status status="FAIL" starttime="20230105 14:36:27.118" endtime="20230105 14:36:28.066">Evaluating expression 'Could not change to mode ProgrammerXXXXXX' failed: SyntaxError: invalid syntax (&lt;string&gt;, line 1)</status>
-</test>
-<kw name="Suite End" library="switch" type="TEARDOWN">
-<msg timestamp="20230105 14:36:28.077" level="TRACE">Arguments: [  ]</msg>
-<kw name="Click" library="header">
-<arg>closeButton</arg>
-<doc>Clicks on the intended widget</doc>
-<msg timestamp="20230105 14:36:28.077" level="TRACE">Arguments: [ 'closeButton' ]</msg>
-<msg timestamp="20230105 14:36:28.078" level="DEBUG">Command to send: c
+<msg timestamp="20230109 00:06:54.364" level="TRACE">Arguments: [ 'bitShift' ]</msg>
+<msg timestamp="20230109 00:06:54.364" level="DEBUG">Command to send: c
 t
 createRegion
-i527
-i86
-i28
-i21
+i174
+i360
+i101
+i31
 e
 </msg>
-<msg timestamp="20230105 14:36:28.078" level="DEBUG">Answer received: !yro1024</msg>
-<msg timestamp="20230105 14:36:28.079" level="DEBUG">Command to send: c
-o1024
+<msg timestamp="20230109 00:06:54.366" level="DEBUG">Answer received: !yro212</msg>
+<msg timestamp="20230109 00:06:54.367" level="DEBUG">Command to send: c
+o212
 click
 e
 </msg>
-<msg timestamp="20230105 14:36:29.045" level="DEBUG">Answer received: !yi1</msg>
-<msg timestamp="20230105 14:36:29.045" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:28.077" endtime="20230105 14:36:29.045"/>
+<msg timestamp="20230109 00:06:55.204" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230109 00:06:55.206" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:54.364" endtime="20230109 00:06:55.207"/>
 </kw>
-<msg timestamp="20230105 14:36:29.046" level="TRACE">Return: None</msg>
-<status status="PASS" starttime="20230105 14:36:28.077" endtime="20230105 14:36:29.046"/>
+<kw name="Sleep" library="BuiltIn">
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230109 00:06:55.208" level="TRACE">Arguments: [ '1s' ]</msg>
+<msg timestamp="20230109 00:06:56.224" level="INFO">Slept 1 second</msg>
+<msg timestamp="20230109 00:06:56.224" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:55.207" endtime="20230109 00:06:56.224"/>
 </kw>
-<status status="FAIL" starttime="20230105 14:36:21.258" endtime="20230105 14:36:29.046"/>
+<kw name="Find" library="radios">
+<doc>Called to locate any anchor for the window and revise relative locations to 
+widgets.</doc>
+<msg timestamp="20230109 00:06:56.227" level="DEBUG">Command to send: m
+d
+o184
+e
+</msg>
+<msg timestamp="20230109 00:06:56.227" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.227" level="DEBUG">Command to send: m
+d
+o185
+e
+</msg>
+<msg timestamp="20230109 00:06:56.227" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.227" level="DEBUG">Command to send: m
+d
+o186
+e
+</msg>
+<msg timestamp="20230109 00:06:56.228" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.228" level="DEBUG">Command to send: m
+d
+o187
+e
+</msg>
+<msg timestamp="20230109 00:06:56.228" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.228" level="DEBUG">Command to send: m
+d
+o188
+e
+</msg>
+<msg timestamp="20230109 00:06:56.228" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.228" level="DEBUG">Command to send: m
+d
+o189
+e
+</msg>
+<msg timestamp="20230109 00:06:56.228" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.229" level="DEBUG">Command to send: m
+d
+o190
+e
+</msg>
+<msg timestamp="20230109 00:06:56.229" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.229" level="DEBUG">Command to send: m
+d
+o191
+e
+</msg>
+<msg timestamp="20230109 00:06:56.229" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.229" level="DEBUG">Command to send: m
+d
+o193
+e
+</msg>
+<msg timestamp="20230109 00:06:56.229" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.229" level="DEBUG">Command to send: m
+d
+o195
+e
+</msg>
+<msg timestamp="20230109 00:06:56.230" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.230" level="DEBUG">Command to send: m
+d
+o197
+e
+</msg>
+<msg timestamp="20230109 00:06:56.230" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.230" level="DEBUG">Command to send: m
+d
+o199
+e
+</msg>
+<msg timestamp="20230109 00:06:56.230" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.230" level="DEBUG">Command to send: m
+d
+o201
+e
+</msg>
+<msg timestamp="20230109 00:06:56.230" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.230" level="DEBUG">Command to send: m
+d
+o202
+e
+</msg>
+<msg timestamp="20230109 00:06:56.231" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.231" level="DEBUG">Command to send: m
+d
+o203
+e
+</msg>
+<msg timestamp="20230109 00:06:56.231" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.231" level="DEBUG">Command to send: m
+d
+o204
+e
+</msg>
+<msg timestamp="20230109 00:06:56.231" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.231" level="DEBUG">Command to send: m
+d
+o205
+e
+</msg>
+<msg timestamp="20230109 00:06:56.231" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.232" level="DEBUG">Command to send: m
+d
+o206
+e
+</msg>
+<msg timestamp="20230109 00:06:56.232" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.232" level="DEBUG">Command to send: m
+d
+o207
+e
+</msg>
+<msg timestamp="20230109 00:06:56.232" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.232" level="DEBUG">Command to send: m
+d
+o208
+e
+</msg>
+<msg timestamp="20230109 00:06:56.232" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.232" level="DEBUG">Command to send: m
+d
+o209
+e
+</msg>
+<msg timestamp="20230109 00:06:56.233" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.233" level="DEBUG">Command to send: m
+d
+o210
+e
+</msg>
+<msg timestamp="20230109 00:06:56.233" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.233" level="DEBUG">Command to send: m
+d
+o211
+e
+</msg>
+<msg timestamp="20230109 00:06:56.233" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.233" level="DEBUG">Command to send: m
+d
+o183
+e
+</msg>
+<msg timestamp="20230109 00:06:56.234" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230109 00:06:56.234" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:56.234" level="DEBUG">Command to send: c
+t
+createPattern
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/bsradios/textAnchor.png
+e
+</msg>
+<msg timestamp="20230109 00:06:56.246" level="DEBUG">Answer received: !yro213</msg>
+<msg timestamp="20230109 00:06:56.246" level="DEBUG">Command to send: c
+t
+getScreen
+i0
+e
+</msg>
+<msg timestamp="20230109 00:06:56.246" level="DEBUG">Answer received: !yro214</msg>
+<msg timestamp="20230109 00:06:56.247" level="DEBUG">Command to send: c
+o214
+find
+ro213
+e
+</msg>
+<msg timestamp="20230109 00:06:56.816" level="DEBUG">Answer received: !yro215</msg>
+<msg timestamp="20230109 00:06:56.816" level="DEBUG">Command to send: c
+o215
+getScore
+e
+</msg>
+<msg timestamp="20230109 00:06:56.817" level="DEBUG">Answer received: !yd0.9999966025352478</msg>
+<msg timestamp="20230109 00:06:56.817" level="DEBUG">Command to send: c
+o215
+getTarget
+e
+</msg>
+<msg timestamp="20230109 00:06:56.817" level="DEBUG">Answer received: !yro216</msg>
+<msg timestamp="20230109 00:06:56.817" level="DEBUG">Command to send: c
+o216
+getX
+e
+</msg>
+<msg timestamp="20230109 00:06:56.817" level="DEBUG">Answer received: !yi224</msg>
+<msg timestamp="20230109 00:06:56.818" level="DEBUG">Command to send: c
+o216
+getY
+e
+</msg>
+<msg timestamp="20230109 00:06:56.818" level="DEBUG">Answer received: !yi464</msg>
+<msg timestamp="20230109 00:06:56.818" level="TRACE">Return: 'textAnchor'</msg>
+<status status="PASS" starttime="20230109 00:06:56.226" endtime="20230109 00:06:56.818"/>
+</kw>
+<kw name="Click" library="radios">
+<arg>logicRadio</arg>
+<doc>Clicks on the intended widget</doc>
+<msg timestamp="20230109 00:06:56.819" level="TRACE">Arguments: [ 'logicRadio' ]</msg>
+<msg timestamp="20230109 00:06:56.819" level="DEBUG">Command to send: c
+t
+createRegion
+i146
+i445
+i26
+i26
+e
+</msg>
+<msg timestamp="20230109 00:06:56.820" level="DEBUG">Answer received: !yro217</msg>
+<msg timestamp="20230109 00:06:56.821" level="DEBUG">Command to send: c
+o217
+click
+e
+</msg>
+<msg timestamp="20230109 00:06:57.453" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230109 00:06:57.453" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:56.819" endtime="20230109 00:06:57.453"/>
+</kw>
+<kw name="Click" library="program">
+<arg>bitShift</arg>
+<doc>Clicks on the intended widget</doc>
+<msg timestamp="20230109 00:06:57.454" level="TRACE">Arguments: [ 'bitShift' ]</msg>
+<msg timestamp="20230109 00:06:57.454" level="DEBUG">Command to send: c
+t
+createRegion
+i174
+i360
+i101
+i31
+e
+</msg>
+<msg timestamp="20230109 00:06:57.456" level="DEBUG">Answer received: !yro218</msg>
+<msg timestamp="20230109 00:06:57.456" level="DEBUG">Command to send: c
+o218
+click
+e
+</msg>
+<msg timestamp="20230109 00:06:58.041" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230109 00:06:58.042" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:57.454" endtime="20230109 00:06:58.042"/>
+</kw>
+<kw name="Check State" library="radios">
+<var>${a}</var>
+<arg>logicRadio</arg>
+<msg timestamp="20230109 00:06:58.044" level="TRACE">Arguments: [ 'logicRadio' ]</msg>
+<msg timestamp="20230109 00:06:58.045" level="DEBUG">Command to send: c
+t
+createRegion
+i146
+i445
+i26
+i26
+e
+</msg>
+<msg timestamp="20230109 00:06:58.046" level="DEBUG">Answer received: !yro219</msg>
+<msg timestamp="20230109 00:06:58.046" level="DEBUG">Command to send: c
+t
+findImage
+ro219
+sC:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFGUIHelper\\configs\\bsradios\\checked.png
+e
+</msg>
+<msg timestamp="20230109 00:06:58.087" level="DEBUG">Answer received: !yro220</msg>
+<msg timestamp="20230109 00:06:58.087" level="DEBUG">Command to send: c
+o220
+getScore
+e
+</msg>
+<msg timestamp="20230109 00:06:58.088" level="DEBUG">Answer received: !yd0.9980642795562744</msg>
+<msg timestamp="20230109 00:06:58.088" level="DEBUG">Command to send: c
+o220
+getTarget
+e
+</msg>
+<msg timestamp="20230109 00:06:58.089" level="DEBUG">Answer received: !yro221</msg>
+<msg timestamp="20230109 00:06:58.089" level="DEBUG">Command to send: c
+o221
+getX
+e
+</msg>
+<msg timestamp="20230109 00:06:58.089" level="DEBUG">Answer received: !yi159</msg>
+<msg timestamp="20230109 00:06:58.089" level="DEBUG">Command to send: c
+o221
+getY
+e
+</msg>
+<msg timestamp="20230109 00:06:58.089" level="DEBUG">Answer received: !yi458</msg>
+<msg timestamp="20230109 00:06:58.089" level="TRACE">Return: 'Checked'</msg>
+<msg timestamp="20230109 00:06:58.090" level="INFO">${a} = Checked</msg>
+<status status="PASS" starttime="20230109 00:06:58.044" endtime="20230109 00:06:58.090"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${a}'=='Checked'</arg>
+<arg>Log</arg>
+<arg>Passed test</arg>
+<arg>ELSE</arg>
+<arg>Fail</arg>
+<arg>Was not checked</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<msg timestamp="20230109 00:06:58.107" level="TRACE">Arguments: [ "'Checked'=='Checked'" | 'Log' | 'Passed test' | 'ELSE' | 'Fail' | 'Was not checked' ]</msg>
+<kw name="Log" library="BuiltIn">
+<arg>Passed test</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230109 00:06:58.107" level="TRACE">Arguments: [ 'Passed test' ]</msg>
+<msg timestamp="20230109 00:06:58.107" level="INFO">Passed test</msg>
+<msg timestamp="20230109 00:06:58.107" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:58.107" endtime="20230109 00:06:58.107"/>
+</kw>
+<msg timestamp="20230109 00:06:58.107" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:58.106" endtime="20230109 00:06:58.107"/>
+</kw>
+<status status="PASS" starttime="20230109 00:06:53.780" endtime="20230109 00:06:58.108"/>
+</test>
+<test id="s1-t4" name="Clean Up" line="40">
+<kw name="Find" library="program">
+<doc>Called to locate any anchor for the window and revise relative locations to 
+widgets.</doc>
+<msg timestamp="20230109 00:06:58.112" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230109 00:06:58.112" level="DEBUG">Command to send: c
+t
+createPattern
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/progCalc/calcIcon.png
+e
+</msg>
+<msg timestamp="20230109 00:06:58.133" level="DEBUG">Answer received: !yro222</msg>
+<msg timestamp="20230109 00:06:58.133" level="DEBUG">Command to send: c
+t
+getScreen
+i0
+e
+</msg>
+<msg timestamp="20230109 00:06:58.134" level="DEBUG">Answer received: !yro223</msg>
+<msg timestamp="20230109 00:06:58.134" level="DEBUG">Command to send: c
+o223
+find
+ro222
+e
+</msg>
+<msg timestamp="20230109 00:06:58.828" level="DEBUG">Answer received: !yro224</msg>
+<msg timestamp="20230109 00:06:58.829" level="DEBUG">Command to send: c
+o224
+getScore
+e
+</msg>
+<msg timestamp="20230109 00:06:58.829" level="DEBUG">Answer received: !yd1.0</msg>
+<msg timestamp="20230109 00:06:58.829" level="DEBUG">Command to send: c
+o224
+getTarget
+e
+</msg>
+<msg timestamp="20230109 00:06:58.829" level="DEBUG">Answer received: !yro225</msg>
+<msg timestamp="20230109 00:06:58.829" level="DEBUG">Command to send: c
+o225
+getX
+e
+</msg>
+<msg timestamp="20230109 00:06:58.829" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:58.830" level="DEBUG">Command to send: c
+o225
+getY
+e
+</msg>
+<msg timestamp="20230109 00:06:58.830" level="DEBUG">Answer received: !yi98</msg>
+<msg timestamp="20230109 00:06:58.830" level="TRACE">Return: 'calcIcon'</msg>
+<status status="PASS" starttime="20230109 00:06:58.111" endtime="20230109 00:06:58.830"/>
+</kw>
+<kw name="Click" library="program">
+<arg>closeButton</arg>
+<doc>Clicks on the intended widget</doc>
+<msg timestamp="20230109 00:06:58.832" level="TRACE">Arguments: [ 'closeButton' ]</msg>
+<msg timestamp="20230109 00:06:58.832" level="DEBUG">Command to send: c
+t
+createRegion
+i530
+i86
+i27
+i22
+e
+</msg>
+<msg timestamp="20230109 00:06:58.866" level="DEBUG">Answer received: !yro226</msg>
+<msg timestamp="20230109 00:06:58.866" level="DEBUG">Command to send: c
+o226
+click
+e
+</msg>
+<msg timestamp="20230109 00:06:59.729" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230109 00:06:59.729" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230109 00:06:58.831" endtime="20230109 00:06:59.729"/>
+</kw>
+<status status="PASS" starttime="20230109 00:06:58.110" endtime="20230109 00:06:59.983"/>
+</test>
+<status status="PASS" starttime="20230109 00:06:43.649" endtime="20230109 00:07:00.301"/>
 </suite>
 <statistics>
 <total>
-<stat pass="0" fail="1" skip="0">All Tests</stat>
+<stat pass="4" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="0" fail="1" skip="0" id="s1" name="Programmer">Programmer</stat>
+<stat pass="4" fail="0" skip="0" id="s1" name="newProgrammer">newProgrammer</stat>
 </suite>
 </statistics>
 <errors>
