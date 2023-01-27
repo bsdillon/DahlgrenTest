@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Robot Framework Training</title>
-    <link href = "./../../common.css" rel = "stylesheet">
+    <link href = "./../../../common.css" rel = "stylesheet">
     <script>
     </script>
   </head>
@@ -11,128 +11,264 @@
 
     <h3>Table of Contents</h3>
     <ul>
-      <li><a href="#"></a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#config">System Configuration</a></li>
+      <li><a href="#session1">Activity 1 - The Simplest Example</a>
+        <ul>
+          <li><a href="#session1-instr">Step-by-step instructions</a></li>
+          <li><a href="#session1-solut">Solution Scripts</a></li>
+        </ul>
+      </li>
+      <li><a href="#session2">Activity 2 - Resources and Finding Elements</a>
+        <ul>
+          <li><a href="#session2-instr">Step-by-step instructions</a></li>
+          <li><a href="#session2-solut">Solution Scripts</a></li>
+        </ul>
+      </li>
+      <li><a href="#session3">Activity 3 - Refactoring and the OQE Library</a>
+        <ul>
+          <li><a href="#session3-instr">Step-by-step instructions</a></li>
+          <li><a href="#session3-solut">Solution Scripts</a></li>
+        </ul>
+      </li>
+      <li><a href="#session4">Activity 4 - Data Driven Testing</a>
+        <ul>
+          <li><a href="#session4-instr">Step-by-step instructions</a></li>
+          <li><a href="#session4-solut">Solution Scripts</a></li>
+        </ul>
+      </li>
     </ul>
 
     <a name="overview"></a><h3>Overview</h3>
     <p>
-      This section covers the instructions for setup, development, and use of
-      Robot Framework. Robot Framework or RFW is a free set of libraries that
-      can be used to enable automatic testing. RFW is flexible and can easily
-      incorporate any tool or library through the Python language. In the course
-      of events, Dahlgren has developed a set of external files that assist in
-      and enhance the experience using RFW. This is the third set of such 
-      libraries and thuse we refer to it as RFW 3.0.
-    </p>
-
-    <a name="configuration"></a><h2>Configuration</h2>
-    <a name="downloads"></a><h3>Full Download List</h3>
-    <h4>Redhat Distribution</h4>
-    <ul>
-      <li>Python3X<span class="red"><sup>*</sup></span></li>
-      <li>Python3X<span class="red"><sup>*</sup></span>-libs</li>
-      <li>Python3X<span class="red"><sup>*</sup></span>-pip</li>
-      <li>Python3X<span class="red"><sup>*</sup></span>-setuptools</li>
-      <li>Python3X<span class="red"><sup>*</sup></span>-tkinter</li>
-      <li>tcl</li>
-      <li>tk</li>
-      <li>tesseract-devel</li>
-      <li>tesseract</li>
-      <li>leptonica</li>
-      <li>leptonica-devel</li>
-      <li>java-XXXX-openjdk-devel</li>
-      <span class="red">*</span> - See <a href="#versions">discussion of python version</a>
-    </ul>
-    <h4>Python Libraries</h4>
-    <ul>
-      <li>pillow [<a href="https://pypi.org/project/Pillow/#history">link</a>]</li>
-      <li>Py4J [<a href="https://pypi.org/project/py4j/">link</a>]</li>
-      <li>robotframework</li>
-    </ul>
-    <h4>Other</h4>
-    <ul>
-      <li><a href="deployment.zip" download target="_blank">RFW 3.0</a></li>
-      <li>SikuliX Jar [<a href="https://raiman.github.io/SikuliX1/downloads.html">link</a>]</li>
-      <li>Py4J Jar - Downloaded with Py4J python.</li>
-    </ul>
-
-    <a name="operatingsystem"></a><h3>Operating System</h3>
-    <p>
-      RFW 3.0 works on Windows and should be compatible with any operating 
-      system. These instructions, however, are written for a Red Hat 
-      Enterprise Linux machine. If you are using a different operating 
-      system you may have to adapt them for your system.
-    </p>
-
-    <a name="versions"></a><h3>Versions</h3>
-    <p>
-      The download list is very dependent on the version of python selected.
-      Robot Framework works with Python 3.6+. The code in RFW 3.0 was written
-      for Python 3.10.8. You are free to pick any version of python which your
-      site will support subject to those constraints. If you pick a version <em>between</em>
-      the two ends you may have to roll back some of the more recent python
-      syntax found in the libraries. Whatever version of python you 
-      choose, you must use the same version for all RHEL distribution files.
-      In these instructions we will simply refer to the selected version as
-      python3X.
+      <span class="red">***NOTICE***</span> Pending changes for RFW 3.0 at <a href="rfw3.html">this link</a>.
     </p>
     <p>
-      There are two other version issues to consider in these downloads:<br>
-      <ul>
-        <li>
-          There is a <a href="https://pillow.readthedocs.io/en/stable/installation.html">table</a>
-          which shows dependencies between python and Pillow. Make sure you 
-          install a verison of pillow that works with the selected python3X.
-        </li>
-        <li>
-          SikuliX works only with Java 8+. You may use any version of Java above
-          that version.
-        </li>
-      </ul>
+      These training activities were built to allow developers and testers to become
+      familiar with Robot Framework through a series of progressively difficult, hands
+      on activities. All four examples tests agains <a href="https://www.dvidshub.net/">
+      the DVIDS website</a> which stores a variety of public release images from various
+      Department of Defence sources. That is a website accessible anywhere in the world
+      so that this training can take place at home, without access to government systems,
+      and without specialized equipment. The training can also be done in a group or alone
+      virtually or in a physical lab.
     </p>
-
-    <a name="packages"></a><h3>Installing RHEL Packages</h3>
     <p>
-      Each of the RHEL packages must be installed by the root (or SUDO) 
-      role using the command <code>yum install <i>package-name</i></code>. It
-      is recommended that you install tkinter, pip, tesseract-devel, and java-devel.
-      All the rest are installed as dependencies. After installing the packages, 
-      find the command for python 3 in your system using <code>which python3</code>
-      or you can search the <code>/user/bin/</code> folder. Sometimes the
-      system assigns names like python3.X depending on the selected version.
+    <span class="red">***WARNING***</span>I highly recommend that you create your own solution
+    rather than directly copying the solution below. Your solution may vary quite a bit 
+    depending on style and word choice. You will learn more from creating your own first and
+    then comparing with the provided solution. If you get truly lost, this example script gives
+    you a solid starting place for the next session.
     </p>
 
-    <a name="pipinstall"></a><h3>Python Pip Installs</h3>
+    <a name="config"></a><h3>System Configuration</h3>
     <p>
-      If you are attached to the web you can automatically download and install
-      python libraries using <code>python3 -m pip install <i>package</i></code>.
-      In the case of pillow you can specify the desired version number by adding
-      <code>python3 -m pip install pillow==<i>version_number</i></code>. If you 
-      are installing offline, you may point to any downloaded library path using
-      <code>python3 -m pip install <i>PATH</i></code>.
+      This training was written for a Windows 10 machine and a Chrome browser. Consequently,
+      the configuration instructions are not universal and you are responsible for making
+      necessary changes if your system is different.
     </p>
+    <ol>
+      <li>If not installed previously, install Python 3.x on your machine. From the command line:
+          <ul>
+            <li><code>pip install robotframework</code></li>
+            <li><code>pip install --upgrade robotframework-seleniumlibrary</code></li>
+          </ul></li>
+      <li>Visit <a href="https://sites.google.com/chromium.org/driver/downloads">this site</a>
+          to download and install the chrome driver.
+          <ul>
+            <li>You will need the Chrome version number. Click on the three dot menu in 
+                the upper right corner of the browser. Select About > About Chrome Browser.</li>
+            <li>Unzip the folder and add the location to path following 
+               <a href="https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/">these instructions</a></li>
+          </ul></li>
+      <li>Download the <a href="testSite.robot" download target="_blank">first test script</a> just to verify everything is working.</li>
+      <li>From the command line type: <code>robot testSite.robot</code>. You should observe Chrome opening the DVIDS site and
+          the output below.</li>
+    </ol>
 
-    <a name="paths"></a><h3>Setting Paths</h3>
+    <img src="firstTest.png">
+
+    <a name="session1"></a><h2>The Simplest Example</h2>
     <p>
-      When the Py4J is pip-installed, it should savea  Java Jar file on your system.
-      This is usually found in /usr/share/py4j or /usr/local/share/py4j. Locate
-      this Jar file. You will need to add that Jar file and the Sikuli Jar to your
-      CLASSPATH variable. This will ensure that they can be found during compilation
-      of the Sikuli Entry Point. For similar reasons, you will need to create/update
-      the runRobot.bat. This file is found in the RFW 3.0 deployment under RFTest and
-      it adds critical python file locations to a the PYTHONPATH and PATH variables.
-      The cricial locations are the widgets and OQE folders. 
+      The first test case is meant to demonstrate the basics structure of a RF script
+      and the use of Selenium library documentation. The objectives for this lesson 
+      are very simple. Learners will create a minimal viable product (MVP), a term for
+      the least amount of infrastructure and code to achieve the goal. The learner 
+      starts with a manual test procedure and progresses to an automated one. The learner
+      creates a single RF script on his/her own computer and verifies that the test runs.
     </p>
 
-    <a name="validation"></a><h3>System Validation</h3>
+    <h3>Instructions</h3>
+    <ol><a name="session1-instr"></a>
+      <li>Start by conducting the test manually to identify the steps you will take.
+          The purpose of RF is to enact the same actions that a human would take, so
+          you are going to explore the process first to ensure you know what you want
+          RF to do.
+        <ol>
+          <li>Open a browser</li>
+          <li>Navigate to <a href="https://www.dvidshub.net/">https://www.dvidshub.net/</a></li>
+          <li>Note the title on the window</li>
+          <li>Note the appearance of the site</li>
+          <li>Close the browser</li>
+        </ol></li>
+      <li>Open notepad and save a new file as testSite0.robot. Note that when you save
+          in notepad everything is .txt by default. In order to select your own extension
+          you will need to change the <code>Save as type</code> from <code>Text Documents</code>
+          to <code>All Documents</code>. Add the following required elements to the robot 
+          script.<br>
+          <code>
+*** Settings ***<br>
+*** Variables ***<br>
+*** Keywords ***<br>
+*** Test Cases ***
+          </code></li>
+      <li>To get access to the python code for browser access through the Selenium tool, 
+          add this under <code>*** Settings ***</code>. Note that there are three spaces 
+          between the two words. RF allows you to use Tab or at least three spaces between 
+          script elements. You can use either, but it is best to be consistent in your choice.<br>
+<code>Library   SeleniumLibrary</code>
+          </li>
+      <li>Add three variables for the site in question. We could do this with any website 
+          or browser, but for consistency the group should use these for our test. You can
+          give any name to the variables that you want. All variables have the form 
+          <code>${NAME}</code>. Consider the following suggestions for variables:<br>
+          <ul>
+            <li>The name of the browser: Chrome</li>
+            <li>The URL you navigated to: https://www.dvidshub.net/</li>
+            <li>The title of the page: DVIDS - Defense Visual Information Distribution Service</li>
+          </ul>
+      </li>
+      <li>We will create test cases to automate the manual test you did in step one. Review
+          that list of actions and ask yourself:<br>
+          <ul>
+            <li>Which of these are test STEPS and which are OQE?</li>
+            <li>Does the Selenium library have keywords for these activities?</li>
+          </ul>
+          Spend some time searching the <a href="https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html#Browser%20and%20Window">Selenium library documentation</a>
+          for useful keywords.
+      </li>
+      <li>Create test cases for each of the actions. You can combine some of them if you like. 
+      The anatomy of a test case is:<br>
+<code>Some Name for the Test Case<br>
+<in>Some Keyword&nbsp;&nbsp;&nbsp;&nbsp;Any argument you need</in><br>
+<br>
+A blank line comes between each test case<br>
+<in>Four spaces precede&nbsp;&nbsp;&nbsp;&nbsp;each line</in><br>
+<in>Always use for spaces&nbsp;&nbsp;&nbsp;&nbsp;before any additional arguments</in></code>
+      </li>
+      <li>Run the test from the command line. You can verify the pass/fail of each
+   test step as it runs (you will see <span class="green">PASS</span> or <span class="red">FAIL</span>). 
+   After the test is done, you can read the automatically generated log. Watch for the screen 
+   capture in the log.<br>
+<code>robot &lt;&lt;yourtestfile&gt;&gt;</code>
+      </li>
+    </ol>
+
+    <a name="session1-solut"></a><h3>Solution Scripts</h3>
+    <a href="testSite1.robot">Example of final script</a>
+    
+    <a name="session2"></a></a><h2>Resources and Finding Elements</h2>
     <p>
-      There are a number of libraries involved in making a successful RFW 3.0 
-      configuration but the system can be validated pretty quickly by testing
-      a few effects. We will lead you through them as part of this tutorial.
+      Start from the script you created in the previous activity. If you would prefer, you
+      can work from the solution script provided. The examples in these instructions will follow
+      from that script. This second activity is going to teach you two useful skills related to
+      RF and web-based testing. Even if you are not building and testing web-based systems, the
+      skills will be similar to what you will use in other software paradigms. Most importantly,
+      on the RF side you will learn how to refactor test steps and keywords so they can be moved
+      into resource files where they are reusable in many different tests.
     </p>
 
-  <h1>Not yet incorporated</h1>
-  <p>This is text from an older version which we are reusing</p>
+    <h3>Instructions</h3>
+    <ol><a name="session2-instr"></a>
+      <li>Open the last test script and save again as a resource file. No specific naming convention 
+          exists, but we prefer to name all robot files as .robot and a resource file as 
+          <code>resourceXXXXX.robot</code>.</li>
+      <li>In the resource file we will create keywords from the previously-defined test steps. 
+          Basically, these look exactly like the test steps, but these can be called as keywords in 
+          another test. You are free to rename the keyword to any word or even sentence that is 
+          meaningful to you in a future test.<br>
+<code>
+Open and Verify Site<br>
+<in>Open Browser&nbsp;&nbsp;&nbsp;&nbsp;${SITE URL}&nbsp;&nbsp;&nbsp;&nbsp;${BROWSER}</in><br>
+<in>Title Should Be&nbsp;&nbsp;&nbsp;&nbsp;${TITLE}</in><br>
+<in>Capture Page Screenshot&nbsp;&nbsp;&nbsp;&nbsp;EMBED</in><br>
+</code>
+      </li>
+      <li>Recreate the effect of test 0 using the resource file. You will need to add a line
+          to the settings that points to the new resource file. Then you can replace the
+          contents of the test step with a call to the newly create keywords. Make sure the
+          test still runs and passes all tests.<br>
+<code>
+Resource&nbsp;&nbsp;&nbsp;&nbsp;./resource1.robot
+</code>
+      </li>
+      <li>Learn to use developer tools. Open the DVIDS site in a open browser, click the three 
+          vertical dots or prest <code>CTRL+SHIFT+I</code>. Across the top of the new window 
+          there are tabs. Click on <code>Elements</code>. From elements, if you run your mouse 
+          over code on the right you will see sections on the left highlighted in blue. Alternatively,
+          there is an inspector button which will show the name of code elements when you mouse 
+          over sections of the actual web page.<br><br>
+          <img src="inspector.png"><br>
+      </li>
+      <li>
+          You want to use these tools to find the <code>view background image</code> button near 
+          the bottom of the page. You can expand the code until you can see all of these details.
+          It is the red ...., representing the real UML link, that we want to find.<br>
+<code>
+&lt;div id="body_content"&gt;&lt;/div&gt;<br>
+<in>&lt;div id="footer"&gt;&lt;/div&gt;</in><br>
+<in><in>&lt;div class="uk-container uk-container-center"&gt;&lt;/div&gt;</in></in><br>
+<in><in><in>&lt;div class="uk-grid"&gt;&lt;/div&gt;</in></in></in><br>
+<in><in><in><in>&lt;div class="uk-width-medium-10-10"&gt;&lt;/div&gt;</in></in></in></in><br>
+<in><in><in><in><in>&lt;a href="<span class="red">....</span>" id="view_background_image_link"&gt;&lt;/a&gt;</in></in></in></in></in>
+</code>
+      </li>
+      <li>The first task is to find the HTML tag that contains the link we want. You can use several 
+          methods to find that button. Note that the id <code>footer</code> is on the <code>div</code>
+          tag around that button. Under that are three more <code>div</code> tags and then an 
+          <code>a</code>. So we can use a couple of different routes to find the footer and navigate 
+          to the <code>a</code>.
+          <ul>
+            <li>This one uses Cascading Style Sheet (css) syntax to find elements. There are many
+                sources with <a href="https://www.w3schools.com/cssref/css_selectors.asp">instructions 
+                on CSS</a> if you are unfamiliar with the syntax. Using CSS syntax makes a lot of 
+                sense for web-based software. Here we are using <span class="red">the footer's id</span>
+                and a <span class="green">series of tags</span> below to find the right tag.<br>
+<code>
+Find More Button<br>
+<in>${id} =&nbsp;&nbsp;&nbsp;&nbsp;Get Element Attribute&nbsp;&nbsp;&nbsp;&nbsp;css:<span class="red">#footer</span> <span class="green">div div div a</span>&nbsp;&nbsp;&nbsp;&nbsp;id</in><br>
+<in>Log&nbsp;&nbsp;&nbsp;&nbsp;Found ${id}</in>
+</code>
+            </li>
+            <li>This one uses Javascript code if you prefer. We start the same way by finding the 
+                <span class="red">footer</span>, then we use <span class="green">repeated firstElementChild</span> to go down four layers.<br>
+<code>
+Find More Button 2<br>
+<in>${id} =<br>
+<in><in>Execute Javascript&nbsp;&nbsp;&nbsp;&nbsp;return document.<span class="red">getElementById("footer")</span>.</in></in><br>
+<in><in><in><span class="green">firstElementChild.firstElementChild.firstElementChild.firstElementChild</span>.id;</in></in></in>
+<in>Log&nbsp;&nbsp;&nbsp;&nbsp;Found ${id}
+</code>
+            </li>
+            <li>For more options see visit <a href="https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html#Locating%20elements">this site</a></li>
+          </ul>
+      </li>
+      <li>Use your new skills to:<br>
+        <ul>
+          <li>Find one of the top menu items and <code>Click Element</code> on it.</li>
+          <li>Find the search bar and use <code>Input Text</code> to set the search text.</li>
+          <li>After you type something into the search, find and specific text on the autocomplete.</li>
+          <li>Find and click a link at the bottom of the page.</li>
+        </ul>
+      </li>
+      <li>What OQE do you have to verify that these actions happened? There are lots of options 
+          like <code>Capture Page Screenshot</code> or <code>Capture Element Screenshot</code> 
+          and lots of "should" statements to verify contents like <code>Title Should Be</code>.</li>
+    </ol>
+
+    <a name="session2-solut"></a><h3>Solution Scripts</h3>
+    <a href="resource2.robot">Resource file</a><br>
+    <a href="testSite2.robot">Robot script</a>
 
     <a name="session3"></a></a><h2>Refactoring and the OQE Library</h2>
     <p>
@@ -253,9 +389,7 @@ Setup OQE<br>
     <a href="resource3.robot">Resource file</a><br>
     <a href="testSite3.robot">Robot script</a>
 
-<h1>Another section</h1>
-
- <a name="session4"></a></a><h2>Data Driven Testing</h2>
+    <a name="session4"></a></a><h2>Data Driven Testing</h2>
     <p>
       Start from the script you created in the previous activity. If you would prefer, you
       can work from the solution script provided. The examples in these instructions will follow
