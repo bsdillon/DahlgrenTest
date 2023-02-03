@@ -8,7 +8,6 @@ from pathlib import Path
 import shutil
 import os
 from yetiwriter import writeYeti
-
 CONFIG_DIR = './configs'
 PROJECT_FILE = "project.json"
 THUMBNAIL = (25, 18)
@@ -105,10 +104,12 @@ class MainWindow():
         self.openProject(projPath)
 
     def getProjectName(self):
-        temp = fd.askdirectory(initialdir=CONFIG_DIR,mustexist=True,title="Select a project", filetypes=[("JSON","*.JSON"), ("json","*.json")])
+        temp = fd.askopenfilename(initialdir=CONFIG_DIR,title="Select a project", filetypes=[("json","*.json")])
         if temp == "":
             mb.showerror(title="Error", message="Project not selected", parent=self.window)
             return
+	p = Path(temp)
+	temp = p.parent
         self.openProject(temp)
 
     def openProject(self, directory):

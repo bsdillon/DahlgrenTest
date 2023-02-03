@@ -15,7 +15,9 @@
       incorporate any tool or library through the Python language. In the course
       of events, Dahlgren has developed a set of external files that assist in
       and enhance the experience using RFW. This is the third set of such 
-      libraries and thus we refer to it as RFW 3.0.
+      libraries and thus we refer to it as RFW 3.0.<br><br>
+      If you would like to see the <a href=".\one\index.html">original RFW training</a>, 
+      use this link.
     </p>
     <p>
       This document is intended to be used as part of a hands on training 
@@ -68,6 +70,10 @@
     <a name="configuration"></a><h2>Configuration</h2>
     <a name="downloads"></a>
     <h4>Redhat Distribution</h4>
+      <span class="red">NOTE</span> After some study, the list below is NOT sufficient
+      for installation in a RHEL environment. You will need several dozen more 
+      libraries. Therefore, it is recommended that any offline installation be
+      facilitated by an offline RHEL repository from your administrator.
     <ul>
       <li>Python3X<span class="red"><sup>*</sup></span></li>
       <li>Python3X<span class="red"><sup>*</sup></span>-libs</li>
@@ -637,6 +643,118 @@ Find r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
     <a name="session3-solut"></a><h3>Solution Scripts</h3>
     <a href="rfw3.robot" download target="_blank">Robot script</a><br>
 
+    <a name="session4"></a><h2>Working with a GUI</h2>
+    <p>
+      In this session, we will investigate the use of a GUI and how
+      sikuli and robot framework interact with the GUI. In order to
+      simulate a complicate GUI we are going to use the typical calculator
+      app available with each operating system. You may
+      repeat these steps with any application on your target computer.
+      This session will repeat the basic RFW setup and use the RFGUIHelper
+      and Sikuli to find the GUI and close it. Later we will expand
+      the use of GUIs in testing.
+    </p>
+
+    <h3>Instructions</h3>
+    <ol><a name="session3-instr"></a>
+      <li>
+        Start this test by taking a full screen capture of the GUI you
+        wish to test against. Keep it simple this time. We just need
+        the main window.<br>
+        <img src="main.png">
+      </li>
+      <li>
+        Start the GUI helper from <code>/deployment/RFGUIHelper/</code>
+        using <code>python3x RFGUIHelp.py</code>. Select File > New. 
+        Give a name to your project and navigate to find the screen
+        capture you just made. You will see two windows. The table 
+        window shows a row for each widget while the picture window 
+        shows the image overlaid by all the widgets.<br>
+        <img src="helper.png"> 
+      </li>
+      <li>
+        We will create three important widgets for your basic GUI. To
+        create a widget, identify the place you want and click the upper-left
+        corner. Now click the lower-right corner. This will pop up a 
+        third window where you can edit the widget. Note that the edit/add
+        window shows the exact image captured between the two corners.<br>
+        <img src="addwidget.png"><br><br>
+        In the edit/add window you can manually adjust the dimensions of 
+        the widget, give it a name, and select a type. Some types have
+        additional data. Here we are using the edit/add window to create an anchor.
+        An <em>ANCHOR</em> is a portion of the GUI which will not
+        change and may be used to find the window on the screen.
+        Here we are using the title bar and a window icon as a reliable
+        anchor. Note that some GUIs have multiple eligible anchors
+        and you may define several. 
+      </li>
+      <li>
+        We will also add a widget for the close button and a movepoint. Your GUI may
+        vary. The close <em>BUTTON</em> will, of course, close the application when 
+        you click on it. The <em>MOVEPOINT</em> is a place on the GUI which can be 
+        dragged to move the window. Most windows are draggable. After you are satisfied
+        with each widget, close and save the RFGUIHelper.<br>
+        <img src="threewidgets.png">
+      </li>
+      <li>
+        In the same folder as RFGUIHelp.py is the <code>config</code> folder. Inside
+        you will find the folder you created and the files for that window. Note that
+        each anchor is saved as a .png image file, the original screenshot was copied,
+        and a .json file controls the project. Aside from path data for the project,
+        the JSON contains a detailed definition of each widget.<br>
+        <img src="savefiles.png">
+      </li>
+      <li>
+        Now we are going to examine in detail the way that the GUI configuration file
+        is integrated into a RFW test. The file shown below contains all the elements
+        you are familiar with and some required for the GUI interaction with Sikuli.
+        First, the settings imports both the DataExtraction resource file, of which
+        we will hear more, and genericwindow.py. The DataExtraction library enables
+        certain Sikuli operations, but genericwindow is the auto-generated GUI for
+        your test. In past versions of RFW you would have to create your own low-level
+        code to connect with the GUI components. Now, genericwindow contains all the
+        keywords you will ever need.<br>
+        <img src="robot4.png"><br><br>
+        Still, genericwindow is a blank slate until it is configured. In the <code>Start Up</code>
+        keyword, we will use the configuration file to change that. On line 24 we
+        call <code>Configure Image Library</code> which is required for RFW 3.0 testing.
+        Among other things it sets up sikuli and ensures your data is all routed to
+        the same folder. On line 27 we call <code>Configure</code> from generic window
+        and we pass it the folder for the GUI configuration file. In the overlap you can
+        see that the folder name ends with '/' and we include the same data path.
+<br><br>
+        How does this work? In genericwindow.py (or more correctly the parent class
+        window.py) the <code>Configure</code> process parses the config file and 
+        gathers all the data you have provided. Among other things it creates a list
+        of named widgets and adds them to the GUI. Now you can access any of the
+        widgets from keywords built into genericwindow. An example is shown on line
+        30 where we call <code>main.Find</code>. The <code>Find</code> function searches
+        the screen for any of the Anchors. Once the anchor is found, the relative (x,y)
+        location of all widgets is updated. In this case we are using Find to ensure
+        the calculator app is on the screen. After finding we can begin testing. Note
+        that when the app is closed, <code>Stop Test</code> also calls <code>main.Click</code>
+        and selects the closeButton we identified earlier.
+<br></br>
+        Finally, let's examine the very simple <code>Test Case</code>. It begins and
+        ends by calling keywords to setup/stop the test. Note the use of <code>[TEARDOWN]</code>.
+        This is a useful feature for test cases (or <code>[KEYWORD TEARDOWN]</code> for
+        keywords) to enforce a final cleanup even when the test case has failed. TEARDOWN
+        will always run and close the window. The test case also documents the API for
+        <code>main</code>. There are two keywords that can be used by the tester to get 
+        information contained in the config and verify the GUI is properly working.<br>
+        <dl>
+          <dt><code>Document API</code></dt><dd>This function creates text, suitable for
+          logging, that describes each widget in the window and all of the functions it
+          supports.<br><img src="apilog.png"></dd>
+          <dt><code>Debug Window</code></dt><dd>This function highlights each widget on
+          on the screen for a fraction of a second. It is useful to see where genericwindow
+          believes the widgets are and to verify the placement is correct.<br><img src="debug.png"></dd>
+        </dl>
+      </li>
+    </ol>
+    <a name="session4-solut"></a><h3>Solution Scripts</h3>
+    <a href="rfw4.robot" download target="_blank">Robot script</a><br>
+    <a href="prject4.json" download target="_blank">Config JSON</a><br>
 
 
     <a name="session2"></a><h2>Using Keywords</h2>
