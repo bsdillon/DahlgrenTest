@@ -1,5 +1,5 @@
 *** Settings ***
-Library    genericwindow.py    WITH NAME    calc
+Library    genericwindow    WITH NAME    calc
 Library    String
 
 Resource    switch.resource

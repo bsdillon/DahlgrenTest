@@ -1,17 +1,18 @@
 import sys
 import json
-from widgets.widget import Widget, CreateTester
-from widgets.button import Button
-from widgets.group import Group
-from widgets.anchor import Anchor
-from widgets.movepoint import MovePoint
-from widgets.button import Button
-from widgets.checkbox import CheckBox
-from widgets.dropdown import DropDown
-from widgets.radiobutton import RadioButton
-from widgets.scrollbar import ScrollBar
-from widgets.tab import Tab
-from widgets.textfield import TextField
+from widget import Widget
+from widget import CreateTester
+from button import Button
+from group import Group
+from anchor import Anchor
+from movepoint import MovePoint
+from button import Button
+from checkbox import CheckBox
+from dropdown import DropDown
+from radiobutton import RadioButton
+from scrollbar import ScrollBar
+from tab import Tab
+from textfield import TextField
 from robot.api.deco import keyword
 
 MARGIN = 5

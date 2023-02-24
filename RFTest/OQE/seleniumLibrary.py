@@ -1,14 +1,14 @@
 from robot.api.deco import keyword
 from PIL import Image
-from OQE.imagelibrary import imagelibrary, MouseButtons
-from OQE.filemaker import *
+import imagelibrary
+import filemaker
 #documentation at https://www.selenium.dev/documentation/webdriver/
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 
-class seleniumlibrary(imagelibrary):
+class seleniumlibrary(imagelibrary.imagelibrary):
    ROBOT_LIBRARY_SCOPE = 'SUITE'
    ROBOT_AUTO_KEYWORDS = False
 
@@ -35,9 +35,9 @@ class seleniumlibrary(imagelibrary):
       if self.foundElement == None:
          raise Exception("Element was not found")
 
-      if button==MouseButtons.LEFT:
+      if button==imagelibrary.MouseButtons.LEFT:
          self.foundElement.click()
-      elif button==MouseButtons.RIGHT:
+      elif button==imagelibrary.MouseButtons.RIGHT:
          self.actionChain.context_click(self.foundElement)
       else:
          raise NotImplemented("Selenium does not implement mouse button#"+str(button))
@@ -65,7 +65,7 @@ class seleniumlibrary(imagelibrary):
       """
       Already documented as part of imagelibrary
       """
-      next = nextFile(self.imgPath, name)
+      next = filemaker.nextFile(self.imgPath, name)
       fileName = self.browser.get_screenshot_as_file(next)
       return fileName
     
@@ -106,7 +106,7 @@ class seleniumlibrary(imagelibrary):
       self.foundElement = self.browser.execute_script( script, midX, midY)
 
    def __init__(self):
-      imagelibrary.__init__(self)
+      imagelibrary.imagelibrary.__init__(self)
 
    @keyword(name="Configure Selenium")
    def configureSelenium(self, browser, site):

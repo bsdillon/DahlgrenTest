@@ -212,6 +212,7 @@ td.running {
     -4px -4px 8px 0 rgba(255, 255, 255, 0);
 }
 
+.overlay img { border: solid black 1px;}
 .popup {width:100%;}
 .thumb {width:50px; height:50px;}
 .small {width:1%;}

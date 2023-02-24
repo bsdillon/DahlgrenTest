@@ -223,6 +223,6 @@ class ImageWindow(ImageUpdater):
         bounds= self.canvas.bbox(overlay.textID)
         w = (w - (bounds[2]-bounds[0]))/2
         h = (h - (bounds[3]- bounds[1]))/2
-        self.canvas.move(overlay.textID, x1 + w, y1 + h)
-        self.canvas.move(overlay.textID2, x1 + w - 2, y1 + h - 2)
+        self.canvas.move(overlay.textID, w, h)
+        self.canvas.move(overlay.textID2, w - 2, h - 2)
         return overlay

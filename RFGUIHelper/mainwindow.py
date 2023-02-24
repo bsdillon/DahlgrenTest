@@ -108,8 +108,8 @@ class MainWindow():
         if temp == "":
             mb.showerror(title="Error", message="Project not selected", parent=self.window)
             return
-	p = Path(temp)
-	temp = p.parent
+        p = Path(temp)
+        temp = p.parent
         self.openProject(temp)
 
     def openProject(self, directory):
@@ -186,6 +186,9 @@ class MainWindow():
     #         return
 
     def closeProject(self):
+        if self.projFile == None:
+            return True
+
         response = mb.askyesnocancel("Save changes?", "\tDo you want to save any changes?\t")
 
         if response == None:

@@ -35,7 +35,7 @@ Test Check
     ...    Test check generates a logging message in the default RFW report.
     ...    Documents the connection to the resource file and Tesseract.
     Log    DataExtraction.resource is connected
-    ${a} =    Verify Tesseract
+    ${a} =    text.Verify Tesseract
     Run Keyword If    '${a}'=='True'    Log    Text reader is confirmed    ELSE    Log    Text reader is NOT connected
     Run Keyword If    '${a}'!='True'    Fail    No text reader; connect tesseract.
 

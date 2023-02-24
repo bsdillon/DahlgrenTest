@@ -1,6 +1,6 @@
 from robot.api.deco import keyword
 from pytesseract import pytesseract
-from OQE.filemaker import *
+import filemaker
 import os.path
 #BSD some of the CV code could be used to enhance the images, 
 #but by default it is not used.
@@ -90,7 +90,7 @@ class textreader:
         custom_config = r'--oem 3 --psm 6'
         text = pytesseract.image_to_string(imgFile, config=custom_config)
         if deleteAfter:
-            deleteFile(imgFile)
+            filemaker.deleteFile(imgFile)
 
         #simple sanitation of the text
         text = text.replace('_'," ").strip()

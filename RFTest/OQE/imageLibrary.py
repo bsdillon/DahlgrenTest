@@ -2,7 +2,7 @@ from robot.api.deco import keyword
 import time  # needed for animation of GIFs
 from os import sep, remove
 import subprocess
-from OQE.filemaker import *
+import filemaker
 from threading import Event, Thread
 import pathlib
 
@@ -81,7 +81,7 @@ class imagelibrary:
         #we will need some form of synchronization on self.watchers
 
         #determine the real name to use for this Watcher
-        baseName = safeFileName(name)
+        baseName = filemaker.safeFileName(name)
         trueName = baseName
         index=1
         while trueName in self.watchers:
@@ -115,7 +115,7 @@ class imagelibrary:
         while runEvent.isSet() and (limit==-1 or count<limit):
             time.sleep(rateSeconds)
             count = count + 1
-            self.picture(self.watcherPath, thing, name=baseName+alphaCount(count))
+            self.picture(self.watcherPath, thing, name=baseName+filemaker.alphaCount(count))
 
     @keyword(name="Halt All Watchers")
     def haltAllWatchers(self):
@@ -170,7 +170,7 @@ class imagelibrary:
         if not self.usable:
             raise FileNotFoundError("Cannot use ImageLibrary before 'Configure Image Path'")
 
-        return nextFile(self.imgPath, proposed)
+        return filemaker.nextFile(self.imgPath, proposed)
 
     @keyword(name="Read from Element")
     def read(self, description):
@@ -491,7 +491,7 @@ class imagelibrary:
         '''
         if not self.usable:
             raise FileNotFoundError("Cannot use ImageLibrary before 'Configure Image Path'")
-        next = nextFile(self.imgPath, name, "GIF")
+        next = filemaker.nextFile(self.imgPath, name, "GIF")
         if sourcePath == None:
             sourcePath = self.tempPath
 

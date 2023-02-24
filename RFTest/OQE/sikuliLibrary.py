@@ -1,13 +1,17 @@
-from OQE.imagelibrary import imagelibrary, MouseButtons
-from OQE.filemaker import *
+
+
+import imagelibrary
+#from il import imagelibrary, MouseButtons
+import filemaker
+import os
 from pathlib import Path
 from py4j.java_gateway import JavaGateway
 gateway = JavaGateway()#connect to JVM
-from OQE.textreader import textreader
+import textreader
 
 MINIMUM_MATCH_PERCENT = 0.97
 
-class sikulilibrary(imagelibrary):
+class sikulilibrary(imagelibrary.imagelibrary):
    ROBOT_LIBRARY_SCOPE = 'SUITE'
    ROBOT_AUTO_KEYWORDS = False
 
@@ -29,9 +33,9 @@ class sikulilibrary(imagelibrary):
       if self.foundElement == None:
          raise Exception("Element was not found")
       
-      if button==MouseButtons.LEFT:
+      if button==imagelibrary.MouseButtons.LEFT:
          self.foundElement.click()
-      elif button==MouseButtons.RIGHT:
+      elif button==imagelibrary.MouseButtons.RIGHT:
          self.foundElement.rightClick()
       else:
          raise NotImplemented("Sikuli does not implement mouse button#"+str(button))
@@ -76,8 +80,8 @@ class sikulilibrary(imagelibrary):
       screen = gateway.entry_point.getScreen()
       image = screen.capture(thing)
       tmp = image.getFilename()
-      next = nextFile(path, name)
-      moveFile(tmp, next)
+      next = filemaker.nextFile(path, name)
+      filemaker.moveFile(tmp, next)
       return next
 
    def findElement(self, description):
@@ -97,7 +101,7 @@ class sikulilibrary(imagelibrary):
       self.foundElement = gateway.entry_point.createRegion(int(x), int(y), int(w), int(h))
 
    def __init__(self):
-      imagelibrary.__init__(self)
+      imagelibrary.imagelibrary.__init__(self)
       import random
       self.myID = random.randint(1, 1000)
       # try:

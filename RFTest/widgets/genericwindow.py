@@ -1,7 +1,13 @@
+#Adds the path to OQE folder
+import sys
+import os
+sys.path.append(os.path.abspath("C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE"))
+from OQE import *
+
 from robot.api.deco import keyword
-from OQE.imagelibrary import MouseButtons
-from widgets.window import Window
-from widgets.widget import TestType
+import imagelibrary
+from window import Window
+from widget import TestType
 
 class genericwindow(Window):
     '''
@@ -59,7 +65,7 @@ class genericwindow(Window):
         Right clicks on the intended widget\n\n
         widget_name - The unique name of the intended widget
         '''
-        self.getWidget(widget_name).click(button=MouseButtons.RIGHT)
+        self.getWidget(widget_name).click(button=imagelibrary.MouseButtons.RIGHT)
 
     @keyword(name='Read')
     def Read(self, widget_name):

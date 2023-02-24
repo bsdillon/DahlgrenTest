@@ -59,6 +59,12 @@
           <li><a href="#session3-solut">Solution Files</a></li>
         </ul>
       </li>
+      <li><a href="#session4">Working With A GUI</a>
+        <ul>
+          <li><a href="#session4-instr">Instructions</a></li>
+          <li><a href="#session4-solut">Solution Files</a></li>
+        </ul>
+      </li>
     </ul>
 
       <li>
@@ -93,7 +99,7 @@
     <ul>
       <li>pillow [<a href="https://pypi.org/project/Pillow/#history">link</a>]</li>
       <li>Py4J [<a href="https://pypi.org/project/py4j/">link</a>]</li>
-      <li>robotframework [<a href="https://pypi.org/project/robotframework/">link</a>]</li>
+      <li>robotframework</li>
     </ul>
     <h4>Other</h4>
     <ul>
@@ -652,7 +658,10 @@ Find r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
       repeat these steps with any application on your target computer.
       This session will repeat the basic RFW setup and use the RFGUIHelper
       and Sikuli to find the GUI and close it. Later we will expand
-      the use of GUIs in testing.
+      the use of GUIs in testing.<br><br>
+      <span class="red">NOTE</span>: You will need to start the SikuliServer
+      before running any Sikuli test. Run <code>deployment/RFTest/SikuliEntry/javaserver.bat</code>.
+      You may consider making this an automatic process during Suite Startup.
     </p>
 
     <h3>Instructions</h3>
@@ -756,17 +765,281 @@ Find r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
     <a href="rfw4.robot" download target="_blank">Robot script</a><br>
     <a href="prject4.json" download target="_blank">Config JSON</a><br>
 
-
-    <a name="session2"></a><h2>Using Keywords</h2>
+    <a name="session5"></a><h2>Recording the Test</h2>
     <p>
+      In this session we will create a real test against this application. This is 
+      exciting. We are going to create test cases, keywords, and gather data to
+      auto-generate a test report. We're going to treat this seriously, even though
+      it will still be the calculator app.
     </p>
 
     <h3>Instructions</h3>
-    <ol><a name="session2-instr"></a>
+    <ol><a name="session5-instr"></a>
       <li>
+        Obviously, the GUI has been reviewed considerably and we have a more
+        extensive list of widgets. Note that the table shows all 21. If you
+        wanted to edit one, click on that row and the same editor pops up.<br>
+        <img src="fullcalc.png">
+      </li>
+      <li>
+        We will start with the same script as the last exercise and this time
+        we will set up in a DDT paradigm with test cases for each of the 
+        four operations. In settings we align <code>Start Up</code> and <code>Stop Test</code>
+        with appropriate DDT keywords. Under test cases we give each case a
+        name that fully describes the case. There are four parameters which 
+        will enable <code>Operation</code><br>
+          <code>
+*** Settings ***<br>
+Resource&nbsp;&nbsp;&nbsp;&nbsp;DataExtraction.resource<br>
+Library&nbsp;&nbsp;&nbsp;&nbsp;genericwindow.py&nbsp;&nbsp;&nbsp;&nbsp;WITH NAME&nbsp;&nbsp;&nbsp;&nbsp;main<br>
+<br>
+Suite Setup&nbsp;&nbsp;&nbsp;&nbsp;Start Up<br>
+Test Template&nbsp;&nbsp;&nbsp;&nbsp;Operation<br>
+Suite Teardown&nbsp;&nbsp;&nbsp;&nbsp;Stop Test<br>
+<br>
+* * *<br>
+<br>
+*** Test Cases ***<br>
+1+5 = 6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6<br>
+2x8 = 16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;multiply&nbsp;&nbsp;&nbsp;&nbsp;16<br>
+30 / 6 = 5&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;divide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5<br>
+9 - 4 = 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;minus&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5<br>
+<br>
+* * *<br>
+<br>
+Operation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[ARGUMENTS]&nbsp;&nbsp;&nbsp;&nbsp;${operand1}&nbsp;&nbsp;&nbsp;&nbsp;${operand2}&nbsp;&nbsp;&nbsp;&nbsp;${op}&nbsp;&nbsp;&nbsp;&nbsp;${answer}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;main.Find<br>
+&nbsp;&nbsp;&nbsp;&nbsp;main.Click&nbsp;&nbsp;&nbsp;&nbsp;clear<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Type Number&nbsp;&nbsp;&nbsp;&nbsp;${operand1}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;main.Click&nbsp;&nbsp;&nbsp;&nbsp;${op}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Type Number&nbsp;&nbsp;&nbsp;&nbsp;${operand2}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;${a} =&nbsp;&nbsp;&nbsp;&nbsp;main.Read&nbsp;&nbsp;&nbsp;&nbsp;${output}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Run Keyword If&nbsp;&nbsp;&nbsp;&nbsp;${a}!=${answer}&nbsp;&nbsp;&nbsp;&nbsp;Fail<br>
+          </code>
+<br>
+        What does the operation (our <code>Test Template</code>) do? First it finds the
+        window and clears any previous data. Arguably this could be moved
+        to a <code>Test Setup</code>, but we'll leave it here for now. 
+        We need to read in a number by clicking buttons, but for now we
+        will only name a proposed keyword <code>Type Number</code>. We
+        test by typing one number, clicking on the operator (e.g. '+')
+        and then typing the next number. After clicking equals we can
+        read the output. If there is a mismatch the test fails. This is
+        a complete test and you can run the four cases to get a result.
+      </li>
+      <li>
+        To create <code>Type Number</code> we need to use the <a href="https://robotframework.org/robotframework/latest/libraries/String.html#Split%20String%20To%20Characters">Split String To Characters</a>
+        seen earlier. In the keyword we will split the number into a list of <code>${digits}</code>.
+        This time we will use a <code>FOR</code> loop. RFW uses a FOR
+        to look at each character in the list. We will use that opportunity
+        to <code>Click</code> on the appropriate button. Note that <br>
+          <code>
+Type Number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;[ARGUMENTS]&nbsp;&nbsp;&nbsp;&nbsp;${NUM}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;${digits} =&nbsp;&nbsp;&nbsp;&nbsp;Split String To Characters&nbsp;&nbsp;&nbsp;&nbsp;${NUM}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;&nbsp;&nbsp;&nbsp;${digit}&nbsp;&nbsp;&nbsp;&nbsp;IN&nbsp;&nbsp;&nbsp;&nbsp;@{digits}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run Keyword&nbsp;&nbsp;&nbsp;&nbsp;main.Click&nbsp;&nbsp;&nbsp;&nbsp;${digit}_button<br>
+&nbsp;&nbsp;&nbsp;&nbsp;END<br>
+          </code>
+      </li>
+      <li>
+        Now, if you run this test and have some problems, that's not 
+        surprising. We have a test script, but we aren't gathering any
+        data--what we refer to as Objective Quality Evidence or OQE.
+        We need to record data to find out what is happening and fix
+        the script. What kind of OQE should we gather? This list shows
+        the standard which is desired on all tests. These OQE steps
+        create an audit trail so that by reviewing the report one
+        has as much data as if you had observed the test live.
+        <dl>
+          <dt>When you start some action...</dt><dd>Mark the action</dd>
+          <dt>If something can be seen...</dt><dd>Take a picture</dd>
+          <dt>If there was a change in conditions...</dt><dd>Record the data before and after</dd>
+          <dt>If you enforced some change...</dt><dd>Verify that it took</dd>
+          <dt>If you expected some outcome...</dt><dd>Record what you found<br>Verify it matched</dd>
+          <dt>When you finish some action...</dt><dd>Mark the action</dd>
+          <dt>If something went wrong...</dt><dd>Fail the test</dd>
+        </dl>
+      </li>
+      <li>
+        Let's apply these rules to our test. The first action is when
+        we clear any existing data. So let's add some OQE gathering.<br>
+          <code>
+    Archive Any Previous Data<br>
+<br>
+    New Test Event&nbsp;&nbsp;&nbsp;&nbsp;${TEST NAME}
+          </code>
+<br><br>
+        First, we will archive OQE data and create a test case. These
+        are commands in the DataExtraction library that clear any previous 
+        report and start a new line. Archive Any Previous Data may be 
+        appropriate for <code>Suite Startup</code>. New Test Event belongs
+        in at the start of the <code>Test Template</code> or even the
+        <code>Test Startup</code>. The <code>${TEST NAME}</code> is a
+        built in variable that always has the case name (e.g. 1 + 5 = 6).<br>
+      </li>
+      <li>
+        Now we can examine appropriate OQE steps added around the one
+        line <code>main.Click&nbsp;&nbsp;&nbsp;&nbsp;clear</code>. The
+        section begins with <code>Record Action</code> and ends with 
+        <code>Keyword Final</code>. These are meant to deliniate this
+        action from all others and to create a Green/Red block in the
+        report. Note the solid yellow and green lines across the detailed
+        report, corresponding to these lines in the script. In addition
+        we take a screen capture of the cleared input and read the value.
+        Both are recorded in the report and the pass/fail criteria for
+        this section is created by <code>Assert OQE Values Equal</code>.
+        Looking at the report, it is visually verifiable that the value
+        was zero and we have a quick pass/fail verification of that data.
+        As promised, if you only read the report you could still verify
+        the test results.<br>
+        <img src="firstOQE.png">
+<br><br>
+        It is worth noting that all of these OQE keywords come from <code>DataExtraction.resource</code>.
+        That is a small library with full documentation at <code>deployment/RFTest/Doc/dataextraction.html</code>.
+        Broadly, the library has keywords for report formatting (action, 
+        soft, and hard breaks), asserting pass/fail criteria (e.g. two 
+        values are equal), and recording test data. There are also data
+        charts (courtesy of <a href="https://bsdillon.github.io/DahlgrenTest/html/RFDocumentation/charting/index.html">chart.js</a>)
+        for data reporting per test or per suit of tests. Finally, note
+        the name <code>Keyword Final</code>. These one keyword is so
+        typical as part of <code>TEARDOWN</code> that it was specifically
+        added for the purpose. Recall that teardown is enforced even if
+        the keyword or test fails. Keyword Final captures the final state
+        and adds that content to the report. As in the example shown above
+        if the criteria passed a green block and line will be added to
+        the report. If the criteria failed... you get red. All of this suggests
+        that the various data gathering and reporting around the clearing
+        action may be extracted into its own keyword.
+      </li>
+      <li>
+        One may debate which sections of the test form a cohesive "unit"
+        worthy of OQE and indeed its own keyword. Two criteria should be
+        considered: Is the block repeated anywhere in the test? Will the 
+        block be reused by any other test? If either answer is yes, it 
+        should be extracted in this way. We can do something similar with
+        the two operands and the operator. In effect all the next block
+        until we hit '=' is one action. We can wrap it with OQE and expect
+        that <code>Math Problem</code> is a reusable component in future
+        tests. Extract those lines and add the following OQE:<br>
+        <ul>
+          <li>Record the action and add Keyword Final.</li>
+          <li>Take a picture of each complete number</li>
+          <li>Read the value of each complete number</li>
+          <li>Verify that the numbers match expectations</li>
+          <li>Record the final result, maybe adding a picture</li>
+        </ul>
+      </li>
+      <li>
+        In doing the last activity, you may have noticed an oversight
+        that caused the test to fail. It was missing the line <code>main.Click&nbsp;&nbsp;&nbsp;&nbsp;equals</code>.
+        Not only does adding OQE help us to verify test results, but
+        it is also a valuable way of verifying the test script. If
+        an action happens, we need OQE. If we need OQE, then the action
+        should be verified. Creating this new keyword should add a second
+        block to our report and additional data in the detailed report.<br>
+        <img src="secondOQE.png">
+      </li>
+      <li>
+        While it's nice to see all the green Pass results, we aren't quite done.
+        We need to verify the final result matches our expectations.
+        Right now we are using <code>Fail</code> but that doesn't produce
+        useful OQE. Go back to the final action. We already recorded
+        the result in both picture and value. Now, we just need to
+        verify the results and summarize our test results. Let's backtrack
+        to <code>Clear Data</code> and <code>Math Problem</code>. In
+        each case the last line (just before Keyword Final) should be
+        a variant on <code>Run Keyword If&nbsp;&nbsp;&nbsp;&nbsp;${a}!='PASS'&nbsp;&nbsp;&nbsp;&nbsp;Fail</code>.
+        This means that each keyword has the potential to fail the
+        whole test. Within our test case we can take some creative
+        steps to ensure a more useful output. In each case:<br>
+        <ul>
+          <li>You can anticipate the cause of failure for that keyword</li>
+          <li>You can report the final result</li>
+          <li>You can update in the event that the keyword passes</li>
+        </ul>
       </li>
     </ol>
-    <a name="session2-solut"></a><h3>Solution Scripts</h3>
-    <a href="rfw1.robot" download target="_blank">Robot script</a><br>
+    <a name="session5-solut"></a><h3>Solution Scripts</h3>
+    <a href="rfw5.robot" download target="_blank">Robot script</a><br>
+    <a href="project5.json" download target="_blank">Config JSON</a><br>
+
+    <a name="session6"></a><h2>Resource Files</h2>
+    <p>
+      This last session will focus on resource files. Up to now
+      we have used <code>.robot</code> files, but now we will 
+      learn how and when to create a <code>.resource</code> file.
+      Recall that robot files are <i>tests</i>. As such they are
+      designed for one use only. In order to create reusable code
+      for use in multiple tests, you must use a resource file. In
+      this session we will turn the last test into a resource file.
+    </p>
+
+    <h3>Instructions</h3>
+    <ol><a name="session6-instr"></a>
+      <li>
+        Let's start with the solution file from the last test. In this
+        case we will copy and rename as a <code>.resource</code>. Right
+        away there are things that we can strip out because they should
+        be part of a test. Instead, this resource will be used for the
+        standard calculator.<br>
+        <ul>
+          <li><code>${DATA PATH}</code> should be removed from variables.</li>
+          <li>Get rid of all the <code>*** Test Cases ***</code>.</li>
+          <li>It is debatable if the DataExtraction resource file should remain,
+          but it certainly does no <em>harm</em>. On the other hand all the 
+          DDT keyword definitions belong only in a test file.</li>
+          <li>The <code>Operation</code> keyword was the Test Template
+          and it has no business in the resource file.</li>
+          <li>For similar reasons, remove <code>Start Up</code> and <code>Stop Test</code>.</li>
+        </ul>
+      </li>
+      <li>
+        Just as we removed things that had no business in a resource file,
+        there are some things we should either add or rescue from the removed 
+        code.<br>
+        <ul>
+          <li>Create a new keyword to start the calculator. You can use pieces
+          rescued from <code>Start Up</code>.</li>
+          <li>Create a new keyword to close the calculator using pieces from 
+          <code>Stop Test</code>.</li>
+          <li><code>Type Number</code> is set up for numbers only. We might
+          consider adding two new features. It is possible that you could add
+          a regular expression check to <a href='https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Should%20Match%20Regexp'>validate number formats</a>. It really
+          depends on how complex your tests would be.<br>
+          <ul>
+            <li>Flipping the sign -/+ when the number includes '&minus;'</li>
+            <li>Inserting a decimal point when the number includes '.'</li>
+          </ul>
+          </li>
+          <li>Add buttons to the GUI for square, square root, etc.</li>
+          <li>Create new "problem" keywords for each of these functions. Again
+          for this example you can get as detailed as you like.</li>
+        </ul>
+      </li>
+      <li>
+        Don't forget to add the OQE for your report. At the very least you have
+        actions to record and if you can determine what the correct course of 
+        action should be, validate that as well.
+      </li>
+      <li>
+        The goal of this resource is that it can be used to operate the calculator,
+        perhaps as part of a larger test. It should have keywords that allow a test
+        to start the calculator, type various numbers, perform various operations, 
+        read and clear the results, and close the calculator again. We don't have
+        any test in mind at this time, just preparation for potential uses.
+      </li>
+      <li>
+        After refactoring the test file into a resource, we can return to the 
+        <code>.robot</code> file. Create a copy and rewrite to include <em>just</em>
+        the test portion. As we intended, import the new resource file and use the
+        new keywords to recreate the same test effects.
+      </li>
+    </ol>
+    <a name="session6-solut"></a><h3>Solution Scripts</h3>
+    <a href="rfw6.robot" download target="_blank">Robot script</a><br>
+    <a href="rfw6.resource" download target="_blank">Resource script</a><br>
+    <a href="project6.json" download target="_blank">Config JSON</a><br>
   </body>
 </html>

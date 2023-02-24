@@ -1,7 +1,7 @@
 *** Settings ***
 Resource   DataExtraction.resource
-Library    genericwindow.py    WITH NAME    header
-Library    genericwindow.py    WITH NAME    typeMenu
+Library    genericwindow    WITH NAME    header
+Library    genericwindow    WITH NAME    typeMenu
 
 *** Variables ***
 ${DATA PATH} =    C:/Users/Benny/Documents/RFData
