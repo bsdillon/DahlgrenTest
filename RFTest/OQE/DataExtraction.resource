@@ -57,9 +57,10 @@ Configure Image Library
     ...    Only in the case of a Selenium test, the browser and URL are also identified.
     ...    *NOTE* You must call _Configure Image Libaray_ before any of a number of functions
     ...    Using the data path and image library. Best to do so during test setup.
-    [ARGUMENTS]    ${type}    ${datapath}    ${browser}=None    ${url}=None
+    [ARGUMENTS]    ${type}    ${datapath}    ${browser}=None    ${url}=None    ${remoteVNC}=None
     Run Keyword If    '${type}'=='Sikuli'    Set Suite Variable    ${imageLib}    sikuliLib    ELSE    Set Suite Variable    ${imageLib}    seleniumLib
     Run Keyword If    '${type}'=='Selenium'    ${imageLib}.Configure Selenium    ${browser}    ${url}
+    Run Keyword If    '${type}'=='Sikuli'    ${imageLib}.Configure Sikuli    ${remoteVNC}
     Run Keyword    ${imageLib}.Configure Image Path    ${datapath}
     Log    Data Path configured
     oqe.Configure Data Path    ${datapath}

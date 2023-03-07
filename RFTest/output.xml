@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 5.0.1 (Python 3.10.8 on win32)" generated="20230223 23:26:15.088" rpa="false" schemaversion="3">
-<suite id="s1" name="Main2" source="C:\Users\Benny\Documents\github\DahlgrenTest\RFTest\examples\arith\main2.robot">
-<kw name="Start Up" type="SETUP">
+<robot generator="Robot 5.0.1 (Python 3.10.8 on win32)" generated="20230307 10:08:01.881" rpa="false" schemaversion="3">
+<suite id="s1" name="remoteCacl" source="C:\Users\Benny\Documents\github\DahlgrenTest\RFTest\examples\calculator\remoteCacl.robot">
+<kw name="Suite Start" type="SETUP">
+<kw name="Setup Header" library="switch">
+<arg>192.168.0.22;5900;password</arg>
 <kw name="Configure Image Library" library="DataExtraction">
 <arg>Sikuli</arg>
 <arg>${DATA PATH}</arg>
+<arg>remoteVNC=${remote}</arg>
 <doc>Part of *Test Setup*.
 Determines the _type_ of test as either Sikuli or Selenium. Other options may follow
 The function also sets the datapath for all images and test data files.
@@ -25,10 +28,10 @@ Using the data path and image library. Best to do so during test setup.</doc>
 <arg>${imageLib}</arg>
 <arg>sikuliLib</arg>
 <doc>Makes a variable available everywhere within the scope of the current suite.</doc>
-<msg timestamp="20230223 23:26:16.290" level="INFO">${imageLib} = sikuliLib</msg>
-<status status="PASS" starttime="20230223 23:26:16.289" endtime="20230223 23:26:16.290"/>
+<msg timestamp="20230307 10:08:03.728" level="INFO">${imageLib} = sikuliLib</msg>
+<status status="PASS" starttime="20230307 10:08:03.728" endtime="20230307 10:08:03.728"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:16.288" endtime="20230223 23:26:16.290"/>
+<status status="PASS" starttime="20230307 10:08:03.727" endtime="20230307 10:08:03.728"/>
 </kw>
 <kw name="Run Keyword If" library="BuiltIn">
 <arg>'${type}'=='Selenium'</arg>
@@ -36,7 +39,19 @@ Using the data path and image library. Best to do so during test setup.</doc>
 <arg>${browser}</arg>
 <arg>${url}</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:16.290" endtime="20230223 23:26:16.290"/>
+<status status="PASS" starttime="20230307 10:08:03.731" endtime="20230307 10:08:03.732"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${type}'=='Sikuli'</arg>
+<arg>${imageLib}.Configure Sikuli</arg>
+<arg>${remoteVNC}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<kw name="Configure Sikuli" library="sikuliLib">
+<arg>${remoteVNC}</arg>
+<doc>Part of *Test Configuration*</doc>
+<status status="PASS" starttime="20230307 10:08:03.733" endtime="20230307 10:08:03.741"/>
+</kw>
+<status status="PASS" starttime="20230307 10:08:03.732" endtime="20230307 10:08:03.741"/>
 </kw>
 <kw name="Run Keyword" library="BuiltIn">
 <arg>${imageLib}.Configure Image Path</arg>
@@ -45,181 +60,521 @@ Using the data path and image library. Best to do so during test setup.</doc>
 <kw name="Configure Image Path" library="sikuliLib">
 <arg>${datapath}</arg>
 <doc>Part of *Test Configuration*</doc>
-<status status="PASS" starttime="20230223 23:26:16.291" endtime="20230223 23:26:16.294"/>
+<status status="PASS" starttime="20230307 10:08:03.742" endtime="20230307 10:08:03.742"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:16.291" endtime="20230223 23:26:16.294"/>
+<status status="PASS" starttime="20230307 10:08:03.742" endtime="20230307 10:08:03.742"/>
 </kw>
 <kw name="Log" library="BuiltIn">
 <arg>Data Path configured</arg>
 <doc>Logs the given message with the given level.</doc>
-<msg timestamp="20230223 23:26:16.295" level="INFO">Data Path configured</msg>
-<status status="PASS" starttime="20230223 23:26:16.294" endtime="20230223 23:26:16.295"/>
+<msg timestamp="20230307 10:08:03.743" level="INFO">Data Path configured</msg>
+<status status="PASS" starttime="20230307 10:08:03.743" endtime="20230307 10:08:03.743"/>
 </kw>
 <kw name="Configure Data Path" library="oqe">
 <arg>${datapath}</arg>
 <doc>Part of *Test Setup*.</doc>
-<status status="PASS" starttime="20230223 23:26:16.295" endtime="20230223 23:26:16.295"/>
+<status status="PASS" starttime="20230307 10:08:03.743" endtime="20230307 10:08:03.743"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:16.288" endtime="20230223 23:26:16.296"/>
+<status status="PASS" starttime="20230307 10:08:03.726" endtime="20230307 10:08:03.744"/>
 </kw>
 <kw name="Archive Any Previous Data" library="oqe">
 <doc>Part of *Test Setup*</doc>
-<status status="PASS" starttime="20230223 23:26:16.296" endtime="20230223 23:26:16.362"/>
+<status status="PASS" starttime="20230307 10:08:03.744" endtime="20230307 10:08:03.908"/>
 </kw>
-<kw name="Start Arithmetic Calculator" library="arith">
+<kw name="Set Log Level" library="BuiltIn">
+<arg>TRACE</arg>
+<doc>Sets the log threshold to the specified level and returns the old level.</doc>
+<msg timestamp="20230307 10:08:03.909" level="INFO">Log level changed from INFO to TRACE.</msg>
+<msg timestamp="20230307 10:08:03.909" level="TRACE">Return: 'INFO'</msg>
+<status status="PASS" starttime="20230307 10:08:03.909" endtime="20230307 10:08:03.909"/>
+</kw>
+<kw name="Configure" library="header">
+<arg>Sikuli</arg>
+<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead</arg>
 <arg>${DATA PATH}</arg>
+<arg>${remote}</arg>
+<doc>Sets up the details of the generic window for a specific test</doc>
+<msg timestamp="20230307 10:08:03.910" level="TRACE">Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead' | 'C:/Users/Benny/Documents/RFData' | '192.168.0.22;5900;password' ]</msg>
+<msg timestamp="20230307 10:08:03.911" level="DEBUG">Command to send: c
+t
+addImagePath
+sC:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest
+i227
+e
+</msg>
+<msg timestamp="20230307 10:08:03.919" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:03.921" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:03.909" endtime="20230307 10:08:03.921"/>
+</kw>
+<kw name="Configure" library="typeMenu">
+<arg>Sikuli</arg>
+<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calcMenu</arg>
+<arg>${DATA PATH}</arg>
+<arg>${remote}</arg>
+<doc>Sets up the details of the generic window for a specific test</doc>
+<msg timestamp="20230307 10:08:03.922" level="TRACE">Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calcMenu' | 'C:/Users/Benny/Documents/RFData' | '192.168.0.22;5900;password' ]</msg>
+<msg timestamp="20230307 10:08:03.922" level="DEBUG">Command to send: c
+t
+addImagePath
+sC:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest
+i440
+e
+</msg>
+<msg timestamp="20230307 10:08:03.923" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:03.924" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:03.921" endtime="20230307 10:08:03.924"/>
+</kw>
 <kw name="Start Process" library="Process">
 <arg>calc</arg>
 <doc>Starts a new process on background.</doc>
-<msg timestamp="20230223 23:26:16.363" level="INFO">Starting process:
+<msg timestamp="20230307 10:08:03.924" level="TRACE">Arguments: [ 'calc' ]</msg>
+<msg timestamp="20230307 10:08:03.925" level="INFO">Starting process:
 calc</msg>
-<status status="PASS" starttime="20230223 23:26:16.363" endtime="20230223 23:26:16.372"/>
-</kw>
-<kw name="Configure" library="main">
-<arg>Sikuli</arg>
-<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/arith/</arg>
-<arg>${DATA PATH}</arg>
-<doc>Sets up the details of the generic window for a specific test</doc>
-<status status="PASS" starttime="20230223 23:26:16.373" endtime="20230223 23:26:16.401"/>
+<msg timestamp="20230307 10:08:03.925" level="DEBUG">Process configuration:
+cwd:     C:\Users\Benny\Documents\github\DahlgrenTest\RFTest
+shell:   False
+stdout:  PIPE
+stderr:  PIPE
+stdin:   PIPE
+alias:   None
+env:     None</msg>
+<msg timestamp="20230307 10:08:03.931" level="TRACE">Return: &lt;Popen: returncode: None args: ['calc']&gt;</msg>
+<status status="PASS" starttime="20230307 10:08:03.924" endtime="20230307 10:08:03.932"/>
 </kw>
 <kw name="Wait Until Keyword Succeeds" library="BuiltIn">
 <arg>2x</arg>
 <arg>3s</arg>
-<arg>main.Find</arg>
+<arg>header.Find</arg>
 <doc>Runs the specified keyword and retries if it fails.</doc>
-<kw name="Find" library="main">
+<msg timestamp="20230307 10:08:03.932" level="TRACE">Arguments: [ '2x' | '3s' | 'header.Find' ]</msg>
+<kw name="Find" library="header">
 <doc>Called to locate any anchor for the window and revise relative locations to 
 widgets.</doc>
-<msg timestamp="20230223 23:26:16.935" level="FAIL">Py4JJavaError: An error occurred while calling o795.find.
-: FindFailed: C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/arith//iconImage.png: (113x25) seen at (16, 101) with 1.00 in R[0,0 1366x768]@S(0)
-  Line 2291, in file Region.java
-
-	at org.sikuli.script.Region.find(Region.java:2291)
-	at sun.reflect.GeneratedMethodAccessor9.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-	at java.lang.reflect.Method.invoke(Unknown Source)
-	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
-	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:357)
-	at py4j.Gateway.invoke(Gateway.java:282)
-	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
-	at py4j.commands.CallCommand.execute(CallCommand.java:79)
-	at py4j.GatewayConnection.run(GatewayConnection.java:238)
-	at java.lang.Thread.run(Unknown Source)
+<msg timestamp="20230307 10:08:03.933" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230307 10:08:03.934" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
 </msg>
-<status status="FAIL" starttime="20230223 23:26:16.402" endtime="20230223 23:26:16.939"/>
+<msg timestamp="20230307 10:08:07.931" level="DEBUG">Answer received: !yro0</msg>
+<msg timestamp="20230307 10:08:07.931" level="DEBUG">Command to send: c
+t
+createPattern
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png
+e
+</msg>
+<msg timestamp="20230307 10:08:08.739" level="DEBUG">Answer received: !yro1</msg>
+<msg timestamp="20230307 10:08:08.740" level="DEBUG">Command to send: c
+o0
+find
+ro1
+e
+</msg>
+<msg timestamp="20230307 10:08:09.770" level="DEBUG">Answer received: !yro2</msg>
+<msg timestamp="20230307 10:08:09.770" level="DEBUG">Command to send: c
+o2
+getScore
+e
+</msg>
+<msg timestamp="20230307 10:08:09.773" level="DEBUG">Answer received: !yd0.999998927116394</msg>
+<msg timestamp="20230307 10:08:09.773" level="DEBUG">Command to send: c
+o2
+getTarget
+e
+</msg>
+<msg timestamp="20230307 10:08:09.773" level="DEBUG">Answer received: !yro3</msg>
+<msg timestamp="20230307 10:08:09.773" level="DEBUG">Command to send: c
+o3
+getX
+e
+</msg>
+<msg timestamp="20230307 10:08:09.774" level="DEBUG">Answer received: !yi88</msg>
+<msg timestamp="20230307 10:08:09.774" level="DEBUG">Command to send: c
+o3
+getY
+e
+</msg>
+<msg timestamp="20230307 10:08:09.775" level="DEBUG">Answer received: !yi80</msg>
+<msg timestamp="20230307 10:08:09.775" level="TRACE">Return: 'calcIcon'</msg>
+<status status="PASS" starttime="20230307 10:08:03.933" endtime="20230307 10:08:09.775"/>
 </kw>
-<kw name="Find" library="main">
+<msg timestamp="20230307 10:08:09.776" level="TRACE">Return: 'calcIcon'</msg>
+<status status="PASS" starttime="20230307 10:08:03.932" endtime="20230307 10:08:09.776"/>
+</kw>
+<msg timestamp="20230307 10:08:09.776" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:03.725" endtime="20230307 10:08:09.776"/>
+</kw>
+<kw name="Configure" library="calc">
+<arg>Sikuli</arg>
+<arg>C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator</arg>
+<arg>${DATA PATH}</arg>
+<arg>192.168.0.22;5900;password</arg>
+<doc>Sets up the details of the generic window for a specific test</doc>
+<msg timestamp="20230307 10:08:09.777" level="TRACE">Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator' | 'C:/Users/Benny/Documents/RFData' | '192.168.0.22;5900;password' ]</msg>
+<msg timestamp="20230307 10:08:09.777" level="DEBUG">Command to send: c
+t
+addImagePath
+sC:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest
+i229
+e
+</msg>
+<msg timestamp="20230307 10:08:09.850" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:09.852" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:09.776" endtime="20230307 10:08:09.852"/>
+</kw>
+<kw name="Find" library="calc">
 <doc>Called to locate any anchor for the window and revise relative locations to 
 widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:19.945" endtime="20230223 23:26:20.429"/>
+<msg timestamp="20230307 10:08:09.853" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230307 10:08:09.854" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:09.881" level="DEBUG">Answer received: !yro4</msg>
+<msg timestamp="20230307 10:08:09.881" level="DEBUG">Command to send: c
+t
+createPattern
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator/calculatorTitle.png
+e
+</msg>
+<msg timestamp="20230307 10:08:09.895" level="DEBUG">Answer received: !yro5</msg>
+<msg timestamp="20230307 10:08:09.895" level="DEBUG">Command to send: c
+o4
+find
+ro5
+e
+</msg>
+<msg timestamp="20230307 10:08:10.439" level="DEBUG">Answer received: !yro6</msg>
+<msg timestamp="20230307 10:08:10.440" level="DEBUG">Command to send: c
+o6
+getScore
+e
+</msg>
+<msg timestamp="20230307 10:08:10.440" level="DEBUG">Answer received: !yd0.9999979138374329</msg>
+<msg timestamp="20230307 10:08:10.440" level="DEBUG">Command to send: c
+o6
+getTarget
+e
+</msg>
+<msg timestamp="20230307 10:08:10.441" level="DEBUG">Answer received: !yro7</msg>
+<msg timestamp="20230307 10:08:10.441" level="DEBUG">Command to send: c
+o7
+getX
+e
+</msg>
+<msg timestamp="20230307 10:08:10.441" level="DEBUG">Answer received: !yi88</msg>
+<msg timestamp="20230307 10:08:10.441" level="DEBUG">Command to send: c
+o7
+getY
+e
+</msg>
+<msg timestamp="20230307 10:08:10.441" level="DEBUG">Answer received: !yi81</msg>
+<msg timestamp="20230307 10:08:10.442" level="TRACE">Return: 'title'</msg>
+<status status="PASS" starttime="20230307 10:08:09.853" endtime="20230307 10:08:10.442"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:16.401" endtime="20230223 23:26:20.429"/>
+<kw name="Document API" library="calc">
+<var>${tmp}</var>
+<doc>Returns a single string containing a set of all widgets in the window and 
+their available functions.</doc>
+<msg timestamp="20230307 10:08:10.442" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230307 10:08:10.442" level="TRACE">Return: 'Window[calculator]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[title]: find, click, doubleClick, capture, captureSmall\n\tButton[7_button]: read, click, doubleClick, capture, captureSmall\n\tButton[8_button]: read, click, doubleClick, capture, captureSmall\n\tButton[9_button]: read, click, doubleClick, capture, captureSmall\n\tButton[4_button]: read, click, doubleClick, capture, captureSmall\n\tButton[6_button]: read, click, doubleClick, capture, captureSmall\n\tButton[1_button]: read, click, doubleClick, capture, captureSmall\n\tButton[2_button]: read, click, doubleClick, capture, captureSmall\n\tButton[3_button]: read, click, doubleClick, capture, captureSmall\n\tButton[0_button]: read, click, doubleClick, capture, captureSmall\n\tButton[divide]: read, click, doubleClick, capture, captureSmall\n\tButton[subtract]: read, click, doubleClick, capture, captureSmall\n\tButton[add]: read, click, doubleClick, capture, captureSmall\n\tButton[equals]: read, click, doubleClick, capture, captureSmall\n\tButton[clear]: read, click, doubleClick, capture, captureSmall\n\tButton[decimal]: read, click, doubleClick, capture, captureSmall\n\tTextField[Output]: read, write, capture, captureSmall\n\tButton[close_button]: read, click, doubleClick, capture, captureSmall\n\tButton[times]: read, click, doubleClick, capture, captureSmall\n\tButton[5_button]: read, click, doubleClick, capture, captureSmall\n\tMovePoint[margin]: move, click, doubleClick, read, capture, captureSmall\n\tButton[menuButton]: read, click, doubleClick, capture, captureSmall\n\tTextField[calculatorType]: read, write, capture, captureSmall\n'</msg>
+<msg timestamp="20230307 10:08:10.442" level="INFO">${tmp} = Window[calculator]: find, setGroup, move, setLocation, click, capture, captureSmall
+	Achor[title]: find, click, doubleClick, capture, captureSmall
+	Button[7_button]: read, click, doubleClick, capture,...</msg>
+<status status="PASS" starttime="20230307 10:08:10.442" endtime="20230307 10:08:10.442"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:16.362" endtime="20230223 23:26:20.429"/>
+<kw name="Log" library="BuiltIn">
+<arg>${tmp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230307 10:08:10.443" level="TRACE">Arguments: [ 'Window[calculator]: find, setGroup, move, setLocation, click, capture, captureSmall\n\tAchor[title]: find, click, doubleClick, capture, captureSmall\n\tButton[7_button]: read, click, doubleClick, capture, captureSmall\n\tButton[8_button]: read, click, doubleClick, capture, captureSmall\n\tButton[9_button]: read, click, doubleClick, capture, captureSmall\n\tButton[4_button]: read, click, doubleClick, capture, captureSmall\n\tButton[6_button]: read, click, doubleClick, capture, captureSmall\n\tButton[1_button]: read, click, doubleClick, capture, captureSmall\n\tButton[2_button]: read, click, doubleClick, capture, captureSmall\n\tButton[3_button]: read, click, doubleClick, capture, captureSmall\n\tButton[0_button]: read, click, doubleClick, capture, captureSmall\n\tButton[divide]: read, click, doubleClick, capture, captureSmall\n\tButton[subtract]: read, click, doubleClick, capture, captureSmall\n\tButton[add]: read, click, doubleClick, capture, captureSmall\n\tButton[equals]: read, click, doubleClick, capture, captureSmall\n\tButton[clear]: read, click, doubleClick, capture, captureSmall\n\tButton[decimal]: read, click, doubleClick, capture, captureSmall\n\tTextField[Output]: read, write, capture, captureSmall\n\tButton[close_button]: read, click, doubleClick, capture, captureSmall\n\tButton[times]: read, click, doubleClick, capture, captureSmall\n\tButton[5_button]: read, click, doubleClick, capture, captureSmall\n\tMovePoint[margin]: move, click, doubleClick, read, capture, captureSmall\n\tButton[menuButton]: read, click, doubleClick, capture, captureSmall\n\tTextField[calculatorType]: read, write, capture, captureSmall\n' ]</msg>
+<msg timestamp="20230307 10:08:10.443" level="INFO">Window[calculator]: find, setGroup, move, setLocation, click, capture, captureSmall
+	Achor[title]: find, click, doubleClick, capture, captureSmall
+	Button[7_button]: read, click, doubleClick, capture, captureSmall
+	Button[8_button]: read, click, doubleClick, capture, captureSmall
+	Button[9_button]: read, click, doubleClick, capture, captureSmall
+	Button[4_button]: read, click, doubleClick, capture, captureSmall
+	Button[6_button]: read, click, doubleClick, capture, captureSmall
+	Button[1_button]: read, click, doubleClick, capture, captureSmall
+	Button[2_button]: read, click, doubleClick, capture, captureSmall
+	Button[3_button]: read, click, doubleClick, capture, captureSmall
+	Button[0_button]: read, click, doubleClick, capture, captureSmall
+	Button[divide]: read, click, doubleClick, capture, captureSmall
+	Button[subtract]: read, click, doubleClick, capture, captureSmall
+	Button[add]: read, click, doubleClick, capture, captureSmall
+	Button[equals]: read, click, doubleClick, capture, captureSmall
+	Button[clear]: read, click, doubleClick, capture, captureSmall
+	Button[decimal]: read, click, doubleClick, capture, captureSmall
+	TextField[Output]: read, write, capture, captureSmall
+	Button[close_button]: read, click, doubleClick, capture, captureSmall
+	Button[times]: read, click, doubleClick, capture, captureSmall
+	Button[5_button]: read, click, doubleClick, capture, captureSmall
+	MovePoint[margin]: move, click, doubleClick, read, capture, captureSmall
+	Button[menuButton]: read, click, doubleClick, capture, captureSmall
+	TextField[calculatorType]: read, write, capture, captureSmall
+</msg>
+<msg timestamp="20230307 10:08:10.443" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:10.443" endtime="20230307 10:08:10.443"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:16.287" endtime="20230223 23:26:20.429"/>
+<msg timestamp="20230307 10:08:10.444" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:03.725" endtime="20230307 10:08:10.444"/>
 </kw>
-<test id="s1-t1" name="1+5 = 6" line="12">
-<kw name="Operation">
-<arg>1</arg>
-<arg>5</arg>
-<arg>add</arg>
-<arg>6</arg>
+<test id="s1-t1" name="Calc 1+4=5" line="17">
+<kw name="Test Start" library="switch" type="SETUP">
+<msg timestamp="20230307 10:08:10.447" level="TRACE">Arguments: [  ]</msg>
 <kw name="New Test Event" library="DataExtraction">
 <arg>${TEST NAME}</arg>
 <doc>Part of *Test Setup*.
 New Test Event corresponds with output functions that create a new
 data structure in the test data and a new line in the report.</doc>
+<msg timestamp="20230307 10:08:10.448" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' ]</msg>
 <kw name="Create Test Case" library="oqe">
 <var>${FULL TEST}</var>
 <arg>${CASE NAME}</arg>
 <doc>Part of *Test Setup*</doc>
-<msg timestamp="20230223 23:26:20.433" level="INFO">${FULL TEST} = 1+5 = 6 2023-02-23 23:26:20.433327</msg>
-<status status="PASS" starttime="20230223 23:26:20.432" endtime="20230223 23:26:20.433"/>
+<msg timestamp="20230307 10:08:10.450" level="DEBUG">Command to send: m
+d
+o0
+e
+</msg>
+<msg timestamp="20230307 10:08:10.451" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:10.451" level="DEBUG">Command to send: m
+d
+o1
+e
+</msg>
+<msg timestamp="20230307 10:08:10.451" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:10.451" level="DEBUG">Command to send: m
+d
+o3
+e
+</msg>
+<msg timestamp="20230307 10:08:10.451" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:10.451" level="DEBUG">Command to send: m
+d
+o4
+e
+</msg>
+<msg timestamp="20230307 10:08:10.452" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:10.452" level="DEBUG">Command to send: m
+d
+o5
+e
+</msg>
+<msg timestamp="20230307 10:08:10.452" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:10.452" level="DEBUG">Command to send: m
+d
+o7
+e
+</msg>
+<msg timestamp="20230307 10:08:10.452" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:10.453" level="TRACE">Arguments: [ 'Calc 1+4=5' ]</msg>
+<msg timestamp="20230307 10:08:10.454" level="TRACE">Return: 'Calc 1+4=5 2023-03-07 10:08:10.453604'</msg>
+<msg timestamp="20230307 10:08:10.455" level="INFO">${FULL TEST} = Calc 1+4=5 2023-03-07 10:08:10.453604</msg>
+<status status="PASS" starttime="20230307 10:08:10.448" endtime="20230307 10:08:10.455"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:20.431" endtime="20230223 23:26:20.433"/>
+<msg timestamp="20230307 10:08:10.455" level="TRACE">Return: 'Calc 1+4=5 2023-03-07 10:08:10.453604'</msg>
+<status status="PASS" starttime="20230307 10:08:10.447" endtime="20230307 10:08:10.455"/>
 </kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to clear data'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:20.434" level="INFO">${msg} = Failed to clear data</msg>
-<status status="PASS" starttime="20230223 23:26:20.434" endtime="20230223 23:26:20.434"/>
+<msg timestamp="20230307 10:08:10.455" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:10.446" endtime="20230307 10:08:10.455"/>
+</kw>
+<kw name="Test Calculator">
+<arg>1</arg>
+<arg>4</arg>
+<arg>add</arg>
+<arg>5</arg>
+<msg timestamp="20230307 10:08:10.459" level="TRACE">Arguments: [ ${operand1}='1' | ${operand2}='4' | ${operator}='add' | ${output}='5' ]</msg>
+<kw name="Verify Calculator Mode" library="switch">
+<arg>Standard</arg>
+<msg timestamp="20230307 10:08:10.460" level="TRACE">Arguments: [ ${mode}='Standard' ]</msg>
+<kw name="Banner" library="DataExtraction">
+<arg>Check Mode</arg>
+<doc>Part of *Report Formatting*</doc>
+<msg timestamp="20230307 10:08:10.460" level="TRACE">Arguments: [ ${Title}='Check Mode' ]</msg>
+<kw name="Write Data" library="oqe">
+<arg>==</arg>
+<arg>==</arg>
+<arg>--</arg>
+<arg>${Title}</arg>
+<doc>Part of *Output Functions*</doc>
+<msg timestamp="20230307 10:08:10.461" level="TRACE">Arguments: [ '==' | '==' | '--' | 'Check Mode' ]</msg>
+<msg timestamp="20230307 10:08:10.461" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:10.460" endtime="20230307 10:08:10.462"/>
+</kw>
+<msg timestamp="20230307 10:08:10.462" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:10.460" endtime="20230307 10:08:10.462"/>
 </kw>
 <kw name="FAIL Token" library="oqe">
 <var>${status}</var>
 <doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:20.434" level="INFO">${status} = FAIL</msg>
-<status status="PASS" starttime="20230223 23:26:20.434" endtime="20230223 23:26:20.434"/>
+<msg timestamp="20230307 10:08:10.462" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230307 10:08:10.462" level="TRACE">Return: 'FAIL'</msg>
+<msg timestamp="20230307 10:08:10.462" level="INFO">${status} = FAIL</msg>
+<status status="PASS" starttime="20230307 10:08:10.462" endtime="20230307 10:08:10.462"/>
 </kw>
-<kw name="Clear Data" library="arith">
 <kw name="Record Action" library="DataExtraction">
 <arg>${TEST NAME}</arg>
-<arg>Clearing previous data</arg>
+<arg>Verifying Calculator Mode</arg>
 <doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:08:10.463" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${ACT DESCRIPTION}='Verifying Calculator Mode' ]</msg>
 <kw name="Write Data" library="oqe">
 <arg>${CASE NAME}</arg>
 <arg>${ACT DESCRIPTION}</arg>
 <arg>Action</arg>
 <arg>--</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:20.436" endtime="20230223 23:26:20.437"/>
+<msg timestamp="20230307 10:08:10.463" level="TRACE">Arguments: [ 'Calc 1+4=5' | 'Verifying Calculator Mode' | 'Action' | '--' ]</msg>
+<msg timestamp="20230307 10:08:10.464" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:10.463" endtime="20230307 10:08:10.464"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:20.435" endtime="20230223 23:26:20.437"/>
+<msg timestamp="20230307 10:08:10.464" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:10.462" endtime="20230307 10:08:10.464"/>
 </kw>
-<kw name="Find" library="main">
+<kw name="Find" library="header">
 <doc>Called to locate any anchor for the window and revise relative locations to 
 widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:20.437" endtime="20230223 23:26:20.926"/>
+<msg timestamp="20230307 10:08:10.465" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230307 10:08:10.465" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:10.471" level="DEBUG">Answer received: !yro8</msg>
+<msg timestamp="20230307 10:08:10.471" level="DEBUG">Command to send: c
+t
+createPattern
+sC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead/calcIcon.png
+e
+</msg>
+<msg timestamp="20230307 10:08:10.474" level="DEBUG">Answer received: !yro9</msg>
+<msg timestamp="20230307 10:08:10.474" level="DEBUG">Command to send: c
+o8
+find
+ro9
+e
+</msg>
+<msg timestamp="20230307 10:08:11.016" level="DEBUG">Answer received: !yro10</msg>
+<msg timestamp="20230307 10:08:11.017" level="DEBUG">Command to send: c
+o10
+getScore
+e
+</msg>
+<msg timestamp="20230307 10:08:11.017" level="DEBUG">Answer received: !yd0.999998927116394</msg>
+<msg timestamp="20230307 10:08:11.018" level="DEBUG">Command to send: c
+o10
+getTarget
+e
+</msg>
+<msg timestamp="20230307 10:08:11.018" level="DEBUG">Answer received: !yro11</msg>
+<msg timestamp="20230307 10:08:11.018" level="DEBUG">Command to send: c
+o11
+getX
+e
+</msg>
+<msg timestamp="20230307 10:08:11.019" level="DEBUG">Answer received: !yi88</msg>
+<msg timestamp="20230307 10:08:11.019" level="DEBUG">Command to send: c
+o11
+getY
+e
+</msg>
+<msg timestamp="20230307 10:08:11.019" level="DEBUG">Answer received: !yi80</msg>
+<msg timestamp="20230307 10:08:11.019" level="TRACE">Return: 'calcIcon'</msg>
+<status status="PASS" starttime="20230307 10:08:10.465" endtime="20230307 10:08:11.019"/>
 </kw>
-<kw name="Click" library="main">
-<arg>clear</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:20.926" endtime="20230223 23:26:21.652"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:21.714" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEJ.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:21.652" endtime="20230223 23:26:21.714"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>Clearing data</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:21.715" endtime="20230223 23:26:21.717"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:21.714" endtime="20230223 23:26:21.717"/>
-</kw>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
+<kw name="Read" library="header">
+<var>${type}</var>
+<arg>typeText</arg>
 <doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:22.107" level="INFO">${a} = 0</msg>
-<status status="PASS" starttime="20230223 23:26:21.717" endtime="20230223 23:26:22.107"/>
+<msg timestamp="20230307 10:08:11.020" level="TRACE">Arguments: [ 'typeText' ]</msg>
+<msg timestamp="20230307 10:08:11.020" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:11.027" level="DEBUG">Answer received: !yro12</msg>
+<msg timestamp="20230307 10:08:11.027" level="DEBUG">Command to send: c
+o12
+newRegion
+i107
+i110
+i107
+i22
+e
+</msg>
+<msg timestamp="20230307 10:08:11.028" level="DEBUG">Answer received: !yro13</msg>
+<msg timestamp="20230307 10:08:11.028" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro12
+ro13
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:08:11.029" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:08:11.029" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:11.029" level="DEBUG">Answer received: !yro14</msg>
+<msg timestamp="20230307 10:08:11.029" level="DEBUG">Command to send: c
+o14
+capture
+ro13
+e
+</msg>
+<msg timestamp="20230307 10:08:11.030" level="DEBUG">Answer received: !yro15</msg>
+<msg timestamp="20230307 10:08:11.030" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro14
+ro15
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:08:11.030" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:08:11.030" level="DEBUG">Command to send: c
+o15
+getFilename
+e
+</msg>
+<msg timestamp="20230307 10:08:11.096" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_139363655\\sikuliximage-1678201691048.png</msg>
+<msg timestamp="20230307 10:08:57.212" level="TRACE">Return: 'Standard'</msg>
+<msg timestamp="20230307 10:08:57.212" level="INFO">${type} = Standard</msg>
+<status status="PASS" starttime="20230307 10:08:11.019" endtime="20230307 10:08:57.212"/>
 </kw>
 <kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${result}</var>
 <arg>${TEST NAME}</arg>
-<arg>Value zero</arg>
-<arg>${a}</arg>
-<arg>0</arg>
+<arg>Check current mode</arg>
+<arg>${type}</arg>
+<arg>${mode}</arg>
 <doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:08:57.213" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='Check current mode' | ${actual}='Standard' | ${expected}='Standard' ]</msg>
 <kw name="Compare Results" library="oqe">
 <var>${TEST_STATUS}</var>
 <arg>${actual}</arg>
 <arg>${expected}</arg>
 <doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:22.109" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:22.108" endtime="20230223 23:26:22.110"/>
+<msg timestamp="20230307 10:08:57.214" level="TRACE">Arguments: [ 'Standard' | 'Standard' ]</msg>
+<msg timestamp="20230307 10:08:57.214" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:08:57.214" level="INFO">${TEST_STATUS} = PASS</msg>
+<status status="PASS" starttime="20230307 10:08:57.214" endtime="20230307 10:08:57.214"/>
 </kw>
 <kw name="Write Results" library="oqe">
 <arg>${CASE NAME}_${STEP NAME}</arg>
@@ -227,587 +582,392 @@ widgets.</doc>
 <arg>${TEST_STATUS}</arg>
 <arg>Actual: ${actual}, Expected: ${expected}</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:22.110" endtime="20230223 23:26:22.111"/>
+<msg timestamp="20230307 10:08:57.215" level="TRACE">Arguments: [ 'Calc 1+4=5_Check current mode' | 'Values Equal' | 'PASS' | 'Actual: Standard, Expected: Standard' ]</msg>
+<msg timestamp="20230307 10:08:57.217" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.215" endtime="20230307 10:08:57.217"/>
 </kw>
-<msg timestamp="20230223 23:26:22.112" level="INFO">${result} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:22.107" endtime="20230223 23:26:22.112"/>
+<msg timestamp="20230307 10:08:57.217" level="TRACE">Return: 'PASS'</msg>
+<status status="PASS" starttime="20230307 10:08:57.213" endtime="20230307 10:08:57.217"/>
 </kw>
 <kw name="Run Keyword If" library="BuiltIn">
-<arg>'${result}'=='FAIL'</arg>
-<arg>FAIL</arg>
+<arg>'${type}'!='${mode}'</arg>
+<arg>Switch Calculator Type</arg>
+<arg>${mode}</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:22.112" endtime="20230223 23:26:22.113"/>
+<msg timestamp="20230307 10:08:57.218" level="TRACE">Arguments: [ "'Standard'!='Standard'" | 'Switch Calculator Type' | '${mode}' ]</msg>
+<msg timestamp="20230307 10:08:57.218" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.217" endtime="20230307 10:08:57.218"/>
 </kw>
-<kw name="Keyword Final" library="DataExtraction">
+<kw name="PASS Token" library="oqe">
+<var>${status}</var>
+<doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:08:57.218" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20230307 10:08:57.218" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:08:57.219" level="INFO">${status} = PASS</msg>
+<status status="PASS" starttime="20230307 10:08:57.218" endtime="20230307 10:08:57.219"/>
+</kw>
+<kw name="Keyword Final" library="DataExtraction" type="TEARDOWN">
 <arg>--</arg>
-<arg>Clearing previous data</arg>
-<arg>${result}</arg>
+<arg>Verifying Calculator Mode</arg>
+<arg>${status}</arg>
 <arg>--</arg>
 <doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:08:57.219" level="TRACE">Arguments: [ ${CASE NAME}='--' | ${STEP NAME}='Verifying Calculator Mode' | ${STATUS}='PASS' | ${MESSAGE}='--' ]</msg>
 <kw name="Write Results" library="oqe">
 <arg>${CASE NAME}</arg>
 <arg>${STEP NAME}</arg>
 <arg>${STATUS}</arg>
 <arg>${MESSAGE}</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:22.115" endtime="20230223 23:26:22.117"/>
+<msg timestamp="20230307 10:08:57.220" level="TRACE">Arguments: [ '--' | 'Verifying Calculator Mode' | 'PASS' | '--' ]</msg>
+<msg timestamp="20230307 10:08:57.221" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.220" endtime="20230307 10:08:57.221"/>
 </kw>
 <kw name="Data Break" library="DataExtraction">
 <doc>Part of *Report Formatting*</doc>
+<msg timestamp="20230307 10:08:57.222" level="TRACE">Arguments: [  ]</msg>
 <kw name="Write Data" library="oqe">
 <arg>--</arg>
 <arg>--</arg>
 <arg>--</arg>
 <arg>--</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:22.117" endtime="20230223 23:26:22.118"/>
+<msg timestamp="20230307 10:08:57.222" level="TRACE">Arguments: [ '--' | '--' | '--' | '--' ]</msg>
+<msg timestamp="20230307 10:08:57.223" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.222" endtime="20230307 10:08:57.223"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:22.117" endtime="20230223 23:26:22.118"/>
+<msg timestamp="20230307 10:08:57.223" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.222" endtime="20230307 10:08:57.223"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:22.114" endtime="20230223 23:26:22.119"/>
+<msg timestamp="20230307 10:08:57.224" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.219" endtime="20230307 10:08:57.224"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:20.435" endtime="20230223 23:26:22.119"/>
+<msg timestamp="20230307 10:08:57.224" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:10.459" endtime="20230307 10:08:57.224"/>
 </kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter first number ${operand1}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:22.119" level="INFO">${msg} = Failed to enter first number 1</msg>
-<status status="PASS" starttime="20230223 23:26:22.119" endtime="20230223 23:26:22.119"/>
-</kw>
-<kw name="Type Number" library="arith">
-<arg>${operand1}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:22.120" endtime="20230223 23:26:22.612"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
+<kw name="Log" library="BuiltIn">
 <arg>${TEST NAME}</arg>
-<arg>Enter number: ${NUM}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:22.614" endtime="20230223 23:26:22.615"/>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230307 10:08:57.224" level="TRACE">Arguments: [ 'Calc 1+4=5' ]</msg>
+<msg timestamp="20230307 10:08:57.224" level="INFO">Calc 1+4=5</msg>
+<msg timestamp="20230307 10:08:57.224" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.224" endtime="20230307 10:08:57.224"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:22.612" endtime="20230223 23:26:22.615"/>
-</kw>
+<kw name="Math Problem">
+<var>${answer}</var>
+<arg>${operand1}</arg>
+<arg>${operator}</arg>
+<arg>${operand2}</arg>
+<msg timestamp="20230307 10:08:57.225" level="TRACE">Arguments: [ ${NUMBER1}='1' | ${op}='add' | ${NUMBER2}='4' ]</msg>
+<kw name="Parse Number">
+<arg>${NUMBER1}</arg>
+<msg timestamp="20230307 10:08:57.226" level="TRACE">Arguments: [ ${NUM}='1' ]</msg>
 <kw name="Split String To Characters" library="String">
 <var>${digits}</var>
 <arg>${NUM}</arg>
 <doc>Splits the given ``string`` to characters.</doc>
-<msg timestamp="20230223 23:26:22.616" level="INFO">${digits} = ['1']</msg>
-<status status="PASS" starttime="20230223 23:26:22.616" endtime="20230223 23:26:22.616"/>
+<msg timestamp="20230307 10:08:57.227" level="DEBUG">Command to send: m
+d
+o8
+e
+</msg>
+<msg timestamp="20230307 10:08:57.227" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:57.227" level="DEBUG">Command to send: m
+d
+o9
+e
+</msg>
+<msg timestamp="20230307 10:08:57.228" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:57.228" level="DEBUG">Command to send: m
+d
+o10
+e
+</msg>
+<msg timestamp="20230307 10:08:57.228" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:57.228" level="DEBUG">Command to send: m
+d
+o11
+e
+</msg>
+<msg timestamp="20230307 10:08:57.229" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:57.229" level="DEBUG">Command to send: m
+d
+o12
+e
+</msg>
+<msg timestamp="20230307 10:08:57.229" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:57.229" level="DEBUG">Command to send: m
+d
+o14
+e
+</msg>
+<msg timestamp="20230307 10:08:57.229" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:57.229" level="DEBUG">Command to send: m
+d
+o15
+e
+</msg>
+<msg timestamp="20230307 10:08:57.230" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:08:57.230" level="TRACE">Arguments: [ '1' ]</msg>
+<msg timestamp="20230307 10:08:57.230" level="TRACE">Return: ['1']</msg>
+<msg timestamp="20230307 10:08:57.230" level="INFO">${digits} = ['1']</msg>
+<status status="PASS" starttime="20230307 10:08:57.226" endtime="20230307 10:08:57.230"/>
 </kw>
 <for flavor="IN">
 <var>${digit}</var>
 <value>@{digits}</value>
 <iter>
 <var name="${digit}">1</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:22.617" endtime="20230223 23:26:22.617"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:22.617" endtime="20230223 23:26:22.618"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
+<kw name="Run Keyword" library="BuiltIn">
+<arg>calc.Click</arg>
 <arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
+<doc>Executes the given keyword with the given arguments.</doc>
+<msg timestamp="20230307 10:08:57.231" level="TRACE">Arguments: [ 'calc.Click' | '${digit}_button' ]</msg>
+<kw name="Click" library="calc">
 <arg>${digit}_button</arg>
 <doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:22.618" endtime="20230223 23:26:23.173"/>
+<msg timestamp="20230307 10:08:57.231" level="TRACE">Arguments: [ '1_button' ]</msg>
+<msg timestamp="20230307 10:08:57.232" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:57.236" level="DEBUG">Answer received: !yro16</msg>
+<msg timestamp="20230307 10:08:57.236" level="DEBUG">Command to send: c
+o16
+newRegion
+i114
+i498
+i29
+i33
+e
+</msg>
+<msg timestamp="20230307 10:08:57.237" level="DEBUG">Answer received: !yro17</msg>
+<msg timestamp="20230307 10:08:57.237" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro16
+ro17
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:08:57.237" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:08:57.237" level="DEBUG">Command to send: c
+o17
+click
+e
+</msg>
+<msg timestamp="20230307 10:08:57.855" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230307 10:08:57.855" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.231" endtime="20230307 10:08:57.855"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:22.618" endtime="20230223 23:26:23.173"/>
+<msg timestamp="20230307 10:08:57.855" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.231" endtime="20230307 10:08:57.855"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:22.616" endtime="20230223 23:26:23.173"/>
+<status status="PASS" starttime="20230307 10:08:57.231" endtime="20230307 10:08:57.855"/>
 </iter>
-<status status="PASS" starttime="20230223 23:26:22.616" endtime="20230223 23:26:23.173"/>
+<status status="PASS" starttime="20230307 10:08:57.230" endtime="20230307 10:08:57.855"/>
 </for>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:23.465" level="INFO">${a} = 1</msg>
-<status status="PASS" starttime="20230223 23:26:23.174" endtime="20230223 23:26:23.465"/>
+<msg timestamp="20230307 10:08:57.856" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.226" endtime="20230307 10:08:57.856"/>
 </kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${tmp1}</var>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<arg>${a}</arg>
-<arg>${NUM}</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:23.467" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:23.467" endtime="20230223 23:26:23.467"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:23.467" endtime="20230223 23:26:23.469"/>
-</kw>
-<msg timestamp="20230223 23:26:23.469" level="INFO">${tmp1} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:23.465" endtime="20230223 23:26:23.469"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:23.521" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEK.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:23.469" endtime="20230223 23:26:23.521"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:23.525" endtime="20230223 23:26:23.526"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:23.521" endtime="20230223 23:26:23.526"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:22.120" endtime="20230223 23:26:23.526"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter operation ${op}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:23.527" level="INFO">${msg} = Failed to enter operation add</msg>
-<status status="PASS" starttime="20230223 23:26:23.526" endtime="20230223 23:26:23.527"/>
-</kw>
-<kw name="Op Button" library="arith">
-<arg>${op}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:23.528" endtime="20230223 23:26:24.004"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Operation: ${op}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:24.006" endtime="20230223 23:26:24.007"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:24.005" endtime="20230223 23:26:24.007"/>
-</kw>
-<kw name="Click" library="main">
-<arg>${op}</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:24.007" endtime="20230223 23:26:24.559"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:23.527" endtime="20230223 23:26:24.559"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter second number ${operand2}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:24.560" level="INFO">${msg} = Failed to enter second number 5</msg>
-<status status="PASS" starttime="20230223 23:26:24.559" endtime="20230223 23:26:24.560"/>
-</kw>
-<kw name="Type Number" library="arith">
-<arg>${operand2}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:24.560" endtime="20230223 23:26:25.056"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Enter number: ${NUM}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:25.057" endtime="20230223 23:26:25.058"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:25.056" endtime="20230223 23:26:25.058"/>
-</kw>
-<kw name="Split String To Characters" library="String">
-<var>${digits}</var>
-<arg>${NUM}</arg>
-<doc>Splits the given ``string`` to characters.</doc>
-<msg timestamp="20230223 23:26:25.059" level="INFO">${digits} = ['5']</msg>
-<status status="PASS" starttime="20230223 23:26:25.058" endtime="20230223 23:26:25.059"/>
-</kw>
-<for flavor="IN">
-<var>${digit}</var>
-<value>@{digits}</value>
-<iter>
-<var name="${digit}">5</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:25.059" endtime="20230223 23:26:25.060"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:25.060" endtime="20230223 23:26:25.060"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
-<arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
-<arg>${digit}_button</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:25.061" endtime="20230223 23:26:25.611"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:25.060" endtime="20230223 23:26:25.611"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:25.059" endtime="20230223 23:26:25.611"/>
-</iter>
-<status status="PASS" starttime="20230223 23:26:25.059" endtime="20230223 23:26:25.611"/>
-</for>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:25.910" level="INFO">${a} = 5</msg>
-<status status="PASS" starttime="20230223 23:26:25.611" endtime="20230223 23:26:25.910"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${tmp1}</var>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<arg>${a}</arg>
-<arg>${NUM}</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:25.912" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:25.912" endtime="20230223 23:26:25.912"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:25.912" endtime="20230223 23:26:25.913"/>
-</kw>
-<msg timestamp="20230223 23:26:25.914" level="INFO">${tmp1} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:25.911" endtime="20230223 23:26:25.914"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:25.960" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEL.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:25.914" endtime="20230223 23:26:25.960"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:25.961" endtime="20230223 23:26:25.962"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:25.960" endtime="20230223 23:26:25.962"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:24.560" endtime="20230223 23:26:25.963"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to get answer'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:25.963" level="INFO">${msg} = Failed to get answer</msg>
-<status status="PASS" starttime="20230223 23:26:25.963" endtime="20230223 23:26:25.963"/>
-</kw>
-<kw name="Press Equals" library="arith">
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:25.964" endtime="20230223 23:26:26.434"/>
-</kw>
-<kw name="Click" library="main">
-<arg>equals</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:26.434" endtime="20230223 23:26:26.969"/>
-</kw>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:27.270" level="INFO">${a} = 6</msg>
-<status status="PASS" starttime="20230223 23:26:26.969" endtime="20230223 23:26:27.270"/>
-</kw>
-<kw name="Record Data" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Answer</arg>
-<arg>${a}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Data</arg>
-<arg>${Data}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:27.271" endtime="20230223 23:26:27.272"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.270" endtime="20230223 23:26:27.272"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:27.317" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEM.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:27.272" endtime="20230223 23:26:27.317"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>Answer</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:27.318" endtime="20230223 23:26:27.319"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.317" endtime="20230223 23:26:27.319"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:25.963" endtime="20230223 23:26:27.320"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to verify answer ${answer}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:27.320" level="INFO">${msg} = Failed to verify answer 6</msg>
-<status status="PASS" starttime="20230223 23:26:27.320" endtime="20230223 23:26:27.320"/>
-</kw>
-<kw name="Read Value" library="arith">
-<arg>${answer}</arg>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:27.610" level="INFO">${a} = 6</msg>
-<status status="PASS" starttime="20230223 23:26:27.321" endtime="20230223 23:26:27.610"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<var>${msg}</var>
-<arg>${a}==${answer}</arg>
-<arg>Evaluate</arg>
-<arg>'Success!'</arg>
-<arg>ELSE</arg>
-<arg>Evaluate</arg>
-<arg>'Calculation was wrong: ${a}'</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Evaluate" library="BuiltIn">
-<arg>'Success!'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" starttime="20230223 23:26:27.611" endtime="20230223 23:26:27.611"/>
-</kw>
-<msg timestamp="20230223 23:26:27.611" level="INFO">${msg} = Success!</msg>
-<status status="PASS" starttime="20230223 23:26:27.610" endtime="20230223 23:26:27.611"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>${a}!=${answer}</arg>
-<arg>Fail</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:27.611" endtime="20230223 23:26:27.612"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.320" endtime="20230223 23:26:27.612"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Success'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:27.612" level="INFO">${msg} = Success</msg>
-<status status="PASS" starttime="20230223 23:26:27.612" endtime="20230223 23:26:27.612"/>
-</kw>
-<kw name="PASS Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:27.613" level="INFO">${status} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:27.613" endtime="20230223 23:26:27.613"/>
-</kw>
-<kw name="Keyword Final" library="DataExtraction" type="TEARDOWN">
-<arg>${TEST NAME}</arg>
-<arg>--</arg>
-<arg>${status}</arg>
-<arg>${msg}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>${STATUS}</arg>
-<arg>${MESSAGE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:27.615" endtime="20230223 23:26:27.616"/>
-</kw>
-<kw name="Data Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
-<kw name="Write Data" library="oqe">
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:27.617" endtime="20230223 23:26:27.618"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.616" endtime="20230223 23:26:27.618"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.614" endtime="20230223 23:26:27.618"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:20.430" endtime="20230223 23:26:27.618"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:20.430" endtime="20230223 23:26:27.619"/>
-</test>
-<test id="s1-t2" name="2x8 = 16" line="13">
-<kw name="Operation">
+<kw name="Sleep" library="BuiltIn">
 <arg>2</arg>
-<arg>8</arg>
-<arg>multiply</arg>
-<arg>16</arg>
-<kw name="New Test Event" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<doc>Part of *Test Setup*.
-New Test Event corresponds with output functions that create a new
-data structure in the test data and a new line in the report.</doc>
-<kw name="Create Test Case" library="oqe">
-<var>${FULL TEST}</var>
-<arg>${CASE NAME}</arg>
-<doc>Part of *Test Setup*</doc>
-<msg timestamp="20230223 23:26:27.623" level="INFO">${FULL TEST} = 2x8 = 16 2023-02-23 23:26:27.622589</msg>
-<status status="PASS" starttime="20230223 23:26:27.622" endtime="20230223 23:26:27.624"/>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230307 10:08:57.856" level="TRACE">Arguments: [ '2' ]</msg>
+<msg timestamp="20230307 10:08:59.867" level="INFO">Slept 2 seconds</msg>
+<msg timestamp="20230307 10:08:59.867" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:57.856" endtime="20230307 10:08:59.867"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:27.622" endtime="20230223 23:26:27.624"/>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Image capture operand1</arg>
+<doc>Logs the given message to the console.</doc>
+<msg timestamp="20230307 10:08:59.867" level="TRACE">Arguments: [ 'Image capture operand1' ]</msg>
+<msg timestamp="20230307 10:08:59.868" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:59.867" endtime="20230307 10:08:59.868"/>
 </kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to clear data'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:27.624" level="INFO">${msg} = Failed to clear data</msg>
-<status status="PASS" starttime="20230223 23:26:27.624" endtime="20230223 23:26:27.624"/>
-</kw>
-<kw name="FAIL Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:27.625" level="INFO">${status} = FAIL</msg>
-<status status="PASS" starttime="20230223 23:26:27.625" endtime="20230223 23:26:27.625"/>
-</kw>
-<kw name="Clear Data" library="arith">
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Clearing previous data</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:27.626" endtime="20230223 23:26:27.627"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.625" endtime="20230223 23:26:27.627"/>
-</kw>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:27.627" endtime="20230223 23:26:28.138"/>
-</kw>
-<kw name="Click" library="main">
-<arg>clear</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:28.138" endtime="20230223 23:26:28.686"/>
-</kw>
-<kw name="Capture Image" library="main">
+<kw name="Capture Image" library="calc">
 <var>${file}</var>
-<arg>output</arg>
+<arg>Output</arg>
 <doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:28.749" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEN.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:28.686" endtime="20230223 23:26:28.749"/>
+<msg timestamp="20230307 10:08:59.869" level="TRACE">Arguments: [ 'Output' ]</msg>
+<msg timestamp="20230307 10:08:59.869" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:59.870" level="DEBUG">Answer received: !yro18</msg>
+<msg timestamp="20230307 10:08:59.870" level="DEBUG">Command to send: c
+o18
+newRegion
+i68
+i174
+i485
+i56
+e
+</msg>
+<msg timestamp="20230307 10:08:59.871" level="DEBUG">Answer received: !yro19</msg>
+<msg timestamp="20230307 10:08:59.871" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro18
+ro19
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:08:59.871" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:08:59.871" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:59.872" level="DEBUG">Answer received: !yro20</msg>
+<msg timestamp="20230307 10:08:59.872" level="DEBUG">Command to send: c
+o20
+capture
+ro19
+e
+</msg>
+<msg timestamp="20230307 10:08:59.872" level="DEBUG">Answer received: !yro21</msg>
+<msg timestamp="20230307 10:08:59.872" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro20
+ro21
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:08:59.873" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:08:59.873" level="DEBUG">Command to send: c
+o21
+getFilename
+e
+</msg>
+<msg timestamp="20230307 10:08:59.897" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_139363655\\sikuliximage-1678201739882.png</msg>
+<msg timestamp="20230307 10:08:59.916" level="TRACE">Return: 'C:/Users/Benny/Documents/RFData/IMG/imageAHV.PNG'</msg>
+<msg timestamp="20230307 10:08:59.916" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAHV.PNG</msg>
+<status status="PASS" starttime="20230307 10:08:59.868" endtime="20230307 10:08:59.916"/>
 </kw>
 <kw name="Record Screen Image" library="DataExtraction">
 <arg>${file}</arg>
 <arg>${TEST NAME}</arg>
-<arg>Clearing data</arg>
+<arg>Operand 1</arg>
 <doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:08:59.917" level="TRACE">Arguments: [ ${FILE}='C:/Users/Benny/Documents/RFData/IMG/imageAHV.PNG' | ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='Operand 1' ]</msg>
 <kw name="Write Image" library="oqe">
 <arg>${CASE NAME}</arg>
 <arg>${STEP NAME}</arg>
 <arg>Screenshot</arg>
 <arg>${FILE}</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:28.750" endtime="20230223 23:26:28.751"/>
+<msg timestamp="20230307 10:08:59.918" level="TRACE">Arguments: [ 'Calc 1+4=5' | 'Operand 1' | 'Screenshot' | 'C:/Users/Benny/Documents/RFData/IMG/imageAHV.PNG' ]</msg>
+<msg timestamp="20230307 10:08:59.919" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:59.918" endtime="20230307 10:08:59.919"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:28.749" endtime="20230223 23:26:28.751"/>
+<msg timestamp="20230307 10:08:59.919" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:59.917" endtime="20230307 10:08:59.920"/>
 </kw>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Check operand1</arg>
+<doc>Logs the given message to the console.</doc>
+<msg timestamp="20230307 10:08:59.920" level="TRACE">Arguments: [ 'Check operand1' ]</msg>
+<msg timestamp="20230307 10:08:59.920" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:59.920" endtime="20230307 10:08:59.920"/>
+</kw>
+<kw name="Read" library="calc">
+<var>${n}</var>
+<arg>Output</arg>
 <doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:29.048" level="INFO">${a} = 0</msg>
-<status status="PASS" starttime="20230223 23:26:28.751" endtime="20230223 23:26:29.048"/>
+<msg timestamp="20230307 10:08:59.921" level="TRACE">Arguments: [ 'Output' ]</msg>
+<msg timestamp="20230307 10:08:59.921" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:59.938" level="DEBUG">Answer received: !yro22</msg>
+<msg timestamp="20230307 10:08:59.938" level="DEBUG">Command to send: c
+o22
+newRegion
+i68
+i174
+i485
+i56
+e
+</msg>
+<msg timestamp="20230307 10:08:59.939" level="DEBUG">Answer received: !yro23</msg>
+<msg timestamp="20230307 10:08:59.939" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro22
+ro23
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:08:59.944" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:08:59.944" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:08:59.946" level="DEBUG">Answer received: !yro24</msg>
+<msg timestamp="20230307 10:08:59.946" level="DEBUG">Command to send: c
+o24
+capture
+ro23
+e
+</msg>
+<msg timestamp="20230307 10:08:59.947" level="DEBUG">Answer received: !yro25</msg>
+<msg timestamp="20230307 10:08:59.947" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro24
+ro25
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:08:59.948" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:08:59.949" level="DEBUG">Command to send: c
+o25
+getFilename
+e
+</msg>
+<msg timestamp="20230307 10:08:59.981" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_139363655\\sikuliximage-1678201739962.png</msg>
+<msg timestamp="20230307 10:09:00.559" level="TRACE">Return: '1'</msg>
+<msg timestamp="20230307 10:09:00.559" level="INFO">${n} = 1</msg>
+<status status="PASS" starttime="20230307 10:08:59.920" endtime="20230307 10:09:00.559"/>
 </kw>
 <kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${result}</var>
+<var>${r1}</var>
 <arg>${TEST NAME}</arg>
-<arg>Value zero</arg>
-<arg>${a}</arg>
-<arg>0</arg>
+<arg>First Operand</arg>
+<arg>${n}</arg>
+<arg>${NUMBER1}</arg>
 <doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:09:00.561" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='First Operand' | ${actual}='1' | ${expected}='1' ]</msg>
 <kw name="Compare Results" library="oqe">
 <var>${TEST_STATUS}</var>
 <arg>${actual}</arg>
 <arg>${expected}</arg>
 <doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:29.049" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:29.049" endtime="20230223 23:26:29.049"/>
+<msg timestamp="20230307 10:09:00.561" level="TRACE">Arguments: [ '1' | '1' ]</msg>
+<msg timestamp="20230307 10:09:00.562" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:00.562" level="INFO">${TEST_STATUS} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:00.561" endtime="20230307 10:09:00.562"/>
 </kw>
 <kw name="Write Results" library="oqe">
 <arg>${CASE NAME}_${STEP NAME}</arg>
@@ -815,1506 +975,454 @@ widgets.</doc>
 <arg>${TEST_STATUS}</arg>
 <arg>Actual: ${actual}, Expected: ${expected}</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:29.049" endtime="20230223 23:26:29.051"/>
+<msg timestamp="20230307 10:09:00.562" level="TRACE">Arguments: [ 'Calc 1+4=5_First Operand' | 'Values Equal' | 'PASS' | 'Actual: 1, Expected: 1' ]</msg>
+<msg timestamp="20230307 10:09:00.563" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:00.562" endtime="20230307 10:09:00.564"/>
 </kw>
-<msg timestamp="20230223 23:26:29.051" level="INFO">${result} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:29.048" endtime="20230223 23:26:29.051"/>
+<msg timestamp="20230307 10:09:00.564" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:00.564" level="INFO">${r1} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:00.559" endtime="20230307 10:09:00.564"/>
 </kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${result}'=='FAIL'</arg>
-<arg>FAIL</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:29.052" endtime="20230223 23:26:29.052"/>
-</kw>
-<kw name="Keyword Final" library="DataExtraction">
+<kw name="Record Test Case" library="DataExtraction">
 <arg>--</arg>
-<arg>Clearing previous data</arg>
-<arg>${result}</arg>
+<arg>Operand 1 matches</arg>
+<arg>${r1}</arg>
 <arg>--</arg>
 <doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:09:00.565" level="TRACE">Arguments: [ ${CASE NAME}='--' | ${STEP NAME}='Operand 1 matches' | ${STATUS}='PASS' | ${MESSAGE}='--' ]</msg>
 <kw name="Write Results" library="oqe">
 <arg>${CASE NAME}</arg>
 <arg>${STEP NAME}</arg>
 <arg>${STATUS}</arg>
 <arg>${MESSAGE}</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:29.053" endtime="20230223 23:26:29.054"/>
+<msg timestamp="20230307 10:09:00.566" level="TRACE">Arguments: [ '--' | 'Operand 1 matches' | 'PASS' | '--' ]</msg>
+<msg timestamp="20230307 10:09:00.566" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:00.565" endtime="20230307 10:09:00.566"/>
 </kw>
-<kw name="Data Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
-<kw name="Write Data" library="oqe">
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:29.055" endtime="20230223 23:26:29.055"/>
+<msg timestamp="20230307 10:09:00.567" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:00.564" endtime="20230307 10:09:00.567"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:29.054" endtime="20230223 23:26:29.056"/>
+<kw name="Click" library="calc">
+<arg>${op}</arg>
+<doc>Clicks on the intended widget</doc>
+<msg timestamp="20230307 10:09:00.567" level="TRACE">Arguments: [ 'add' ]</msg>
+<msg timestamp="20230307 10:09:00.567" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:00.568" level="DEBUG">Answer received: !yro26</msg>
+<msg timestamp="20230307 10:09:00.569" level="DEBUG">Command to send: c
+o26
+newRegion
+i479
+i495
+i30
+i39
+e
+</msg>
+<msg timestamp="20230307 10:09:00.569" level="DEBUG">Answer received: !yro27</msg>
+<msg timestamp="20230307 10:09:00.569" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro26
+ro27
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:00.573" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:00.573" level="DEBUG">Command to send: c
+o27
+click
+e
+</msg>
+<msg timestamp="20230307 10:09:01.130" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230307 10:09:01.130" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:00.567" endtime="20230307 10:09:01.130"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:29.052" endtime="20230223 23:26:29.056"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.625" endtime="20230223 23:26:29.056"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter first number ${operand1}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:29.057" level="INFO">${msg} = Failed to enter first number 2</msg>
-<status status="PASS" starttime="20230223 23:26:29.056" endtime="20230223 23:26:29.057"/>
-</kw>
-<kw name="Type Number" library="arith">
-<arg>${operand1}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:29.057" endtime="20230223 23:26:29.537"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Enter number: ${NUM}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:29.538" endtime="20230223 23:26:29.540"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:29.538" endtime="20230223 23:26:29.540"/>
-</kw>
+<kw name="Parse Number">
+<arg>${NUMBER2}</arg>
+<msg timestamp="20230307 10:09:01.131" level="TRACE">Arguments: [ ${NUM}='4' ]</msg>
 <kw name="Split String To Characters" library="String">
 <var>${digits}</var>
 <arg>${NUM}</arg>
 <doc>Splits the given ``string`` to characters.</doc>
-<msg timestamp="20230223 23:26:29.540" level="INFO">${digits} = ['2']</msg>
-<status status="PASS" starttime="20230223 23:26:29.540" endtime="20230223 23:26:29.540"/>
-</kw>
-<for flavor="IN">
-<var>${digit}</var>
-<value>@{digits}</value>
-<iter>
-<var name="${digit}">2</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:29.541" endtime="20230223 23:26:29.541"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:29.541" endtime="20230223 23:26:29.542"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
-<arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
-<arg>${digit}_button</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:29.542" endtime="20230223 23:26:30.086"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:29.542" endtime="20230223 23:26:30.086"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:29.541" endtime="20230223 23:26:30.086"/>
-</iter>
-<status status="PASS" starttime="20230223 23:26:29.540" endtime="20230223 23:26:30.086"/>
-</for>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:30.383" level="INFO">${a} = 2</msg>
-<status status="PASS" starttime="20230223 23:26:30.086" endtime="20230223 23:26:30.383"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${tmp1}</var>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<arg>${a}</arg>
-<arg>${NUM}</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:30.385" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:30.384" endtime="20230223 23:26:30.385"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:30.385" endtime="20230223 23:26:30.386"/>
-</kw>
-<msg timestamp="20230223 23:26:30.387" level="INFO">${tmp1} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:30.383" endtime="20230223 23:26:30.387"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:30.432" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEO.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:30.387" endtime="20230223 23:26:30.432"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:30.434" endtime="20230223 23:26:30.435"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:30.433" endtime="20230223 23:26:30.436"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:29.057" endtime="20230223 23:26:30.436"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter operation ${op}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:30.436" level="INFO">${msg} = Failed to enter operation multiply</msg>
-<status status="PASS" starttime="20230223 23:26:30.436" endtime="20230223 23:26:30.436"/>
-</kw>
-<kw name="Op Button" library="arith">
-<arg>${op}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:30.437" endtime="20230223 23:26:30.945"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Operation: ${op}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:30.946" endtime="20230223 23:26:30.947"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:30.945" endtime="20230223 23:26:30.947"/>
-</kw>
-<kw name="Click" library="main">
-<arg>${op}</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:30.947" endtime="20230223 23:26:31.482"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:30.437" endtime="20230223 23:26:31.482"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter second number ${operand2}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:31.483" level="INFO">${msg} = Failed to enter second number 8</msg>
-<status status="PASS" starttime="20230223 23:26:31.482" endtime="20230223 23:26:31.483"/>
-</kw>
-<kw name="Type Number" library="arith">
-<arg>${operand2}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:31.484" endtime="20230223 23:26:31.965"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Enter number: ${NUM}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:31.966" endtime="20230223 23:26:31.967"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:31.965" endtime="20230223 23:26:31.968"/>
-</kw>
-<kw name="Split String To Characters" library="String">
-<var>${digits}</var>
-<arg>${NUM}</arg>
-<doc>Splits the given ``string`` to characters.</doc>
-<msg timestamp="20230223 23:26:31.968" level="INFO">${digits} = ['8']</msg>
-<status status="PASS" starttime="20230223 23:26:31.968" endtime="20230223 23:26:31.968"/>
-</kw>
-<for flavor="IN">
-<var>${digit}</var>
-<value>@{digits}</value>
-<iter>
-<var name="${digit}">8</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:31.969" endtime="20230223 23:26:31.969"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:31.969" endtime="20230223 23:26:31.970"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
-<arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
-<arg>${digit}_button</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:31.970" endtime="20230223 23:26:32.517"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:31.970" endtime="20230223 23:26:32.517"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:31.968" endtime="20230223 23:26:32.517"/>
-</iter>
-<status status="PASS" starttime="20230223 23:26:31.968" endtime="20230223 23:26:32.517"/>
-</for>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:32.812" level="INFO">${a} = 8</msg>
-<status status="PASS" starttime="20230223 23:26:32.517" endtime="20230223 23:26:32.812"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${tmp1}</var>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<arg>${a}</arg>
-<arg>${NUM}</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:32.814" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:32.814" endtime="20230223 23:26:32.814"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:32.815" endtime="20230223 23:26:32.816"/>
-</kw>
-<msg timestamp="20230223 23:26:32.817" level="INFO">${tmp1} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:32.812" endtime="20230223 23:26:32.817"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:32.859" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEP.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:32.817" endtime="20230223 23:26:32.859"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:32.860" endtime="20230223 23:26:32.861"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:32.859" endtime="20230223 23:26:32.861"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:31.483" endtime="20230223 23:26:32.861"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to get answer'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:32.862" level="INFO">${msg} = Failed to get answer</msg>
-<status status="PASS" starttime="20230223 23:26:32.861" endtime="20230223 23:26:32.862"/>
-</kw>
-<kw name="Press Equals" library="arith">
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:32.862" endtime="20230223 23:26:33.384"/>
-</kw>
-<kw name="Click" library="main">
-<arg>equals</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:33.384" endtime="20230223 23:26:33.922"/>
-</kw>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:34.219" level="INFO">${a} = 16</msg>
-<status status="PASS" starttime="20230223 23:26:33.922" endtime="20230223 23:26:34.220"/>
-</kw>
-<kw name="Record Data" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Answer</arg>
-<arg>${a}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Data</arg>
-<arg>${Data}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:34.221" endtime="20230223 23:26:34.223"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.220" endtime="20230223 23:26:34.223"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:34.257" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEQ.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:34.223" endtime="20230223 23:26:34.257"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>Answer</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:34.258" endtime="20230223 23:26:34.260"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.257" endtime="20230223 23:26:34.260"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:32.862" endtime="20230223 23:26:34.260"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to verify answer ${answer}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:34.261" level="INFO">${msg} = Failed to verify answer 16</msg>
-<status status="PASS" starttime="20230223 23:26:34.260" endtime="20230223 23:26:34.261"/>
-</kw>
-<kw name="Read Value" library="arith">
-<arg>${answer}</arg>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:34.557" level="INFO">${a} = 16</msg>
-<status status="PASS" starttime="20230223 23:26:34.261" endtime="20230223 23:26:34.557"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<var>${msg}</var>
-<arg>${a}==${answer}</arg>
-<arg>Evaluate</arg>
-<arg>'Success!'</arg>
-<arg>ELSE</arg>
-<arg>Evaluate</arg>
-<arg>'Calculation was wrong: ${a}'</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Evaluate" library="BuiltIn">
-<arg>'Success!'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" starttime="20230223 23:26:34.558" endtime="20230223 23:26:34.558"/>
-</kw>
-<msg timestamp="20230223 23:26:34.558" level="INFO">${msg} = Success!</msg>
-<status status="PASS" starttime="20230223 23:26:34.557" endtime="20230223 23:26:34.559"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>${a}!=${answer}</arg>
-<arg>Fail</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:34.559" endtime="20230223 23:26:34.559"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.261" endtime="20230223 23:26:34.559"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Success'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:34.560" level="INFO">${msg} = Success</msg>
-<status status="PASS" starttime="20230223 23:26:34.559" endtime="20230223 23:26:34.560"/>
-</kw>
-<kw name="PASS Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:34.560" level="INFO">${status} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:34.560" endtime="20230223 23:26:34.560"/>
-</kw>
-<kw name="Keyword Final" library="DataExtraction" type="TEARDOWN">
-<arg>${TEST NAME}</arg>
-<arg>--</arg>
-<arg>${status}</arg>
-<arg>${msg}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>${STATUS}</arg>
-<arg>${MESSAGE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:34.561" endtime="20230223 23:26:34.562"/>
-</kw>
-<kw name="Data Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
-<kw name="Write Data" library="oqe">
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:34.563" endtime="20230223 23:26:34.564"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.563" endtime="20230223 23:26:34.564"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.560" endtime="20230223 23:26:34.564"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.621" endtime="20230223 23:26:34.564"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:27.620" endtime="20230223 23:26:34.566"/>
-</test>
-<test id="s1-t3" name="30 / 6 = 5" line="14">
-<kw name="Operation">
-<arg>30</arg>
-<arg>6</arg>
-<arg>divide</arg>
-<arg>5</arg>
-<kw name="New Test Event" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<doc>Part of *Test Setup*.
-New Test Event corresponds with output functions that create a new
-data structure in the test data and a new line in the report.</doc>
-<kw name="Create Test Case" library="oqe">
-<var>${FULL TEST}</var>
-<arg>${CASE NAME}</arg>
-<doc>Part of *Test Setup*</doc>
-<msg timestamp="20230223 23:26:34.571" level="INFO">${FULL TEST} = 30 / 6 = 5 2023-02-23 23:26:34.569678</msg>
-<status status="PASS" starttime="20230223 23:26:34.569" endtime="20230223 23:26:34.571"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.569" endtime="20230223 23:26:34.571"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to clear data'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:34.572" level="INFO">${msg} = Failed to clear data</msg>
-<status status="PASS" starttime="20230223 23:26:34.571" endtime="20230223 23:26:34.572"/>
-</kw>
-<kw name="FAIL Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:34.572" level="INFO">${status} = FAIL</msg>
-<status status="PASS" starttime="20230223 23:26:34.572" endtime="20230223 23:26:34.572"/>
-</kw>
-<kw name="Clear Data" library="arith">
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Clearing previous data</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:34.574" endtime="20230223 23:26:34.575"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.573" endtime="20230223 23:26:34.576"/>
-</kw>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:34.576" endtime="20230223 23:26:35.277"/>
-</kw>
-<kw name="Click" library="main">
-<arg>clear</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:35.277" endtime="20230223 23:26:35.837"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:35.883" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAER.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:35.838" endtime="20230223 23:26:35.883"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>Clearing data</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:35.885" endtime="20230223 23:26:35.887"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:35.883" endtime="20230223 23:26:35.887"/>
-</kw>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:36.192" level="INFO">${a} = 0</msg>
-<status status="PASS" starttime="20230223 23:26:35.887" endtime="20230223 23:26:36.192"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${result}</var>
-<arg>${TEST NAME}</arg>
-<arg>Value zero</arg>
-<arg>${a}</arg>
-<arg>0</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:36.194" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:36.193" endtime="20230223 23:26:36.194"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:36.194" endtime="20230223 23:26:36.195"/>
-</kw>
-<msg timestamp="20230223 23:26:36.195" level="INFO">${result} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:36.192" endtime="20230223 23:26:36.195"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${result}'=='FAIL'</arg>
-<arg>FAIL</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:36.196" endtime="20230223 23:26:36.196"/>
-</kw>
-<kw name="Keyword Final" library="DataExtraction">
-<arg>--</arg>
-<arg>Clearing previous data</arg>
-<arg>${result}</arg>
-<arg>--</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>${STATUS}</arg>
-<arg>${MESSAGE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:36.197" endtime="20230223 23:26:36.198"/>
-</kw>
-<kw name="Data Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
-<kw name="Write Data" library="oqe">
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:36.199" endtime="20230223 23:26:36.199"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:36.198" endtime="20230223 23:26:36.200"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:36.196" endtime="20230223 23:26:36.200"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.572" endtime="20230223 23:26:36.200"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter first number ${operand1}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:36.201" level="INFO">${msg} = Failed to enter first number 30</msg>
-<status status="PASS" starttime="20230223 23:26:36.200" endtime="20230223 23:26:36.201"/>
-</kw>
-<kw name="Type Number" library="arith">
-<arg>${operand1}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:36.201" endtime="20230223 23:26:36.692"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Enter number: ${NUM}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:36.694" endtime="20230223 23:26:36.695"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:36.692" endtime="20230223 23:26:36.695"/>
-</kw>
-<kw name="Split String To Characters" library="String">
-<var>${digits}</var>
-<arg>${NUM}</arg>
-<doc>Splits the given ``string`` to characters.</doc>
-<msg timestamp="20230223 23:26:36.696" level="INFO">${digits} = ['3', '0']</msg>
-<status status="PASS" starttime="20230223 23:26:36.695" endtime="20230223 23:26:36.696"/>
-</kw>
-<for flavor="IN">
-<var>${digit}</var>
-<value>@{digits}</value>
-<iter>
-<var name="${digit}">3</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:36.696" endtime="20230223 23:26:36.696"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:36.697" endtime="20230223 23:26:36.697"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
-<arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
-<arg>${digit}_button</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:36.698" endtime="20230223 23:26:37.253"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:36.697" endtime="20230223 23:26:37.253"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:36.696" endtime="20230223 23:26:37.253"/>
-</iter>
-<iter>
-<var name="${digit}">0</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:37.254" endtime="20230223 23:26:37.254"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:37.254" endtime="20230223 23:26:37.255"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
-<arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
-<arg>${digit}_button</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:37.255" endtime="20230223 23:26:37.809"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:37.255" endtime="20230223 23:26:37.809"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:37.254" endtime="20230223 23:26:37.809"/>
-</iter>
-<status status="PASS" starttime="20230223 23:26:36.696" endtime="20230223 23:26:37.809"/>
-</for>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:38.114" level="INFO">${a} = 30</msg>
-<status status="PASS" starttime="20230223 23:26:37.809" endtime="20230223 23:26:38.115"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${tmp1}</var>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<arg>${a}</arg>
-<arg>${NUM}</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:38.117" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:38.116" endtime="20230223 23:26:38.117"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:38.117" endtime="20230223 23:26:38.119"/>
-</kw>
-<msg timestamp="20230223 23:26:38.119" level="INFO">${tmp1} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:38.115" endtime="20230223 23:26:38.119"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:38.171" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAES.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:38.119" endtime="20230223 23:26:38.171"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:38.173" endtime="20230223 23:26:38.174"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:38.172" endtime="20230223 23:26:38.174"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:36.201" endtime="20230223 23:26:38.174"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter operation ${op}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:38.175" level="INFO">${msg} = Failed to enter operation divide</msg>
-<status status="PASS" starttime="20230223 23:26:38.174" endtime="20230223 23:26:38.175"/>
-</kw>
-<kw name="Op Button" library="arith">
-<arg>${op}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:38.175" endtime="20230223 23:26:38.640"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Operation: ${op}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:38.641" endtime="20230223 23:26:38.642"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:38.640" endtime="20230223 23:26:38.642"/>
-</kw>
-<kw name="Click" library="main">
-<arg>${op}</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:38.642" endtime="20230223 23:26:39.192"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:38.175" endtime="20230223 23:26:39.192"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter second number ${operand2}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:39.193" level="INFO">${msg} = Failed to enter second number 6</msg>
-<status status="PASS" starttime="20230223 23:26:39.192" endtime="20230223 23:26:39.193"/>
-</kw>
-<kw name="Type Number" library="arith">
-<arg>${operand2}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:39.194" endtime="20230223 23:26:39.684"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Enter number: ${NUM}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:39.685" endtime="20230223 23:26:39.686"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:39.684" endtime="20230223 23:26:39.686"/>
-</kw>
-<kw name="Split String To Characters" library="String">
-<var>${digits}</var>
-<arg>${NUM}</arg>
-<doc>Splits the given ``string`` to characters.</doc>
-<msg timestamp="20230223 23:26:39.687" level="INFO">${digits} = ['6']</msg>
-<status status="PASS" starttime="20230223 23:26:39.686" endtime="20230223 23:26:39.687"/>
-</kw>
-<for flavor="IN">
-<var>${digit}</var>
-<value>@{digits}</value>
-<iter>
-<var name="${digit}">6</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:39.687" endtime="20230223 23:26:39.689"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:39.689" endtime="20230223 23:26:39.690"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
-<arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
-<arg>${digit}_button</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:39.690" endtime="20230223 23:26:40.245"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:39.690" endtime="20230223 23:26:40.245"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:39.687" endtime="20230223 23:26:40.245"/>
-</iter>
-<status status="PASS" starttime="20230223 23:26:39.687" endtime="20230223 23:26:40.245"/>
-</for>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:40.542" level="INFO">${a} = 6</msg>
-<status status="PASS" starttime="20230223 23:26:40.245" endtime="20230223 23:26:40.542"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${tmp1}</var>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<arg>${a}</arg>
-<arg>${NUM}</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:40.544" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:40.543" endtime="20230223 23:26:40.544"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:40.544" endtime="20230223 23:26:40.545"/>
-</kw>
-<msg timestamp="20230223 23:26:40.545" level="INFO">${tmp1} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:40.542" endtime="20230223 23:26:40.545"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:40.591" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAET.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:40.546" endtime="20230223 23:26:40.591"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:40.592" endtime="20230223 23:26:40.594"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:40.591" endtime="20230223 23:26:40.594"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:39.193" endtime="20230223 23:26:40.594"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to get answer'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:40.595" level="INFO">${msg} = Failed to get answer</msg>
-<status status="PASS" starttime="20230223 23:26:40.594" endtime="20230223 23:26:40.595"/>
-</kw>
-<kw name="Press Equals" library="arith">
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:40.595" endtime="20230223 23:26:41.092"/>
-</kw>
-<kw name="Click" library="main">
-<arg>equals</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:41.092" endtime="20230223 23:26:41.638"/>
-</kw>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:42.152" level="INFO">${a} = 5</msg>
-<status status="PASS" starttime="20230223 23:26:41.638" endtime="20230223 23:26:42.152"/>
-</kw>
-<kw name="Record Data" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Answer</arg>
-<arg>${a}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Data</arg>
-<arg>${Data}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:42.153" endtime="20230223 23:26:42.154"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:42.152" endtime="20230223 23:26:42.154"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:42.195" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEU.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:42.154" endtime="20230223 23:26:42.195"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>Answer</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:42.196" endtime="20230223 23:26:42.197"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:42.195" endtime="20230223 23:26:42.198"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:40.595" endtime="20230223 23:26:42.198"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to verify answer ${answer}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:42.198" level="INFO">${msg} = Failed to verify answer 5</msg>
-<status status="PASS" starttime="20230223 23:26:42.198" endtime="20230223 23:26:42.198"/>
-</kw>
-<kw name="Read Value" library="arith">
-<arg>${answer}</arg>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:42.473" level="INFO">${a} = 5</msg>
-<status status="PASS" starttime="20230223 23:26:42.199" endtime="20230223 23:26:42.473"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<var>${msg}</var>
-<arg>${a}==${answer}</arg>
-<arg>Evaluate</arg>
-<arg>'Success!'</arg>
-<arg>ELSE</arg>
-<arg>Evaluate</arg>
-<arg>'Calculation was wrong: ${a}'</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Evaluate" library="BuiltIn">
-<arg>'Success!'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" starttime="20230223 23:26:42.474" endtime="20230223 23:26:42.474"/>
-</kw>
-<msg timestamp="20230223 23:26:42.474" level="INFO">${msg} = Success!</msg>
-<status status="PASS" starttime="20230223 23:26:42.473" endtime="20230223 23:26:42.474"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>${a}!=${answer}</arg>
-<arg>Fail</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:42.474" endtime="20230223 23:26:42.475"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:42.199" endtime="20230223 23:26:42.475"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Success'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:42.475" level="INFO">${msg} = Success</msg>
-<status status="PASS" starttime="20230223 23:26:42.475" endtime="20230223 23:26:42.476"/>
-</kw>
-<kw name="PASS Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:42.476" level="INFO">${status} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:42.476" endtime="20230223 23:26:42.476"/>
-</kw>
-<kw name="Keyword Final" library="DataExtraction" type="TEARDOWN">
-<arg>${TEST NAME}</arg>
-<arg>--</arg>
-<arg>${status}</arg>
-<arg>${msg}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>${STATUS}</arg>
-<arg>${MESSAGE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:42.477" endtime="20230223 23:26:42.478"/>
-</kw>
-<kw name="Data Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
-<kw name="Write Data" library="oqe">
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:42.479" endtime="20230223 23:26:42.480"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:42.479" endtime="20230223 23:26:42.480"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:42.476" endtime="20230223 23:26:42.481"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.568" endtime="20230223 23:26:42.481"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:34.568" endtime="20230223 23:26:42.483"/>
-</test>
-<test id="s1-t4" name="9 - 4 = 5" line="15">
-<kw name="Operation">
-<arg>9</arg>
-<arg>4</arg>
-<arg>minus</arg>
-<arg>5</arg>
-<kw name="New Test Event" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<doc>Part of *Test Setup*.
-New Test Event corresponds with output functions that create a new
-data structure in the test data and a new line in the report.</doc>
-<kw name="Create Test Case" library="oqe">
-<var>${FULL TEST}</var>
-<arg>${CASE NAME}</arg>
-<doc>Part of *Test Setup*</doc>
-<msg timestamp="20230223 23:26:42.490" level="INFO">${FULL TEST} = 9 - 4 = 5 2023-02-23 23:26:42.489311</msg>
-<status status="PASS" starttime="20230223 23:26:42.488" endtime="20230223 23:26:42.490"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:42.488" endtime="20230223 23:26:42.490"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to clear data'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:42.490" level="INFO">${msg} = Failed to clear data</msg>
-<status status="PASS" starttime="20230223 23:26:42.490" endtime="20230223 23:26:42.490"/>
-</kw>
-<kw name="FAIL Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:42.491" level="INFO">${status} = FAIL</msg>
-<status status="PASS" starttime="20230223 23:26:42.491" endtime="20230223 23:26:42.491"/>
-</kw>
-<kw name="Clear Data" library="arith">
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Clearing previous data</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:42.492" endtime="20230223 23:26:42.493"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:42.491" endtime="20230223 23:26:42.493"/>
-</kw>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:42.494" endtime="20230223 23:26:43.007"/>
-</kw>
-<kw name="Click" library="main">
-<arg>clear</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:43.007" endtime="20230223 23:26:43.554"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:43.615" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEV.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:43.554" endtime="20230223 23:26:43.615"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>Clearing data</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:43.618" endtime="20230223 23:26:43.619"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:43.616" endtime="20230223 23:26:43.620"/>
-</kw>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:43.905" level="INFO">${a} = 0</msg>
-<status status="PASS" starttime="20230223 23:26:43.620" endtime="20230223 23:26:43.905"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${result}</var>
-<arg>${TEST NAME}</arg>
-<arg>Value zero</arg>
-<arg>${a}</arg>
-<arg>0</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:43.907" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:43.906" endtime="20230223 23:26:43.907"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:43.907" endtime="20230223 23:26:43.908"/>
-</kw>
-<msg timestamp="20230223 23:26:43.908" level="INFO">${result} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:43.905" endtime="20230223 23:26:43.908"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${result}'=='FAIL'</arg>
-<arg>FAIL</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:43.909" endtime="20230223 23:26:43.909"/>
-</kw>
-<kw name="Keyword Final" library="DataExtraction">
-<arg>--</arg>
-<arg>Clearing previous data</arg>
-<arg>${result}</arg>
-<arg>--</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>${STATUS}</arg>
-<arg>${MESSAGE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:43.910" endtime="20230223 23:26:43.911"/>
-</kw>
-<kw name="Data Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
-<kw name="Write Data" library="oqe">
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:43.912" endtime="20230223 23:26:43.912"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:43.911" endtime="20230223 23:26:43.912"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:43.909" endtime="20230223 23:26:43.913"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:42.491" endtime="20230223 23:26:43.913"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter first number ${operand1}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:43.914" level="INFO">${msg} = Failed to enter first number 9</msg>
-<status status="PASS" starttime="20230223 23:26:43.913" endtime="20230223 23:26:43.914"/>
-</kw>
-<kw name="Type Number" library="arith">
-<arg>${operand1}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:43.914" endtime="20230223 23:26:44.387"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Enter number: ${NUM}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:44.389" endtime="20230223 23:26:44.390"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:44.388" endtime="20230223 23:26:44.390"/>
-</kw>
-<kw name="Split String To Characters" library="String">
-<var>${digits}</var>
-<arg>${NUM}</arg>
-<doc>Splits the given ``string`` to characters.</doc>
-<msg timestamp="20230223 23:26:44.390" level="INFO">${digits} = ['9']</msg>
-<status status="PASS" starttime="20230223 23:26:44.390" endtime="20230223 23:26:44.390"/>
-</kw>
-<for flavor="IN">
-<var>${digit}</var>
-<value>@{digits}</value>
-<iter>
-<var name="${digit}">9</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:44.391" endtime="20230223 23:26:44.391"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:44.392" endtime="20230223 23:26:44.392"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
-<arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
-<arg>${digit}_button</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:44.392" endtime="20230223 23:26:44.939"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:44.392" endtime="20230223 23:26:44.939"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:44.391" endtime="20230223 23:26:44.939"/>
-</iter>
-<status status="PASS" starttime="20230223 23:26:44.391" endtime="20230223 23:26:44.939"/>
-</for>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:45.243" level="INFO">${a} = 9</msg>
-<status status="PASS" starttime="20230223 23:26:44.940" endtime="20230223 23:26:45.243"/>
-</kw>
-<kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${tmp1}</var>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<arg>${a}</arg>
-<arg>${NUM}</arg>
-<doc>Part of *Comparisons*</doc>
-<kw name="Compare Results" library="oqe">
-<var>${TEST_STATUS}</var>
-<arg>${actual}</arg>
-<arg>${expected}</arg>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:45.245" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:45.244" endtime="20230223 23:26:45.245"/>
-</kw>
-<kw name="Write Results" library="oqe">
-<arg>${CASE NAME}_${STEP NAME}</arg>
-<arg>Values Equal</arg>
-<arg>${TEST_STATUS}</arg>
-<arg>Actual: ${actual}, Expected: ${expected}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:45.245" endtime="20230223 23:26:45.246"/>
-</kw>
-<msg timestamp="20230223 23:26:45.246" level="INFO">${tmp1} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:45.243" endtime="20230223 23:26:45.247"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:45.302" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEW.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:45.247" endtime="20230223 23:26:45.303"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:45.304" endtime="20230223 23:26:45.305"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:45.303" endtime="20230223 23:26:45.305"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:43.914" endtime="20230223 23:26:45.305"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter operation ${op}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:45.306" level="INFO">${msg} = Failed to enter operation minus</msg>
-<status status="PASS" starttime="20230223 23:26:45.305" endtime="20230223 23:26:45.306"/>
-</kw>
-<kw name="Op Button" library="arith">
-<arg>${op}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:45.306" endtime="20230223 23:26:45.848"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Operation: ${op}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:45.850" endtime="20230223 23:26:45.851"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:45.848" endtime="20230223 23:26:45.852"/>
-</kw>
-<kw name="Click" library="main">
-<arg>${op}</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:45.852" endtime="20230223 23:26:46.402"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:45.306" endtime="20230223 23:26:46.402"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to enter second number ${operand2}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:46.404" level="INFO">${msg} = Failed to enter second number 4</msg>
-<status status="PASS" starttime="20230223 23:26:46.403" endtime="20230223 23:26:46.404"/>
-</kw>
-<kw name="Type Number" library="arith">
-<arg>${operand2}</arg>
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:46.405" endtime="20230223 23:26:46.905"/>
-</kw>
-<kw name="Record Action" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Enter number: ${NUM}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${ACT DESCRIPTION}</arg>
-<arg>Action</arg>
-<arg>--</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:46.906" endtime="20230223 23:26:46.907"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:46.905" endtime="20230223 23:26:46.907"/>
-</kw>
-<kw name="Split String To Characters" library="String">
-<var>${digits}</var>
-<arg>${NUM}</arg>
-<doc>Splits the given ``string`` to characters.</doc>
-<msg timestamp="20230223 23:26:46.908" level="INFO">${digits} = ['4']</msg>
-<status status="PASS" starttime="20230223 23:26:46.908" endtime="20230223 23:26:46.908"/>
+<msg timestamp="20230307 10:09:01.132" level="TRACE">Arguments: [ '4' ]</msg>
+<msg timestamp="20230307 10:09:01.132" level="TRACE">Return: ['4']</msg>
+<msg timestamp="20230307 10:09:01.132" level="INFO">${digits} = ['4']</msg>
+<status status="PASS" starttime="20230307 10:09:01.132" endtime="20230307 10:09:01.132"/>
 </kw>
 <for flavor="IN">
 <var>${digit}</var>
 <value>@{digits}</value>
 <iter>
 <var name="${digit}">4</var>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='-'</arg>
-<arg>main.Click</arg>
-<arg>flip_sign</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:46.908" endtime="20230223 23:26:46.909"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}'=='.'</arg>
-<arg>main.Click</arg>
-<arg>decimal</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:46.909" endtime="20230223 23:26:46.909"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>'${digit}' in "0123456789"</arg>
-<arg>main.Click</arg>
+<kw name="Run Keyword" library="BuiltIn">
+<arg>calc.Click</arg>
 <arg>${digit}_button</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Click" library="main">
+<doc>Executes the given keyword with the given arguments.</doc>
+<msg timestamp="20230307 10:09:01.133" level="TRACE">Arguments: [ 'calc.Click' | '${digit}_button' ]</msg>
+<kw name="Click" library="calc">
 <arg>${digit}_button</arg>
 <doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:46.910" endtime="20230223 23:26:47.470"/>
+<msg timestamp="20230307 10:09:01.133" level="TRACE">Arguments: [ '4_button' ]</msg>
+<msg timestamp="20230307 10:09:01.133" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:01.134" level="DEBUG">Answer received: !yro28</msg>
+<msg timestamp="20230307 10:09:01.134" level="DEBUG">Command to send: c
+o28
+newRegion
+i114
+i440
+i34
+i37
+e
+</msg>
+<msg timestamp="20230307 10:09:01.135" level="DEBUG">Answer received: !yro29</msg>
+<msg timestamp="20230307 10:09:01.135" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro28
+ro29
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:01.135" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:01.136" level="DEBUG">Command to send: c
+o29
+click
+e
+</msg>
+<msg timestamp="20230307 10:09:01.718" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230307 10:09:01.718" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:01.133" endtime="20230307 10:09:01.719"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:46.909" endtime="20230223 23:26:47.470"/>
+<msg timestamp="20230307 10:09:01.719" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:01.133" endtime="20230307 10:09:01.719"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:46.908" endtime="20230223 23:26:47.470"/>
+<status status="PASS" starttime="20230307 10:09:01.132" endtime="20230307 10:09:01.719"/>
 </iter>
-<status status="PASS" starttime="20230223 23:26:46.908" endtime="20230223 23:26:47.470"/>
+<status status="PASS" starttime="20230307 10:09:01.132" endtime="20230307 10:09:01.719"/>
 </for>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
+<msg timestamp="20230307 10:09:01.719" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:01.131" endtime="20230307 10:09:01.719"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230307 10:09:01.720" level="TRACE">Arguments: [ '2' ]</msg>
+<msg timestamp="20230307 10:09:03.726" level="INFO">Slept 2 seconds</msg>
+<msg timestamp="20230307 10:09:03.726" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:01.719" endtime="20230307 10:09:03.726"/>
+</kw>
+<kw name="Capture Image" library="calc">
+<var>${file}</var>
+<arg>Output</arg>
+<doc>Takes a picture of the intended widget and returns the image file</doc>
+<msg timestamp="20230307 10:09:03.727" level="TRACE">Arguments: [ 'Output' ]</msg>
+<msg timestamp="20230307 10:09:03.727" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:03.728" level="DEBUG">Answer received: !yro30</msg>
+<msg timestamp="20230307 10:09:03.728" level="DEBUG">Command to send: c
+o30
+newRegion
+i68
+i174
+i485
+i56
+e
+</msg>
+<msg timestamp="20230307 10:09:03.728" level="DEBUG">Answer received: !yro31</msg>
+<msg timestamp="20230307 10:09:03.728" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro30
+ro31
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:03.729" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:03.729" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:03.730" level="DEBUG">Answer received: !yro32</msg>
+<msg timestamp="20230307 10:09:03.730" level="DEBUG">Command to send: c
+o32
+capture
+ro31
+e
+</msg>
+<msg timestamp="20230307 10:09:03.730" level="DEBUG">Answer received: !yro33</msg>
+<msg timestamp="20230307 10:09:03.730" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro32
+ro33
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:03.731" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:03.731" level="DEBUG">Command to send: c
+o33
+getFilename
+e
+</msg>
+<msg timestamp="20230307 10:09:03.751" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_139363655\\sikuliximage-1678201743742.png</msg>
+<msg timestamp="20230307 10:09:03.771" level="TRACE">Return: 'C:/Users/Benny/Documents/RFData/IMG/imageAHW.PNG'</msg>
+<msg timestamp="20230307 10:09:03.772" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAHW.PNG</msg>
+<status status="PASS" starttime="20230307 10:09:03.726" endtime="20230307 10:09:03.772"/>
+</kw>
+<kw name="Record Screen Image" library="DataExtraction">
+<arg>${file}</arg>
+<arg>${TEST NAME}</arg>
+<arg>Operand 2</arg>
+<doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:09:03.772" level="TRACE">Arguments: [ ${FILE}='C:/Users/Benny/Documents/RFData/IMG/imageAHW.PNG' | ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='Operand 2' ]</msg>
+<kw name="Write Image" library="oqe">
+<arg>${CASE NAME}</arg>
+<arg>${STEP NAME}</arg>
+<arg>Screenshot</arg>
+<arg>${FILE}</arg>
+<doc>Part of *Output Functions*</doc>
+<msg timestamp="20230307 10:09:03.773" level="TRACE">Arguments: [ 'Calc 1+4=5' | 'Operand 2' | 'Screenshot' | 'C:/Users/Benny/Documents/RFData/IMG/imageAHW.PNG' ]</msg>
+<msg timestamp="20230307 10:09:03.774" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:03.773" endtime="20230307 10:09:03.774"/>
+</kw>
+<msg timestamp="20230307 10:09:03.774" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:03.772" endtime="20230307 10:09:03.774"/>
+</kw>
+<kw name="Read" library="calc">
+<var>${n}</var>
+<arg>Output</arg>
 <doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:47.962" level="INFO">${a} = 4</msg>
-<status status="PASS" starttime="20230223 23:26:47.470" endtime="20230223 23:26:47.962"/>
+<msg timestamp="20230307 10:09:03.775" level="TRACE">Arguments: [ 'Output' ]</msg>
+<msg timestamp="20230307 10:09:03.775" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:03.801" level="DEBUG">Answer received: !yro34</msg>
+<msg timestamp="20230307 10:09:03.801" level="DEBUG">Command to send: c
+o34
+newRegion
+i68
+i174
+i485
+i56
+e
+</msg>
+<msg timestamp="20230307 10:09:03.801" level="DEBUG">Answer received: !yro35</msg>
+<msg timestamp="20230307 10:09:03.802" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro34
+ro35
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:03.802" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:03.802" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:03.820" level="DEBUG">Answer received: !yro36</msg>
+<msg timestamp="20230307 10:09:03.820" level="DEBUG">Command to send: c
+o36
+capture
+ro35
+e
+</msg>
+<msg timestamp="20230307 10:09:03.821" level="DEBUG">Answer received: !yro37</msg>
+<msg timestamp="20230307 10:09:03.821" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro36
+ro37
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:03.829" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:03.829" level="DEBUG">Command to send: c
+o37
+getFilename
+e
+</msg>
+<msg timestamp="20230307 10:09:03.870" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_139363655\\sikuliximage-1678201743853.png</msg>
+<msg timestamp="20230307 10:09:03.891" level="DEBUG">Command to send: m
+d
+o16
+e
+</msg>
+<msg timestamp="20230307 10:09:03.891" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.891" level="DEBUG">Command to send: m
+d
+o17
+e
+</msg>
+<msg timestamp="20230307 10:09:03.891" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.891" level="DEBUG">Command to send: m
+d
+o18
+e
+</msg>
+<msg timestamp="20230307 10:09:03.892" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.892" level="DEBUG">Command to send: m
+d
+o19
+e
+</msg>
+<msg timestamp="20230307 10:09:03.892" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.892" level="DEBUG">Command to send: m
+d
+o20
+e
+</msg>
+<msg timestamp="20230307 10:09:03.893" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.893" level="DEBUG">Command to send: m
+d
+o21
+e
+</msg>
+<msg timestamp="20230307 10:09:03.893" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.893" level="DEBUG">Command to send: m
+d
+o22
+e
+</msg>
+<msg timestamp="20230307 10:09:03.894" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.894" level="DEBUG">Command to send: m
+d
+o23
+e
+</msg>
+<msg timestamp="20230307 10:09:03.894" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.894" level="DEBUG">Command to send: m
+d
+o24
+e
+</msg>
+<msg timestamp="20230307 10:09:03.894" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.894" level="DEBUG">Command to send: m
+d
+o25
+e
+</msg>
+<msg timestamp="20230307 10:09:03.895" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.895" level="DEBUG">Command to send: m
+d
+o26
+e
+</msg>
+<msg timestamp="20230307 10:09:03.895" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.895" level="DEBUG">Command to send: m
+d
+o27
+e
+</msg>
+<msg timestamp="20230307 10:09:03.895" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.895" level="DEBUG">Command to send: m
+d
+o28
+e
+</msg>
+<msg timestamp="20230307 10:09:03.895" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.896" level="DEBUG">Command to send: m
+d
+o29
+e
+</msg>
+<msg timestamp="20230307 10:09:03.896" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.896" level="DEBUG">Command to send: m
+d
+o30
+e
+</msg>
+<msg timestamp="20230307 10:09:03.896" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.896" level="DEBUG">Command to send: m
+d
+o31
+e
+</msg>
+<msg timestamp="20230307 10:09:03.896" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.896" level="DEBUG">Command to send: m
+d
+o32
+e
+</msg>
+<msg timestamp="20230307 10:09:03.897" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.897" level="DEBUG">Command to send: m
+d
+o33
+e
+</msg>
+<msg timestamp="20230307 10:09:03.899" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.899" level="DEBUG">Command to send: m
+d
+o34
+e
+</msg>
+<msg timestamp="20230307 10:09:03.899" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.899" level="DEBUG">Command to send: m
+d
+o36
+e
+</msg>
+<msg timestamp="20230307 10:09:03.899" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:03.899" level="DEBUG">Command to send: m
+d
+o37
+e
+</msg>
+<msg timestamp="20230307 10:09:03.900" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:04.247" level="TRACE">Return: '4'</msg>
+<msg timestamp="20230307 10:09:04.247" level="INFO">${n} = 4</msg>
+<status status="PASS" starttime="20230307 10:09:03.774" endtime="20230307 10:09:04.247"/>
 </kw>
 <kw name="Assert OQE Values Equal" library="DataExtraction">
-<var>${tmp1}</var>
+<var>${r2}</var>
 <arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<arg>${a}</arg>
-<arg>${NUM}</arg>
+<arg>Second Operand</arg>
+<arg>${n}</arg>
+<arg>${NUMBER2}</arg>
 <doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:09:04.248" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='Second Operand' | ${actual}='4' | ${expected}='4' ]</msg>
 <kw name="Compare Results" library="oqe">
 <var>${TEST_STATUS}</var>
 <arg>${actual}</arg>
 <arg>${expected}</arg>
 <doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:47.963" level="INFO">${TEST_STATUS} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:47.963" endtime="20230223 23:26:47.963"/>
+<msg timestamp="20230307 10:09:04.249" level="TRACE">Arguments: [ '4' | '4' ]</msg>
+<msg timestamp="20230307 10:09:04.249" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:04.249" level="INFO">${TEST_STATUS} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:04.249" endtime="20230307 10:09:04.250"/>
 </kw>
 <kw name="Write Results" library="oqe">
 <arg>${CASE NAME}_${STEP NAME}</arg>
@@ -2322,211 +1430,725 @@ widgets.</doc>
 <arg>${TEST_STATUS}</arg>
 <arg>Actual: ${actual}, Expected: ${expected}</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:47.964" endtime="20230223 23:26:47.965"/>
+<msg timestamp="20230307 10:09:04.250" level="TRACE">Arguments: [ 'Calc 1+4=5_Second Operand' | 'Values Equal' | 'PASS' | 'Actual: 4, Expected: 4' ]</msg>
+<msg timestamp="20230307 10:09:04.251" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:04.250" endtime="20230307 10:09:04.251"/>
 </kw>
-<msg timestamp="20230223 23:26:47.965" level="INFO">${tmp1} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:47.962" endtime="20230223 23:26:47.965"/>
+<msg timestamp="20230307 10:09:04.251" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:04.252" level="INFO">${r2} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:04.248" endtime="20230307 10:09:04.252"/>
 </kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:48.009" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEX.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:47.965" endtime="20230223 23:26:48.009"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>First operand</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:48.010" endtime="20230223 23:26:48.011"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:48.009" endtime="20230223 23:26:48.011"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:46.405" endtime="20230223 23:26:48.011"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to get answer'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:48.012" level="INFO">${msg} = Failed to get answer</msg>
-<status status="PASS" starttime="20230223 23:26:48.012" endtime="20230223 23:26:48.012"/>
-</kw>
-<kw name="Press Equals" library="arith">
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:48.013" endtime="20230223 23:26:48.549"/>
-</kw>
-<kw name="Click" library="main">
-<arg>equals</arg>
-<doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:48.549" endtime="20230223 23:26:49.098"/>
-</kw>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:49.430" level="INFO">${a} = 5</msg>
-<status status="PASS" starttime="20230223 23:26:49.099" endtime="20230223 23:26:49.430"/>
-</kw>
-<kw name="Record Data" library="DataExtraction">
-<arg>${TEST NAME}</arg>
-<arg>Answer</arg>
-<arg>${a}</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Data" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Data</arg>
-<arg>${Data}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:49.431" endtime="20230223 23:26:49.432"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:49.430" endtime="20230223 23:26:49.432"/>
-</kw>
-<kw name="Capture Image" library="main">
-<var>${file}</var>
-<arg>output</arg>
-<doc>Takes a picture of the intended widget and returns the image file</doc>
-<msg timestamp="20230223 23:26:49.474" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAEY.PNG</msg>
-<status status="PASS" starttime="20230223 23:26:49.432" endtime="20230223 23:26:49.474"/>
-</kw>
-<kw name="Record Screen Image" library="DataExtraction">
-<arg>${file}</arg>
-<arg>${TEST NAME}</arg>
-<arg>Answer</arg>
-<doc>Part of *Recording Data*</doc>
-<kw name="Write Image" library="oqe">
-<arg>${CASE NAME}</arg>
-<arg>${STEP NAME}</arg>
-<arg>Screenshot</arg>
-<arg>${FILE}</arg>
-<doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:49.477" endtime="20230223 23:26:49.478"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:49.474" endtime="20230223 23:26:49.478"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:48.012" endtime="20230223 23:26:49.479"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Failed to verify answer ${answer}'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:49.479" level="INFO">${msg} = Failed to verify answer 5</msg>
-<status status="PASS" starttime="20230223 23:26:49.479" endtime="20230223 23:26:49.479"/>
-</kw>
-<kw name="Read Value" library="arith">
-<arg>${answer}</arg>
-<kw name="Read" library="main">
-<var>${a}</var>
-<arg>output</arg>
-<doc>Read and return text from the intended widget</doc>
-<msg timestamp="20230223 23:26:49.781" level="INFO">${a} = 5</msg>
-<status status="PASS" starttime="20230223 23:26:49.480" endtime="20230223 23:26:49.781"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<var>${msg}</var>
-<arg>${a}==${answer}</arg>
-<arg>Evaluate</arg>
-<arg>'Success!'</arg>
-<arg>ELSE</arg>
-<arg>Evaluate</arg>
-<arg>'Calculation was wrong: ${a}'</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<kw name="Evaluate" library="BuiltIn">
-<arg>'Success!'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" starttime="20230223 23:26:49.782" endtime="20230223 23:26:49.783"/>
-</kw>
-<msg timestamp="20230223 23:26:49.783" level="INFO">${msg} = Success!</msg>
-<status status="PASS" starttime="20230223 23:26:49.782" endtime="20230223 23:26:49.783"/>
-</kw>
-<kw name="Run Keyword If" library="BuiltIn">
-<arg>${a}!=${answer}</arg>
-<arg>Fail</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" starttime="20230223 23:26:49.783" endtime="20230223 23:26:49.783"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:49.480" endtime="20230223 23:26:49.784"/>
-</kw>
-<kw name="Evaluate" library="BuiltIn">
-<var>${msg}</var>
-<arg>'Success'</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<msg timestamp="20230223 23:26:49.784" level="INFO">${msg} = Success</msg>
-<status status="PASS" starttime="20230223 23:26:49.784" endtime="20230223 23:26:49.784"/>
-</kw>
-<kw name="PASS Token" library="oqe">
-<var>${status}</var>
-<doc>Part of *Comparisons*</doc>
-<msg timestamp="20230223 23:26:49.784" level="INFO">${status} = PASS</msg>
-<status status="PASS" starttime="20230223 23:26:49.784" endtime="20230223 23:26:49.784"/>
-</kw>
-<kw name="Keyword Final" library="DataExtraction" type="TEARDOWN">
-<arg>${TEST NAME}</arg>
+<kw name="Record Test Case" library="DataExtraction">
 <arg>--</arg>
-<arg>${status}</arg>
-<arg>${msg}</arg>
+<arg>Operand 2 matches</arg>
+<arg>${r2}</arg>
+<arg>--</arg>
 <doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:09:04.252" level="TRACE">Arguments: [ ${CASE NAME}='--' | ${STEP NAME}='Operand 2 matches' | ${STATUS}='PASS' | ${MESSAGE}='--' ]</msg>
 <kw name="Write Results" library="oqe">
 <arg>${CASE NAME}</arg>
 <arg>${STEP NAME}</arg>
 <arg>${STATUS}</arg>
 <arg>${MESSAGE}</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:49.786" endtime="20230223 23:26:49.787"/>
+<msg timestamp="20230307 10:09:04.253" level="TRACE">Arguments: [ '--' | 'Operand 2 matches' | 'PASS' | '--' ]</msg>
+<msg timestamp="20230307 10:09:04.254" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:04.253" endtime="20230307 10:09:04.254"/>
 </kw>
-<kw name="Data Break" library="DataExtraction">
-<doc>Part of *Report Formatting*</doc>
+<msg timestamp="20230307 10:09:04.254" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:04.252" endtime="20230307 10:09:04.254"/>
+</kw>
+<kw name="Click" library="calc">
+<arg>equals</arg>
+<doc>Clicks on the intended widget</doc>
+<msg timestamp="20230307 10:09:04.255" level="TRACE">Arguments: [ 'equals' ]</msg>
+<msg timestamp="20230307 10:09:04.255" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:04.257" level="DEBUG">Answer received: !yro38</msg>
+<msg timestamp="20230307 10:09:04.257" level="DEBUG">Command to send: c
+o38
+newRegion
+i477
+i550
+i35
+i34
+e
+</msg>
+<msg timestamp="20230307 10:09:04.258" level="DEBUG">Answer received: !yro39</msg>
+<msg timestamp="20230307 10:09:04.258" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro38
+ro39
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:04.258" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:04.258" level="DEBUG">Command to send: c
+o39
+click
+e
+</msg>
+<msg timestamp="20230307 10:09:04.813" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230307 10:09:04.813" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:04.254" endtime="20230307 10:09:04.813"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230307 10:09:04.814" level="TRACE">Arguments: [ '2' ]</msg>
+<msg timestamp="20230307 10:09:06.823" level="INFO">Slept 2 seconds</msg>
+<msg timestamp="20230307 10:09:06.823" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:04.813" endtime="20230307 10:09:06.823"/>
+</kw>
+<kw name="Capture Image" library="calc">
+<var>${file}</var>
+<arg>Output</arg>
+<doc>Takes a picture of the intended widget and returns the image file</doc>
+<msg timestamp="20230307 10:09:06.824" level="TRACE">Arguments: [ 'Output' ]</msg>
+<msg timestamp="20230307 10:09:06.824" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:06.825" level="DEBUG">Answer received: !yro40</msg>
+<msg timestamp="20230307 10:09:06.825" level="DEBUG">Command to send: c
+o40
+newRegion
+i68
+i174
+i485
+i56
+e
+</msg>
+<msg timestamp="20230307 10:09:06.825" level="DEBUG">Answer received: !yro41</msg>
+<msg timestamp="20230307 10:09:06.826" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro40
+ro41
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:06.826" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:06.826" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:06.827" level="DEBUG">Answer received: !yro42</msg>
+<msg timestamp="20230307 10:09:06.827" level="DEBUG">Command to send: c
+o42
+capture
+ro41
+e
+</msg>
+<msg timestamp="20230307 10:09:06.828" level="DEBUG">Answer received: !yro43</msg>
+<msg timestamp="20230307 10:09:06.828" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro42
+ro43
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:06.829" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:06.830" level="DEBUG">Command to send: c
+o43
+getFilename
+e
+</msg>
+<msg timestamp="20230307 10:09:06.860" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_139363655\\sikuliximage-1678201746855.png</msg>
+<msg timestamp="20230307 10:09:06.879" level="TRACE">Return: 'C:/Users/Benny/Documents/RFData/IMG/imageAHX.PNG'</msg>
+<msg timestamp="20230307 10:09:06.879" level="INFO">${file} = C:/Users/Benny/Documents/RFData/IMG/imageAHX.PNG</msg>
+<status status="PASS" starttime="20230307 10:09:06.823" endtime="20230307 10:09:06.879"/>
+</kw>
+<kw name="Record Screen Image" library="DataExtraction">
+<arg>${file}</arg>
+<arg>${TEST NAME}</arg>
+<arg>Answer</arg>
+<doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:09:06.880" level="TRACE">Arguments: [ ${FILE}='C:/Users/Benny/Documents/RFData/IMG/imageAHX.PNG' | ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='Answer' ]</msg>
+<kw name="Write Image" library="oqe">
+<arg>${CASE NAME}</arg>
+<arg>${STEP NAME}</arg>
+<arg>Screenshot</arg>
+<arg>${FILE}</arg>
+<doc>Part of *Output Functions*</doc>
+<msg timestamp="20230307 10:09:06.881" level="TRACE">Arguments: [ 'Calc 1+4=5' | 'Answer' | 'Screenshot' | 'C:/Users/Benny/Documents/RFData/IMG/imageAHX.PNG' ]</msg>
+<msg timestamp="20230307 10:09:06.882" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:06.880" endtime="20230307 10:09:06.882"/>
+</kw>
+<msg timestamp="20230307 10:09:06.882" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:06.879" endtime="20230307 10:09:06.883"/>
+</kw>
+<kw name="Read" library="calc">
+<var>${n}</var>
+<arg>Output</arg>
+<doc>Read and return text from the intended widget</doc>
+<msg timestamp="20230307 10:09:06.883" level="TRACE">Arguments: [ 'Output' ]</msg>
+<msg timestamp="20230307 10:09:06.883" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:06.885" level="DEBUG">Answer received: !yro44</msg>
+<msg timestamp="20230307 10:09:06.885" level="DEBUG">Command to send: c
+o44
+newRegion
+i68
+i174
+i485
+i56
+e
+</msg>
+<msg timestamp="20230307 10:09:06.885" level="DEBUG">Answer received: !yro45</msg>
+<msg timestamp="20230307 10:09:06.885" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro44
+ro45
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:06.886" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:06.886" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:06.886" level="DEBUG">Answer received: !yro46</msg>
+<msg timestamp="20230307 10:09:06.887" level="DEBUG">Command to send: c
+o46
+capture
+ro45
+e
+</msg>
+<msg timestamp="20230307 10:09:06.887" level="DEBUG">Answer received: !yro47</msg>
+<msg timestamp="20230307 10:09:06.887" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro46
+ro47
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:06.888" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:06.888" level="DEBUG">Command to send: c
+o47
+getFilename
+e
+</msg>
+<msg timestamp="20230307 10:09:06.908" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_139363655\\sikuliximage-1678201746903.png</msg>
+<msg timestamp="20230307 10:09:07.274" level="TRACE">Return: '5'</msg>
+<msg timestamp="20230307 10:09:07.275" level="INFO">${n} = 5</msg>
+<status status="PASS" starttime="20230307 10:09:06.883" endtime="20230307 10:09:07.275"/>
+</kw>
+<kw name="Assert OQE True" library="DataExtraction">
+<var>${r3}</var>
+<arg>${TEST NAME}</arg>
+<arg>Operands Match</arg>
+<arg>'${r1}'=='PASS' and '${r2}'=='PASS'</arg>
+<doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:09:07.276" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='Operands Match' | ${case}="'PASS'=='PASS' and 'PASS'=='PASS'" ]</msg>
+<kw name="Result True" library="oqe">
+<var>${TEST_STATUS}</var>
+<arg>${case}</arg>
+<arg>passCase=True</arg>
+<doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:09:07.276" level="TRACE">Arguments: [ "'PASS'=='PASS' and 'PASS'=='PASS'" | passCase=True ]</msg>
+<msg timestamp="20230307 10:09:07.276" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:07.277" level="INFO">${TEST_STATUS} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:07.276" endtime="20230307 10:09:07.277"/>
+</kw>
+<kw name="Write Results" library="oqe">
+<arg>${CASE NAME}_${STEP NAME}</arg>
+<arg>Result True</arg>
+<arg>${TEST_STATUS}</arg>
+<arg>~~~~</arg>
+<doc>Part of *Output Functions*</doc>
+<msg timestamp="20230307 10:09:07.277" level="TRACE">Arguments: [ 'Calc 1+4=5_Operands Match' | 'Result True' | 'PASS' | '~~~~' ]</msg>
+<msg timestamp="20230307 10:09:07.278" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.277" endtime="20230307 10:09:07.278"/>
+</kw>
+<msg timestamp="20230307 10:09:07.278" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:07.278" level="INFO">${r3} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:07.275" endtime="20230307 10:09:07.278"/>
+</kw>
+<kw name="Record Test Case" library="DataExtraction">
+<arg>--</arg>
+<arg>Answers Match</arg>
+<arg>${r3}</arg>
+<arg>--</arg>
+<doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:09:07.279" level="TRACE">Arguments: [ ${CASE NAME}='--' | ${STEP NAME}='Answers Match' | ${STATUS}='PASS' | ${MESSAGE}='--' ]</msg>
+<kw name="Write Results" library="oqe">
+<arg>${CASE NAME}</arg>
+<arg>${STEP NAME}</arg>
+<arg>${STATUS}</arg>
+<arg>${MESSAGE}</arg>
+<doc>Part of *Output Functions*</doc>
+<msg timestamp="20230307 10:09:07.280" level="TRACE">Arguments: [ '--' | 'Answers Match' | 'PASS' | '--' ]</msg>
+<msg timestamp="20230307 10:09:07.281" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.279" endtime="20230307 10:09:07.281"/>
+</kw>
+<msg timestamp="20230307 10:09:07.281" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.279" endtime="20230307 10:09:07.281"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${r3}'=='PASS'</arg>
+<arg>Record Action</arg>
+<arg>${TEST NAME}</arg>
+<arg>Successful Input</arg>
+<arg>ELSE</arg>
+<arg>Fail</arg>
+<arg>Input failed</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<msg timestamp="20230307 10:09:07.281" level="TRACE">Arguments: [ "'PASS'=='PASS'" | 'Record Action' | '${TEST NAME}' | 'Successful Input' | 'ELSE' | 'Fail' | 'Input failed' ]</msg>
+<kw name="Record Action" library="DataExtraction">
+<arg>${TEST NAME}</arg>
+<arg>Successful Input</arg>
+<doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:09:07.283" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${ACT DESCRIPTION}='Successful Input' ]</msg>
 <kw name="Write Data" library="oqe">
-<arg>--</arg>
-<arg>--</arg>
-<arg>--</arg>
+<arg>${CASE NAME}</arg>
+<arg>${ACT DESCRIPTION}</arg>
+<arg>Action</arg>
 <arg>--</arg>
 <doc>Part of *Output Functions*</doc>
-<status status="PASS" starttime="20230223 23:26:49.787" endtime="20230223 23:26:49.788"/>
+<msg timestamp="20230307 10:09:07.283" level="TRACE">Arguments: [ 'Calc 1+4=5' | 'Successful Input' | 'Action' | '--' ]</msg>
+<msg timestamp="20230307 10:09:07.284" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.283" endtime="20230307 10:09:07.284"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:49.787" endtime="20230223 23:26:49.788"/>
+<msg timestamp="20230307 10:09:07.285" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.282" endtime="20230307 10:09:07.285"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:49.785" endtime="20230223 23:26:49.789"/>
+<msg timestamp="20230307 10:09:07.285" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.281" endtime="20230307 10:09:07.285"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:42.487" endtime="20230223 23:26:49.789"/>
+<msg timestamp="20230307 10:09:07.285" level="TRACE">Return: '5'</msg>
+<msg timestamp="20230307 10:09:07.285" level="INFO">${answer} = 5</msg>
+<status status="PASS" starttime="20230307 10:08:57.225" endtime="20230307 10:09:07.285"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:42.484" endtime="20230223 23:26:49.791"/>
+<kw name="Assert OQE Values Equal" library="DataExtraction">
+<var>${r}</var>
+<arg>${TEST NAME}</arg>
+<arg>Answer</arg>
+<arg>${answer}</arg>
+<arg>${output}</arg>
+<doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:09:07.287" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='Answer' | ${actual}='5' | ${expected}='5' ]</msg>
+<kw name="Compare Results" library="oqe">
+<var>${TEST_STATUS}</var>
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:09:07.288" level="TRACE">Arguments: [ '5' | '5' ]</msg>
+<msg timestamp="20230307 10:09:07.288" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:07.288" level="INFO">${TEST_STATUS} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:07.287" endtime="20230307 10:09:07.288"/>
+</kw>
+<kw name="Write Results" library="oqe">
+<arg>${CASE NAME}_${STEP NAME}</arg>
+<arg>Values Equal</arg>
+<arg>${TEST_STATUS}</arg>
+<arg>Actual: ${actual}, Expected: ${expected}</arg>
+<doc>Part of *Output Functions*</doc>
+<msg timestamp="20230307 10:09:07.289" level="TRACE">Arguments: [ 'Calc 1+4=5_Answer' | 'Values Equal' | 'PASS' | 'Actual: 5, Expected: 5' ]</msg>
+<msg timestamp="20230307 10:09:07.290" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.288" endtime="20230307 10:09:07.290"/>
+</kw>
+<msg timestamp="20230307 10:09:07.290" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:07.290" level="INFO">${r} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:07.286" endtime="20230307 10:09:07.290"/>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<arg>'${r}'=='PASS'</arg>
+<arg>Record Action</arg>
+<arg>${TEST NAME}</arg>
+<arg>Successful Output</arg>
+<arg>ELSE</arg>
+<arg>Fail</arg>
+<arg>Output mismatch</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<msg timestamp="20230307 10:09:07.291" level="TRACE">Arguments: [ "'PASS'=='PASS'" | 'Record Action' | '${TEST NAME}' | 'Successful Output' | 'ELSE' | 'Fail' | 'Output mismatch' ]</msg>
+<kw name="Record Action" library="DataExtraction">
+<arg>${TEST NAME}</arg>
+<arg>Successful Output</arg>
+<doc>Part of *Recording Data*</doc>
+<msg timestamp="20230307 10:09:07.292" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${ACT DESCRIPTION}='Successful Output' ]</msg>
+<kw name="Write Data" library="oqe">
+<arg>${CASE NAME}</arg>
+<arg>${ACT DESCRIPTION}</arg>
+<arg>Action</arg>
+<arg>--</arg>
+<doc>Part of *Output Functions*</doc>
+<msg timestamp="20230307 10:09:07.292" level="TRACE">Arguments: [ 'Calc 1+4=5' | 'Successful Output' | 'Action' | '--' ]</msg>
+<msg timestamp="20230307 10:09:07.293" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.292" endtime="20230307 10:09:07.294"/>
+</kw>
+<msg timestamp="20230307 10:09:07.294" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.291" endtime="20230307 10:09:07.294"/>
+</kw>
+<msg timestamp="20230307 10:09:07.294" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.290" endtime="20230307 10:09:07.294"/>
+</kw>
+<msg timestamp="20230307 10:09:07.294" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:08:10.458" endtime="20230307 10:09:07.294"/>
+</kw>
+<kw name="Test End" type="TEARDOWN">
+<msg timestamp="20230307 10:09:07.296" level="TRACE">Arguments: [  ]</msg>
+<kw name="Click" library="calc">
+<arg>clear</arg>
+<doc>Clicks on the intended widget</doc>
+<msg timestamp="20230307 10:09:07.296" level="TRACE">Arguments: [ 'clear' ]</msg>
+<msg timestamp="20230307 10:09:07.296" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:07.297" level="DEBUG">Answer received: !yro48</msg>
+<msg timestamp="20230307 10:09:07.298" level="DEBUG">Command to send: c
+o48
+newRegion
+i362
+i287
+i25
+i28
+e
+</msg>
+<msg timestamp="20230307 10:09:07.298" level="DEBUG">Answer received: !yro49</msg>
+<msg timestamp="20230307 10:09:07.298" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro48
+ro49
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:07.299" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:07.300" level="DEBUG">Command to send: c
+o49
+click
+e
+</msg>
+<msg timestamp="20230307 10:09:07.864" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230307 10:09:07.864" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.296" endtime="20230307 10:09:07.864"/>
+</kw>
+<kw name="Click" library="calc">
+<arg>clear</arg>
+<doc>Clicks on the intended widget</doc>
+<msg timestamp="20230307 10:09:07.864" level="TRACE">Arguments: [ 'clear' ]</msg>
+<msg timestamp="20230307 10:09:07.864" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:07.865" level="DEBUG">Answer received: !yro50</msg>
+<msg timestamp="20230307 10:09:07.865" level="DEBUG">Command to send: c
+o50
+newRegion
+i362
+i287
+i25
+i28
+e
+</msg>
+<msg timestamp="20230307 10:09:07.865" level="DEBUG">Answer received: !yro51</msg>
+<msg timestamp="20230307 10:09:07.866" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro50
+ro51
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:07.866" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:07.866" level="DEBUG">Command to send: c
+o51
+click
+e
+</msg>
+<msg timestamp="20230307 10:09:08.423" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230307 10:09:08.423" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.864" endtime="20230307 10:09:08.423"/>
+</kw>
+<kw name="Read" library="calc">
+<var>${n}</var>
+<arg>Output</arg>
+<doc>Read and return text from the intended widget</doc>
+<msg timestamp="20230307 10:09:08.423" level="TRACE">Arguments: [ 'Output' ]</msg>
+<msg timestamp="20230307 10:09:08.424" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:08.442" level="DEBUG">Answer received: !yro52</msg>
+<msg timestamp="20230307 10:09:08.443" level="DEBUG">Command to send: c
+o52
+newRegion
+i68
+i174
+i485
+i56
+e
+</msg>
+<msg timestamp="20230307 10:09:08.443" level="DEBUG">Answer received: !yro53</msg>
+<msg timestamp="20230307 10:09:08.443" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro52
+ro53
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:08.444" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:08.444" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:08.445" level="DEBUG">Answer received: !yro54</msg>
+<msg timestamp="20230307 10:09:08.445" level="DEBUG">Command to send: c
+o54
+capture
+ro53
+e
+</msg>
+<msg timestamp="20230307 10:09:08.445" level="DEBUG">Answer received: !yro55</msg>
+<msg timestamp="20230307 10:09:08.445" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro54
+ro55
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:08.449" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:08.450" level="DEBUG">Command to send: m
+d
+o38
+e
+</msg>
+<msg timestamp="20230307 10:09:08.461" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.461" level="DEBUG">Command to send: m
+d
+o39
+e
+</msg>
+<msg timestamp="20230307 10:09:08.461" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.461" level="DEBUG">Command to send: m
+d
+o40
+e
+</msg>
+<msg timestamp="20230307 10:09:08.463" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.463" level="DEBUG">Command to send: m
+d
+o41
+e
+</msg>
+<msg timestamp="20230307 10:09:08.464" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.464" level="DEBUG">Command to send: m
+d
+o42
+e
+</msg>
+<msg timestamp="20230307 10:09:08.464" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.464" level="DEBUG">Command to send: m
+d
+o43
+e
+</msg>
+<msg timestamp="20230307 10:09:08.464" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.464" level="DEBUG">Command to send: m
+d
+o44
+e
+</msg>
+<msg timestamp="20230307 10:09:08.464" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.464" level="DEBUG">Command to send: m
+d
+o45
+e
+</msg>
+<msg timestamp="20230307 10:09:08.465" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.465" level="DEBUG">Command to send: m
+d
+o46
+e
+</msg>
+<msg timestamp="20230307 10:09:08.465" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.465" level="DEBUG">Command to send: m
+d
+o47
+e
+</msg>
+<msg timestamp="20230307 10:09:08.465" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.465" level="DEBUG">Command to send: m
+d
+o48
+e
+</msg>
+<msg timestamp="20230307 10:09:08.465" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.466" level="DEBUG">Command to send: m
+d
+o49
+e
+</msg>
+<msg timestamp="20230307 10:09:08.466" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.466" level="DEBUG">Command to send: m
+d
+o50
+e
+</msg>
+<msg timestamp="20230307 10:09:08.466" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.466" level="DEBUG">Command to send: m
+d
+o51
+e
+</msg>
+<msg timestamp="20230307 10:09:08.466" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.466" level="DEBUG">Command to send: m
+d
+o52
+e
+</msg>
+<msg timestamp="20230307 10:09:08.467" level="DEBUG">Answer received: !yv</msg>
+<msg timestamp="20230307 10:09:08.449" level="DEBUG">Command to send: c
+o55
+getFilename
+e
+</msg>
+<msg timestamp="20230307 10:09:08.487" level="DEBUG">Answer received: !ysC:\\Users\\Benny\\AppData\\Local\\Temp\\Sikulix_139363655\\sikuliximage-1678201748482.png</msg>
+<msg timestamp="20230307 10:09:08.851" level="TRACE">Return: '0'</msg>
+<msg timestamp="20230307 10:09:08.851" level="INFO">${n} = 0</msg>
+<status status="PASS" starttime="20230307 10:09:08.423" endtime="20230307 10:09:08.851"/>
+</kw>
+<kw name="Assert OQE Values Equal" library="DataExtraction">
+<var>${r}</var>
+<arg>${TEST NAME}</arg>
+<arg>Verify Clear</arg>
+<arg>${n}</arg>
+<arg>0</arg>
+<doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:09:08.852" level="TRACE">Arguments: [ ${CASE NAME}='Calc 1+4=5' | ${STEP NAME}='Verify Clear' | ${actual}='0' | ${expected}='0' ]</msg>
+<kw name="Compare Results" library="oqe">
+<var>${TEST_STATUS}</var>
+<arg>${actual}</arg>
+<arg>${expected}</arg>
+<doc>Part of *Comparisons*</doc>
+<msg timestamp="20230307 10:09:08.853" level="TRACE">Arguments: [ '0' | '0' ]</msg>
+<msg timestamp="20230307 10:09:08.853" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:08.853" level="INFO">${TEST_STATUS} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:08.853" endtime="20230307 10:09:08.853"/>
+</kw>
+<kw name="Write Results" library="oqe">
+<arg>${CASE NAME}_${STEP NAME}</arg>
+<arg>Values Equal</arg>
+<arg>${TEST_STATUS}</arg>
+<arg>Actual: ${actual}, Expected: ${expected}</arg>
+<doc>Part of *Output Functions*</doc>
+<msg timestamp="20230307 10:09:08.854" level="TRACE">Arguments: [ 'Calc 1+4=5_Verify Clear' | 'Values Equal' | 'PASS' | 'Actual: 0, Expected: 0' ]</msg>
+<msg timestamp="20230307 10:09:08.855" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:08.853" endtime="20230307 10:09:08.855"/>
+</kw>
+<msg timestamp="20230307 10:09:08.855" level="TRACE">Return: 'PASS'</msg>
+<msg timestamp="20230307 10:09:08.855" level="INFO">${r} = PASS</msg>
+<status status="PASS" starttime="20230307 10:09:08.851" endtime="20230307 10:09:08.855"/>
+</kw>
+<msg timestamp="20230307 10:09:08.857" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:07.295" endtime="20230307 10:09:08.857"/>
+</kw>
+<status status="PASS" starttime="20230307 10:08:10.444" endtime="20230307 10:09:08.857"/>
 </test>
-<kw name="Stop Test" type="TEARDOWN">
-<kw name="Stop Arithmetic Calculator" library="arith">
-<kw name="Find" library="main">
-<doc>Called to locate any anchor for the window and revise relative locations to 
-widgets.</doc>
-<status status="PASS" starttime="20230223 23:26:49.817" endtime="20230223 23:26:50.311"/>
-</kw>
-<kw name="Click" library="main">
+<kw name="Suite End" library="switch" type="TEARDOWN">
+<msg timestamp="20230307 10:09:08.860" level="TRACE">Arguments: [  ]</msg>
+<kw name="Click" library="header">
 <arg>closeButton</arg>
 <doc>Clicks on the intended widget</doc>
-<status status="PASS" starttime="20230223 23:26:50.312" endtime="20230223 23:26:50.984"/>
+<msg timestamp="20230307 10:09:08.860" level="TRACE">Arguments: [ 'closeButton' ]</msg>
+<msg timestamp="20230307 10:09:08.860" level="DEBUG">Command to send: c
+t
+getScreen
+s192.168.0.22
+i5900
+spassword
+e
+</msg>
+<msg timestamp="20230307 10:09:08.864" level="DEBUG">Answer received: !yro56</msg>
+<msg timestamp="20230307 10:09:08.864" level="DEBUG">Command to send: c
+o56
+newRegion
+i518
+i69
+i28
+i21
+e
+</msg>
+<msg timestamp="20230307 10:09:08.865" level="DEBUG">Answer received: !yro57</msg>
+<msg timestamp="20230307 10:09:08.865" level="DEBUG">Command to send: c
+t
+checkAndSetRemote
+ro56
+ro57
+bTrue
+e
+</msg>
+<msg timestamp="20230307 10:09:08.865" level="DEBUG">Answer received: !ybtrue</msg>
+<msg timestamp="20230307 10:09:08.865" level="DEBUG">Command to send: c
+o57
+click
+e
+</msg>
+<msg timestamp="20230307 10:09:09.426" level="DEBUG">Answer received: !yi1</msg>
+<msg timestamp="20230307 10:09:09.427" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:08.860" endtime="20230307 10:09:09.427"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:49.817" endtime="20230223 23:26:50.984"/>
+<msg timestamp="20230307 10:09:09.427" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20230307 10:09:08.859" endtime="20230307 10:09:09.427"/>
 </kw>
-<status status="PASS" starttime="20230223 23:26:49.816" endtime="20230223 23:26:50.985"/>
-</kw>
-<status status="PASS" starttime="20230223 23:26:15.091" endtime="20230223 23:26:50.985"/>
+<status status="PASS" starttime="20230307 10:08:01.884" endtime="20230307 10:09:09.427"/>
 </suite>
 <statistics>
 <total>
-<stat pass="4" fail="0" skip="0">All Tests</stat>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat pass="4" fail="0" skip="0" id="s1" name="Main2">Main2</stat>
+<stat pass="1" fail="0" skip="0" id="s1" name="remoteCacl">remoteCacl</stat>
 </suite>
 </statistics>
 <errors>

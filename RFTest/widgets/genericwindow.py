@@ -21,7 +21,7 @@ class genericwindow(Window):
         pass
 
     @keyword(name="Configure")
-    def configure(self, type, configPath, dataPath):
+    def configure(self, type, configPath, dataPath, remoteConnection="None"):
         '''
         Sets up the details of the generic window for a specific test\n\n
         type - One of {Sikuli, Selenium}\n\n
@@ -34,7 +34,7 @@ class genericwindow(Window):
         elif type == "Selenium":
             testType = TestType.Selenium
 
-        self.configureWindow(testType, configPath, dataPath)
+        self.configureWindow(testType, configPath, dataPath, remoteConnection)
 
     @keyword(name="Capture Window")
     def captureWindow(self):

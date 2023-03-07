@@ -1,7 +1,5 @@
-
-
+from robot.api.deco import keyword
 import imagelibrary
-#from il import imagelibrary, MouseButtons
 import filemaker
 import os
 from pathlib import Path
@@ -53,8 +51,8 @@ class sikulilibrary(imagelibrary.imagelibrary):
    def move3(self, endX, endY):
       if self.foundElement == None:
          raise Exception("Element was not found")
-      location = gateway.entry_point.createLocation( int(endX), int(endY))
-      screen = gateway.entry_point.getScreen(0)
+      screen = self.getScreen()
+      location = screen.newLocation(int(endX), int(endY))
       screen.dragDrop(self.foundElement, location)
 
    def searchRegion3(self, targetImage):
@@ -67,7 +65,12 @@ class sikulilibrary(imagelibrary.imagelibrary):
       if self.foundElement == None:
          raise Exception("Element was not found")
 
-      temp = gateway.entry_point.findImage(self.foundElement, targetImage)
+      p = gateway.entry_point.createPattern(targetImage)
+      temp = self.foundElement.exists(p)
+
+      screen = self.getScreen()
+      if not gateway.entry_point.checkAndSetRemote(screen, temp, self.remote):
+         raise ValueError("Remotes don't match")
 
       if temp!=None and temp.getScore() >= MINIMUM_MATCH_PERCENT:
          self.foundElement = temp
@@ -77,8 +80,11 @@ class sikulilibrary(imagelibrary.imagelibrary):
       return (-1, -1)
 
    def picture(self, path, thing, name=None):
-      screen = gateway.entry_point.getScreen()
+      screen = self.getScreen()
       image = screen.capture(thing)
+
+      if not gateway.entry_point.checkAndSetRemote(screen, image, self.remote):
+         raise ValueError("Remotes don't match")
       tmp = image.getFilename()
       next = filemaker.nextFile(path, name)
       filemaker.moveFile(tmp, next)
@@ -87,8 +93,8 @@ class sikulilibrary(imagelibrary.imagelibrary):
    def findElement(self, description):
       path = Path(os.path.join(".", description))
       if path.is_file() and os.path.exists(description):
+         screen = self.getScreen()
          pattern = gateway.entry_point.createPattern(description)
-         screen = gateway.entry_point.getScreen(0)
          temp = screen.find(pattern)
          if temp.getScore() >= MINIMUM_MATCH_PERCENT:
             self.foundElement = temp
@@ -98,19 +104,79 @@ class sikulilibrary(imagelibrary.imagelibrary):
       raise ValueError("Cannot find widget")                
 
    def findElementFromPoint(self, x, y, w, h):
-      self.foundElement = gateway.entry_point.createRegion(int(x), int(y), int(w), int(h))
+      screen = self.getScreen()
+      self.foundElement = screen.newRegion(int(x), int(y), int(w), int(h))
+
+      if not gateway.entry_point.checkAndSetRemote(screen, self.foundElement, self.remote):
+         raise ValueError("Remotes don't match for find element")
 
    def __init__(self):
       imagelibrary.imagelibrary.__init__(self)
       import random
       self.myID = random.randint(1, 1000)
-      # try:
-      #    a = 0
-      #    b = 1/a
-      # except Exception as err:
-      #    import traceback
-      #    BuiltIn().log_to_console("Error for "+str(self.myID))
-      #    BuiltIn().log_to_console(str(traceback.format_exception(type(err), err, err.__traceback__)))
-      #    BuiltIn().log_to_console("\n\n\n\n")
 
       gateway.entry_point.addImagePath(os.getcwd(), self.myID)
+      self.remote = "Unconfigured"
+      self.ip = None
+      self.port = None
+      self.password = None
+
+   @keyword(name="Configure Sikuli")
+   def configureSikuli(self, vncConnection):
+      '''
+      Part of *Test Configuration*\n\n
+      Sets up the sikuli screen details. FOR RIGHT NOW, it is setup
+      once for the whole event.\n\n
+      vncConnection should have EITHER:\n
+      * "None" (local test and default)
+      * "ip;port"
+      * "ip;port;somepassword"
+      '''
+      self.remote = vncConnection != "None"
+      if self.remote:
+         parts = vncConnection.split(';')
+         ipParts = parts[0].split('.')
+         if len(ipParts)!=4:
+            raise SyntaxError("IP not formatted correct: 4 octets "+vncConnection)
+
+         for n in ipParts:
+            try:
+              tmp = int(n)
+            except Exception:
+               raise SyntaxError("IP not formatted correct: Integer required")
+
+            if tmp<0 or tmp>255:
+               raise SyntaxError("IP not formatted correct: range [0-255]")
+
+         self.ip = parts[0]
+
+         try:
+            tmp = int(parts[1])
+         except Exception:
+            raise SyntaxError("Port not formatted correct: Integer required")
+
+         if tmp<255 or tmp>65535:
+            raise SyntaxError("Port not formatted correct: range [255-65535]")
+         self.port = tmp
+
+         if len(parts)==3:
+            self.password = parts[2]
+
+   def getScreen(self):
+      #from robot.libraries.BuiltIn import BuiltIn
+      #BuiltIn().log_to_console("Seeking screen with id: "+str(self.myID))
+      #BuiltIn().log_to_console("    remote: "+str(self.remote))
+      #BuiltIn().log_to_console("    password: "+str(self.password))
+      #BuiltIn().log_to_console("    ip: "+str(self.ip))
+      #BuiltIn().log_to_console("    port: "+str(self.port))
+
+      if self.remote == "Unconfigured":
+         raise Exception("Remote/local has not been configured")
+
+      if self.remote:
+         if self.password == None:
+            return gateway.entry_point.getScreen(self.ip, self.port)
+
+         return gateway.entry_point.getScreen(self.ip, self.port, self.password)
+
+      return gateway.entry_point.getScreen()

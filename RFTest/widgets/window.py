@@ -27,8 +27,8 @@ class Window(Widget):
         self.movePoints = []
         self.name = "Window"
 
-    def configureWindow(self, type, configPath, dataPath):
-        tester = CreateTester(type, dataPath)
+    def configureWindow(self, type, configPath, dataPath, remoteConnection="None"):
+        tester = CreateTester(type, dataPath, remoteConnection)
         self.configureWidget(tester)
         self.configPath = configPath
         self.parseFile(self.configPath+"/project.json")

@@ -15,10 +15,6 @@ Suite Teardown     Suite End
 
 *** Test Cases ***
 Calc 1+4=5     1    4    add    5
-#Calc 2-7=-5    2    7    subtract    -5
-#Calc 3x5=15    3    5    times    15
-#Calc 8/2=4     8    2    divide    4
-#Calc 7-1=6     7    1    subtract    6
 
 *** Keywords ***
 Test Calculator
@@ -32,6 +28,7 @@ Test Calculator
 Math Problem
     [ARGUMENTS]    ${NUMBER1}    ${op}    ${NUMBER2}
     Parse Number    ${NUMBER1}
+    Sleep    2
     BuiltIn.Log To Console    Image capture operand1
     ${file} =    calc.Capture Image    Output
     Record Screen Image    ${file}    ${TEST NAME}    Operand 1
@@ -42,12 +39,14 @@ Math Problem
 
     calc.Click    ${op}
     Parse Number    ${NUMBER2}
+    Sleep    2
     ${file} =    calc.Capture Image    Output
     Record Screen Image    ${file}    ${TEST NAME}    Operand 2
     ${n} =    calc.Read    Output
     ${r2} =    Assert OQE Values Equal    ${TEST NAME}    Second Operand    ${n}    ${NUMBER2}
     Record Test Case    --    Operand 2 matches    ${r2}    --
     calc.Click    equals
+    Sleep    2
     ${file} =    calc.Capture Image    Output
     Record Screen Image    ${file}    ${TEST NAME}    Answer
     ${n} =    calc.Read    Output
@@ -64,9 +63,9 @@ Parse Number
     END
 
 Suite Start
-    calc.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator    ${DATA PATH}
+    Setup Header    192.168.0.22;5900;password
 
-    Setup Header
+    calc.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator    ${DATA PATH}    192.168.0.22;5900;password
 
     calc.Find
     ${tmp} =    calc.Document API

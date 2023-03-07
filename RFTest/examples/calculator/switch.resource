@@ -40,15 +40,16 @@ Switch Calculator Type
     Run Keyword If    '${a}'=='FAIL'    Fail    ${message}
 
 Setup Header
+    [ARGUMENTS]    ${remote}=None
     #sets up sikuli to process all data at this location
-    Configure Image Library    Sikuli    ${DATA PATH}
+    Configure Image Library    Sikuli    ${DATA PATH}    remoteVNC=${remote}
 
     #RFW Logging and empties any current data from data path
-    Set Log Level    TRACE
     Archive Any Previous Data
+    Set Log Level    TRACE
 
-    header.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead    ${DATA PATH}
-    typeMenu.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calcMenu    ${DATA PATH}
+    header.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculatorHead    ${DATA PATH}    ${remote}
+    typeMenu.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calcMenu    ${DATA PATH}    ${remote}
 
     Start Process    calc
     Wait Until Keyword Succeeds    2x    3s    header.Find

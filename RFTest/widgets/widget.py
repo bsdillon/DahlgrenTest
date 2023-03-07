@@ -14,10 +14,11 @@ class TestType(int):
     Selenium = 2
     Yeti = 3
 
-def CreateTester(type:TestType, path):
+def CreateTester(type:TestType, path, remoteConnection="None"):
     if type==TestType.Sikuli:
         temp = sikulilibrary()
         temp.configureImagePath(path)
+        temp.configureSikuli(remoteConnection)
         return temp
     elif type==TestType.Selenium:
         temp = seleniumlibrary()
