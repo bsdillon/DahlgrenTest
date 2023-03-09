@@ -3,14 +3,14 @@ Resource   DataExtraction.resource
 Library    genericwindow.py    WITH NAME    gui
 
 *** Variables ***
-${DATA PATH} =    C:/Users/Benny/Documents/RFData
+${DATA PATH} =    C:/Users/john.narkinsky/Documents/RFData
 
 *** Test Cases ***
 Configuration Checks
     Configure Image Library    Sikuli    ${DATA PATH}
     Set Log Level    TRACE
     Archive Any Previous Data
-    gui.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFTest/validation/    ${DATA PATH}
+    gui.Configure    Sikuli    C:/Users/john.narkinsky/Documents/Repos/acceptance_automation/validation/    ${DATA PATH}
     Test Check
     ${a} =    Prove it works
     Log    ${a}

@@ -1,8 +1,8 @@
 import os.path
-from OQE.sikulilibrary import sikulilibrary
-from OQE.seleniumlibrary import seleniumlibrary
+from OQE.sikuliLibrary import sikuliLibrary
+from OQE.seleniumLibrary import seleniumLibrary
 from robot.libraries.BuiltIn import BuiltIn
-from OQE.textreader import textreader
+from OQE.textReader import textReader
 
 class CheckState:
     CHECKED = "Checked"
@@ -14,14 +14,13 @@ class TestType(int):
     Selenium = 2
     Yeti = 3
 
-def CreateTester(type:TestType, path, remoteConnection="None"):
+def CreateTester(type:TestType, path):
     if type==TestType.Sikuli:
-        temp = sikulilibrary()
+        temp = sikuliLibrary()
         temp.configureImagePath(path)
-        temp.configureSikuli(remoteConnection)
         return temp
     elif type==TestType.Selenium:
-        temp = seleniumlibrary()
+        temp = seleniumLibrary()
         temp.confgureImagePath(path)
         return temp
     elif type==TestType.Yeti:
@@ -75,18 +74,19 @@ class Widget:
     def read(self):
         fileName = self.capture()
         try:
-            output = textreader().getText(fileName)
+            output = textReader().getText(fileName)
         except Exception as err:
             import traceback
             self.LogToConsole("Error "+str(err))
             self.LogToConsole(str(traceback.format_exception(type(err), err, err.__traceback__)))
         return output
 
-    def click(self):
+    def click(self, button=1):
         if hasattr(self, 'description'):
-            self.tester.click(self.description)
+            self.tester.click(self.description, button=button)
         else:
-            self.tester.click2( self.x, self.y, self.w, self.h)    
+            print("Here")
+            self.tester.click2( self.x, self.y, self.w, self.h, button=button)    
 
     def doubleClick(self):
         if hasattr(self, 'description'):
@@ -107,10 +107,14 @@ class Widget:
             return self.tester.captureSmall2(self.x, self.y, self.w, self.h, number, name)
 
     def write(self, text):
+        self.click()
         if hasattr(self, 'description'):
             self.tester.write(self.description, text)
         else:
             self.tester.write2(self.x, self.y, self.w, self.h, text)
+
+    def clear(self):
+        self.tester.type
 
     def move(self, endX, endY):
         if hasattr(self, 'description'):
@@ -120,7 +124,6 @@ class Widget:
 
     def find(self):
         if hasattr(self, 'description'):
-            self.LogToConsole("Finding window with "+self.description)
             return self.tester.findElement(self.description)
         else:
             raise NotImplementedError("Cannot find widget without description")

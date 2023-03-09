@@ -11,11 +11,11 @@ class TextField(Widget):
     def LogAll(self):
         return "\t"+self.name+": read, write, capture, captureSmall\n"
 
-    def click(self):
-        raise NotImplementedError
+    # def click(self):
+    #     raise NotImplementedError
 
-    def doubleClick(self):
-        raise NotImplementedError
+    # def doubleClick(self):
+    #     raise NotImplementedError
 
     def move(self, *_):
         raise NotImplementedError

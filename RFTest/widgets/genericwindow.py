@@ -1,13 +1,7 @@
-#Adds the path to OQE folder
-import sys
-import os
-sys.path.append(os.path.abspath("C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE"))
-from OQE import *
-
 from robot.api.deco import keyword
-import imagelibrary
-from window import Window
-from widget import TestType
+from OQE.imageLibrary import MouseButtons
+from widgets.window import Window
+from widgets.widget import TestType
 
 class genericwindow(Window):
     '''
@@ -21,7 +15,7 @@ class genericwindow(Window):
         pass
 
     @keyword(name="Configure")
-    def configure(self, type, configPath, dataPath, remoteConnection="None"):
+    def configure(self, type, configPath, dataPath):
         '''
         Sets up the details of the generic window for a specific test\n\n
         type - One of {Sikuli, Selenium}\n\n
@@ -34,7 +28,7 @@ class genericwindow(Window):
         elif type == "Selenium":
             testType = TestType.Selenium
 
-        self.configureWindow(testType, configPath, dataPath, remoteConnection)
+        self.configureWindow(testType, configPath, dataPath)
 
     @keyword(name="Capture Window")
     def captureWindow(self):
@@ -58,6 +52,14 @@ class genericwindow(Window):
         widget_name - The unique name of the intended widget
         '''
         self.getWidget(widget_name).click()
+    
+    @keyword(name='DoubleClick')
+    def DoubleClick(self, widget_name):
+        '''
+        Clicks on the intended widget twice\n\n
+        widget_name - The unique name of the intended widget
+        '''
+        self.getWidget(widget_name).doubleClick()
 
     @keyword(name='Right Click')
     def RightClick(self, widget_name):
@@ -65,7 +67,7 @@ class genericwindow(Window):
         Right clicks on the intended widget\n\n
         widget_name - The unique name of the intended widget
         '''
-        self.getWidget(widget_name).click(button=imagelibrary.MouseButtons.RIGHT)
+        self.getWidget(widget_name).click(button=MouseButtons.RIGHT)
 
     @keyword(name='Read')
     def Read(self, widget_name):
@@ -83,6 +85,14 @@ class genericwindow(Window):
         text - the text to be written
         '''
         self.getWidget(widget_name).write(text)
+    
+    @keyword(name='Clear')
+    def Clear(self, widget_name):
+        '''
+        Clears all text from the intended widget\n\n
+        widget_name - The unique name of the intended widget
+        '''
+        self.getWidget(widget_name.clear())
 
     @keyword(name='Highlight')
     def Highlight(self, widget_name):
