@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\john.narkinsky\\Documents\\Sikuli\\sikulixide-2.0.5.jar",
+        "c:\\Users\\john.narkinsky\\Documents\\Python\\share\\py4j\\py4j0.10.9.7.jar"
+    ]
+}
