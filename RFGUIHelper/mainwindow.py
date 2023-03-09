@@ -8,6 +8,7 @@ from pathlib import Path
 import shutil
 import os
 from yetiwriter import writeYeti
+
 CONFIG_DIR = './configs'
 PROJECT_FILE = "project.json"
 THUMBNAIL = (25, 18)
@@ -35,10 +36,10 @@ class MainWindow():
         filemenu = tk.Menu(menubar, tearoff=0)
         filemenu.add_command(label="Clear All", command=self.clearEntries)
         filemenu.add_command(label="Export YETI", command=self.exportYeti)
+        self.YetiEnabled = False
         #BSD may be added later
         #filemenu.add_command(label="Add Image", command=self.addImage)
         menubar.add_cascade(label="Actions", menu=filemenu)
-
 
         self.window.title("RF GUI WIZARD")
         self.window.geometry("600x500")
@@ -100,6 +101,14 @@ class MainWindow():
         self.imageList.append(str(Path(newName).absolute()))
         shutil.copyfile(name, newName)
             
+        self.YetiEnabled=False
+        print("Default yeti false")
+        answer = mb.askquestion("Yeti Process", "Is this a YETI program?")
+        print("Answer is "+answer)
+        if answer == "yes":
+            self.YetiEnabled = True
+            print("Initially setting yeti true")
+
         self.exportJSON(projFile)
         self.openProject(projPath)
 
@@ -131,6 +140,9 @@ class MainWindow():
         try:
             self.projPath = dictionary["Path"]
             self.projFile = dictionary["File"]
+            self.YetiEnabled = False
+            if "Yeti" in dictionary:
+                self.YetiEnabled = bool(dictionary["Yeti"])
             for img in dictionary["Images"]:
                 self.imageList.append(img)
 
@@ -153,6 +165,7 @@ class MainWindow():
         path = absFile.parent
         tempList["Path"] = str(path)
         tempList["File"] = str(absFile)
+        tempList["Yeti"] = str(self.YetiEnabled==True)
         tempList["Images"]= self.imageList
         wList = []
         for w in self.widget_list:
@@ -261,7 +274,7 @@ class MainWindow():
         for w in self.widget_list:
             if w.getValue("name") == values[0]:
                 found = True
-                WidgetEditor.Edit(w, self.window, self.test, reviseWidget=True)
+                WidgetEditor.Edit(w, self.window, self.test, reviseWidget=True, yetiType=self.YetiEnabled)
                 if w.editor.completed == EditorState.COMPLETE:
                     #update the widget
                     self.test.updateImage(w)

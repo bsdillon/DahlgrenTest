@@ -11,7 +11,7 @@ Test Teardown      Test End
 Suite Teardown     Suite End
 
 *** Variables ***
-
+${REMOTE} =    192.168.0.199;5900;password
 
 *** Test Cases ***
 Calc 1+4=5     1    4    add    5
@@ -63,9 +63,9 @@ Parse Number
     END
 
 Suite Start
-    Setup Header    192.168.0.22;5900;password
+    Setup Header    ${REMOTE}
 
-    calc.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator    ${DATA PATH}    192.168.0.22;5900;password
+    calc.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/calculator    ${DATA PATH}    ${REMOTE}
 
     calc.Find
     ${tmp} =    calc.Document API

@@ -120,6 +120,7 @@ class Widget:
 
     def find(self):
         if hasattr(self, 'description'):
+            self.LogToConsole("Finding window with "+self.description)
             return self.tester.findElement(self.description)
         else:
             raise NotImplementedError("Cannot find widget without description")

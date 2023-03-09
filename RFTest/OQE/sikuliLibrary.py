@@ -46,6 +46,12 @@ class sikulilibrary(imagelibrary.imagelibrary):
    def write3(self, text):
       if self.foundElement == None:
          raise Exception("Element was not found")
+
+      #get focus on the element
+      self.foundElement.click()
+      # CTRL + A to select any existing text
+      self.foundElement.type(None, "a", 2)
+      # (over)write the text
       self.foundElement.type(text)
 
    def move3(self, endX, endY):

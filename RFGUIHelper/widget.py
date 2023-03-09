@@ -3,43 +3,73 @@ from tkinter import messagebox, ttk, OptionMenu
 from PIL import ImageTk
 from imageUpdate import ImageUpdater
 from valuebuttons import ValueButtons
+from fontselector import FontSelector
 
 WidgetTypes = {
     'Anchor': ['Image file name'],
-    'MovePoint': [],
+    'MovePoint': ['Image file name'],
     'Button': [],
-    'Radio Button': ['Group'],
-    'Tab': ['Group'],
-    'Text Field': [],
+    'Radio Button': ['Value', 'Group'],
+    'Tab': ['Group', 'Font'],
+    'Text Field': ['Font'],
+    'List': ['Font'],
+    'Label': ['Font'],
     'Scroll Bar': [],
-    'Dropdown': [],
+    'Dropdown': ['Font'],
     'Check Box': [],
-    # '': ['',],
 }
 
 YetiImports = {
-    'Anchor': 'from yeti.anchor import TitleBar',
-    'MovePoint': 'from yeti.anchor import TitleBar',
-    'Button': 'from yeti.button import Button',
-    'Radio Button': 'from yeti.radiobutton import RadioButton',
-    'Tab': '',
-    'Text Field': 'from yeti.textentry import TextEntry',
-    'Scroll Bar': '',
-    'Dropdown': 'from ads_window.widget.DropdownMenu import StatelessDropdownMenu',
-    'Check Box': 'from ads_window.widget.Checkbox import Checkbox'
+    'Anchor': ['from yeti.anchor import TitleBar'],
+    'MovePoint': ['from yeti.anchor import TitleBar'],
+    'Button': ['from yeti.button import Button'],
+    'Radio Button': ['from yeti.radiobutton import RadioButton', 'from ads_window.widget.Checkbox import Checkbox'],
+    'Tab': ['from yeti.button import Button', 'from yeti.tabs import Tabs'],
+    'Text Field': ['from yeti.textentry import TextEntry'],
+    'List': ['from yeti.List import StatelessList'],
+    'Label': ['from yeti.label import Label'],
+    'Scroll Bar': [''],
+    'Dropdown': ['from ads_window.widget.DropdownMenu import StatelessDropdownMenu'],
+    'Check Box': ['from ads_window.widget.Checkbox import Checkbox']
 }
 
 YetiTypes = {
     'Anchor': 'TitleBar',
     'MovePoint': 'TitleBar',
     'Button': 'Button',
-    'Radio Button': 'RadioButton',
-    'Tab': '',
+    'Radio Button': 'Checkbox',
+    'Tab': 'Button',
     'Text Field': 'TextEntry',
+    'List': 'StatelessList',
+    'Label': 'Label',
     'Scroll Bar': '',
     'Dropdown': 'StatelessDropdownMenu',
     'Check Box': 'Checkbox'
 }
+
+YetiEnabled = [
+    'Anchor',
+    'MovePoint',
+    'Button',
+    'Radio Button',
+    'Tab',
+    'Text Field',
+    'List',
+    'Label',
+    'Dropdown',
+    'Check Box'
+]
+
+NormalEnabled = [
+    'Anchor',
+    'MovePoint',
+    'Button',
+    'Radio Button',
+    'Text Field',
+    'Scroll Bar',
+    'Dropdown',
+    'Check Box'
+]
 
 class Widget():
     def __init__(self, type, x, y, width, height):
@@ -86,10 +116,10 @@ class WidgetEditor:
     lastWidget = None
 
     @staticmethod
-    def Edit(widget:Widget, parent, imageUpdater:ImageUpdater, reviseWidget=False):
+    def Edit(widget:Widget, parent, imageUpdater:ImageUpdater, reviseWidget=False, yetiType=False):
         #TODO I would like to instantiate without init. Defend against creating
         # the editor without calling this static method. Not sure how to do that.
-        WidgetEditor(widget, parent, imageUpdater, reviseWidget)
+        WidgetEditor(widget, parent, imageUpdater, reviseWidget, yetiType=yetiType)
         parent.wait_window(widget.editor.window)
 
         if widget.editor.completed == EditorState.COMPLETE:
@@ -113,8 +143,11 @@ class WidgetEditor:
                 #finalize the name of the file and save
                 widget.setValue('Image file name', fileName)
 
-    def __init__(self, widget:Widget, parentWindow, imageUpdater:ImageUpdater, revision):
+    def __init__(self, widget:Widget, parentWindow, imageUpdater:ImageUpdater, revision, yetiType=False):
         self.widget = widget
+        self.widgetList = NormalEnabled
+        if yetiType:
+            self.widgetList = YetiEnabled
         widget.editor = self
         span = 2
         if revision:
@@ -187,7 +220,7 @@ class WidgetEditor:
 
             if key=="type":
                 #type only is based on a specific enumeration so we limit it accordingly.
-                throwaway = OptionMenu(self.frame, self.type, *(WidgetTypes.keys()), command=self.changeType)
+                throwaway = OptionMenu(self.frame, self.type, *(self.widgetList), command=self.changeType)
                 self.type.set(self.widget.attributes[key])
             elif key == 'X':
                 throwaway = ValueButtons(self.frame, 0, imageBounds[0], int(self.widget.attributes[key]), callback=self.changeImage)
@@ -197,6 +230,8 @@ class WidgetEditor:
                 throwaway = ValueButtons(self.frame, 0, imageBounds[0]-int(self.widget.attributes["X"]), int(self.widget.attributes[key]), callback=self.changeImage)
             elif key == 'height':
                 throwaway = ValueButtons(self.frame, 0, imageBounds[1]-int(self.widget.attributes["Y"]), int(self.widget.attributes[key]), callback=self.changeImage)
+            elif key == 'Font':
+                throwaway = FontSelector(self.frame, self.widget.attributes[key])
             else:
                 throwaway = ttk.Entry(self.frame, width=20)
                 throwaway.insert(0, self.widget.attributes[key])

@@ -142,7 +142,7 @@ class ImageWindow(ImageUpdater):
             #capture the image of the widget
             tempW.image = self.img.crop((self.firstCoord[0], self.firstCoord[1],self.secondCoord[0], self.secondCoord[1]))
     
-            WidgetEditor.Edit(tempW, self.top, self)
+            WidgetEditor.Edit(tempW, self.top, self, yetiType=self.master.YetiEnabled)
 
             if tempW.editor.completed == EditorState.COMPLETE:
                 #update the master table
