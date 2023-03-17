@@ -146,20 +146,21 @@
       final CLASSPATH location is always '.' meaning the present working directory.
       These values are separated by ':' in linux and ';' in windows. The new
       CLASSPATH will be something like<br>
-      <nobr><code>/usr/share/py4j.jar:/usr/local/downloads/sikulix.jar:.</code></nobr>.
+      <nobr><code>/usr/share/py4j.jar:/usr/local/downloads/sikulix.jar:.</code></nobr>
     </p>
     <p>
-      To set the CLASSPATH permanently edit <code>/home/user/.bashrc</code> and add
-      <nobr><code>export CLASSPATH = /that/path:/we/saw/earlier:.</code></nobr>. Windows
-      has a similar process for setting environmental variables. As a last resort you
-      can use <nobr><code>javac -cp /that/path:/again/right/:. someprogram.java</code></nobr>.
+      To set the CLASSPATH permanently edit <code>/home/user/.bashrc</code> and add:<br>
+      <nobr><code>export CLASSPATH = /that/path:/we/saw/earlier:.</code></nobr><br>
+      Windows has a similar process for setting environmental variables. As a last resort you
+      can use<br>
+      <nobr><code>javac -cp /that/path:/again/right/:. someprogram.java</code></nobr><br><br>
+
       Make sure your changes are set up and consistent with <code>deployment/SikuliEntry/javaserver.bat</code>.
     </p>
     <p>
-      For similar reasons, you will need to create/update
-      the runRobot.bat. This file is found in the RFW 3.0 deployment under RFTest and
-      it adds critical python file locations to a the PYTHONPATH and PATH variables.
-      The cricial locations are the widgets and OQE folders. 
+      For similar reasons, you will need to update PYTHONPATH in <code>deployment/RFTest/runRobot.bat</code>.
+      This file should have the path for the <code>deployment/RFTest/OQE</code> and 
+      <code>deployment/RFTest/widgets</code> subfolders.
     </p>
     <p>
       RFW 3.0 is also dependent on a reference to the <em>data folder</em>. This is a
@@ -171,7 +172,7 @@
       <dt><code>deployment/RFTest/validation/test.robot</code></dt>
         <dd>Search for <code>${DATA PATH}</code> and replace the value with your own.</dd>
       <dt><code>deployment/RFTest/RFDemoGUI/demoGUI.html</code></dt>
-        <dd>Search for <code>./../../../../RFData</code> and replace with the relative path to your data folder. <span class="red">THERE ARE TWO</span><br><br>
+        <dd>Search for <code>./../../../../RFData</code> and replace with the empirical path to your data folder. <span class="red">THERE ARE TWO</span><br><br>
         Please note that this is a "relative" path. So <code>.</code> is the folder with demoGUI.html and <code>./..</code> is one folder up (i.e. RFTest).
         If your data folder is <code>data</code> in the same folder as <code>deployment</code> use:<br>
         <code>./../../data/test.js</code></dd>
