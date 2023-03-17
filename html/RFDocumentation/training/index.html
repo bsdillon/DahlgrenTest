@@ -123,31 +123,40 @@
     <a name="packages"></a><h3>Installing RHEL Packages</h3>
     <p>
       Each of the RHEL packages must be installed by the root (or SUDO) 
-      role using the command <code>yum install <i>package-name</i></code>. It
-      is recommended that you install tkinter, pip, tesseract-devel, and java-devel.
-      All the rest are installed as dependencies. After installing the packages, 
-      find the command for python 3 in your system using <code>which python3</code>
-      or you can search the <code>/user/bin/</code> folder. Sometimes the
+      role using the command <nobr><code>yum install <i>package-name</i></code></nobr>.
+      After installing the packages, find the command for python 3 in your system using
+      <code>which python3</code> or you can search the <code>/user/bin/</code> folder. Sometimes the
       system assigns names like python3.X depending on the selected version.
     </p>
 
     <a name="pipinstall"></a><h3>Python Pip Installs</h3>
     <p>
       If you are attached to the web you can automatically download and install
-      python libraries using <code>python3 -m pip install <i>package</i></code>.
-      In the case of pillow you can specify the desired version number by adding
-      <code>python3 -m pip install pillow==<i>version_number</i></code>. If you 
-      are installing offline, you may point to any downloaded library path using
-      <code>python3 -m pip install <i>PATH</i></code>.
+      python libraries using <nobr><code>python3 -m pip install <i>package</i></code></nobr>.
+      When offline, you can specify the exact path of the compressed file. If you 
+      were installing offline, use <nobr><code>python3 -m pip install <i>PATH</i></code></nobr>
     </p>
 
     <a name="paths"></a><h3>Setting Paths</h3>
     <p>
-      When the Py4J is pip-installed, it should savea  Java Jar file on your system.
-      This is usually found in /usr/share/py4j or /usr/local/share/py4j. Locate
-      this Jar file. You will need to add that Jar file and the Sikuli Jar to your
-      CLASSPATH variable. This will ensure that they can be found during compilation
-      of the Sikuli Entry Point. For similar reasons, you will need to create/update
+      The SikuliEntryPoint server is a java application that will only run if you
+      have set the CLASSPATH variable. That variable will have the location of the
+      SikuliX and Py4J JAR files. When the Py4J is pip-installed, it should save a 
+      Java Jar file on your system in /usr/share/py4j or /usr/local/share/py4j. The
+      final CLASSPATH location is always '.' meaning the present working directory.
+      These values are separated by ':' in linux and ';' in windows. The new
+      CLASSPATH will be something like<br>
+      <nobr><code>/usr/share/py4j.jar:/usr/local/downloads/sikulix.jar:.</code></nobr>.
+    </p>
+    <p>
+      To set the CLASSPATH permanently edit <code>/home/user/.bashrc</code> and add
+      <nobr><code>export CLASSPATH = /that/path:/we/saw/earlier:.</code></nobr>. Windows
+      has a similar process for setting environmental variables. As a last resort you
+      can use <nobr><code>javac -cp /that/path:/again/right/:. someprogram.java</code></nobr>.
+      Make sure your changes are set up and consistent with <code>deployment/SikuliEntry/javaserver.bat</code>.
+    </p>
+    <p>
+      For similar reasons, you will need to create/update
       the runRobot.bat. This file is found in the RFW 3.0 deployment under RFTest and
       it adds critical python file locations to a the PYTHONPATH and PATH variables.
       The cricial locations are the widgets and OQE folders. 
