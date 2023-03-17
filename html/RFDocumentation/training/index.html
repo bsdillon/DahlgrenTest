@@ -10,7 +10,7 @@
     <h2>Robot Framework Training</h2>
     <p>
       This page covers the instructions for setup, development, and use of
-      Robot Framework. Robot Framework or RFW is a free set of libraries that
+      Robot Framework. Robot Framework, or RFW, is a free set of libraries that
       can be used to enable automatic testing. RFW is flexible and can easily
       incorporate any tool or library through the Python language. In the course
       of events, Dahlgren has developed a set of external files that assist in
@@ -33,8 +33,6 @@
       <li><a href="#configuration">Configuration</a>
         <ul>
           <li><a href="#downloads">Download lists</a></li>
-          <li><a href="#operatingsystem">Operating System</a></li>
-          <li><a href="#versions">Versions</a></li>
           <li><a href="#packages">Installing RHEL Packages</a></li>
           <li><a href="#pipinstall">Python Pip Installs</a></li>
           <li><a href="#paths">Setting Paths</a></li>
@@ -82,73 +80,45 @@
     <a name="configuration"></a><h2>Configuration</h2>
     <a name="downloads"></a>
     <h4>Redhat Distribution</h4>
-      <span class="red">NOTE</span> After some study, the list below is NOT sufficient
-      for installation in a RHEL environment. You will need several dozen more 
-      libraries. Therefore, it is recommended that any offline installation be
-      facilitated by an offline RHEL repository from your administrator.
+      <p>
+        Although RFW 3.0 works on Windows and should be compatible with any operating 
+        system, RHEL 8+ is the preferred OS. RHEL 8 supports tesseract and the other 
+        features. These instructions are written with for a RHEL 8 machine. After some
+        study, it is considered best practice to build your OS files from an attached
+        repository. The number dependencies not shown here are simply too great to
+        handle otherwise. In addition to the basic OS, install the following AND all 
+        of their dependencies.
+      </p>
     <ul>
-      <li>Python3X<span class="red"><sup>*</sup></span></li>
-      <li>Python3X<span class="red"><sup>*</sup></span>-libs</li>
-      <li>Python3X<span class="red"><sup>*</sup></span>-pip</li>
-      <li>Python3X<span class="red"><sup>*</sup></span>-setuptools</li>
-      <li>Python3X<span class="red"><sup>*</sup></span>-tkinter</li>
-      <li>tcl</li>
-      <li>tk</li>
       <li>tesseract-devel</li>
-      <li>tesseract</li>
-      <li>leptonica</li>
       <li>leptonica-devel</li>
       <li>java-XXXX-openjdk-devel</li>
-      <span class="red">*</span> - See <a href="#versions">discussion of python version</a>
+      <li><span class="red">Python3X</sup></span></li>
+      <li><span class="red">Python3X</sup></span>-libs</li>
+      <li><span class="red">Python3X</span>-pip</li>
+      <li><span class="red">Python3X</span>-setuptools</li>
+      <li><span class="red">Python3X</span>-tkinter</li>
     </ul>
+    <p>
+      Please notes that you must select a version of python 3 for which you
+      have ALL of the red libraries above. On RHEL8, the peferred version 
+      appears to be Python 3.9.
+    </p>
+
     <h4>Python Libraries</h4>
     <ul>
-      <li>pillow [<a href="https://pypi.org/project/Pillow/#history">link</a>]</li>
       <li>Py4J [<a href="https://pypi.org/project/py4j/">link</a>]</li>
       <li>pytesseract [<a href="https://pypi.org/project/pytesseract/">link</a>]</li>
       <li>robotframework [<a href="https://pypi.org/project/robotframework/">link</a>]</li>
+      <li>pillow [<a href="https://pypi.org/project/Pillow/#history">link</a>]<br>
+      Your pillow library must be compatible with the python version you use. See this <a href="https://pillow.readthedocs.io/en/stable/installation.html">table</a> for the specific version.</li>
     </ul>
     <h4>Other</h4>
     <ul>
       <li><a href="deployment.zip" download target="_blank">RFW 3.0</a></li>
       <li>SikuliX Jar [<a href="https://raiman.github.io/SikuliX1/downloads.html">link</a>]</li>
-      <li>Py4J Jar - Downloaded with Py4J python.</li>
+      <li>Py4J Jar - You will find it downloaded with Py4J python.</li>
     </ul>
-
-    <a name="operatingsystem"></a><h3>Operating System</h3>
-    <p>
-      RFW 3.0 works on Windows and should be compatible with any operating 
-      system. These instructions, however, are written for a Red Hat 
-      Enterprise Linux machine. If you are using a different operating 
-      system you may have to adapt them for your system.
-    </p>
-
-    <a name="versions"></a><h3>Versions</h3>
-    <p>
-      The download list is very dependent on the version of python selected.
-      Robot Framework works with Python 3.6+. The code in RFW 3.0 was written
-      for Python 3.10.8. You are free to pick any version of python which your
-      site will support subject to those constraints. If you pick a version <em>between</em>
-      the two ends you may have to roll back some of the more recent python
-      syntax found in the libraries. Whatever version of python you 
-      choose, you must use the same version for all RHEL distribution files.
-      In these instructions we will simply refer to the selected version as
-      python3X.
-    </p>
-    <p>
-      There are two other version issues to consider in these downloads:<br>
-      <ul>
-        <li>
-          There is a <a href="https://pillow.readthedocs.io/en/stable/installation.html">table</a>
-          which shows dependencies between python and Pillow. Make sure you 
-          install a verison of pillow that works with the selected python3X.
-        </li>
-        <li>
-          SikuliX works only with Java 8+. You may use any version of Java above
-          that version.
-        </li>
-      </ul>
-    </p>
 
     <a name="packages"></a><h3>Installing RHEL Packages</h3>
     <p>
