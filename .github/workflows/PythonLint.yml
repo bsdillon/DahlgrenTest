@@ -4,25 +4,46 @@ name: Python Linting
 # https://github.com/adrienverge/yamllint/issues/158#issuecomment-586706596
 # yamllint disable-line rule:truthy
 
-on:
-  schedule:
-    # 01:05
-    # on Feb 1st if it's a Sunday
-    - cron: '5 5 1 2 0'
-
 #on:
-#  push:
-#    paths:
-#      - "**.py"
-#      - ".github/workflows/PythonLint.yml"
+#  schedule:
+#     01:05
+#     on Feb 1st if it's a Sunday
+#    - cron: '5 5 1 2 0'
+
+on:
+  push:
+    paths:
+      - "**.py"
+      - ".github/workflows/PythonLint.yml"
 
 jobs:
-  Linting_with_WhyNot:
+#  Linting_with_WhyNot:
+#    runs-on: ubuntu-18.04
+#    steps:
+#      - name: Setup code
+#        uses: actions/checkout@v2
+#      - name: Setup python
+#        uses: actions/setup-python@v1
+#      - name: check Whynot
+#        uses: WhyNotHugo/python-linting@v1.0.0
+
+  Lint with Sunnysid3up:
     runs-on: ubuntu-18.04
     steps:
       - name: Setup code
         uses: actions/checkout@v2
-      - name: Setup python
-        uses: actions/setup-python@v1
-      - name: check Whynot
-        uses: WhyNotHugo/python-linting@v1.0.0
+      - name: check Sunnysid3up
+        uses: sunnysid3up/python-linter@master
+          with:
+            source: "src"
+
+  Lint with SmellyPython:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Setup code
+        uses: actions/checkout@v2
+      - name: check smelly
+        uses: smelly-python/smell-my-pr@main
+          with: 
+            github-token: ${{secrets.GITHUB_TOKEN}}
+            command: pipenv run smelly-python -d src
