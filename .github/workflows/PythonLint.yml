@@ -27,23 +27,27 @@ jobs:
 #      - name: check Whynot
 #        uses: WhyNotHugo/python-linting@v1.0.0
 
-  Lint with Sunnysid3up:
+  Lint_with_Sunnysid3up:
     runs-on: ubuntu-18.04
     steps:
       - name: Setup code
         uses: actions/checkout@v2
       - name: check Sunnysid3up
         uses: sunnysid3up/python-linter@master
-          with:
-            source: "src"
-
-  Lint with SmellyPython:
+        with:
+          source: "src"
+          mypy-options: "--ignore-missing-imports --show-error-codes"
+          pylint-options: "--rcfile=setup.cfg"
+          isort-options: "-w 100"
+          django: true
+     
+  Lint_with_SmellyPython:
     runs-on: ubuntu-18.04
     steps:
       - name: Setup code
         uses: actions/checkout@v2
       - name: check smelly
         uses: smelly-python/smell-my-pr@main
-          with: 
-            github-token: ${{secrets.GITHUB_TOKEN}}
-            command: pipenv run smelly-python -d src
+        with: 
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          command: pipenv run smelly-python -d src
