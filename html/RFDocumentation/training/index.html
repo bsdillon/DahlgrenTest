@@ -75,6 +75,12 @@
           <li><a href="#session6-solut">Solution Files</a></li>
         </ul>
       </li>
+      <li><a href="#session7">Remote Testing</a>
+        <ul>
+          <li><a href="#session7-instr">Instructions</a></li>
+          <li><a href="#session7-solut">Solution Files</a></li>
+        </ul>
+      </li>
     </ul>
 
     <a name="configuration"></a><h2>Configuration</h2>
@@ -954,7 +960,7 @@ Type Number<br>
 
     <a name="session6"></a><h2>Resource Files</h2>
     <p>
-      This last session will focus on resource files. Up to now
+      This session will focus on resource files. Up to now
       we have used <code>.robot</code> files, but now we will 
       learn how and when to create a <code>.resource</code> file.
       Recall that robot files are <i>tests</i>. As such they are
@@ -1028,5 +1034,66 @@ Type Number<br>
     <a href="rfw6.robot" download target="_blank">Robot script</a><br>
     <a href="rfw6.resource" download target="_blank">Resource script</a><br>
     <a href="project6.json" download target="_blank">Config JSON</a><br>
+
+    <a name="session7"></a><h2>Remote Testing</h2>
+    <p>
+      This last session will demonstrate the use of RFW from a 
+      remote machine. Sikuli natively supports remote actions
+      over a VNC connection. RFW 3.0 takes advantage of this
+      capability and can direct all of its actions toward a GUI
+      on a remote machine. The student will be able to alter a
+      test to work on a remote machine and verify that the test
+      works as expected.
+    </p>
+
+    <h3>Instructions</h3>
+    <ol><a name="session7-instr"></a>
+      <li>
+        In order to remotely operate a system, it must have a VNC
+        server installed and you must know the IP of that sever. The
+        base port for VNC is always 5900. In some systems you will
+        see that the various servers start at <code>:1</code> or <code>:2</code>.
+        These terms mean that the server is actually on port 5901 or 
+        5902 respectively. Some server applications can be set with
+        a fixed port number. Finally, it is unusual and even dangerous
+        for a VNC sever to be set up without a password. Create a 
+        password and set it in your VNC server. Find the appropriate 
+        information and set it as a test variable.<br>
+          <code>
+*** Variables ***<br>
+${REMOTE} =&nbsp;&nbsp;&nbsp;&nbsp;192.168.0.199;5900;password<br>
+          </code>
+      </li>
+      <li>
+        This <code>${REMOTE}</code> variable will be used for only two processes.
+        The first is <nobr><code>DataExtraction.Configure Image Library</code></nobr>
+        which uses the remote connection data to configure the primary Sikuli
+        object to capture images, etc. The second is <nobr><code>genericwindow.Configure</code></nobr>
+        which will be used for each window in the test. Each window has its own
+        copy of the Sikuli to read, write, click, etc. All the widgets within a window
+        use the same Sikuli object, but all windows use the same remote connection 
+        details and run through the same SikulyEntry server.<br>
+          <code>
+Configure Image Library&nbsp;&nbsp;&nbsp;&nbsp;Sikuli&nbsp;&nbsp;&nbsp;&nbsp;${DATA PATH}&nbsp;&nbsp;&nbsp;&nbsp;${remoteVNC}=${REMOTE}<br>
+...<br>
+Start Arithmetic Calculator&nbsp;&nbsp;&nbsp;&nbsp;${DATA PATH}&nbsp;&nbsp;&nbsp;&nbsp;remote=${REMOTE}<br><br>
+          </code>
+        The observant reader may have noticed that these same functions featured
+        above but without the remote connection details. Thanks to the underlying
+        Python structure, these keywords can work this way using a default value.
+        If the remote connection is not set, it is None (e.g. no remote connection).
+        Therefore, we only need to provide the connection when it is actually needed.
+      </li>
+      <li>
+        Otherwise, the test proceeds as normally. The connection is made under the
+        hood and all the details are hidden from the tester. Run your test on the
+        remote machine just as before.
+      </li>
+    </ol>
+
+    <a name="session7-solut"></a><h3>Solution Scripts</h3>
+    <a href="rfw7.robot" download target="_blank">Robot script</a><br>
+    <a href="rfw7.resource" download target="_blank">Resource script</a><br>
+    <a href="project7.json" download target="_blank">Config JSON</a><br>
   </body>
 </html>
