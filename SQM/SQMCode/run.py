@@ -19,6 +19,8 @@ import time
 import urllib.request
 
 def find_under(directory, filename, case_sensitive=False):
+  print("Searching for "+filename+" in "+directory)
+
   if not case_sensitive:
     filename = filename.lower()
 
@@ -27,28 +29,39 @@ def find_under(directory, filename, case_sensitive=False):
       files = [x.lower() for x in files]
 
     if filename in files:
-      return os.path.join(root, filename)
+      answer = os.path.join(root, filename)
+      print("\t\tFound at "+answer)
+      return answer
 
+  print("\t\tNot found")
   return None
 
 def ammend_path(filename, *search_paths):
+  print("Searching for "+filename+" in various paths")
   for search_p in search_paths:
     test_path = os.path.join(search_p, filename)
+    print("\tChecking "+test_path)
     if os.path.exists(test_path):
       # found it, add to PATH
-      os.environ['PATH'] = search_p + os.pathsep + os.getenv('PATH', '')
+      answer = search_p + os.pathsep + os.getenv('PATH', '')
+      print("\t\tFound at "+answer)
+      os.environ['PATH'] = answer
       return
 
     else:
       # Search nearby
+      print("\tRecursive step")
       test_path = find_under(search_p, filename)
       if test_path and os.path.exists(test_path):
         # found it, add to PATH
-        os.environ['PATH'] = os.path.dirname(test_path) + os.pathsep + os.getenv('PATH', '')
+        answer = os.path.dirname(test_path) + os.pathsep + os.getenv('PATH', '')
+        print("\t\tFound at "+answer)
+        os.environ['PATH'] = answer
         return
 
 
 def build_llvm_tool():
+  print("*** UNEXPECTED using llvm")
   if not os.path.exists('build'):
     os.makedirs('build')
 
@@ -199,8 +212,10 @@ def main(args=sys.argv):
     elif 'win32' in sys.platform:
       bin = "\\SoftwareAnalyzer2\\bin"
       obj = "\\SoftwareAnalyzer2\\obj"
+
     bin_path = os.path.abspath(os.path.dirname(__file__)) + bin
     obj_path = os.path.abspath(os.path.dirname(__file__)) + obj
+
     if os.path.exists(bin_path) and os.path.exists(obj_path):
       shutil.rmtree(bin_path)
       shutil.rmtree(obj_path)
@@ -208,6 +223,7 @@ def main(args=sys.argv):
     else:
       print('[error]: /bin and /obj not found. Remove ' + str(args[3]) + ' from command to run SQM normally.')
       sys.exit(0)
+  print("Normal operation using GUI operates without arguments to this point")
 
   # Move to script directory
   os.chdir(os.path.abspath(os.path.dirname(__file__)))
@@ -218,9 +234,9 @@ def main(args=sys.argv):
   # Ammend the system path if we think we're on a windows machine with msbuild.exe
   # somewhere under Program Files
   if not 'linux' in sys.platform:
-    ammend_path(
-      'msbuild.exe',
-      'C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Msbuild\\Current\\Bin',
+    ammend_path(     #File name is NOT case sensetive in windows; not applicable in linux
+      "msbuild.exe", #Just the two arguments. Could add more candidate paths to second argument.
+      'C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\'
     )
 
   # If we have msbuild available, build SoftwareAnalyzer2
@@ -235,20 +251,41 @@ def main(args=sys.argv):
       build_tool, os.path.join('SoftwareAnalyzer2', 'SoftwareAnalyzer2.csproj'),
       '/t:Build', '/p:Configuration={profile}'.format(profile=profile),
     ], check=True)
+    print("**************************")
+    print('* Passed MSBuild process *')
+    print("**************************")
   else:
-    print('[warning] msbuild not found, cannot compile SoftwareAnalyzer2. Assuming already compiled on another machine.')
+    print('[Fatal Error] msbuild not found, cannot compile SoftwareAnalyzer2.')
+    sys.exit(1)
+
 
   build_path = os.path.join('SoftwareAnalyzer2', 'bin', profile)
   exe_path = os.path.join(build_path, 'SoftwareAnalyzer2.exe')
   if not os.path.exists(exe_path):
-    print('[error] We expected the following file to be built but it does not exist: {exe_path}'.format(exe_path=exe_path))
+    print('[Fatal Error] could not find '+exe_path)
     sys.exit(1)
+  else:
+    print("**************************")
+    print('* SoftwareAnalyzer Found*')
+    print("**************************")
 
   antlr_jar = os.path.join(build_path, 'antlr-complete.jar')
   if not os.path.exists(antlr_jar):
     antlr_url = 'https://www.antlr.org/download/antlr-4.9.1-complete.jar'
     print('Downloading ANTLR from {antlr_url} to {antlr_jar}'.format(antlr_url=antlr_url, antlr_jar=antlr_jar))
     urllib.request.urlretrieve(antlr_url, antlr_jar)
+    if os.path.exists(antlr_jar):
+      print("**************************")
+      print('*  Downloaded ANTLR JAR  *')
+      print("**************************")
+    else:
+      print('[Fatal Error] Initially did not have ANTLR JAR, could not download')
+      sys.exit(1)
+  else:
+    print("**************************")
+    print('* ANTLR JAR Found *')
+    print("**************************")
+
 
   # We pull files from https://github.com/antlr/grammars-v4
   # and put them under build_path.
@@ -257,8 +294,8 @@ def main(args=sys.argv):
     #'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java/JavaLexer.g4',
     #'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java/JavaParser.g4',
     
-    #'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java8/Java8Lexer.g4',
-    #'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java8/Java8Parser.g4',
+    'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java8/Java8Lexer.g4',
+    'https://raw.githubusercontent.com/antlr/grammars-v4/master/java/java8/Java8Parser.g4',
 
     os.path.join('data', 'Java.g4'),
 
@@ -270,9 +307,11 @@ def main(args=sys.argv):
   antlr_grammar_paths = []
   for g in antlr_grammar_sources:
     name = os.path.basename(g)
+    if name == "ada.g4":
+        continue
     grammar_path = os.path.join(build_path, name)
     antlr_grammar_paths.append(grammar_path)
-
+    print('path is ' + grammar_path)
     if not os.path.exists(grammar_path):
       if g.lower().startswith('http'):
         url = g
@@ -281,6 +320,8 @@ def main(args=sys.argv):
       else:
         print('Copying Grammar from {g} to {grammar_path}'.format(g=g, grammar_path=grammar_path))
         shutil.copy(g, grammar_path)
+    else:
+        print(f'{grammar_path} already exists, do not need to download')
 
   # Now that we have grammars, use ANTLR to compile them
   compiled_antlr_grammar_dir = os.path.join(build_path, 'compiled-antlr-grammars')
@@ -290,13 +331,13 @@ def main(args=sys.argv):
   # Generate *.java
   skipped_grammar_javagen = 0
   for grammar_path in antlr_grammar_paths:
-    grammar_path_completed = grammar_path+".java_gen_complete"
+    grammar_path_completed = grammar_path+".gen_complete"
     if os.path.exists(grammar_path_completed):
-      print('Skipping generation of Java for Grammar {}'.format(grammar_path))
+      print('Skipping generation for Grammar {}'.format(grammar_path))
       skipped_grammar_javagen += 1
       continue
 
-    print('Generating Java for Grammar {}'.format(grammar_path))
+    print('Generating for Grammar {}'.format(grammar_path))
     try:
       subprocess.run([
         'java', '-Xint', '-cp', os.path.abspath(antlr_jar), 'org.antlr.v4.Tool',
@@ -305,21 +346,36 @@ def main(args=sys.argv):
       ], check=True)
     except Exception as e:
       print(e)
-      print('[ WARNING ] Could not generate java for grammar {}'.format(grammar_path))
-      time.sleep(1)
+      print('[ Fatal Error ] Could not generate for grammar {}'.format(grammar_path))
+      sys.exit(1)
 
     with open(grammar_path_completed, 'w') as fd:
         fd.write("done")
 
   can_skip_java_compile = skipped_grammar_javagen == len(antlr_grammar_paths)
   if not can_skip_java_compile or 'FORCE_JAVA_COMPILE' in os.environ:
+#    for src in glob.glob(os.path.abspath(compiled_antlr_grammar_dir)+os.path.sep+'*.java'):
+#      try:
+#        subprocess.run([
+#          'javac', '-cp', os.path.abspath(antlr_jar)+os.pathsep+os.path.abspath(compiled_antlr_grammar_dir),
+#          src
+#          ], check=True)
+#      except Exception as e:
+#        print("Found error for "+str(src)+"\n\t" + str(e))
+#    sys.exit(1)
+        
     print('Compiling all grammars within {}'.format(compiled_antlr_grammar_dir))
     java_src_files = [os.path.abspath(x) for x in glob.glob(os.path.abspath(compiled_antlr_grammar_dir)+os.path.sep+'*.java')]
     # Compile *.java
-    subprocess.run([
-      'javac', '-cp', os.path.abspath(antlr_jar)+os.pathsep+os.path.abspath(compiled_antlr_grammar_dir),
-      *java_src_files
-    ], check=True)
+    print('path is ' + os.path.abspath(antlr_jar)+os.pathsep+os.path.abspath(compiled_antlr_grammar_dir))
+    try:
+      subprocess.run([
+        'javac', '-cp', os.path.abspath(antlr_jar)+os.pathsep+os.path.abspath(compiled_antlr_grammar_dir),
+        *java_src_files
+        ], check=True)
+    except Exception as e:
+      print("Found error " + str(e))
+      sys.exit(1)
   else:
     print('We skipped all java source gen, so we are also skipping java class file gen under the assumption it has already been done')
 
