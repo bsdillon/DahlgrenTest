@@ -1,3 +1,7 @@
+############# BUGS ############
+#-cannot color and higlight in/ out of a boz at the same time 
+###############################
+
 -User document how to use library/gui/server (August 1st)
 
 -Edit Squence diagram changes so that connections between nodes are highlighted(edges) and not just the nodes themselves
