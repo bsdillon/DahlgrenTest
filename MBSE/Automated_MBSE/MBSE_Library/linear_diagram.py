@@ -1,308 +1,491 @@
+from collections.abc import Iterable
 import os
 import pickle
 
 from MBSE_Library import Relationships, Node
+from MBSE_Library.linear_diagrams.relationships import Sequence
 import csv
 
+MAX_PAGE = 50
 
 class LinearDiagram:
-    # // developer's note: should be moved to code_diagrams package so that core.py is the only file in this directory
+    def __init__(self,filename):
+        #Model Members
+        self.nodes = {} # Unique nodes may be visited many times.
+        self.superNodes = {}
+        self.uniqueRelationships = {} # Unique relationships are based on s/r/label keys
+        self.allRelationships = [] # reuses the same relationships repeatedly
 
-    # creates a model for the LinearDiagram
-    sender = []  # every node that sends something
-    receiver = []  # every node that receives something
-    message_type = []  # the message that is being sent/received
-    # these three should be lined up so that they are parallel, i.e., sender[3] is the node that sends to receiver[3]
-    # and message_type[3] is the message that is being sent from sender[3] to receiver[3]
+        # Load file as in, csv file, not loading in a previously created model but rather creating
 
-    nodes = []  # an array of every single unique node object
-    order_list = []  # an array of every single existing sender[] to receiver[] combination
-    boxes = []  # list of names of all boxes
-
-    @staticmethod
-    def load_file(filename):  # Load file as in, csv file, not loading in a previously created model but rather creating
-        # a brand new one
-        with open(filename, 'r') as file:  # Reads a csv file and appends it to the sender/receiver/message_type arrays
+        with open(filename, 'r') as file:  # Reads a csv file and appends it to the uniqueSender/uniqueReceiver/uniqueLabel arrays
             reader = csv.reader(file, delimiter=',')
             for row in reader:
-                LinearDiagram.sender.append(row[0])
-                LinearDiagram.receiver.append(row[1])
-                LinearDiagram.message_type.append(row[2])
+                # add new nodes
+                if row[0] not in self.nodes:
+                    self.nodes[row[0]]= Node(row[0])
+                if row[1] not in self.nodes:
+                    self.nodes[row[1]]= Node(row[1])
 
-        auxiliary_list = []
-        for i in LinearDiagram.sender:
-            if i not in auxiliary_list:
-                n = Node(i)
-                LinearDiagram.nodes.append(n)
-                auxiliary_list.append(i)
-        for i in LinearDiagram.receiver:
-            if i not in auxiliary_list:
-                n = Node(i)
-                LinearDiagram.nodes.append(n)
-                auxiliary_list.append(i)
-        for i in range(len(LinearDiagram.sender)):
-            updated = False
-            for c in LinearDiagram.order_list:
-                if c.get_sender() == LinearDiagram.sender[i] and c.get_receiver() == LinearDiagram.receiver[i]:
-                    c.increment()
-                    updated = True
-                    break
-            if not updated:
-                r = Relationships(LinearDiagram.sender[i], LinearDiagram.receiver[i])
-                LinearDiagram.order_list.append(r)
+                #assume a new relationship
+                r = Relationships(row)
+                key = str(r)
 
-    @staticmethod
-    def print_communication_diagram():
-        file = open("communication_diagram_plantuml.txt", "w")
+                #increment unique relationships
+                if  key in self.uniqueRelationships:
+                    self.uniqueRelationships[key].increment()
+                else:
+                    self.uniqueRelationships[key]=r
+
+                #ALWAYS use new relationships; this allows individual instances to be
+                #aligned with different findings in the figure.
+                self.allRelationships.append(r)
+
+    def setNodeColor(self, node:str, color:str):
+        if not node in self.nodes:
+            raise "Cannot find unknown node "+node
+        
+        self.nodes[node].set_color(color)
+
+    def highlightSender(self, node:str, color:str="yellow"):
+        if not node in self.nodes:
+            raise "Cannot find unknown node "+node
+        
+        self.nodes[node].set_highlighted_out(color)
+
+    def highlightReceiver(self, node:str, color:str="powderblue"):
+        if not node in self.nodes:
+            raise "Cannot find unknown node "+node
+        
+        self.nodes[node].set_highlighted_in(color)
+
+    def hideNode(self, node:str):
+        if not node in self.nodes:
+            raise "Cannot find unknown node "+node
+        
+        self.nodes[node].set_hidden()
+
+    def createSuperNode(self, sn_name:str, n_name:Iterable[str]):
+        if sn_name in self.superNodes:
+            raise "Cannot create second supernode named "+sn_name
+        
+        for n in n_name:
+            if not n in self.nodes:
+                raise "Cannot add unknown node "+n+" to supernode"
+            node = self.nodes[n]
+            if len(node.get_box())>0:
+                raise "Cannot add "+str(node)+"; already in supernode "+node.get_box()
+       
+        self.superNodes[sn_name]=[]
+        for n in n_name:
+            node = self.nodes[n]
+            self.superNodes[sn_name].append(node)
+            node.set_box_name(sn_name)
+
+    def showEdgeCardinality(self, show:bool):
+        Relationships.showCardinality = show
+
+    def highlight_sequence(self, name:str, seq:Iterable[str], color:str="00FF00"):
+        """
+            Highlights any list of nodes following this sequence.
+            Highlights a sequence of node in the linear diagram. Highlights all the edges between the nodes.
+
+            BSD - This is known to be inefficient (pre-process to find the optimal mapping) and
+            incorrect (if two sequences are back to back it will fail).
+
+            Parameters
+            ----------
+            name: str
+                The name for the sequence
+            
+            seq : [str]
+                The name of the nodes to be highlighted in the diagram.
+
+            color: str
+                The desired color for this sequence
+            """
+    	#Find the Relationships sequences of same order
+        found = [None]*(len(seq)-1)
+        index = 0
+        count = 1
+        for r in self.allRelationships:
+            if r.get_sender() == seq[index] and r.get_receiver() == seq[index+1]:
+
+                #this relationships is in the sequence
+                found[index]=r
+                index = index + 1
+
+                #end of sequence
+                if index + 1 == len(seq):
+                    newSq = Sequence(name+"-"+str(count), color)
+                    count = count + 1
+
+                    r.set_sequence(newSq)
+                    for r2 in found:
+                        r2.set_sequence(newSq)
+                    found = [None]*(len(seq)-1)
+                    index = 0
+
+            else:
+                #the sequence is broken; recover if we can
+                allMatch = False
+                #until we run out of matches or have a full match
+                while index>0 and not allMatch:
+                    #shift everything to the left
+                    for i in range(index):
+                        found[i]=found[i+1]
+
+                    #does the substring match?
+                    index = index -1
+                    allMatch = True #assume there is a match
+                    for i in range(index):
+                        if found[i]!=seq[index]:
+                            allMatch=False #break assumption
+
+    def print_communication_diagram(self, fileName:str):
+        #this is a loose diagram with each "node" floating and held together by edges
+        file = open(fileName, "w")
         content = "@startuml\n"
-        auxiliary_list = []
-        for n in LinearDiagram.nodes:
-            if (n.get_name not in auxiliary_list) and n.get_importance():
-                auxiliary_list.append(n.get_name)
-                content += 'agent "' + str(n.get_name()) + '" as ' + n.get_name().replace(" ", "")
-                if n.has_color:
-                    content += " #" + n.get_color()
-                if n.get_highlighted_out():
-                    content += " #yellow"
-                elif n.get_highlighted_in():
-                    content += " #lightblue"
-                content += "\n"
 
-        for o in LinearDiagram.order_list:
-            stop = False
-            for n in LinearDiagram.nodes:
-                if o.get_sender() == n.get_name() and not n.get_importance():
-                    stop = True
-            for n in LinearDiagram.nodes:
-                if o.get_receiver() == n.get_name() and not n.get_importance():
-                    stop = True
-            if not stop:
-                content += str(o.get_sender()).replace(" ", "")
+        for key in self.superNodes:
+            content += 'rectangle "' + key + '" {\n'
+            for node in self.superNodes[key]:
+                content += node.printOut('rectangle')
+            content += "}\n"
+
+        for key in self.nodes:
+            n = self.nodes[key]
+            if len(n.get_box())==0:
+                #this node is NOT in a supernode
+                content += n.printOut('agent')
+            content += "\n"
+
+        for key in self.uniqueRelationships:
+            o = self.uniqueRelationships[key]
+            s = self.nodes[o.get_sender()]
+            r = self.nodes[o.get_receiver()]
+            if s.is_visible() and r.is_visible():
+                #both sender/receiver are visible
+                content += s.tightName()
                 content += " -"
-                for n in LinearDiagram.nodes:
-                    if n.get_name() == o.get_sender() and n.get_highlighted_out():
-                        content += "[#gold,plain,thickness=4]"
-                    elif n.get_name() == o.get_receiver() and n.get_highlighted_in():
-                        content += "[#powderblue,plain,thickness=4]"
+
+                if  s.get_highlighted_out():
+                    content += "[#"+s.get_highlighted_out()+",plain,thickness=4]"
+                elif r.get_highlighted_in():
+                    content += "[#"+r.get_highlighted_in()+",plain,thickness=4]"
+
                 content += "->> "
-                content += str(o.get_receiver()).replace(" ", "")
+                content += r.tightName()
                 content += " : "
-                content += str(o.get_amount())
+
+                content += o.printLabel()
                 content += " \n"
         content += "@enduml"
         file.writelines(content)
         file.close()
         print("Communication Diagram created successfully")
 
-    @staticmethod
-    def print_sequence_diagram():
-        file = open("sequence_diagram_plantuml.txt", "w")
+    def print_sequence_diagram(self, fileName):
+        #this is a series of lifelines vertically across the page with connections between
+
+        file = open(fileName, "w")
         content = "@startuml\n"
-        auxiliary_list = []
-        for b in LinearDiagram.boxes:
-            content += 'box "' + b + '"\n'
-            for n in LinearDiagram.nodes:
-                if n.get_box() == b:
-                    if (n.get_name not in auxiliary_list) and n.get_importance():
-                        auxiliary_list.append(n.get_name)
-                        content += 'participant "' + str(n.get_name()) + '" as ' + n.get_name().replace(" ", "")
-                        if n.has_color:
-                            content += " #" + n.get_color()
-                        if n.get_highlighted_out():
-                            content += " #yellow"
-                        elif n.get_highlighted_in():
-                            content += " #lightblue"
-                        content += "\n"
+
+        for key in self.superNodes:
+            content += 'box "' + key + '"\n'
+            for node in self.superNodes[key]:
+                content += node.printOut('participant')
             content += "end box\n"
 
-        for n in LinearDiagram.nodes:
-            if not n.get_box == "":
-                if (n.get_name not in auxiliary_list) and n.get_importance():
-                    auxiliary_list.append(n.get_name)
-                    content += 'participant "' + str(n.get_name()) + '" as ' + n.get_name().replace(" ", "")
-                    if n.has_color:
-                        content += " #" + n.get_color()
-                    if n.get_highlighted_out():
-                        content += " #yellow"
-                    elif n.get_highlighted_in():
-                        content += " #lightblue"
-                    content += "\n"
+        for key in self.nodes:
+            n = self.nodes[key]
+            if len(n.get_box())==0:
+                #this node is NOT in a supernode
+                content += n.printOut('participant')
+            content += "\n"
 
-        for i in range(len(LinearDiagram.sender)):
-            stop = False
-            for n in LinearDiagram.nodes:
-                if LinearDiagram.sender[i] == n.get_name() and not n.get_importance():
-                    stop = True
-            for n in LinearDiagram.nodes:
-                if LinearDiagram.receiver[i] == n.get_name() and not n.get_importance():
-                    stop = True
-            if not stop:
-                out_list = []
-                in_list = []
-                for n in LinearDiagram.nodes:
-                    if n.get_highlighted_in():
-                        in_list.append(n.get_name())
-                    if n.get_highlighted_out():
-                        out_list.append(n.get_name())
+        lastSequence = None
+        count = 0
+        page = 1
+        for o in self.allRelationships:
+            count = count + 1
+            s = self.nodes[o.get_sender()]
+            r = self.nodes[o.get_receiver()]
+            sequence = o.get_sequence()
+            if count>=MAX_PAGE and not sequence:
+                count = 0
+                content += "newpage ...Page"+str(page)+"...\n"
+                page = page + 1
+                
+            if  sequence and not lastSequence:
+                count = count + 1  #added for a box header
+                #this is a new group
+                content += "skinparam SequenceGroupBackgroundColor #"+sequence.getTitleColor()+"\n"
+                content += "skinparam SequenceGroupBorderColor #"+sequence.getTitleColor()+"\n"
+                content += "skinparam SequenceGroupHeaderFontColor #"+sequence.getFontColor()+"\n"
+                content += "skinparam SequenceGroupBodyBackgroundColor #"+sequence.getBGColor()+"\n"
+                content += "group "+sequence.getName()+" \n"
+                lastSequence = sequence
+            elif  not sequence and lastSequence:
+                #this is AFTER the group
+                content += "end \n"
+                lastSequence = None
+            
+            if s.is_visible() and r.is_visible():
+                #both sender/receiver are important
 
-                content += str(LinearDiagram.sender[i]).replace(" ", "")
+                content += s.tightName()
                 content += " -"
-                if LinearDiagram.sender[i] in out_list:
-                    content += "[#yellow]>"
-                elif LinearDiagram.receiver[i] in in_list:
-                    content += "[#lightblue]>"
+                if  sequence:
+                    content += "[#"+sequence.getLinkColor()+"]>"
+                elif s.get_highlighted_out():
+                    content += "[#"+s.get_highlighted_out()+"]>"
+                elif r.get_highlighted_in():
+                    content += "[#"+r.get_highlighted_in()+"]>"
                 else:
                     content += ">"
 
-                content += str(LinearDiagram.receiver[i]).replace(" ", "")
+                content += r.tightName()
                 content += " : "
-                content += str(LinearDiagram.message_type[i]).replace(" ", "")
+                content += str(o.get_label()).replace(" ", "")
                 content += " \n"
         content += "@enduml"
         file.writelines(content)
         file.close()
         print("Sequence Diagram created successfully")
 
-    @staticmethod
-    def ld_compare(model1, model2):  # compares two linear diagrams and shows the differences between them. Only works
-        # for sequence diagrams and does not show the changes between edges yet, only differences between nodes
+    # @staticmethod
+    # def ld_compare(model1, model2):  # compares two linear diagrams and shows the differences between them. Only works
+    #     # for sequence diagrams and does not show the changes between edges yet, only differences between nodes
 
-        # create model of first diagram
-        sender1 = []
-        receiver1 = []
-        message1 = []
-        order1 = []
-        node1 = []
+    #     # create model of first diagram
+    #     uniqueSender1 = []
+    #     uniqueReceiver1 = []
+    #     message1 = []
+    #     order1 = []
+    #     node1 = []
 
-        # create model of second diagram
-        sender2 = []
-        receiver2 = []
-        message2 = []
-        order2 = []
-        node2 = []
+    #     # create model of second diagram
+    #     uniqueSender2 = []
+    #     uniqueReceiver2 = []
+    #     message2 = []
+    #     order2 = []
+    #     node2 = []
 
-        # Load model1 to model
-        cd = os.path.join(model1, "linear_diagrams", "nodes")
-        for file in os.scandir(cd):
-            name, extension = os.path.splitext(file)
-            if extension == '.txt':
-                file_pi2 = open(file, 'rb')
-                c = pickle.load(file_pi2)
-                node1.append(c)
+    #     # Load model1 to model
+    #     cd = os.path.join(model1, "linear_diagrams", "nodes")
+    #     for file in os.scandir(cd):
+    #         name, extension = os.path.splitext(file)
+    #         if extension == '.txt':
+    #             file_pi2 = open(file, 'rb')
+    #             c = pickle.load(file_pi2)
+    #             node1.append(c)
 
-        with open(model1 + "/linear_diagrams/edges/edges.csv", 'r') as file:
-            reader = csv.reader(file, delimiter=',')
-            for row in reader:
-                sender1.append(row[0])
-                receiver1.append(row[1])
-                message1.append(row[2])
+    #     with open(model1 + "/linear_diagrams/edges/edges.csv", 'r') as file:
+    #         reader = csv.reader(file, delimiter=',')
+    #         for row in reader:
+    #             uniqueSender1.append(row[0])
+    #             uniqueReceiver1.append(row[1])
+    #             message1.append(row[2])
 
-        for i in range(len(sender1)):
-            updated = False
-            for o in order1:
-                if o.get_sender() == sender1[i] and o.get_receiver() == receiver1[i]:
-                    o.increment()
-                    updated = True
-                    break
-            if not updated:
-                r = Relationships(sender1[i], receiver1[i])
-                order1.append(r)
-        cd = os.path.join(model2, "linear_diagrams", "nodes")
-        for file in os.scandir(cd):
-            name, extension = os.path.splitext(file)
-            if extension == '.txt':
-                file_pi2 = open(file, 'rb')
-                c = pickle.load(file_pi2)
-                node2.append(c)
+    #     for i in range(len(uniqueSender1)):
+    #         updated = False
+    #         for o in order1:
+    #             if o.get_sender() == uniqueSender1[i] and o.get_receiver() == uniqueReceiver1[i]:
+    #                 o.increment()
+    #                 updated = True
+    #                 break
+    #         if not updated:
+    #             r = Relationships(uniqueSender1[i], uniqueReceiver1[i])
+    #             order1.append(r)
+    #     cd = os.path.join(model2, "linear_diagrams", "nodes")
+    #     for file in os.scandir(cd):
+    #         name, extension = os.path.splitext(file)
+    #         if extension == '.txt':
+    #             file_pi2 = open(file, 'rb')
+    #             c = pickle.load(file_pi2)
+    #             node2.append(c)
 
-        # Load model2 to model
-        with open(model2 + "/linear_diagrams/edges/edges.csv", 'r') as file:
-            reader = csv.reader(file, delimiter=',')
-            for row in reader:
-                sender2.append(row[0])
-                receiver2.append(row[1])
-                message2.append(row[2])
+    #     # Load model2 to model
+    #     with open(model2 + "/linear_diagrams/edges/edges.csv", 'r') as file:
+    #         reader = csv.reader(file, delimiter=',')
+    #         for row in reader:
+    #             uniqueSender2.append(row[0])
+    #             uniqueReceiver2.append(row[1])
+    #             message2.append(row[2])
 
-        for i in range(len(sender2)):
-            updated = False
-            for o in order2:
-                if o.get_sender() == sender2[i] and o.get_receiver() == receiver2[i]:
-                    o.increment()
-                    updated = True
-                    break
-            if not updated:
-                r = Relationships(sender2[i], receiver2[i])
-                order2.append(r)
+    #     for i in range(len(uniqueSender2)):
+    #         updated = False
+    #         for o in order2:
+    #             if o.get_sender() == uniqueSender2[i] and o.get_receiver() == uniqueReceiver2[i]:
+    #                 o.increment()
+    #                 updated = True
+    #                 break
+    #         if not updated:
+    #             r = Relationships(uniqueSender2[i], uniqueReceiver2[i])
+    #             order2.append(r)
 
-        # Compare/print diagrams (Sequence)
-        file = open("compared.txt", "w")
-        content = "@startuml\n"
+    #     # Compare/print diagrams (Sequence)
+    #     file = open("compared.txt", "w")
+    #     content = "@startuml\n"
 
-        nodecopy1 = []
-        nodecopy2 = []
+    #     nodecopy1 = []
+    #     nodecopy2 = []
 
-        for n1 in node1:
-            nodecopy1.append(n1)
-        for n2 in node2:
-            nodecopy2.append(n2)
+    #     for n1 in node1:
+    #         nodecopy1.append(n1)
+    #     for n2 in node2:
+    #         nodecopy2.append(n2)
 
-        for n1 in node1:
-            for n2 in node2:
-                if n1.get_name() == n2.get_name():
-                    nodecopy1.remove(n1)
-                    nodecopy2.remove(n2)
-                    if n1.get_importance() and n2.get_importance():
-                        content += 'participant "' + str(n1.get_name()) + '" as ' + n1.get_name().replace(" ", "")
-                        content += "\n"
-                    elif n1.get_importance():
-                        content += 'participant "' + n1.get_name() + '" as ' + n1.get_name().replace(" ", "") + " #red"
-                        content += "\n"
-                    elif n2.get_importance():
-                        content += 'participant "' + n1.get_name() + '" as ' + n1.get_name().replace(" ", "")+" #green"
-                        content += "\n"
-                    else:
-                        print("error comparing " + n1.get_name() + " and " + n2.get_name())
-        for n in nodecopy1:
-            content += 'participant "' + n.get_name() + '" as ' + n.get_name().replace(" ", "") + " #red"
-            content += "\n"
-        for n in nodecopy2:
-            content += 'participant "' + n.get_name() + '" as ' + n.get_name().replace(" ", "") + " #green"
-            content += "\n"
+    #     for n1 in node1:
+    #         for n2 in node2:
+    #             if n1.get_name() == n2.get_name():
+    #                 nodecopy1.remove(n1)
+    #                 nodecopy2.remove(n2)
+    #                 if n1.is_visible() and n2.is_visible():
+    #                     content += 'participant "' + str(n1.get_name()) + '" as ' + n1.tightName()
+    #                     content += "\n"
+    #                 elif n1.is_visible():
+    #                     content += 'participant "' + n1.get_name() + '" as ' + n1.tightName() + " #red"
+    #                     content += "\n"
+    #                 elif n2.is_visible():
+    #                     content += 'participant "' + n1.get_name() + '" as ' + n1.tightName()+" #green"
+    #                     content += "\n"
+    #                 else:
+    #                     print("error comparing " + n1.get_name() + " and " + n2.get_name())
+    #     for n in nodecopy1:
+    #         content += 'participant "' + n.get_name() + '" as ' + n.tightName() + " #red"
+    #         content += "\n"
+    #     for n in nodecopy2:
+    #         content += 'participant "' + n.get_name() + '" as ' + n.tightName() + " #green"
+    #         content += "\n"
 
-        # TODO
-        # need to compare edges in the comparing of two linear diagrams
-        # below code prints out a normal sequence diagram, for reference when writing edge comparison
-        '''for i in range(len(LinearDiagram.sender)):
-            stop = False
-            for n in LinearDiagram.nodes:
-                if LinearDiagram.sender[i] == n.get_name() and not n.get_importance():
-                    stop = True
-            for n in LinearDiagram.nodes:
-                if LinearDiagram.receiver[i] == n.get_name() and not n.get_importance():
-                    stop = True
-            if not stop:
-                out_list = []
-                in_list = []
-                for n in LinearDiagram.nodes:
-                    if n.get_highlighted_in():
-                        in_list.append(n.get_name())
-                    if n.get_highlighted_out():
-                        out_list.append(n.get_name())
+    #     # TODO
+    #     # need to compare edges in the comparing of two linear diagrams
+    #     # below code prints out a normal sequence diagram, for reference when writing edge comparison
+    #     '''for i in range(len(LinearDiagram.uniqueSender)):
+    #         stop = False
+    #         for n in LinearDiagram.nodes:
+    #             if LinearDiagram.uniqueSender[i] == n.get_name() and not n.is_visible():
+    #                 stop = True
+    #         for n in LinearDiagram.nodes:
+    #             if LinearDiagram.uniqueReceiver[i] == n.get_name() and not n.is_visible():
+    #                 stop = True
+    #         if not stop:
+    #             out_list = []
+    #             in_list = []
+    #             for n in LinearDiagram.nodes:
+    #                 if n.get_highlighted_in():
+    #                     in_list.append(n.get_name())
+    #                 if n.get_highlighted_out():
+    #                     out_list.append(n.get_name())
 
-                content += str(LinearDiagram.sender[i]).replace(" ", "")
-                content += " -"
-                if LinearDiagram.sender[i] in out_list:
-                    content += "[#yellow]>"
-                elif LinearDiagram.receiver[i] in in_list:
-                    content += "[#lightblue]>"
-                else:
-                    content += ">"
+    #             content += str(LinearDiagram.uniqueSender[i]).replace(" ", "")
+    #             content += " -"
+    #             if LinearDiagram.uniqueSender[i] in out_list:
+    #                 content += "[#yellow]>"
+    #             elif LinearDiagram.uniqueReceiver[i] in in_list:
+    #                 content += "[#lightblue]>"
+    #             else:
+    #                 content += ">"
 
-                content += str(LinearDiagram.receiver[i]).replace(" ", "")
-                content += " : "
-                content += str(LinearDiagram.message_type[i]).replace(" ", "")
-                content += " \n"'''
-        content += "@enduml"
-        file.writelines(content)
-        file.close()
-        print("Diagrams compared successfully")
+    #             content += str(LinearDiagram.uniqueReceiver[i]).replace(" ", "")
+    #             content += " : "
+    #             content += str(LinearDiagram.uniqueLabel[i]).replace(" ", "")
+    #             content += " \n"'''
+    #     content += "@enduml"
+    #     file.writelines(content)
+    #     file.close()
+    #     print("Diagrams compared successfully")
+
+#==========================================
+#            Load/Save to File
+#==========================================
+
+    # @staticmethod
+    # def load_linear_diagram(filename):
+    #     """
+    #         Loads the linear diagram.
+
+    #         Loads the linear diagram digital model that can be edited now.
+
+    #         Parameters
+    #         ----------
+    #         filename : str
+    #             The name of the folder that you want the model to be loaded from.
+
+    #         """
+    #     cd = os.path.join(filename, "linear_diagrams", "nodes")
+    #     for file in os.scandir(cd):
+    #         name, extension = os.path.splitext(file)
+    #         if extension == '.txt':
+    #             file_pi2 = open(file, 'rb')
+    #             c = pickle.load(file_pi2)
+    #             LinearDiagram.nodes.append(c)
+
+    #     with open(filename + "/linear_diagrams/edges/edges.csv", 'r') as file:
+    #         reader = csv.reader(file, delimiter=',')
+    #         for row in reader:
+    #             LinearDiagram.sender.append(row[0])
+    #             LinearDiagram.receiver.append(row[1])
+    #             LinearDiagram.message_type.append(row[2])
+
+    #     for i in range(len(LinearDiagram.sender)):  # searches if a node sends to and receives to the same multiple
+    #         # times and then increments
+    #         updated = False
+    #         for o in LinearDiagram.order_list:
+    #             if o.get_sender() == LinearDiagram.sender[i] and o.get_receiver() == LinearDiagram.receiver[i]:
+    #                 o.increment()
+    #                 updated = True
+    #                 break
+    #         if not updated:
+    #             r = Relationships(LinearDiagram.sender[i], LinearDiagram.receiver[i])
+    #             LinearDiagram.order_list.append(r)
+
+    # @staticmethod
+    # def save_linear_diagram(filename):
+    #     """
+    #         Saves the linear diagram.
+
+    #         Saves the linear diagram digital model that can be loaded into the library later.
+
+    #         Parameters
+    #         ----------
+    #         filename : str
+    #             The name of the folder that you want the model to be saved in.
+
+    #         """
+    #     cd = os.path.join(filename, "linear_diagrams")
+    #     os.makedirs(cd)
+
+    #     cd = os.path.join(filename, "linear_diagrams", "nodes")
+    #     os.makedirs(cd)
+    #     i = 1
+    #     for n in Node.get_nodes():
+    #         filehandler = open(cd + "/" + str(i) + n.get_name() + ".txt", 'wb')
+    #         pickle.dump(n, filehandler)
+    #         i += 1
+
+    #     cd = os.path.join(filename, "linear_diagrams", "edges")
+    #     os.makedirs(cd)
+    #     f = open(filename + "/linear_diagrams/edges/edges.csv", "w")
+    #     content = ""
+    #     for i in range(len(LinearDiagram.sender)):
+    #         content += (LinearDiagram.sender[i]+","+LinearDiagram.receiver[i]+","+LinearDiagram.message_type[i]+"\n")
+    #     f.write(content)
+    #     f.close()
+
+    #     i = 1
+    #     cd = os.path.join(filename, "linear_diagrams", "receiver")
+    #     os.makedirs(cd)
+    #     for r in LinearDiagram.receiver:
+    #         filehandler = open(cd + "/" + str(i) + ".txt", 'wb')
+    #         pickle.dump(r, filehandler)
+    #         i += 1
+    #     i = 1
+    #     cd = os.path.join(filename, "linear_diagrams", "message_type")
+    #     os.makedirs(cd)
+    #     for m in LinearDiagram.message_type:
+    #         filehandler = open(cd + "/" + str(i) + ".txt", 'wb')
+    #         pickle.dump(m, filehandler)
+    #         i += 1

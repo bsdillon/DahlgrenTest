@@ -1,0 +1,795 @@
+@startuml
+box "Box1"
+participant "A" as A
+participant "B" as B #powderblue
+end box
+participant "D" as D #yellow
+
+
+
+participant "C" as C #red
+
+
+D -[#yellow]>A : n 
+D -[#yellow]>B : m 
+A ->D : x 
+B ->C : u 
+D -[#yellow]>B : m 
+A -[#powderblue]>B : z 
+C ->A : r 
+A -[#powderblue]>B : z 
+C -[#powderblue]>B : q 
+A ->D : x 
+A ->D : x 
+A ->D : x 
+C ->A : r 
+D -[#yellow]>C : l 
+D -[#yellow]>A : n 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-1 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-2 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-3 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-4 
+C -[#227f22]>D : p 
+end 
+B ->D : t 
+A ->C : y 
+B ->A : v 
+C -[#powderblue]>B : q 
+D -[#yellow]>B : m 
+D -[#yellow]>B : m 
+A -[#powderblue]>B : z 
+B ->D : t 
+newpage ...Page1...
+D -[#yellow]>B : m 
+B ->C : u 
+D -[#yellow]>A : n 
+C ->A : r 
+A -[#powderblue]>B : z 
+B ->D : t 
+B ->A : v 
+B ->A : v 
+C ->A : r 
+D -[#yellow]>B : m 
+B ->D : t 
+C -[#powderblue]>B : q 
+C ->A : r 
+B ->C : u 
+C ->A : r 
+D -[#yellow]>C : l 
+B ->D : t 
+C -[#powderblue]>B : q 
+A -[#powderblue]>B : z 
+B ->A : v 
+B ->D : t 
+D -[#yellow]>C : l 
+A -[#powderblue]>B : z 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-5 
+C -[#227f22]>D : p 
+end 
+A ->D : x 
+D -[#yellow]>B : m 
+newpage ...Page2...
+D -[#yellow]>C : l 
+C -[#powderblue]>B : q 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-6 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+A ->D : x 
+D -[#yellow]>A : n 
+B ->A : v 
+B ->D : t 
+D -[#yellow]>B : m 
+B ->D : t 
+D -[#yellow]>C : l 
+B ->D : t 
+A ->D : x 
+A -[#powderblue]>B : z 
+B ->A : v 
+B ->A : v 
+A -[#powderblue]>B : z 
+A ->C : y 
+A -[#powderblue]>B : z 
+A ->D : x 
+D -[#yellow]>A : n 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-7 
+C -[#227f22]>D : p 
+end 
+A ->D : x 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-8 
+C -[#227f22]>D : p 
+end 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-9 
+C -[#227f22]>D : p 
+end 
+A ->C : y 
+D -[#yellow]>B : m 
+D -[#yellow]>A : n 
+newpage ...Page3...
+B ->A : v 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-10 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>A : n 
+B ->D : t 
+A ->D : x 
+D -[#yellow]>C : l 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+B ->D : t 
+C ->A : r 
+B ->D : t 
+A ->C : y 
+B ->D : t 
+C ->A : r 
+B ->D : t 
+B ->D : t 
+A ->D : x 
+D -[#yellow]>A : n 
+C ->A : r 
+B ->D : t 
+B ->C : u 
+A -[#powderblue]>B : z 
+B ->D : t 
+C -[#powderblue]>B : q 
+B ->A : v 
+C ->A : r 
+A -[#powderblue]>B : z 
+newpage ...Page4...
+D -[#yellow]>B : m 
+B ->D : t 
+A ->C : y 
+D -[#yellow]>B : m 
+C ->A : r 
+A ->D : x 
+B ->A : v 
+D -[#yellow]>B : m 
+D -[#yellow]>B : m 
+A -[#powderblue]>B : z 
+A ->D : x 
+B ->A : v 
+C ->A : r 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-11 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+C -[#powderblue]>B : q 
+C ->A : r 
+C ->A : r 
+D -[#yellow]>C : l 
+A -[#powderblue]>B : z 
+D -[#yellow]>A : n 
+B ->A : v 
+B ->D : t 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+A ->D : x 
+D -[#yellow]>C : l 
+B ->A : v 
+A ->C : y 
+D -[#yellow]>B : m 
+B ->D : t 
+D -[#yellow]>C : l 
+A ->C : y 
+A ->C : y 
+A ->C : y 
+B ->A : v 
+D -[#yellow]>C : l 
+D -[#yellow]>B : m 
+newpage ...Page5...
+C -[#powderblue]>B : q 
+D -[#yellow]>A : n 
+B ->A : v 
+D -[#yellow]>B : m 
+skinparam SequenceGroupBackgroundColor #7f5500
+skinparam SequenceGroupBorderColor #7f5500
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #ffd47f
+group Rare-1 
+B -[#7f5500]>D : t 
+D -[#7f5500]>C : l 
+end 
+B ->D : t 
+B ->A : v 
+C ->A : r 
+D -[#yellow]>C : l 
+B ->D : t 
+D -[#yellow]>A : n 
+A ->D : x 
+A ->C : y 
+D -[#yellow]>B : m 
+D -[#yellow]>A : n 
+A ->C : y 
+C ->A : r 
+C ->A : r 
+B ->D : t 
+B ->A : v 
+B ->D : t 
+B ->C : u 
+B ->A : v 
+B ->C : u 
+A -[#powderblue]>B : z 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-12 
+C -[#227f22]>D : p 
+end 
+A -[#powderblue]>B : z 
+A -[#powderblue]>B : z 
+C -[#powderblue]>B : q 
+B ->C : u 
+newpage ...Page6...
+A ->C : y 
+C ->A : r 
+B ->A : v 
+B ->A : v 
+B ->A : v 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-13 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>B : m 
+C -[#powderblue]>B : q 
+B ->D : t 
+B ->D : t 
+D -[#yellow]>C : l 
+A ->D : x 
+D -[#yellow]>B : m 
+A ->C : y 
+C -[#powderblue]>B : q 
+B ->D : t 
+D -[#yellow]>B : m 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+A ->C : y 
+D -[#yellow]>A : n 
+D -[#yellow]>C : l 
+D -[#yellow]>C : l 
+B ->D : t 
+B ->C : u 
+D -[#yellow]>A : n 
+B ->A : v 
+A -[#powderblue]>B : z 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-14 
+C -[#227f22]>D : p 
+end 
+B ->A : v 
+C ->A : r 
+C ->A : r 
+newpage ...Page7...
+D -[#yellow]>A : n 
+A ->D : x 
+A ->D : x 
+C -[#powderblue]>B : q 
+C -[#powderblue]>B : q 
+D -[#yellow]>C : l 
+A ->C : y 
+C -[#powderblue]>B : q 
+A ->D : x 
+B ->A : v 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+A -[#powderblue]>B : z 
+C -[#powderblue]>B : q 
+B ->D : t 
+C -[#powderblue]>B : q 
+A -[#powderblue]>B : z 
+C -[#powderblue]>B : q 
+C ->A : r 
+D -[#yellow]>B : m 
+D -[#yellow]>A : n 
+C -[#powderblue]>B : q 
+B ->D : t 
+C -[#powderblue]>B : q 
+B ->A : v 
+B ->D : t 
+D -[#yellow]>A : n 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+C -[#powderblue]>B : q 
+C -[#powderblue]>B : q 
+D -[#yellow]>A : n 
+A -[#powderblue]>B : z 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-15 
+C -[#227f22]>D : p 
+newpage ...Page8...
+end 
+C ->A : r 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+A ->C : y 
+C -[#powderblue]>B : q 
+D -[#yellow]>B : m 
+C -[#powderblue]>B : q 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-16 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+B ->D : t 
+A ->C : y 
+C ->A : r 
+D -[#yellow]>A : n 
+A ->C : y 
+C -[#powderblue]>B : q 
+B ->D : t 
+D -[#yellow]>A : n 
+A ->D : x 
+A ->D : x 
+A ->C : y 
+D -[#yellow]>C : l 
+D -[#yellow]>B : m 
+A ->C : y 
+A ->D : x 
+C ->A : r 
+A -[#powderblue]>B : z 
+B ->A : v 
+B ->D : t 
+A ->C : y 
+newpage ...Page9...
+A ->D : x 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-17 
+C -[#227f22]>D : p 
+end 
+B ->D : t 
+B ->D : t 
+C ->A : r 
+D -[#yellow]>B : m 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-18 
+C -[#227f22]>D : p 
+end 
+A -[#powderblue]>B : z 
+A ->D : x 
+B ->A : v 
+B ->D : t 
+D -[#yellow]>C : l 
+B ->D : t 
+B ->A : v 
+B ->A : v 
+D -[#yellow]>C : l 
+A -[#powderblue]>B : z 
+A -[#powderblue]>B : z 
+D -[#yellow]>C : l 
+A ->D : x 
+B ->D : t 
+skinparam SequenceGroupBackgroundColor #7f5500
+skinparam SequenceGroupBorderColor #7f5500
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #ffd47f
+group Rare-2 
+B -[#7f5500]>D : t 
+D -[#7f5500]>C : l 
+end 
+newpage ...Page10...
+B ->D : t 
+D -[#yellow]>A : n 
+D -[#yellow]>B : m 
+D -[#yellow]>A : n 
+C ->A : r 
+A ->D : x 
+D -[#yellow]>B : m 
+D -[#yellow]>B : m 
+B ->D : t 
+B ->D : t 
+D -[#yellow]>A : n 
+B ->D : t 
+A -[#powderblue]>B : z 
+C -[#powderblue]>B : q 
+A ->C : y 
+A -[#powderblue]>B : z 
+D -[#yellow]>C : l 
+A ->C : y 
+A ->C : y 
+C ->A : r 
+B ->A : v 
+B ->D : t 
+D -[#yellow]>B : m 
+A ->C : y 
+D -[#yellow]>B : m 
+A ->C : y 
+C ->A : r 
+C ->A : r 
+D -[#yellow]>C : l 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-19 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>B : m 
+D -[#yellow]>A : n 
+B ->D : t 
+D -[#yellow]>C : l 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-20 
+C -[#227f22]>D : p 
+end 
+newpage ...Page11...
+D -[#yellow]>B : m 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-21 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>B : m 
+D -[#yellow]>B : m 
+B ->C : u 
+skinparam SequenceGroupBackgroundColor #550055
+skinparam SequenceGroupBorderColor #550055
+skinparam SequenceGroupHeaderFontColor #000000
+skinparam SequenceGroupBodyBackgroundColor #d47fd4
+group Eggplant-1 
+A -[#550055]>B : z 
+B -[#550055]>C : u 
+end 
+B ->D : t 
+C -[#powderblue]>B : q 
+A ->D : x 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-22 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+B ->A : v 
+B ->D : t 
+D -[#yellow]>B : m 
+C ->A : r 
+B ->C : u 
+C ->A : r 
+C ->A : r 
+B ->D : t 
+B ->A : v 
+D -[#yellow]>C : l 
+B ->D : t 
+B ->D : t 
+C -[#powderblue]>B : q 
+B ->D : t 
+B ->A : v 
+B ->A : v 
+B ->A : v 
+newpage ...Page12...
+D -[#yellow]>C : l 
+B ->D : t 
+A ->D : x 
+D -[#yellow]>C : l 
+D -[#yellow]>A : n 
+D -[#yellow]>B : m 
+A ->D : x 
+B ->C : u 
+D -[#yellow]>B : m 
+A -[#powderblue]>B : z 
+C ->A : r 
+A -[#powderblue]>B : z 
+C -[#powderblue]>B : q 
+A ->D : x 
+A ->D : x 
+A ->D : x 
+C ->A : r 
+D -[#yellow]>C : l 
+D -[#yellow]>A : n 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-23 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+B ->D : t 
+A -[#powderblue]>B : z 
+B ->A : v 
+C ->A : r 
+B ->D : t 
+B ->D : t 
+A ->C : y 
+B ->A : v 
+C -[#powderblue]>B : q 
+D -[#yellow]>B : m 
+D -[#yellow]>B : m 
+A -[#powderblue]>B : z 
+B ->D : t 
+D -[#yellow]>B : m 
+B ->C : u 
+newpage ...Page13...
+D -[#yellow]>A : n 
+C ->A : r 
+A -[#powderblue]>B : z 
+B ->D : t 
+B ->A : v 
+B ->A : v 
+C ->A : r 
+D -[#yellow]>B : m 
+B ->D : t 
+C -[#powderblue]>B : q 
+C ->A : r 
+B ->C : u 
+C ->A : r 
+D -[#yellow]>C : l 
+B ->D : t 
+C -[#powderblue]>B : q 
+A -[#powderblue]>B : z 
+B ->A : v 
+B ->D : t 
+D -[#yellow]>C : l 
+A -[#powderblue]>B : z 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-24 
+C -[#227f22]>D : p 
+end 
+A ->D : x 
+D -[#yellow]>B : m 
+D -[#yellow]>C : l 
+C -[#powderblue]>B : q 
+newpage ...Page14...
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-25 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+A ->D : x 
+D -[#yellow]>A : n 
+B ->A : v 
+B ->D : t 
+D -[#yellow]>B : m 
+B ->D : t 
+D -[#yellow]>C : l 
+B ->D : t 
+A ->D : x 
+A -[#powderblue]>B : z 
+B ->A : v 
+B ->A : v 
+A -[#powderblue]>B : z 
+A ->C : y 
+A -[#powderblue]>B : z 
+A ->D : x 
+D -[#yellow]>A : n 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-26 
+C -[#227f22]>D : p 
+end 
+A ->D : x 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-27 
+C -[#227f22]>D : p 
+end 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-28 
+C -[#227f22]>D : p 
+end 
+A ->C : y 
+D -[#yellow]>B : m 
+D -[#yellow]>A : n 
+B ->A : v 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-29 
+C -[#227f22]>D : p 
+newpage ...Page15...
+end 
+D -[#yellow]>A : n 
+B ->D : t 
+A ->D : x 
+D -[#yellow]>C : l 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+B ->D : t 
+C ->A : r 
+B ->D : t 
+A ->C : y 
+B ->D : t 
+C ->A : r 
+B ->D : t 
+B ->D : t 
+A ->D : x 
+D -[#yellow]>A : n 
+C ->A : r 
+B ->D : t 
+B ->C : u 
+A -[#powderblue]>B : z 
+B ->D : t 
+C -[#powderblue]>B : q 
+B ->A : v 
+C ->A : r 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+B ->D : t 
+A ->C : y 
+newpage ...Page16...
+D -[#yellow]>B : m 
+C ->A : r 
+A ->D : x 
+B ->A : v 
+D -[#yellow]>B : m 
+D -[#yellow]>B : m 
+A -[#powderblue]>B : z 
+A ->D : x 
+B ->A : v 
+C ->A : r 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-30 
+C -[#227f22]>D : p 
+end 
+D -[#yellow]>C : l 
+C -[#powderblue]>B : q 
+C ->A : r 
+C ->A : r 
+D -[#yellow]>C : l 
+A -[#powderblue]>B : z 
+D -[#yellow]>A : n 
+B ->A : v 
+B ->D : t 
+A -[#powderblue]>B : z 
+D -[#yellow]>B : m 
+A ->D : x 
+D -[#yellow]>C : l 
+B ->A : v 
+A ->C : y 
+D -[#yellow]>B : m 
+B ->D : t 
+D -[#yellow]>C : l 
+A ->C : y 
+A ->C : y 
+A ->C : y 
+B ->A : v 
+D -[#yellow]>C : l 
+D -[#yellow]>B : m 
+C -[#powderblue]>B : q 
+D -[#yellow]>A : n 
+newpage ...Page17...
+B ->A : v 
+D -[#yellow]>B : m 
+skinparam SequenceGroupBackgroundColor #7f5500
+skinparam SequenceGroupBorderColor #7f5500
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #ffd47f
+group Rare-3 
+B -[#7f5500]>D : t 
+D -[#7f5500]>C : l 
+end 
+B ->D : t 
+B ->A : v 
+C ->A : r 
+D -[#yellow]>C : l 
+B ->D : t 
+D -[#yellow]>A : n 
+A ->D : x 
+A ->C : y 
+D -[#yellow]>B : m 
+D -[#yellow]>A : n 
+A ->C : y 
+C ->A : r 
+C ->A : r 
+B ->D : t 
+B ->A : v 
+B ->D : t 
+B ->C : u 
+B ->A : v 
+B ->C : u 
+A -[#powderblue]>B : z 
+skinparam SequenceGroupBackgroundColor #227f22
+skinparam SequenceGroupBorderColor #227f22
+skinparam SequenceGroupHeaderFontColor #FFFFFF
+skinparam SequenceGroupBodyBackgroundColor #a1ffa1
+group Green Bug-31 
+C -[#227f22]>D : p 
+end 
+A -[#powderblue]>B : z 
+A -[#powderblue]>B : z 
+C -[#powderblue]>B : q 
+B ->C : u 
+A ->C : y 
+C ->A : r 
+newpage ...Page18...
+B ->A : v 
+B ->A : v 
+@enduml

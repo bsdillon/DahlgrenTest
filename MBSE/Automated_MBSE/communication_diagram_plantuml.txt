@@ -1,0 +1,25 @@
+@startuml
+rectangle "Box1" {
+rectangle "A" as A
+rectangle "B" as B #powderblue
+}
+agent "D" as D #yellow
+
+
+
+agent "C" as C #red
+
+
+D -[#yellow,plain,thickness=4]->> A : n 
+D -[#yellow,plain,thickness=4]->> B : m 
+A -->> D : x 
+B -->> C : u 
+A -[#powderblue,plain,thickness=4]->> B : z 
+C -->> A : r 
+C -[#powderblue,plain,thickness=4]->> B : q 
+D -[#yellow,plain,thickness=4]->> C : l 
+C -->> D : p 
+B -->> D : t 
+A -->> C : y 
+B -->> A : v 
+@enduml

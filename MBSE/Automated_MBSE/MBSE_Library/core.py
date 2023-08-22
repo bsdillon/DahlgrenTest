@@ -1,9 +1,14 @@
 import csv
 import os
 import pickle
-
+import sys
+from PIL import Image
 from MBSE_Library import CodeDiagram, LinearDiagram, Node, PlantumlClass, PlantumlPackage, Relationships
+import traceback
+import subprocess
 
+IMAGE_MAX_X=1500
+IMAGE_Y_MAX=1500
 
 class MBSE:
 
@@ -24,94 +29,6 @@ class MBSE:
             """
         LinearDiagram.ld_compare(model1, model2)
         # Send strings to ld_compare method in linear_diagram.py
-
-    @staticmethod
-    def load_linear_diagram(filename):
-        """
-            Loads the linear diagram.
-
-            Loads the linear diagram digital model that can be edited now.
-
-            Parameters
-            ----------
-            filename : str
-                The name of the folder that you want the model to be loaded from.
-
-            """
-        cd = os.path.join(filename, "linear_diagrams", "nodes")
-        for file in os.scandir(cd):
-            name, extension = os.path.splitext(file)
-            if extension == '.txt':
-                file_pi2 = open(file, 'rb')
-                c = pickle.load(file_pi2)
-                LinearDiagram.nodes.append(c)
-
-        with open(filename + "/linear_diagrams/edges/edges.csv", 'r') as file:
-            reader = csv.reader(file, delimiter=',')
-            for row in reader:
-                LinearDiagram.sender.append(row[0])
-                LinearDiagram.receiver.append(row[1])
-                LinearDiagram.message_type.append(row[2])
-
-        for i in range(len(LinearDiagram.sender)):  # searches if a node sends to and receives to the same multiple
-            # times and then increments
-            updated = False
-            for o in LinearDiagram.order_list:
-                if o.get_sender() == LinearDiagram.sender[i] and o.get_receiver() == LinearDiagram.receiver[i]:
-                    o.increment()
-                    updated = True
-                    break
-            if not updated:
-                r = Relationships(LinearDiagram.sender[i], LinearDiagram.receiver[i])
-                LinearDiagram.order_list.append(r)
-
-    @staticmethod
-    def save_linear_diagram(filename):
-        """
-            Saves the linear diagram.
-
-            Saves the linear diagram digital model that can be loaded into the library later.
-
-            Parameters
-            ----------
-            filename : str
-                The name of the folder that you want the model to be saved in.
-
-            """
-        cd = os.path.join(filename, "linear_diagrams")
-        os.makedirs(cd)
-
-        cd = os.path.join(filename, "linear_diagrams", "nodes")
-        os.makedirs(cd)
-        i = 1
-        for n in Node.get_nodes():
-            filehandler = open(cd + "/" + str(i) + n.get_name() + ".txt", 'wb')
-            pickle.dump(n, filehandler)
-            i += 1
-
-        cd = os.path.join(filename, "linear_diagrams", "edges")
-        os.makedirs(cd)
-        f = open(filename + "/linear_diagrams/edges/edges.csv", "w")
-        content = ""
-        for i in range(len(LinearDiagram.sender)):
-            content += (LinearDiagram.sender[i]+","+LinearDiagram.receiver[i]+","+LinearDiagram.message_type[i]+"\n")
-        f.write(content)
-        f.close()
-
-        i = 1
-        cd = os.path.join(filename, "linear_diagrams", "receiver")
-        os.makedirs(cd)
-        for r in LinearDiagram.receiver:
-            filehandler = open(cd + "/" + str(i) + ".txt", 'wb')
-            pickle.dump(r, filehandler)
-            i += 1
-        i = 1
-        cd = os.path.join(filename, "linear_diagrams", "message_type")
-        os.makedirs(cd)
-        for m in LinearDiagram.message_type:
-            filehandler = open(cd + "/" + str(i) + ".txt", 'wb')
-            pickle.dump(m, filehandler)
-            i += 1
 
     @staticmethod
     def load_code_diagram(filename):
@@ -205,23 +122,9 @@ class MBSE:
                 os.system('cmd /c "java -jar plantuml.jar code_diagram.txt"')
             except None:
                 print("Error loading PlantUML image. Check if Plantuml is installed")
-        elif diagram == "sequence":
-            LinearDiagram.print_sequence_diagram()
-            try:
-                os.system('cmd /c "java -jar plantuml.jar sequence_diagram_plantuml.txt"')
-            except None:
-                print("Error loading PlantUML image. Check if Plantuml is installed")
-        elif diagram == "communication":
-            LinearDiagram.print_communication_diagram()
-            try:
-                os.system('cmd /c "java -jar plantuml.jar communication_diagram_plantuml.txt"')
-            except None:
-                print("Error loading PlantUML image. Check if Plantuml is installed")
         else:
             CodeDiagram.print_code_diagram()
             CodeDiagram.print_method_diagram()
-            LinearDiagram.print_communication_diagram()
-            LinearDiagram.print_sequence_diagram()
             try:
                 os.system('cmd /c "java -jar plantuml.jar code_diagram.txt method_diagram.txt '
                           'communication_diagram_plantuml.txt sequence_diagram_plantuml.txt"')
@@ -447,8 +350,10 @@ class MBSE:
     ##################
     # Linear Diagrams#
     ##################
+    currentLinearDiagram = None
+
     @staticmethod
-    def load_file(filename):
+    def createLinearDiagram(filename):
         """
             Loads a CSV file.
 
@@ -460,113 +365,80 @@ class MBSE:
                 The name of the file to load to data from.
 
             """
-        LinearDiagram.load_file(filename)
+        MBSE.currentLinearDiagram = LinearDiagram(filename)
+        return MBSE.currentLinearDiagram
 
-    @staticmethod
-    def set_unimportant(node):
-        """
-            Hides a node in the linear diagram.
+    def outputUML(fileName):
+        def formatcount(c):
+            txt = str(c)
+            return ("0"*(3-len(txt)))+txt
 
-            Hides a node in the linear diagram. Node will still exist but will not be shown on the diagram.
+        try:
+            stem = fileName[0:-4]
+            ext = "png"
+            name = stem+"."+ext
+            listFiles = []
 
-            Parameters
-            ----------
-            node : str
-                The name of the node to be hidden in the diagram.
+            #builds all the images
+            subprocess.call('java -jar plantuml.jar '+fileName)
 
+            tmp = Image.open(name)
+            maxX, Ymax = tmp.size
+            totalX = maxX
+            Ytotal = Ymax
 
-            """
-        for n in Node.get_nodes():
-            if n.get_name() == node:
-                n.set_importance()
+            count = 0
+            while os.path.isfile(name):
+                listFiles.append(name)
+                tmp = Image.open(name)
+                x, y = tmp.size
+                if x>maxX:
+                    maxX=x
+                totalX = totalX + x
 
-    @staticmethod
-    def color(node, color):
-        """
-                    Colors a node in the linear diagram.
+                if y>Ymax:
+                    Ymax=y
+                Ytotal = Ytotal + y
 
-                    Colors a node in the linear diagram. Color can be the name of color or hexadecimal value.
-
-                    Parameters
-                    ----------
-                    node : str
-                        The name of the node to be colored in the diagram.
-                    color : str
-                        The name of the color or the hexadecimal value.
-
-
-                    """
-        for n in Node.get_nodes():
-            if n.get_name() == node:
-                n.set_color(color)
-
-    @staticmethod
-    def highlight_out(node):
-        """
-            Highlights out a node in the linear diagram.
-
-            Highlights out a node in the linear diagram. Highlights all the edges leading out of a node.
-
-            Parameters
-            ----------
-            node : str
-                The name of the node to be highlighted out in the diagram.
+                count = count + 1
+                num = formatcount(count)
+                name = stem+"_"+num+"."+ext
 
 
-            """
-        for n in Node.get_nodes():
-            if n.get_name() == node:
-                n.set_highlighted_out()
+            # creates a new empty image, RGB mode @ max page size
+            actualX = max(IMAGE_MAX_X,maxX)
+            Yactual = max(IMAGE_Y_MAX,Ymax)
 
-    @staticmethod
-    def highlight_in(node):
-        """
-            Highlights in a node in the linear diagram.
+            new_image = Image.new('RGB', (actualX,Yactual) )
+            new_image.paste( (255,255,255), (0, 0, actualX, Yactual) )
 
-            Highlights in a node in the linear diagram. Highlights all the edges leading into a node.
+            currentX = 0
+            count = 0
+            name = stem+"."+ext
+            for lf in listFiles:
+                tmp = Image.open(lf)
 
-            Parameters
-            ----------
-            node : str
-                The name of the node to be highlighted in the diagram.
+                #if the file exceeds our size, create a next image
+                x, y = tmp.size
+                nextX = currentX + x
+                if nextX > actualX: #insufficient space for paste
+                    new_image.save(name) #save the file
 
+                    count = count + 1    #create new file
+                    num = formatcount(count)
+                    name = stem+num+"."+ext
 
-            """
-        for n in Node.get_nodes():
-            if n.get_name() == node:
-                n.set_highlighted_in()
+                    new_image = Image.new('RGB', (actualX,Yactual) ) #create new image
+                    new_image.paste( (255,255,255), (0, 0, actualX, Yactual) )
+                    currentX=0
 
-    @staticmethod
-    def create_box(box_name):
-        """
-            Creates a box for the linear diagram.
+                #paste image
+                new_image.paste(tmp, (currentX,0) )
+                os.remove(lf)
+                currentX = currentX + x               
 
-            Creates a box for the linear diagram. Nodes can be added to a box.
+            new_image.save(name) #save last file
 
-            Parameters
-            ----------
-            box_name : str
-                The name of the box to be created.
-
-
-            """
-        LinearDiagram.boxes.append(box_name)
-
-    @staticmethod
-    def add_to_box(node, box_name):
-        """
-            Adds a node to a box for the linear diagram.
-
-            Adds a node to a box for the linear diagram. Box should be created before adding nodes to it. 
-
-            Parameters
-            ----------
-            node : str
-                The name of the node to be added to a box.
-            box_name : str
-                The name of the box the node should be added to.
-
-            """
-        for n in Node.get_nodes():
-            if n.get_name() == node:
-                n.set_box_name(box_name)
+        except Exception as ex:
+            traceback.print_exc()
+            print("Error: "+str(ex))
