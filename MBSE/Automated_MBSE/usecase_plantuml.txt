@@ -1,0 +1,9 @@
+@startuml
+skinparam actorStyle awesome
+usecase "Dining Hall" as DiningHall
+package People {
+actor "Alpha" as Alpha
+actor "Beta" as Beta
+actor "Gamma" as Gamma
+}
+@enduml

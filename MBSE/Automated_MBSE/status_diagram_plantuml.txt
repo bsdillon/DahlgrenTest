@@ -1,0 +1,325 @@
+@startuml
+participant System_A
+participant System_B
+participant System_C
+participant System_D
+
+skinparam SequenceGroupBackgroundColor #DDDDDD
+skinparam SequenceGroupBodyBackgroundColor #FFFFFF
+Activate System_A#00AA00
+Activate System_B#80FF00
+Activate System_C#80FF00
+Activate System_D#00AA00
+|||
+group System_B goes from Lime to Forest 
+end group
+|||
+Deactivate System_B
+System_B <- System_B: Time-0.25s 
+Activate System_B #00AA00
+|||
+group System_C goes from Lime to Forest 
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-4.0s 
+Activate System_C #00AA00
+|||
+group System_D goes from Forest  to Red
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-5.0s 
+Activate System_D #FF0000
+|||
+group System_C goes from Forest  to Lime
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-6.75s 
+Activate System_C #80FF00
+|||
+group System_D goes from Red to Lime
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-10.25s 
+Activate System_D #80FF00
+|||
+group System_D goes from Lime to Forest 
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-10.5s 
+Activate System_D #00AA00
+|||
+group System_A goes from Forest  to Yellow
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-16.75s 
+Activate System_A #FFFF00
+|||
+group System_B goes from Forest  to Yellow
+end group
+|||
+Deactivate System_B
+System_B <- System_B: Time-23.0s 
+Activate System_B #FFFF00
+|||
+group System_B goes from Yellow to Lime
+end group
+|||
+Deactivate System_B
+System_B <- System_B: Time-24.25s 
+Activate System_B #80FF00
+|||
+group System_C goes from Lime to Orange
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-25.0s 
+Activate System_C #FF8000
+|||
+group System_A goes from Yellow to Orange
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-30.5s 
+Activate System_A #FF8000
+|||
+group System_A goes from Orange to Red
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-30.75s 
+Activate System_A #FF0000
+|||
+group System_A goes from Red to Yellow
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-31.5s 
+Activate System_A #FFFF00
+|||
+newpage ...Page2...
+group System_A goes from Yellow to Forest 
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-32.75s 
+Activate System_A #00AA00
+|||
+group System_D goes from Forest  to Yellow
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-40.0s 
+Activate System_D #FFFF00
+|||
+group System_C goes from Orange to Red
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-41.25s 
+Activate System_C #FF0000
+|||
+group System_D goes from Yellow to Lime
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-41.5s 
+Activate System_D #80FF00
+|||
+group System_A goes from Forest  to Orange
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-42.5s 
+Activate System_A #FF8000
+|||
+group System_D goes from Lime to Orange
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-46.25s 
+Activate System_D #FF8000
+|||
+group System_A goes from Orange to Lime
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-48.75s 
+Activate System_A #80FF00
+|||
+group System_D goes from Orange to Yellow
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-52.0s 
+Activate System_D #FFFF00
+|||
+group System_D goes from Yellow to Red
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-52.25s 
+Activate System_D #FF0000
+|||
+group System_A goes from Lime to Orange
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-55.0s 
+Activate System_A #FF8000
+|||
+group System_D goes from Red to Lime
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-60.0s 
+Activate System_D #80FF00
+|||
+group System_C goes from Red to Yellow
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-65.5s 
+Activate System_C #FFFF00
+|||
+group System_D goes from Lime to Orange
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-68.5s 
+Activate System_D #FF8000
+|||
+newpage ...Page2...
+group System_C goes from Yellow to Orange
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-75.0s 
+Activate System_C #FF8000
+|||
+group System_C goes from Orange to Red
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-76.5s 
+Activate System_C #FF0000
+|||
+group System_D goes from Orange to Yellow
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-82.75s 
+Activate System_D #FFFF00
+|||
+group System_D goes from Yellow to Forest 
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-87.75s 
+Activate System_D #00AA00
+|||
+group System_C goes from Red to Orange
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-88.75s 
+Activate System_C #FF8000
+|||
+group System_D goes from Forest  to Yellow
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-90.5s 
+Activate System_D #FFFF00
+|||
+group System_D goes from Yellow to Lime
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-92.5s 
+Activate System_D #80FF00
+|||
+group System_D goes from Lime to Orange
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-96.75s 
+Activate System_D #FF8000
+|||
+group System_D goes from Orange to Red
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-103.0s 
+Activate System_D #FF0000
+|||
+group System_D goes from Red to Lime
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-104.0s 
+Activate System_D #80FF00
+|||
+group System_D goes from Lime to Red
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-107.75s 
+Activate System_D #FF0000
+|||
+group System_D goes from Red to Orange
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-111.25s 
+Activate System_D #FF8000
+|||
+group System_D goes from Orange to Forest 
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-112.5s 
+Activate System_D #00AA00
+|||
+newpage ...Page2...
+group System_D goes from Forest  to Orange
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-117.25s 
+Activate System_D #FF8000
+|||
+group System_A goes from Orange to Don't know
+end group
+|||
+Deactivate System_A
+System_A <- System_A: Time-122.25s 
+Activate System_A #000000
+|||
+group System_B goes from Lime to Don't know
+end group
+|||
+Deactivate System_B
+System_B <- System_B: Time-122.25s 
+Activate System_B #000000
+|||
+group System_C goes from Orange to Don't know
+end group
+|||
+Deactivate System_C
+System_C <- System_C: Time-122.25s 
+Activate System_C #000000
+|||
+group System_D goes from Orange to Don't know
+end group
+|||
+Deactivate System_D
+System_D <- System_D: Time-122.25s 
+Activate System_D #000000
+|||
+@enduml

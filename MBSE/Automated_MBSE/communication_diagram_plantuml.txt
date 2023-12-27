@@ -1,25 +1,73 @@
 @startuml
-rectangle "Box1" {
-rectangle "A" as A
-rectangle "B" as B #powderblue
+rectangle "USS_Roosevelt_DDG_80" {
+agent "A_Missile" as A_Missile
+agent "A_WeaponSystem" as A_WeaponSystem
+agent "A_TrackServer" as A_TrackServer
+agent "A_Radar" as A_Radar
+agent "A_WeaponControl" as A_WeaponControl #FFAAAA
+agent "A_Link" as A_Link #yellow
 }
-agent "D" as D #yellow
-
-
-
-agent "C" as C #red
-
-
-D -[#yellow,plain,thickness=4]->> A : n 
-D -[#yellow,plain,thickness=4]->> B : m 
-A -->> D : x 
-B -->> C : u 
-A -[#powderblue,plain,thickness=4]->> B : z 
-C -->> A : r 
-C -[#powderblue,plain,thickness=4]->> B : q 
-D -[#yellow,plain,thickness=4]->> C : l 
-C -->> D : p 
-B -->> D : t 
-A -->> C : y 
-B -->> A : v 
+rectangle "USS_Enterprise_CVN_65" {
+agent "B_Link" as B_Link #yellow
+agent "B_WeaponControl" as B_WeaponControl #AAAAFF
+agent "B_TrackServer" as B_TrackServer
+agent "B_Radar" as B_Radar
+agent "B_WeaponSystem" as B_WeaponSystem
+agent "B_Missile" as B_Missile
+}
+B_WeaponControl -->> B_WeaponSystem : (115): Heartbeat_101 
+A_WeaponControl -->> A_WeaponSystem : (104): Heartbeat_101 
+B_WeaponControl -->> B_Radar : (112): Heartbeat_111 
+A_WeaponControl -->> A_Radar : (108): Heartbeat_111 
+B_WeaponSystem -->> B_WeaponControl : (115): Heartbeat_102 
+A_WeaponSystem -->> A_WeaponControl : (104): Heartbeat_102 
+A_Radar -->> A_WeaponControl : (110): Heartbeat_112 
+B_Radar -->> B_WeaponControl : (116): Heartbeat_112 
+A_Radar -->> A_WeaponControl : (3): Acquire_201 
+A_WeaponControl -->> A_TrackServer : (7): Store_211 
+B_Radar -->> B_WeaponControl : (13): Acquire_201 
+A_WeaponControl -->> A_Link : (8): Track_221 
+A_TrackServer -->> A_WeaponControl : (7): Store_ACK_212 
+A_Link -[#yellow,plain,thickness=4]->> B_Link : (8): Track_J01 
+B_WeaponControl -->> B_TrackServer : (34): Store_211 
+B_WeaponControl -->> B_Link : (34): Track_221 
+B_Link -[#yellow,plain,thickness=4]->> A_Link : (34): Track_J01 
+B_Link -[#yellow,plain,thickness=4]->> B_WeaponControl : (7): Track_221 
+A_Link -[#yellow,plain,thickness=4]->> A_WeaponControl : (34): Track_221 
+B_TrackServer -->> B_WeaponControl : (34): Store_ACK_212 
+B_WeaponControl -->> B_TrackServer : (7): Store_ACK_212 
+A_WeaponControl -->> A_TrackServer : (34): Store_ACK_212 
+A_Radar -->> A_WeaponControl : (5): Update_202 
+B_Radar -->> B_WeaponControl : (21): Update_202 
+A_TrackServer -->> A_WeaponControl : (1): FIRE_230 
+A_WeaponControl -->> A_WeaponSystem : (2): Target_231 
+A_Missile -->> A_WeaponSystem : (8): Telemetry_240 
+A_WeaponSystem -->> A_WeaponControl : (2): Kill_232 
+A_TrackServer -->> A_WeaponControl : (3): R_FIRE_235 
+A_WeaponControl -->> A_TrackServer : (6): Delete_213 
+A_WeaponControl -->> A_Link : (2): Delete_Track_222 
+A_Link -[#yellow,plain,thickness=4]->> B_Link : (2): Delete_J02 
+A_WeaponControl -->> A_Link : (3): R_FIRE_235 
+B_Link -[#yellow,plain,thickness=4]->> B_WeaponControl : (2): Delete_Track_222 
+A_Link -[#yellow,plain,thickness=4]->> B_Link : (3): RFire_J03 
+B_Link -[#yellow,plain,thickness=4]->> B_WeaponControl : (3): R_FIRE_235 
+B_WeaponControl -->> B_TrackServer : (4): Delete_213 
+B_TrackServer -->> B_WeaponControl : (2): Delete_ACK_214 
+B_WeaponControl -->> B_Link : (2): Error_UNK_223 
+B_Link -[#yellow,plain,thickness=4]->> A_Link : (2): EUNK_J03 
+A_Link -[#yellow,plain,thickness=4]->> A_WeaponControl : (2): Error_UNK_223 
+A_TrackServer -->> A_WeaponControl : (4): Delete_ACK_214 
+B_WeaponControl -->> B_WeaponSystem : (2): Target_231 
+B_Missile -->> B_WeaponSystem : (8): Telemetry_240 
+B_WeaponSystem -->> B_WeaponControl : (2): Kill_232 
+B_WeaponControl -->> B_Link : (2): Delete_Track_222 
+B_Link -[#yellow,plain,thickness=4]->> A_Link : (2): Delete_J02 
+A_Link -[#yellow,plain,thickness=4]->> A_WeaponControl : (2): Delete_Track_222 
+B_TrackServer -->> B_WeaponControl : (1): R_FIRE_235 
+B_WeaponControl -->> B_Link : (1): R_FIRE_235 
+B_Link -[#yellow,plain,thickness=4]->> A_Link : (1): RFire_J03 
+A_Link -[#yellow,plain,thickness=4]->> A_WeaponControl : (1): R_FIRE_235 
+A_WeaponControl -->> A_WeaponSystem : (10): Heartbeat_102 
+A_WeaponSystem -->> A_WeaponControl : (8): Heartbeat_101 
+B_TrackServer -->> B_WeaponControl : (1): FIRE_230 
 @enduml

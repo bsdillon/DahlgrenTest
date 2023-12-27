@@ -1,0 +1,13 @@
+﻿Enemy,Plane,Hi. I'm a bad guy
+Plane,Enterprise,I see bad guy
+Enterprise,CO1,Behold! A bad guy
+CO1,CO2,Hey! You need to shoot that.
+CO2,Roosevelt,How do you fire this thing?!
+Roosevelt,Drone,"Drone, can you handle this?"
+Drone,Enemy,Sure. No biggie.
+Enemy,Plane,Aggh! I die!
+Plane,Enterprise,Problem solved!
+Enterprise,Roosevelt,Well that was close
+Roosevelt,Enterprise,Is that bad guy still a thing?
+Enterprise,Roosevelt,Oh! Right. He's gone
+Roosevelt,CO2,Okay. Cool

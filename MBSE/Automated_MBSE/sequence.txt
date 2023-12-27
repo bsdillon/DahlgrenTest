@@ -1,0 +1,51 @@
+@startuml
+!pragma teoz true
+
+box "USS_Roosevelt_DDG_80"
+participant "A_Missile" as A_Missile
+participant "A_WeaponSystem" as A_WeaponSystem
+participant "A_TrackServer" as A_TrackServer
+participant "A_Radar" as A_Radar
+participant "A_WeaponControl" as A_WeaponControl #FFAAAA
+participant "A_Link" as A_Link #yellow
+end box
+box "USS_Enterprise_CVN_65"
+participant "B_Link" as B_Link #yellow
+participant "B_WeaponControl" as B_WeaponControl #AAAAFF
+participant "B_TrackServer" as B_TrackServer
+participant "B_Radar" as B_Radar
+participant "B_WeaponSystem" as B_WeaponSystem
+participant "B_Missile" as B_Missile
+end box
+
+
+B_WeaponControl ->B_Radar : Heartbeat_111 
+B_WeaponSystem ->B_WeaponControl : Heartbeat_102 
+A_WeaponSystem ->A_WeaponControl : Heartbeat_102 
+B_Radar ->B_WeaponControl : Heartbeat_112 
+A_WeaponControl ->A_WeaponSystem : Heartbeat_101 
+{alpha} B_WeaponControl ->B_WeaponSystem : AAAAA
+B_Radar ->B_WeaponControl : Who knows really
+A_Radar ->A_WeaponControl : Heartbeat_112 
+B_WeaponControl ->B_Radar : Heartbeat_111 
+A_WeaponControl ->A_Radar : Heartbeat_111 
+A_WeaponSystem ->A_WeaponControl : Heartbeat_102 
+B_Radar ->B_WeaponControl : Heartbeat_112 
+B_WeaponSystem ->B_WeaponControl : Something
+B_WeaponControl ->B_TrackServer : Store_211 
+A_WeaponControl ->A_Radar : Heartbeat_111 
+B_WeaponControl ->B_Link : Track_221 
+A_Radar ->A_WeaponControl : Update_202 
+A_Link -[#yellow]>A_WeaponControl : Track_221 
+B_TrackServer ->B_WeaponControl : Store_ACK_212 
+B_WeaponControl ->B_WeaponSystem : Heartbeat_101 
+A_WeaponControl ->A_WeaponSystem : Heartbeat_101 
+B_WeaponControl ->B_Radar : Heartbeat_111 
+B_Link -[#yellow]>A_Link : Track_J01 
+A_Radar ->A_WeaponControl : Acquire_201 
+{beta} A_WeaponControl ->A_TrackServer : BBBBBB
+A_Radar ->A_WeaponControl : Heartbeat_112 
+B_WeaponControl ->B_TrackServer : Store_211 
+
+{alpha} <-> {beta} : Title
+@enduml
