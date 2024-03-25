@@ -5,16 +5,60 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="Robot Framework 5.0.1 (Python 3.10.8 on win32)" name="Generator">
+<meta content="Robot Framework 7.0 (Python 3.11.8 on win32)" name="Generator">
 <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKcAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAqAAAAAAAAAAAAAAAAAAAALIAAAD/AAAA4AAAANwAAADcAAAA3AAAANwAAADcAAAA3AAAANwAAADcAAAA4AAAAP8AAACxAAAAAAAAAKYAAAD/AAAAuwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/AAAA/wAAAKkAAAD6AAAAzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN8AAAD/AAAA+gAAAMMAAAAAAAAAAgAAAGsAAABrAAAAawAAAGsAAABrAAAAawAAAGsAAABrAAAADAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAIsAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAANEAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAAAAAAAAMgAAADIAAAAyAAAAMgAAADIAAAAyAAAAMgAAADIAAAAFAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAADwAAAB8AAAAAAAAAGAAAABcAAAAAAAAAH8AAABKAAAAAAAAAAAAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAADCAAAA/wAAACkAAADqAAAA4QAAAAAAAAD7AAAA/wAAALAAAAAGAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAIwAAAP4AAAD/AAAA/wAAAGAAAAAAAAAAAAAAAMkAAAD/AAAAigAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAAAAAAAIAAAAcAAAABkAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAA2gAAAP8AAAD7AAAAywAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN4AAAD/AAAAqwAAAP8AAACvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALIAAAD/AAAAsgAAAAAAAAC5AAAA/wAAAMoAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMkAAAD/AAAAvAAAAAAAAAAAAAAAAAAAAKwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAArQAAAAAAAAAAwAMAAIABAAAf+AAAP/wAAD/8AAAgBAAAP/wAAD/8AAA//AAAJIwAADHEAAA//AAAP/wAAB/4AACAAQAAwAMAAA==">
-<style media="all" type="text/css">
+<style media="all">
+:root {
+    --text-color: black;
+    --background-color: white;
+    --primary-color: #ddd;
+    --secondary-color: #ccc;
+    --link-color: #15c;
+    --link-hover-color: #61c;
+    --highlight-color: #eee;
+    --target-color: #f9f9f9;
+    --pass-color: #97bd61;
+    --fail-color: #ce3e01;
+    --warn-color: #fed84f;
+    --pass-link-color: #098a09;
+    --warn-link-color: #927201;
+    --fail-link-color: #ce3e01;
+    --ascending-icon: url(data:image/gif;base64,R0lGODlhCwAJAKEAAAAAAH9/fwAAAAAAACH5BAEAAAIALAAAAAALAAkAAAIUlBWnFr3cnIr0WQOyBmvzp13CpxQAOw==);
+    --descending-icon: url(data:image/gif;base64,R0lGODlhCwAJAKEAAAAAAH9/fwAAAAAAACH5BAEAAAIALAAAAAALAAkAAAIUlAWnBr3cnIr0WROyDmvzp13CpxQAOw==);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+    }
+}
+[data-theme="dark"] {
+    --text-color: #e2e1d7;
+    --background-color: #1c2227;
+    --primary-color: #26373b;
+    --secondary-color: #424f5a;
+    --link-color: #8cc4ff;
+    --link-hover-color: #bb86fc;
+    --highlight-color: #002b36;
+    --target-color: #1a252e;
+    --pass-link-color: #97bd61;
+    --warn-link-color: #fed84f;
+    --fail-link-color: #ff9b8f;
+    --ascending-icon: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAJAgMAAACZCj6+AAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAAfn5+////f/cqYgAAAAN0Uk5TAP//RFDWIQAAACdJREFUeJxjYHBgYGAMYGBgDWFgEA1lAAOtVQwMXCsYGJgWADkNDAA78QP9oKr7vwAAAABJRU5ErkJggg==);
+    --descending-icon: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAJAgMAAACZCj6+AAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA////fn5+K6jOaAAAAAN0Uk5TAP//RFDWIQAAACdJREFUeJxjYHBgYGAMYGBgDWFgEA1lAAOtVQwMXCsYGJgWADkNDAA78QP9oKr7vwAAAABJRU5ErkJggg==);
+}
 /* Generic and misc styles */
 body {
     font-family: Helvetica, sans-serif;
     font-size: 0.8em;
-    color: black;
+    color: black; /* Fallback value */
+    color: var(--text-color);
     padding: 6px;
-    background: white;
+    background: white; /* Fallback value */
+    background: var(--background-color);
+    margin-left: 15px;
+}
+body[theme-toggled] {
+    transition: background 0.3s, background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 table {
     table-layout: fixed;
@@ -29,20 +73,37 @@ br {
     mso-data-placement: same-cell; /* maintain line breaks in Excel */
 }
 hr {
-    background: #ccc;
+    background: #ccc; /* Fallback value */
+    background: var(--secondary-color);
     height: 1px;
     border: 0;
 }
 a, a:link, a:visited {
     text-decoration: none;
-    color: #15c;
+    color: #15c; /* Fallback value */
+    color: var(--link-color);
 }
 a > img {
-    border: 1px solid #15c !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: #15c !important; /* Fallback value */
+    border-color: var(--link-color) !important;
 }
 a:hover, a:active {
     text-decoration: underline;
-    color: #61c;
+    color: #61c; /* Fallback value */
+    color: var(--link-hover-color);
+}
+select {
+    background-color: white; /* Fallback value */
+    background-color: var(--background-color);
+    color: black; /* Fallback value */
+    color: var(--text-color);
+    border-width: 2px;
+    border-style: solid;
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--secondary-color);
+    border-radius: 4px;
 }
 .parent-name {
     font-size: 0.7em;
@@ -55,7 +116,7 @@ a:hover, a:active {
 #header {
     width: 65em;
     height: 3em;
-    margin: 6px 0;
+    margin: 20px 0 6px 0;
 }
 h1 {
     float: left;
@@ -83,14 +144,17 @@ h2 {
 }
 /* Status text colors -- !important allows using them in links */
 .fail {
-    color: #ce3e01 !important;
+    color: #ce3e01 !important; /* Fallback value */
+    color: var(--fail-link-color) !important;
     font-weight: bold;
 }
 .pass {
-    color: #098a09 !important;
+    color: #098a09 !important; /* Fallback value */
+    color: var(--pass-link-color) !important;
 }
 .skip {
-    color: #927201 !important;
+    color: #927201 !important; /* Fallback value */
+    color: var(--warn-link-color) !important;
     font-weight: bold;
 }
 .label {
@@ -98,8 +162,10 @@ h2 {
     font-size: 0.75em;
     letter-spacing: 1px;
     white-space: nowrap;
-    color: black;
-    background-color: #ddd;
+    color: black; /* Fallback value */
+    color: var(--text-color);
+    background-color: #ddd; /* Fallback value */
+    background-color: var(--primary-color);
     border-radius: 3px;
 }
 .label.debug, .label.trace, .label.error, .label.keyword {
@@ -109,15 +175,18 @@ h2 {
     font-weight: bold;
 }
 .label.pass {
-    background-color: #97bd61;
+    background-color: #97bd61; /* Fallback value */
+    background-color: var(--pass-color);
     color: #000 !important;
 }
 .label.fail, .label.error {
-    background-color: #ce3e01;
+    background-color: #ce3e01; /* Fallback value */
+    background-color: var(--fail-color);
     color: #fff !important;
 }
 .label.skip, .label.warn {
-    background-color: #fed84f;
+    background-color: #fed84f; /* Fallback value */
+    background-color: var(--warn-color);
     color: #000 !important;
 }
 /* Top right header */
@@ -146,7 +215,8 @@ h2 {
     padding: 0.3em 0;
     font-size: 0.9em;
     border-bottom-left-radius: 4px;
-    background: #ddd;
+    background: #ddd; /* Fallback value */
+    background: var(--primary-color);
 }
 /* Statistics table */
 .statistics {
@@ -156,15 +226,20 @@ h2 {
     margin-bottom: 1em;
 }
 .statistics tr:hover {
-    background: #f4f4f4;
+    background: #eee; /* Fallback value */
+    background: var(--highlight-color);
     cursor: pointer;
 }
 .statistics th, .statistics td {
-    border: 1px solid #ccc;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--secondary-color);
     padding: 0.1em 0.3em;
 }
 .statistics th {
-    background-color: #ddd;
+    background-color: #ddd; /* Fallback value */
+    background-color: var(--primary-color);
     padding: 0.2em 0.3em;
 }
 .statistics td {
@@ -200,27 +275,33 @@ th.stats-col-graph:hover {
 }
 /* Statistics graph */
 .graph, .empty-graph {
-    border: 1px solid #ccc;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--secondary-color);
     width: auto;
     height: 7px;
     padding: 0;
-    background: #aaa;
 }
 .empty-graph {
-    background: #eee;
+    background: #eee; /* Fallback value */
+    background: var(--highlight-color);
 }
 .pass-bar, .fail-bar, .skip-bar {
     float: left;
     height: 100%;
 }
 .fail-bar {
-    background: #ce3e01;
+    background: #ce3e01; /* Fallback value */
+    background: var(--fail-color);
 }
 .pass-bar {
-    background: #97bd61;
+    background: #97bd61; /* Fallback value */
+    background: var(--pass-color);
 }
 .skip-bar {
-    background: #fed84f;
+    background: #fed84f; /* Fallback value */
+    background: var(--warn-color);
 }
 /* Tablesorter - adapted from provided Blue Skin */
 .tablesorter-header {
@@ -230,30 +311,84 @@ th.stats-col-graph:hover {
     cursor: pointer;
 }
 .tablesorter-header:hover {
-    background-color: #ccc;
+    background-color: #ccc; /* Fallback value */
+    background-color: var(--secondary-color);
 }
 .tablesorter-headerAsc {
-    background-image: url(data:image/gif;base64,R0lGODlhCwAJAKEAAAAAAH9/fwAAAAAAACH5BAEAAAIALAAAAAALAAkAAAIUlBWnFr3cnIr0WQOyBmvzp13CpxQAOw==);
-    background-color: #ccc !important;
+    background-image: url(data:image/gif;base64,R0lGODlhCwAJAKEAAAAAAH9/fwAAAAAAACH5BAEAAAIALAAAAAALAAkAAAIUlBWnFr3cnIr0WQOyBmvzp13CpxQAOw==); /* Fallback value */
+    background-image: var(--ascending-icon);
+    background-color: #ccc !important; /* Fallback value */
+    background-color: var(--secondary-color) !important;
 }
 .tablesorter-headerDesc {
-    background-image: url(data:image/gif;base64,R0lGODlhCwAJAKEAAAAAAH9/fwAAAAAAACH5BAEAAAIALAAAAAALAAkAAAIUlAWnBr3cnIr0WROyDmvzp13CpxQAOw==);
-    background-color: #ccc !important;
+    background-image: url(data:image/gif;base64,R0lGODlhCwAJAKEAAAAAAH9/fwAAAAAAACH5BAEAAAIALAAAAAALAAkAAAIUlAWnBr3cnIr0WROyDmvzp13CpxQAOw==); /* Fallback value */
+    background-image: var(--descending-icon);
+    background-color: #ccc !important; /* Fallback value */
+    background-color: var(--secondary-color) !important;
 }
 .sorter-false {
     background-image: none;
     cursor: default;
 }
 .sorter-false:hover {
-    background-color: #ddd;
+    background-color: #ddd; /* Fallback value */
+    background-color: var(--primary-color);
+}
+#theme-toggle {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 28px;
+    height: 28px;
+    border: none;
+    padding: 4px;
+    z-index: 1000;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background: var(--highlight-color);
+}
+[data-theme="dark"] .dark-mode-icon,
+[data-theme="light"] .light-mode-icon {
+    display: none;
+}
+[data-theme="dark"] .light-mode-icon,
+[data-theme="light"] .dark-mode-icon {
+    display: block;
+}
+@keyframes highlight {
+    0% {
+        background: var(--primary-color)
+    }
+    100% {
+        background: var(--target-color);
+    }
+}
+:target {
+    background: var(--target-color);
+    transition: background 0.3s;
+    animation: highlight 4s;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 /* Icons are from Open Iconic <https://useiconic.com/open/>.
    Licensed under the MIT License. */
+:root {
+    --icon-filter: invert(0);
+    --icon-highlight: var(--secondary-color);
+    --elapsed-color: #666;
+}
+/* @media (prefers-color-scheme: dark) { */
+[data-theme="dark"] {
+    --icon-filter: invert(1);
+    --icon-highlight: #a39990;
+    --elapsed-color: #999;
+}
 /* Containers */
 .suite, .test, #errors {
-    border: 1px solid #ccc;
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--secondary-color);
+    border-width: 1px;
+    border-style: solid;
     padding: 0.3em 0.2em;
     margin: 0.2em 0;
 }
@@ -282,8 +417,10 @@ th.stats-col-graph:hover {
 }
 .element-header:hover {
     cursor: pointer;
-    background-color: #eee;
-    border-color: #ccc;
+    background-color: #eee; /* Fallback value */
+    background-color: var(--highlight-color);
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--secondary-color);
 }
 .element-header-toggle {
     position: absolute;
@@ -293,10 +430,14 @@ th.stats-col-graph:hover {
     background-position: center;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAQAAABKxSfDAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfeCR0JChSkZz20AAAAGklEQVQI12NgQAKMDKzInP8IDhOqMk4G7AAANQwBE427PYUAAAAASUVORK5CYII=);
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCA4IDgiPgogIDxwYXRoIGQ9Ik0wIDB2Mmg4di0yaC04eiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAzKSIgLz4KPC9zdmc+), none;
+    filter: var(--icon-filter);
     height: 10px;
     width: 10px;
     background-size: 6px 6px;
-    border: 1px solid #ccc;
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--icon-highlight);
+    border-width: 1px;
+    border-style: solid;
     border-radius: 2px;
 }
 .closed > .element-header-toggle {
@@ -304,7 +445,8 @@ th.stats-col-graph:hover {
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCA4IDgiPgogIDxwYXRoIGQ9Ik0zIDB2M2gtM3YyaDN2M2gydi0zaDN2LTJoLTN2LTNoLTJ6IiAvPgo8L3N2Zz4=), none;
 }
 .element-header:hover > .element-header-toggle {
-    background-color: #ccc;
+    background-color: #ccc; /* Fallback value */
+    background-color: var(--icon-highlight);
 }
 .element-header-right:hover ~ .element-header-toggle {
     background-color: transparent;
@@ -324,23 +466,31 @@ th.stats-col-graph:hover {
 }
 .name {
     font-weight: bold;
+    white-space: pre-wrap;
+}
+.arg, .assign {
+    white-space: pre-wrap;
 }
 .elapsed {
     float: right;
-    color: #666;
+    color: #666; /* Fallback value */
+    color: var(--elapsed-color);
     padding-left: 1em;
 }
 .link {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAHlJREFUGJVtzrEJwmAQBtCn6ASuIKTIBhY2gmghBiJYB1udwk10B8FJbKMBcQFbtbkfJHrVwfu+4/idJR64Y9H7E3higj5O3S8Y44ApLnjhnXCNGhV2yNGggDJwiC02gavUbpDFvscRo4QdXOMKDHBufz3HLYKzNn4AbSkV3fncGQYAAAAASUVORK5CYII=);
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCA4IDgiPgogIDxwYXRoIGQ9Ik01Ljg4LjAzYy0uMTguMDEtLjM2LjAzLS41My4wOS0uMjcuMS0uNTMuMjUtLjc1LjQ3YS41LjUgMCAxIDAgLjY5LjY5Yy4xMS0uMTEuMjQtLjE3LjM4LS4yMi4zNS0uMTIuNzgtLjA3IDEuMDYuMjIuMzkuMzkuMzkgMS4wNCAwIDEuNDRsLTEuNSAxLjVjLS40NC40NC0uOC40OC0xLjA2LjQ3LS4yNi0uMDEtLjQxLS4xMy0uNDEtLjEzYS41LjUgMCAxIDAtLjUuODhzLjM0LjIyLjg0LjI1Yy41LjAzIDEuMi0uMTYgMS44MS0uNzhsMS41LTEuNWMuNzgtLjc4Ljc4LTIuMDQgMC0yLjgxLS4yOC0uMjgtLjYxLS40NS0uOTctLjUzLS4xOC0uMDQtLjM4LS4wNC0uNTYtLjAzem0tMiAyLjMxYy0uNS0uMDItMS4xOS4xNS0xLjc4Ljc1bC0xLjUgMS41Yy0uNzguNzgtLjc4IDIuMDQgMCAyLjgxLjU2LjU2IDEuMzYuNzIgMi4wNi40Ny4yNy0uMS41My0uMjUuNzUtLjQ3YS41LjUgMCAxIDAtLjY5LS42OWMtLjExLjExLS4yNC4xNy0uMzguMjItLjM1LjEyLS43OC4wNy0xLjA2LS4yMi0uMzktLjM5LS4zOS0xLjA0IDAtMS40NGwxLjUtMS41Yy40LS40Ljc1LS40NSAxLjAzLS40NC4yOC4wMS40Ny4wOS40Ny4wOWEuNS41IDAgMSAwIC40NC0uODhzLS4zNC0uMi0uODQtLjIyeiIKICAvPgo8L3N2Zz4=), none;
+    filter: var(--icon-filter);
 }
 .expand {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAADtJREFUGJVjYCACKDAwMByA0ljFDjAwMPxnYGB4ABVQgLL/Q+VQBB6gseGmIivCkERXhFUSWRFOSawAAEl7E3uv1iMcAAAAAElFTkSuQmCC);
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCA4IDgiPgogIDxwYXRoIGQ9Ik0xLjUgMGwtMS41IDEuNSA0IDQgNC00LTEuNS0xLjUtMi41IDIuNS0yLjUtMi41eiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAxKSIgLz4KPC9zdmc+), none;
+    filter: var(--icon-filter);
 }
 .collapse {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAC5JREFUGJVjYCARNEAxTsn/UIyhCFkSQxG6ThQ+C5IpjWhG1yNb4YDFTdjEMAEACi8Q++9Y9TAAAAAASUVORK5CYII=);
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCA4IDgiPgogIDxwYXRoIGQ9Ik00IDBsLTQgNCAxLjUgMS41IDIuNS0yLjUgMi41IDIuNSAxLjUtMS41LTQtNHoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgMSkiIC8+Cjwvc3ZnPg==), none;
+    filter: var(--icon-filter);
 }
 .expand, .collapse, .link {
     float: left;
@@ -352,7 +502,10 @@ th.stats-col-graph:hover {
     background-size: 8px 8px;
     background-repeat: no-repeat;
     background-position: center;
-    border: 1px solid #ccc;
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--icon-highlight);
+    border-width: 1px;
+    border-style: solid;
     border-radius: 2px;
 }
 .link {
@@ -362,7 +515,8 @@ th.stats-col-graph:hover {
     visibility: visible;
 }
 .expand:hover, .collapse:hover, .link:hover {
-    background-color: #ccc;
+    background-color: #ccc; /* Fallback value */
+    background-color: var(--icon-highlight);
 }
 /* Messages and errors */
 .messages .time, .messages .message {
@@ -403,11 +557,16 @@ th.stats-col-graph:hover {
 .message-row:hover .select-message div {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAQAAAD8fJRsAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfeCR0MOzhWKZQOAAAASUlEQVQY032PsRHAIAwDX9BkicD+W8UMEqegAQJWKZ/+3sLZJhFGQEZzNaIa4ibh66En867VNaIeoP5WppNuIGoAlOm3g5VC1AdYeQv1BZPRSgAAAABJRU5ErkJggg==);
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiIHZpZXdCb3g9IjAgMCA4IDgiPgogIDxwYXRoIGQ9Ik0wIDB2MWg4di0xaC04em0wIDJ2MWg2di0xaC02em0wIDJ2MWg4di0xaC04em0wIDJ2MWg2di0xaC02eiIgLz4KPC9zdmc+), none;
-    border: 1px solid #ccc;
+    filter: var(--icon-filter);
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--icon-highlight);
+    border-width: 1px;
+    border-style: solid;
     border-radius: 2px;
 }
 .select-message:hover div {
-    background-color: #ccc;
+    background-color: #ccc; /* Fallback value */
+    background-color: var(--icon-highlight);
     cursor: pointer;
 }
 /* Message tables - these MUST NOT be combined together because otherwise
@@ -439,7 +598,7 @@ th.stats-col-graph:hover {
     cursor: default;
 }
 </style>
-<style media="print" type="text/css">
+<style media="print">
 body {
     background: white !important;
     padding: 0;
@@ -479,7 +638,7 @@ a:link, a:visited {
     background: #ddd !important;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 #javascript-disabled {
     width: 600px;
     margin: 100px auto 0 auto;
@@ -502,7 +661,7 @@ a:link, a:visited {
     font-style: italic;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 .doc > * {
     margin: 0.7em 1em 0.1em 1em;
     padding: 0;
@@ -514,14 +673,12 @@ a:link, a:visited {
     margin-top: 0.1em;
 }
 .doc table {
-    border: 1px solid #ccc;
     background: transparent;
     border-collapse: collapse;
     empty-cells: show;
     font-size: 0.9em;
 }
 .doc table th, .doc table td {
-    border: 1px solid #ccc;
     background: transparent;
     padding: 0.1em 0.3em;
     height: 1.2em;
@@ -531,24 +688,32 @@ a:link, a:visited {
     letter-spacing: 0.1em;
 }
 .doc pre {
+    border-radius: 2px;
     font-size: 1.1em;
     letter-spacing: 0.05em;
-    background: #f4f4f4;
+    background: #eee; /* Fallback value */
+    background: var(--highlight-color);
 }
 .doc code {
+    border-radius: 2px;
     padding: 0 0.2em;
     letter-spacing: 0.05em;
-    background: #eee;
+    background: #eee; /* Fallback value */
+    background: var(--highlight-color);
 }
 .doc li {
     list-style-position: inside;
     list-style-type: square;
 }
-.doc img {
-    border: 1px solid #ccc;
+.doc img, .doc table, .doc table th, .doc table td {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #ccc; /* Fallback value */
+    border-color: var(--secondary-color);
 }
 .doc hr {
-    background: #ccc;
+    background: #ccc; /* Fallback value */
+    background: var(--secondary-color);
     height: 1px;
     border: 0;
 }
@@ -560,6 +725,9 @@ function toggleSuite(suiteId) {
 }
 function toggleTest(testId) {
     toggleElement(testId, ['keyword']);
+    var test = window.testdata.findLoaded(testId);
+    if (test.status == "FAIL" || test.status == "SKIP")
+        expandFailed(test);
 }
 function toggleKeyword(kwId) {
     toggleElement(kwId, ['keyword']);
@@ -623,7 +791,7 @@ function loadAndExpandElementIds(ids) {
     }
 }
 function expandFailed(element) {
-    if (element.status == "FAIL") {
+    if (element.status == "FAIL" || (element.type == "test" && element.status == "SKIP")) {
         window.elementsToExpand = [element];
         window.expandDecider = function (e) {
             return e.status == "FAIL";
@@ -847,7 +1015,6 @@ window.model = (function () {
         suite.populateSuites = createIterablePopulator('Suite');
         suite.childrenNames = ['keyword', 'suite', 'test'];
         suite.callWhenChildrenReady = function (callable) { callable(); };
-        suite.message = data.message;
         suite.children = function () {
             return suite.keywords().concat(suite.tests()).concat(suite.suites());
         };
@@ -938,6 +1105,7 @@ window.model = (function () {
             name: data.name,
             doc: data.doc,
             status: data.status,
+            message: data.message,
             times: data.times,
             id: data.parent ? data.parent.id + '-' + data.id : data.id
         };
@@ -958,7 +1126,6 @@ window.model = (function () {
                 return test.keywords();
         };
         test.tags = data.tags;
-        test.message = data.message;
         test.matchesTagPattern = function (pattern) {
             return containsTagPattern(test.tags, pattern);
         };
@@ -969,13 +1136,12 @@ window.model = (function () {
     }
     function Keyword(data) {
         var kw = createModelObject(data);
-        var flatTypes = ['RETURN', 'BREAK', 'CONTINUE'];
         kw.libname = data.libname;
         kw.fullName = (kw.libname ? kw.libname + '.' : '') + kw.name;
         kw.type = data.type;
         kw.template = 'keywordTemplate';
         kw.arguments = data.args;
-        kw.assign = data.assign + (data.assign ? ' =' : '');
+        kw.assign = data.assign + (data.assign ? ' =  ' : '');
         kw.tags = data.tags;
         kw.timeout = data.timeout;
         kw.populateKeywords = createIterablePopulator('Keyword');
@@ -1354,8 +1520,9 @@ window.testdata = function () {
     var _statistics = null;
     var LEVELS = ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR', 'FAIL', 'SKIP'];
     var STATUSES = ['FAIL', 'PASS', 'SKIP', 'NOT RUN'];
-    var KEYWORD_TYPES = ['KEYWORD', 'SETUP', 'TEARDOWN', 'FOR', 'ITERATION', 'IF', 'ELSE IF', 'ELSE', 'RETURN',
-                         'TRY', 'EXCEPT', 'FINALLY', 'WHILE', 'CONTINUE', 'BREAK'];
+    var KEYWORD_TYPES = ['KEYWORD', 'SETUP', 'TEARDOWN', 'FOR', 'ITERATION', 'IF',
+                         'ELSE IF', 'ELSE', 'RETURN', 'VAR', 'TRY', 'EXCEPT', 'FINALLY',
+                         'WHILE', 'CONTINUE', 'BREAK', 'ERROR'];
     function addElement(elem) {
         if (!elem.id)
             elem.id = uniqueId();
@@ -1398,6 +1565,7 @@ window.testdata = function () {
         return createKeyword(parent, element, strings, index - messages.length);
     }
     function createKeyword(parent, element, strings, index) {
+        var status = element[8];
         var kw = model.Keyword({
             parent: parent,
             type: KEYWORD_TYPES[element[0]],
@@ -1413,7 +1581,12 @@ window.testdata = function () {
                 this.doc = function () { return doc; };
                 return doc;
             },
-            status: parseStatus(element[8], strings),
+            status: parseStatus(status),
+            message: function () {
+                var msg = status.length == 4 ? strings.get(status[3]) : '';
+                this.message = function () { return msg; };
+                return msg;
+            },
             times: model.Times(times(element[8])),
             isChildrenLoaded: typeof(element[9]) !== 'number'
         });
@@ -1624,6 +1797,20 @@ window.testdata = function () {
 }();
 </script>
 <script type="text/javascript">
+const lightModeIcon = `
+<svg class="light-mode-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+    viewBox="0 0 24 24" fill="var(--text-color)">
+    <rect fill="none" height="24" width="24" />
+    <path
+        d="M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0 c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2 c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1 C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06 c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41 l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41 c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36 c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z" />
+</svg>`
+const darkModeIcon = `
+<svg class="dark-mode-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24"
+    viewBox="0 0 24 24" fill="var(--text-color)">
+    <rect fill="none" height="24" width="24" />
+    <path
+        d="M11.01,3.05C6.51,3.54,3,7.36,3,12c0,4.97,4.03,9,9,9c4.63,0,8.45-3.5,8.95-8c0.09-0.79-0.78-1.42-1.54-0.95 c-0.84,0.54-1.84,0.85-2.91,0.85c-2.98,0-5.4-2.42-5.4-5.4c0-1.06,0.31-2.06,0.84-2.89C12.39,3.94,11.9,2.98,11.01,3.05z" />
+</svg>`
 function removeJavaScriptDisabledWarning() {
     // Not using jQuery here for maximum speed
     document.getElementById('javascript-disabled').style.display = 'none';
@@ -1659,6 +1846,10 @@ function setTitle(suiteName, type) {
 function addHeader() {
     var generated = util.timestamp(window.output.generated);
     $.tmpl('<h1>${title}</h1>' +
+           '<button id=theme-toggle>' +
+             lightModeIcon +
+             darkModeIcon +
+           '</button>' +
            '<div id="generated">' +
              '<span>Generated<br>${generated}</span><br>' +
              '<span id="generated-ago">${ago} ago</span>' +
@@ -1670,6 +1861,7 @@ function addHeader() {
         ago: util.createGeneratedAgoString(generated),
         title: document.title
     }).appendTo($('#header'));
+    document.getElementById('theme-toggle')?.addEventListener('click', theme.onClick);
 }
 function addReportOrLogLink(myType) {
     var url;
@@ -1798,30 +1990,116 @@ function stopPropagation(event) {
     if (event.stopPropagation)
         event.stopPropagation();
 }
+const theme = function () {
+    const storageKey = 'theme-preference';
+    const urlParams = new URLSearchParams(window.location.search);
+    var storage;
+    var theme;
+    function init(givenStorage) {
+        storage = givenStorage;
+        theme = { value: getPreference() };
+        document.body.setAttribute('data-theme', theme.value);
+        reflectPreference();
+        window.matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', ({matches:isDark}) => {
+                theme.value = isDark ? 'dark' : 'light';
+                setPreference();
+            });
+        window.addEventListener('storage', ({key, newValue}) => {
+            if (key === storage.fullKey(storageKey)) {
+                theme.value = newValue === 'dark' ? 'dark' : 'light';
+                setPreference();
+            }
+        });
+    }
+    function getPreference() {
+        if (urlParams.has('theme')) {
+            var urlTheme = urlParams.get('theme') === 'dark' ? 'dark' : 'light';
+            storage.set(storageKey, urlTheme);
+            urlParams.delete('theme');
+            return urlTheme;
+        }
+        if (storage.get(storageKey))
+            return storage.get(storageKey) === 'dark' ? 'dark' : 'light';
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function setPreference() {
+        storage.set(storageKey, theme.value);
+        reflectPreference();
+    }
+    function reflectPreference() {
+        document.body.setAttribute('data-theme', theme.value);
+        document.querySelector('#theme-toggle')?.setAttribute('aria-label', theme.value);
+        const event = new Event('theme-change', {value: theme.value});
+        document.dispatchEvent(event);
+    }
+    function onClick() {
+        theme.value = theme.value === 'light' ? 'dark' : 'light';
+        document.body.setAttribute('theme-toggled', "");
+        setPreference();
+    }
+    return {init: init, getPreference: getPreference, setPreference: setPreference,
+        reflectPreference: reflectPreference, onClick: onClick};
+}();
+</script>
+<script type="text/javascript">
+storage = function () {
+    var prefix = 'robot-framework-';
+    var storage;
+    function init(user) {
+        if (user)
+            prefix += user + '-';
+        storage = getStorage();
+    }
+    function getStorage() {
+        // Use localStorage if it's accessible, normal object otherwise.
+        // Inspired by https://stackoverflow.com/questions/11214404
+        try {
+            localStorage.setItem(prefix, prefix);
+            localStorage.removeItem(prefix);
+            return localStorage;
+        } catch (exception) {
+            return {};
+        }
+    }
+    function get(key, defaultValue) {
+        var value = storage[fullKey(key)];
+        if (typeof value === 'undefined')
+            return defaultValue;
+        return value;
+    }
+    function set(key, value) {
+        storage[fullKey(key)] = value;
+    }
+    function fullKey(key) {
+        return prefix + key;
+    }
+    return {init: init, get: get, set: set, fullKey: fullKey};
+}();
 </script>
 <script type="text/javascript">
 window.output = {};
 </script>
 <script type="text/javascript">
-window.output["suite"] = [1,2,3,0,[],[1,0,9720],[],[[4,0,0,[],[1,1605,8112],[[1,5,0,0,0,0,0,0,[1,1606,3],[[1606,0,6],[0,7,8,0,9,10,0,0,[1,1606,3],[[1607,0,11],[0,12,13,0,14,15,16,0,[1,1607,1],[[1607,0,17],[1608,0,18],[1608,2,19]]],[1608,0,18]]],[1609,0,20]]],[0,21,0,0,0,22,0,0,[1,1610,8106],[[1610,0,23],[0,24,25,0,26,0,0,0,[1,1610,480],[[1611,0,6],[1613,1,27],[1617,1,28],[1617,1,29],[1628,1,30],[1628,1,31],[2088,1,32],[2088,1,33],[2088,1,34],[2089,1,35],[2089,1,36],[2089,1,37],[2089,1,38],[2089,1,39],[2089,1,40],[2090,0,41]]],[0,42,25,0,43,44,0,0,[1,2090,909],[[2090,0,45],[2090,1,27],[2110,1,46],[2111,1,47],[2111,1,48],[2111,1,49],[2112,1,50],[2112,1,51],[2654,1,52],[2654,1,53],[2684,1,52],[2684,1,54],[2999,1,52],[2999,0,20]]],[0,55,25,0,56,57,0,0,[1,2999,546],[[3000,0,58],[3000,1,27],[3000,1,59],[3001,1,60],[3001,1,61],[3001,1,62],[3001,1,50],[3001,1,63],[3545,1,52],[3545,0,20]]],[0,64,65,0,66,67,0,0,[1,3546,2001],[[3546,0,68],[5547,2,69],[5547,0,20]]],[0,24,57,0,26,0,0,0,[1,5547,481],[[5547,0,6],[5549,1,27],[5550,1,70],[5550,1,71],[5551,1,72],[5551,1,73],[6026,1,74],[6027,1,75],[6027,1,76],[6027,1,77],[6027,1,78],[6027,1,79],[6027,1,80],[6027,1,81],[6028,1,82],[6028,0,83]]],[0,42,57,0,43,84,0,0,[1,6028,668],[[6028,0,85],[6029,1,27],[6029,1,86],[6029,1,87],[6030,1,88],[6030,1,89],[6030,1,50],[6030,1,90],[6574,1,52],[6574,1,91],[6603,1,52],[6603,1,92],[6696,1,52],[6696,0,20]]],[0,42,57,0,43,93,0,0,[1,6696,672],[[6697,0,94],[6697,1,27],[6698,1,95],[6698,1,96],[6698,1,97],[6698,1,98],[6698,1,50],[6698,1,99],[7245,1,52],[7246,1,100],[7275,1,52],[7275,1,101],[7368,1,52],[7368,0,20]]],[0,55,57,0,56,102,0,0,[1,7369,541],[[7369,0,103],[7369,1,104],[7369,1,105],[7369,1,106],[7370,1,105],[7370,1,107],[7370,1,105],[7370,1,108],[7370,1,105],[7370,1,109],[7370,1,105],[7370,1,110],[7371,1,105],[7371,1,111],[7371,1,105],[7371,1,112],[7371,1,105],[7371,1,113],[7371,1,105],[7371,1,114],[7371,1,105],[7372,1,115],[7372,1,105],[7372,1,116],[7372,1,105],[7372,1,117],[7372,1,105],[7372,1,118],[7372,1,105],[7373,1,119],[7373,1,105],[7373,1,120],[7373,1,105],[7373,1,121],[7373,1,105],[7373,1,122],[7373,1,105],[7374,1,27],[7374,1,123],[7375,1,124],[7375,1,125],[7375,1,126],[7375,1,50],[7375,1,127],[7910,1,52],[7910,0,20]]],[0,24,25,0,26,0,0,0,[1,7910,369],[[7910,0,6],[7912,1,27],[7912,1,128],[7912,1,29],[7914,1,129],[7914,1,130],[8277,1,131],[8278,1,132],[8278,1,34],[8278,1,133],[8278,1,134],[8278,1,135],[8278,1,38],[8279,1,136],[8279,1,40],[8279,0,41]]],[0,55,25,0,56,137,0,0,[1,8279,543],[[8279,0,138],[8280,1,27],[8280,1,139],[8280,1,140],[8280,1,141],[8281,1,142],[8281,1,50],[8281,1,143],[8822,1,52],[8822,0,20]]],[0,144,25,0,145,146,147,0,[1,8822,891],[[8823,0,148],[8823,1,27],[8823,1,149],[8824,1,150],[8824,1,151],[8824,1,152],[8824,1,50],[8824,1,27],[8825,1,153],[8825,1,154],[8826,1,155],[8826,1,156],[8826,1,50],[8826,1,157],[8922,1,158],[9712,0,159],[9713,2,160]]],[0,161,8,0,162,163,0,0,[1,9713,3],[[9714,0,164],[0,165,13,0,166,167,0,0,[1,9714,1],[[9714,0,168],[9715,0,20]]],[9715,0,20]]],[9716,0,20]]]]]],[[1,169,0,0,0,0,0,0,[1,1100,505],[[0,170,8,0,171,172,0,0,[1,1100,10],[[0,173,65,0,174,175,0,0,[1,1101,2],[[0,176,65,0,177,178,0,0,[1,1102,0],[[1102,2,179]]]]],[0,173,65,0,174,180,0,0,[1,1103,0],[]],[0,173,65,0,174,181,0,0,[1,1103,5],[[0,182,183,0,184,185,0,0,[1,1104,4],[]]]],[0,186,65,0,187,188,0,0,[1,1108,1],[[0,189,183,0,184,190,0,0,[1,1109,0],[]]]],[0,191,65,0,192,193,0,0,[1,1109,1],[[1110,2,193]]],[0,194,13,0,195,190,0,0,[1,1110,0],[]]]],[0,196,13,0,14,0,0,0,[1,1111,106],[]],[0,197,65,0,198,199,0,0,[1,1217,1],[[1218,2,200],[1218,0,201]]],[0,202,25,0,203,204,0,0,[1,1218,12],[[1219,0,205],[1220,1,206],[1230,1,105],[1230,0,20]]],[0,202,57,0,203,207,0,0,[1,1231,2],[[1231,0,208],[1231,1,209],[1232,1,105],[1233,0,20]]],[0,202,210,0,203,211,0,0,[1,1233,3],[[1234,0,212],[1234,1,213],[1235,1,105],[1236,0,20]]],[0,24,25,0,26,0,0,0,[1,1236,365],[[1236,0,6],[1237,1,27],[1240,1,214],[1240,1,29],[1242,1,215],[1242,1,216],[1599,1,217],[1599,1,218],[1599,1,34],[1600,1,219],[1600,1,220],[1600,1,221],[1600,1,38],[1600,1,222],[1600,1,40],[1601,0,41]]],[0,223,25,0,224,0,225,0,[1,1601,0],[[1601,0,6],[1601,0,226],[1601,2,227]]],[0,191,65,0,192,225,0,0,[1,1602,0],[[1602,0,228],[1602,2,229],[1602,0,20]]],[0,223,57,0,224,0,225,0,[1,1602,1],[[1602,0,6],[1602,0,230],[1602,2,231]]],[0,191,65,0,192,225,0,0,[1,1603,0],[[1603,0,232],[1603,2,233],[1603,0,20]]],[0,223,210,0,224,0,225,0,[1,1603,1],[[1603,0,6],[1603,0,234],[1604,2,235]]],[0,191,65,0,192,225,0,0,[1,1604,0],[[1604,0,236],[1604,2,237],[1604,0,20]]],[1605,0,20]]]],[1,1,0,0]];
+window.output["suite"] = [1,2,3,0,[],[0,0,32372],[],[[4,0,0,[],[1,251,7269],[[0,5,0,0,0,0,0,0,[1,252,80],[[0,6,7,0,8,9,0,0,[1,252,6],[[0,10,11,0,12,13,0,0,[1,254,1],[[0,14,11,0,15,16,0,0,[1,254,0],[[254,2,17]]]]],[0,10,11,0,12,18,0,0,[1,255,1],[[0,19,20,0,21,22,0,0,[1,255,1],[]]]],[0,23,11,0,24,25,0,0,[1,256,1],[[0,26,20,0,21,27,0,0,[1,257,0],[]]]],[0,28,11,0,29,30,0,0,[1,257,0],[[257,2,30]]],[0,31,32,0,33,27,0,0,[1,257,1],[]]]],[0,34,11,0,35,36,0,0,[1,258,0],[[258,1,37],[258,0,38]]],[0,39,32,0,40,0,0,0,[1,258,66],[[258,0,41],[324,0,42]]],[0,43,7,0,44,45,0,0,[1,325,5],[[325,0,46],[0,47,32,0,40,48,49,0,[1,326,1],[[326,0,50],[327,0,51],[327,2,52]]],[8,0,0,0,0,49,0,0,[1,327,1],[]],[329,0,51]]],[332,0,42]]],[0,53,54,0,0,55,0,0,[1,339,7181],[[339,0,56],[0,57,7,0,58,59,0,0,[1,340,2],[[340,0,60],[0,61,32,0,62,63,0,0,[1,341,1],[[341,0,64],[342,0,42]]],[342,0,42]]],[0,65,66,0,67,68,0,0,[1,343,18],[[343,0,69],[343,2,70],[343,1,71],[361,0,72]]],[0,73,74,0,75,76,0,0,[1,361,18],[[362,0,77],[362,1,78],[377,1,79],[378,2,80],[379,0,42]]],[0,73,81,0,75,82,0,0,[1,379,12],[[380,0,83],[380,1,84],[390,1,79],[391,2,85],[391,0,42]]],[0,73,86,0,75,87,0,0,[1,392,5],[[392,0,88],[393,1,89],[395,1,79],[397,2,90],[397,0,42]]],[0,91,54,0,0,74,0,0,[1,398,7112],[[398,0,92],[0,93,11,0,94,95,96,0,[1,398,1],[[399,0,97],[399,0,98],[399,2,99]]],[0,93,11,0,94,100,101,0,[1,399,1],[[399,0,102],[400,0,103],[400,2,104]]],[0,93,11,0,94,105,106,0,[1,401,0],[[401,0,107],[401,0,108],[401,2,109]]],[5,110,0,0,0,0,0,0,[3,402,0],[[0,93,11,0,94,111,96,0,[3,402,0],[]],[0,93,11,0,94,112,101,0,[3,402,0],[]]]],[10,0,0,0,0,0,0,0,[1,403,1762],[[0,113,54,0,0,114,0,0,[1,403,1762],[[404,0,115],[0,116,11,0,117,118,0,0,[1,404,1001],[[404,0,119],[1405,2,120],[1405,0,42]]],[0,121,11,0,122,123,124,0,[1,1406,494],[[1407,0,125],[0,126,74,0,127,0,0,0,[1,1409,490],[[1409,0,41],[1410,1,128],[1411,1,129],[1412,1,130],[1424,1,131],[1424,1,132],[1897,1,133],[1897,1,134],[1898,1,135],[1898,1,136],[1898,1,137],[1898,1,138],[1899,1,139],[1899,1,140],[1899,1,141],[1899,0,98]]],[1899,0,98],[1900,2,142]]],[0,143,7,0,144,145,0,0,[1,1900,3],[[1901,0,146],[0,61,32,0,62,147,0,0,[1,1902,1],[[1902,0,148],[1903,0,42]]],[1903,0,42]]],[0,93,11,0,94,149,150,0,[1,1904,1],[[1904,0,151],[1905,0,152],[1905,2,153]]],[5,149,0,0,0,0,0,0,[1,1905,2],[[0,10,11,0,12,154,0,0,[1,1906,1],[[1906,0,155],[1907,0,42]]]]],[0,156,54,0,0,157,0,0,[1,1907,258],[[1908,0,158],[0,23,11,0,24,159,160,0,[1,1908,253],[[1908,0,161],[0,162,74,0,163,0,0,0,[1,1909,251],[[1910,0,41],[1910,1,128],[1915,1,164],[1915,1,165],[1915,1,166],[1916,1,167],[1916,1,168],[1916,1,128],[1917,1,169],[1917,1,170],[1934,1,171],[1935,1,172],[1935,1,168],[1935,1,173],[1976,1,174],[2160,0,175]]],[2160,0,175],[2161,2,176]]],[0,177,7,0,144,178,0,0,[1,2161,4],[[2162,0,179],[0,180,32,0,62,181,0,0,[1,2163,2],[[2163,0,182],[2165,0,42]]],[2165,0,42]]],[2165,0,42]]],[2165,0,42]]]]],[11,0,0,0,0,0,0,0,[3,2166,0],[[0,183,11,0,184,185,0,0,[3,2166,0],[]]]],[0,156,54,0,0,186,0,0,[1,2167,228],[[2167,0,187],[0,23,11,0,24,159,160,0,[1,2168,222],[[2168,0,161],[0,162,74,0,163,0,0,0,[1,2168,222],[[2168,0,41],[2169,1,128],[2169,1,188],[2169,1,189],[2169,1,190],[2170,1,191],[2170,1,168],[2170,1,128],[2170,1,192],[2170,1,193],[2182,1,194],[2182,1,195],[2183,1,168],[2183,1,196],[2220,1,197],[2390,0,198]]],[2390,0,198],[2390,2,199]]],[0,177,7,0,144,178,0,0,[1,2391,4],[[2392,0,200],[0,180,32,0,62,181,0,0,[1,2393,2],[[2393,0,201],[2395,0,42]]],[2395,0,42]]],[2395,0,42]]],[0,23,11,0,24,202,0,0,[1,2396,2273],[[2396,0,203],[0,204,74,0,205,206,0,0,[1,2397,2272],[[2397,0,207],[2397,1,128],[2398,1,208],[2398,1,209],[2398,1,210],[2398,1,211],[2398,1,168],[2398,1,128],[2399,1,212],[2399,1,213],[2399,1,214],[2399,1,215],[4397,1,216],[4398,1,128],[4401,1,217],[4401,1,130],[4413,1,218],[4413,1,219],[4667,1,220],[4668,1,221],[4668,1,222],[4668,1,223],[4668,1,224],[4668,1,225],[4668,1,226],[4668,1,227],[4669,1,228],[4669,0,42]]],[4669,0,42]]],[0,156,54,0,0,229,0,0,[1,4669,236],[[4670,0,230],[0,23,11,0,24,159,160,0,[1,4670,231],[[4670,1,231],[4670,1,79],[4670,1,232],[4670,1,79],[4671,1,233],[4671,1,79],[4671,1,234],[4671,1,79],[4671,1,235],[4671,1,79],[4671,1,236],[4671,1,79],[4671,1,237],[4672,1,79],[4672,1,238],[4672,1,79],[4672,1,239],[4672,1,79],[4672,1,240],[4672,1,79],[4672,1,241],[4673,1,79],[4673,1,242],[4673,1,79],[4673,1,243],[4673,1,79],[4673,1,244],[4673,1,79],[4673,1,245],[4673,1,79],[4674,1,246],[4674,1,79],[4674,1,247],[4674,1,79],[4674,1,248],[4674,1,79],[4674,1,249],[4674,1,79],[4675,0,161],[0,162,74,0,163,0,0,0,[1,4675,225],[[4675,0,41],[4675,1,128],[4675,1,250],[4676,1,251],[4676,1,252],[4676,1,253],[4676,1,168],[4676,1,128],[4676,1,254],[4677,1,255],[4690,1,256],[4691,1,257],[4691,1,168],[4691,1,258],[4734,1,259],[4900,0,260]]],[4901,0,260],[4901,2,261]]],[0,177,7,0,144,178,0,0,[1,4901,4],[[4902,0,262],[0,180,32,0,62,181,0,0,[1,4903,2],[[4903,0,263],[4904,0,42]]],[4905,0,42]]],[4905,0,42]]],[0,264,54,0,0,74,0,0,[1,4905,2606],[[4906,0,92],[0,116,11,0,117,118,0,0,[1,4907,1001],[[4907,0,119],[5908,2,120],[5908,0,42]]],[0,23,11,0,24,265,266,0,[1,5909,314],[[5909,0,267],[0,126,74,0,127,0,0,0,[1,5909,314],[[5910,0,41],[5910,1,128],[5911,1,268],[5912,1,130],[5915,1,269],[5916,1,270],[6221,1,271],[6221,1,272],[6221,1,222],[6222,1,273],[6222,1,274],[6222,1,275],[6222,1,226],[6222,1,276],[6223,1,228],[6223,0,98]]],[6223,0,98],[6223,2,277]]],[0,23,11,0,24,278,0,0,[1,6224,574],[[6224,0,279],[0,280,74,0,281,266,0,0,[1,6225,573],[[6225,0,282],[6226,1,128],[6233,1,283],[6233,1,284],[6233,1,285],[6233,1,286],[6234,1,168],[6234,1,287],[6798,1,216],[6798,0,42]]],[6798,0,42]]],[0,23,11,0,24,265,0,0,[1,6799,234],[[6799,0,267],[0,126,74,0,127,0,0,0,[1,6800,233],[[6800,0,41],[6801,1,128],[6802,1,288],[6802,1,130],[6805,1,289],[6805,1,290],[7031,1,291],[7031,1,292],[7032,1,222],[7032,1,293],[7032,1,294],[7032,1,295],[7032,1,226],[7032,1,296],[7033,1,228],[7033,0,98]]],[7033,0,98]]],[0,121,11,0,122,297,0,0,[1,7033,478],[[7033,0,298],[0,299,54,0,0,0,0,0,[1,7034,476],[[7034,0,41],[0,300,11,0,301,299,0,0,[1,7034,1],[[7034,0,302],[7035,0,42]]],[0,303,74,0,304,0,305,0,[1,7035,0],[[7035,0,41],[7035,0,306],[7035,2,307]]],[0,308,74,0,309,0,310,0,[1,7035,229],[[7035,0,41],[7036,1,128],[7036,1,311],[7036,1,130],[7038,1,312],[7038,1,313],[7261,1,314],[7261,1,315],[7263,1,222],[7263,1,316],[7263,1,317],[7263,1,318],[7264,1,226],[7264,1,319],[7264,1,228],[7264,0,306],[7264,2,320]]],[0,156,54,0,0,321,0,0,[1,7265,230],[[7265,0,322],[0,23,11,0,24,159,160,0,[1,7265,227],[[7265,0,161],[0,162,74,0,163,0,0,0,[1,7266,226],[[7266,0,41],[7266,1,128],[7266,1,323],[7266,1,324],[7266,1,325],[7266,1,326],[7266,1,168],[7266,1,128],[7267,1,327],[7267,1,328],[7283,1,329],[7283,1,330],[7283,1,168],[7283,1,331],[7324,1,332],[7491,0,333]]],[7491,0,333],[7491,2,334]]],[0,177,7,0,144,178,0,0,[1,7491,2],[[7492,0,335],[0,180,32,0,62,181,0,0,[1,7492,1],[[7492,0,336],[7493,0,42]]],[7493,0,42]]],[7494,0,42]]],[5,337,0,0,0,0,0,0,[1,7494,4],[[0,338,32,0,339,0,340,0,[1,7495,0],[[7495,0,41],[7495,0,341],[7495,2,342]]],[0,93,11,0,94,343,344,0,[1,7496,0],[[7496,0,345],[7496,0,346],[7496,2,347]]],[0,300,11,0,301,348,0,0,[1,7497,1],[[7497,0,349],[7497,0,42]]]]],[7,0,0,0,0,0,0,0,[3,7498,1],[[0,338,32,0,339,0,340,0,[3,7498,0],[]],[0,93,11,0,94,350,344,0,[3,7498,0],[]],[0,300,11,0,301,351,0,0,[3,7499,0],[]]]],[0,352,7,0,144,353,0,0,[1,7499,9],[[7500,1,354],[7500,1,79],[7500,1,355],[7500,1,79],[7501,1,356],[7501,1,79],[7501,1,357],[7501,1,79],[7501,1,358],[7501,1,79],[7501,1,359],[7502,1,79],[7502,1,360],[7502,1,79],[7502,1,361],[7502,1,79],[7502,1,362],[7503,1,79],[7503,1,363],[7503,1,79],[7503,1,364],[7503,1,79],[7503,1,365],[7504,1,79],[7504,1,366],[7504,1,79],[7504,1,367],[7504,1,79],[7504,1,368],[7504,1,79],[7505,1,369],[7505,1,79],[7505,1,370],[7505,1,79],[7505,1,371],[7505,1,79],[7505,1,372],[7505,1,79],[7506,1,373],[7506,1,79],[7506,1,374],[7506,1,79],[7506,0,375],[0,376,32,0,62,377,0,0,[1,7507,1],[[7507,0,378],[7508,0,42]]],[7508,0,42]]],[0,10,11,0,12,379,0,0,[1,7509,0],[[7509,0,380],[7509,0,42]]],[7509,0,42]]],[7509,0,42]]],[7510,0,42]]],[7510,0,42]]],[7520,0,42],[2,381,7,0,144,382,0,0,[1,7513,7],[[7513,0,383],[0,384,7,0,144,385,0,0,[1,7514,2],[[7515,0,386],[0,376,32,0,62,387,0,0,[1,7515,1],[[7515,0,388],[7516,0,42]]],[7516,0,42]]],[0,389,7,0,58,0,0,0,[1,7517,2],[[7517,0,41],[0,61,32,0,62,390,0,0,[1,7518,1],[[7518,0,391],[7519,0,42]]],[7519,0,42]]],[7519,0,42]]]]]]],[392,0,0,[],[0,7523,22742,393],[[0,394,54,0,0,395,0,0,[0,7524,22740],[[7524,0,396],[0,397,54,0,0,398,0,0,[1,7526,6441],[[7527,0,399],[0,400,54,0,0,0,401,0,[1,7528,2915],[[7528,0,41],[0,57,7,0,58,402,0,0,[1,7528,6],[[7532,0,403],[0,61,32,0,62,63,0,0,[1,7532,2],[[7533,0,404],[7534,0,42]]],[7534,0,42]]],[0,93,11,0,94,405,150,0,[1,7535,1],[[7535,0,406],[7535,0,152],[7536,2,153]]],[10,0,0,0,0,0,0,0,[0,7536,2903],[[0,113,54,0,0,81,0,0,[0,7537,2902],[[7537,0,407],[0,116,11,0,117,118,0,0,[1,7537,1001],[[7537,0,119],[8538,2,120],[8538,0,42]]],[0,121,11,0,122,123,124,0,[0,8538,1900],[[8539,0,125],[0,126,81,0,127,0,0,0,[0,8539,513],[[8539,0,41],[8540,1,128],[8541,1,408],[8541,1,409],[8550,1,410],[8550,1,411],[8724,1,412],[8724,1,413],[8725,1,79],[8725,1,128],[8726,1,414],[8726,1,415],[8732,1,416],[8732,1,417],[9050,1,418],[9050,1,419],[9050,1,79],[9051,5,420],[9052,1,421]]],[0,126,81,0,127,0,0,0,[0,10054,383],[[10054,0,41],[10054,1,128],[10055,1,422],[10056,1,409],[10060,1,423],[10062,1,424],[10063,1,79],[10064,1,425],[10064,1,79],[10064,1,426],[10065,1,79],[10065,1,427],[10065,1,79],[10060,1,428],[10249,1,429],[10249,1,430],[10249,1,79],[10250,1,128],[10250,1,431],[10250,1,415],[10252,1,432],[10252,1,433],[10436,1,434],[10436,1,435],[10436,1,79],[10437,5,420],[10437,1,421]]],[10437,5,436],[10438,1,437]]],[0,143,7,0,144,145,0,0,[3,10438,0],[]],[0,93,11,0,94,149,150,0,[3,10438,0],[]],[5,149,0,0,0,0,0,0,[3,10438,1],[[0,10,11,0,12,154,0,0,[3,10439,0],[]]]],[0,156,54,0,0,157,0,0,[3,10439,0],[]]]]]],[11,0,0,0,0,0,0,0,[1,10439,3],[[0,143,7,0,144,438,0,0,[1,10439,2],[[10440,0,439],[0,61,32,0,62,147,0,0,[1,10440,1],[[10440,0,440],[10441,0,42]]],[10441,0,42]]],[0,93,11,0,94,441,150,0,[1,10441,1],[[10442,0,442],[10442,0,443],[10442,2,444]]]]],[8,0,0,0,0,150,0,0,[1,10443,0],[]],[10443,0,443],[10443,2,445]]],[5,446,0,0,0,0,0,0,[3,10443,1],[[0,183,11,0,184,447,0,0,[3,10444,0],[]]]],[6,448,0,0,0,0,0,0,[3,10444,0],[[0,183,11,0,184,449,0,0,[3,10444,0],[]]]],[0,450,54,0,0,451,0,0,[1,10444,2743],[[10445,0,452],[0,57,7,0,58,453,0,0,[1,10445,2],[[10445,0,454],[0,61,32,0,62,63,0,0,[1,10445,2],[[10446,0,455],[10446,0,42]]],[10447,0,42]]],[5,456,0,0,0,0,0,0,[3,10447,1],[[0,457,11,0,458,459,344,0,[3,10447,0],[]],[0,143,7,0,144,460,0,0,[3,10448,0],[]]]],[7,0,0,0,0,0,0,0,[1,10448,2729],[[0,461,54,0,0,462,0,0,[1,10449,2728],[[10449,0,463],[0,300,11,0,301,464,0,0,[1,10449,1],[[10450,0,465],[10450,0,42]]],[0,156,54,0,0,466,0,0,[1,10451,246],[[10451,0,467],[0,23,11,0,24,159,160,0,[1,10451,242],[[10451,0,161],[0,162,74,0,163,0,0,0,[1,10451,241],[[10451,0,41],[10452,1,128],[10452,1,468],[10452,1,469],[10453,1,470],[10453,1,471],[10453,1,168],[10453,1,128],[10453,1,472],[10454,1,473],[10479,1,474],[10479,1,475],[10479,1,168],[10479,1,476],[10524,1,477],[10692,0,478]]],[10692,0,478],[10692,2,479]]],[0,177,7,0,144,178,0,0,[1,10693,4],[[10694,0,480],[0,180,32,0,62,181,0,0,[1,10695,2],[[10695,0,481],[10697,0,42]]],[10697,0,42]]],[10697,0,42]]],[0,482,54,0,0,0,0,0,[1,10698,6],[[10699,0,41],[0,483,54,0,0,484,485,0,[1,10699,4],[[10699,0,486],[10700,1,487],[10700,1,79],[10700,1,488],[10701,1,79],[10701,1,489],[10701,1,79],[10701,1,490],[10701,1,79],[10701,1,491],[10702,1,79],[0,303,74,0,304,0,305,0,[1,10700,2],[[10702,0,41],[10702,0,306],[10702,2,307]]],[5,492,0,0,0,0,0,0,[3,10702,1],[[0,300,11,0,301,493,0,0,[3,10702,0],[]],[0,143,7,0,144,494,0,0,[3,10703,0],[]]]],[8,0,0,0,0,305,0,0,[1,10703,0],[]],[10703,0,306],[10703,2,495]]],[5,496,0,0,0,0,0,0,[3,10703,1],[[0,280,74,0,281,497,0,0,[3,10703,0],[]],[0,156,54,0,0,498,0,0,[3,10704,0],[]]]],[10704,0,42]]],[0,499,7,0,144,500,0,0,[1,10704,2],[[10704,0,501],[0,61,32,0,62,502,0,0,[1,10704,1],[[10704,0,503],[10705,0,42]]],[10705,0,42]]],[0,504,54,0,0,505,0,0,[1,10706,212],[[10706,0,506],[0,23,11,0,24,507,160,0,[1,10707,207],[[10707,0,508],[0,509,74,0,510,511,0,0,[1,10708,206],[[10708,0,512],[10709,1,128],[10709,1,513],[10709,1,514],[10709,1,515],[10710,1,516],[10710,1,168],[10710,1,128],[10710,1,517],[10710,1,518],[10722,1,519],[10722,1,520],[10722,1,168],[10723,1,521],[10741,1,522],[10913,0,523]]],[10914,0,523],[10914,2,524]]],[0,177,7,0,144,178,0,0,[1,10914,4],[[10915,0,525],[0,180,32,0,62,181,0,0,[1,10916,2],[[10916,0,526],[10917,0,42]]],[10918,0,42]]],[10918,0,42]]],[0,280,74,0,281,451,0,0,[1,10918,568],[[10919,0,512],[10919,1,128],[10920,1,527],[10920,1,528],[10920,1,529],[10921,1,530],[10921,1,168],[10921,1,531],[11486,1,216],[11486,0,42]]],[0,116,11,0,117,118,0,0,[1,11486,1001],[[11486,0,119],[12487,2,120],[12487,0,42]]],[5,532,0,0,0,0,0,0,[1,12487,689],[[0,121,11,0,122,297,0,0,[1,12488,688],[[12488,0,298],[0,299,54,0,0,0,0,0,[1,12489,686],[[12489,0,41],[0,300,11,0,301,299,0,0,[1,12490,1],[[12490,0,302],[12491,0,42]]],[0,303,74,0,304,0,305,0,[1,12492,0],[[12492,0,41],[12492,0,533],[12492,2,534]]],[0,308,74,0,309,0,310,0,[1,12493,279],[[12493,0,41],[12493,1,128],[12494,1,535],[12494,1,536],[12505,1,537],[12506,1,538],[12765,1,539],[12766,1,540],[12769,1,541],[12769,1,542],[12770,1,543],[12770,1,544],[12771,1,545],[12771,1,546],[12771,1,547],[12771,0,533],[12771,2,548]]],[0,156,54,0,0,321,0,0,[1,12772,394],[[12773,0,549],[0,23,11,0,24,159,160,0,[1,12773,376],[[12773,0,161],[0,162,74,0,163,0,0,0,[1,12774,375],[[12774,0,41],[12774,1,128],[12793,1,550],[12794,1,551],[12794,1,552],[12795,1,553],[12795,1,168],[12795,1,128],[12800,1,554],[12801,1,555],[12818,1,556],[12819,1,557],[12819,1,168],[12819,1,558],[12856,1,559],[13149,0,560]]],[13149,0,560],[13149,2,561]]],[0,177,7,0,144,178,0,0,[1,13150,16],[[13151,0,562],[0,180,32,0,62,181,0,0,[1,13152,14],[[13153,0,563],[13156,1,564],[13156,1,79],[13156,1,565],[13156,1,79],[13157,1,566],[13157,1,79],[13157,1,567],[13158,1,79],[13158,1,568],[13158,1,79],[13158,1,569],[13159,1,79],[13159,1,570],[13159,1,79],[13159,1,571],[13160,1,79],[13160,1,572],[13160,1,79],[13160,1,573],[13161,1,79],[13161,1,574],[13161,1,79],[13161,1,575],[13162,1,79],[13162,1,576],[13162,1,79],[13163,1,577],[13163,1,79],[13163,1,578],[13163,1,79],[13163,1,579],[13164,1,79],[13164,1,580],[13164,1,79],[13164,1,581],[13165,1,79],[13166,0,42]]],[13166,0,42]]],[13166,0,42]]],[5,337,0,0,0,0,0,0,[1,13166,4],[[0,338,32,0,339,0,340,0,[1,13167,1],[[13167,0,41],[13168,0,341],[13168,2,342]]],[0,93,11,0,94,343,344,0,[1,13168,1],[[13169,0,582],[13169,0,583],[13169,2,584]]],[0,300,11,0,301,348,0,0,[1,13169,1],[[13169,0,349],[13170,0,42]]]]],[7,0,0,0,0,0,0,0,[3,13170,1],[[0,338,32,0,339,0,340,0,[3,13170,0],[]],[0,93,11,0,94,350,344,0,[3,13171,0],[]],[0,300,11,0,301,351,0,0,[3,13171,0],[]]]],[0,352,7,0,144,353,0,0,[1,13172,2],[[13172,0,585],[0,376,32,0,62,377,0,0,[1,13172,1],[[13173,0,586],[13173,0,42]]],[13174,0,42]]],[0,10,11,0,12,379,0,0,[1,13174,1],[[13174,0,587],[13175,0,42]]],[13175,0,42]]],[13176,0,42]]]]],[7,0,0,0,0,0,0,0,[3,13176,0],[[0,156,54,0,0,588,0,0,[3,13176,0],[]]]],[13177,0,42]]]]],[13187,0,42],[2,381,7,0,144,589,0,0,[1,13180,6],[[13180,0,590],[0,384,7,0,144,385,0,0,[1,13181,3],[[13182,0,591],[0,376,32,0,62,387,0,0,[1,13182,1],[[13182,0,592],[13183,0,42]]],[13184,0,42]]],[0,389,7,0,58,0,0,0,[1,13184,2],[[13184,0,41],[0,61,32,0,62,390,0,0,[1,13185,1],[[13185,0,391],[13186,0,42]]],[13186,0,42]]],[13186,0,42]]]]],[0,504,54,0,0,593,0,0,[1,13187,201],[[13188,0,594],[0,23,11,0,24,507,160,0,[1,13188,195],[[13188,0,508],[0,509,74,0,510,511,0,0,[1,13189,194],[[13189,0,595],[13189,1,128],[13190,1,596],[13190,1,597],[13190,1,598],[13191,1,599],[13191,1,168],[13191,1,128],[13192,1,600],[13192,1,601],[13198,1,602],[13198,1,603],[13199,1,168],[13199,1,604],[13212,1,605],[13383,0,606]]],[13383,0,606],[13383,2,607]]],[0,177,7,0,144,178,0,0,[1,13384,4],[[13385,0,608],[0,180,32,0,62,181,0,0,[1,13385,2],[[13386,0,609],[13387,0,42]]],[13388,0,42]]],[13388,0,42]]],[0,280,74,0,281,610,0,0,[1,13388,579],[[13389,0,595],[13389,1,128],[13390,1,611],[13390,1,612],[13390,1,613],[13390,1,614],[13391,1,168],[13391,1,615],[13967,1,216],[13967,0,42]]],[13968,0,42]]],[0,616,54,0,0,617,0,0,[1,13969,15018],[[13969,0,618],[0,113,54,0,0,619,0,0,[1,13970,2159],[[13970,0,620],[0,116,11,0,117,118,0,0,[1,13971,1001],[[13971,0,119],[14972,2,120],[14972,0,42]]],[0,121,11,0,122,123,124,0,[1,14972,849],[[14972,0,125],[0,126,86,0,127,0,0,0,[1,14973,848],[[14973,0,41],[14974,1,128],[14974,1,621],[14974,1,622],[14979,1,623],[14980,1,624],[15217,1,625],[15217,1,626],[15217,1,79],[15218,1,128],[15218,1,627],[15218,1,628],[15223,1,629],[15223,1,630],[15408,1,631],[15409,1,632],[15409,1,79],[15409,1,128],[15410,1,633],[15410,1,634],[15415,1,635],[15415,1,636],[15818,1,637],[15819,1,638],[15819,1,135],[15819,1,639],[15820,1,640],[15820,1,641],[15820,1,642],[15820,1,643],[15820,1,644],[15820,0,645]]],[15821,0,645],[15821,2,646]]],[0,143,7,0,144,145,0,0,[1,15821,3],[[15822,0,647],[0,61,32,0,62,147,0,0,[1,15823,1],[[15823,0,648],[15824,0,42]]],[15824,0,42]]],[0,93,11,0,94,149,150,0,[1,15825,1],[[15825,0,649],[15826,0,152],[15826,2,153]]],[5,149,0,0,0,0,0,0,[1,15826,2],[[0,10,11,0,12,154,0,0,[1,15827,0],[[15827,0,650],[15827,0,42]]]]],[0,156,54,0,0,157,0,0,[1,15828,301],[[15829,0,651],[0,23,11,0,24,159,160,0,[1,15829,290],[[15829,0,161],[0,162,86,0,163,0,0,0,[1,15830,288],[[15830,0,41],[15830,1,128],[15833,1,652],[15833,1,653],[15834,1,654],[15834,1,655],[15834,1,168],[15834,1,128],[15835,1,656],[15836,1,657],[15850,1,658],[15850,1,659],[15850,1,168],[15850,1,660],[15891,1,661],[16118,0,662]]],[16119,0,662],[16119,2,663]]],[0,177,7,0,144,178,0,0,[1,16119,10],[[16121,1,664],[16121,1,79],[16121,1,665],[16121,1,79],[16122,1,666],[16122,1,79],[16122,1,667],[16123,1,79],[16123,1,668],[16123,1,79],[16123,1,669],[16123,1,79],[16123,1,670],[16124,1,79],[16124,1,671],[16124,1,79],[16124,1,672],[16124,1,79],[16124,1,673],[16124,1,79],[16125,1,674],[16125,1,79],[16125,1,675],[16125,1,79],[16125,1,676],[16125,1,79],[16126,1,677],[16126,1,79],[16126,1,678],[16126,1,79],[16126,1,679],[16126,1,79],[16127,0,680],[0,180,32,0,62,181,0,0,[1,16127,2],[[16128,0,681],[16128,0,42]]],[16129,0,42]]],[16129,0,42]]],[16129,0,42]]],[0,499,7,0,144,682,0,0,[1,16130,2],[[16130,0,683],[0,61,32,0,62,502,0,0,[1,16131,1],[[16131,0,684],[16132,0,42]]],[16132,0,42]]],[0,685,86,0,686,687,0,0,[1,16132,9808],[[16133,0,688],[16133,1,128],[16134,1,689],[16134,1,690],[16135,1,691],[16135,1,692],[16135,1,168],[16135,1,693],[16704,1,216],[16705,1,694],[16909,1,216],[16909,1,695],[25939,1,216],[25939,0,42]]],[0,156,54,0,0,696,0,0,[1,25939,275],[[25940,0,697],[0,23,11,0,24,159,160,0,[1,25940,270],[[25940,0,161],[0,162,86,0,163,0,0,0,[1,25941,268],[[25941,0,41],[25941,1,128],[25941,1,698],[25941,1,699],[25942,1,700],[25942,1,701],[25942,1,168],[25942,1,128],[25942,1,702],[25942,1,703],[25966,1,704],[25966,1,705],[25966,1,168],[25966,1,706],[26016,1,707],[26209,0,708]]],[26209,0,708],[26210,2,709]]],[0,177,7,0,144,178,0,0,[1,26210,3],[[26211,0,710],[0,180,32,0,62,181,0,0,[1,26211,2],[[26212,0,711],[26213,0,42]]],[26213,0,42]]],[26213,0,42]]],[0,499,7,0,144,712,0,0,[1,26214,3],[[26215,0,713],[0,61,32,0,62,502,0,0,[1,26215,2],[[26215,0,714],[26217,0,42]]],[26217,0,42]]],[0,685,86,0,686,715,0,0,[1,26217,1764],[[26217,0,716],[26218,1,128],[26219,1,717],[26219,1,718],[26219,1,719],[26219,1,720],[26220,1,168],[26220,1,721],[26795,1,216],[26795,1,722],[26999,1,216],[26999,1,723],[27981,1,216],[27981,0,42]]],[0,504,54,0,0,724,0,0,[1,27982,222],[[27982,0,725],[0,23,11,0,24,507,160,0,[1,27982,218],[[27982,0,508],[0,509,86,0,510,511,0,0,[1,27983,217],[[27983,0,726],[27983,1,128],[27984,1,727],[27984,1,728],[27984,1,729],[27985,1,730],[27985,1,168],[27985,1,128],[27985,1,731],[27986,1,732],[28000,1,733],[28000,1,734],[28000,1,168],[28000,1,735],[28018,1,736],[28200,0,737]]],[28200,0,737],[28200,2,738]]],[0,177,7,0,144,178,0,0,[1,28200,4],[[28201,0,739],[0,180,32,0,62,181,0,0,[1,28202,2],[[28202,0,740],[28203,0,42]]],[28204,0,42]]],[28204,0,42]]],[0,499,7,0,144,741,0,0,[1,28205,2],[[28205,0,742],[0,61,32,0,62,502,0,0,[1,28206,1],[[28206,0,743],[28207,0,42]]],[28207,0,42]]],[0,504,54,0,0,744,0,0,[1,28208,206],[[28208,0,745],[0,23,11,0,24,507,160,0,[1,28209,201],[[28209,0,508],[0,509,86,0,510,511,0,0,[1,28210,200],[[28210,0,746],[28210,1,128],[28211,1,747],[28211,1,748],[28211,1,749],[28211,1,750],[28211,1,168],[28211,1,128],[28212,1,751],[28212,1,752],[28217,1,753],[28217,1,754],[28217,1,168],[28217,1,755],[28240,1,756],[28409,0,757]]],[28410,0,757],[28410,2,758]]],[0,177,7,0,144,178,0,0,[1,28410,4],[[28412,0,759],[0,180,32,0,62,181,0,0,[1,28412,2],[[28413,0,760],[28414,0,42]]],[28414,0,42]]],[28414,0,42]]],[0,280,86,0,281,761,0,0,[1,28415,572],[[28415,0,746],[28415,1,128],[28416,1,762],[28417,1,763],[28417,1,764],[28417,1,765],[28417,1,168],[28417,1,766],[28987,1,216],[28987,0,42]]],[28987,0,42]]],[0,113,54,0,0,767,0,0,[0,28988,1269],[[28989,0,768],[0,116,11,0,117,118,0,0,[1,28989,1001],[[28989,0,119],[29990,2,120],[29990,0,42]]],[0,121,11,0,122,123,124,0,[1,29990,261],[[29991,0,125],[0,126,86,0,127,0,0,0,[1,29992,259],[[29992,1,769],[29993,1,79],[29993,1,770],[29993,1,79],[29993,1,771],[29993,1,79],[29993,1,772],[29994,1,79],[29994,1,773],[29994,1,79],[29994,1,774],[29994,1,79],[29994,1,775],[29995,1,79],[29995,1,776],[29995,1,79],[29995,1,777],[29995,1,79],[29995,1,778],[29996,1,79],[29996,1,779],[29996,1,79],[29996,1,780],[29996,1,79],[29996,1,781],[29997,1,79],[29997,1,782],[29997,1,79],[29997,1,783],[29997,1,79],[29997,1,784],[29998,1,79],[29998,1,785],[29998,1,79],[29998,0,41],[29999,1,128],[29999,1,786],[29999,1,634],[30002,1,787],[30002,1,788],[30249,1,789],[30249,1,790],[30249,1,791],[30250,1,792],[30250,1,793],[30250,1,794],[30250,1,642],[30250,1,795],[30250,1,644],[30250,0,645]]],[30251,0,645],[30251,2,646]]],[0,143,7,0,144,145,0,0,[1,30251,2],[[30252,0,647],[0,61,32,0,62,147,0,0,[1,30252,1],[[30252,0,648],[30253,0,42]]],[30253,0,42]]],[0,93,11,0,94,149,150,0,[1,30254,0],[[30254,0,796],[30254,0,152],[30254,2,153]]],[5,149,0,0,0,0,0,0,[0,30255,1],[[0,10,11,0,12,154,0,0,[0,30255,1],[[30256,0,797],[0,183,11,0,184,0,0,0,[0,30256,0],[[30256,0,41],[30256,5,393],[30256,1,798]]]]]]],[0,156,54,0,0,157,0,0,[3,30257,0],[]]]],[0,280,86,0,281,799,0,0,[3,30257,0],[]],[0,616,54,0,0,800,0,0,[3,30257,0],[]],[0,113,54,0,0,801,0,0,[3,30257,1],[]],[0,280,86,0,281,802,0,0,[3,30258,0],[]],[2,381,7,0,144,803,0,0,[1,30259,6],[[30259,0,804],[0,384,7,0,144,385,0,0,[1,30260,2],[[30260,0,805],[0,376,32,0,62,387,0,0,[1,30260,1],[[30260,0,806],[30261,0,42]]],[30261,0,42]]],[0,389,7,0,58,0,0,0,[1,30262,2],[[30262,0,41],[0,61,32,0,62,390,0,0,[1,30263,1],[[30263,0,391],[30264,0,42]]],[30264,0,42]]],[30265,0,42]]]]]]],[807,0,0,[],[0,30268,2104,393],[[0,808,54,0,0,0,0,0,[0,30269,2101],[[30269,0,809],[0,113,54,0,0,810,0,0,[0,30269,2091],[[30269,0,115],[0,116,11,0,117,118,0,0,[1,30270,1001],[[30270,0,119],[31271,2,120],[31271,0,42]]],[0,121,11,0,122,123,124,0,[1,31272,1076],[[31272,0,125],[0,126,74,0,127,0,0,0,[1,31273,1075],[[31273,0,41],[31274,1,128],[31275,1,811],[31275,1,130],[31280,1,812],[31280,1,813],[31488,1,814],[31488,1,815],[31488,1,79],[31489,1,128],[31489,1,816],[31489,1,130],[31491,1,817],[31492,1,818],[31737,1,819],[31737,1,820],[31737,1,79],[31737,1,128],[31738,1,821],[31738,1,536],[31740,1,822],[31740,1,823],[31923,1,824],[31923,1,825],[31923,1,79],[31924,1,128],[31924,1,826],[31924,1,827],[31929,1,828],[31929,1,829],[32120,1,830],[32120,1,831],[32121,1,79],[32121,1,128],[32122,1,832],[32122,1,833],[32126,1,834],[32126,1,835],[32346,1,836],[32346,1,837],[32347,1,135],[32347,1,838],[32347,1,839],[32347,1,840],[32347,1,841],[32348,1,842],[32348,1,843],[32348,0,844]]],[32348,0,844],[32348,2,845]]],[0,143,7,0,144,145,0,0,[1,32349,1],[[32349,0,846],[0,61,32,0,62,147,0,0,[1,32349,1],[[32349,0,847],[32350,0,42]]],[32350,0,42]]],[0,93,11,0,94,149,150,0,[1,32351,1],[[32351,0,151],[32351,0,152],[32351,2,153]]],[5,149,0,0,0,0,0,0,[0,32352,7],[[32353,1,848],[32353,1,79],[32353,1,849],[32354,1,79],[32354,1,850],[32354,1,79],[32354,1,851],[32354,1,79],[32354,1,852],[32355,1,79],[32355,1,853],[32355,1,79],[32355,1,854],[32355,1,79],[32355,1,855],[32356,1,79],[32356,1,856],[32356,1,79],[32356,1,857],[32357,1,79],[32357,1,858],[32357,1,79],[32357,1,859],[32357,1,79],[32357,1,860],[32358,1,79],[32358,1,861],[32358,1,79],[0,10,11,0,12,154,0,0,[0,32358,1],[[32359,0,862],[0,183,11,0,184,0,0,0,[0,32359,0],[[32359,0,41],[32359,5,393],[32359,1,798]]]]]]],[0,156,54,0,0,157,0,0,[3,32360,0],[]]]],[0,400,54,0,0,0,401,0,[3,32360,0],[]],[5,401,0,0,0,0,0,0,[3,32360,2],[[0,143,7,0,144,863,0,0,[3,32360,0],[]],[0,461,54,0,0,864,0,0,[3,32361,0],[]],[0,499,7,0,144,865,0,0,[3,32361,0],[]],[0,504,54,0,0,866,0,0,[3,32361,0],[]],[0,280,74,0,281,867,0,0,[3,32361,0],[]],[0,116,11,0,117,118,0,0,[3,32361,0],[]],[0,499,7,0,144,868,0,0,[3,32361,0],[]],[0,113,54,0,0,869,0,0,[3,32362,0],[]],[0,504,54,0,0,870,0,0,[3,32362,0],[]],[0,280,86,0,281,871,0,0,[3,32362,0],[]],[0,299,54,0,0,0,0,0,[3,32362,0],[]]]],[0,156,54,0,0,872,0,0,[3,32363,0],[]],[0,143,7,0,144,873,0,0,[3,32363,0],[]],[2,381,7,0,144,874,0,0,[1,32364,6],[[32364,0,875],[0,384,7,0,144,385,0,0,[1,32365,2],[[32365,0,876],[0,376,32,0,62,387,0,0,[1,32365,1],[[32365,0,877],[32366,0,42]]],[32366,0,42]]],[0,389,7,0,58,0,0,0,[1,32367,2],[[32367,0,41],[0,61,32,0,62,390,0,0,[1,32367,2],[[32368,0,391],[32369,0,42]]],[32369,0,42]]],[32369,0,42]]]]],[0,878,0,0,0,0,0,0,[3,32371,0],[]]]]],[],[3,1,2,0]];
 </script>
 <script type="text/javascript">
 window.output["strings"] = [];
 </script>
 <script type="text/javascript">
-window.output["strings"] = window.output["strings"].concat(["*","*remoteHP","*C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\examples\\hotpads\\remoteHP.robot","*examples/hotpads/remoteHP.robot","*Warsaw;100-200;3","*Test Start","*Arguments: [  ]","*New Test Event","*DataExtraction","*<p>Part of <b>Test Setup\x3c/b>. New Test Event corresponds with output functions that create a new data structure in the test data and a new line in the report.\x3c/p>","*${TEST NAME}","*Arguments: [ ${CASE NAME}='Warsaw;100-200;3' ]","*Create Test Case","*oqe","*<p>Part of <b>Test Setup\x3c/b>\x3c/p>","*${CASE NAME}","*${FULL TEST}","*Arguments: [ 'Warsaw;100-200;3' ]","*Return: 'Warsaw;100-200;3 2023-03-09 01:59:22.533538'","*${FULL TEST} = Warsaw;100-200;3 2023-03-09 01:59:22.533538","*Return: None","*Test Site","*Warsaw, VA, 100, 200, 3","*Arguments: [ ${CITY}='Warsaw, VA' | ${MIN}='100' | ${MAX}='200' | ${ROOM}='3' ]","*Find","*site","*<p>Called to locate any anchor for the window and revise relative locations to widgets.\x3c/p>","*Command to send: c\nt\ngetScreen\ns192.168.0.199\ni5900\nspassword\ne\n","*Answer received: !yro228","*Command to send: c\nt\ncreatePattern\nsC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/hotpads/hotpads_icon.png\ne\n","*Answer received: !yro229","*Command to send: c\no228\nfind\nro229\ne\n","*Answer received: !yro230","*Command to send: c\no230\ngetScore\ne\n","*Answer received: !yd0.9975835084915161","*Command to send: c\no230\ngetTarget\ne\n","*Answer received: !yro231","*Command to send: c\no231\ngetX\ne\n","*Answer received: !yi102","*Command to send: c\no231\ngetY\ne\n","*Answer received: !yi97","*Return: 'icon'","*Write","*<p>Write text onto the intended widget\x3c/p>","*citystate, ${CITY}","*Arguments: [ 'citystate' | 'Warsaw, VA' ]","*Answer received: !yro232","*Command to send: c\no232\nnewRegion\ni349\ni277\ni230\ni36\ne\n","*Answer received: !yro233","*Command to send: c\nt\ncheckAndSetRemote\nro232\nro233\nbTrue\ne\n","*Answer received: !ybtrue","*Command to send: c\no233\nclick\ne\n","*Answer received: !yi1","*Command to send: c\no233\ntype\nn\nsa\ni2\ne\n","*Command to send: c\no233\ntype\nsWarsaw, VA\ne\n","*Click","*<p>Clicks on the intended widget\x3c/p>","*price","*Arguments: [ 'price' ]","*Answer received: !yro234","*Command to send: c\no234\nnewRegion\ni610\ni280\ni84\ni30\ne\n","*Answer received: !yro235","*Command to send: c\nt\ncheckAndSetRemote\nro234\nro235\nbTrue\ne\n","*Command to send: c\no235\nclick\ne\n","*Sleep","*BuiltIn","*<p>Pauses the test executed for the given time.\x3c/p>","*2","*Arguments: [ '2' ]","*Slept 2 seconds","*Answer received: !yro236","*Command to send: c\nt\ncreatePattern\nsC:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/pricemenu/pricemenu_title.png\ne\n","*Answer received: !yro237","*Command to send: c\no236\nfind\nro237\ne\n","*Answer received: !yro238","*Command to send: c\no238\ngetScore\ne\n","*Answer received: !yd0.9999788999557495","*Command to send: c\no238\ngetTarget\ne\n","*Answer received: !yro239","*Command to send: c\no239\ngetX\ne\n","*Answer received: !yi655","*Command to send: c\no239\ngetY\ne\n","*Answer received: !yi362","*Return: 'menuTitle'","*lowprice, ${MIN}","*Arguments: [ 'lowprice' | '100' ]","*Answer received: !yro240","*Command to send: c\no240\nnewRegion\ni625\ni383\ni100\ni24\ne\n","*Answer received: !yro241","*Command to send: c\nt\ncheckAndSetRemote\nro240\nro241\nbTrue\ne\n","*Command to send: c\no241\nclick\ne\n","*Command to send: c\no241\ntype\nn\nsa\ni2\ne\n","*Command to send: c\no241\ntype\ns100\ne\n","*maxprice, ${MAX}","*Arguments: [ 'maxprice' | '200' ]","*Answer received: !yro242","*Command to send: c\no242\nnewRegion\ni780\ni380\ni110\ni27\ne\n","*Answer received: !yro243","*Command to send: c\nt\ncheckAndSetRemote\nro242\nro243\nbTrue\ne\n","*Command to send: c\no243\nclick\ne\n","*Command to send: c\no243\ntype\nn\nsa\ni2\ne\n","*Command to send: c\no243\ntype\ns200\ne\n","*done_button","*Arguments: [ 'done_button' ]","*Command to send: m\nd\no224\ne\n","*Answer received: !yv","*Command to send: m\nd\no225\ne\n","*Command to send: m\nd\no226\ne\n","*Command to send: m\nd\no227\ne\n","*Command to send: m\nd\no228\ne\n","*Command to send: m\nd\no229\ne\n","*Command to send: m\nd\no230\ne\n","*Command to send: m\nd\no231\ne\n","*Command to send: m\nd\no232\ne\n","*Command to send: m\nd\no233\ne\n","*Command to send: m\nd\no234\ne\n","*Command to send: m\nd\no236\ne\n","*Command to send: m\nd\no237\ne\n","*Command to send: m\nd\no238\ne\n","*Command to send: m\nd\no239\ne\n","*Command to send: m\nd\no240\ne\n","*Command to send: m\nd\no241\ne\n","*Command to send: m\nd\no242\ne\n","*Answer received: !yro244","*Command to send: c\no244\nnewRegion\ni710\ni517\ni88\ni22\ne\n","*Answer received: !yro245","*Command to send: c\nt\ncheckAndSetRemote\nro244\nro245\nbTrue\ne\n","*Command to send: c\no245\nclick\ne\n","*Answer received: !yro246","*Answer received: !yro247","*Command to send: c\no246\nfind\nro247\ne\n","*Answer received: !yro248","*Command to send: c\no248\ngetScore\ne\n","*Command to send: c\no248\ngetTarget\ne\n","*Answer received: !yro249","*Command to send: c\no249\ngetX\ne\n","*Command to send: c\no249\ngetY\ne\n","*search","*Arguments: [ 'search' ]","*Answer received: !yro250","*Command to send: c\no250\nnewRegion\ni893\ni276\ni103\ni33\ne\n","*Answer received: !yro251","*Command to send: c\nt\ncheckAndSetRemote\nro250\nro251\nbTrue\ne\n","*Command to send: c\no251\nclick\ne\n","*Capture Image","*<p>Takes a picture of the intended widget and returns the image file\x3c/p>","*listings","*${file}","*Arguments: [ 'listings' ]","*Answer received: !yro252","*Command to send: c\no252\nnewRegion\ni80\ni398\ni791\ni159\ne\n","*Answer received: !yro253","*Command to send: c\nt\ncheckAndSetRemote\nro252\nro253\nbTrue\ne\n","*Answer received: !yro254","*Command to send: c\no254\ncapture\nro253\ne\n","*Answer received: !yro255","*Command to send: c\nt\ncheckAndSetRemote\nro254\nro255\nbTrue\ne\n","*Command to send: c\no255\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Benny\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_902673349\\\\sikuliximage-1678345169792.png","*Return: 'C:/Users/Benny/Documents/RFData/IMG/imageAIB.PNG'","*${file} = C:/Users/Benny/Documents/RFData/IMG/imageAIB.PNG","*Record Screen Image","*<p>Part of <b>Recording Data\x3c/b>\x3c/p>","*${file}, ${TEST NAME}, Answer","*Arguments: [ ${FILE}='C:/Users/Benny/Documents/RFData/IMG/imageAIB.PNG' | ${CASE NAME}='Warsaw;100-200;3' | ${STEP NAME}='Answer' ]","*Write Image","*<p>Part of <b>Output Functions\x3c/b>\x3c/p>","*${CASE NAME}, ${STEP NAME}, Screenshot, ${FILE}","*Arguments: [ 'Warsaw;100-200;3' | 'Answer' | 'Screenshot' | 'C:/Users/Benny/Documents/RFData/IMG/imageAIB.PNG' ]","*Suite Start","*Configure Image Library","eNo9kUtuwzAMRK8yByicCxhe9LMoEDRF4yy6pGI6ISpLhj4IfPuSMpCNIGhIzhuqX4dvSgVxRu+GkXPBmUtd+4MbOrxz4bRI4IxyZ/QylG3l/iCDNRSrpgwWFRPO8le9IOqNPQepS4dTU+JaJIaMhTbM0fv4wKjj5hquJoB8jshcdpeJCq1U7lqaVPKQhW5KQGHaLa0As3jOahD8Bgmt8UqZjYueAK3+pYkuxUdWFpty+TmCEu++MnEoMgtPna3g6zR+WHj8xoqlqt3VGDT6Wwyz3Kr2fRoQjuIo0da24VhhdWDYdoBQF2fB52fIjEuWcHsmRItoNC0evLhEaevwahFLxKQr0bOm1mWP2T6m6w/r8A+C/plc","*Sikuli, ${DATA PATH}, remoteVNC=${REMOTE}","*Run Keyword If","*<p>Runs the given keyword with the given arguments, if <code>condition\x3c/code> is true.\x3c/p>","*'${type}'=='Sikuli', Set Suite Variable, ${imageLib}, sikuliLib, ELSE, Set Suite Variable, ${imageLib}, seleniumLib","*Set Suite Variable","*<p>Makes a variable available everywhere within the scope of the current suite.\x3c/p>","*${imageLib}, sikuliLib","*${imageLib} = sikuliLib","*'${type}'=='Selenium', ${imageLib}.Configure Selenium, ${browser}, ${url}","*'${type}'=='Sikuli', ${imageLib}.Configure Sikuli, ${remoteVNC}","*Configure Sikuli","*sikuliLib","*<p>Part of <b>Test Configuration\x3c/b>\x3c/p>","*${remoteVNC}","*Run Keyword","*<p>Executes the given keyword with the given arguments.\x3c/p>","*${imageLib}.Configure Image Path, ${datapath}","*Configure Image Path","*${datapath}","*Log","*<p>Logs the given message with the given level.\x3c/p>","*Data Path configured","*Configure Data Path","*<p>Part of <b>Test Setup\x3c/b>.\x3c/p>","*Archive Any Previous Data","*Set Log Level","*<p>Sets the log threshold to the specified level and returns the old level.\x3c/p>","*TRACE","*Log level changed from INFO to TRACE.","*Return: 'INFO'","*Configure","*<p>Sets up the details of the generic window for a specific test\x3c/p>","*Sikuli, C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/hotpads, ${DATA PATH}, ${REMOTE}","*Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/hotpads' | 'C:/Users/Benny/Documents/RFData' | '192.168.0.199;5900;password' ]","*Command to send: c\nt\naddImagePath\nsC:\\\\Users\\\\Benny\\\\Documents\\\\github\\\\DahlgrenTest\\\\RFTest\ni648\ne\n","*Sikuli, C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/pricemenu, ${DATA PATH}, ${REMOTE}","*Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/pricemenu' | 'C:/Users/Benny/Documents/RFData' | '192.168.0.199;5900;password' ]","*Command to send: c\nt\naddImagePath\nsC:\\\\Users\\\\Benny\\\\Documents\\\\github\\\\DahlgrenTest\\\\RFTest\ni621\ne\n","*rooms","*Sikuli, C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/bedroommenu, ${DATA PATH}, ${REMOTE}","*Arguments: [ 'Sikuli' | 'C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/bedroommenu' | 'C:/Users/Benny/Documents/RFData' | '192.168.0.199;5900;password' ]","*Command to send: c\nt\naddImagePath\nsC:\\\\Users\\\\Benny\\\\Documents\\\\github\\\\DahlgrenTest\\\\RFTest\ni217\ne\n","*Answer received: !yro224","*Answer received: !yro225","*Command to send: c\no224\nfind\nro225\ne\n","*Answer received: !yro226","*Command to send: c\no226\ngetScore\ne\n","*Command to send: c\no226\ngetTarget\ne\n","*Answer received: !yro227","*Command to send: c\no227\ngetX\ne\n","*Command to send: c\no227\ngetY\ne\n","*Document API","*<p>Returns a single string containing a set of all widgets in the window and their available functions.\x3c/p>","*${tmp}","eNqlkDEOwjAMRa+SjaUn6AZIsDABEkPLkDqGWqRxlDgUbk9UVWUDUSbbX3rPlvcoKbhSLU7kDPdVy+K1iedSXXJQqIiyDZx8oTq+4zDvGLQQu0KBJbjlon2W4NQcOm1t7WpZQsuhImA3+UbEcGosrr/wR3zIhtCaCkieUbRgFgXUWdQHEvzArpIIu8oHgjf00/bR0ODwjvmCiDpA+5fCUhRy11l3LF7K/LHP","eNp9jD0KAjEQRms9xRSWIQcQLETQxk5hi2ARk5EdTHZCMnEV8e4Gke20+n7gvcVTYnrBCjoaPI+mZ0nWl9MSLu1QUFB2mWtSEPmGn71nZ4V4UOACuWsLm6RmnMoh2hDms7XrORtyPEy2L+C5ngNu/tJHvMuWMHjjSB5FrGDTZLRNM2YS/EFqrd+K5Eu/","eNqlkDEOwjAMRa+SrUtP0K0gwcIGEkPokCamtUjjKHEo3J6oqsoGoky2v/SeLdehSwM4jpWQojijMzTKntgrE5tKXHNQigi8D5R8KQa6wzQfSCtGcqXQFvUtF+U5BVia46CsvbgL17qnIFGTW3wzYii1FrZf+BM8eIdgjdTIz8iKIYsCqCwaAzJ8YDeJmZz0AfUb+mn7bGhhesd6QQQVdP+XwmJkdN2qOwrRvABrErP9","eNqlkDEOwjAMRWc4RQ7QE7ABEixsIDFEHVLHUIs0jhKHwu2JqqpMIFEm2196z5bP5C33umUJxqZ6pS4lqFRC2UfOoVId33GYDwxGiH2lwBHcSjFBcsSpOXbGueViDS1HTcB+so2A5dw43H6lT/iQHaGzGkieSYxg0UQ0RdNHEvxIbrIIex0iwRv5YfPINzi8YS6e0ERo/xA4SkL+OueGF4+bpL0=","eNqVj7EOwjAMRH8lG0u/oBsgwcIElRhShNLECAvHroJD+/mECnWFTj5buue7I2hOXJvVGTnIYPuEHiJwvtTmVk6VeYLuk+S+MlFeMO0H8U5RuDKe0D/KcH3BwCxO0RG13GoDo+4QKFiSYWIXbgJXuENChb+s0Y3LrGt/l2Q/LRpUgrnKN22Q3BFsf0TfZFVhG4Th2k16/r+As3oDSvyCsA==","eNpTqS7JLahVsFUIz8xLyS+PLijKTE7NTc0rjbVSSAMK6SgUp5a4F+WXFugo5OaXpYL5PvnJiSWZ+Xk6Csk5mcnZQCqxoKS0KBXOCM5NzMnh4gxJrShxy0zNSYnOyS8Hmww0tSg1EWhqeVFmSSoRGnMTK0jR6Jisp6cHANpgS5U=","eNqVj7EOwjAMRH8lW5d+QbeCBAsblRjSCqWJgQgnrlyH9vMJFeoKnXw+6Z59Nd9TgChjpbQqLj46mvTA3kJ2U1epW7ZKNYIcmdJQqkAvWPYTWSOeYqksevvMwwySGFZxDgaxja00MMvBAzqNNC3szGUwmTuxF/grGsy8LVrbB7H+tGi8IKxVvt86Sj3C/sfruyRCUTuKcO0Xvd7fwClU9waw1ITe","eNqVj0EKAjEMRdd6ih6gJ3Cngm7cOeCiiHTaiMG0KZ3UmeNbB+lSxlV+Av/l/wtGz6NJGR0EiOW6Ufd60moAOWYuSavAL5j3EzsryFErR+ieddgkJUMT52CJ1qsOJjkgkDfE40yu1Ay2UseMAguMwU7/GLfuwdl88ncoBK3EN6fn0hPsf4beFRGOxnOEWz/r9ns55Q1BuHis","eNqt0T0PgjAQBuC/0o2FxY+JTRhcnGRwAENKe0pD2yP1qvjvbYiim1GY7r1L7skltwfyziYsOigr8VbUIB2iMWD9MWGnMIzZBWjr0HcxM3iFod+h4KTQxkxoJdpQeBcgGENuuNalLWkjGnQvlhRpGN3nqkRfa8i+OKknQltwe6/qIQbGAf+TWcyBLOdAVnMg60lI1oBoU+wL6LmgqsY+OO+n/yjG7AyUEyf4OFCihQk3Rg/pMvpz","eNp9zD0KAjEQBeBaTzGFZcgBBAu1sLGzsFhkyc+IwUkmxImLiHc3LLqVWM2bB+9bPCXmF6zgGJLnobPoC3OMmOppCedWKrih7ArXrCDyHcd/z85I4KTAUXDXdkyWWnAKh2iI5rO1u3D5ohKEcFI/Q8/VEm7/Kpsqwqkz6dHbMTakoPmJaK3f7UBMNQ==","eNqt0T0PgjAQBuC/0o2lix8TGzC4uDk4ACGlnEBoe6RcFf+9DVF0MwrTvXfJPbnkIls7DYaGkKUsOLemwltaQmURtZ+7PGQXP+RsADpYdD1nGq8w9UeUglo0nEnVys4X0ZOzMIeTFkplJqNINmhfLLWkYHafqxW6UkHyxYkdEZpUmHtRTtEzFsSfzGYNZLsGslsD2S9CkgZkF+OYwigkFSWO3nk//UeRsxroRILg48AKDSy4MWD5A2Yy/KE=","eNql0TsOwjAMBuAZTpEDZOExsdEOLGwdGCpU5WFo1CSuggPl9kQVlA2JZvJvS/5kySfjNT5qCTogOgc+nnfskoac3YAOAWPPmcM7jP0RlSCDnjNljepSET3FAFOonLB2udirFsMHJUMWJvW9qDFKC+VPpYhE6Gvhn40cY0ICiFnIKp9Y5xObfGKbQZQtqK7AoYZBKGokDkn5vvlPj7MrUEWCYDpOo4f5970Av1bqUw=="]);
+window.output["strings"] = window.output["strings"].concat(["*","*testWidgets","*C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\examples\\RFGHelper\\testWidgets.robot","*examples/RFGHelper/testWidgets.robot","*Startup","*Suite Start","*Configure Image Library","*DataExtraction","eNo9kUtuwzAMRK8yByicCxhe9LMoEDRF4yy6pGI6ISpLhj4IfPuSMpCNIGhIzhuqX4dvSgVxRu+GkXPBmUtd+4MbOrxz4bRI4IxyZ/QylG3l/iCDNRSrpgwWFRPO8le9IOqNPQepS4dTU+JaJIaMhTbM0fv4wKjj5hquJoB8jshcdpeJCq1U7lqaVPKQhW5KQGHaLa0As3jOahD8Bgmt8UqZjYueAK3+pYkuxUdWFpty+TmCEu++MnEoMgtPna3g6zR+WHj8xoqlqt3VGDT6Wwyz3Kr2fRoQjuIo0da24VhhdWDYdoBQF2fB52fIjEuWcHsmRItoNC0evLhEaevwahFLxKQr0bOm1mWP2T6m6w/r8A+C/plc","*Sikuli    ${DATA PATH}","*Run Keyword If","*BuiltIn","*<p>Runs the given keyword with the given arguments, if <code>condition\x3c/code> is true.\x3c/p>","*'${type}'=='Sikuli'    Set Suite Variable    ${imageLib}    sikuliLib","*Set Suite Variable","*<p>Makes a variable available everywhere within the scope of the current suite.\x3c/p>","*${imageLib}    sikuliLib","*${imageLib} = sikuliLib","*'${type}'=='Sikuli'    ${imageLib}.Configure Sikuli    ${remoteVNC}","*Configure Sikuli","*sikuliLib","*<p>Part of <b>Test Configuration\x3c/b>\x3c/p>","*${remoteVNC}","*Run Keyword","*<p>Executes the given keyword with the given arguments.\x3c/p>","*${imageLib}.Configure Image Path    ${datapath}","*Configure Image Path","*${datapath}","*Log","*<p>Logs the given message with the given level.\x3c/p>","*Data Path configured","*Configure Data Path","*oqe","*<p>Part of <b>Test Setup\x3c/b>.\x3c/p>","*Set Log Level","*<p>Sets the log threshold to the specified level.\x3c/p>","*TRACE","*Log level changed from INFO to TRACE.","*Return: 'INFO'","*Archive Any Previous Data","*<p>Part of <b>Test Setup\x3c/b>\x3c/p>","*Arguments: [  ]","*Return: None","*New Test Event","*<p>Part of <b>Test Setup\x3c/b>. New Test Event corresponds with output functions that create a new data structure in the test data and a new line in the report.\x3c/p>","*${TEST NAME}","*Arguments: [ ${CASE NAME}='Startup' ]","*Create Test Case","*${CASE NAME}","*${FULL TEST}","*Arguments: [ 'Startup' ]","*Return: 'Startup 2024-03-25 17:40:11.141312'","*${FULL TEST} = Startup 2024-03-25 17:40:11.141312","*RF GUI Helper: Open","*rfghelper","*${DATA PATH}","*Arguments: [ ${d Path}='C:/Users/Owner/OneDrive/Documents/RFData3_1' | ${remote}='None' ]","*Banner","*<p>Part of <b>Report Formatting\x3c/b>\x3c/p>","*Starting RF GUI Helper","*Arguments: [ ${Title}='Starting RF GUI Helper' ]","*Write Data","*<p>Part of <b>Output Functions\x3c/b>\x3c/p>","*==    ==    --    ${Title}","*Arguments: [ '==' | '==' | '--' | 'Starting RF GUI Helper' ]","*Start Process","*Process","*<p>Starts a new process on background.\x3c/p>","*python    ${test app}","*Arguments: [ 'python' | 'C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFGUIHelper/RFGUIHelp.py' ]","*Starting process:\npython C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFGUIHelper/RFGUIHelp.py","*Process configuration:\ncwd:     C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\nshell:   False\nstdout:  PIPE\nstderr:  PIPE\nstdin:   None\nalias:   None\nenv:     None","*Return: &lt;Popen: returncode: None args: ['python', 'C:/Users/Owner/OneDrive/Documents...&gt;","*Configure","*primary","*<p>Sets up the details of the generic window for a specific test\x3c/p>","*Sikuli    ${main config path}    ${d Path}    ${remote}","*Arguments: [ 'Sikuli' | 'C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/mainwindow/mainwindow.json' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1' | 'None' ]","*Command to send: c\nt\naddImagePath\nsC:\\\\Users\\\\Owner\\\\OneDrive\\\\Documents\\\\GitHub\\\\DahlgrenTest\\\\RFTest\ni74\ne\n","*Answer received: !yv","*View[main]: {}\nView[fileMenu]: {'main': [-5, 0]}\nView[viewMenu]: {'main': [-28, -22]}\nView[unfocusedMain]: {}","*secondary","*Sikuli    ${img config path}    ${d Path}    ${remote}","*Arguments: [ 'Sikuli' | 'C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/imgwindow/imgWindow.json' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1' | 'None' ]","*Command to send: c\nt\naddImagePath\nsC:\\\\Users\\\\Owner\\\\OneDrive\\\\Documents\\\\GitHub\\\\DahlgrenTest\\\\RFTest\ni588\ne\n","*View[imageWindow]: {}\nView[iwUnfocused]: {}","*auxiliary","*Sikuli    ${aux config path}    ${d Path}    ${remote}","*Arguments: [ 'Sikuli' | 'C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/auxwindows/auxwindows.json' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1' | 'None' ]","*Command to send: c\nt\naddImagePath\nsC:\\\\Users\\\\Owner\\\\OneDrive\\\\Documents\\\\GitHub\\\\DahlgrenTest\\\\RFTest\ni229\ne\n","eNpdzrEKgCAYBOC9p+g5mqM5iFqkQeySP0xFf2qI3j2rRdyO7zi4iXCKBQaMKcW5qa+7epOgXWqMfpGMTJ2H7cjkFOWBPjgdEGO5b7GSJSZni0ELRbFgstp8L4b0R3FW+eC2JAPL8PMDih9EhA==","*RF GUI Helper: Locate Window","*Arguments: [ ${window}='primary' ]","*Evaluate","*<p>Evaluates the given expression in Python and returns the result.\x3c/p>","*'mainTitleFocused'","*${view}","*Arguments: [ \"'mainTitleFocused'\" ]","*Return: 'mainTitleFocused'","*${view} = mainTitleFocused","*240","*${x}","*Arguments: [ '240' ]","*Return: 240","*${x} = 240","*50","*${y}","*Arguments: [ '50' ]","*Return: 50","*${y} = 50","*'${window}'=='secondary'","*'None'","*840","*RF GUI Helper: Find Window","*${window}    ${view}","*Arguments: [ ${window}='primary' | ${expectedView}='mainTitleFocused' ]","*Sleep","*<p>Pauses the test executed for the given time.\x3c/p>","*1s","*Arguments: [ '1s' ]","*Slept 1 second.","*Wait Until Keyword Succeeds","*<p>Runs the specified keyword and retries if it fails.\x3c/p>","*2x    1s    ${window}.Find","*${foundView}","*Arguments: [ '2x' | '1s' | '${window}.Find' ]","*Find","*<p>Called to locate any anchor for the window and revise relative locations to widgets.\x3c/p>","*Command to send: c\nt\ngetScreen\ne\n","*Answer received: !yro5611","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/mainwindow\\\\mainFocused.png\ne\n","*Answer received: !yro5612","*Command to send: c\no5611\nfind\nro5612\ne\n","*Answer received: !yro5613","*Command to send: c\no5613\ngetScore\ne\n","*Answer received: !yd1.0","*Command to send: c\no5613\ngetTarget\ne\n","*Answer received: !yro5614","*Command to send: c\no5614\ngetX\ne\n","*Answer received: !yi119","*Command to send: c\no5614\ngetY\ne\n","*Answer received: !yi90","*${foundView} = mainTitleFocused","*Record Data","*<p>Part of <b>Recording Data\x3c/b>\x3c/p>","*${TEST NAME}    Finding ${window} Window    ${window} Window: ${foundView}","*Arguments: [ ${CASE NAME}='Startup' | ${STEP NAME}='Finding primary Window' | ${DATA}='primary Window: mainTitleFocused' ]","*${CASE NAME}    ${STEP NAME}    Data    ${Data}","*Arguments: [ 'Startup' | 'Finding primary Window' | 'Data' | 'primary Window: mainTitleFocused' ]","*'${expectedView}'!='None'","*${answer}","*Arguments: [ \"'mainTitleFocused'!='None'\" ]","*Return: True","*${answer} = True","*'${foundView}'!='${expectedView}'    Fail","*Arguments: [ \"'mainTitleFocused'!='mainTitleFocused'\" | 'Fail' ]","*RF GUI Helper: Screen Capture","*${window}    Window","*Arguments: [ ${window}='primary' | ${title}='Window' ]","*${window}.Capture Window","*${file}","*Arguments: [ '${window}.Capture Window' ]","*Capture Window","*<p>Takes a picture of the window itself and returns the image file\x3c/p>","*Answer received: !yro5615","*Command to send: c\no5615\nnewRegion\ni58\ni52\ni600\ni535\ne\n","*Answer received: !yro5616","*Command to send: c\nt\ncheckAndSetRemote\nro5615\nro5616\nbFalse\ne\n","*Answer received: !ybtrue","*Answer received: !yro5617","*Command to send: c\no5617\ncapture\nro5616\ne\n","*Answer received: !yro5618","*Command to send: c\nt\ncheckAndSetRemote\nro5617\nro5618\nbFalse\ne\n","*Command to send: c\no5618\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402812764.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJE.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJE.PNG","*Record Screen Image","*${file}    ${TEST NAME}    ${title}","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJE.PNG' | ${CASE NAME}='Startup' | ${STEP NAME}='Window' ]","*Write Image","*${CASE NAME}    ${STEP NAME}    Screenshot    ${FILE}","*Arguments: [ 'Startup' | 'Window' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJE.PNG' ]","*Fail","*<p>Fails the test with the given message and optionally alters its tags.\x3c/p>","*Could not find the ${window} window","*${window}    Found ${window}","*Arguments: [ ${window}='primary' | ${title}='Found primary' ]","*Answer received: !yro5619","*Command to send: c\no5619\nnewRegion\ni58\ni52\ni600\ni535\ne\n","*Answer received: !yro5620","*Command to send: c\nt\ncheckAndSetRemote\nro5619\nro5620\nbFalse\ne\n","*Answer received: !yro5621","*Command to send: c\no5621\ncapture\nro5620\ne\n","*Answer received: !yro5622","*Command to send: c\nt\ncheckAndSetRemote\nro5621\nro5622\nbFalse\ne\n","*Command to send: c\no5622\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402813016.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJF.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJF.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJF.PNG' | ${CASE NAME}='Startup' | ${STEP NAME}='Found primary' ]","*Arguments: [ 'Startup' | 'Found primary' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJF.PNG' ]","*${window}.Move    ${x}    ${y}","*Arguments: [ '${window}.Move' | '${x}' | '${y}' ]","*Move","*<p>Move the window to the desired end location endX - x coordinate of end location endY - y coordinate of end location\x3c/p>","*${x}    ${y}","*Arguments: [ 240 | 50 ]","*Answer received: !yro5623","*Command to send: c\no5623\nnewRegion\ni215\ni61\ni143\ni11\ne\n","*Answer received: !yro5624","*Command to send: c\nt\ncheckAndSetRemote\nro5623\nro5624\nbFalse\ne\n","*Answer received: !yro5625","*Command to send: c\no5625\nnewLocation\ni240\ni50\ne\n","*Answer received: !yro5626","*Command to send: c\no5625\ndragDrop\nro5624\nro5626\ne\n","*Answer received: !yi1","*Answer received: !yro5627","*Answer received: !yro5628","*Command to send: c\no5627\nfind\nro5628\ne\n","*Answer received: !yro5629","*Command to send: c\no5629\ngetScore\ne\n","*Answer received: !yd0.9999990463256836","*Command to send: c\no5629\ngetTarget\ne\n","*Answer received: !yro5630","*Command to send: c\no5630\ngetX\ne\n","*Answer received: !yi73","*Command to send: c\no5630\ngetY\ne\n","*Answer received: !yi74","*${window}    After move","*Arguments: [ ${window}='primary' | ${title}='After move' ]","*Command to send: m\nd\no5611\ne\n","*Command to send: m\nd\no5612\ne\n","*Command to send: m\nd\no5613\ne\n","*Command to send: m\nd\no5614\ne\n","*Command to send: m\nd\no5615\ne\n","*Command to send: m\nd\no5616\ne\n","*Command to send: m\nd\no5617\ne\n","*Command to send: m\nd\no5618\ne\n","*Command to send: m\nd\no5619\ne\n","*Command to send: m\nd\no5620\ne\n","*Command to send: m\nd\no5621\ne\n","*Command to send: m\nd\no5622\ne\n","*Command to send: m\nd\no5623\ne\n","*Command to send: m\nd\no5624\ne\n","*Command to send: m\nd\no5625\ne\n","*Command to send: m\nd\no5626\ne\n","*Command to send: m\nd\no5627\ne\n","*Command to send: m\nd\no5628\ne\n","*Command to send: m\nd\no5630\ne\n","*Answer received: !yro5631","*Command to send: c\no5631\nnewRegion\ni12\ni36\ni600\ni535\ne\n","*Answer received: !yro5632","*Command to send: c\nt\ncheckAndSetRemote\nro5631\nro5632\nbFalse\ne\n","*Answer received: !yro5633","*Command to send: c\no5633\ncapture\nro5632\ne\n","*Answer received: !yro5634","*Command to send: c\nt\ncheckAndSetRemote\nro5633\nro5634\nbFalse\ne\n","*Command to send: c\no5634\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402815528.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJG.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJG.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJG.PNG' | ${CASE NAME}='Startup' | ${STEP NAME}='After move' ]","*Arguments: [ 'Startup' | 'After move' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJG.PNG' ]","*RF GUI Helper: Gain Focus","*${window}.Find","*${name}","*Arguments: [ '${window}.Find' ]","*Answer received: !yro5635","*Answer received: !yro5636","*Command to send: c\no5635\nfind\nro5636\ne\n","*Answer received: !yro5637","*Command to send: c\no5637\ngetScore\ne\n","*Command to send: c\no5637\ngetTarget\ne\n","*Answer received: !yro5638","*Command to send: c\no5638\ngetX\ne\n","*Command to send: c\no5638\ngetY\ne\n","*${name} = mainTitleFocused","*${window}.Click    ${name}","*Arguments: [ '${window}.Click' | '${name}' ]","*Click","*<p>Clicks on the intended widget\x3c/p>","*Arguments: [ 'mainTitleFocused' ]","*Answer received: !yro5639","*Command to send: c\no5639\nnewRegion\ni19\ni42\ni109\ni64\ne\n","*Answer received: !yro5640","*Command to send: c\nt\ncheckAndSetRemote\nro5639\nro5640\nbFalse\ne\n","*Command to send: c\no5640\nclick\ne\n","*Answer received: !yro5641","*Answer received: !yro5642","*Command to send: c\no5641\nfind\nro5642\ne\n","*Answer received: !yro5643","*Command to send: c\no5643\ngetScore\ne\n","*Command to send: c\no5643\ngetTarget\ne\n","*Answer received: !yro5644","*Command to send: c\no5644\ngetX\ne\n","*Command to send: c\no5644\ngetY\ne\n","*2x    1s    RF GUI Helper: Verify View","*Arguments: [ '2x' | '1s' | 'RF GUI Helper: Verify View' ]","*RF GUI Helper: Verify View","*Log To Console","*<p>Logs the given message to the console.\x3c/p>","*Arguments: [ 'RF GUI Helper: Verify View' ]","*Expected View","*<p>Returns the name of the current view which represents what the WINDOW LOGIC things is currently on display\x3c/p>","*${e}","*Return: 'View[main]'","*${e} = View[main]","*Actual View","*<p>Returns the name of a view which can be verified (starting with current view) which represent reality. Useful to periodically verify the window logic.\x3c/p>","*${a}","*Answer received: !yro5645","*Answer received: !yro5646","*Command to send: c\no5645\nfind\nro5646\ne\n","*Answer received: !yro5647","*Command to send: c\no5647\ngetScore\ne\n","*Command to send: c\no5647\ngetTarget\ne\n","*Answer received: !yro5648","*Command to send: c\no5648\ngetX\ne\n","*Command to send: c\no5648\ngetY\ne\n","*${a} = View[main]","*primary    Actual view: ${a}","*Arguments: [ ${window}='primary' | ${title}='Actual view: View[main]' ]","*Answer received: !yro5649","*Command to send: c\no5649\nnewRegion\ni12\ni36\ni600\ni535\ne\n","*Answer received: !yro5650","*Command to send: c\nt\ncheckAndSetRemote\nro5649\nro5650\nbFalse\ne\n","*Answer received: !yro5651","*Command to send: c\no5651\ncapture\nro5650\ne\n","*Answer received: !yro5652","*Command to send: c\nt\ncheckAndSetRemote\nro5651\nro5652\nbFalse\ne\n","*Command to send: c\no5652\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402818119.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJH.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJH.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJH.PNG' | ${CASE NAME}='Startup' | ${STEP NAME}='Actual view: View[main]' ]","*Arguments: [ 'Startup' | 'Actual view: View[main]' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJH.PNG' ]","*'${e}'=='${a}'","*PASS Token","*<p>Part of <b>Comparisons\x3c/b>\x3c/p>","*${token}","*Return: 'PASS'","*${token} = PASS","*'Opened ${e}'","*${msg}","*Arguments: [ \"'Opened View[main]'\" ]","*Return: 'Opened View[main]'","*${msg} = Opened View[main]","**** MATCH ***","*Arguments: [ '*** MATCH ***' ]","*'Expected ${e} but got ${a}'","**** FAIL ***","*Record Test Case","*${TEST NAME}    RF GUI Helper: Verify View    ${token}    ${msg}","*Command to send: m\nd\no5631\ne\n","*Command to send: m\nd\no5632\ne\n","*Command to send: m\nd\no5633\ne\n","*Command to send: m\nd\no5634\ne\n","*Command to send: m\nd\no5635\ne\n","*Command to send: m\nd\no5636\ne\n","*Command to send: m\nd\no5637\ne\n","*Command to send: m\nd\no5638\ne\n","*Command to send: m\nd\no5639\ne\n","*Command to send: m\nd\no5640\ne\n","*Command to send: m\nd\no5641\ne\n","*Command to send: m\nd\no5642\ne\n","*Command to send: m\nd\no5643\ne\n","*Command to send: m\nd\no5644\ne\n","*Command to send: m\nd\no5645\ne\n","*Command to send: m\nd\no5646\ne\n","*Command to send: m\nd\no5647\ne\n","*Command to send: m\nd\no5648\ne\n","*Command to send: m\nd\no5649\ne\n","*Command to send: m\nd\no5651\ne\n","*Command to send: m\nd\no5652\ne\n","*Arguments: [ ${CASE NAME}='Startup' | ${STEP NAME}='RF GUI Helper: Verify View' | ${STATUS}='PASS' | ${MESSAGE}='Opened View[main]' ]","*Write Results","*${CASE NAME}    ${STEP NAME}    ${STATUS}    ${MESSAGE}","*Arguments: [ 'Startup' | 'RF GUI Helper: Verify View' | 'PASS' | 'Opened View[main]' ]","*'${e}'!='${a}'    Fail    ${msg}","*Arguments: [ \"'View[main]'!='View[main]'\" | 'Fail' | '${msg}' ]","*Keyword Final","*${TEST NAME}    Starting RF GUI Helper    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}","*Arguments: [ ${CASE NAME}='Startup' | ${STEP NAME}='Starting RF GUI Helper' | ${STATUS}='PASS' | ${MESSAGE}='' ]","*Record PassFail Block","*${STEP NAME}    ${STATUS}    ${MESSAGE}","*Arguments: [ ${STEP NAME}='Starting RF GUI Helper' | ${STATUS}='PASS' | ${MESSAGE}='' ]","*&amp;&amp;    ${STEP NAME}    ${STATUS}    ${MESSAGE}","*Arguments: [ '&amp;&amp;' | 'Starting RF GUI Helper' | 'PASS' | '' ]","*Data Break","*--    --    --    --","*Arguments: [ '--' | '--' | '--' | '--' ]","*Create New Project","*AssertionError","*RF GUI Helper: New Project","*${PROJ FOLDER}    ${PROJ FILE}    ${IMG FOLDER}    ${IMG FILE}","eNpzLEovzU3NKym2UohWUKkuKMrPSk0uccvPSUktqrVVd7bSDy1OLSrW9y/PSy3S989LdSnKLEvVd8lPhmjTd88s8ShN0ndJzMhJL0rNC0ktLtEPcgNTqRWJuQU5qcVAvrtHak4B0IASoLh/Xk6lukINwja/xNxUoF2JOTm+qblJQNsgspm56bRyB9wCLFbHAgDqqGNu","*RF GUI Helper: Menu Action","*fMenu    newProject    New Project    shouldBeOpen=False","*Arguments: [ ${menu}='fMenu' | ${action}='newProject' | ${memo}='New Project' | ${shouldBeOpen}='False' ]","*RF GUI Helper: Check Is Project Open","*${isOpen}","*Verifying Project Closed","*Arguments: [ ${Title}='Verifying Project Closed' ]","*Arguments: [ '==' | '==' | '--' | 'Verifying Project Closed' ]","*True","*Arguments: [ 'True' ]","*Arguments: [ ${window}='secondary' | ${expectedView}='None' ]","*Answer received: !yro5653","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/imgwindow\\\\mainWindow.png\ne\n","*Answer received: !yro5654","*Command to send: c\no5653\nfind\nro5654\ne\n","*Answer received: !xro5655","*Command to send: m\nd\no5655\ne\n","*Answer received: !yro5656","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/imgwindow\\\\unMainWindow.png\ne\n","*Answer received: !yro5657","*Command to send: c\no5656\nfind\nro5657\ne\n","*Answer received: !xro5658","*Command to send: m\nd\no5658\ne\n","*LookupError: Unable to find any anchor","*Traceback (most recent call last):\n  File \"C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\widgets\\window.py\", line 234, in find\n    raise LookupError(\"Unable to find any anchor\")\nLookupError: Unable to find any anchor","*Answer received: !yro5659","*Answer received: !yro5660","*Command to send: m\nd\no5653\ne\n","*Command to send: m\nd\no5654\ne\n","*Command to send: m\nd\no5656\ne\n","*Command to send: m\nd\no5657\ne\n","*Command to send: c\no5659\nfind\nro5660\ne\n","*Answer received: !xro5661","*Command to send: m\nd\no5661\ne\n","*Answer received: !yro5662","*Answer received: !yro5663","*Command to send: c\no5662\nfind\nro5663\ne\n","*Answer received: !xro5664","*Command to send: m\nd\no5664\ne\n","*Keyword 'secondary.Find' failed after retrying 2 times. The last error was: LookupError: Unable to find any anchor","eNq9kTFrwzAQhXf/ioeXJBA8pJ28lTpOoIVASTYtsnyORRxdOMlx/O8rm0K7FDp1EBJPn+690x1FG6q0uWB5ZR8gZMgFGN116LQPqzwBStsR0tdcnTyJV4fBkaiDo0LsnVTBpr/GR17tbNj3lSp0252F3JF8UB/lvA22PlNEButqHrLbmK7RWUfYPD2vYR2aeBGtANHWE96ZL/1tK8KyTE9OVzFB4JmCdmNcpmVJV8kPMMevYJIUvVh3Rqtd3U0HbhBagq74TqCHoVuw7NaR56jLtwQ2phehOk8S4YpDRpOZz/ZTKZLtg0w/gaWO31Tn+NdELz6OZBK//N5oHFhqLDwZdrWWMSuj8QLNnA66CbGUUJBx8twg2Cv5DMfoPM0bc3MYtP9rI58F088t","*${TEST NAME}    RF GUI Helper: Closing Project    Project already closed","*Arguments: [ ${CASE NAME}='Create New Project' | ${STEP NAME}='RF GUI Helper: Closing Project' | ${DATA}='Project already closed' ]","*Arguments: [ 'Create New Project' | 'RF GUI Helper: Closing Project' | 'Data' | 'Project already closed' ]","*False","*Arguments: [ 'False' ]","*Return: False","*${answer} = False","*${isOpen} = False","*${shouldBeOpen}!=${isOpen} and ${isOpen}","*Attempt ${memo} with an already-open project","*${shouldBeOpen}!=${isOpen}","*Attempt ${memo} before opening a project","*RF GUI Helper: Click Menu and Verify","*${menu}","*Arguments: [ ${menuName}='fMenu' | ${expectFail}='False' ]","*Selecting ${menuName}","*Arguments: [ ${Title}='Selecting fMenu' ]","*Arguments: [ '==' | '==' | '--' | 'Selecting fMenu' ]","*${expectFail}","*Run Keyword And Expect Error","*<p>Runs the keyword and checks that the expected error occurred.\x3c/p>","**    RF GUI Helper: Click Menu    ${menuName}","*${TEST NAME}    Selecting ${menuName}    Expected Failure: ${msg}","*RF GUI Helper: Click Menu","*${menuName}","*Arguments: [ ${menu}='fMenu' | ${verifyView}='True' ]","*RF GUI Helper: Clicking on ${menu}","*Arguments: [ 'RF GUI Helper: Clicking on fMenu' ]","*primary    Before opening menu","*Arguments: [ ${window}='primary' | ${title}='Before opening menu' ]","*Answer received: !yro5665","*Command to send: c\no5665\nnewRegion\ni12\ni36\ni600\ni535\ne\n","*Answer received: !yro5666","*Command to send: c\nt\ncheckAndSetRemote\nro5665\nro5666\nbFalse\ne\n","*Answer received: !yro5667","*Command to send: c\no5667\ncapture\nro5666\ne\n","*Answer received: !yro5668","*Command to send: c\nt\ncheckAndSetRemote\nro5667\nro5668\nbFalse\ne\n","*Command to send: c\no5668\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402821317.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJI.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJI.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJI.PNG' | ${CASE NAME}='Create New Project' | ${STEP NAME}='Before opening menu' ]","*Arguments: [ 'Create New Project' | 'Before opening menu' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJI.PNG' ]","*RF GUI Helper: Restore Main View","*RF GUI Helper: Expected View","*verboseLog=False","*${current}","*Arguments: [ ${verboseLog}='False' ]","*Command to send: m\nd\no5662\ne\n","*Command to send: m\nd\no5663\ne\n","*Command to send: m\nd\no5665\ne\n","*Command to send: m\nd\no5667\ne\n","*Command to send: m\nd\no5668\ne\n","*${verboseLog}","*\\nExpected View: ${e}","*${TEST NAME}    Current View    ${e}","*${current} = View[main]","*'${current}' != 'View[main]'","*nullMenu","*primary    Restored View[main]","*Record Action","*${TEST NAME}    Click ${menu}","*Arguments: [ ${CASE NAME}='Create New Project' | ${ACT DESCRIPTION}='Click fMenu' ]","*${CASE NAME}    ${ACT DESCRIPTION}    Action    --","*Arguments: [ 'Create New Project' | 'Click fMenu' | 'Action' | '--' ]","*RF GUI Helper: Make Picture","*primary    ${menu}    Clicking ${menu}","*Arguments: [ ${window}='primary' | ${widget}='fMenu' | ${title}='Clicking fMenu' ]","*${window}.Capture Image    ${widget}","*Arguments: [ '${window}.Capture Image' | '${widget}' ]","*Capture Image","*<p>Takes a picture of the intended widget and returns the image file\x3c/p>","*${widget}","*Arguments: [ 'fMenu' ]","*Answer received: !yro5669","*Command to send: c\no5669\nnewRegion\ni18\ni69\ni30\ni15\ne\n","*Answer received: !yro5670","*Command to send: c\nt\ncheckAndSetRemote\nro5669\nro5670\nbFalse\ne\n","*Answer received: !yro5671","*Command to send: c\no5671\ncapture\nro5670\ne\n","*Answer received: !yro5672","*Command to send: c\nt\ncheckAndSetRemote\nro5671\nro5672\nbFalse\ne\n","*Command to send: c\no5672\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402821555.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJJ.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJJ.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJJ.PNG' | ${CASE NAME}='Create New Project' | ${STEP NAME}='Clicking fMenu' ]","*Arguments: [ 'Create New Project' | 'Clicking fMenu' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJJ.PNG' ]","*Answer received: !yro5673","*Command to send: c\no5673\nnewRegion\ni18\ni69\ni30\ni15\ne\n","*Answer received: !yro5674","*Command to send: c\nt\ncheckAndSetRemote\nro5673\nro5674\nbFalse\ne\n","*Command to send: c\no5674\nclick\ne\n","*${verify view}","*Return: 'View[fileMenu]'","*${e} = View[fileMenu]","*Answer received: !yro5675","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/mainwindow\\\\fAnchor.png\ne\n","*Answer received: !yro5676","*Command to send: c\no5675\nfind\nro5676\ne\n","*Answer received: !yro5677","*Command to send: c\no5677\ngetScore\ne\n","*Answer received: !yd0.999998927116394","*Command to send: c\no5677\ngetTarget\ne\n","*Answer received: !yro5678","*Command to send: c\no5678\ngetX\ne\n","*Answer received: !yi43","*Command to send: c\no5678\ngetY\ne\n","*Answer received: !yi81","*${a} = View[fileMenu]","*Arguments: [ ${window}='primary' | ${title}='Actual view: View[fileMenu]' ]","*Answer received: !yro5679","*Command to send: c\no5679\nnewRegion\ni13\ni37\ni600\ni178\ne\n","*Answer received: !yro5680","*Command to send: c\nt\ncheckAndSetRemote\nro5679\nro5680\nbFalse\ne\n","*Answer received: !yro5681","*Command to send: c\no5681\ncapture\nro5680\ne\n","*Answer received: !yro5682","*Command to send: c\nt\ncheckAndSetRemote\nro5681\nro5682\nbFalse\ne\n","*Command to send: c\no5682\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402823659.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJK.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJK.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJK.PNG' | ${CASE NAME}='Create New Project' | ${STEP NAME}='Actual view: View[fileMenu]' ]","*Arguments: [ 'Create New Project' | 'Actual view: View[fileMenu]' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJK.PNG' ]","*Command to send: m\nd\no5629\ne\n","*Command to send: m\nd\no5650\ne\n","*Command to send: m\nd\no5659\ne\n","*Command to send: m\nd\no5660\ne\n","*Command to send: m\nd\no5666\ne\n","*Command to send: m\nd\no5669\ne\n","*Command to send: m\nd\no5670\ne\n","*Command to send: m\nd\no5671\ne\n","*Command to send: m\nd\no5672\ne\n","*Command to send: m\nd\no5673\ne\n","*Command to send: m\nd\no5674\ne\n","*Command to send: m\nd\no5675\ne\n","*Command to send: m\nd\no5676\ne\n","*Command to send: m\nd\no5677\ne\n","*Command to send: m\nd\no5678\ne\n","*Command to send: m\nd\no5679\ne\n","*Command to send: m\nd\no5681\ne\n","*Command to send: m\nd\no5682\ne\n","*Arguments: [ \"'Opened View[fileMenu]'\" ]","*Return: 'Opened View[fileMenu]'","*${msg} = Opened View[fileMenu]","*Arguments: [ ${CASE NAME}='Create New Project' | ${STEP NAME}='RF GUI Helper: Verify View' | ${STATUS}='PASS' | ${MESSAGE}='Opened View[fileMenu]' ]","*Arguments: [ 'Create New Project' | 'RF GUI Helper: Verify View' | 'PASS' | 'Opened View[fileMenu]' ]","*Arguments: [ \"'View[fileMenu]'!='View[fileMenu]'\" | 'Fail' | '${msg}' ]","*primary    After opening menu","*${TEST NAME}    Selecting ${menuName}    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}","*Arguments: [ ${CASE NAME}='Create New Project' | ${STEP NAME}='Selecting fMenu' | ${STATUS}='PASS' | ${MESSAGE}='' ]","*Arguments: [ ${STEP NAME}='Selecting fMenu' | ${STATUS}='PASS' | ${MESSAGE}='' ]","*Arguments: [ '&amp;&amp;' | 'Selecting fMenu' | 'PASS' | '' ]","*primary    ${action}    ${memo} function","*Arguments: [ ${window}='primary' | ${widget}='newProject' | ${title}='New Project function' ]","*Arguments: [ 'newProject' ]","*Answer received: !yro5683","*Command to send: c\no5683\nnewRegion\ni28\ni88\ni46\ni18\ne\n","*Answer received: !yro5684","*Command to send: c\nt\ncheckAndSetRemote\nro5683\nro5684\nbFalse\ne\n","*Answer received: !yro5685","*Command to send: c\no5685\ncapture\nro5684\ne\n","*Answer received: !yro5686","*Command to send: c\nt\ncheckAndSetRemote\nro5685\nro5686\nbFalse\ne\n","*Command to send: c\no5686\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402824024.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJL.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJL.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJL.PNG' | ${CASE NAME}='Create New Project' | ${STEP NAME}='New Project function' ]","*Arguments: [ 'Create New Project' | 'New Project function' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJL.PNG' ]","*${action}","*Answer received: !yro5687","*Command to send: c\no5687\nnewRegion\ni28\ni88\ni46\ni18\ne\n","*Answer received: !yro5688","*Command to send: c\nt\ncheckAndSetRemote\nro5687\nro5688\nbFalse\ne\n","*Command to send: c\no5688\nclick\ne\n","*RF GUI Helper: Select File","*${projectFolder}    ${projectName}","*Arguments: [ ${folder}='C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/testOnly' | ${file}='allMembers' ]","*auxiliary    openProjectAnchor","*Arguments: [ ${window}='auxiliary' | ${expectedView}='openProjectAnchor' ]","*Answer received: !yro5689","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/auxwindows\\\\deleteAnchor.png\ne\n","*Answer received: !yro5690","*Command to send: c\no5689\nfind\nro5690\ne\n","*Answer received: !xro5691","*Command to send: m\nd\no5691\ne\n","*Answer received: !yro5692","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/auxwindows\\\\updateAnchor.png\ne\n","*Answer received: !yro5693","*Command to send: c\no5692\nfind\nro5693\ne\n","*Answer received: !xro5694","*Command to send: m\nd\no5694\ne\n","*Answer received: !yro5695","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/auxwindows\\\\openProjectAnchor.png\ne\n","*Answer received: !yro5696","*Command to send: c\no5695\nfind\nro5696\ne\n","*Answer received: !yro5697","*Command to send: c\no5697\ngetScore\ne\n","*Command to send: c\no5697\ngetTarget\ne\n","*Answer received: !yro5698","*Command to send: c\no5698\ngetX\ne\n","*Answer received: !yi46","*Command to send: c\no5698\ngetY\ne\n","*Answer received: !yi134","*Return: 'openProjectAnchor'","*${foundView} = openProjectAnchor","*Arguments: [ ${CASE NAME}='Create New Project' | ${STEP NAME}='Finding auxiliary Window' | ${DATA}='auxiliary Window: openProjectAnchor' ]","*Arguments: [ 'Create New Project' | 'Finding auxiliary Window' | 'Data' | 'auxiliary Window: openProjectAnchor' ]","*Arguments: [ \"'openProjectAnchor'!='None'\" ]","*Arguments: [ \"'openProjectAnchor'!='openProjectAnchor'\" | 'Fail' ]","*Arguments: [ ${window}='auxiliary' | ${title}='Window' ]","*Answer received: !yro5699","*Command to send: c\no5699\nnewRegion\ni21\ni87\ni654\ni463\ne\n","*Answer received: !yro5700","*Command to send: c\nt\ncheckAndSetRemote\nro5699\nro5700\nbFalse\ne\n","*Answer received: !yro5701","*Command to send: c\no5701\ncapture\nro5700\ne\n","*Answer received: !yro5702","*Command to send: c\nt\ncheckAndSetRemote\nro5701\nro5702\nbFalse\ne\n","*Command to send: c\no5702\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402826679.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJM.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJM.PNG","*Command to send: m\nd\no5683\ne\n","*Command to send: m\nd\no5684\ne\n","*Command to send: m\nd\no5685\ne\n","*Command to send: m\nd\no5686\ne\n","*Command to send: m\nd\no5687\ne\n","*Command to send: m\nd\no5689\ne\n","*Command to send: m\nd\no5690\ne\n","*Command to send: m\nd\no5692\ne\n","*Command to send: m\nd\no5693\ne\n","*Command to send: m\nd\no5695\ne\n","*Command to send: m\nd\no5696\ne\n","*Command to send: m\nd\no5697\ne\n","*Command to send: m\nd\no5698\ne\n","*Command to send: m\nd\no5699\ne\n","*Command to send: m\nd\no5701\ne\n","*Command to send: m\nd\no5702\ne\n","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJM.PNG' | ${CASE NAME}='Create New Project' | ${STEP NAME}='Window' ]","*Arguments: [ 'Create New Project' | 'Window' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJM.PNG' ]","*${TEST NAME}    Update folder: ${folder}","*Arguments: [ ${CASE NAME}='Create New Project' | ${ACT DESCRIPTION}='Update folder: C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/testOnly' ]","*Arguments: [ 'Create New Project' | 'Update folder: C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/testOnly' | 'Action' | '--' ]","*Write","*<p>Write text onto the intended widget\x3c/p>","*folderText    ${folder}\\n","*Arguments: [ 'folderText' | 'C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/testOnly\\n' ]","*Answer received: !yro5703","*Command to send: c\no5703\nnewRegion\ni405\ni127\ni10\ni13\ne\n","*Answer received: !yro5704","*Command to send: c\nt\ncheckAndSetRemote\nro5703\nro5704\nbFalse\ne\n","*Command to send: c\no5704\nclick\ne\n","*Command to send: c\no5704\ntype\nn\nsa\ni2\ne\n","*Command to send: c\no5704\ntype\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/testOnly\\n\ne\n","*auxiliary    In folder: ${folder}","*Arguments: [ ${window}='auxiliary' | ${title}='In folder: C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/testOnly' ]","*Answer received: !yro5705","*Command to send: c\no5705\nnewRegion\ni21\ni87\ni654\ni463\ne\n","*Answer received: !yro5706","*Command to send: c\nt\ncheckAndSetRemote\nro5705\nro5706\nbFalse\ne\n","*Answer received: !yro5707","*Command to send: c\no5707\ncapture\nro5706\ne\n","*Answer received: !yro5708","*Command to send: c\nt\ncheckAndSetRemote\nro5707\nro5708\nbFalse\ne\n","*Command to send: c\no5708\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402836806.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJN.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJN.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJN.PNG' | ${CASE NAME}='Create New Project' | ${STEP NAME}='In folder: C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/testOnly' ]","*Arguments: [ 'Create New Project' | 'In folder: C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/testOnly' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJN.PNG' ]","*${TEST NAME}    Update file: ${file}","*Arguments: [ ${CASE NAME}='Create New Project' | ${ACT DESCRIPTION}='Update file: allMembers' ]","*Arguments: [ 'Create New Project' | 'Update file: allMembers' | 'Action' | '--' ]","*fileText    ${file}","*Arguments: [ 'fileText' | 'allMembers' ]","*Answer received: !yro5709","*Command to send: c\no5709\nnewRegion\ni220\ni496\ni222\ni15\ne\n","*Answer received: !yro5710","*Command to send: c\nt\ncheckAndSetRemote\nro5709\nro5710\nbFalse\ne\n","*Command to send: c\no5710\nclick\ne\n","*Command to send: c\no5710\ntype\nn\nsa\ni2\ne\n","*Command to send: c\no5710\ntype\nsallMembers\ne\n","*auxiliary    fileText    File: ${file}","*Arguments: [ ${window}='auxiliary' | ${widget}='fileText' | ${title}='File: allMembers' ]","*Arguments: [ 'fileText' ]","*Answer received: !yro5711","*Command to send: c\no5711\nnewRegion\ni220\ni496\ni222\ni15\ne\n","*Answer received: !yro5712","*Command to send: c\nt\ncheckAndSetRemote\nro5711\nro5712\nbFalse\ne\n","*Answer received: !yro5713","*Command to send: c\no5713\ncapture\nro5712\ne\n","*Answer received: !yro5714","*Command to send: c\nt\ncheckAndSetRemote\nro5713\nro5714\nbFalse\ne\n","*Command to send: c\no5714\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402838831.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJO.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJO.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJO.PNG' | ${CASE NAME}='Create New Project' | ${STEP NAME}='File: allMembers' ]","*Arguments: [ 'Create New Project' | 'File: allMembers' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJO.PNG' ]","*${TEST NAME}    Click Open","*Arguments: [ ${CASE NAME}='Create New Project' | ${ACT DESCRIPTION}='Click Open' ]","*Arguments: [ 'Create New Project' | 'Click Open' | 'Action' | '--' ]","*auxiliary    ofOpen    Open button","*Arguments: [ ${window}='auxiliary' | ${widget}='ofOpen' | ${title}='Open button' ]","*Arguments: [ 'ofOpen' ]","*Answer received: !yro5715","*Command to send: c\no5715\nnewRegion\ni484\ni521\ni87\ni24\ne\n","*Answer received: !yro5716","*Command to send: c\nt\ncheckAndSetRemote\nro5715\nro5716\nbFalse\ne\n","*Answer received: !yro5717","*Command to send: c\no5717\ncapture\nro5716\ne\n","*Answer received: !yro5718","*Command to send: c\nt\ncheckAndSetRemote\nro5717\nro5718\nbFalse\ne\n","*Command to send: c\no5718\ngetFilename\ne\n","*Answer received: !ysC:\\\\Users\\\\Owner\\\\AppData\\\\Local\\\\Temp\\\\Sikulix_1009917224\\\\sikuliximage-1711402839054.png","*Return: 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJP.PNG'","*${file} = C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJP.PNG","*Arguments: [ ${FILE}='C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJP.PNG' | ${CASE NAME}='Create New Project' | ${STEP NAME}='Open button' ]","*Arguments: [ 'Create New Project' | 'Open button' | 'Screenshot' | 'C:/Users/Owner/OneDrive/Documents/RFData3_1/IMG/imageDJP.PNG' ]","*ofOpen","*Answer received: !yro5719","*Command to send: c\no5719\nnewRegion\ni484\ni521\ni87\ni24\ne\n","*Answer received: !yro5720","*Command to send: c\nt\ncheckAndSetRemote\nro5719\nro5720\nbFalse\ne\n","*Command to send: c\no5720\nclick\ne\n","*auxiliary    projectStartAnchor","*Arguments: [ ${window}='auxiliary' | ${expectedView}='projectStartAnchor' ]","*Command to send: m\nd\no5703\ne\n","*Command to send: m\nd\no5704\ne\n","*Command to send: m\nd\no5705\ne\n","*Command to send: m\nd\no5706\ne\n","*Command to send: m\nd\no5707\ne\n","*Command to send: m\nd\no5708\ne\n","*Command to send: m\nd\no5709\ne\n","*Command to send: m\nd\no5710\ne\n","*Command to send: m\nd\no5711\ne\n","*Command to send: m\nd\no5712\ne\n","*Command to send: m\nd\no5713\ne\n","*Command to send: m\nd\no5714\ne\n","*Command to send: m\nd\no5715\ne\n","*Command to send: m\nd\no5716\ne\n","*Command to send: m\nd\no5717\ne\n","*Command to send: m\nd\no5718\ne\n","*Command to send: m\nd\no5719\ne\n","*Answer received: !yro5721","*Answer received: !yro5722","*Command to send: c\no5721\nfind\nro5722\ne\n","*Answer received: !yro5723","*Command to send: c\no5723\ngetScore\ne\n","*Answer received: !yd0.9734722375869751","*Command to send: c\no5723\ngetTarget\ne\n","*Answer received: !yro5724","*Command to send: c\no5724\ngetX\ne\n","*Command to send: c\no5724\ngetY\ne\n","*Arguments: [ \"'projectStartAnchor'!='None'\" ]","*Arguments: [ \"'openProjectAnchor'!='projectStartAnchor'\" | 'Fail' ]","*Traceback (most recent call last):\n  None\nAssertionError","*psOK","*${imgFolder}    ${imgName}","*auxiliary    saveProgessAnchor","*spOK","*${TEST NAME}    New Project ${projectName}    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}","*Arguments: [ ${CASE NAME}='Create New Project' | ${STEP NAME}='New Project allMembers' | ${STATUS}='FAIL' | ${MESSAGE}='AssertionError' ]","*Arguments: [ ${STEP NAME}='New Project allMembers' | ${STATUS}='FAIL' | ${MESSAGE}='AssertionError' ]","*Arguments: [ '&amp;&amp;' | 'New Project allMembers' | 'FAIL' | 'AssertionError' ]","*Close Project","*RF GUI Helper: Close Project","*Arguments: [ ${answer}='No' ]","*primary    mainTitleFocused","*Answer received: !yro5725","*Answer received: !yro5726","*Command to send: c\no5725\nfind\nro5726\ne\n","*Answer received: !xro5727","*Command to send: m\nd\no5727\ne\n","*Answer received: !yro5728","*Answer received: !yro5729","*Command to send: c\no5728\nfind\nro5729\ne\n","*Answer received: !xro5730","*Command to send: m\nd\no5730\ne\n","*Answer received: !yro5731","*Answer received: !yro5732","*Command to send: c\no5731\nfind\nro5732\ne\n","*Answer received: !xro5733","*Command to send: m\nd\no5733\ne\n","*Answer received: !yro5734","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/mainwindow\\\\vAnchor.png\ne\n","*Answer received: !yro5735","*Command to send: c\no5734\nfind\nro5735\ne\n","*Answer received: !xro5736","*Command to send: m\nd\no5736\ne\n","*Answer received: !yro5737","*Command to send: c\nt\ncreatePattern\nsC:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/RFGHelper/mainwindow\\\\unfocusedMainAnchor.png\ne\n","*Answer received: !yro5738","*Command to send: c\no5737\nfind\nro5738\ne\n","*Answer received: !yro5739","*Command to send: c\no5739\ngetScore\ne\n","*Command to send: c\no5739\ngetTarget\ne\n","*Answer received: !yro5740","*Command to send: c\no5740\ngetX\ne\n","*Answer received: !yi79","*Command to send: c\no5740\ngetY\ne\n","*Answer received: !yi50","*Return: 'unfocusedMainAnchor'","*${foundView} = unfocusedMainAnchor","*Arguments: [ ${CASE NAME}='Close Project' | ${STEP NAME}='Finding primary Window' | ${DATA}='primary Window: unfocusedMainAnchor' ]","*Arguments: [ 'Close Project' | 'Finding primary Window' | 'Data' | 'primary Window: unfocusedMainAnchor' ]","*Command to send: m\nd\no5721\ne\n","*Command to send: m\nd\no5722\ne\n","*Command to send: m\nd\no5724\ne\n","*Command to send: m\nd\no5725\ne\n","*Command to send: m\nd\no5726\ne\n","*Command to send: m\nd\no5728\ne\n","*Command to send: m\nd\no5729\ne\n","*Command to send: m\nd\no5731\ne\n","*Command to send: m\nd\no5732\ne\n","*Command to send: m\nd\no5734\ne\n","*Command to send: m\nd\no5735\ne\n","*Command to send: m\nd\no5737\ne\n","*Command to send: m\nd\no5738\ne\n","*Command to send: m\nd\no5740\ne\n","*Arguments: [ \"'unfocusedMainAnchor'!='mainTitleFocused'\" | 'Fail' ]","*${TEST NAME}    Close Project    Some project is open","*fMenu    verifyView=False","*${TEST NAME}    Click close button","*primary    closeProject    Close button","*closeProject","*${TEST NAME}    Click ${answer} button","*auxiliary    saveChangeAnchor","*auxiliary    sc${answer}Button    ${answer}","*sc${answer}Button","*primary    End State","*${TEST NAME}    Close Project    Project is closed","*${TEST NAME}    Verifying Project Closed    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}","*Arguments: [ ${CASE NAME}='Close Project' | ${STEP NAME}='Verifying Project Closed' | ${STATUS}='FAIL' | ${MESSAGE}='AssertionError' ]","*Arguments: [ ${STEP NAME}='Verifying Project Closed' | ${STATUS}='FAIL' | ${MESSAGE}='AssertionError' ]","*Arguments: [ '&amp;&amp;' | 'Verifying Project Closed' | 'FAIL' | 'AssertionError' ]","*Test Teardown"]);
 </script>
 <script type="text/javascript">
-window.output["stats"] = [[{"elapsed":"00:00:08","fail":0,"label":"All Tests","pass":1,"skip":0}],[],[{"elapsed":"00:00:10","fail":0,"id":"s1","label":"remoteHP","name":"remoteHP","pass":1,"skip":0}]];
+window.output["stats"] = [[{"elapsed":"00:00:32","fail":2,"label":"All Tests","pass":1,"skip":0}],[],[{"elapsed":"00:00:32","fail":2,"id":"s1","label":"testWidgets","name":"testWidgets","pass":1,"skip":0}]];
 </script>
 <script type="text/javascript">
 window.output["errors"] = [];
 </script>
 <script type="text/javascript">
-window.output["baseMillis"] = 1678345160926;
+window.output["baseMillis"] = 1711402810815;
 </script>
 <script type="text/javascript">
-window.output["generated"] = 9792;
+window.output["generated"] = 32546;
 </script>
 <script type="text/javascript">
 window.output["expand_keywords"] = null;
@@ -1831,7 +2109,7 @@ window.settings = {"defaultLevel":"INFO","minLevel":"TRACE","reportURL":"report.
 </script>
 <title></title>
 </head>
-<body>
+<body data-theme="dark">
 <div id="javascript-disabled">
   <h1>Opening Robot Framework log failed</h1>
   <ul>
@@ -1841,12 +2119,13 @@ window.settings = {"defaultLevel":"INFO","minLevel":"TRACE","reportURL":"report.
   </ul>
 </div>
 <script type="text/javascript">removeJavaScriptDisabledWarning();</script>
-
 <div id="header"></div>
 <div id="statistics-container"></div>
 
 <script type="text/javascript">
 $(document).ready(function() {
+    storage.init();
+    theme.init(storage);
     try {
         var topsuite = window.testdata.suite();
     } catch (error) {
@@ -1854,6 +2133,7 @@ $(document).ready(function() {
         return;
     }
     initLayout(topsuite.name, 'Log');
+    theme.reflectPreference();
     addStatistics();
     addErrors();
     addExecutionLog(topsuite);
@@ -1894,25 +2174,6 @@ function drawErrorsRecursively(errors, target) {
         // Errors may have moved scroll position. Resetting location re-scrolls.
         if (window.location.hash)
             window.location.replace(window.location.hash);
-        highlightLinkTarget();
-    }
-}
-
-function highlightLinkTarget() {
-    if (window.location.hash) {
-        var target = $(window.location.hash);
-        highlight(target);
-    }
-}
-
-function highlight(element, color) {
-    if (color === undefined)
-        color = 242;
-    if (color < 255) {
-        element.css({'background-color': 'rgb('+color+','+color+','+color+')'});
-        setTimeout(function () { highlight(element, color+1); }, 300);
-    } else {
-        element.css({'background-color': ''});
     }
 }
 
@@ -1928,9 +2189,8 @@ function makeElementVisible(id) {
         util.map(ids, expandElementWithId);
         if (ids.length) {
             expandFailed(window.testdata.findLoaded(util.last(ids)));
-            window.location.hash = '';
             window.location.hash = id;
-            highlightLinkTarget();
+            document.getElementById(id).scrollIntoView();
         }
     });
 }
@@ -2128,8 +2388,9 @@ function addExecutionLog(main) {
       <div class="element-header-left" title="${type}  {{if name}}{{html fullName}}  {{/if}}[${status}]">
         <span class="elapsed" title="Elapsed time">${times.elapsedTime}</span>
         <span class="label ${status.toLowerCase()}">${type}</span>
-        <span>{{html assign}}</span>
+        <span class="assign">{{html assign}}</span>
         <span class="name"><span class="parent-name">{{html libname}}{{if libname}} . {{/if}}</span>{{html name}}</span>
+        &nbsp;
         <span class="arg">{{html arguments}}</span>
       </div>
       <div class="element-header-right" onclick="stopPropagation(event)">
@@ -2163,6 +2424,12 @@ function addExecutionLog(main) {
           <th>Start / End / Elapsed:</th>
           <td>${times.startTime} / ${times.endTime} / ${times.elapsedTime}</td>
         </tr>
+        {{if message()}}
+        <tr>
+          <th>Message:</th>
+          <td class="message">{{html message()}}</td>
+        </tr>
+        {{/if}}
       </table>
     </div>
   </div>
@@ -2185,6 +2452,7 @@ function addExecutionLog(main) {
   <div id="log-level-selector">
   Log level:
     <select onchange="logLevelSelected(this.options[selectedIndex].value)">
+      <option value="3">WARN</option>
       <option value="2">INFO</option>
       <option value="1">DEBUG</option>
       {{if showTrace()}}<option value="0">TRACE</option>{{/if}}

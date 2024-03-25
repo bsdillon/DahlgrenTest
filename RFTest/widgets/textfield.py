@@ -1,4 +1,4 @@
-from widgets.widget import Widget
+from widget import Widget
 
 class TextField(Widget):
     ROBOT_AUTO_KEYWORDS = False
@@ -11,20 +11,12 @@ class TextField(Widget):
     def LogAll(self):
         return "\t"+self.name+": read, write, capture, captureSmall\n"
 
-    def click(self):
-        raise NotImplementedError
-
-    def doubleClick(self):
+    def typeEnter(self):
+        pass
+        
+    #not used in Textfield
+    def getState(self):
         raise NotImplementedError
 
     def move(self, *_):
-        raise NotImplementedError
-
-    def find(self):
-        raise NotImplementedError
-
-    def setGroup(self, _):
-        raise NotImplementedError
-
-    def getState(self):
         raise NotImplementedError

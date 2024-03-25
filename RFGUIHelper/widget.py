@@ -3,79 +3,34 @@ from tkinter import messagebox, ttk, OptionMenu
 from PIL import ImageTk
 from imageUpdate import ImageUpdater
 from valuebuttons import ValueButtons
+from imageselection import ImageSelection
 from fontselector import FontSelector
+from widgeterror import WidgetError
+
+# LEGACY TYPES
+# Scroll Bar
+# Dropdown
 
 WidgetTypes = {
+    'Button': ['Link'],
+    'Text Field': [],
+    'Label': [],
+    'List': ['Group'],
+    'Tab': ['Group', 'Link'],
+    'Check Box': ['Checked', 'Unchecked'],
+    'Radio Button': ['Value', 'Group', 'Checked', 'Unchecked'],
+    'Scroll Button': ['Group','Direction'],
     'Anchor': ['Image file name'],
     'MovePoint': ['Image file name'],
-    'Button': [],
-    'Radio Button': ['Value', 'Group'],
-    'Tab': ['Group', 'Font'],
-    'Text Field': ['Font'],
-    'List': ['Font'],
-    'Label': ['Font'],
-    'Scroll Bar': [],
-    'Dropdown': ['Font'],
-    'Check Box': [],
 }
 
-YetiImports = {
-    'Anchor': ['from yeti.anchor import TitleBar'],
-    'MovePoint': ['from yeti.anchor import TitleBar'],
-    'Button': ['from yeti.button import Button'],
-    'Radio Button': ['from yeti.radiobutton import RadioButton', 'from ads_window.widget.Checkbox import Checkbox'],
-    'Tab': ['from yeti.button import Button', 'from yeti.tabs import Tabs'],
-    'Text Field': ['from yeti.textentry import TextEntry'],
-    'List': ['from yeti.List import StatelessList'],
-    'Label': ['from yeti.label import Label'],
-    'Scroll Bar': [''],
-    'Dropdown': ['from ads_window.widget.DropdownMenu import StatelessDropdownMenu'],
-    'Check Box': ['from ads_window.widget.Checkbox import Checkbox']
-}
-
-YetiTypes = {
-    'Anchor': 'TitleBar',
-    'MovePoint': 'TitleBar',
-    'Button': 'Button',
-    'Radio Button': 'Checkbox',
-    'Tab': 'Button',
-    'Text Field': 'TextEntry',
-    'List': 'StatelessList',
-    'Label': 'Label',
-    'Scroll Bar': '',
-    'Dropdown': 'StatelessDropdownMenu',
-    'Check Box': 'Checkbox'
-}
-
-YetiEnabled = [
-    'Anchor',
-    'MovePoint',
-    'Button',
-    'Radio Button',
-    'Tab',
-    'Text Field',
-    'List',
-    'Label',
-    'Dropdown',
-    'Check Box'
-]
-
-NormalEnabled = [
-    'Anchor',
-    'MovePoint',
-    'Button',
-    'Radio Button',
-    'Text Field',
-    'Scroll Bar',
-    'Dropdown',
-    'Check Box'
-]
 
 class Widget():
-    def __init__(self, type, x, y, width, height):
+    def __init__(self, type, view, x, y, width, height):
         self.editor = None
         self.attributes={}
         self.attributes["name"]=""
+        self.attributes["view"]=view
         self.attributes["type"]=type
         self.attributes["X"]=x
         self.attributes["Y"]=y
@@ -106,7 +61,7 @@ class Widget():
 
     @staticmethod
     def FromDictionary(dict):
-        w = Widget(dict["type"], dict["X"], dict["Y"], dict["width"], dict["height"])
+        w = Widget(dict["type"], dict["view"], dict["X"], dict["Y"], dict["width"], dict["height"])
         for k in dict.keys():
             w.setValue(k, dict[k])
 
@@ -114,83 +69,91 @@ class Widget():
 
 class WidgetEditor:
     lastWidget = None
+    foreignWidget = False
+    viewUpdate = [None,0,0]
+
+    def __init__(self):
+        pass
 
     @staticmethod
-    def Edit(widget:Widget, parent, imageUpdater:ImageUpdater, reviseWidget=False, yetiType=False):
-        #TODO I would like to instantiate without init. Defend against creating
-        # the editor without calling this static method. Not sure how to do that.
-        WidgetEditor(widget, parent, imageUpdater, reviseWidget, yetiType=yetiType)
-        parent.wait_window(widget.editor.window)
+    def CreateCrash():
+        instance = WidgetEditor()
+        instance.completed = EditorState.CANCELLED
+        return instance
 
-        if widget.editor.completed == EditorState.COMPLETE:
-            WidgetEditor.lastWidget = widget.getValue("type")
-            imageUpdater.updateImage(widget)
+    @staticmethod
+    def CreateEditor(widget:Widget, parentWindow, imageUpdater:ImageUpdater, revision=False, isForeign=False):
+        instance = WidgetEditor()
+        WidgetEditor.foreignWidget = isForeign
 
-            #the process was completed and a new widget is ready
-            if widget.hasValue('Image file name'):
-                #Any widget that needs to save the image file
-                fileName = widget.getValue('Image file name')
-
-                #TODO better sanitization of filename
-                fileName = fileName.replace(" ","_")
-
-                #add extension
-                tmp = fileName.find(".")
-                if tmp == -1:
-                    tmp = len(fileName)
-                fileName = fileName[0:tmp]+".png"
-
-                #finalize the name of the file and save
-                widget.setValue('Image file name', fileName)
-
-    def __init__(self, widget:Widget, parentWindow, imageUpdater:ImageUpdater, revision, yetiType=False):
-        self.widget = widget
-        self.widgetList = NormalEnabled
-        if yetiType:
-            self.widgetList = YetiEnabled
-        widget.editor = self
+        instance.checkWidget = None # this is exclusively used to allow location-based changes to check/uncheck buttons
+        instance.widget = widget
+        instance.widgetList = list(WidgetTypes.keys())
+        instance.widget.editor = instance
         span = 2
         if revision:
             span = 3
-        self.window = tk.Toplevel(parentWindow)
-        self.imageUpdater = imageUpdater
-        self.tkImage = ImageTk.PhotoImage(self.widget.image)       
-
-        HEIGHT = 600
-        WIDTH = 600
-        self.window.rowconfigure(0,weight=1)
-
-        self.imageSmall = True
-        self.tkLabel = tk.Label(self.window, image=self.tkImage)
-        self.tkLabel.bind("<Button-1>",self.imageSizeToggle)
-        self.tkLabel.pack(side="left", fill="both", expand=True)
-        self.tkLabel.grid(row=0, column=0, columnspan=span)
-
-        self.frame = tk.Frame(self.window, width=WIDTH, height=HEIGHT)
-        self.frame.grid(row=1, column=0, columnspan=span)
-        self.frame.columnconfigure(2,weight=1)
-
-        self.buildEditorTable()
-        
-        #add/update button revises the attributes of the object and then destroys the popup
-        if revision:
-            throwaway = tk.Button(self.window, text='Update', command=self.update)
+        instance.window = tk.Toplevel(parentWindow)
+        instance.window.title("Widget Editor")
+        instance.window.attributes('-topmost',1)
+        instance.imageUpdater = imageUpdater
+        xTmp = int(instance.widget.attributes['X'])
+        yTmp = int(instance.widget.attributes['Y'])
+        wTmp = int(instance.widget.attributes['width'])
+        hTmp = int(instance.widget.attributes['height'])
+        if WidgetEditor.foreignWidget:
+            # we want to update imported images from your current view
+            instance.tkImage = instance.imageUpdater.cropImage(xTmp, yTmp, wTmp, hTmp)
         else:
-            throwaway = tk.Button(self.window, text='Add', command=self.update)
+            instance.tkImage = instance.imageUpdater.cropImage(xTmp, yTmp, wTmp, hTmp, specificView=instance.widget.getValue("view"))
+
+        HEIGHT = 300
+        WIDTH = 225
+        instance.window.geometry(str(WIDTH)+'x'+str(HEIGHT))
+        instance.window.rowconfigure(0,weight=1)
+
+        instance.imageSmall = True
+        instance.tkLabel = tk.Label(instance.window, image=instance.tkImage)
+        instance.tkLabel.bind("<Button-1>",instance.imageSizeToggle)
+        instance.tkLabel.pack(side="left", fill="both", expand=True)
+        instance.tkLabel.grid(row=0, column=0, columnspan=span)
+
+        instance.frame = tk.Frame(instance.window, width=WIDTH, height=HEIGHT)
+        instance.frame.grid(row=1, column=0, columnspan=span)
+        instance.frame.columnconfigure(2,weight=1)
+
+        try:
+            instance.buildEditorTable()
+        except WidgetError as we:
+            instance.window.destroy()
+            raise WidgetError("Cannot create/edit widget\n"+str(we))
+
+        #add/update button revises the attributes of the object and then destroys the popup
+        if revision or WidgetEditor.foreignWidget:
+            throwaway = tk.Button(instance.window, text='Update', command=instance.update)
+        else:
+            throwaway = tk.Button(instance.window, text='Add', command=instance.update)
         throwaway.grid(row=2, column=0)
 
-        if revision:
-            throwaway = tk.Button(self.window, text='Delete', command=self.delete)
+        if revision and (not WidgetEditor.foreignWidget):
+            throwaway = tk.Button(instance.window, text='Delete', command=instance.delete)
             throwaway.grid(row=2, column=1)
 
-        throwaway = tk.Button(self.window, text='Cancel', command=self.cancel)
+        throwaway = tk.Button(instance.window, text='Cancel', command=instance.cancel)
         throwaway.grid(row=2, column=span-1)
 
         if (not revision) and (not WidgetEditor.lastWidget==None):
             #widget.setValue("type",WidgetEditor.lastWidget)
-            self.type.set(WidgetEditor.lastWidget)
-            self.changeType(None)
-        
+            instance.type.set(WidgetEditor.lastWidget)
+            instance.changeType(None)
+        return instance
+
+    def setLocation(self, x, y):
+        self.window.geometry("+%d+%d" %(x,y))
+
+    def getLocation(self):
+        return [self.window.winfo_x(), self.window.winfo_y()]
+
     def buildEditorTable(self):
         #only make it sensetive AFTER the thing is built
         self.sensetive = False
@@ -218,24 +181,104 @@ class WidgetEditor:
             tmpLabel = tk.Label(self.frame, text="")
             tmpLabel.grid(row=r, column=1)
 
-            if key=="type":
-                #type only is based on a specific enumeration so we limit it accordingly.
-                throwaway = OptionMenu(self.frame, self.type, *(self.widgetList), command=self.changeType)
-                self.type.set(self.widget.attributes[key])
-            elif key == 'X':
-                throwaway = ValueButtons(self.frame, 0, imageBounds[0], int(self.widget.attributes[key]), callback=self.changeImage)
-            elif key == 'Y':
-                throwaway = ValueButtons(self.frame, 0, imageBounds[1], int(self.widget.attributes[key]), callback=self.changeImage)
-            elif key == 'width':
-                throwaway = ValueButtons(self.frame, 0, imageBounds[0]-int(self.widget.attributes["X"]), int(self.widget.attributes[key]), callback=self.changeImage)
-            elif key == 'height':
-                throwaway = ValueButtons(self.frame, 0, imageBounds[1]-int(self.widget.attributes["Y"]), int(self.widget.attributes[key]), callback=self.changeImage)
-            elif key == 'Font':
-                throwaway = FontSelector(self.frame, self.widget.attributes[key])
-            else:
-                throwaway = ttk.Entry(self.frame, width=20)
-                throwaway.insert(0, self.widget.attributes[key])
-                throwaway.config({"background": "#00aaff"})
+            try:
+                if key=="type":
+                    #type only is based on a specific enumeration so we limit it accordingly.
+                    throwaway = OptionMenu(self.frame, self.type, *(self.widgetList), command=self.changeType)
+                    self.type.set(self.widget.attributes[key])
+                    if WidgetEditor.foreignWidget:
+                        throwaway.configure(state=tk.DISABLED)
+                elif key == 'X':
+                    throwaway = ValueButtons(self.frame, 0, imageBounds[0], int(self.widget.attributes[key]), callback=self.changeImage, validateBounds=(not WidgetEditor.foreignWidget))
+                elif key == 'Y':
+                    throwaway = ValueButtons(self.frame, 0, imageBounds[1], int(self.widget.attributes[key]), callback=self.changeImage, validateBounds=(not WidgetEditor.foreignWidget))
+                elif key == 'width':
+                    throwaway = ValueButtons(self.frame, 0, imageBounds[0]-int(self.widget.attributes["X"]), int(self.widget.attributes[key]), callback=self.changeImage, validateBounds=(not WidgetEditor.foreignWidget))
+                    if WidgetEditor.foreignWidget:
+                        throwaway.disable()
+                elif key == 'height':
+                    throwaway = ValueButtons(self.frame, 0, imageBounds[1]-int(self.widget.attributes["Y"]), int(self.widget.attributes[key]), callback=self.changeImage, validateBounds=(not WidgetEditor.foreignWidget))
+                    if WidgetEditor.foreignWidget:
+                        throwaway.disable()
+                elif key=='Checked':
+                    #source Image;local image;left;top;right;bottom
+                    data = [None,None,-1,-1,int(self.widget.attributes['X'])+int(self.widget.attributes['width']),int(self.widget.attributes['Y'])+int(self.widget.attributes['height'])]
+                    if self.widget.attributes['Checked']:
+                        data = self.widget.attributes['Checked'].split(';')
+                    self.checkWidget = ImageSelection(self.frame, self.imageUpdater.getImageSavePath(), self.widget.attributes['name'], data, uncheckedType=False, callback=self.checkedImage)
+                    throwaway = self.checkWidget
+
+                    if self.widget.attributes['name']:
+                        self.checkWidget.enable()
+                    else:
+                        self.checkWidget.disable()
+
+                    if WidgetEditor.foreignWidget:
+                        self.checkWidget.disable()
+                elif key=='Unchecked':
+                    #source Image;local image;left;top;right;bottom
+                    data = [None,None,int(self.widget.attributes['X']),int(self.widget.attributes['Y']),int(self.widget.attributes['X'])+int(self.widget.attributes['width']),int(self.widget.attributes['Y'])+int(self.widget.attributes['height'])]
+                    if self.widget.attributes['Unchecked']:
+                        data = self.widget.attributes['Unchecked'].split(';')
+                    self.uncheckWidget = ImageSelection(self.frame, self.imageUpdater.getImageSavePath(), self.widget.attributes['name'], data, callback=self.uncheckedImage)
+                    throwaway = self.uncheckWidget
+
+                    if self.widget.attributes['name']:
+                        self.uncheckWidget.enable()
+                    else:
+                        self.uncheckWidget.disable()
+
+                    if WidgetEditor.foreignWidget:
+                        self.uncheckWidget.disable()
+                elif key == 'Font':
+                    throwaway = FontSelector(self.frame, self.widget.attributes[key])
+                    if WidgetEditor.foreignWidget:
+                        throwaway.configure(state=tk.DISABLED)
+                elif key == "view":
+                    throwaway = ttk.Entry(self.frame, width=20)
+                    throwaway.insert(0, self.widget.attributes[key])
+                    throwaway.config({"background": "#00aaff"})
+                    throwaway.configure(state=tk.DISABLED)
+                elif key == "Direction":
+                    self.dirVar = tk.StringVar()
+                    throwaway = ttk.Combobox(self.frame, textvariable=self.dirVar)
+                    directions = ["North","East","South","West"]
+                    throwaway['values'] = directions
+                    value = self.widget.attributes[key]
+                    if not (value in directions):
+                        self.dirVar.set(value) # default option
+                    throwaway.bind("<<ComboboxSelected>>", self.directionChanged)
+                    if WidgetEditor.foreignWidget:
+                        throwaway.configure(state=tk.DISABLED)
+                elif key == "Link":
+                    self.linkVar = tk.StringVar()
+                    throwaway = ttk.Combobox(self.frame, textvariable=self.linkVar)
+                    views = self.imageUpdater.getViewList()
+                    views.insert(0, "<None>")
+                    throwaway['values'] = views
+                    value = self.widget.attributes[key]
+                    if not (value in views):
+                        value = "<None>"
+                    self.linkVar.set(value) # default option
+                    throwaway.bind("<<ComboboxSelected>>", self.linkChanged)
+                    if WidgetEditor.foreignWidget:
+                        throwaway.configure(state=tk.DISABLED)
+                elif key == "name":
+                    self.nameWidget = ttk.Entry(self.frame, width=20)
+                    throwaway = self.nameWidget
+                    throwaway.bind("<KeyRelease>", self.nameChanged)
+                    throwaway.insert(0, self.widget.attributes[key])
+                    throwaway.config({"background": "#00aaff"})
+                    if WidgetEditor.foreignWidget:
+                        throwaway.configure(state=tk.DISABLED)
+                else:
+                    throwaway = ttk.Entry(self.frame, width=20)
+                    throwaway.insert(0, self.widget.attributes[key])
+                    throwaway.config({"background": "#00aaff"})
+                    if WidgetEditor.foreignWidget:
+                        throwaway.configure(state=tk.DISABLED)
+            except WidgetError as we:
+                raise WidgetError("Problem with widget["+key+"]: "+str(we))
 
             throwaway.grid(row=r, column=2, sticky=tk.E+tk.W)
             self.entries[key] = throwaway
@@ -244,41 +287,81 @@ class WidgetEditor:
         #only make it sensetive AFTER the thing is built
         self.sensetive = True
 
+    def nameChanged(self, _):
+        name = self.nameWidget.get()
+        self.widget.attributes["name"] = name
+        if self.checkWidget: # if we have checked/unchecked we have to madify the name and file
+            self.checkWidget.enable()
+            self.uncheckWidget.enable()
+            self.checkWidget.updateName(name)
+            self.uncheckWidget.updateName(name)
+
+    def linkChanged(self, _):
+        self.widget.attributes["Link"] = self.linkVar
+        pass
+
+    def directionChanged(self, _):
+        self.widget.attributes["Direction"] = self.dirVar
+        pass
+
+    def checkedImage(self):
+        value = self.checkWidget.saveImage()
+        self.widget.attributes["Checked"]=value
+
+    def uncheckedImage(self):
+        value = self.uncheckWidget.saveImage()
+        self.widget.attributes["Unchecked"]=value
+
     def changeImage(self, _):
         if self.sensetive:
             self.sensetive = False
-            widthDim = int(self.entries['width'].get())
-            heightDim = int(self.entries['height'].get())
-            image = self.imageUpdater.cropImage(
-                                            int(self.entries['X'].get()),
-                                            int(self.entries['Y'].get()),
-                                            widthDim,
-                                            heightDim)
+            self.updateTkImage()
+
             imageBounds = self.imageUpdater.getImageBounds()
             width = imageBounds[0]-int(self.entries['X'].get())
             self.entries['width'].resetRange(0, width, min(width,int(self.entries['width'].get())))
             height = imageBounds[1]-int(self.entries['Y'].get())
             self.entries['height'].resetRange(0, height, min(height,int(self.entries['height'].get())))
-            size = 2
-            if not self.imageSmall:
-                image = image.resize((widthDim*size , heightDim*size))
-            self.tkImage = ImageTk.PhotoImage(image)
-            self.tkLabel.config(image=self.tkImage)
+
+            if self.checkWidget: # if we have checked/unchecked we have to madify the dimensions
+                dims = [int(self.widget.attributes['X']), int(self.widget.attributes['Y']), int(self.widget.attributes['width']), int(self.widget.attributes['height'])]
+                self.widget.attributes["Checked"] = self.checkWidget.saveImage(newDims=dims)
+                self.widget.attributes["Unchecked"] = self.uncheckWidget.saveImage(newDims=dims)
+
             self.sensetive = True
 
     def imageSizeToggle(self, _):
-        width = int(self.entries['width'].get())
-        height = int(self.entries['height'].get())
-        image = self.imageUpdater.cropImage(
-                                        int(self.entries['X'].get()),
-                                        int(self.entries['Y'].get()),
-                                            width,
-                                            height)
         self.imageSmall = not self.imageSmall
+        self.updateTkImage()
+
+    def updateTkImage(self):
+        width = int(self.entries['width'].get())
+        self.widget.attributes['width']=width
+        height = int(self.entries['height'].get())
+        self.widget.attributes['height']=height
+        xTmp = int(self.entries['X'].get())
+        yTmp = int(self.entries['Y'].get())
+        if WidgetEditor.foreignWidget:
+            # we want to update imported images from your current view
+            cropped = self.imageUpdater.cropImage(
+                                            xTmp,
+                                            yTmp,
+                                            width,
+                                            height,
+                                            tkImage=False)
+        else:
+            cropped = self.imageUpdater.cropImage(
+                                            xTmp,
+                                            yTmp,
+                                            width,
+                                            height,
+                                            tkImage=False,
+                                            specificView=self.widget.getValue("view"))
+
         size = 2
         if not self.imageSmall:
-            image = image.resize((width*size , height*size))
-        self.tkImage = ImageTk.PhotoImage(image)
+            cropped = cropped.resize((width*size , height*size))
+        self.tkImage = ImageTk.PhotoImage(cropped)
         self.tkLabel.config(image=self.tkImage)
 
     def changeType(self, _):
@@ -304,20 +387,26 @@ class WidgetEditor:
         self.buildEditorTable()
 
     def update(self):
-        for key in self.entries:
-            value = ""
-            if key=="type":
-                value = self.type.get()
-            else:
-                value = str(self.entries[key].get())
+        if WidgetEditor.foreignWidget:
+            dx = int(self.entries['X'].get())-int(self.widget.attributes['X'])
+            dy = int(self.entries['Y'].get())-int(self.widget.attributes['Y'])
+            WidgetEditor.viewUpdate = [self.widget.attributes['view'], dx, dy]
+        else:
+            for key in self.entries:
+                value = ""
+                if key=="type":
+                    value = self.type.get()
+                else:
+                    value = str(self.entries[key].get())
 
-            #error check on entries
-            if len(value)==0:
-                messagebox.showerror(title="Widget Error", message="You must give a value for "+key, parent=self.window)
-                return
+                #error check on entries
+                if len(value)==0:
+                    messagebox.showerror(title="Widget Error", message="You must give a value for "+key, parent=self.window)
+                    return
 
-            #update the widget
-            self.widget.attributes[key] = value
+                #update the widget
+                self.widget.attributes[key] = value
+            WidgetEditor.viewUpdate = [None, 0, 0]
 
         #close the windows
         self.completed = EditorState.COMPLETE

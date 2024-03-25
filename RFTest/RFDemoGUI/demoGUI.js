@@ -165,16 +165,22 @@ function generateHeatMap(data, length, rawData)
           td.classList.add("active");
           td.classList.add("plump");
         }
+        else if(oneTest.Case==='&&')
+        {
+          //only show the individual test cases as a block
+          createRedGreen(row, oneTest.Step, oneTest.Status, oneTest.Details)
+        }
         else if(oneTest.Case==='--' && oneTest.Step!=='--')
         {
-          //only show the individual test cases
-          td = row.insertCell();
-          var status = oneTest.Status;
-          toolText = "<b>"+oneTest.Step + "</b><br>" + oneTest.Details;
-          toolTip(td, toolText);
-          td.classList.add(status.toLowerCase());
-          td.classList.add("active");
-          td.classList.add("plump");
+          //Deprecated; left for backwards compatibility
+          //only show the individual test cases as a block
+          createRedGreen(row, oneTest.Step, oneTest.Status, oneTest.Details)
+        }
+        else if(oneTest.Case!=='--' && oneTest.Step==='--')
+        {
+          //Deprecated; left for backwards compatibility
+          //only show the individual test cases as a block
+          createRedGreen(row, oneTest.Case, oneTest.Status, oneTest.Details)
         }
       }
 
@@ -349,18 +355,19 @@ function singleTestTable(testTitle, dataheader, data)
       cell.classList.add("SOFT");
       cell.colSpan=5
     }
-    else if(step["Case"]==='--' || step["Step"]==='--')
+    else if(step["Case"]==='&&')
     {
-      var className = step["Status"];
-      var type = "TEST RESULT: "+step["Case"];
-      if(step["Case"]==='--')
-      {
-        type = "FUNCTIONAL GROUP: "+step["Step"];
-      }
-      var cell = row.insertCell();
-      cell.classList.add(className);
-      cell.innerHTML = className+" *** "+className+" *** "+type+" *** "+className+" *** "+className+"<br>"+step["Details"];
-      cell.colSpan=5
+      createPassFail(step["Step"], row, step["Status"], step["Details"])
+    }
+    else if(step["Case"]==='--' && step["Step"]!=='--')
+    {
+      //Deprecated; left for backwards compatibility
+      createPassFail(step["Step"], row, step["Status"], step["Details"])
+    }
+    else if(step["Case"]!=='--' && step["Step"]==='--')
+    {
+      //Deprecated; left for backwards compatibility
+      createPassFail(step["Case"], row, step["Status"], step["Details"])
     }
     else if(false)
     {
@@ -454,6 +461,25 @@ function singleTestTable(testTitle, dataheader, data)
       }
     }
   }
+}
+
+function createPassFail(step, row, status, details)
+{
+  var cell = row.insertCell();
+  cell.classList.add(status);
+  cell.innerHTML = status+" *** "+status+" *** FUNCTIONAL GROUP: "+step+" *** "+status+" *** "+status+"<br>"+details;
+  cell.colSpan=5
+}
+
+function createRedGreen(row, step, status, details)
+{
+    //only show the individual test cases
+    td = row.insertCell();
+    toolText = "<b>"+ step + "</b><br>" + details;
+    toolTip(td, toolText);
+    td.classList.add(status.toLowerCase());
+    td.classList.add("active");
+    td.classList.add("plump");
 }
 
 function flipSize(img)

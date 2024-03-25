@@ -1,109 +1,77 @@
 *** Settings ***
-Library    genericwindow    WITH NAME    main
 Resource   DataExtraction.resource
-Library    String
+Library    genericwindow    WITH NAME    main
 
 *** Variables ***
+${test app} =    C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFGUIHelper/RFGUIHelp.py
+${config path} =    C:/Users/Owner/OneDrive/Documents/GitHub/DahlgrenTest/RFTest/examples/rfgui/rfguihelper.json
 
 *** Keywords ***
-Start Arithmetic Calculator
-    [ARGUMENTS]    ${DATA PATH}    ${remote}
-    Start Process    calc
-    main.Configure    Sikuli    C:/Users/Benny/Documents/github/DahlgrenTest/RFGUIHelper/configs/arith/    remoteConnection=${DATA PATH}
-    Wait Until Keyword Succeeds    2x    3s    main.Find
-
-Stop Arithmetic Calculator
-    main.Find
-    main.Click    closeButton
-
-Drag Calculator
-    [ARGUMENTS]    ${x}    ${y}
-    main.Find
-    main.Move    ${x}    ${y}
-
-Read Value
-    [ARGUMENTS]    ${answer}
-    ${a} =    main.Read    output
-    ${msg} =    Run Keyword If    ${a}==${answer}    Evaluate    'Success!'    ELSE    Evaluate    'Calculation was wrong: ${a}'
-    Run Keyword If    ${a}!=${answer}    Fail
-
-Clear Data
-    Record Action    ${TEST NAME}    Clearing previous data
-    main.Find
-    main.Click    clear
-    ${file} =    main.Capture Image    output
-    Record Screen Image    ${file}   ${TEST NAME}    Clearing data
-    ${a} =    main.Read    output
-    ${result} =    Assert OQE Values Equal    ${TEST NAME}    Value zero    ${a}    0
-    Run Keyword If    '${result}'=='FAIL'    FAIL
-    Keyword Final    --    Clearing previous data    ${result}    --
-
-Type Number
-    [ARGUMENTS]    ${NUM}
-    main.Find
-    Record Action    ${TEST NAME}    Enter number: ${NUM}
-    ${digits} =    Split String To Characters    ${NUM}
-    FOR  ${digit}  IN  @{digits}
-        Run Keyword If    '${digit}'=='-'    main.Click    flip_sign
-        Run Keyword If    '${digit}'=='.'    main.Click    decimal
-        Run Keyword If    '${digit}' in "0123456789"    main.Click    ${digit}_button
+RF GUI Helper: Open
+    [Arguments]    ${d Path}    ${remote}=None
+    Banner    Starting RF GUI Helper
+    Start Process    python    ${test app}
+    main.Configure    Sikuli    ${config path}     ${d Path}    ${remote}
+    TRY
+        Sleep    1s
+        Wait Until Keyword Succeeds    2x    3s    main.Find
+    EXCEPT
+        Fail    Could not find the RF GUI Helper
     END
-    ${a} =    main.Read    output
-    ${tmp1} =    Assert OQE Values Equal    ${TEST NAME}    First operand    ${a}    ${NUM}
-    ${file} =    main.Capture Image    output
-    Record Screen Image    ${file}   ${TEST NAME}    First operand
 
-Square Value
-    main.Find
-    Record Action    ${TEST NAME}    Operation: x²
-    main.Click    square
-    
-Square Root Value
-    main.Find
-    Record Action    ${TEST NAME}    Operation: √x
-    main.Click    sqrt
+    RF GUI Helper: Verify View
+    [Teardown]    Keyword Final    ${TEST NAME}    Starting RF GUI Helper    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}
 
-Inverse Value
-    main.Find
-    Record Action    ${TEST NAME}    Operation: 1/x
-    main.Click    inverse
+RF GUI Helper: Close
+    Banner    Stopping Test
+    RF GUI Helper: Restore Main View
+    main.Click    closeButton
+    [Teardown]    Keyword Final    ${TEST NAME}    Test Stop    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}
 
-Op Button
-    [ARGUMENTS]    ${op}
-    main.Find
-    Record Action    ${TEST NAME}    Operation: ${op}
-    main.Click    ${op}
+RF GUI Helper: Document
+    Banner    Documenting RF GUI Helper
+    ${a}    main.Document API
+    Log    ${a}
+    main.Debug Window
+    [Teardown]    Keyword Final    ${TEST NAME}    Run Test    ${KEYWORD STATUS}    ${KEYWORD MESSAGE}
 
-Press Equals
-    main.Find
-    main.Click    equals
-    ${a} =    main.Read    output
-    Record Data    ${TEST NAME}    Answer    ${a}
-    ${file} =    main.Capture Image    output
-    Record Screen Image    ${file}   ${TEST NAME}    Answer
+RF GUI Helper: Click Menu
+    [Arguments]    ${menu}     ${verify view}=True
+    Log To Console    RF GUI Helper: Clicking on ${menu}
+    RF GUI Helper: Restore Main View
+    Record Action     ${TEST NAME}    Click ${menu}
+    main.Click    ${menu}
+    Sleep    1s
 
-Math Problem
-    [ARGUMENTS]    ${n1}    ${op}    ${n2}
-    ${status} =    FAIL Token
-    main.Find
-    Banner    Math Problem
-    Type Number    ${n1}
-    ${a} =    main.Read    output
-    ${tmp1} =    Assert OQE Values Equal    ${TEST NAME}    First operand    ${a}    ${n1}
-    ${file} =    main.Capture Image    output
-    Record Screen Image    ${file}   ${TEST NAME}    First operand
-    Record Action    ${TEST NAME}    Operation: ${op}
-    main.Click    ${op}
-    Type Number    ${n2}
-    ${a} =    main.Read    output
-    ${tmp2} =    Assert OQE Values Equal    ${TEST NAME}    First operand    ${a}    ${n2}
-    ${file} =    main.Capture Image    output
-    Record Screen Image    ${file}   ${TEST NAME}    Second operand
-    main.Click    equals
-    ${a} =    main.Read    output
-    Record Data    ${TEST NAME}    Answer    ${a}
-    ${file} =    main.Capture Image    output
-    Record Screen Image    ${file}   ${TEST NAME}    Answer
-    ${status} =    Run Keyword If    '${tmp1}'=='${tmp2}' and '${tmp1}'=='PASS'    PASS Token    ELSE    FAIL Token
-    Run Keyword If    '${status}'=='FAIL'    Fail
-    Keyword Final    --    Math Problem    ${status}    --
+    Run Keyword If    ${verify view}    RF GUI Helper: Verify View
+
+RF GUI Helper: Restore Main View
+    ${current} =    RF GUI Helper: Expected View    verboseLog=False
+    IF    '${current}' != 'View[main]'
+        main.Click    nullMenu
+    END
+
+RF GUI Helper: Expected View
+    [ARGUMENTS]    ${verboseLog}=True
+    ${e} =    main.Expected View
+    IF    ${verboseLog}
+        Log To Console    \nExpected View: ${e}
+        Record Data     ${TEST NAME}    Current View    ${e}
+    END
+    RETURN    ${e}
+
+RF GUI Helper: Verify View
+    Log To Console    RF GUI Helper: Verify View
+    ${e} =    main.Expected View
+    ${a} =    main.Actual View
+    IF    '${e}'=='${a}'
+        ${token} =    PASS TOKEN
+        ${msg} =    Evaluate    'Opened ${e}'
+        Log To Console    *** MATCH ***
+    ELSE
+        ${token} =    PASS TOKEN
+        ${msg} =    Evaluate    'Expected ${e} but got ${a}'
+        Log To Console    *** FAIL ***
+    END
+    Record Test Case    ${TEST NAME}    RF GUI Helper: Verify View    ${token}    ${msg}
+    Run Keyword If    '${e}'!='${a}'    Fail    ${msg}

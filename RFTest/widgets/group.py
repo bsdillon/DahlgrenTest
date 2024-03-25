@@ -1,4 +1,4 @@
-from widgets.widget import Widget
+from widget import Widget
 
 class Group(Widget):
     ROBOT_AUTO_KEYWORDS = False
@@ -13,29 +13,12 @@ class Group(Widget):
     def add(self, widget:Widget):
         self.widgets.append(widget)
 
-    def click(self):
-        raise NotImplementedError
-
-    def doubleClick(self):
-        raise NotImplementedError
-
-    def capture(self, _):
-        raise NotImplementedError
-            
-    def captureSmall(self, *_):
-        raise NotImplementedError
-
-    def write(self, _):
+    #not used in Group
+    def getState(self):
         raise NotImplementedError
 
     def move(self, *_):
         raise NotImplementedError
 
-    def find(self):
-        raise NotImplementedError
-
-    def setGroup(self, _):
-        raise NotImplementedError
-
-    def getState(self):
+    def write(self, _):
         raise NotImplementedError

@@ -17,7 +17,6 @@ DOCUMENTATION    DataExtraction is a resource file meant to handle all OQE gathe
 
 Library    output.py    WITH NAME    oqe
 Library    sikulilibrary.py    WITH NAME    sikuliLib
-Library    seleniumlibrary.py    WITH NAME    seleniumLib
 Library    textreader.py    WITH NAME    text
 Library    OperatingSystem
 Library    Collections
@@ -48,7 +47,7 @@ New Test Event
     ...    data structure in the test data and a new line in the report.
     [Arguments]    ${CASE NAME}
     ${FULL TEST} =    oqe.Create Test Case    ${CASE NAME}
-    [Return]    ${FULL TEST}
+    RETURN    ${FULL TEST}
 
 Configure Image Library
     [DOCUMENTATION]    Part of *Test Setup*.\n
@@ -58,8 +57,7 @@ Configure Image Library
     ...    *NOTE* You must call _Configure Image Libaray_ before any of a number of functions
     ...    Using the data path and image library. Best to do so during test setup.
     [ARGUMENTS]    ${type}    ${datapath}    ${browser}=None    ${url}=None    ${remoteVNC}=None
-    Run Keyword If    '${type}'=='Sikuli'    Set Suite Variable    ${imageLib}    sikuliLib    ELSE    Set Suite Variable    ${imageLib}    seleniumLib
-    Run Keyword If    '${type}'=='Selenium'    ${imageLib}.Configure Selenium    ${browser}    ${url}
+    Run Keyword If    '${type}'=='Sikuli'    Set Suite Variable    ${imageLib}    sikuliLib
     Run Keyword If    '${type}'=='Sikuli'    ${imageLib}.Configure Sikuli    ${remoteVNC}
     Run Keyword    ${imageLib}.Configure Image Path    ${datapath}
     Log    Data Path configured
@@ -96,7 +94,7 @@ All Pass Or Fail
    FOR    ${v}    IN    @{VALUES}
       ${answer} =    Run Keyword    '${v}'!='${answer}'    oqe.FAIL Token    ELSE    ${answer}
    END
-   [RETURN]    ${answer}
+   RETURN    ${answer}
 
 Assert OQE True
     [DOCUMENTATION]    Part of *Comparisons*\n\n
@@ -104,7 +102,7 @@ Assert OQE True
    [Arguments]    ${CASE NAME}    ${STEP NAME}    ${case}
    ${TEST_STATUS}    oqe.Result True     ${case}    passCase=True
    oqe.Write Results    ${CASE NAME}_${STEP NAME}    Result True    ${TEST_STATUS}     ~~~~
-   [RETURN]    ${TEST_STATUS}
+   RETURN    ${TEST_STATUS}
 
 Assert OQE False
     [DOCUMENTATION]    Part of *Comparisons*\n\n
@@ -112,7 +110,7 @@ Assert OQE False
    [Arguments]    ${CASE NAME}    ${STEP NAME}    ${case}
    ${TEST_STATUS}    oqe.Result True     ${case}    passCase=False
    oqe.Write Results    ${CASE NAME}_${STEP NAME}    Result False    ${TEST_STATUS}     ~~~~
-   [RETURN]    ${TEST_STATUS}
+   RETURN    ${TEST_STATUS}
 
 Assert OQE Values Not Equal
     [DOCUMENTATION]    Part of *Comparisons*\n\n
@@ -120,7 +118,7 @@ Assert OQE Values Not Equal
    [Arguments]    ${CASE NAME}    ${STEP NAME}    ${actual}    ${expected}
    ${TEST_STATUS}    oqe.Compare Results     ${actual}    ${expected}    equal=True
    oqe.Write Results    ${CASE NAME}_${STEP NAME}    Values NOT equal    ${TEST_STATUS}     Actual: ${actual}, Expected: ${expected}
-   [RETURN]    ${TEST_STATUS}
+   RETURN    ${TEST_STATUS}
 
 Assert OQE Values Equal
     [DOCUMENTATION]    Part of *Comparisons*\n\n
@@ -128,7 +126,7 @@ Assert OQE Values Equal
    [Arguments]    ${CASE NAME}    ${STEP NAME}    ${actual}    ${expected}
    ${TEST_STATUS}    oqe.Compare Results     ${actual}    ${expected}
    oqe.Write Results    ${CASE NAME}_${STEP NAME}    Values Equal    ${TEST_STATUS}     Actual: ${actual}, Expected: ${expected}
-   [RETURN]    ${TEST_STATUS}
+   RETURN    ${TEST_STATUS}
 
 Assert OQE Values Starts With Text
     [DOCUMENTATION]    Part of *Comparisons*\n\n
@@ -138,7 +136,7 @@ Assert OQE Values Starts With Text
    [Arguments]    ${CASE NAME}    ${STEP NAME}    ${actual}    ${expected}
    ${TEST_STATUS}    oqe.Compare Limited Text     ${actual}    ${expected}
    oqe.Write Results    ${CASE NAME}_${STEP NAME}    Initial Text Match    ${TEST_STATUS}     Actual: ${actual}, Expected: ${expected}
-   [RETURN]    ${TEST_STATUS}
+   RETURN    ${TEST_STATUS}
 
 Assert OQE Values Within Error
     [DOCUMENTATION]    Part of *Comparisons*\n\n
@@ -146,7 +144,7 @@ Assert OQE Values Within Error
    [Arguments]    ${CASE NAME}    ${STEP NAME}    ${actual}    ${expected}    ${errorPercent}
    ${TEST_STATUS}    oqe.Compare To Range     ${actual}    ${expected}    ${errorPercent}
    oqe.Write Results    ${CASE NAME}_${STEP NAME}    Match +/- ${errorPercent}%   ${TEST_STATUS}     Actual: ${actual}, Expected: ${expected}
-   [RETURN]    ${TEST_STATUS}
+   RETURN    ${TEST_STATUS}
 
 #included for backwards compatibility
 Assert OQE Value
@@ -154,7 +152,7 @@ Assert OQE Value
     ...    *DEPRECATED*  Effectively the same as _Assert OQE Values Equal
    [Arguments]    ${CASE NAME}    ${STEP NAME}    ${actual}    ${expected}
    ${a} =    Assert OQE Values Equal    ${CASE NAME}    ${STEP NAME}    ${actual}    ${expected}
-   [RETURN]    ${a}
+   RETURN    ${a}
 
 #recording
 Record Data
@@ -185,12 +183,20 @@ Record Test Case
    [Arguments]   ${CASE NAME}    ${STEP NAME}    ${STATUS}    ${MESSAGE}
    oqe.Write Results   ${CASE NAME}    ${STEP NAME}    ${STATUS}     ${MESSAGE}
 
+Record PassFail Block
+    [Documentation]    Part of *Recording Data*\n\n 
+    ...    Creates a red or green block in the main report screen and banner across
+    ...    the detaied report
+   [Arguments]    ${STEP NAME}    ${STATUS}    ${MESSAGE}
+    oqe.Write Results    &&    ${STEP NAME}    ${STATUS}    ${MESSAGE}
+
 Keyword Final
     [DOCUMENTATION]    Part of *Recording Data*\n\n
     ...    Replicates dual actions of _Record Test Case_ and _Data Break_ in one.
     ...    This is perfect for inclusion in a keyword [TEARDOWN] as a final action.
+    ...    *** For backwards compatibility, ${CASE NAME} is included, but is not used
    [Arguments]   ${CASE NAME}    ${STEP NAME}    ${STATUS}    ${MESSAGE}
-   oqe.Write Results   ${CASE NAME}    ${STEP NAME}    ${STATUS}    ${MESSAGE}
+   Record PassFail Block    ${STEP NAME}    ${STATUS}    ${MESSAGE}
    Data Break
 
 ####################################
@@ -201,7 +207,7 @@ Get Image File Name
     ...    *DEPRECATED*   Used to identify the next available image file name in your target folder.
    [Arguments]   ${CASE NAME}    ${STEP NAME}
    ${newFileName} =    Run Keyword    ${imageLib}.Get Next Img File   ${CASE NAME}_${STEP NAME}
-   [Return]    ${newFileName}
+   RETURN    ${newFileName}
 
 Screen Capture
     [DOCUMENTATION]    Part of *Image Functions*.\n\n

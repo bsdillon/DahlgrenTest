@@ -1,4 +1,4 @@
-from widgets.widget import Widget
+from widget import Widget
 
 class MovePoint(Widget):
     ROBOT_AUTO_KEYWORDS = False
@@ -11,11 +11,9 @@ class MovePoint(Widget):
     def LogAll(self):
         return "\t"+self.name+": move, click, doubleClick, read, capture, captureSmall\n"
 
-    def setGroup(self, _):
-        raise NotImplementedError
+    #not used in MovePoint
+    def getState(self):
+        raise NotImplementedError("GetState not implemented in MovePoint")
 
     def write(self, _):
-        raise NotImplementedError
-
-    def getState(self):
-        raise NotImplementedError
+        raise NotImplementedError("Write not implemented in MovePoint")

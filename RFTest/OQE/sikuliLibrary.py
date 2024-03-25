@@ -8,6 +8,7 @@ gateway = JavaGateway()#connect to JVM
 import textreader
 
 MINIMUM_MATCH_PERCENT = 0.97
+SOME_FIND = 0.2
 
 class sikulilibrary(imagelibrary.imagelibrary):
    ROBOT_LIBRARY_SCOPE = 'SUITE'
@@ -97,17 +98,20 @@ class sikulilibrary(imagelibrary.imagelibrary):
       return next
 
    def findElement(self, description):
-      path = Path(os.path.join(".", description))
-      if path.is_file() and os.path.exists(description):
+      #path = Path(os.path.join(".", description))
+      if os.path.exists(description):
          screen = self.getScreen()
          pattern = gateway.entry_point.createPattern(description)
-         temp = screen.find(pattern)
-         if temp.getScore() >= MINIMUM_MATCH_PERCENT:
-            self.foundElement = temp
-            t = temp.getTarget()
-            return (int(t.getX()),int(t.getY()))
-
-      raise ValueError("Cannot find widget")                
+         try:
+            temp = screen.find(pattern)
+            score = temp.getScore()
+            if score >= MINIMUM_MATCH_PERCENT:
+               self.foundElement = temp
+               t = temp.getTarget()
+               return (int(t.getX()),int(t.getY()))
+         except:
+            pass
+      return (-1,-1)
 
    def findElementFromPoint(self, x, y, w, h):
       screen = self.getScreen()

@@ -7,36 +7,35 @@
     </script>
   </head>
   <body>
-    <h2>Robot Framework Training</h2>
+    <h2>Robot Framework Training - RFW 3.1</h2>
     <p>
-      This page covers the instructions for setup, development, and use of
-      Robot Framework. Robot Framework, or RFW, is a free set of libraries that
-      can be used to enable automatic testing. RFW is flexible and can easily
-      incorporate any tool or library through the Python language. In the course
-      of events, Dahlgren has developed a set of external files that assist in
-      and enhance the experience using RFW. This is the third set of such 
-      libraries and thus we refer to it as RFW 3.0.<br><br>
-      If you would like to see the <a href=".\one\index.html">original RFW training</a>, 
-      use this link.
+      Robot Framework, or RFW, is a free set of libraries that can be used to 
+      enable automatic testing. RFW is flexible and can easily incorporate any
+      tool or library through the Python language. Dahlgren has developed a 
+      set of external files that assist in and enhance the experience using RFW.
     </p>
     <p>
       This document is intended to be used as part of a hands on training 
       session and may be self-led. For the complete novice it is suggested
       that you complete the instructions in order moving from configurtion,
-      to your first test, etc. until you have used all the RFW 3.0 features.
-      Experts may use the table of contents below to find any section of
-      interest.
+      to your first test, etc. until you have used all the RFW 3.1 features.
+      Experts may use the table of contents below to jump directly to any section.
     </p>
+    <p>
+      Earlier versions are available:
+      <ul>
+        <li><a href=".\one\index.html">RFW 1.5</a></li>
+        <li><a href=".\three\index.html">RFW 3.0</a></li>
+      </ul>
+    </p>
+
+    <hr></hr>
 
     <h3>Table of Contents</h3>
     <ul>
-      <li><a href="#configuration">Configuration</a>
+      <li><a href="#configuration">Configuration</a><span class="highlight">NEEDS VALIDATION</span>
         <ul>
           <li><a href="#downloads">Download lists</a></li>
-          <li><a href="#packages">Installing RHEL Packages</a></li>
-          <li><a href="#pipinstall">Python Pip Installs</a></li>
-          <li><a href="#paths">Setting Paths</a></li>
-          <li><a href="#validation">System Validation</a></li>
         </ul>
       </li>
       <li><a href="#session1">The Simplest Example</a>
@@ -83,168 +82,136 @@
       </li>
     </ul>
 
-    <a name="configuration"></a><h2>Configuration</h2>
-    <a name="downloads"></a>
-    <h4>Redhat Distribution</h4>
+    <hr></hr>
+
+<div class="alternate">
+    <a name="operatingsystem"></a><h3>Operating System</h3>
       <p>
-        Although RFW 3.0 works on Windows and should be compatible with any operating 
-        system, RHEL 8+ is the preferred OS. RHEL 8 supports tesseract and the other 
-        features. These instructions are written with for a RHEL 8 machine. After some
-        study, it is considered best practice to build your OS files from an attached
-        repository. The number dependencies not shown here are simply too great to
-        handle otherwise. In addition to the basic OS, install the following AND all 
-        of their dependencies.
+        RFW works on Windows and Linux. RHEL 8+ is preferred OS, and these instructions 
+        are primarily written for RHEL 8, because that OS tesseract and other libraries 
+        required for RFW. It is considered best practice, especially in a non-networked
+        lab, to use an attached repository with the full OS build during the configuration 
+        process. There are dependencies, not shown here, that are simply too numerous to
+        handle otherwise.
       </p>
-    <ul>
-      <li>tesseract-devel</li>
-      <li>leptonica-devel</li>
-      <li>java-XXXX-openjdk-devel</li>
-      <li><span class="red">Python3X</sup></span></li>
-      <li><span class="red">Python3X</sup></span>-libs</li>
-      <li><span class="red">Python3X</span>-pip</li>
-      <li><span class="red">Python3X</span>-setuptools</li>
-      <li><span class="red">Python3X</span>-tkinter</li>
-    </ul>
-    <p>
-      Please notes that you must select a version of python 3 for which you
-      have ALL of the red libraries above. On RHEL8, the peferred version 
-      appears to be Python 3.9.
-    </p>
-
-    <h4>Python Libraries</h4>
-    <ul>
-      <li>Py4J [<a href="https://pypi.org/project/py4j/">link</a>]</li>
-      <li>pytesseract [<a href="https://pypi.org/project/pytesseract/">link</a>]</li>
-      <li>robotframework [<a href="https://pypi.org/project/robotframework/">link</a>]</li>
-      <li>pillow [<a href="https://pypi.org/project/Pillow/#history">link</a>]<br>
-      Your pillow library must be compatible with the python version you use. See this <a href="https://pillow.readthedocs.io/en/stable/installation.html">table</a> for the specific version.</li>
-    </ul>
-    <h4>Other</h4>
-    <ul>
-      <li><a href="deployment.zip" download target="_blank">RFW 3.0</a></li>
-      <li>SikuliX Jar [<a href="https://raiman.github.io/SikuliX1/downloads.html">link</a>]</li>
-      <li>Py4J Jar - You will find it downloaded with Py4J python.</li>
-    </ul>
-
     <a name="packages"></a><h3>Installing RHEL Packages</h3>
     <p>
       Each of the RHEL packages must be installed by the root (or SUDO) 
       role using the command <nobr><code>yum install <i>package-name</i></code></nobr>.
       After installing the packages, find the command for python 3 in your system using
       <code>which python3</code> or you can search the <code>/user/bin/</code> folder. Sometimes the
-      system assigns names like python3.X depending on the selected version.
-    </p>
+      system assigns names like python3.X depending on the selected version.<br><br>
 
-    <a name="pipinstall"></a><h3>Python Pip Installs</h3>
+      <span class="red">NOTE:</span> If you are using a different operating system, you will need
+      to locate the equivalent libraries or downloads.
+    </p>
+    <a name="pipinstall"></a><h3>Pip Install Python Packages</h3>
     <p>
       If you are attached to the web you can automatically download and install
       python libraries using <nobr><code>python3 -m pip install <i>package</i></code></nobr>.
       When offline, you can specify the exact path of the compressed file. If you 
-      were installing offline, use <nobr><code>python3 -m pip install <i>PATH</i></code></nobr>
+      were installing offline, use <nobr><code>python3 -m pip install <i>PATH</i></code></nobr><br>
     </p>
+    <a name="pipinstall"></a><h3>Setting Environmental Variables</h3>
 
-    <a name="paths"></a><h3>Setting Paths</h3>
-    <p>
-      The SikuliEntryPoint server is a java application that will only run if you
-      have set the CLASSPATH variable. That variable will have the location of the
-      SikuliX and Py4J JAR files. When the Py4J is pip-installed, it should save a 
-      Java Jar file on your system in /usr/share/py4j or /usr/local/share/py4j. The
-      final CLASSPATH location is always '.' meaning the present working directory.
-      These values are separated by ':' in linux and ';' in windows. The new
-      CLASSPATH will be something like<br>
-      <nobr><code>/usr/share/py4j.jar:/usr/local/downloads/sikulix.jar:.</code></nobr>
-    </p>
-    <p>
-      To set the CLASSPATH permanently edit <code>/home/user/.bashrc</code> and add:<br>
-      <nobr><code>export CLASSPATH = /that/path:/we/saw/earlier:.</code></nobr><br>
-      Windows has a similar process for setting environmental variables. As a last resort you
-      can use<br>
-      <nobr><code>javac -cp /that/path:/again/right/:. someprogram.java</code></nobr><br><br>
-
-      Make sure your changes are set up and consistent with <code>deployment/SikuliEntry/javaserver.bat</code>.
-    </p>
-    <p>
-      For similar reasons, you will need to update PYTHONPATH in <code>deployment/RFTest/runRobot.bat</code>.
-      This file should have the path for the <code>deployment/RFTest/OQE</code> and 
-      <code>deployment/RFTest/widgets</code> subfolders.
-    </p>
-    <p>
-      RFW 3.0 is also dependent on a reference to the <em>data folder</em>. This is a
-      folder which you can create exclusively for the purpose of recording RFW test
-      results. Once you have created the folder, you need to set the full path in 
-      several places. Update each of these to match your data folder
-    </p>
-    <dl>
-      <dt><code>deployment/RFTest/validation/test.robot</code></dt>
-        <dd>Search for <code>${DATA PATH}</code> and replace the value with your own.</dd>
-      <dt><code>deployment/RFTest/RFDemoGUI/demoGUI.html</code></dt>
-        <dd>Search for <code>./../../../../RFData</code> and replace with the empirical path to your data folder. <span class="red">THERE ARE TWO</span><br><br>
-        Please note that this is a "relative" path. So <code>.</code> is the folder with demoGUI.html and <code>./..</code> is one folder up (i.e. RFTest).
-        If your data folder is <code>data</code> in the same folder as <code>deployment</code> use:<br>
-        <code>./../../data/test.js</code></dd>
-    </dl>
-    <p>
-      You also need to replace the "empirical" path for the RFTest folder.
-    </p>
-    <dl>
-      <dt><code>deployment/RFTest/validation/test.robot</code></dt>
-        <dd>Search for <code>gui.Configure</code> and replace the path to RFTest.</dd>
-      <dt><code>deployment/RFTest/runrobot.bat</code></dt>
-        <dd>Search for <code>testRoot</code> and replace the  path to RFTest.</dd>
-    </dl>
-
-    <a name="validation"></a><h3>System Validation</h3>
-    <p>
-      Under <code>deployment/RFTest</code> there is a validation project that
-      touches all the major features and will ensure your system is properly 
-      configured. You may run either the windows or linux version of the
-      <code>testconfig_<i>OS</i>.bat</code> script. The script should lead you
-      through the following automated checks:
-    </p>
-    <ol>
-      <li>Start the Java-Sikuli EntryPoint server.</li>
-      <li>Start a test GUI that uses python3X, tkinter, and pillow.</li>
-      <li>Run a RFW test that verifies the test GUI and logs data.</li>
-    </ol>
-
-    <p>
-      After the automatic steps successfully conclude, you may close the 
-      open windows and verify the following:
-    </p>
-    <ol>
-      <li>Open the auto-generated report <code>deployment/RFTest/RFDemoGUI/demoGUI.html</code>.
-          Click on the first test link and verify the contents "Actual: Everying worked, Expected: Everything worked"</li>
-      <li>Open the default log <code>deployment/RFTest/log.html</code> and see all passes
+      <li>Environmental variables are used to fix certain paths in memory and avoid frequent use
+          of very long memory locations. You will need to (re)define several environmental variables
+          at some point during configuration. Within these variables, individual values are separated 
+          by ':' in linux and ';' in windows. It will look something like this. The final '.' represents
+          the present working directory.<br>
+          <nobr><code>something/place/thing:something/otherplace:.</code></nobr><br>
         <ul>
-          <li>Expand "Configuration Checks" and locate "Prove it works" and "Document API". Expand the Log just after each line
-            <ul>
-              <li>Verify "output.py is connected"</li>
-              <li>Verify the list of actions for Window[validation]: find, setGroup, ..."</li>
-            </ul>
+          <li><a href="https://phoenixnap.com/kb/bashrc#ftoc-heading-6">Linux process</a></li>
+          <li><a href="https://howtodoinjava.com/java-examples/java-set-classpath-windows/">Windows process</a></li>
+        </ul>
+</div>
+
+    <hr></hr>
+    
+<div class="alternate">
+    <a name="robot"></a><h2>Install Robot Framework</h2>
+    <h4>Description</h4>
+    <p>
+      Robot Framework is a free library that natively supports testing. A typical RFW test
+      includes cases and pass/fail terminology with a variety of built-in features that are
+      easily used to implement automatic system tests. Natively, RFW doesn't support a great
+      deal of additional capabilities, but it does allow for easy integration of tools as
+      will be demonstrated.
+    </p>
+    <h4>Dependencies</h4>
+    <dl>
+      <dt>RHEL Libraries</dt>
+      <dd>
+        <ul>
+          <li><span class="red">Python3X</sup></span></li>
+          <li><span class="red">Python3X</sup></span>-libs</li>
+          <li><span class="red">Python3X</span>-pip</li>
+        </ul>
+
+        <p>
+          <span class="red">NOTE:</span> You must select the same version of python 3 
+          for ALL of the red libraries above. On RHEL 8, the peferred version appears 
+          to be Python 3.9.
+        </p>
+      </dd>
+      <dt>Python Libraries</dt>
+      <dd>
+        <ul>
+          <li>robotframework [<a href="https://pypi.org/project/robotframework/">link</a>]<br><br>
+          <span class="red">NOTE:</span> there is another Python library 'robot'. Do NOT confuse the two.
           </li>
-          <li>Expand "Test Start" and Log</li>
-          <li>Verify "Text read by tesseract: Working"</li>
+        </ul>
+      </dd>
+    </dl>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Install all RHEL dependencies.</li>
+      <li>Open the cmd prompt.</li>
+      <li><span class="red">*VALIDATION*</span> Check the python environment.
+        <dl>
+          <dt><code>python -V</code> -- This is a CAPITAL v</dt><dd><code>Python 3.11.7</code> -- actual results may differ<dd>
+        </dl>
+      </li>
+      <li>Use <code>pip install <i>robotframework</i></code></li>
+      <li><span class="red">*VALIDATION*</span> Check the RFW environment.
+        <dl>
+          <dt><code>python -m robot</code></dt><dd>We want your system to include the path to robot.exe from the command line. It SHOULD return something like this<br><br>
+            <nobr><code>[ ERROR ] Expected at least 1 argument, got 0.</code><nobr><br>
+            <nobr><code>Try --help for usage information.</code></nobr><br><br>
+
+            If the path has not been set, you may get a different error.
+          <dd>
+        </dl>
+      </li>
+      <li><span class="blue">*ALTERNATIVE*</span> Locate the RFW executable. The exact location depends on the OS, but it should be with your python installation. Likely paths look something like these examples:<br>
+        <ul>
+          <li><code>path to python/scripts/robot.exe</code></li>
+          <li><code>c:\Users\user_name\AppData\Local\Packages\Python.3.XYZ\scripts\robot.exe</code></li>
         </ul>
       </li>
+      <li><span class="blue">*ALTERNATIVE*</span> Add the python scripts folder to the PATH environmental variable.</li>
+      <li><span class="blue">*ALTERNATIVE*</span> Repeat the test of RFW from the command line.</li>
+      <li>Python and RFW are correctly installed.</li>
     </ol>
-    <p class="blue">Congratulations! Your system is properly configured.</p>
+</div>
+    <hr></hr>
 
-    <a name="session1"></a><h2>The Simplest Example</h2>
+    <a name="project1"></a><h2>Project 1. Simplest Robot Framework Test</h2>
     <p>
       The first test case is meant to demonstrate the basics structure of a RF script
       and the use of online documentation. The objectives for this lesson 
       are very simple. Learners will create a minimal viable product (MVP), a term for
-      the least amount of infrastructure and code to achieve the goal. In this case
-      the MVP is a working RFW test which purposely fails. The learner launches the 
-      test and verifies that the correct behavior.
+      the least amount of infrastructure and code to achieve the goal. In this case,
+      the MVP is a working RFW test which purposely fails and passes in two distinct
+      test cases. The learner launches the test and verifies that the correct behavior.
     </p>
 
-    <h3>Instructions</h3>
-    <ol><a name="session1-instr"></a>
+    <a name="project1-instr"></a><h3>Instructions</h3>
+    <ol>
       <li>
         Create a new folder under <code>deployment/RFTest/examples</code>. Open a 
         simple text editor and save a new file as <code>rfw1.robot</code> in that folder. 
-        Add the following required elements to the robot script.<br>
+        Add the following required elements to the RFW script.<br>
           <code>
 *** Settings ***<br>
 *** Variables ***<br>
@@ -259,7 +226,7 @@
 Library&nbsp;&nbsp;&nbsp;String
           </code>
 <br><br>
-      <span class="red">WARNING</span> Robot syntax requires a minimum of 3 spaces between 
+      <span class="red">WARNING</span> RFW syntax requires a minimum of 3 spaces between 
       "keywords" and "parameters". We will get a handle on the vocabulary later, but in
       the previous line "Library" is a keyword and "String" is the parameter. If you only
       put one space (e.g. "Library String") that is not the same thing and you will have
@@ -288,112 +255,124 @@ ${num}&nbsp;&nbsp;&nbsp;${3}
       <code>${3}</code> to force it NOT to be text.
       </li>
       <li>Test cases are the actual test script and we will spend more time on that section
-      shortly. For now, let's create a simple test case that barely does anything.<br>
+      shortly. For now, let's create two simple test cases that just demonstrate the pass and 
+      fail capabilities of RFW.<br>
           <code>
 *** Test Cases ***<br>
-Dummy Case<br>
-&nbsp;&nbsp;&nbsp;Call this
+First Case<br>
+&nbsp;&nbsp;&nbsp;Cause Failure<br>
+<br>
+Second Case<br>
+&nbsp;&nbsp;&nbsp;Cause Pass
           </code>
 <br><br>
       The anatomy of a test case is simple. Each test case gets a name which will appear in
       the pass/fail report. After than RFW uses white space (i.e. the same 3 required spaces)
-      to indent the contents of the test case. Thus <code>Dummy Case</code> is the name of
-      the test case and <code>Call this</code> is part of its contents. Whatever its meaning
-      <code>Call this</code> must pass for the Dummy Case to pass.
+      to indent the contents of the test case. The aptly named <code>First Case</code> contains
+      <code>Cause Failure</code> because it is indented. In the <code>Second Case</code> whatever 
+      <code>Cause Pass</code> must execute to completion to pass that case.
       </li>
       <li>Keywords are the basic unit of a RFW script. In later lessons you will learn how to
       create your own library of keywords for reuse in larger and more complex test scripts.
-      For now we will create the <code>Call this</code> keyword which was suggested in our test
-      case.<br>
+      For now we will create the <code>Cause Failure</code> and <code>Cause Pass</code> keywords 
+      which was suggested in our test cases.<br>
           <code>
 *** Keywords ***<br>
-Call this<br>
-&nbsp;&nbsp;&nbsp;Fail&nbsp;&nbsp;&nbsp;Hello World
+Cause Failure<br>
+&nbsp;&nbsp;&nbsp;Fail&nbsp;&nbsp;&nbsp;Hello World<br>
+<br>
+Cause Pass<br>
+&nbsp;&nbsp;&nbsp;Log&nbsp;&nbsp;&nbsp;I did nothing but I did pass!
           </code>
 <br><br>
       You should recognize that the anatomy of a keyword is very similar to a test case. 
-      <code>Call this</code> is the name of the keyword and the contents of the keyword 
-      are indented. In this case, <code>Fail</code> is another keyword that comes from 
-      the RFW <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html">BuiltIn</a>
+      <code>Cause Failure</code> is the name of the keyword and the contents of the keyword 
+      are indented. In this keyword, <code>Fail</code> and <code>Log</code> are other keywords 
+      that come from the RFW <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html">BuiltIn</a>
       library. That library is NOT found in settings and can be assumed in all your tests.
 <br><br>
       Let's explore the two libraries that we are using in this test. Here the <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html">BuiltIn</a>
       keywords can be reviewed and we can find the <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Fail">Fail</a> keyword in particular.
-      We can use a similar set of links to examine the <a href="https://robotframework.org/robotframework/latest/libraries/String.html">String</a>
-      library and the <a href="https://robotframework.org/robotframework/latest/libraries/String.html#Split%20String%20To%20Characters">Split String To Characters</a>
-      keyword we will use in this test. The <a href="https://robotframework.org/">Robot Framework Foundation</a>
+      The <a href="https://robotframework.org/">Robot Framework Foundation</a>
       owns RFW and maintains its extensive documentation and libraries. Among their offerings
       are far more complete training resources. Perhaps for further reading. Our purpose in
       visiting these libraries is to demonstrate the means at your disposal to find out more
       about what keywords are out there and how they are used. Take a few minutes to look at
-      the examples shown in each case.
+      this example.
 <br><br>
       </li>
       <li>
         You have created a test! Now we are going to run it and show the features of RFW.
         Open a terminal and navigate to the RFTest folder. Usually, you will run all your
-        RFW trests from this location. We do this with <code>runRobot.bat</code> which sets
-        up relative paths for all the RFW3 libraries. The command is <code>./runRobot.bat ./example/yourfolder/rfw1.robot</code>.
+        RFW tests from this location. The command is <code>robot ./example/yourfolder/rfw1.robot</code>.
         The run should produce something like this.<br><img src="commandline.png">
 <br><br>
         It is traditional that any new programmer should start with Hello World, but it is
-        unusual to achieve that goal by failing a test. Note here that the name of the test
-        case (i.e. "Dummy Case") shows up in the test and that it is marked as failed. This
-        is the only test case in the test, however, you could add another and each test 
-        case would have its own line in this report. Note also that 1 test ran, 0 passed,
-        and 1 failed. These are the sorts of metrics that RFW can take as part of the 
-        <em>framework</em> and without any effort on your part.<br><img src="report.png">
-<br><br>
-        The default log is another useful product automatically generated by RFW. The report
-        is generated as an HTML file in RFTest and shows the test steps as a hierarchy. In 
-        this way the test <code>Rfw1</code> contains the case <code>Dummy Case</code> which 
-        calls the keyword <code>Call this</code> which calls the keyword <code>Fail</code> 
-        and produces the message "Hello World". In this hierarchical view you may catch your
-        first glimpse of the structure of Robot Framework. The redundant red markers leads
-        the tester to the point of failure and in future cases may be contrasted with green
-        markers that are collapsed by default--after all, nothing broke there.
+        unusual to achieve that goal by failing a test. Note here that the each test appears
+        on its own line marked as <span class="red">FAIL</span> and <span class="green">PASS</span>.
+        Overall, the group of tests, known as a "suite", also failed. The final report shows
+        that 2 tests ran, 1 passed, and 1 failed. These are the sorts of metrics that RFW 
+        natively creates as part of the <em>framework</em> and without any effort on your 
+        part.<br>
+      </li>
+      <li>
+        The default log is another useful product automatically generated by RFW. It will appear
+        as <code>deployment/RFTest/log.html</code>. and shows the test steps as a hierarchy. In 
+        this way the test <code>Rfw1</code> contains both <code>First Case</code> and <code>Second Case</code>
+        but each case also contains greater detail. When first opened, the log will automatically
+        expand all failures for inspection, so the keyword <code>Cause Failure</code> is open
+        all the way to the <code>Fail</code> keyword and the message "Hello World". The passing
+        case is not open by default, but you can expand it to see the message we logged. In this 
+        hierarchical view you may catch your first glimpse of the structure of RFW. The redundant 
+        red markers lead the tester to the point of failure and may be contrasted with the green
+        markers that are collapsed by default--after all, nothing broke there.<br>
+<img src="report.png"><br>
       </li>
     </ol>
-    <a name="session1-solut"></a><h3>Solution Scripts</h3>
-    <a href="rfw1.robot" download target="_blank">Robot script</a><br>
+    <a name="project1-solut"></a><h3>Solution Scripts</h3>
+    <a href="rfw1.robot" download target="_blank">RFW script</a><br>
 
-    <a name="session2"></a><h2>Using Keywords</h2>
+    <hr></hr>
+
+    <a name="project2"></a><h2>Project 2. Using Keywords in a Test</h2>
     <p>
-      In the previous test we created both a test case and a keyword without
+      In the previous test we created two test cases and two keywords without
       making much distinction. In this test we will flesh out the concept of
       a keyword and the distinction between a test case and a keyword. The 
       learner will create a test with multiple cases and a reusable keyword.
     </p>
 
     <h3>Instructions</h3>
-    <ol><a name="session2-instr"></a>
+    <ol><a name="project2-instr"></a>
       <li>
-        Start by downloading and opening the solution from the previous lesson.
-        Resave it as rfw2.robot in the same folder.
+        Start by downloading and opening the solution from the previous lesson. Clear the 
+        test case and keyword sections. Resave it as rfw2.robot in the same folder.
       </li>
       <li>
-        We will begin by building one real test. You can delete the <code>Dummy Case</code>
-        and the <code>Call this</code> keyword for good measure. We will begin
-        by creating a new test case. Run the test as before.<br>
+        We will begin by building one concrete test case. Later we will expand the use of
+        test cases based on this example. Write the test case below and rerun the test as 
+        before.<br>
           <code>
 *** Test Cases ***<br>
 Read Character<br>
 &nbsp;&nbsp;&nbsp;Log&nbsp;&nbsp;&nbsp;${state} is my state
           </code>
 <br><br>
-        You will notice right away that this time the command line shows a green pass for
-        the test case. This is the default position on all tests. Unless something happens
-        to halt execution (a bug or complete crash), your test will pass. In the previous
-        lesson we intentionally <code>Fail</code> the test which is sometimes an important
-        outcome. Open the default log and full expand to read the final output <code>Virginia is my state</code>.
+        This time there is only one test case and it shows a green pass. This is the default 
+        position on all tests. Unless something happens to halt execution (a bug or complete 
+        crash), your test will pass. In the previous lesson, we intentionally <code>Fail</code>ed 
+        one test which is sometimes an important outcome. Open the default log and fully 
+        expand to read the final output <code>Virginia is my state</code>.
       </li>
       <li>
         Let's expand the test to search for the 3rd character as previously discussed. Here
-        we will use the <code>Split String To Characters</code> keyword to get a list. In
-        RFW a list is a variable with an ordered group of values and is denoted with a '@'
-        instead of '$'. Note also that we will use the <code>${num}</code> to identify one
-        specific character. The square bracket syntax <code>[ ]</code> indicates that we only
-        want the list value at that index. Run the text, read the log, and verify it found 'g'.<br>
+        we will use the <a href="https://robotframework.org/robotframework/latest/libraries/String.html#Split%20String%20To%20Characters">Split String To Characters</a>
+        keyword from the <a href="https://robotframework.org/robotframework/latest/libraries/String.html">String</a>
+        library to get a list of characters from <code>${state}</code. In RFW a list is a variable 
+        with an ordered group of values and is denoted with a '@' instead of '$'. We will use 
+        the <code>${num}</code> as the index of one specific character. The square bracket syntax 
+        <code>[ ]</code> indicates that we only want the list value at that index. Run the text, 
+        read the log, and verify it found 'g'.<br>
           <code>
 *** Test Cases ***<br>
 Read Character<br>
@@ -401,16 +380,18 @@ Read Character<br>
 &nbsp;&nbsp;&nbsp;Log&nbsp;&nbsp;&nbsp;The character is ${characters}[${num}]
           </code>
 <br><br>
-        At this point it is worth noting something for the developers. Normally, some value 
-        or even some text would have to be aggregated before it could be printed like this.
-        The text "The Character is" is somehow automatically linked with the return value 'g'.
-        How? Under the hood, RFW uses python functions and this entire string will be seen
-        as plain text in Python. In the transition between <code>${characters}[${num}]</code>
-        and text, the value of the RFW variable is substituted. The aggregate is simply interpreted
-        as text. This instance is making valuable use of the substitution step, but the default
-        text interpretation is also trouble. You might pass what you think is <code>1</code>
-        but the python gets <code>'1'</code>. <span class="red">BEWARE!</span> We'll talk
-        again soon.
+        <span class="red">*FOR DEVELOPERS*</span> Although RFW is based on Python, the syntax
+        is nothing like the base language. In this example we can see text and variables aggregated
+        without concatenation. When the line is interpreted it goes through several substitutions.
+        The final line is simply interpreted as text which is the default for all RFW code. This is
+        sometimes tricky because you cannot pass numbers or any object value. EVERYTHING is
+        reinterpreted as text<br>
+<code>
+The character is ${characters}[${num}]</br>
+The character is ['V','i','r','g','i','n','i','a'][3]</br>
+The character is 'g'
+The character is g
+</code>
       </li>
       <li>
         Now we have a test case that verifies one aspect of the state and does nothing more.
@@ -445,23 +426,23 @@ Read Character 2<br>
         anything yet, but we'll have the right format. In this structure we can see
         two characteristics of a Keyword that are NOT part of test cases: parameters 
         and return statements. As previously discussed, parameters are separated from
-        a keyword by the requisite 3 spaces. A <a href="https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#using-arguments">parameter</a> is used to give the keyword
-        information it needs to do its job. RFW uses the synonym 'argument' in its
-        syntax. This keyword has two arguments/parameters (<code>${text}</code> and 
-        <code>${n}</code>). Note that the <code>[ARGUMENTS]</code> always imeadiately 
-        follow the keyword name and that each argument/parameter is separated by the 
-        usual spaces.<br>
+        a keyword by the requisite 3 spaces. A <a href="https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#using-arguments">parameter</a>
+        is used to 'pass' information to the keyword so it can do its job. RFW uses 
+        the synonymous term 'argument' in its syntax. This keyword has two arguments/parameters 
+        (<code>${text}</code> and <code>${n}</code>). Note that the <code>[ARGUMENTS]</code> 
+        always appears on the line imeadiately following the keyword name and that each 
+        argument/parameter is separated by the usual spaces.<br>
           <code>
 *** Keywords ***<br>
 Find Nth Character<br>
 &nbsp;&nbsp;&nbsp;[ARGUMENTS]&nbsp;&nbsp;&nbsp;${text}&nbsp;&nbsp;&nbsp;${n}<br>
-&nbsp;&nbsp;&nbsp;@{characters} =&nbsp;&nbsp;&nbsp;Split String To Characters&nbsp;&nbsp;&nbsp;${text}
+&nbsp;&nbsp;&nbsp;@{characters} =&nbsp;&nbsp;&nbsp;Split String To Characters&nbsp;&nbsp;&nbsp;${text}<br>
 &nbsp;&nbsp;&nbsp;[RETURN]&nbsp;&nbsp;&nbsp;${characters}[${n}]
           </code>
 <br><br>
         The return statement is the means of giving a value back from a keyword. In
         this example we are going to find the Nth character and then we have to give
-        it back. The Nth character is returned from the keyword. This could be returned
+        it back. The Nth character is returned from the keyword. That value could be returned
         to a test or another keyword--whatever called <code>Find Nth Character</code>.
         That kind of flexibility means that this keyword can be used and reused in 
         different settings.
@@ -478,12 +459,12 @@ Find Nth Character<br>
         extracted the functionality, but not used it.
       </li>
       <li>
-        In this last step we will change the second test case to use the new keyword.
+        We will complete the refactoring by changing the second test case to use the new keyword.
         Because we have already extracted the functionality into the keyword, we only
         have to figure out how to work with that keyword. In this case we pass the state
         and the number to the keyword as parameters. Parameters have to be in the same
         order, but the names of the parameters in the keyword (i.e. <code>${text}</code> 
-        and <code>${n}</code>) don't have to match the values we pass (i.e. <code>${state}</code>
+        and <code>${n}</code>) don't have to match the name we use in the test case (i.e. <code>${state}</code>
         and <code>${num}</code>). Whatever value is returned will be stored in a temporary
         variable <code>${a}</code>. Afterward, we log that text. Run the test again and see
         that all of our changes have not broken the function. In the mean time, we have 
@@ -497,11 +478,12 @@ Read Character 2<br>
       </li>
       <li>
         Now that we have a reusable keyword, it's much easier to create a series of 
-        test cases that use a set of parameters instead of copied code. Let's test 
-        this out and use the <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Should%20Be%20Equal">Should Be Equal</a>
-        keyword. You can copy these test cases and build more based on different
-        parameters. Try to make 10 or more. Test them and see the various pass/fail
-        answers per case.<br>
+        test cases that use a set of parameters. Let's create a brand new test case that
+        really tests something. We will use the <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Should%20Be%20Equal">Should Be Equal</a>
+        keyword, again from the BuiltIn library. That keyword will check whether we got 
+        the value we expected and then give us a pass/fail result. You can copy these test 
+        cases and build more based on different parameters. Try to make 10 or more. Test 
+        them and see the various pass/fail answers per case.<br>
           <code>
 *** Test Cases ***<br>
 Read Character 1<br>
@@ -528,10 +510,12 @@ Read Character 4<br>
       </li>
     </ol>
 
-    <a name="session2-solut"></a><h3>Solution Scripts</h3>
-    <a href="rfw2.robot" download target="_blank">Robot script</a><br>
+    <a name="session3-solut"></a><h3>Solution Scripts</h3>
+    <a href="rfw2.robot" download target="_blank">RFW script</a><br>
 
-    <a name="session3"></a><h2>Data-Driven Testing</h2>
+    <hr></hr>
+ 
+    <a name="project3"></a><h2>Project 3. Data-Driven Testing</h2>
     <p>
       Starting with this lesson the instructions will focus less on line-by-line
       code instructions and more on guidance. Training wheels are off, but we aren't
@@ -542,7 +526,7 @@ Read Character 4<br>
     </p>
 
     <h3>Instructions</h3>
-    <ol><a name="session3-instr"></a>
+    <ol><a name="project3-instr"></a>
       <li>
         Start by downloading and opening the solution from the previous lesson.
         Resave it as rfw3.robot in the same folder.
@@ -555,24 +539,24 @@ Read Character 4<br>
         for the text, the number, and the expected value.
       </li>
       <li>
-        For DDT, we need to identify one keyword, the one we just created
+        For DDT, we need to identify one keyword (the one we just created)
         which will act as the <code>Test Template</code>. In other words,
-        this new keyword is the test script and we will activate it with
-        different parameters for each test case. We identify the Test 
-        Template in the settings.
+        the test script is now entirely made up of keywords and we will 
+        activate that Test Template with different parameters for each test 
+        case. We identify the Test Template in the settings.
           <code>
 *** Settings ***<br>
 Library&nbsp;&nbsp;&nbsp;String<br>
 Test Template&nbsp;&nbsp;&nbsp;Read Character
           </code>
 <br><br>
-        For DDT in RFW the Test Template is <em>required</em>, but there are four
+        For DDT, RFW <em>requires</em> the Test Template, but there are four
         other specialized keywords that can be defined for a single DDT test. These
         are not required, but may be a good idea. As shown in this image, the 
         designated keywords are executed in a fixed order. While only five keywords
-        are used in DDT, you are not limited. Remember that a keyword can call
+        are used in DDT, your test is not limited. Remember that a keyword can call
         another keyword. With these five keywords we are defining five "jumping off"
-        points which can contain as much or as little as we want. Which can call
+        points which can contain as much or as little as we want and which can call
         other keywords if desired.<br>
         <img src="testLoop.png">
 <br>
@@ -595,14 +579,14 @@ Test Template&nbsp;&nbsp;&nbsp;Read Character
         Now it's time to address the test cases themselves. In a DDT configuration 
         RFW still has test cases, but it represents each case as just one line of 
         parameters. Based on the test cases demonstrated in the last lesson, these
-        are the four test cases one might use. Note that each line has a test name
+        are the four test cases one might use. Note that each line has a case name
         which can be quite informative. After that each paramter can be either a 
-        value or one of the variables. In this case I added a fourth variable which
-        says if I expected to find the matching value. It's counter intuitive, but
+        value or one of the variables. In this case a new fourth parameter indicating 
+        whether the values are expected to match. It's counter intuitive, but
         if the test <em>doesn't</em> find a match and I didn't <em>expect</em> to 
-        get a match, that's still a pass. We will deal with that in a minute. Use
-        your own test cases from lesson 2 to create more test cases following this
-        pattern.<br>
+        get a match, that's still a pass. We are testing a FAIL case and it FAILed.
+        That is what we wanted to see. Use your own test cases from lesson 2 to create 
+        more test cases following this pattern.<br>
           <code>
 *** Test Cases ***&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Index&nbsp;&nbsp;&nbsp;&nbsp;Char&nbsp;&nbsp;&nbsp;&nbsp;Match<br>
 Find g&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${state}&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True<br>
@@ -611,13 +595,14 @@ No find r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
 Find r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${state}&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;True
           </code>
 <br><br>
-        You may have noticed that the parameters of the test case are all aligned vertically.
-        This was intentionally done with a combination of tabs and spaces (always at least one
-        tab or 3 spaces). We have found that aligning your paramters allows you to
-        directly compare your test cases and identify problems. On the Test Cases 
-        line there are even names for the parameters. They have no effect on RFW
-        but are also helpful to the test writer. It's easier to remember what 'g'
-        or 'r' means if you put a label on it.
+        You may have noticed that on the Test Cases line there are names for the 
+        parameters and that the parameters of each test case are aligned vertically 
+        under those names with a combination of tabs and spaces (always at least one
+        tab or 3 spaces). The names and spaces have no effect on RFW but it is 
+        considered a best practice for increased readability because the alignment 
+        allows direct comparison between test cases. Bugs in the parameter set
+        are easier to find and it's easier to remember what 'g' or 'r' means in
+        reference to the label. 
       </li>
       <li>
         Let's add that fourth parameter to our Test Template keyword and decide how
@@ -627,419 +612,560 @@ Find r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
         <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Run%20Keyword%20If">Run Keyword If</a>
         there is a match or not a match. Because <code>Run Keyword If</code> has a built
         in <code>ELSE</code> feature, we can include both actions on the same line.
-        Work on your own to build a simple If-Else using the Should and Should Not checks.
-        Remember that you can run your test multiple times as you think you have 
-        reached incremental stopping points.
+        This is our first example using a logical If-Else and these are standard
+        fare in a RFW test. Work on your own to build a simple If-Else using the 
+        Should and Should Not checks. Remember that you can run your test multiple 
+        times each time you think you have reached an incremental stopping poins.
       </li>
       <li>
         There is nothing holding us to the state and number we chose. We are free 
         to create entirely new cases. You can add more variables to create standard
         components or you may enter any text you want in any individual test case.
         Experiment and rerun your tests periodically. Be sure to look at the default
-        log as well.
+        log to verify the test results match your expectations.
       </li>
     </ol>
-    <a name="session3-solut"></a><h3>Solution Scripts</h3>
-    <a href="rfw3.robot" download target="_blank">Robot script</a><br>
+    <a name="project3-solut"></a><h3>Solution Scripts</h3>
+    <a href="rfw3.robot" download target="_blank">RFW script</a><br>
 
-    <a name="session4"></a><h2>Working with a GUI</h2>
+<hr></hr>
+
+<div class="alternate">
+    <a name="rfguihelper"></a><h3>Configure RFW GUI Helper</h3>
+    <h4>Description</h4>
     <p>
-      In this session, we will investigate the use of a GUI and how
-      sikuli and robot framework interact with the GUI. In order to
-      simulate a complicate GUI we are going to use the typical calculator
-      app available with each operating system. You may
-      repeat these steps with any application on your target computer.
-      This session will repeat the basic RFW setup and use the RFGUIHelper
-      and Sikuli to find the GUI and close it. Later we will expand
-      the use of GUIs in testing.<br><br>
-      <span class="red">NOTE</span>: You will need to start the SikuliServer
-      before running any Sikuli test. Run <code>deployment/RFTest/SikuliEntry/javaserver.bat</code>.
-      You may consider making this an automatic process during Suite Startup.
+      RFW can work with GUI, but it still needs to know where the GUI elements are
+      located. In order to avoid many weeks of GUI-buidling, RFW 3.1 provides a No-code 
+      tool to identify all widgets visually. We will need to install some additional
+      libraries and then we can operate the tool.
     </p>
+    <h4>Dependencies</h4>
+    <dl>
+      <dt>RHEL Libraries</dt>
+      <dd>
+        <ul>
+          <li><span class="red">Python3X</span>-setuptools</li>
+          <li><span class="red">Python3X</span>-tkinter</li>
+        </ul>
 
+        <p>
+          <span class="red">NOTE:</span> You must select the same version of python 3 
+          for ALL of the red libraries above and in earlier sections. On RHEL 8, the 
+          peferred version appears to be Python 3.9.
+        </p>
+      </dd>
+      <dt>Python Libraries</dt>
+      <dd>
+        <ul>
+          <li>pillow [<a href="https://pypi.org/project/Pillow/#history">link</a>]</li>
+        </ul>
+
+        <p>
+          <span class="red">NOTE:</span> Select a version of pillow compatible with the 
+          python version selected above. See this <a href="https://pillow.readthedocs.io/en/stable/installation.html">table</a> 
+          for details.
+        </p>
+      </dd>
+      <dt>Other</dt>
+      <dd>
+        <ul>
+          <li><a href="deployment.zip" download target="_blank">RFW 3.1</a><span class="highlight">NO SUCH FILE YET</span></li>
+        </ul>
+      </dd>
+    </dl>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Install all RHEL and Python dependencies.</li>
+      <li>Download and unzip the RFW 3.1 deployment folder in a convenient location.</li>
+      <li>Open the cmd prompt and navigate to <code>deployment/RFGUIHelper/validation</code>.</li>
+      <li><img align="right" width="75" src="./validation1.png"><span class="red">*VALIDATION*</span> Run the testgui application
+        <dl>
+          <dt><code>python testgui.py</code></dt><dd>If this window appears, the python environment is valid<dd>
+        </dl>
+      </li>
+      <li>Navigate to <code>deployment/RFGUIHelper</code>.</li>
+      <li><span class="red">*VALIDATION*</span> Run the RFGUIHelper application. Repeat whenever you run to edit a test window.
+        <dl>
+          <dt><code>python RFGUIHelp.py</code></dt><dd>The main window should open. Close the window.<dd>
+        </dl>
+      </li>
+      <li>RFGUIHelper, tkinter, and pillow are correctly installed.<br></li>
+    </ol>
+</div>
+
+    <hr></hr>
+    <a name="project4"></a><h2>Project 4. Mapping a GUI</h2>
+    <p>
+      In this session we will use a common GUI-based application as the basis
+      for a planned test. We will not be writing any actual test scripts, nor
+      using this mapp, but it is useful to see how the elements are identified
+      and how they work together to make a test possible. The learner will be
+      able to create a new GUI project and define all the GUI elements.
+    </p>
     <h3>Instructions</h3>
-    <ol><a name="session3-instr"></a>
+    <ol><a name="project4-instr"></a>
       <li>
-        Start this test by taking a full screen capture of the GUI you
-        wish to test against. Keep it simple this time. We just need
-        the main window.<br>
-        <img src="main.png">
+        We are going to create a GUI-map for our GUI-mapping too. It's very meta. To 
+        map a GUI, first take several screenshots of the GUI in question, all tabs, 
+        buttons, pull downs, etc. This step ensures that there is material for the tool
+        to use while mapping the GUI.<br>
+        <img src="starting_images.png">
       </li>
       <li>
         Start the GUI helper from <code>/deployment/RFGUIHelper/</code>
-        using <code>python3x RFGUIHelp.py</code>. Select File > New. 
-        Give a name to your project and navigate to find the screen
-        capture you just made. You will see two windows. The table 
-        window shows a row for each widget while the picture window 
-        shows the image overlaid by all the widgets.<br>
-        <img src="helper.png"> 
+        using <code>python RFGUIHelp.py</code>. Select File > New and navigate to or 
+        create a folder for your new project. Once you select a project name a new 
+        JSON file will be created for that purpose. More than one project can be
+        saved in the same location, but your file organization is ultimately up to you.
+        After opening the project, you must pick your first view. Navigate to one of 
+        the screen captures you just made and select it. Select a name for that view.<br>
+        <img src="helper.png"><br>
+        You will see two windows. The main window contains a table of all widgets for
+        this project. The picture window show each view and any widgets identified in
+        that view. In this case, you can see that we are mapping the MicroSoft Paint
+        application.<br>
       </li>
       <li>
-        We will create three important widgets for your basic GUI. To
-        create a widget, identify the place you want and click the upper-left
-        corner. Now click the lower-right corner. This will pop up a 
-        third window where you can edit the widget. Note that the edit/add
-        window shows the exact image captured between the two corners.<br>
-        <img src="addwidget.png"><br><br>
-        In the edit/add window you can manually adjust the dimensions of 
-        the widget, give it a name, and select a type. Some types have
-        additional data. Here we are using the edit/add window to create an anchor.
-        An <em>ANCHOR</em> is a portion of the GUI which will not
-        change and may be used to find the window on the screen.
-        Here we are using the title bar and a window icon as a reliable
-        anchor. Note that some GUIs have multiple eligible anchors
-        and you may define several. 
+        To create a widget, click on the screen in two places. These points should be the
+        upper left and lower right corners of the widget's space. If you get this wrong
+        the application will remind you of the rule. Once you have selected a space on the
+        image for the widget, a new window will pop up where you can edit the widget.
+        By changing the x/y location or the width/height dimensions you can adjust the
+        location and refine your selection. Each widget type also has distinct members
+        that help to define it's function in the test.<br>
+        <img src="addwidget.png"><br>
+        This widget is an <code>ANCHOR</code>. Anchors are fixed images (maybe more than 
+        one) that are always visible on the GUI and may be used to orient the test to the
+        window. Everything else on the window will be in an x/y position relative to the
+        anchor.<br><br>
+        When a window is moved from one point to another, RFW needs some firm location to
+        effect that action. Thus a <code>MOVEPOINT</code> can be defined. These are not 
+        required, as with an achor, but they are useful. Because widgets can be overlapped,
+        an anchor can also serve as a movepoint.
       </li>
       <li>
-        We will also add a widget for the close button and a movepoint. Your GUI may
-        vary. The close <em>BUTTON</em> will, of course, close the application when 
-        you click on it. The <em>MOVEPOINT</em> is a place on the GUI which can be 
-        dragged to move the window. Most windows are draggable. After you are satisfied
-        with each widget, close and save the RFGUIHelper.<br>
-        <img src="threewidgets.png">
+        <code>BUTTONS</code> are the most common widget. Many things are a button in one aspect or another.
+        Here all the buttons on the GUI have been mapped out and they populate the table on 
+        the main window. You can see the red overlay representing each widget and the name
+        more-or-less aligned with each overlay. These are placeholders to help in visually
+        checking the layout of the widgets. To edit the placement, click on the widget in 
+        the table and the same editing window will appear.<br>
+        <img src="buttons.png">
       </li>
       <li>
-        In the same folder as RFGUIHelp.py is the <code>config</code> folder. Inside
-        you will find the folder you created and the files for that window. Note that
-        each anchor is saved as a .png image file, the original screenshot was copied,
-        and a .json file controls the project. Aside from path data for the project,
-        the JSON contains a detailed definition of each widget.<br>
+        On the main window there is a view menu where views may be added/modified. For each
+        view, you will need to select a screen capture and a unique name. After you have
+        added some views, you can select the active view from the drop down in the image
+        window. In this case, we have added a second view showing the open File menu (red).<br>
+        <img src="importing.png">
+        All widgets are "native" to one view. As you have seen they are red overlays. If you click 
+        on the import button (blue), you can select one or more widgets from other views to be
+        shown relative to a non-native view. In this case, the close button from main view (green)
+        is imported as a foreign widget on the fileMenu view. Foreign widgets are blue overlays.
+      </li>
+      <li>
+        Certain widgets like buttons and <code>TABS</code> can link to another view. This
+        correlates to an abrupt change in the GUI when a tab is pressed or to a popup when
+        a button is pressed. Links are optional. In the test, if a button with a link is
+        pressed, the test will internally shift to that view and those widgets. You don't
+        have to manage this process explicity, it is implied in the click action. In the
+        main view there is a close button (blue) that opens up the save menu. In the widget 
+        editor, the link property (green) is used to select the view related to that button.<br>
+        <img src="linkingviews.png">
+      </li>
+      <li>
+        After completing the mapping, we can refer to the JSON file you named in step 2.
+        Collocated with that JSON file are images saved for the project. If you inspect
+        you inspect the file, you may see the list of views and widgets. All data paths 
+        refer directly to the location of the JSON, so the whole project can be extracted
+        in a single folder.<br>
         <img src="savefiles.png">
       </li>
+    </ol>
+    <a name="project4-solut"></a><h3>Solution Scripts</h3>
+    <a href="project4.zip" download target="_blank">Project JSON</a><br>
+
+<hr></hr>
+
+<div class="alternate">
+    <a name="part????"></a><h2>Objective Quality Evidence Library</h2>
+    <h4>Description</h4>
+    <p>
+      The auxlliary libraries of RFW 3.1 include a report system that exceeds the capabilities 
+      of the default libraries. This report is built to support a standard format without
+      the tree structure. That is not to say that the built in log is in any way insufficient,
+      but perhaps difficult to read for the uninitiated. The goal of the auxilliary library 
+      makes it easier for a beginner to go from zero to test in as short a time as possible.
+      The OQE libary&mdash;referring to objective quality evidence or data-based proof of correct 
+      function&mdash;puts all the test data and a live report in a single location.
+      <span class="red">NOTE</span>: You will need to start the SikuliServer before running any 
+      Sikuli test. Run <code>deployment/RFTest/SikuliEntry/javaserver.bat</code>. You may consider 
+      making this an automatic process during Suite Startup.
+    </p>
+    <h4>Dependencies</h4>
+    <dl>
+      <dt>RHEL libraries</dt>
+      <dd>
+        <ul>
+          <li>java-XXXX-openjdk-devel</li>
+          <li>tesseract-devel <a href="https://github.com/UB-Mannheim/tesseract/wiki">Windows Install</a></li>
+          <li>leptonica-devel <span class="red">Not required as a separate download for Windows</span></li>
+        </ul>
+      </dd>
+      <dt>Python Libraries</dt>
+      <dd>
+        <ul>
+          <li>Py4J [<a href="https://pypi.org/project/py4j/">link</a>]</li>
+          <li>pytesseract [<a href="https://pypi.org/project/pytesseract/">link</a>]</li>
+        </ul>
+      </dd>
+      <dt>Other</dt>
+      <dd>
+        <ul>
+          <li>SikuliX JAR [<a href="https://raiman.github.io/SikuliX1/downloads.html">link</a>]</li>
+        </ul>
+      </dd>
+    </dl>
+    <h4>Instructions</h4>
+    <ol>
+      <li>Install all RHEL and Python dependencies.</li>
       <li>
-        Now we are going to examine in detail the way that the GUI configuration file
-        is integrated into a RFW test. The file shown below contains all the elements
-        you are familiar with and some required for the GUI interaction with Sikuli.
-        First, the settings imports both the DataExtraction resource file, of which
-        we will hear more, and genericwindow.py. The DataExtraction library enables
-        certain Sikuli operations, but genericwindow is the auto-generated GUI for
-        your test. In past versions of RFW you would have to create your own low-level
-        code to connect with the GUI components. Now, genericwindow contains all the
-        keywords you will ever need.<br>
-        <img src="robot4.png"><br><br>
-        Still, genericwindow is a blank slate until it is configured. In the <code>Start Up</code>
-        keyword, we will use the configuration file to change that. On line 24 we
-        call <code>Configure Image Library</code> which is required for RFW 3.0 testing.
-        Among other things it sets up sikuli and ensures your data is all routed to
-        the same folder. On line 27 we call <code>Configure</code> from generic window
-        and we pass it the folder for the GUI configuration file. In the overlap you can
-        see that the folder name ends with '/' and we include the same data path.
-<br><br>
-        How does this work? In genericwindow.py (or more correctly the parent class
-        window.py) the <code>Configure</code> process parses the config file and 
-        gathers all the data you have provided. Among other things it creates a list
-        of named widgets and adds them to the GUI. Now you can access any of the
-        widgets from keywords built into genericwindow. An example is shown on line
-        30 where we call <code>main.Find</code>. The <code>Find</code> function searches
-        the screen for any of the Anchors. Once the anchor is found, the relative (x,y)
-        location of all widgets is updated. In this case we are using Find to ensure
-        the calculator app is on the screen. After finding we can begin testing. Note
-        that when the app is closed, <code>Stop Test</code> also calls <code>main.Click</code>
-        and selects the closeButton we identified earlier.
-<br></br>
-        Finally, let's examine the very simple <code>Test Case</code>. It begins and
-        ends by calling keywords to setup/stop the test. Note the use of <code>[TEARDOWN]</code>.
-        This is a useful feature for test cases (or <code>[KEYWORD TEARDOWN]</code> for
-        keywords) to enforce a final cleanup even when the test case has failed. TEARDOWN
-        will always run and close the window. The test case also documents the API for
-        <code>main</code>. There are two keywords that can be used by the tester to get 
-        information contained in the config and verify the GUI is properly working.<br>
+        The OQE library first requires a target folder where the data will be saved. Create
+        a folder and record the empirical path as in<br>
+<code>C:\Users\Owner\OneDrive\Documents\RFData3_1</code>
+      </li>
+      <li>
+        Navigate to and open <code>/deployment/RFDemoGUI/demoGUI.html</code> in a browser.
+        the blank report will look something like this. At present it does not point to a
+        valid data path.<br>
+        <img src="blankReport.png">
+      </li>
+      <li>
+        Reopen the <code>demoGUI.html</code> as a text document. On line 15 you need to 
+        replace the default data paths with the new folder space. Note that the exact
+        syntax of a file path may be dependent on the specific operating system.<br>
         <dl>
-          <dt><code>Document API</code></dt><dd>This function creates text, suitable for
-          logging, that describes each widget in the window and all of the functions it
-          supports.<br><img src="apilog.png"></dd>
-          <dt><code>Debug Window</code></dt><dd>This function highlights each widget on
-          on the screen for a fraction of a second. It is useful to see where genericwindow
-          believes the widgets are and to verify the placement is correct.<br><img src="debug.png"></dd>
+          <dt>Original line</dt>
+          <dd>
+            <code>
+              &lt;body&nbsp;onload="initialize('./../../../../RFData/test.js',<br>'./../../../../RFData/archive.js')"<br>class="background"  id="body"&gt;
+            </code>
+          </dd>
+          <dt>Example of new line</dt>
+          <dd>
+            <code>
+              &lt;body&nbsp;onload="initialize('C:\Users\Owner\OneDrive\Documents\RFData3_1\test.js',<br>'C:\Users\Owner\OneDrive\Documents\RFData3_1\archive.js')"<br>class="background"  id="body"&gt;
+            </code>
+          </dd>
         </dl>
       </li>
+      <li>
+        Navigate to and edit <code>/deployment/RFTest/OQE/textreader.py</code>. Around line 11 you must find and replace the tesseract executable path.<br>
+<code>
+tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"<br>
+</code>
+<span class="red">NOTE:</span> The 'r' preceeding the string makes it literal so that the '\' characters are as-is.
+      </li>
+      <li>Locate the Py4J JAR. This JAR is downloaded during the installation of Py4J. According to <a href="https://www.py4j.org/install.html">the documention</a>, the exact install location depends on the OS. Likely paths look something like these examples:<br>
+        <ul>
+          <li><code>path to python</code>/<code>shared packages</code>/py4j/py4j0.x.jar</li>
+          <li>/usr/share/py4j/py4j0.x.jar</li>
+          <li>/usr/local/share/py4j/py4j0.x.jar</li>
+          <li>c:\python27\share\py4j\py4j0.x.jar</li>
+          <li>c:\Users\user_name\AppData\Local\Packages\Python.3.XYZ\LocalCache\local-packages\share\py4j\py4j0.x.jar</li>
+        </ul>
+      </li>
+      <li>Locate the Sikuli JAR which is probably in the downloads folder.</li>
+      <li>Move both JAR files to <code>deployment/SikuliEntry</code></li>
+      <li>You will need to (re)define the CLASSPATH environmental variable to point to the 
+          JAR files. These values are separated by ':' in linux and ';' in windows. The final 
+          '.' points to Java classes in the the present working directory. The new CLASSPATH 
+          will be something like<br>
+          <nobr><code>something/deployment/SikuliEntry/py4j.jar:something/deployment/SikuliEntry/sikulix.jar:.</code></nobr><br>
+          You always have the option to use the inline classpath ex. <nobr><code>javac -cp /that/path:/again/right/:. someprogram.java</code></nobr>
+      </li>
+      <li>
+        Repeat the process for the PYTHONPATH variable. Create it if it does not already 
+        exist on your system. Add the these paths:<br>
+<code>
+/deployment/RFTest/OQE:/deployment/RFTest/widgets:.
+</code>
+      </li>
+      <li>Open a new cmd prompt and navigate to <code>deployment/SikuliEntry</code>.</li>
+      <li><span class="red">*VALIDATION*</span> Execute the following commands to verify that the JDK is working. If not, you may need to locate the installation and add it to the PATH environmental variable.
+        <dl>
+          <dt><code>java -verison</code></dt><dd><code>openjdk version "20.0.1" 2023-04-18</code> -- actual results may differ<dd>
+          <dt><code>javac -version</code></dt><dd>You should get a similar statement about the version of javac.<dd>
+        </dl>
+      </li>
+      <li><span class="red">*VALIDATION*</span> Compile the SikuliEntryPoint on your system.
+        <dl>
+          <dt><code>javac SikuliEntryPoint.java</code></dt><dd>You should get a blank line but no errors. If you get any errors, you may be missing a dependency library.<dd>
+        </dl>
+      </li>
+      <li><span class="red">*VALIDATION*</span> Run the SikuliEntryPoint application. Repeat whenever you run a RFW test.
+        <dl>
+          <dt><code>java SikuliEntryPoint.class</code></dt><dd>You should get <code>Gateway Server Started</code> when the server runs. Use CTRL+C to force a shutdown.<dd>
+        </dl>
+      </li>
+      <li>
+        Navigate to and edit <code>/deployment/RFTest/oqeTest.robot</code>. Under <code>**** Variables ****</code> you will find
+        <code>${DATA PATH}</code>. Make this path the same as that you selected for the HTML report.
+      </li>
+      <li>
+        <span class="red">*VALIDATION*</span> Run the the OQE validation test. Refresh the demoGUI 
+        report in the browser and click on the link icon to open and verify the results shown here.<br>
+<code>robot oqeTest.html</code><br>
+        <img src="testreport.png">
+      </li>
+      <li>Java, Python, and Sikuli are correctly installed.</li>
     </ol>
-    <a name="session4-solut"></a><h3>Solution Scripts</h3>
-    <a href="rfw4.robot" download target="_blank">Robot script</a><br>
-    <a href="prject4.json" download target="_blank">Config JSON</a><br>
+</div>
 
-    <a name="session5"></a><h2>Recording the Test</h2>
+<hr></hr>
+
+    <a name="project5"></a><h2>Project 5. Testing with a GUI</h2>
     <p>
-      In this session we will create a real test against this application. This is 
-      exciting. We are going to create test cases, keywords, and gather data to
-      auto-generate a test report. We're going to treat this seriously, even though
-      it will still be the calculator app.
+      In this session, we will investigate testing with a GUI and how sikuli and RFW interact 
+      during a test. We will conduct the test against our own RFGUIHelper. You may repeat these 
+      steps or use any target application on your computer.<br><br>
     </p>
 
     <h3>Instructions</h3>
-    <ol><a name="session5-instr"></a>
+    <ol><a name="project5-instr"></a>
+
+      <li>Navigate to <code>./deployment/SikuliEntry</code> and start the server.<br>
+<code>Gateway Server Started</code>
       <li>
-        Obviously, the GUI has been reviewed considerably and we have a more
-        extensive list of widgets. Note that the table shows all 21. If you
-        wanted to edit one, click on that row and the same editor pops up.<br>
-        <img src="fullcalc.png">
-      </li>
-      <li>
-        We will start with the same script as the last exercise and this time
-        we will set up in a DDT paradigm with test cases for each of the 
-        four operations. In settings we align <code>Start Up</code> and <code>Stop Test</code>
-        with appropriate DDT keywords. Under test cases we give each case a
-        name that fully describes the case. There are four parameters which 
-        will enable <code>Operation</code><br>
-          <code>
-*** Settings ***<br>
-Resource&nbsp;&nbsp;&nbsp;&nbsp;DataExtraction.resource<br>
-Library&nbsp;&nbsp;&nbsp;&nbsp;genericwindow.py&nbsp;&nbsp;&nbsp;&nbsp;WITH NAME&nbsp;&nbsp;&nbsp;&nbsp;main<br>
-<br>
-Suite Setup&nbsp;&nbsp;&nbsp;&nbsp;Start Up<br>
-Test Template&nbsp;&nbsp;&nbsp;&nbsp;Operation<br>
-Suite Teardown&nbsp;&nbsp;&nbsp;&nbsp;Stop Test<br>
-<br>
-* * *<br>
-<br>
-*** Test Cases ***<br>
-1+5 = 6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6<br>
-2x8 = 16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;multiply&nbsp;&nbsp;&nbsp;&nbsp;16<br>
-30 / 6 = 5&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;divide&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5<br>
-9 - 4 = 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;minus&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5<br>
-<br>
-* * *<br>
-<br>
-Operation<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[ARGUMENTS]&nbsp;&nbsp;&nbsp;&nbsp;${operand1}&nbsp;&nbsp;&nbsp;&nbsp;${operand2}&nbsp;&nbsp;&nbsp;&nbsp;${op}&nbsp;&nbsp;&nbsp;&nbsp;${answer}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;main.Find<br>
-&nbsp;&nbsp;&nbsp;&nbsp;main.Click&nbsp;&nbsp;&nbsp;&nbsp;clear<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Type Number&nbsp;&nbsp;&nbsp;&nbsp;${operand1}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;main.Click&nbsp;&nbsp;&nbsp;&nbsp;${op}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Type Number&nbsp;&nbsp;&nbsp;&nbsp;${operand2}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;${a} =&nbsp;&nbsp;&nbsp;&nbsp;main.Read&nbsp;&nbsp;&nbsp;&nbsp;${output}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;Run Keyword If&nbsp;&nbsp;&nbsp;&nbsp;${a}!=${answer}&nbsp;&nbsp;&nbsp;&nbsp;Fail<br>
-          </code>
-<br>
-        What does the operation (our <code>Test Template</code>) do? First it finds the
-        window and clears any previous data. Arguably this could be moved
-        to a <code>Test Setup</code>, but we'll leave it here for now. 
-        We need to read in a number by clicking buttons, but for now we
-        will only name a proposed keyword <code>Type Number</code>. We
-        test by typing one number, clicking on the operator (e.g. '+')
-        and then typing the next number. After clicking equals we can
-        read the output. If there is a mismatch the test fails. This is
-        a complete test and you can run the four cases to get a result.
-      </li>
-      <li>
-        To create <code>Type Number</code> we need to use the <a href="https://robotframework.org/robotframework/latest/libraries/String.html#Split%20String%20To%20Characters">Split String To Characters</a>
-        seen earlier. In the keyword we will split the number into a list of <code>${digits}</code>.
-        This time we will use a <code>FOR</code> loop. RFW uses a FOR
-        to look at each character in the list. We will use that opportunity
-        to <code>Click</code> on the appropriate button. Note that <br>
-          <code>
-Type Number<br>
-&nbsp;&nbsp;&nbsp;&nbsp;[ARGUMENTS]&nbsp;&nbsp;&nbsp;&nbsp;${NUM}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;${digits} =&nbsp;&nbsp;&nbsp;&nbsp;Split String To Characters&nbsp;&nbsp;&nbsp;&nbsp;${NUM}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;&nbsp;&nbsp;&nbsp;${digit}&nbsp;&nbsp;&nbsp;&nbsp;IN&nbsp;&nbsp;&nbsp;&nbsp;@{digits}<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run Keyword&nbsp;&nbsp;&nbsp;&nbsp;main.Click&nbsp;&nbsp;&nbsp;&nbsp;${digit}_button<br>
-&nbsp;&nbsp;&nbsp;&nbsp;END<br>
-          </code>
-      </li>
-      <li>
-        Now, if you run this test and have some problems, that's not 
-        surprising. We have a test script, but we aren't gathering any
-        data--what we refer to as Objective Quality Evidence or OQE.
-        We need to record data to find out what is happening and fix
-        the script. What kind of OQE should we gather? This list shows
-        the standard which is desired on all tests. These OQE steps
-        create an audit trail so that by reviewing the report one
-        has as much data as if you had observed the test live.
+        Begin by adding two lines under settings.<br>
         <dl>
-          <dt>When you start some action...</dt><dd>Mark the action</dd>
-          <dt>If something can be seen...</dt><dd>Take a picture</dd>
-          <dt>If there was a change in conditions...</dt><dd>Record the data before and after</dd>
-          <dt>If you enforced some change...</dt><dd>Verify that it took</dd>
-          <dt>If you expected some outcome...</dt><dd>Record what you found<br>Verify it matched</dd>
-          <dt>When you finish some action...</dt><dd>Mark the action</dd>
-          <dt>If something went wrong...</dt><dd>Fail the test</dd>
+          <dt>DataExtraction.resource</dt>
+          <dd>
+            This library enables both Sikuli and reporting capabilities for RFW 3.1.
+          </dd>
+          <dt>genericwindow.py</dt>
+          <dd>
+            Generic window is a no-code solution that pairs with the GUI-mapping
+            configuration file.
+          </dd>
         </dl>
+        <img src="settings5.png"><br>
       </li>
       <li>
-        Let's apply these rules to our test. The first action is when
-        we clear any existing data. So let's add some OQE gathering.<br>
-          <code>
-    Archive Any Previous Data<br>
-<br>
-    New Test Event&nbsp;&nbsp;&nbsp;&nbsp;${TEST NAME}
-          </code>
-<br><br>
-        First, we will archive OQE data and create a test case. These
-        are commands in the DataExtraction library that clear any previous 
-        report and start a new line. Archive Any Previous Data may be 
-        appropriate for <code>Suite Startup</code>. New Test Event belongs
-        in at the start of the <code>Test Template</code> or even the
-        <code>Test Startup</code>. The <code>${TEST NAME}</code> is a
-        built in variable that always has the case name (e.g. 1 + 5 = 6).<br>
+        We will use one variable to locate the data folder previously created in configuration.
+        This line will be a staple of all future test cases.<br>
+        <img src="variables5.png"><br>
       </li>
       <li>
-        Now we can examine appropriate OQE steps added around the one
-        line <code>main.Click&nbsp;&nbsp;&nbsp;&nbsp;clear</code>. The
-        section begins with <code>Record Action</code> and ends with 
-        <code>Keyword Final</code>. These are meant to deliniate this
-        action from all others and to create a Green/Red block in the
-        report. Note the solid yellow and green lines across the detailed
-        report, corresponding to these lines in the script. In addition
-        we take a screen capture of the cleared input and read the value.
-        Both are recorded in the report and the pass/fail criteria for
-        this section is created by <code>Assert OQE Values Equal</code>.
-        Looking at the report, it is visually verifiable that the value
-        was zero and we have a quick pass/fail verification of that data.
-        As promised, if you only read the report you could still verify
-        the test results.<br>
-        <img src="firstOQE.png">
-<br><br>
-        It is worth noting that all of these OQE keywords come from <code>DataExtraction.resource</code>.
-        That is a small library with full documentation at <code>deployment/RFTest/Doc/dataextraction.html</code>.
-        Broadly, the library has keywords for report formatting (action, 
-        soft, and hard breaks), asserting pass/fail criteria (e.g. two 
-        values are equal), and recording test data. There are also data
-        charts (courtesy of <a href="https://bsdillon.github.io/DahlgrenTest/html/RFDocumentation/charting/index.html">chart.js</a>)
-        for data reporting per test or per suit of tests. Finally, note
-        the name <code>Keyword Final</code>. These one keyword is so
-        typical as part of <code>TEARDOWN</code> that it was specifically
-        added for the purpose. Recall that teardown is enforced even if
-        the keyword or test fails. Keyword Final captures the final state
-        and adds that content to the report. As in the example shown above
-        if the criteria passed a green block and line will be added to
-        the report. If the criteria failed... you get red. All of this suggests
-        that the various data gathering and reporting around the clearing
-        action may be extracted into its own keyword.
+        We will simulate the DDT-style test in this one example because we are only demonstrating
+        the GUI operations<br>
+        <img src="ddt5.png"><br>
       </li>
       <li>
-        One may debate which sections of the test form a cohesive "unit"
-        worthy of OQE and indeed its own keyword. Two criteria should be
-        considered: Is the block repeated anywhere in the test? Will the 
-        block be reused by any other test? If either answer is yes, it 
-        should be extracted in this way. We can do something similar with
-        the two operands and the operator. In effect all the next block
-        until we hit '=' is one action. We can wrap it with OQE and expect
-        that <code>Math Problem</code> is a reusable component in future
-        tests. Extract those lines and add the following OQE:<br>
-        <ul>
-          <li>Record the action and add Keyword Final.</li>
-          <li>Take a picture of each complete number</li>
-          <li>Read the value of each complete number</li>
-          <li>Verify that the numbers match expectations</li>
-          <li>Record the final result, maybe adding a picture</li>
-        </ul>
+        In the Suite Start we have to take several standard actions that define a RFW 3.1 test<br>
+        <dl>
+          <dt><code>Configure Image Library</code></dt><dd>This step should ALWAYS come first. It specifies that we are using Sikuli for the test and gives the path for reported data. The test WILL fail if this step isn't done first.</dd>
+          <dt><code>Set Log Level</code></dt><dd>This is part of the Built In library, but should always feature in order to record sufficient debug data in the log.</dd>
+          <dt><code>Archive Any Previous Data</code></dt><dd>In RFW 3.1 the current test will overwrite any existing test data. If you want to save that test data, it should be archived. Always run this before starting a new test suite.</dd>
+          <dt><code>New Test Event</code></dt><dd>In RFW 3.1 the HTML report shows individual lines for each test event. To create a valid report, you must call this keyword at least ONCE. If there are multiple tests in a suite each one should be proceeded by this keyword.</dd>
+          <dt><code>Record Action</code></dt><dd>This is a standard OQE method that places a yellow action banner across the report. It is a great mechanism to ensure actions are called out specifically in the report.</dd>
+        </dl>
+        <img src="kw_start5.png"><br>
       </li>
       <li>
-        In doing the last activity, you may have noticed an oversight
-        that caused the test to fail. It was missing the line <code>main.Click&nbsp;&nbsp;&nbsp;&nbsp;equals</code>.
-        Not only does adding OQE help us to verify test results, but
-        it is also a valuable way of verifying the test script. If
-        an action happens, we need OQE. If we need OQE, then the action
-        should be verified. Creating this new keyword should add a second
-        block to our report and additional data in the detailed report.<br>
-        <img src="secondOQE.png">
+        Starting the test should ensure that elements of the system under test are in place. Here
+        we take several actions to prepare the test suite. Again, several of these are standard
+        fare for RFW 3.1<br>
+        <dl>
+          <dt><code>Banner</code></dt><dd>As with Record Action, this places a banner across the test report and one which is best used to call out new sections of the test.</dd>
+          <dt><code>Start Process</code></dt><dd>This is part of the Built In library and can be used to kick of the application under test. Other methods may be used, but this is one option.</dd>
+          <dt><code>Configure</code></dt><dd>Each Generic Window must be configured from a JSON file created in the RFGUIHelper. Again, we indicate that this is a Sikuli application and pass the data path</dd>
+          <dt><code>Find</code></dt><dd>Each Generic Window can be found by searching for the Anchors. One anchor on one view should be visible and that view becomes active. Here we use a Built In keyword to attempt the Find multiple times in case the application loads slowly. This is standard for Robot Framework. We have 2 repetitions 3 seconds apart.</dd>
+          <dt><code>Log/Log To Console</code></dt><dd>Both of these actions are part of the Built In library. Log adds data to the log.html report. Log To Console puts a line on the command line as feedback during test.</dd>
+          <dt><code>Teardown</code></dt><dd>Teardown is part of the Built In library and as the name suggests it is ALWAYS executed when the keyword terminates. It is a great way to catch and report any errors or take final actions.</dd>
+          <dt><code>Keyword Final</code></dt><dd>Often used as a teardown step, this is a standard part of RFW 3.1. It closes the keyword with a Pass/Fail block and puts a black separation bar across the report. TEST NAME, KEYWORD STATUS, and KEYWORD MESSAGE are part of the Built In library.</dd>
+        </dl>
+        <img src="kw_tstart5.png"><br>
       </li>
       <li>
-        While it's nice to see all the green Pass results, we aren't quite done.
-        We need to verify the final result matches our expectations.
-        Right now we are using <code>Fail</code> but that doesn't produce
-        useful OQE. Go back to the final action. We already recorded
-        the result in both picture and value. Now, we just need to
-        verify the results and summarize our test results. Let's backtrack
-        to <code>Clear Data</code> and <code>Math Problem</code>. In
-        each case the last line (just before Keyword Final) should be
-        a variant on <code>Run Keyword If&nbsp;&nbsp;&nbsp;&nbsp;${a}!='PASS'&nbsp;&nbsp;&nbsp;&nbsp;Fail</code>.
-        This means that each keyword has the potential to fail the
-        whole test. Within our test case we can take some creative
-        steps to ensure a more useful output. In each case:<br>
-        <ul>
-          <li>You can anticipate the cause of failure for that keyword</li>
-          <li>You can report the final result</li>
-          <li>You can update in the event that the keyword passes</li>
-        </ul>
+        The actual test is rather simple, demonstrating two useful features of RFW 3.1.<br>
+        <dl>
+          <dt><code>Document API</code></dt><dd>This keyword gathers information about the window as a single string. It must be logged or displayed in some other way, but it is a useful way to recall what features each widget, view, and window can support.<br><img src="api5.png"></dd>
+          <dt><code>Debug Window</code></dt><dd><br>Similarly, this keyword identifies all the widgets on the current view with a short-lived red overlay. This feature is useful to show where the widgets are AND to ensure they are properly located on the screen.<br><img src="debug5.png"></dd>
+        </dl>
+        <img src="kw_test5.png"><br>
+      </li>
+      <li>
+        In this example we have no analog to a suite stop, but we do have a test stop. This is also
+        the first action taken against a GUI member. <code>Click</code> is exactly what it says: it
+        executes a mouse event on the named widget. Naturally, the test assumes that widget is on
+        the current view. If that is not true the test will fail.<br>
+        <img src="kw_stop5.png"><br>
+      </li>
+      <li>
+        The GUI report shows three blocks for the test. These three blocks correspond to the three
+        green banners across the detailed report.<br>
+        <img src="report5.png"><br>
       </li>
     </ol>
-    <a name="session5-solut"></a><h3>Solution Scripts</h3>
-    <a href="rfw5.robot" download target="_blank">Robot script</a><br>
-    <a href="project5.json" download target="_blank">Config JSON</a><br>
+    <a name="session4-solut"></a><h3>Solution Scripts</h3>
+    <a href="rfw5.robot" download target="_blank">RFW script</a><br>
+
+<hr></hr>
 
     <a name="session6"></a><h2>Resource Files</h2>
     <p>
-      This session will focus on resource files. Up to now
-      we have used <code>.robot</code> files, but now we will 
-      learn how and when to create a <code>.resource</code> file.
-      Recall that robot files are <i>tests</i>. As such they are
-      designed for one use only. In order to create reusable code
-      for use in multiple tests, you must use a resource file. In
-      this session we will turn the last test into a resource file.
+      This session will focus on resource files. Up to now we have used 
+      <code>.robot</code> files, but now we will learn how and when to 
+      create a <code>.resource</code> file. Recall that RFW files are 
+      <i>tests</i>. As such they are designed for one use only. In order 
+      to create reusable code for use in multiple tests, you must use a 
+      resource file. In this session we will extend the last test into a 
+      resource file to fully articulate the GUI window.
     </p>
 
     <h3>Instructions</h3>
     <ol><a name="session6-instr"></a>
       <li>
-        Let's start with the solution file from the last test. In this
-        case we will copy and rename as a <code>.resource</code>. Right
-        away there are things that we can strip out because they should
-        be part of a test. Instead, this resource will be used for the
-        standard calculator.<br>
+        The goal of a resource file is to represent a complete set of functionality.
+        That could mean a set of capabilities (e.g. accessing a database) but in this
+        case the resource file will contain all the details of interaction with a
+        single GUI window. Let's start with the solution file from the last test and
+        we will strip out details that belong to a specific <em>test</em> rather than
+        the RF GUI Helper<br>
         <ul>
-          <li><code>${DATA PATH}</code> should be removed from variables.</li>
-          <li>Get rid of all the <code>*** Test Cases ***</code>.</li>
-          <li>It is debatable if the DataExtraction resource file should remain,
-          but it certainly does no <em>harm</em>. On the other hand all the 
-          DDT keyword definitions belong only in a test file.</li>
-          <li>The <code>Operation</code> keyword was the Test Template
-          and it has no business in the resource file.</li>
-          <li>For similar reasons, remove <code>Start Up</code> and <code>Stop Test</code>.</li>
+          <li><span class="red">KEEP</span> the <code>DataExtraction</code> resource file. Doing so ensures that your OQE actions are valid.</li>
+          <li><code>${DATA PATH}</code> belongs to the specific environment/test not the window.</li>
+          <li><code>*** Test Cases ***</code> are not allowed in .resource files, but leave the existing <nobr><code>*** Keywords ***</code></nobr>. We may rescue something.</li>
         </ul>
       </li>
       <li>
-        Just as we removed things that had no business in a resource file,
-        there are some things we should either add or rescue from the removed 
-        code.<br>
+        For this resource file, we need to create keywords that manage the window as
+        a whole. Much of what we need will be taken from the keywords created in the previous
+        section. Feel free to harvest any components you want from the existing code.<br>
         <ul>
-          <li>Create a new keyword to start the calculator. You can use pieces
-          rescued from <code>Start Up</code>.</li>
-          <li>Create a new keyword to close the calculator using pieces from 
-          <code>Stop Test</code>.</li>
-          <li><code>Type Number</code> is set up for numbers only. We might
-          consider adding two new features. It is possible that you could add
-          a regular expression check to <a href='https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Should%20Match%20Regexp'>validate number formats</a>. It really
-          depends on how complex your tests would be.<br>
-          <ul>
-            <li>Flipping the sign -/+ when the number includes '&minus;'</li>
-            <li>Inserting a decimal point when the number includes '.'</li>
-          </ul>
-          </li>
-          <li>Add buttons to the GUI for square, square root, etc.</li>
-          <li>Create new "problem" keywords for each of these functions. Again
-          for this example you can get as detailed as you like.</li>
+          <li>Create a keyword to start the window and perform the initial <code>Find</code>.
+          So far we haven't dealt with Failures. After Robot Framework 5.0, Built In includes
+          standard error handling using <a href="https://github.com/robotframework/robotframework/blob/master/doc/releasenotes/rf-5.0b1.rst#try-except">TRY-EXCEPT-END</a>.
+          That may be a valid strategy to appropriately close the test if the window isn't found.</li>
+          <li>Create a keyword to document and debug the window.</li>
+          <li>Create a keyword to close the window.</li>
         </ul>
       </li>
       <li>
-        Don't forget to add the OQE for your report. At the very least you have
-        actions to record and if you can determine what the correct course of 
-        action should be, validate that as well.
+        If you do this right, you should be able to refactor the last test file and achieve the same results.
+        Refactoring changes the <em>structure</em> of the code without altering its <em>function</em>. In the
+        example shown here we are using the <code>rfg.resource</code> file and then we can refer to the three new keywords
+        <code>Open RF GUI Helper</code>, <code>Document RF GUI Helper</code>, and Close RF GUI Helper<code></code>.
+        <img src="refactor5_to_6.png"><br>
+        <span class="red">NOTE:</span>: Although Libraries can be imported with a name, that does not apply to 
+        resource files. This can create collisions between two resource files defined for two different purposes.
+        This is a <a href="https://github.com/robotframework/robotframework/issues/2104">known limitation of Robot Framework</a>.
+        This won't happen for keywords from GenericWindow because each resource file can use naming unique to
+        each resource. For example <code>TextWriter.Find</code> is different from <code>DateWindow.Find</code>.<br><br>
+<code>
+*** Settings ***<br>
+Library&nbsp;&nbsp;&nbsp;&nbsp;genericwindow&nbsp;&nbsp;&nbsp;&nbsp;WITH NAME&nbsp;&nbsp;&nbsp;&nbsp;main<br>
+Resource&nbsp;&nbsp;&nbsp;&nbsp;DataExtraction.resource&nbsp;&nbsp;&nbsp;# Can't have a name!!!<br><br>
+</code>
+        To avoid collisions your keywords should be unique to each window. Avoid generic names like "Document Window"
+        as those are almost <em>certain</em> to be duplicated between windows. It is recommended that a group develop
+        naming conventions that will prevent this issue. In the refactored test above you can see that the full name
+        of the window features in the keywords of that resource file. This is valid syntax for Robot Framework and it
+        makes collision avoidance much easier. This is the recommended best practice.<br>
       </li>
       <li>
-        The goal of this resource is that it can be used to operate the calculator,
-        perhaps as part of a larger test. It should have keywords that allow a test
-        to start the calculator, type various numbers, perform various operations, 
-        read and clear the results, and close the calculator again. We don't have
-        any test in mind at this time, just preparation for potential uses.
+        We will create a test to change the view within this application. Views, as seen previously, are created for
+        each tab, popup, or other component of the GUI. Here we will address the menu items only. As seen here there 
+        are two menus (file and project actions). In addition, we have identified a "null" menu space in the title bar.
+        Initially, the full corner anchor (green) includes <em>closed</em> menus is visible which corresponds
+        to the main view. If you click on the file menu (red) the new anchor will visibly show the <em>open</em> file 
+        menu. If you click on the project actions menu (blue) the new anchor will visibly show the <em>open</em>
+        project actions menu. Finally, that null menu works in the same way. If you click on that title bar space (green)
+        any open menu would close and the original anchor would be visible again. This relationship will be the focus
+        of the proposed test.<br>
+        <img src="viewstate.png">
       </li>
       <li>
-        After refactoring the test file into a resource, we can return to the 
-        <code>.robot</code> file. Create a copy and rewrite to include <em>just</em>
-        the test portion. As we intended, import the new resource file and use the
-        new keywords to recreate the same test effects.
+        While building this test, you will run directly into an issue with <em>timing</em>. After clicking on a menu,
+        it takes a small amount of time to actually open/close menus. It's not a lot of time for a human, but RFW
+        can execute test steps so quickly that the menu may not be fully opened/closed before the next step. This is
+        known as a "race condition" where two actions are competing to be done first. There are two strategies to deal
+        with that delay.<br>
+        <dl>
+          <dt><code>Wait Until Keyword Succeeds&nbsp;&nbsp;&nbsp;3x&nbsp;&nbsp;&nbsp;&nbsp;2s&nbsp;&nbsp;&nbsp;&nbsp;keyword</code></dt><dd>We have already seen the <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Wait%20Until%20Keyword%20Succeeds">Wait Until Keyword Succeeds</a> and this is the <em>preferred</em> way to do things in RFW.</dd>
+          <dt><code>Sleep&nbsp;&nbsp;&nbsp;&nbsp;2s</code></dt><dd>Like the story of the Tortoise and the Hare, one action will "sleep" while the other catches up. This method is not perferred because there is no guarantee that the second action has caught up or if it has failed entirely. The <code>Wait</code> technique may <em>FAIL</em> but you will <em>KNOW</em> one way or another. With <code>Sleep</code> we are making some assumptions.</dd>
+        </dl>
+      </li>
+      <li>
+        Create three keywords: click on the menu in question (fMenu, aMenu, nullMenu); get the view that <em>should</em>
+        be visible; verify the right anchor is present. The test will feature three useful keywords from GenericWindow.<br>
+        <dl>
+          <dt><code>winodwName.Click&nbsp;&nbsp;&nbsp;&nbsp;widgetName</code></dt><dd>Click does just what is sounds like: a single mouse click in the middle of that widget.</dd>
+          <dt><code>winodwName.Expected View</code></dt><dd>Get the name of the view (e.g. <code>View[main]</code>) which the window is expecting based on the last item clicked.</dd>
+          <dt><code>windowName.Actual View</code></dt><dd>In this case, the window searches for any visible anchor and then identifies the actual view that is visible.</dd>
+        </dl>
+      </li>
+      <li>
+        The test itself consists of one keyword called in sequence.<br>
+<pre><code>*** Test Cases ***
+Menu Test
+&nbsp;&nbsp;&nbsp;&nbsp;Suite Start
+&nbsp;&nbsp;&nbsp;&nbsp;Open the window
+&nbsp;&nbsp;&nbsp;&nbsp;Click and Verify&nbsp;&nbsp;&nbsp;&nbsp;fMenu
+&nbsp;&nbsp;&nbsp;&nbsp;Click and Verify&nbsp;&nbsp;&nbsp;&nbsp;aMenu
+
+&nbsp;&nbsp;&nbsp;&nbsp;#It is recommended to <em>ALWAYS</em> close as a test teardown action
+&nbsp;&nbsp;&nbsp;&nbsp;[TEARDOWN]    Close the window
+
+*** Keywords ***
+Click and Verify
+&nbsp;&nbsp;&nbsp;&nbsp;[Arguments]&nbsp;&nbsp;&nbsp;&nbsp;${menuName}
+&nbsp;&nbsp;&nbsp;&nbsp;RF GUI Helper: Click&nbsp;&nbsp;&nbsp;&nbsp;${menuName}
+&nbsp;&nbsp;&nbsp;&nbsp;RF GUI Helper: Verify View
+</code></pre>
+      </li>
+      <li>
+        Take time to record OQE for your tests. In general we suggest the following pattern, but you can adapt your test as you see fit.
+        For greater detail you can review the documentation of those features in <code>RFTest/OQE/DataExtraction.resource</code>.<br>
+        <ul>
+          <li>Before starting each major section of the test, use a banner to declare the name/purpose of the section.</li>
+          <li>Declare each action just before you take it.</li>
+          <li>Take pictures of any portion of the screen involving action or analysis.</li>
+          <li>Report any data first; analyze and report the findings afterwards.</li>
+          <li>As needed you can add a soft or hard break in the report to visually separate subsections of the test.</li>
+          <li>Declare a pass/fail at the end of each major section of the test</li>
+        </ul>
+      </li>
+      <li>
+        If you build this test as shown <span class="red">you will get failures</span>. This occurs because aMenu doesn't open when clicked.
+        That operation is actually correct (it is disabled <em>until</em> a project is opened). There are many ways to account for this
+        such as the TRY-EXCEPT-END seen above. In this case it would be better to use <a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Run%20Keyword%20And%20Expect%20Error">Run Keyword And Expect Error</a>.
+        That technique is preferred because it will catch the error as a message and it will continue operation only if the error occurs.
+        This is an excellent way to make a test intentionally fail and yet anticipate and accept that failure.<br><br>
+
+        This expected failure condition offers and opportunity to use default arguments. In the code below we have added <code>${expectFail}</code>
+        and given it the default value <code>False</code>. In the test we call Click and Verify with just <code>fMenu</code> and so it is
+        not expected to fail. For <code>aMenu</code> we can add <code>expectFail=True</code> and handle that case differently.<br>
+<pre><code>Click and Verify
+&nbsp;&nbsp;&nbsp;&nbsp;[Arguments]&nbsp;&nbsp;&nbsp;&nbsp;${menuName}&nbsp;&nbsp;&nbsp;&nbsp;${expectFail}=False
+</code></pre>
+      </li>
+      <li>
+        As a final step in your test-building efforts, always perform a final clean up. Consider any keywords which exist in the <code>.robot</code>
+        and which may be reused in the <code>.resource</code> file. Bear in mind that there is no one right solution to this test. The solution 
+        files below are a good example set, but not necessarily the only possible solution.
       </li>
     </ol>
     <a name="session6-solut"></a><h3>Solution Scripts</h3>
-    <a href="rfw6.robot" download target="_blank">Robot script</a><br>
+    <a href="rfw6.robot" download target="_blank">RFW script</a><br>
     <a href="rfw6.resource" download target="_blank">Resource script</a><br>
-    <a href="project6.json" download target="_blank">Config JSON</a><br>
 
     <a name="session7"></a><h2>Remote Testing</h2>
     <p>
       This last session will demonstrate the use of RFW from a 
       remote machine. Sikuli natively supports remote actions
-      over a VNC connection. RFW 3.0 takes advantage of this
+      over a VNC connection. RFW 3.1 takes advantage of this
       capability and can direct all of its actions toward a GUI
       on a remote machine. The student will be able to alter a
       test to work on a remote machine and verify that the test
@@ -1055,14 +1181,18 @@ Type Number<br>
         see that the various servers start at <code>:1</code> or <code>:2</code>.
         These terms mean that the server is actually on port 5901 or 
         5902 respectively. Some server applications can be set with
-        a fixed port number. Finally, it is unusual and even dangerous
-        for a VNC sever to be set up without a password. Create a 
-        password and set it in your VNC server. Find the appropriate 
-        information and set it as a test variable.<br>
+        a fixed port number. Find the ip information for your target system and 
+        and set it as a test variable. You could link to another learner's computer
+        or use <code>127.0.0.1</code> which references your own computer for this exercise.<br><br>
           <code>
 *** Variables ***<br>
-${REMOTE} =&nbsp;&nbsp;&nbsp;&nbsp;192.168.0.199;5900;password<br>
+${REMOTE} =&nbsp;&nbsp;&nbsp;&nbsp;192.168.0.199;5900<br><br>
           </code>
+
+        <span class="red">NOTE:</span> We are aware that it is unusual and even dangerous
+        for a VNC sever to be set up without a password. However, we have seen problems 
+        connecting through Sikuli with a password. We can recommend that for the test you start the
+        VNC server <code>vncserver -SecurityTypes None</code> to disable password requirements.
       </li>
       <li>
         This <code>${REMOTE}</code> variable will be used for only two processes.
@@ -1070,18 +1200,23 @@ ${REMOTE} =&nbsp;&nbsp;&nbsp;&nbsp;192.168.0.199;5900;password<br>
         which uses the remote connection data to configure the primary Sikuli
         object to capture images, etc. The second is <nobr><code>genericwindow.Configure</code></nobr>
         which will be used for each window in the test. Each window has its own
-        copy of the Sikuli to read, write, click, etc. All the widgets within a window
-        use the same Sikuli object, but all windows use the same remote connection 
-        details and run through the same SikulyEntry server.<br>
+        instance of the SikuliLibrar to read, write, click, etc. Each instance is run through the same SikulyEntry server.
+        And within a single window, all the widgets use the same SikuliLibrary instance, but 
+        each windows can be configured with its own remote connection. In this way, RFW 3.1
+        can support multiple screens.<br>
           <code>
 Configure Image Library&nbsp;&nbsp;&nbsp;&nbsp;Sikuli&nbsp;&nbsp;&nbsp;&nbsp;${DATA PATH}&nbsp;&nbsp;&nbsp;&nbsp;${remoteVNC}=${REMOTE}<br>
 ...<br>
-Start Arithmetic Calculator&nbsp;&nbsp;&nbsp;&nbsp;${DATA PATH}&nbsp;&nbsp;&nbsp;&nbsp;remote=${REMOTE}<br><br>
+RF GUI Helper: Open&nbsp;&nbsp;&nbsp;&nbsp;${DATA PATH}&nbsp;&nbsp;&nbsp;&nbsp;remote=${REMOTE}<br>
+...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;main.Configure&nbsp;&nbsp;&nbsp;&nbsp;Sikuli&nbsp;&nbsp;&nbsp;&nbsp;${config path}&nbsp;&nbsp;&nbsp;&nbsp;${d Path}&nbsp;&nbsp;&nbsp;&nbsp;${remote}
+
+<br><br>
           </code>
-        The observant reader may have noticed that these same functions featured
-        above but without the remote connection details. Thanks to the underlying
-        Python structure, these keywords can work this way using a default value.
-        If the remote connection is not set, it is None (e.g. no remote connection).
+        The observant reader may have noticed that <code>${remote}</code> is implemented as a default parameter.
+        As we saw before, this allows us to <em>ignore</em> remote connections unless one is specified. Add
+        a default parameter to <code>RF GUI Helper: Open</code>. It is already a default parameter under 
+        <code>GenericWindow.Configure</code>. If the remote connection is not set, it is None (e.g. no remote connection).
         Therefore, we only need to provide the connection when it is actually needed.
       </li>
       <li>
@@ -1092,8 +1227,7 @@ Start Arithmetic Calculator&nbsp;&nbsp;&nbsp;&nbsp;${DATA PATH}&nbsp;&nbsp;&nbsp
     </ol>
 
     <a name="session7-solut"></a><h3>Solution Scripts</h3>
-    <a href="rfw7.robot" download target="_blank">Robot script</a><br>
+    <a href="rfw7.robot" download target="_blank">RFW script</a><br>
     <a href="rfw7.resource" download target="_blank">Resource script</a><br>
-    <a href="project7.json" download target="_blank">Config JSON</a><br>
   </body>
 </html>

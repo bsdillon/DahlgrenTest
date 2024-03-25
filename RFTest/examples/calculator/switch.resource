@@ -4,7 +4,7 @@ Library    genericwindow    WITH NAME    header
 Library    genericwindow    WITH NAME    typeMenu
 
 *** Variables ***
-${DATA PATH} =    C:/Users/Benny/Documents/RFData
+${DATA PATH} =    C:\Users\Owner\OneDrive\Documents\RFData
 
 *** Keywords ***
 Verify Calculator Mode

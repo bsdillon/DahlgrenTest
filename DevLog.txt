@@ -1,0 +1,481 @@
+12/27/2023 - Starting work on update RFW 3.1
+* I added a static version number 3.1 and when a file saves it saves with that number.
+  * I also looked for and assumed 3.0 if no version number is in the file.
+  * I left an if statement checking for an update and printing a statement that an update is necessary.
+  * copied all the 3.0 files I have to verify them later with an update.
+  * file verison number - DONE
+* The file hierarchy and save new are both dependent on the same feature. I want to be able to open any file and close any file.
+  * I found a function for save as and menu items. I meant to enable them but the feature just wasn't ready.
+  * So, I have three paths to exportJSON and by the time it comes to export, it already "knows" the right path.
+    * Creating a new project
+    * Saving the project
+    * SaveAs the project
+  * Related to this I have to deal with opening a project and importJSON.
+    * getProjectName has a reasonable way to do this. Needs adaptation.
+  * import/export JSON both just take a file name, so they aren't to blame.
+* I worked on the open file first. It already searches for any JSON and I just needed to remove dependencies on config folder and project file name.
+  * Now all examples of open require a file name and they are all working.
+  * Export already uses a file, so we have no problem there.
+  * I think I have this managed now. A bit of clean up. I have also been removing all YETI
+  * Tested it and everything works
+  * file hierarchy in the same folder as tests - DONE
+  * save a version of one file with different name - DONE
+* Working to remove the file dependencies WITHIN the json.
+  * There is a path and a file name as well as image locations that are all empirical.
+  * They need to be relative.
+  * I got rid of projPath and only use projFile in dynamic memory. It is no longer saved into the file.
+  * no file dependency in the file - DONE
+  * Images are saved with raw locations. When they are loaded we append the folder path.
+* Need to move on to adding views. First we will create the file structure.
+  * I created an dataset viewList which is a dictionary. The name of the view corresponds to an image name and will eventually have widgets.
+  * I'm pretty happy that it works as a hierarchy, but I'm not sure b/c we don't have multiple views.
+  * What I have planned is that:
+    * images and widgets still exist in their own lists. 
+    * Views also exist in a dictionary. 
+    * The views will know which widgets they have
+    * widgets will know which views define them and contain them.
+  * To test this I also need to add more views.
+
+12/28/2023 Okay, working on views
+* Do I need to be able to select the views and add them from the image window.
+* OR can the main window manage views and the image window remains much as it is.
+* Think it would be SIMPLER to not change the image window. 
+* I will have to coordinate the views as a new menu
+* Found a bug in the file dependency stuff. the first view image was saved with a full file path.
+  * fixed that; now all files load small (i.e. without full path) but are saved large in dynamic memory and then saved smalla again.
+* also worked on a pop up to select among the views. Still needs work
+  * Trying to get that shaped and centered, etc.
+  * Okay, it is centered and the right size, but not really modal. Good enough.
+* add views - Done
+* I set up functions to update views and delete views. I'm tying it into the imagewindow and I'm testing now.
+  * edit/update images for views - DONE
+  * delete views - DONE
+  * select views - DONE
+  * I tested everything thoroughly and I can create new views and update olds or delete them. The images in the other window all update appropriately.
+  * Realized that I had to save the data to the json and import it again. That second action automatically updates the images. Oh well. Some wasted effort.
+* Alright, now I'm working on defining a widget on a VIEW rather than a window.
+  * Looking around in Imagewindow, I didn't even have it on my list, but I was able to fix the overlap issue.
+  * Basically commented out two checks and associated methods for overlap checks.
+    * Still not sure how the click is going to work in those overlap areas
+    * Remove overlap errors - DONE
+  * I created a currentView value which is updated periodically in imagewindow
+  * mainWindow can get that value from imagewindow as necessary
+* starting to fiddle with widget. 
+  * removing the YETI stuff
+  * I made a widget have a view which is populated when it is first created
+  * It saves fine
+* I realize that the image list is completely redundant. 
+  * Need to get rid of it in favor of Views
+  * Actually, most of it is irrelevant or redudant in the current code.
+  * Okay, I'm getting widgets to load on the first view, but I need to clear them out when we select a new view
+  * window-view-widget - Done
+
+12/29/2023 Starting again.
+* Okay, first order of business is changing the widgets on the imagewindow depending on the view
+  * First, mainwindow calls imagewindow.updateImage to setup or alter a widget overlay
+    * Every time it does, the preceding widget/overlay is DELETED
+    * imageWindow.deleteOverlays is callable to remove any specific widget
+    * imageWindow.changeSelectedImage is the result of the view change in imagewindow
+      * Creating an event from imagewindow to mainwindow
+      * Extracted a method to update all widgets on the current view from importJSON.
+      * Reusing that code for the event handler.
+      * There is no general delete of all widgets, so I kept track of views and delete them at the same time I add others.
+      * Ready. Time to test
+        * Oops. widget_list was already updated with newTableEntry
+    * It's all working. I can remove any widget from the list and I can see all the widgets ont he right screen.
+* I'm going to start importing widgets.
+  * I have vague plans that the widgets will know the view they belong to and the views will know ALL the widgets that exist on the view
+  * I revised the menu bar in imageWindow to include a button for the import
+    * Reusing the choice popup
+  * Okay, I can import a widget, but it is still treated like a regular widget
+  * I'm happy with the color and look of imported widgets
+  * I've added the import to the JSON. Should be able to save and recall.
+  * Tested it all. Works fine.
+  * import widgets - DONE
+  * select imported widgets - DONE
+  * common anchors - DONE
+* The next issue is that multiple imported widgets should be locked together.
+  * consider that if we import a set of widgets from View X we should have -*
+  * editing locations takes place in Widget.
+    * Introduced "isForiegn" and disabled everything but x and y location in a widget.
+  * created WidgetEditor.viewUpdate which is a tuple tracking the latest update for a foreign widget
+  * now I'm storing the dx,dy for all foreign widgets in view X all as part of each view.
+  * I set up a function that takes all the affected widgets and uses the widget->dict->widget path to edit the copy we give the imagewindow.
+  * I'm not 100% sure I have found all the pathways
+  * testing
+    * I have a problem with image coordination. 
+      * The editor is pulling the image from the currentview
+      * THe list get's the same image. I need it to stay where it is.
+    * Still not working. Need a break
+      * When the widgets load they are getting the right pictures.
+      * When I edit the imported widget it starts with the wrong image (from the original image)
+        * But once I adjust the location, it goes back to the right image.
+      * I fixes the first image for editing
+        * still updating with the right image
+      * The image in the table is still right, but it's changing the cropping.
+        * I simply prevent any update for a foreign export
+* There was a bug in the imported widgets. they aren't being removed.
+  * I had to maintain the object for widgets. Can't go to dictionary and back or I lose overlays.
+  * First, I see there is a confusion between tkImages and images. I can't use one for the other.
+
+1/2/2024 Welcome to the new year. Working on this image thing.
+* I need to rethink names of all variables and methods to make it clearer what they are.
+  * I worked out that two methods had duplicate code for images. I extracted a method and decreased the scope of each.
+  * I made sure that tkImage is used for images of that type, but left image in as few places as possible
+  * Found another two methods. Just too much similarity
+* Okay, I have cleaned this up as much as I can without more dedicated effort. 
+  * Some of the extra parameters I suggested are really of no interest.
+  * Testing again
+    * Overstated the case. One of those abandoned parameters actually mattered.
+    * I can see why things didn't always work. 
+      * Most of the uses of widget.image were for ImageTk, 
+      * At least one needed a save function which ONLY exists in Image
+    * Something about the save file process is not keeping all the widgets on each view. Not even the native ones.
+      * Fixed that, but I'm only seeing the LAST of the imported overlays showing up
+    * I got the images to move together!!!
+* Just cause it was pissing me off, I removed all the YETI
+  * removing all YETI - DONE
+* Still testing the image stuff. things move, but they don't get saved.
+  * I had imperfectly added something to the list; now the view is updated
+  * all should move as one to keep them in the same locations - DONE
+* There also appear to have been multiple of the same widget added to a list. 
+  * I fixed the file and hope I won't see that again.
+* Need to prevent views from being imported/selected/etc when not in use.
+  * That was quick
+  * enable/disable views when a window is loaded/unloaded - DONE
+* Next I need to prevent multiple imports of the same widget.
+  * First, let me try to create duplicate names by importing the same thing twice
+  * Okay, lots of duplicate names and not only where I imported twice.
+  * Let's just try opening and saving to see what happens.
+  * Still happening, just from opening the file.
+    * I noticed that the only duplicates were not imports.
+    * Took me a while to track down that using newTableEntry was adding the name to the viewlist in addition to the table.
+    * I changed the call to just updateTableRow. That fixed the duplication.
+  * Along the way I made the same change for view names. Don't give a same name to the views.
+  * Okay, still looking for all the places where widgets are added
+  * I think I've prevented them from being added, but now NOTHING is on the imagewindow.
+  * Finally got that working again. I think we can limit the list of AVAILABLE imports.
+  * Testing shows that it works.
+  * prevent importing the same image twice - DONE
+
+Time to reassess requirements; The next group will deal with widgets.
+* Let's start with an easy one. Radio buttons and tabs already have groups
+* Went back to the widget types and added new fields for 
+  * links (buttons and tabs)
+  * checked/unchecked images
+
+1/7/2024 Working on complex widgets.
+* Going back to the new checkbox/radio image selection
+
+1/8/2024 I've been naughty because I haven't been taking notes
+* I got the image to come up and I got buttons to move an overlay
+* All those events are working now. 
+* I'm just having a bit of trouble getting the overlay to sit in the right place
+  * As an example, the root image (imported for the purpose of finding the checkbox) is 422x359 confirmed in paint
+  * The area of the widget is 35x31
+  * I start by centralizing the location and I get (422-35)/2 =  193   (359-31)/2 = 164 (193,164) 
+  * That position shows as ALL the way bottom right????
+  * approximate center of the image is shown as (98,79)????
+  * I can also confirm that the movement is twice the number of pixels. 
+    * For example sthis is roughly 20x20 and when I move 5 pixels twice I am 20 pixels moved
+  I also added boundary checking and while it stops at zero, it doesn't recognize the right and lower edges thinking they are 422 and 359.
+    * So, everything is DOUBLE what it should be
+* I figured out my mistake. I had been locating the image overlay at x,y and the moving it by delta_x and delta_y. I thought those were moving it TO x and y.
+  that's why it was double.
+* Okay, I've worked out selecting the image location, saving the image, but there is a slight offset
+  * The w/h seems to be right, but the x/y is up by half w/h so it only captures the south east corner of the image
+  * By moving the overlay I can tell that (0,0) is actually halfway NW of the origin. Why?
+  * I showed this to stacey and she just said move it by 1/2 shape size. 
+  * That works, but it isn't right, but I left a TODO to fix that.
+* I have got most of it working, but now I have to make sure the image updates when dimensions change.
+  * I have it all done, but it needs serious testing.
+
+1/9/2024 Back at it.
+* Trying to auto-update checkbox icon with changes in the widget size
+* I found out that the width and height of widget was not being updated until the editor closed.
+  * That fixed the problem.
+* I added an error to notify the user if the selected image is smaller than the dimensions of the proposed widget.
+
+1/10/2024 Okay, retesting the capability for checkbox and radio button.
+* I've been messing about with various bugs. Little things that need to be straightened out.
+* I need a better file system for the checkbox images
+  * I can't use anything that will conflict between the two check/uncheck.
+  * I need a name for the widget, which doesn't always exist.
+    * I had to manage the name of the widget and enable/disable the checkboxes
+  * I can't figure out why the checked images are loading when the widget comes up.
+    * Forgot to save the tkImage again....
+  * We have a problem with a widget being treated as foreign because we are on a different view.
+* Okay, I'm pretty happy that this has been all tested and resolved.
+  * checked/uncheck images - DONE
+* I setup the multi-add/delete import widgets and had to resolve some bugs there.
+  * sometimes imports got deleted inadvertantly.
+  * ran into that while messing with the next objective.
+* I created the link drop down for buttons and tabs
+  * Adding <None> as an option for links
+  * Earlier I removed the list of yeti objects, but now I removed the other list too.
+    * we can use the keys (i.e. names of widgets) from the list of value types
+  * any button/tab links to a view - DONE
+* Starting work on complex widgets.
+  * We need to define groups, but how do those groups work on the screen
+  * I'd like to do something to identify them visually.
+  * I added a color system with several pre-defined colors
+  * The group colors are working, but I've got 
+* name changes cause overlay to stop appearing
+  * got that fixed
+* editing a foreign widget should not make it appear on the present view.
+
+1/16/2024 ONce more to the fray.
+* I have to go back to the errors seen last time.
+  * I set up a block on foreign widgets, but that section is not being hit. Something else is at work.
+  * Okay, I forced a stack trace and found the path that was breaking.
+  * I can't just block the path because it is used for NEW widgets.
+  * I added a check for overlays that refers back to the master window.
+    * Unfortunately, the widget isn't added to the view until AFTER the overlay is added. So it doesn't work for new widgets.
+    * is the pathway altogether wrong?
+    * I fixed it by having the table update check and then update overlays. No one else does that.
+    * Similar issue for imports.
+    * It all works now.
+* Alright. At this point we have "complex" widgets in that certain things belong to a group.
+  * To support all the complex widget types, I need to implement a few more widget types.
+  * complex widgets - DONE
+* I have prepared a set of slides on what else is required.
+  * I altered the list of widgets now so we can have scroll buttons.
+  * I added direction as a value of scroll buttons
+  * I made lists have a group (they cannot exist by themselves becasue they will have scroll buttons)
+  * Do I still need labels?
+  * With all the new widgets
+* Fixing some bugs with the choice popup
+* So, with the all the new wi+dgets, we still have to deal with legacy widgets.
+  * Scroll Bar and Drop down
+  * there was no support for either of these in 3.0, but YETI definitely allowed it.
+  * I will need to arrange legacy support
+  * lists - DONE
+  * drop downs - DONE
+  * radio ValueButtons - DONE
+
+1/25/2024 9 days later...
+Okay, let's get this save menu thing fixed and out of the way. It's a bug on my list that needs resolution.
+* I wanted to handle it with enables/disables of menu items, but that doens't seem to be working.
+* I found the problem. I added all the menus to filemenu and then I REUSED filemenu as an identifier for a new menu.
+* Now all the menus disable and I even did the opposite enabling for new and open as they shouldn't be pressed when a project is already open.
+  * disable save menus better - DONE
+* I'm testing the whole operation with a notepad application
+  * Fixed an enable/disable mapping
+  * Corrected the return from multi-widget import
+  * I need to add a scrollbar to the main window list.
+    * got that fixed
+  * When we reload the checkbox image, it would help if we located the square in the right space...now it always shows up in the middle.
+    * got that fixed
+  * checkbox images aren't loading in the widget editor
+    * Oh. Apparently I didn't get them saved earlier. Now it's working.
+  * somehow we still aren't showing n  ative widgets on secondary views
+    * Fixed that.
+* I intentionally made format menu offset by a bunch to give those imports something to do.
+* I'm happy with it. It looks like it does everything I wanted it to. Time to move on to the next one.
+
+1/26/2024 Working on building the working RFW environment
+
+1/29/2024 - Working on the environment again
+* I'm rewriting the documentation to make it build a little, test a little
+* I've run into more serious bugs in the RFGUIHelper.
+  * I have corrupted the save file, so I'm going to create a file validation process.
+    * I have it clearing out anything that doesn't make sense. That's not a great way to fix it, but it's something.
+  * We have a problem saving and closing when there is an open widget. There should only be one and it should be on top.
+    * I went back and refactored, moving the widget editor stuff all into main window. 
+    * One process now that covers everything.
+    * Still not sure this fixes everything.
+
+2/2/2024 - Okay. I have to deal with some of these bugs still.
+* It took a while to route everything, but I finally have it blocking when a widget is open. But it isn't LIFTING the window up.
+  * I found a way to make it permanently on top regardless. That works.
+* I THINK these bugs were fixed
+  * window didn't save. maybe because there was an open widget.
+  * window didn't close. maybe because there was an open widget.
+* Bug - when a view is added, all widgets appear in red on it.
+  * Actually, there are two problems.
+    * Old overlays are not removed before views are updated.
+    * Only the overlays from the first view are added.
+    * Confirmed that blue and red both appear---if they are on the first view
+  * Hmm. Maybe I want to block more operations by a widget.
+    * I fiddled with the action menu and made it appear in the same space as the view changes.
+    * I created a reloadProject function for all the times when a project is saved and then reopened. I intend that should fix these bugs.
+    * It has to close the existing project and clear overlays
+      * Does it even run when a project is open?
+        * self.projFile needs to be saved between save and open.
+        * I have a catch-22 moment. I want to validate views against widgets and widgets against views. But one MUST come first.
+        * I separated the GUI update and put it AFTER the validation steps.
+        * I had to improve the enabling menus feature.
+        * I'd like the old tester to give it's location to the new tester
+        * Okay. That looks fine.
+      * Does it close any open widget editor? Should it recreate them?
+        * This is now OBE.  Can't do anything when a widget is open. :)
+
+2/6/2024 - Working again
+* I  had an epiphany. I think I should use RFW to test RFW. At least whenever I get up from the chair.
+* I find a bug just from testing that.
+* Found another bug from this. Still haven't create a real test, just using the tool.
+* Oh my gosh. Another one. This has been all over the place.
+* Twice now I have renamed windows to give them individual titles. This is EXCLUSIVELY for the testing process. More evidence of coding for test and use.
+* I am still seeing the red overlays from the first view when I add a new view. Still need to remove them.
+  * I think that at some point I was adding overlays to the imagewindow as an attribute, but I stopped doing that.
+  * had to find where the overlays were supposed to be deleted and make sure they could be found. Then I tied it into closing a project. That did it.
+* I went back to the configuration instructions and spent a lot of time updating images based on this test capability.
+* I put instructions in for the python path so that it was part of the configuration instructions.
+  * This resolves most of the file path issues I had with previous code. OQE library and widget library couldn't be found, etc.
+  * I'm in a bit of catch 22 because the current generic window can't actually use the 3.1 config files. So, I need to work on that.
+
+2/8/2024 - On again
+* I built the oqeTest which generates the test messages proving everything is connected.
+* Updated the documentation to use that test.
+* Working on First test of RFGUIHelper with GUI tools.
+* I am revising the way a file is parsed
+  * Created a new View object
+  * Moving all widget-work to the view
+    * a couple of window keywords are delegated to views
+  * Slowly separating the two and figuring out what fits best where.
+  * Significant revision of widget creation. Will have impact on several files, not to mention new files
+
+2/14/2024 - happy valentines days
+* Added classes for List, label, and scrollbutton.
+* Depricated scrollbar
+* Started cleaning up standard widget methods in parent class
+  * Identified click and capture as universal actions for all widgets
+  * Routing these actions from window to current view
+  * I was able to remove all the cases where description was used instead of location. Really that shouldn't be required.
+  * Adding parameter hints to all functions
+  * Window and Widget are done. Starting on View
+  
+2/16/2024 - One more time
+* Finishing the foreign widget stuff
+* Somehow I have created a circular reference in the imports, but I also have changed those imports....
+  * Why is robot insisting there is code I have changed?
+  * I was running code from a different directory....
+* Well that was stupid. I was trying to combine the updated code and I somehow OVERWROTE my window.py which is the class that had the most changes....
+* I'm going back over all the fixes I put in.
+  * This is going much faster now that I know what the code is supposed to do.
+  * After just three hours, I think I'm where I was before. Maybe not identical, but comparable.
+* That was my first successful find and debug gui with the new views. Further ahead than I thought I would be!
+* Back to updating documentation.
+
+2/23/2024 - Back to the fray!
+* I started documenting again and realized that the red/green blocks weren't appearing. I remembered that it needed a '--'
+  * That needs to change. I was looking for another character I can use for the purpose. We have --, ==, **, ??? I need something else.
+  * I settled for '&&'
+* I think I've finished the 5th test/validation and documention. Just gathering the files.
+* I took a break, but now I've got 2.6 hours left.
+* I've started on the next section on resource files.
+* Working my way through resource files using the various views. I have added two new keywords to Window
+  * Expected View
+  * Actual View
+* Small bug in the revisions to demogui.js. In one place where I dealt with the '--'==(Case xor Step) I had an or.
+  * Fixed it.
+* Had to add a funciton pointer for linking. Window just takes the new name of a view
+* I can click on a button that opens another view.
+  * I realized that each view needs a unique anchor; something to find on JUST that view.
+  * Can I share anchors? Should I share anchors? Maybe I just want to find on local anchors and you can't verify otherwise?
+  * Okay, I've thought a bit and achors CANNOT be shared. Each anchor should be unique to ONLY that one view and with good reason.
+    * If the window can find ANY anchor it should be ONLY one view that is possible.
+* I was still looking for RFW files in the wrong place. Going back to that secondary location when I should be in my github folder.
+* I ran into a bug derived from the way we were creating images for sikuli to read. It was appending .\filename but that only worked for relative paths.
+  * Deleted that and now the stuff works.
+* Okay, I can click on a file menu, see the new anchors, and then click the close button.
+
+2/27/2024 - Working again for two days in a row.
+* Dealing with a couple existing bugs in RFGUIHelper.
+  * trying to solve view delete. 
+    * was returning single value... but as a list. fixed that
+    * didn't load the tkImage for a widget when importing the file. fixed that.
+    * View delete menu should really say "delete view". Fixed that.
+    * cannot add new views - OBE, probably related to delete
+    * Ran into a field out of range issue for imported widgets.
+      * Created a new kind of exception that covered the case
+      * Auto-closed any edited widget with this kind of problem
+      * On a broader scale, how do we want to locate imported widgets that may not fit (entirely) on the view?
+      * I gave the value checking a parameter to validate or not and for foreign widgets the validation is NOT used.
+        * This will allow foreign widgets to partially overlap or even be outside the view but relative to its achor.
+    * I had to create a "crash version" of the window from widgeteditor because we need to track the cancellation of the event.
+* Ready to document the capability.
+  * For some reason, the anchor from fMenu is not working. I don't have this problemw with aMenu, but can't do it with fMenu
+    * Okay, it IS finding it, but only with 89%. Because it didn't find it, that raises and exception.
+    * It was a sleep issue! The menu didn't open quickly enough and that why it couldn't find it. SOOOOO much time wasted.
+      * On one hand, there is a way to deal with sleep and wait in the documentation.
+    * I had to fix several bugs related to how the tools worked at the RFW level and at the GUI level.
+  * I went through the process of testing and building report OQE into the a test for menus
+
+2/28/2024
+* Back to building the test and documenting.
+  * I'm going to work in both the IF-ELSE-END logic and something about the way wait/sleep is supposed to be used.
+  * Acutally it was Run Keyword And Expect Error and sleep.
+  * Documented everything
+  * Added RFW6.robot, RFW6.resource, and updated project4.zip with the current configuration files.
+* I briefly edited the remote connection capability. 
+  * I think that concludes the documentation update. Unless one of the new features needs validation.
+
+3/5/2024 - Working on more testing.
+* I have been building the test up around opening and closing a project
+* Had to remove the NotImplemented for a text field to write -- duh!
+* Worked to type with an enter; use \n at the end of the text to get a return
+* We will need a second "window" because the visible anchor on each side must be independent.
+* I had to rethink the move feature because I left in a not implemented error
+* Originally, we re-calculated all the offsets, but I think a find is the best way to manage that.
+
+3/21/2024 - Been a hot minute - 
+* So, I'm going to start by looking at the way view updates locations.
+* Okay, I ran the data and the update locations worked PERFECTLY. Can't see anything being out of place there.
+  * I even showed that the predicted locations EXACTLY align with the locations.
+* Found it. The view_capture used base.X and base.Y. Oops.
+* There was a problem with some images when the wrong view as expected. Not a big deal and perhaps not worth the time I spent on it.
+* Going back to make more test cases.
+
+3/22/2024 - DIdn't do much yesterday; just 2 hours, but I have to make up 14 for these two days.
+* I'm reconfiguring the resource file and JSONs so that I have three "windows". 
+  + The main window will JUST be the main window.
+  + The image window will JUST be the image window.
+  + Any auxiliary window will be in the third group.
+* Fixing the open project function to use the auxliary windows
+  + Decided to have all primary/secondary/auxiliary functions reference the same name RF GUI Helper.
+* I have a problem with the way it "looks" for the open/closed project. If the main window is not in focus, it looks like the project menu is inactive (i.e. no project)
+  * I changed it to look for the image window but that also generates an error.
+* I got the whole test to run through without a hitch. Amazing.
+* I created a set of tests to add, update, and delete a view
+  * added a menu item to rename a view, need to fill in the code.
+  * Last set of the delete test isn't working.
+
+3/25/2024 - Working the test again.
+* I thought it wasn't finding the delete window, but instead I had the wrong name for the ok button. :/
+  * Test now runs fine. Need to plug in the new test to edit names.
+* I created the new function. Tested it.
+* Added a new test case for it.
+  * Decided to change my save progress indicator. I was creating 4 different views, when one would do.
+  * Testing it.
+  * Worked great.
+* New test for all widgets
+  * Created an image for the purposes of the test
+  * Started running through it manually. Probably need to restart.
+* I condensed the vairous open-file operations into one keyword reused everywhere
+  * Reran the last test... like a dream. One small change and it all worked.
+* I condensed the function for finding a window so it covered all three
+  * I had some trouble with the parameters, but once I got it through the automated tests... gold
+  
+
+1248-
+
+
+
+
+* CHeckbox image size is loading as MUCH bigger than it should be.
+* Do we want to define the size of a checkbox image
+* Do we want to edit view names?
+* adding a view with the same name still says saving and apparently creates a new file
+* The size of the widget editor doesn't adjust for very tall or wide widgets.
+* If you cancel a widget edit, it still takes the new values. ooops.
+* should I force you to define at least one anchor per view? I need to prevent the anchors from being imported.
+* When you create an anchor it doesn't create an image. But it does when you edit the widget
+* Should we add bug/warn/info/debug filters to logging from widgets?
+* I still saw overlays show up when I added a view, but then then disappeared when i went back to the main view. Not sure if I can even recreate it.
+* All notimplemented errors should indicate which class and function for debugging purposes
+* had a mislabeled widget. I could still get it on the widget import menu even after change. I didn't save the change, but the name was fixed.
+* I opened a widget and the link was right. Clicked update. Didn't change a thing. Might be because the name was from and older window.
+* ImageWindow.deleteOverlays is sometimes faced with an "no attribute 'overlay'" which causes big errors.
+* Do we have overlapping names for widgets
+* When you delete a view,  it doesn't get rid of all images.

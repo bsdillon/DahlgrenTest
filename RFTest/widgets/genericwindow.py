@@ -1,9 +1,3 @@
-#Adds the path to OQE folder
-import sys
-import os
-sys.path.append(os.path.abspath("C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE"))
-from OQE import *
-
 from robot.api.deco import keyword
 import imagelibrary
 from window import Window
@@ -35,13 +29,6 @@ class genericwindow(Window):
             testType = TestType.Selenium
 
         self.configureWindow(testType, configPath, dataPath, remoteConnection)
-
-    @keyword(name="Capture Window")
-    def captureWindow(self):
-        '''
-        Takes a picture of the window itself and returns the image file\n\n
-        '''
-        return self.capture()
 
     @keyword(name="Capture Image")
     def captureImage(self, widget_name):
@@ -95,20 +82,3 @@ class genericwindow(Window):
     @keyword(name='Scroll')
     def Scroll(self, widget_name, direction):
         self.getWidget(widget_name).scroll(direction)
-
-    @keyword(name='Move')
-    def Move(self, endX, endY):
-        '''
-        Move the window to the desired end location
-        endX - x coordinate of end location
-        endY - y coordinate of end location
-        '''
-        if len(self.movePoints) > 0:
-            tmp = self.movePoints[0]
-            tmp.move(endX, endY)
-            #determine offsets from widget; endX, endY is the CENTER of the anchor
-            self.offset = (int(endX)-tmp.baseX-int(tmp.w/2), int(endY)-tmp.baseY-int(tmp.h/2))
-            for w_name in self.widgets:
-                self.widgets[w_name].newOffsets(self.offset)
-        else:
-            raise IndexError("No MovePoint defined for "+self.name)
