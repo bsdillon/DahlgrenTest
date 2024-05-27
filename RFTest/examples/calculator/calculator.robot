@@ -54,7 +54,7 @@ Math Problem
     ${r3} =    Assert OQE True    ${TEST NAME}    Operands Match    '${r1}'=='PASS' and '${r2}'=='PASS'
     Record Test Case    --    Answers Match    ${r3}    --
     Run Keyword If    '${r3}'=='PASS'    Record Action    ${TEST NAME}    Successful Input    ELSE    Fail    Input failed
-    [RETURN]    ${n}
+    RETURN    ${n}
 
 Parse Number
     [ARGUMENTS]    ${NUM}

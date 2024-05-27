@@ -30,4 +30,4 @@ Read Character
 Find Nth Character
     [ARGUMENTS]    ${text}    ${n}
     @{characters} =    Split String To Characters    ${text}
-    [RETURN]    ${characters}[${n}]
+    RETURN    ${characters}[${n}]

@@ -1,0 +1,5 @@
+Starting third party analyst
+Sleeping
+Awake
+Writing data
+Done with data update

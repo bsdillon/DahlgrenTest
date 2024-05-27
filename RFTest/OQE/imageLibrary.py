@@ -1,11 +1,12 @@
 from robot.api.deco import keyword
 import time  # needed for animation of GIFs
-from os import sep, remove
-import subprocess
+from os import sep, remove, listdir, path
 import filemaker
 from threading import Event, Thread
-import pathlib
+from PIL import Image
+import fnmatch
 
+PNG_EXTENSION = '*.PNG'
 class MouseButtons:
     LEFT = 1
     MIDDLE = 2
@@ -153,7 +154,7 @@ class imagelibrary:
             #recheck if the thread is still alive; while?
 
             #Create the gif file
-            #answer = self.convertToGIF(name=name, sourcePath=self.watcherPath, key=name+"*")
+            answer = self.convertToGIF(name=name, sourcePath=self.watcherPath, key=name+"*")
         else:
             raise RuntimeError("No Watcher found for name "+name)
         
@@ -415,7 +416,7 @@ class imagelibrary:
         return self.captureSmall3(number, name)
 
     @keyword(name="Capture Small GIF at")
-    def captureSmall2(self, x, y, w, h, number, name=None):
+    def captureSmall2(self, x, y, w, h, number, rate, name=None):
         '''
         Part of *Image Functions*\n\n
         Creates an animated image of the GUI region in the IMG/ space. Returns the 
@@ -428,9 +429,9 @@ class imagelibrary:
         name - (proposed) of the desired image file
         '''
         self.findElementFromPoint(x, y, w, h)
-        return self.captureSmall3(number, name)
+        return self.captureSmall3(number, rate, name)
 
-    def captureSmall3(self, number, name=None):
+    def captureSmall3(self, number, rate=200, name=None):
         '''
         This is NOT a Robot Framework function. Unusual for a #3
         function which is generally defined by the speicfic image
@@ -449,8 +450,8 @@ class imagelibrary:
             raise FileNotFoundError("Cannot use ImageLibrary before 'Configure Image Path'")
         for _ in range(int(number)):
             self.picture(self.tempPath, self.foundElement)
-            time.sleep(.2)
-        return self.convertToGIF(name)
+            time.sleep(rate/1000.0)#convert ms to seconds
+        return self.convertToGIF(name=name, rate=rate)
 
     @keyword(name="Search Region at Element")
     def searchRegion(self, description, targetImage):
@@ -482,7 +483,7 @@ class imagelibrary:
         return self.searchRegion3(targetImage)
 
     @keyword(name="Convert to GIF")
-    def convertToGIF(self, name=None, sourcePath=None, key="*"):
+    def convertToGIF(self, name=None, sourcePath=None, key="*", rate=200):
         '''
         Part of *Image Functions*\n\n
         Collects all images in the IMG/TEMP/ folder into one GIF. Returns the actual
@@ -492,31 +493,27 @@ class imagelibrary:
         if not self.usable:
             raise FileNotFoundError("Cannot use ImageLibrary before 'Configure Image Path'")
         next = filemaker.nextFile(self.imgPath, name, "GIF")
+        
+        images = []
+        
         if sourcePath == None:
             sourcePath = self.tempPath
 
-        cmd = ['convert',
-            '-verbose',
-            '-antialias',
-            '-delay', '50',
-            '-loop', '0',
-            sourcePath+sep+key,
-            next]
-        p = subprocess.Popen(cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT)
-        stdout, _ = p.communicate()
-        rc=p.returncode
-        if rc != 0:
-            stdout = stdout.decode("utf-8")
-            tmpE = ""
-            for line in stdout.splitlines():
-                tmpE = tmpE + line +"\n"
-            raise RuntimeError("Error creating GIF\n Error:"+tmpE)
+        allFiles = sorted(listdir(sourcePath))
+        accepeted_files = []
+
+        for filename in allFiles:
+            if fnmatch.fnmatch(filename, key) and fnmatch.fnmatch(filename, PNG_EXTENSION):
+                file_path = path.join(sourcePath, filename)
+                accepeted_files.append(file_path)
+                # Open each image and append it to the images list
+                images.append(Image.open(file_path))
+        # Save the images as a GIF
+        images[0].save(next, save_all=True, append_images=images[1:], duration=rate, loop=0)
 
         #cleanup image files
-        for file in pathlib.Path(sourcePath).glob(key):
-            remove(file)
+        for filename in accepeted_files:
+            remove(filename)
         return next
 
     def __init__(self):
@@ -529,33 +526,33 @@ class imagelibrary:
         Reads text as indicated by self.foundElement
         Return -Text found
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.read3")
 
     def highlightElement3(self):
         '''
         Generates a highlight event on this GUI region.
         '''
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.highlightElement")
 
     def click3(self, button=MouseButtons.LEFT):
         """
         button one of the MouseButtons set (Left by default)
         Performs click as indicated by self.foundElement
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.click3")
 
     def dclick3(self):
         """
         Performs double click as indicated by self.foundElement
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.dclick3")
 
     def write3(self, text):
         """
         Writes text as indicated by self.foundElement
         text: Characters to be written
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.write3")
 
     def move3(self, endX, endY):
         """
@@ -563,7 +560,7 @@ class imagelibrary:
         endX: Desired x coordinate
         endY: Desired y coordinate
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.move3")
 
     def searchRegion3(self, targetImage):
         '''
@@ -572,7 +569,7 @@ class imagelibrary:
         (x,y) location of target OR (-1,-1)
         targetImage: Absolute file path for desired image.
         '''
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.searchRegion3")
 
     @keyword(name="Capture Screen")
     def captureScreen(self, name=None):
@@ -581,7 +578,7 @@ class imagelibrary:
         Takes an image of the entire screen\n\n
         name - The desired file name; defaults to image---.png
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.captureScreen")
     
     @keyword(name="Capture Screen At")
     def captureLimitedScreen(self, x, y, w, h, name=None):
@@ -594,7 +591,7 @@ class imagelibrary:
         h - height of the desired read region\n\n
         name - The desired file name; defaults to image---.png
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.captureLimitedScreen")
 
     def picture(self, path, thing, name=None):
         """
@@ -606,7 +603,7 @@ class imagelibrary:
         name: The desired file name; defaults to image---.png
         Return -the filename of the created image
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.picture")
 
     def findElement(self, description):
         """
@@ -616,7 +613,7 @@ class imagelibrary:
         description: Specific to each tool e.g. CSS description or image file
         Return -(x, y) location of element; (0, 0) if not found
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.findElement")
 
     def findElementFromPoint(self, x, y, w, h):
         """
@@ -628,4 +625,4 @@ class imagelibrary:
         w: width of the desired region
         h: height of the desired region
         """
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.findElementFromPoint")

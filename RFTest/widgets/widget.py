@@ -1,4 +1,3 @@
-import os.path
 from robot.libraries.BuiltIn import BuiltIn
 from sikulilibrary import sikulilibrary
 from textreader import textreader
@@ -18,7 +17,7 @@ def CreateTester(type:TestType, path, remoteConnection="None"):
         temp.configureSikuli(remoteConnection)
         return temp
     else:
-        raise NotImplementedError
+        raise NotImplementedError(f"Create tester for {type}")
 
 class Widget:
     ROBOT_AUTO_KEYWORDS = False
@@ -38,7 +37,7 @@ class Widget:
         BuiltIn().log_to_console("   "+self.name+" INFO: "+ str(msg))
 
     def LogAll(self):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.LogAll")
 
     #--------------------------------#
     #    Standard for all Widgets    #
@@ -58,16 +57,25 @@ class Widget:
         self.y = self.baseY + offset[1]
 
     def click(self):
-        self.tester.click2( self.x, self.y, self.w, self.h)    
+        self.tester.click2( self.x, self.y, self.w, self.h)  
+    
+    def clickAt(self, x, y):
+        self.tester.click2( self.x+int(x), self.y+int(y), 1, 1)
 
     def doubleClick(self):
         self.tester.dclick2( self.x, self.y, self.w, self.h)
 
     def capture(self, name=None):
         return self.tester.capture2(self.x, self.y, self.w, self.h, name)
-            
-    def captureSmall(self, number, name=None):
-        return self.tester.captureSmall2(self.x, self.y, self.w, self.h, number, name)
+
+    def captureSmall(self, number, rate, name=None):
+        return self.tester.captureSmall2(self.x, self.y, self.w, self.h, number, rate, name)
+
+    def startWatcher(self, name):
+        self.tester.startWatcher2(name, self.x, self.y, self.w, self.h)
+    
+    def haltWater(self, name):
+        return self.tester.haltWatcher(name)
 
     #--------------------------------#
     #     Standard implementations   #

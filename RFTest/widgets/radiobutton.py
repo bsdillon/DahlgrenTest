@@ -28,10 +28,10 @@ class RadioButton(Widget):
 
     #not used in Radiobutton
     def getState(self):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.getState")
 
     def move(self, *_):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.move")
 
     def write(self, _):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.write")

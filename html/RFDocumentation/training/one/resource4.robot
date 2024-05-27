@@ -18,4 +18,4 @@ Close Site
 Find Tag and Get Attribute
    [Arguments]    ${CSS-IDENTIFIER}    ${ATTRIBUTE-NAME}
    ${value} =    Get Element Attribute    ${CSS-IDENTIFIER}    ${ATTRIBUTE-NAME}
-   [Return]    ${value}
+   RETURN    ${value}

@@ -6,9 +6,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="Robot Framework 5.0.1 (Python 3.10.8 on win32)" name="Generator">
+<meta content="Robot Framework 7.0 (Python 3.11.9 on win32)" name="Generator">
 <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKcAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAqAAAAAAAAAAAAAAAAAAAALIAAAD/AAAA4AAAANwAAADcAAAA3AAAANwAAADcAAAA3AAAANwAAADcAAAA4AAAAP8AAACxAAAAAAAAAKYAAAD/AAAAuwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/AAAA/wAAAKkAAAD6AAAAzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN8AAAD/AAAA+gAAAMMAAAAAAAAAAgAAAGsAAABrAAAAawAAAGsAAABrAAAAawAAAGsAAABrAAAADAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAIsAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAANEAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAAAAAAAAMgAAADIAAAAyAAAAMgAAADIAAAAyAAAAMgAAADIAAAAFAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAADwAAAB8AAAAAAAAAGAAAABcAAAAAAAAAH8AAABKAAAAAAAAAAAAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAADCAAAA/wAAACkAAADqAAAA4QAAAAAAAAD7AAAA/wAAALAAAAAGAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAIwAAAP4AAAD/AAAA/wAAAGAAAAAAAAAAAAAAAMkAAAD/AAAAigAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAAAAAAAIAAAAcAAAABkAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAA2gAAAP8AAAD7AAAAywAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN4AAAD/AAAAqwAAAP8AAACvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALIAAAD/AAAAsgAAAAAAAAC5AAAA/wAAAMoAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMkAAAD/AAAAvAAAAAAAAAAAAAAAAAAAAKwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAArQAAAAAAAAAAwAMAAIABAAAf+AAAP/wAAD/8AAAgBAAAP/wAAD/8AAA//AAAJIwAADHEAAA//AAAP/wAAB/4AACAAQAAwAMAAA==">
-<style media="all" type="text/css">
+<style media="all">
 :root {
     --background-color: white;
     --text-color: black;
@@ -20,19 +20,17 @@
     --less-important-text-color: gray;
     --link-color: #0000ee;
 }
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background-color: #1c2227;
-        --text-color: #e2e1d7;
-        --border-color: #4e4e4e;
-        --light-background-color: #002b36;
-        --robot-highlight: yellow;
-        --highlighted-color: var(--background-color);
-        --highlighted-background-color: yellow;
-        --less-important-text-color: #5b6a6f;
-        --link-color: #52adff;
-        color-scheme: dark;
-    }
+[data-theme="dark"] {
+    --background-color: #1c2227;
+    --text-color: #e2e1d7;
+    --border-color: #4e4e4e;
+    --light-background-color: #002b36;
+    --robot-highlight: yellow;
+    --highlighted-color: var(--background-color);
+    --highlighted-background-color: yellow;
+    --less-important-text-color: #5b6a6f;
+    --link-color: #52adff;
+    color-scheme: dark;
 }
 body {
     background: var(--background-color);
@@ -255,6 +253,7 @@ input.hamburger-menu:checked ~ span.hamburger-menu-3
 }
 .arguments-list-container {
     overflow-y: auto;
+    margin-bottom: 1.33rem;
 }
 .arguments-list {
     display: -ms-inline-grid;
@@ -296,13 +295,18 @@ input.hamburger-menu:checked ~ span.hamburger-menu-3
     display: flex;
     min-width: 150px;
 }
-.arguments-list .arg-type {
+.arguments-list .arg-type,
+.return-type .arg-type {
     margin-left: 2rem;
     -ms-grid-column: 3;
     grid-column: 3;
     background: var(--background-color);
     white-space: nowrap;
     -webkit-text-size-adjust: none;
+}
+.tags .kw-tags {
+    margin-left: 2rem;
+    display: flex;
 }
 .arguments-list .arg-kind {
   color: transparent;
@@ -513,6 +517,7 @@ h4 {
 }
 .enum-type-members span,
 .args span,
+.return-type span,
 .args a
  {
     font-family: monospace;
@@ -520,22 +525,12 @@ h4 {
     padding: 0 0.1em;
     font-size: 1.1em;
 }
+.arg-type,
 span.type,
 a.type {
     font-size: 1em;
     background: none;
     padding: 0 0
-}
-.arg-type span.or::after {
-    content: ' or ';
-}
-span.or {
-    background: none;
-    font-size: 0.7em;
-    font-family: system-ui, -apple-system, sans-serif;
-}
-.arg-type span.or:nth-last-of-type(1) {
-    display: none;
 }
 .typed-dict-item .td-type::after {
     content: ',';
@@ -558,7 +553,7 @@ span.or {
     background: var(--highlighted-background-color);
     color: var(--highlighted-color);
 }
-.tags {
+.tags, .return-type {
     display: flex;
     align-items: baseline;
 }
@@ -663,7 +658,7 @@ span.or {
     display: none;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 /* Pygments 'default' style sheet. Generated with Pygments 2.1.3 using:
     pygmentize -S default -f html -a .code > src/robot/htmldata/libdoc/pygments.css
     and added for dark mode
@@ -820,7 +815,7 @@ span.or {
     .code .il { color: #2aa198 } /* Literal.Number.Integer.Long */
 }
 </style>
-<style media="print" type="text/css">
+<style media="print">
 body {
     margin: 0;
     padding: 0;
@@ -833,7 +828,7 @@ a {
     display: none;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 #javascript-disabled {
     width: 600px;
     margin: 100px auto 0 auto;
@@ -856,7 +851,7 @@ a {
     font-style: italic;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 #introduction-container > h2,
 .doc > h1,
 .doc > h2,
@@ -933,7 +928,8 @@ storage = function () {
     var prefix = 'robot-framework-';
     var storage;
     function init(user) {
-        prefix += user + '-';
+        if (user)
+            prefix += user + '-';
         storage = getStorage();
     }
     function getStorage() {
@@ -947,16 +943,19 @@ storage = function () {
             return {};
         }
     }
-    function get(name, defaultValue) {
-        var value = storage[prefix + name];
+    function get(key, defaultValue) {
+        var value = storage[fullKey(key)];
         if (typeof value === 'undefined')
             return defaultValue;
         return value;
     }
-    function set(name, value) {
-        storage[prefix + name] = value;
+    function set(key, value) {
+        storage[fullKey(key)] = value;
     }
-    return {init: init, get: get, set: set};
+    function fullKey(key) {
+        return prefix + key;
+    }
+    return {init: init, get: get, set: set, fullKey: fullKey};
 }();
 </script>
 <script type="text/javascript">
@@ -1192,7 +1191,7 @@ window.util = function () {
 jQuery.extend({highlight:function(e,t,n,r){if(e.nodeType===3){var i=e.data.match(t);if(i){var s=document.createElement(n||"span");s.className=r||"highlight";var o=e.splitText(i.index);o.splitText(i[0].length);var u=o.cloneNode(true);s.appendChild(u);o.parentNode.replaceChild(s,o);return 1}}else if(e.nodeType===1&&e.childNodes&&!/(script|style)/i.test(e.tagName)&&!(e.tagName===n.toUpperCase()&&e.className===r)){for(var a=0;a<e.childNodes.length;a++){a+=jQuery.highlight(e.childNodes[a],t,n,r)}}return 0}});jQuery.fn.unhighlight=function(e){var t={className:"highlight",element:"span"};jQuery.extend(t,e);return this.find(t.element+"."+t.className).each(function(){var e=this.parentNode;e.replaceChild(this.firstChild,this);e.normalize()}).end()};jQuery.fn.highlight=function(e,t){var n={className:"highlight",element:"span",caseSensitive:false,wordsOnly:false};jQuery.extend(n,t);if(e.constructor===String){e=[e]}e=jQuery.grep(e,function(e,t){return e!=""});e=jQuery.map(e,function(e,t){return e.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&")});if(e.length==0){return this}var r=n.caseSensitive?"":"i";var i="("+e.join("|")+")";if(n.wordsOnly){i="\\b"+i+"\\b"}var s=new RegExp(i,r);return this.each(function(){jQuery.highlight(this,s,n.element,n.className)})}
 </script>
 <script type="text/javascript">
-libdoc = {"specversion": 1, "name": "output", "doc": "<p>Highly related to DataExtraction.resource, the output file directly writes into the javascript data file.</p>\n<p>...    <i><b>Creating a valid test</b></i></p>\n<p>...                  <b>Configuration Validation</b> - Verify the connection between the test script ...    and the report.</p>\n<p>...    <b>Test Setup</b> - Create and configure individual tests.</p>\n<p>...    <i><b>Generating test data</b></i></p>\n<p>...    <b>Time Functions</b> - Start, stop, and read named timers during test</p>\n<p>...    <b>Comparisons</b> - Derive Pass/Fail criteria by comparing value(s)</p>\n<p>...    <b>Output Functions</b> - Write a line into the report file.</p>\n<p>...    <i><b>Graphing data</b></i></p>\n<p>...    <b>Suite Chart Functions</b> - Create data charts for the suite. Add data, change format, etc.</p>\n<p>...    <b>Test Chart Functions</b> - Create data charts for a single test. Add data, change format, etc.</p>", "version": "", "generated": "2023-03-07 10:17:40", "type": "LIBRARY", "scope": "SUITE", "docFormat": "HTML", "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 10, "tags": [], "inits": [], "keywords": [{"name": "Add Suite Structure", "args": [{"name": "type", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "type"}, {"name": "title", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "xaxis", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "xaxis"}, {"name": "yaxis", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "yaxis"}, {"name": "series", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "series"}, {"name": "modes", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "modes"}], "doc": "<p>Part of <b>Suite Chart Functions</b></p>\n<p>Defines the details of a new chart item.</p>\n<p><i>type</i>: Select one {Line, VBar, HBar, Area, Pie, Scatter}</p>\n<p><i>title</i>: Any text</p>\n<p><i>xaxis</i>: Any text; it is suggested that units be included</p>\n<p><i>yaxis</i>: Any text; it is suggested that units be included</p>\n<p><i>series</i>: Any text; allows multiple data series in one chart. Each title must be enumerated as in MyTitle-0, MyTitle-1, etc.</p>\n<p><i>modes</i>: Select None or multiple of {Progressive, Multi, Stacked, Trend}</p>", "shortdoc": "Part of *Suite Chart Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 367}, {"name": "Add Test Structure", "args": [{"name": "test", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "test"}, {"name": "type", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "type"}, {"name": "title", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "xaxis", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "xaxis"}, {"name": "yaxis", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "yaxis"}, {"name": "series", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "series"}, {"name": "modes", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "modes"}], "doc": "<p>Part of <b>Test Chart Functions</b></p>\n<p>Defines the details of a new chart item for a specific test.</p>\n<p><i>test</i>: Full test name derived from <i>New Test Event</i></p>\n<p><i>type</i>: Select one {Line, VBar, HBar, Area, Pie, Scatter}</p>\n<p><i>title</i>: Any text</p>\n<p><i>xaxis</i>: Any text; it is suggested that units be included</p>\n<p><i>yaxis</i>: Any text; it is suggested that units be included</p>\n<p><i>series</i>: Any text; allows multiple data series in one chart. Each title must be enumerated as in MyTitle-0, MyTitle-1, etc.</p>\n<p><i>modes</i>: Select None or multiple of {Progressive, Multi, Stacked, Trend}</p>", "shortdoc": "Part of *Test Chart Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 464}, {"name": "Archive Any Previous Data", "args": [], "doc": "<p>Part of <b>Test Setup</b></p>\n<p>Archive Any Previous Data ensures that any remaininig data is saved and the file structure is prepared for new data. The function detects or creates the IMG, IMG/TEMP, IMG/WATCHER, and ARCHIVE folders. I also renames any existing test.js and moves it into the archive. Data from the existing test.js is added to the archive.js file. In any case a new test.js file is created.</p>", "shortdoc": "Part of *Test Setup*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 77}, {"name": "Compare Limited Text", "args": [{"name": "actual", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "actual"}, {"name": "expected", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "expected"}], "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Evaluates the identity of <i>actual</i> and <i>expected</i> as strings. That comparison is <i><b>limited</b></i> in that <i>actual</i> may be longer than <i>expected</i>. The match need only consist of the few characters. The distinction allows the standard portion of a string to match without acknowledging the details that follow.</p>\n<p>Ex.   <b>Know*ledge vs *Know</b> - matches</p>\n<p>Ex.   <b>Found target</b> 12345 vs *Found target&amp; - matches</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 230}, {"name": "Compare Results", "args": [{"name": "actual", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "actual"}, {"name": "expected", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "expected"}, {"name": "equal", "types": [], "typedocs": {}, "defaultValue": "True", "kind": "POSITIONAL_OR_NAMED", "required": false, "repr": "equal=True"}], "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Evaluates the identity of <i>actual</i> and <i>expected</i>. The normal use case PASSes if they match.</p>\n<p>Use <i>equal</i> to PASS when they do <b>NOT</b> match.</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 209}, {"name": "Compare To Range", "args": [{"name": "actual", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "actual"}, {"name": "expected", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "expected"}, {"name": "percentError", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "percentError"}], "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Evaluates the identity of <i>actual</i> and <i>expected</i>. The value <i>actual</i> must fall into a range of <i>expected</i> +/- _percentError.</p>\n<p>Ex.    93 and 99 +/- 2% - Not a match</p>\n<p>Ex.    93 and 95 +/- 3% - Matches</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 252}, {"name": "Configure Data Path", "args": [{"name": "primaryFile", "types": [], "typedocs": {}, "defaultValue": "./../../../RFData", "kind": "POSITIONAL_OR_NAMED", "required": false, "repr": "primaryFile=./../../../RFData"}], "doc": "<p>Part of <b>Test Setup</b>.</p>\n<p>The primaryFile path is the location where the test data, images, etc. will be written. This setting <i><b>MUST</b></i> come before the first use. Multiple errors will be raised if a different keyword is called first.</p>", "shortdoc": "Part of *Test Setup*.", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 67}, {"name": "Create Test Case", "args": [{"name": "testName", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testName"}], "doc": "<p>Part of <b>Test Setup</b></p>\n<p>Create Test Case is called at the start of each test case and generates a new row in the test report.</p>", "shortdoc": "Part of *Test Setup*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 157}, {"name": "FAIL Token", "args": [], "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Generates the FAIL value for various test functions.</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 186}, {"name": "Insert Dummy Test Data", "args": [], "doc": "<p>Part of <b>Configuration Validation</b></p>\n<p>Insert Dummy Test Data creates a small entry in test.js which validates the connnection between the OQE library and the report tool.</p>", "shortdoc": "Part of *Configuration Validation*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 49}, {"name": "Mark Time", "args": [{"name": "name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "name"}], "doc": "<p>Part of <b>Time Functions</b></p>\n<p>Mark time is the start of a timeclock which tracks a specific function. The <i>name</i> parameter must be unique to the measured value and must be identical in the <i>Mark Time</i> and <i>Time Done</i> keywords.</p>\n<p>Throws an error if the <i>name</i> is already in use.</p>", "shortdoc": "Part of *Time Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 329}, {"name": "PASS Token", "args": [], "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Generates the PASS value for various test functions.</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 178}, {"name": "Prove it works", "args": [], "doc": "<p>Part of <b>Configuration Validation</b></p>\n<p>Prove it Works returns text (for the purpose of logging) that came from output.py. This return validates that link int he OQE library.</p>", "shortdoc": "Part of *Configuration Validation*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 40}, {"name": "Reset Time", "args": [], "doc": "<p>Part of <b>Time Functions</b></p>\n<p>At the end of a test (or in another opportune moment), the <i>Reset Time</i> keyword eliminates any lingering time recording. After <i>Reset Time</i> all <i>name</i> values are eligible.</p>", "shortdoc": "Part of *Time Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 357}, {"name": "Result True", "args": [{"name": "case", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "case"}, {"name": "passCase", "types": [], "typedocs": {}, "defaultValue": "True", "kind": "POSITIONAL_OR_NAMED", "required": false, "repr": "passCase=True"}], "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Evaluates the Boolean value of the (potentially complicated) case. In the normal use case, PASS for case==True.</p>\n<p>Change <i>passCase</i> to PASS for case==False.</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 194}, {"name": "Set Suite Color Group", "args": [{"name": "title", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "group", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "group"}], "doc": "<p>Part of <b>Suite Chart Functions</b></p>\n<p>By default, all charts use the same rainbow color scheme, but the user may select one of several pre-defined color scheme by title. This manages the Suite, scalar, and multi-dataset charts.</p>\n<p>Ex. 1  Shades of Yellow</p>", "shortdoc": "Part of *Suite Chart Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 445}, {"name": "Set Suite Color Scheme", "args": [{"name": "title", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "colors", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "colors"}], "doc": "<p>Part of <b>Suite Chart Functions</b></p>\n<p>By default, all charts use the same rainbow color scheme, but the user may define a series of RGB color sets for each chart by title. This manages the Suite, scalar, and multi-dataset charts.</p>\n<p>Ex. 'rgb(164,100,174)'  Each numerical value on interval [0,255]</p>", "shortdoc": "Part of *Suite Chart Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 422}, {"name": "Set Test Color Group", "args": [{"name": "test", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "test"}, {"name": "title", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "group", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "group"}], "doc": "<p>Part of <b>Test Chart Functions</b></p>\n<p>By default, all charts use the same rainbow color scheme, but the user may select one of several pre-defined color scheme by test and title. This manages Test, and multi-dataset charts.</p>\n<p>Ex. 1  Shades of Yellow</p>", "shortdoc": "Part of *Test Chart Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 553}, {"name": "Set Test Color Scheme", "args": [{"name": "test", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "test"}, {"name": "title", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "colors", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "colors"}], "doc": "<p>Part of <b>Test Chart Functions</b></p>\n<p>By default, all charts use the same rainbow color scheme, but the user may define a series of RGB color sets for each chart by test and title. This manages the Test, scalar, and multi-dataset charts.</p>\n<p>Ex. 'rgb(164,100,174)'  Each numerical value on interval [0,255]</p>", "shortdoc": "Part of *Test Chart Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 528}, {"name": "Structured Suite Data", "args": [{"name": "title", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "data", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "data"}, {"name": "label", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "label"}], "doc": "<p>Part of <b>Suite Chart Functions</b></p>\n<p>Incrememntally addes data to a specific chart by title. This manages the Suite, scalar, and multi-dataset charts.</p>\n<p><i>data</i>: y-value</p>\n<p><i>label</i>: x-value</p>", "shortdoc": "Part of *Suite Chart Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 402}, {"name": "Structured Test Data", "args": [{"name": "test", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "test"}, {"name": "title", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "data", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "data"}, {"name": "label", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "label"}], "doc": "<p>Part of <b>Test Chart Functions</b></p>\n<p>Incrememntally addes data to a specific chart by test and title. This manages the Suite, scalar, and multi-dataset charts.</p>\n<p><i>data</i>: y-value</p>\n<p><i>label</i>: x-value</p>", "shortdoc": "Part of *Test Chart Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 505}, {"name": "Time Done", "args": [{"name": "name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "name"}], "doc": "<p>Part of <b>Time Functions</b></p>\n<p>Time Done is the end of a timeclock which tracks a specific function. The <i>name</i> parameter must be unique to the measured value and must be identical in the <i>Mark Time</i> and <i>Time Done</i> keywords.</p>\n<p>Throws an error if the <i>name</i> has not already been marked.</p>", "shortdoc": "Part of *Time Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 342}, {"name": "Write Data", "args": [{"name": "testCaseName", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testCaseName"}, {"name": "testStepName", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStepName"}, {"name": "testStatus", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStatus"}, {"name": "data", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "data"}], "doc": "<p>Part of <b>Output Functions</b></p>\n<p>The function takes in a set of data-as-text and pushes a single line in the report.</p>", "shortdoc": "Part of *Output Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 313}, {"name": "Write Image", "args": [{"name": "testCaseName", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testCaseName"}, {"name": "testStepName", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStepName"}, {"name": "testStatus", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStatus"}, {"name": "file", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "file"}], "doc": "<p>Part of <b>Output Functions</b></p>\n<p>The function takes in an image file location and pushes a single line in the report.</p>", "shortdoc": "Part of *Output Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 295}, {"name": "Write Results", "args": [{"name": "caseName", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "caseName"}, {"name": "stepName", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "stepName"}, {"name": "testStatus", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStatus"}, {"name": "details", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "details"}], "doc": "<p>Part of <b>Output Functions</b></p>\n<p>Most basic of report outputs, this generates a single row of the report showing the case test</p>", "shortdoc": "Part of *Output Functions*", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 274}], "dataTypes": {"enums": [], "typedDicts": []}, "typedocs": []}
+libdoc = {"specversion": 3, "name": "output", "doc": "<p>Highly related to DataExtraction.resource, the output file directly writes into the javascript data file.</p>\n<p>...    <i><b>Creating a valid test</b></i></p>\n<p>...                  <b>Configuration Validation</b> - Verify the connection between the test script ...    and the report.</p>\n<p>...    <b>Test Setup</b> - Create and configure individual tests.</p>\n<p>...    <i><b>Generating test data</b></i></p>\n<p>...    <b>Time Functions</b> - Start, stop, and read named timers during test</p>\n<p>...    <b>Comparisons</b> - Derive Pass/Fail criteria by comparing value(s)</p>\n<p>...    <b>Output Functions</b> - Write a line into the report file.</p>\n<p>...    <i><b>Graphing data</b></i></p>\n<p>...    <b>Suite Chart Functions</b> - Create data charts for the suite. Add data, change format, etc.</p>\n<p>...    <b>Test Chart Functions</b> - Create data charts for a single test. Add data, change format, etc.</p>", "version": "", "generated": "2024-05-27T19:58:29+00:00", "type": "LIBRARY", "scope": "SUITE", "docFormat": "HTML", "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 10, "tags": [], "inits": [], "keywords": [{"name": "Add Suite Structure", "args": [{"name": "type", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "type"}, {"name": "title", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "xaxis", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "xaxis"}, {"name": "yaxis", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "yaxis"}, {"name": "series", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "series"}, {"name": "modes", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "modes"}], "returnType": null, "doc": "<p>Part of <b>Suite Chart Functions</b></p>\n<p>Defines the details of a new chart item.</p>\n<p><i>type</i>: Select one {Line, VBar, HBar, Area, Pie, Scatter}</p>\n<p><i>title</i>: Any text</p>\n<p><i>xaxis</i>: Any text; it is suggested that units be included</p>\n<p><i>yaxis</i>: Any text; it is suggested that units be included</p>\n<p><i>series</i>: Any text; allows multiple data series in one chart. Each title must be enumerated as in MyTitle-0, MyTitle-1, etc.</p>\n<p><i>modes</i>: Select None or multiple of {Progressive, Multi, Stacked, Trend}</p>", "shortdoc": "Part of *Suite Chart Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 393}, {"name": "Add Test Structure", "args": [{"name": "test", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "test"}, {"name": "type", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "type"}, {"name": "title", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "xaxis", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "xaxis"}, {"name": "yaxis", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "yaxis"}, {"name": "series", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "series"}, {"name": "modes", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "modes"}], "returnType": null, "doc": "<p>Part of <b>Test Chart Functions</b></p>\n<p>Defines the details of a new chart item for a specific test.</p>\n<p><i>test</i>: Full test name derived from <i>New Test Event</i></p>\n<p><i>type</i>: Select one {Line, VBar, HBar, Area, Pie, Scatter}</p>\n<p><i>title</i>: Any text</p>\n<p><i>xaxis</i>: Any text; it is suggested that units be included</p>\n<p><i>yaxis</i>: Any text; it is suggested that units be included</p>\n<p><i>series</i>: Any text; allows multiple data series in one chart. Each title must be enumerated as in MyTitle-0, MyTitle-1, etc.</p>\n<p><i>modes</i>: Select None or multiple of {Progressive, Multi, Stacked, Trend}</p>", "shortdoc": "Part of *Test Chart Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 490}, {"name": "Archive Any Previous Data", "args": [], "returnType": null, "doc": "<p>Part of <b>Test Setup</b></p>\n<p>Archive Any Previous Data ensures that any remaininig data is saved and the file structure is prepared for new data. The function detects or creates the IMG, IMG/TEMP, IMG/WATCHER, and ARCHIVE folders. I also renames any existing test.js and moves it into the archive. Data from the existing test.js is added to the archive.js file. In any case a new test.js file is created.</p>", "shortdoc": "Part of *Test Setup*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 77}, {"name": "Compare Limited Text", "args": [{"name": "actual", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "actual"}, {"name": "expected", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "expected"}], "returnType": null, "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Evaluates the identity of <i>actual</i> and <i>expected</i> as strings. That comparison is <i><b>limited</b></i> in that <i>actual</i> may be longer than <i>expected</i>. The match need only consist of the few characters. The distinction allows the standard portion of a string to match without acknowledging the details that follow.</p>\n<p>Ex.   <b>Know*ledge vs *Know</b> - matches</p>\n<p>Ex.   <b>Found target</b> 12345 vs *Found target&amp; - matches</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 231}, {"name": "Compare Results", "args": [{"name": "actual", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "actual"}, {"name": "expected", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "expected"}, {"name": "equal", "type": null, "defaultValue": "True", "kind": "POSITIONAL_OR_NAMED", "required": false, "repr": "equal=True"}], "returnType": null, "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Evaluates the identity of <i>actual</i> and <i>expected</i>. The normal use case PASSes if they match.</p>\n<p>Use <i>equal</i> to PASS when they do <b>NOT</b> match.</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 210}, {"name": "Compare To Range", "args": [{"name": "actual", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "actual"}, {"name": "expected", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "expected"}, {"name": "percentError", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "percentError"}], "returnType": null, "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Evaluates the identity of <i>actual</i> and <i>expected</i>. The value <i>actual</i> must fall into a range of <i>expected</i> +/- _percentError.</p>\n<p>Ex.    93 and 99 +/- 2% - Not a match</p>\n<p>Ex.    93 and 95 +/- 3% - Matches</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 253}, {"name": "Configure Data Path", "args": [{"name": "primaryFile", "type": null, "defaultValue": "./../../../RFData", "kind": "POSITIONAL_OR_NAMED", "required": false, "repr": "primaryFile=./../../../RFData"}], "returnType": null, "doc": "<p>Part of <b>Test Setup</b>.</p>\n<p>The primaryFile path is the location where the test data, images, etc. will be written. This setting <i><b>MUST</b></i> come before the first use. Multiple errors will be raised if a different keyword is called first.</p>", "shortdoc": "Part of *Test Setup*.", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 67}, {"name": "Create Promise", "args": [{"name": "testCaseName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testCaseName"}, {"name": "testStepName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStepName"}], "returnType": null, "doc": "<p>Part of <b>Output Functions</b></p>", "shortdoc": "Part of *Output Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 313}, {"name": "Create Test Case", "args": [{"name": "testName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testName"}], "returnType": null, "doc": "<p>Part of <b>Test Setup</b></p>\n<p>Create Test Case is called at the start of each test case and generates a new row in the test report.</p>", "shortdoc": "Part of *Test Setup*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 158}, {"name": "FAIL Token", "args": [], "returnType": null, "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Generates the FAIL value for various test functions.</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 187}, {"name": "Insert Dummy Test Data", "args": [], "returnType": null, "doc": "<p>Part of <b>Configuration Validation</b></p>\n<p>Insert Dummy Test Data creates a small entry in test.js which validates the connnection between the OQE library and the report tool.</p>", "shortdoc": "Part of *Configuration Validation*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 49}, {"name": "Mark Time", "args": [{"name": "name", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "name"}], "returnType": null, "doc": "<p>Part of <b>Time Functions</b></p>\n<p>Mark time is the start of a timeclock which tracks a specific function. The <i>name</i> parameter must be unique to the measured value and must be identical in the <i>Mark Time</i> and <i>Time Done</i> keywords.</p>\n<p>Throws an error if the <i>name</i> is already in use.</p>", "shortdoc": "Part of *Time Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 355}, {"name": "PASS Token", "args": [], "returnType": null, "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Generates the PASS value for various test functions.</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 179}, {"name": "Prove it works", "args": [], "returnType": null, "doc": "<p>Part of <b>Configuration Validation</b></p>\n<p>Prove it Works returns text (for the purpose of logging) that came from output.py. This return validates that link int he OQE library.</p>", "shortdoc": "Part of *Configuration Validation*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 40}, {"name": "Reset Time", "args": [], "returnType": null, "doc": "<p>Part of <b>Time Functions</b></p>\n<p>At the end of a test (or in another opportune moment), the <i>Reset Time</i> keyword eliminates any lingering time recording. After <i>Reset Time</i> all <i>name</i> values are eligible.</p>", "shortdoc": "Part of *Time Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 383}, {"name": "Result True", "args": [{"name": "case", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "case"}, {"name": "passCase", "type": null, "defaultValue": "True", "kind": "POSITIONAL_OR_NAMED", "required": false, "repr": "passCase=True"}], "returnType": null, "doc": "<p>Part of <b>Comparisons</b></p>\n<p>Evaluates the Boolean value of the (potentially complicated) case. In the normal use case, PASS for case==True.</p>\n<p>Change <i>passCase</i> to PASS for case==False.</p>", "shortdoc": "Part of *Comparisons*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 195}, {"name": "Set Suite Color Group", "args": [{"name": "title", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "group", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "group"}], "returnType": null, "doc": "<p>Part of <b>Suite Chart Functions</b></p>\n<p>By default, all charts use the same rainbow color scheme, but the user may select one of several pre-defined color scheme by title. This manages the Suite, scalar, and multi-dataset charts.</p>\n<p>Ex. 1  Shades of Yellow</p>", "shortdoc": "Part of *Suite Chart Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 471}, {"name": "Set Suite Color Scheme", "args": [{"name": "title", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "colors", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "colors"}], "returnType": null, "doc": "<p>Part of <b>Suite Chart Functions</b></p>\n<p>By default, all charts use the same rainbow color scheme, but the user may define a series of RGB color sets for each chart by title. This manages the Suite, scalar, and multi-dataset charts.</p>\n<p>Ex. 'rgb(164,100,174)'  Each numerical value on interval [0,255]</p>", "shortdoc": "Part of *Suite Chart Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 448}, {"name": "Set Test Color Group", "args": [{"name": "test", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "test"}, {"name": "title", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "group", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "group"}], "returnType": null, "doc": "<p>Part of <b>Test Chart Functions</b></p>\n<p>By default, all charts use the same rainbow color scheme, but the user may select one of several pre-defined color scheme by test and title. This manages Test, and multi-dataset charts.</p>\n<p>Ex. 1  Shades of Yellow</p>", "shortdoc": "Part of *Test Chart Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 579}, {"name": "Set Test Color Scheme", "args": [{"name": "test", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "test"}, {"name": "title", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "colors", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "colors"}], "returnType": null, "doc": "<p>Part of <b>Test Chart Functions</b></p>\n<p>By default, all charts use the same rainbow color scheme, but the user may define a series of RGB color sets for each chart by test and title. This manages the Test, scalar, and multi-dataset charts.</p>\n<p>Ex. 'rgb(164,100,174)'  Each numerical value on interval [0,255]</p>", "shortdoc": "Part of *Test Chart Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 554}, {"name": "Structured Suite Data", "args": [{"name": "title", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "data", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "data"}, {"name": "label", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "label"}], "returnType": null, "doc": "<p>Part of <b>Suite Chart Functions</b></p>\n<p>Incrememntally addes data to a specific chart by title. This manages the Suite, scalar, and multi-dataset charts.</p>\n<p><i>data</i>: y-value</p>\n<p><i>label</i>: x-value</p>", "shortdoc": "Part of *Suite Chart Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 428}, {"name": "Structured Test Data", "args": [{"name": "test", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "test"}, {"name": "title", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "title"}, {"name": "data", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "data"}, {"name": "label", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "label"}], "returnType": null, "doc": "<p>Part of <b>Test Chart Functions</b></p>\n<p>Incrememntally addes data to a specific chart by test and title. This manages the Suite, scalar, and multi-dataset charts.</p>\n<p><i>data</i>: y-value</p>\n<p><i>label</i>: x-value</p>", "shortdoc": "Part of *Test Chart Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 531}, {"name": "Time Done", "args": [{"name": "name", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "name"}], "returnType": null, "doc": "<p>Part of <b>Time Functions</b></p>\n<p>Time Done is the end of a timeclock which tracks a specific function. The <i>name</i> parameter must be unique to the measured value and must be identical in the <i>Mark Time</i> and <i>Time Done</i> keywords.</p>\n<p>Throws an error if the <i>name</i> has not already been marked.</p>", "shortdoc": "Part of *Time Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 368}, {"name": "Write Data", "args": [{"name": "testCaseName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testCaseName"}, {"name": "testStepName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStepName"}, {"name": "testStatus", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStatus"}, {"name": "data", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "data"}], "returnType": null, "doc": "<p>Part of <b>Output Functions</b></p>\n<p>The function takes in a set of data-as-text and pushes a single line in the report.</p>", "shortdoc": "Part of *Output Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 334}, {"name": "Write Image", "args": [{"name": "testCaseName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testCaseName"}, {"name": "testStepName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStepName"}, {"name": "testStatus", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStatus"}, {"name": "file", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "file"}], "returnType": null, "doc": "<p>Part of <b>Output Functions</b></p>\n<p>The function takes in an image file location and pushes a single line in the report.</p>", "shortdoc": "Part of *Output Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 295}, {"name": "Write Results", "args": [{"name": "caseName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "caseName"}, {"name": "stepName", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "stepName"}, {"name": "testStatus", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "testStatus"}, {"name": "details", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "details"}], "returnType": null, "doc": "<p>Part of <b>Output Functions</b></p>\n<p>Most basic of report outputs, this generates a single row of the report showing the case test</p>", "shortdoc": "Part of *Output Functions*", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\OQE\\output.py", "lineno": 275}], "typedocs": []}
 </script>
 <title></title>
 </head>
@@ -1215,7 +1214,7 @@ libdoc = {"specversion": 1, "name": "output", "doc": "<p>Highly related to DataE
     }, false);
     window.addEventListener("hashchange", function() {
         if (window.location.hash.indexOf('#type-') == 0) {
-            const hash = '#' + decodeURI(window.location.hash.slice(6));
+            const hash = '#type-modal-' + decodeURI(window.location.hash.slice(6));
             const typeDoc = document.querySelector(".data-types").querySelector(hash);
             if (typeDoc) {
               showModal(typeDoc);
@@ -1230,6 +1229,7 @@ libdoc = {"specversion": 1, "name": "output", "doc": "<p>Highly related to DataE
         parseTemplates();
         document.title = libdoc.name;
         storage.init('libdoc');
+        setTheme();
         renderTemplate('base', libdoc, $('body'));
         if (libdoc.inits.length) {
             libdoc.typedocs.map(function(type) {
@@ -1263,6 +1263,20 @@ libdoc = {"specversion": 1, "name": "output", "doc": "<p>Highly related to DataE
         createModal();
     });
 
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme || getTheme());
+    }
+
+    function getTheme() {
+        if (libdoc['theme']) {
+            return libdoc['theme'];
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        } else {
+            return 'light;'
+        }
+    }
+
     function parseTemplates() {
         $('script[type="text/x-jquery-tmpl"]').map(function (idx, elem) {
             $.template(elem.id, elem.text);
@@ -1282,9 +1296,9 @@ libdoc = {"specversion": 1, "name": "output", "doc": "<p>Highly related to DataE
 
     function scrollToHash() {
         if (window.location.hash) {
-            var hash = window.location.hash.substring(1).replace('+', ' ');
-            window.location.hash = '';
-            window.location.hash = hash;
+            var hash = window.location.hash.substring(1);
+            var id = decodeURIComponent(hash);
+            document.getElementById(id).scrollIntoView();
         }
     }
 
@@ -1696,13 +1710,23 @@ libdoc = {"specversion": 1, "name": "output", "doc": "<p>Highly related to DataE
                 </div>
               </div>
             {{/if}}
+            {{if returnType}}
+            <div class="return-type">
+              <h4>Return Type</h4>
+              <span class="arg-type">
+              {{tmpl(returnType) 'type-info-template'}}
+              </span>
+            </div>
+            {{/if}}
             {{if libdoc.tags.length && tags.length}}
               <div class="tags">
                 <h4>Tags</h4>
+                <span class="kw-tags">
                 {{each tags}}
                   <a href="javascript:tagSearch('${$value}')"
                     title="Show keywords with this tag">${$value}</a>{{if $index < tags.length-1}},<br>{{/if}}
                 {{/each}}
+                </span>
               </div>
             {{/if}}
           </div>
@@ -1732,20 +1756,37 @@ ${name}
   </div>
 {{/if}}
 
-{{if types.length}}
+{{if type}}
   <span class="arg-type">
-    {{each types}}
-      {{if $value in $data.typedocs}}
-          &lt;<a style="cursor: pointer;" class="type" title="Click to show type information" onclick="showModal(${$data.typedocs[$value]})">${$value}</a>&gt;
-      {{else}}
-          &lt;<span class="type">${$value}</span>&gt;
-      {{/if}}
-      <span class="or"></span>
-    {{/each}}
+      {{tmpl(type) 'type-info-template'}}
   </span>
 {{/if}}
 </script>
 
+<script type="text/x-jquery-tmpl" id="type-info-template">
+  <!-- Store last index to variable. Checking it the 'each' loop didn't work. -->
+  ${$item.lastIndex=nested.length-1, ""}
+  {{if union}}
+    {{each nested}}
+      {{tmpl($value) 'type-info-template'}}
+      {{if $index < $item.lastIndex}}|{{/if}}
+    {{/each}}
+  {{else}}
+    {{if typedoc}}
+      <a style="cursor: pointer;" class="type" title="Click to show type information" onclick="showModal(document.querySelector('#type-modal-${typedoc}'))">${name}</a>
+    {{else}}
+      <span class="type">${name}</span>
+    {{/if}}
+    {{if nested.length}}
+      [
+      {{each nested}}
+        {{tmpl($value) 'type-info-template'}}
+        {{if $index < $item.lastIndex}},{{/if}}
+      {{/each}}
+      ]
+    {{/if}}
+  {{/if}}
+</script>
 
 <script type="text/x-jquery-tmpl" id="data-types-template">
   {{if typedocs.length}}
@@ -1759,7 +1800,7 @@ ${name}
 </script>
 
 <script type="text/x-jquery-tmpl" id="data-type-template">
-    <div class="data-type-container {{if hidden}}no-{{/if}}match" id="${name}">
+    <div class="data-type-container {{if hidden}}no-{{/if}}match" id="type-modal-${name}">
        <div class="data-type-name">
             <h2>${name} (${type})</h2>
        </div>

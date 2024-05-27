@@ -456,26 +456,317 @@ Okay, let's get this save menu thing fixed and out of the way. It's a bug on my 
   * Reran the last test... like a dream. One small change and it all worked.
 * I condensed the function for finding a window so it covered all three
   * I had some trouble with the parameters, but once I got it through the automated tests... gold
+* I have been working on adding widgets. Some of this is easy, but my widget editor is too...uncertain. 
+  * I need to make it fixed in most of its components.
+
+4/1/2024 Back at it again.
+* Going to start with a redesign of the widget editor GUI.
+  * Need to make the image a fixed size.
+  * Adding all the members along the right hand side.
+  * Use the existing code to fill/read and enable.
+  * I had a problem where some widgets were not being put in correctly. 
+    + I was using the same variable name for each of these "throwaway" objects.
+    + I don't know why but changing the name fixed it.
   
+4/3/2024 
+* Back to changing the GUI
+* I started by moving all the non-volatile bits to the left and everything volatile to the right
+* I now have a different label color that shows if the item has been enabled/disabled at present.
+  * Works for native and foreign widgets. Looks like we are back in business.
+* Widget Editor needs to have a fixed size that doesn't change. - DONE
+* Can we just put all the components on and disable them if not required? - DONE
+* We need a standard size widget image in the editor
+* Reviewing my code, 
+  * instance.tkImage is the name of the actual image saved off in real dimensions
+  * instance.tkLabel is the label where the image resides
+  * instance.imageSmall is the control on how small/large the image is
+  * imageSizeToggle is the function that toggles imageSmall and calls updateTkImage
+  * updateTkImage is the function where the image/size is actually changed
+* First question: what is the max size we can allow?
+  * Eventually, I just moved the size thing out of the way and forced a fixed size.
+* The size of the widget editor doesn't adjust for very tall or wide widgets. - DONE
+* We need to have widgets as a transaction AND we need to filter for unique names.
+* Reviewing my code
+  * We are receiving a Widget object and using that object everywhere. So if we change something in that widget... it is permanent.
+* So I have gone back and used the to/from dictionary functions on widget to divorce the widget we start from (if in fact we have one) from the one we create at the end.
+* Now I can go back and review the results with a filter.
+* I'm looking at each place where EditorState.COMPLETE a complete widget add/upate took place.
+  * Delete and cancel have no widget answer and they don't matter.
+  * One of them just creates a new table entry             self.newTableEntry(self.currentView, self.lastEdited.answer)
+    * That only happens once
+  * There are TWO other places. One which ALWAYS happens and one which ONLY happens on an Edit.
+    * For an edit, either you are looking at a foreign widget and need to update the deltas OR
+    * You have to update the existing row in the table.
+    * For the always, you need to move images and deal with names BUT THIS IS TOO LATE!!!
+* I decided that I need to add a name filter capability while still editing the widget.
+* Do we have overlapping names for widgets - DONE
+* Image on widget editor needs the aspect ratio of the image within the fixed size - DONE
+* Now when I change type I lose any data I have in the widget. - DONE
+* I cannot disable the View. - DONE
+* The delete button ont widget editor doesn't need to be visible except on edit.
 
-1248-
-
-
-
-
-* CHeckbox image size is loading as MUCH bigger than it should be.
-* Do we want to define the size of a checkbox image
-* Do we want to edit view names?
+4/8/2024 - Happy eclipse day. Weird that I'm using VS Code. 
+* I need to finish cleaning things out and getting the widget test up and running.
+* Hmm. I have another bug from the work I just did. Blank link is not allowed.
+* Got the blank line fixed.
+* Another bug. For some reason I was getting an empty, blank widget on the second run.
+  * I was pulling out the list of widget attributes when i should have used a copy.
+  * In the process of debugging I added a unique ID for Widgets, which will be helpful in the future. I left it.
+* The delete button NEEDS to be present, otherwise we have a change in the layout. Must disable it.
+  * Got that solved.
+* If you cancel a widget edit, it still takes the new values. ooops. - I THINK this one is OBE
+* Do we want to edit view names? - OBE. I already added that feature.
 * adding a view with the same name still says saving and apparently creates a new file
-* The size of the widget editor doesn't adjust for very tall or wide widgets.
-* If you cancel a widget edit, it still takes the new values. ooops.
-* should I force you to define at least one anchor per view? I need to prevent the anchors from being imported.
+  * Fixed this for add. There was a problem with the loop invariant being used for data.
+  * Extracted the method and used the same code for view edit and view add name selection.
+  * DONE
 * When you create an anchor it doesn't create an image. But it does when you edit the widget
-* Should we add bug/warn/info/debug filters to logging from widgets?
-* I still saw overlays show up when I added a view, but then then disappeared when i went back to the main view. Not sure if I can even recreate it.
-* All notimplemented errors should indicate which class and function for debugging purposes
-* had a mislabeled widget. I could still get it on the widget import menu even after change. I didn't save the change, but the name was fixed.
+  * This is a weird one to reproduce.
+  * There is definitely something wrong about the way anchor images are created.
+  * There is only one place where a png extension is put on a file: mainwindow.universalWidgetHandler
+    * that means that the image name would be created at that time.
+    * There is also a mismatch on the 'Image file name' vs 'Image' issue.
+    * I think I'll just fix all of it at once.
+    * We do NOT want to create a saved image until we save.
+    * We want the name of the anchor to dictate the image name
+    * Related to this, we need to have at least one anchor per view.
+    * "Image file name" needs to be removed, not just replaced with "Image".
+    * should I force you to define at least one anchor per view? I need to prevent the anchors from being imported.
+* Okay, so first thing is I need to remove Image and Image file name. EVERYWHERE.
+  * The file name creation in universalWidgetHandler may not be needed at all.
+    * Removing that, eliminates everything else in the complete for that function.
+    * Removed all that complete stuff there, which simplifies the problem. 
+    * If you are editing, there is a complete hanlder IN YOUR FUNCTION
+    * If you are creating a new, same thing in your function.
+  * No more Image in widgets. Not anchor. Not movepoint.
+  * No more Image widgets on the widget editor.
+  * I need to create the images when the file saves
+  * I fixed the export save.
+    * Created two new functions to get the image for a widget (anchor), and the name of a widget (anchor)
+  * Working on load issue...I don't think it needs the image anymore. There is no need to load the image.
+  * I think I got it working, but now my name filter seems to be blocking updates on a widget update.
+    * I think I have that fixed, but the red overlays aren't happening now.
+
+4/14/2024 - Working with an AI.
+* The AI and I are chasing down the bug where overlays remain on the screen unnecessarily.
+* Along the way it has suggested a warn/info/debug schema which I want to implement anyway.
+  * Added a lot of debug/info statements to trace my error.
+  * Mostly start/end of functions
+* I have been examining the way widgets are added/updated. There appear to be two paths.
+  * 'bsdAnchor' is added to the list of widgets; the other two are not. Why?
+* I have been adding a lot more. Learning how the start process works. Still seeing weird stuff.
+  * I had to create a new class to own the logging configuration.
+  * More fine-tuning of that class, but the AI was able to provide really good examples.
+  * Chat GPT is less argumentative.
+  * This is actually giving me sample code that I can immediately implement. Better than stack overflow
+* The view update error with unknown red overlays STILL happens, but now I have enough data to see why.
+
+4/17/2024 Starting again
+* I had another minor problem with the logger. 
+  * THe AI actually suggested the right code to fix it, but one of its three suggestions was wrong. Still, that was very quick.
+  * I also noted that the line numbers were off because they were coming from the LogManagement, not the calling class.
+  * And I needed a multiton to ensure just one logger per class name. I was getting duplicate lines on the second creation of ImageWindow.
+I tried Ingrid in Mistral
+  * I'm of two minds about Ingrid. She did a great job suggesting code, but she can't follow the rules and doesn't suggest useful debugging steps.
+* I tried Benjamín in the Chat GPT.
+  * I divided him into Bueno and Malo, but they don't seem to have distinct viewpoints.
+  * He isn't able to track the problem from log statement to log statement. If I wasn't very certain about the bug, he would be confusing me.
+* I am finally able to address the bug. The problem is that I tried to update the view but I did it in a way that was hinky.
+  * I updated self.currentView BEFORE I depended on the pre-change value. Needed to remove that.
+  * The change of view usually starts from ImageWindow, but I was trying to call the logic function, but that didn't happen.
+    * I need to figure out how to do that. 
+    * I got the AI to fill in several blanks. Quite well in fact.
+* That is the end of that bug!!!!
+* Should we add bug/warn/info/debug filters to logging from widgets? - DONE
+* I still saw overlays show up when I added a view, but then then disappeared when i went back to the main view. Not sure if I can even recreate it. - DONE
+  * I'm going to call this OBE based on the work I've been doing.
+* had a mislabeled widget. I could still get it on the widget import menu even after change. I didn't save the change, but the name was fixed. - DONE
+  * Same
 * I opened a widget and the link was right. Clicked update. Didn't change a thing. Might be because the name was from and older window.
-* ImageWindow.deleteOverlays is sometimes faced with an "no attribute 'overlay'" which causes big errors.
-* Do we have overlapping names for widgets
-* When you delete a view,  it doesn't get rid of all images.
+  * Same
+* When you delete a view,  it doesn't get rid of all images. - DONE
+* ImageWindow.deleteOverlays is sometimes faced with an "no attribute 'overlay'" which causes big errors. - DONE
+  * I changed things so that overlays are a property of ImageWindow and not the widget itself.
+* I'm not sure that widget should have overays as an attribute in imagewindow. The way we are no longer holding widgets as objects makes that a problem waiting to happen.
+  * Related to last
+* Okay. Not too many things left.
+* I tried sharing the widget code with the AI and it just isn't getting it. Thinks I have to create new classes that aren't necessary.
+  * It suggested a "new" method which was EXACTLY what I had already.
+* I had a TODO in my code to handle deleted names of things. Took care of that.
+* I had to fix the log level which wasn't blocking lower levels and I had the help of the AI in finding my error. Again, mostly showing example code.
+* Added a logging feature to adjust the log level for one class at a time. I'd love to set up a tag-based system at some point.
+* The bug was derived from an if/else branch that deleted an existing overlay, but never updated the size of the image. Problems because it was saved in the self.variables.
+  * Do we want to define the size of a checkbox image - DONE
+* CHeckbox image size is loading as MUCH bigger than it should be. - DONE
+  * Now a fixed (stretched) image
+* DO we still need createcrash? - OBE
+  * At this point, we still need the createcrash for the time being.
+* No more bugs on my list. I have decided to do a final review with the AI.
+  * I am dividing the AI into different personalities.
+  * I covered security, style, cleanliness, etc.
+* I immediately started learning new things.
+  * Security suggested things that made the popups modal. I have never understood that on python, so this was a good chance to improve my skills.
+  * Seguido is not finding anything of interest.
+
+4/18/2024 At it again
+* Starting with the multiple personalities again.
+* I mentioned "personalities" and it gave me some WILD stuff.
+* I noticed that the AI agrees with me... even when it doesn't logically make sense.
+* The AI completely missed a logical fallacy where X is set to false and used in an if(X) ... else block.
+* I finally got through all the files and cleaned it all up.
+* I finished cleaning the last of the code with help from the AI.
+----
+* Stopped working with RFW for a second. Working instead on an agent tied to chat GPT.
+* First problem: how to send/receive messages.
+* I found lots of options, but none free. Just need to look around more.
+
+4/21
+* Working on AI package.
+* I found the llama instructions to maintain context.
+* I finally got it talking to me.
+* I tried adding rules for radio etiqute but I couldn't get them to follow it, plus the speech was too slow.
+  * There are multiple AIs in this chat and we are using audio to communicate. We will use radio etticut to make it clear who is speaking.
+    * Start with "Brian this is <YOUR NAME>."
+    * State your response.
+    * End with "<YOUR NAME> out"
+* I got multiple agents working. They can talk to me and see the code files, but I'm not sure the context is working correctly.  
+
+April 24, 2024 - Returning to the RFW testing.
+* I explained to the AI what we are working on and it suggested a method. I need to supply the exact coordinates.
+* Some bugs related to renaming functions after all my clean up.
+
+April 26, 2024 - Trying once more.
+* Still building the test
+* Had to redo the images for the test.
+* Many minor defects in the tool because of how I "cleaned" it.
+* For some reason widgeteditor is crashing when something is out of bounds. ???
+  * I found that just showing a error box was crashing the GUI. So, no more errors. Just adjust it.
+* I finished building the GUI, but I'm still not sure it's working.
+* I think I need to get in the mode of using the tests I've built.
+  * No more big refactors.
+* AUUUUUUUUUGGG! - Because I removed the image_paths for anchors and movepoints it no longer has a name for the anchors.  
+
+April 29, 2024 - Going back to that bug.
+* Well, I finally got that working again. Running through the tests to see if they work.
+* SOmehow I changed the procedure for adding views. Need to fix that in the test.
+  * I think it was just an order change, not something more fundamental.
+* Small bug in RFGUIHelper. Needed a return statement after an error state.
+* Another small bug. Didn't proporly convert from error message to exception.
+* Another small bug. Didn't give a parent window to an error message
+* My test was using the title bar and that had an unfocused version. I changed the anchor to something that always looked the same.
+* Okay both previous tests run now.
+* In part I've got the new test running. I had to put in a keyword to click << < > >> to adjust numbers, but it isn't working every time.
+  * I have had the text 17 read as 'W' and the value 20 read as '20,'. Predictably fails.
+* I have tried improving the readable space, just calculating the numbers, and finally doing without adjustments. It just keeps failing.
+
+May 1, 2024
+* I've been working on fixing the test again for 90 minutes and I am now DONE.
+* I have created OQE keywords for making a promise and it returns a key for the analysis tool to use in the response.
+* I have create a small tool to update the json. I have create a small application that is a stand in for third party applications.
+  * For some reason I can't see the third party app.
+  * I got it to add data and even output a log related to the call.
+  * Data is updating after an intentional 5 second delay
+* I noticed that I can't put more than one line of HTML in that space. So I have to format everything as HTML I guess.
+* Data promising - DONE
+* WOrking on the gif-maker. I have inserted the code to take the pictures and testing it now. 
+  * For some reason it's not getting the name of the file.
+  * I got that all working and now I'm trying to make the watchers function.
+    * Having problems with the test not running
+    * I fiddled with the method for finding a window and things are broken. Crap.
+
+5/8/2024 - Need to finish this off.
+* Working on the PDF generation. So I started by talking with the AI.
+* The AI and I have been working on reading the various JSONs
+* Working on building the PDF
+* Got that working. Integrated links, tables, images, etc. Now working on some boilerplate text for the test report.
+* I got hung up trying to break the text into a maximum length. It needs to be adjusted for non-word strings of extreme length.
+
+5/10/2024 - Have to finish cleaning up the PDF maker
+* I had to align the style lines with the report. I was one off on some of these.
+* I seperated All-report style from, header-only style, and then line-specific style. Now everything is aligned.
+* I went back to the report and decided not to include the full file name in the "step" in one case. It's just not necessary.
+* Lots of minor issues
+  + Reformat the time
+  + restrict the column width
+  + rebuild the main table with pass/fail blocks
+  + resize all images to best show the contents.
+* Much happier with that now.
+* PDF reporting - DONE
+
+May 16, 2024 - I was just sick for several days.
+* Along the way I tried to fix all the linux/windows issues. At this point we have two areas I'm aware of.
+  + In RFGUIHelper there is a library needed for windows to us tkinter
+    - that is wrapped up in a platform-specific section
+  + The file name construction in Window.parseFile depends on the Oops
+    - Not anymore. Now the file comes directly from the Test.
+    - We do split and rejoin the file name components, but now we use os.join and such.
+* fix linux issues - DONE
+* Next thing is file revision. I need to make sure 3.0 converts to 3.1.
+* I saved off several files and now I need to go compare them.
+* I'm working with the AI to generate the method.
+* It's a thing of beauty. Works seemlessly and builds the new file in the same place.
+* File revision - DONE
+* All notimplemented errors should indicate which class and function for debugging purposes
+  + Done
+* ImageSelection should be on top of WidgetEditor
+  + Done. Thank you AI. I couldn't figure it out and it gave me an answer.
+* Need gross-size alteration buttons on imageselection
+  + OBE. When did I do this?
+* WidgetEditor still comes up as Anchor every time.
+  + Before I implemented WidgetEditor.last_widget to track this, but I didn't fix it with the update.
+  + Done
+* WidgetEditor should get focus
+  + I have no idea what this means.
+* The only thing remaining is finishing the testing.
+  + Working on the first test.
+
+5/20/2024 - Almost done
+* Need to finish up the testing, but I have a problem with WHERE and WHY it is failing.
+  + I added log and pause statements. 
+  + It seems to be a problem with finding and dragging the image window to one side.
+    - I found that the Verify View keyword was only looking at primary. 
+    - I added a requirement to specify which window we are validating.
+  + It seems that the delay for logging in RFGUIHelper is delaying the test. Oops.
+  + That did it. TestMenus passed.
+  + TestViews passed, too.
+* Still having problems with the widget test.
+  + OH MY! I finally took pictures of the first widget that worked and the subsequent one which didn't.
+  + By overlapping them, I could see that the recall of the most recent widget type was different than the anchor in the first case which always was the same.
+  + Working so much better.
+  + Okay, I removed three of the scroll buttons, but it still crashed when we went to the checkbox. 
+    - The test didn't crash, RFGUIHelper did.
+* I was able to provoke the same error by adding a ton of widgets. Not sure why the error, but at least that worked.
+  + I had to compare two or three side by side. No differences after all. Maybe the last one is just crashing.
+  + In each case there are two lines where the initial values are input and then the all members once type-specific stuff is added.
+  + In all but the last one, they all match. Here you can see the failure. No idea why.
+
+      DEBUG 15:18:56-- Widget.__init__[62]: Universay members: Widget(945): {'name': '', 'view': 'main', 'type': 'Anchor', 'X': 111.0, 'Y': 3.0, 'width': 84.0, 'height': 16.0}
+      DEBUG 15:18:56-- Widget.__init__[68]: All members: Widget(945): {'name': '', 'view': '', 'type': '', 'X': '', 'Y': '', 'width': '', 'height': ''}
+
+  + I decided the best way to fix this is start with the stuff that is type specific and then add the rest of it.
+    - Not sure why that worked, but it did.
+    - Everything worked there.
+* I want to do one more test that goes through the GIF and Watchers.
+  * That was easy. The watchers worked great.
+  * I don't have anything interesting to see with the gif tool, but it also works.
+  * I'm happy with this and I can let it go at this point.
+* Cleaning up. I'm using the AI as a reviewer again.
+* I finished adding quality documentation to the rfghelper.resource file.
+
+May 24, 2024
+* Continuing with cleaning. AI is useless at reviewing large amounts of code.
+* I ran into a bug. Deleting a view somehow doesn't completely work. Have to find out why.
+* The error occurs when a widget exists on the view you delete. Shouldn't be a problem, but it is.
+  - Ha! I actually found this #TODO other actions e.g. widgets in view
+  - Fixed it, but now I need to add that in as a test case.
+* Working on widgets
+  - That didn't take too long.
+* I added the tab onto my all-widgets image. I thought i already did that, but apparently not.
+
+
+
+              1.5   
+0130-0324     1.9
+
+
+Could we integrate Log to Console with Banner, etc?

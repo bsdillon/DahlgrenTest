@@ -155,6 +155,24 @@ Assert OQE Value
    RETURN    ${a}
 
 #recording
+Third Party Analysis
+    [DOCUMENTATION]    Part of *Recording Data*\n\n
+    ...    Creates a third party process for analysis as a separate thread which executes 
+    ...    and adds promised data in its own due time.
+    [Arguments]    ${process}    ${promise}    ${parameters}
+    # Promise contains the destination file and the promise key
+    Start Process    python    ${process}    ${promise}[0]    ${promise}[1]    ${parameters}
+
+Promise Data
+   [DOCUMENTATION]    Part of *Recording Data*\n\n
+   ...    Promisory data is recorded in two parts. First, the report shows where data will 
+   ...    EVENTUALLY be featured. Second, the parameters for the third-party analysis are
+   ...    recorded in a separate structure. The same structure will eventually feature the 
+   ...    replacement data.
+   [Arguments]   ${CASE NAME}    ${STEP NAME}
+   ${promise} =    oqe.Create Promise     ${CASE NAME}    ${STEP NAME}
+   RETURN    ${promise}
+
 Record Data
     [DOCUMENTATION]    Part of *Recording Data*\n\n
     ...    The basic data recorder puts a series of plain-text data lines into the

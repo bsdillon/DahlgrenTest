@@ -6,9 +6,9 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="Robot Framework 5.0.1 (Python 3.10.8 on win32)" name="Generator">
+<meta content="Robot Framework 7.0 (Python 3.11.9 on win32)" name="Generator">
 <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKcAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAAqAAAAAAAAAAAAAAAAAAAALIAAAD/AAAA4AAAANwAAADcAAAA3AAAANwAAADcAAAA3AAAANwAAADcAAAA4AAAAP8AAACxAAAAAAAAAKYAAAD/AAAAuwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC/AAAA/wAAAKkAAAD6AAAAzAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN8AAAD/AAAA+gAAAMMAAAAAAAAAAgAAAGsAAABrAAAAawAAAGsAAABrAAAAawAAAGsAAABrAAAADAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAIsAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAANEAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAAAAAAAAMgAAADIAAAAyAAAAMgAAADIAAAAyAAAAMgAAADIAAAAFAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAADwAAAB8AAAAAAAAAGAAAABcAAAAAAAAAH8AAABKAAAAAAAAAAAAAAAAAAAA2gAAAP8AAAD6AAAAwwAAAAAAAADCAAAA/wAAACkAAADqAAAA4QAAAAAAAAD7AAAA/wAAALAAAAAGAAAAAAAAANoAAAD/AAAA+gAAAMMAAAAAAAAAIwAAAP4AAAD/AAAA/wAAAGAAAAAAAAAAAAAAAMkAAAD/AAAAigAAAAAAAADaAAAA/wAAAPoAAADDAAAAAAAAAAAAAAAIAAAAcAAAABkAAAAAAAAAAAAAAAAAAAAAAAAAEgAAAAAAAAAAAAAA2gAAAP8AAAD7AAAAywAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN4AAAD/AAAAqwAAAP8AAACvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALIAAAD/AAAAsgAAAAAAAAC5AAAA/wAAAMoAAADAAAAAwAAAAMAAAADAAAAAwAAAAMAAAADAAAAAwAAAAMkAAAD/AAAAvAAAAAAAAAAAAAAAAAAAAKwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAArQAAAAAAAAAAwAMAAIABAAAf+AAAP/wAAD/8AAAgBAAAP/wAAD/8AAA//AAAJIwAADHEAAA//AAAP/wAAB/4AACAAQAAwAMAAA==">
-<style media="all" type="text/css">
+<style media="all">
 :root {
     --background-color: white;
     --text-color: black;
@@ -20,19 +20,17 @@
     --less-important-text-color: gray;
     --link-color: #0000ee;
 }
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background-color: #1c2227;
-        --text-color: #e2e1d7;
-        --border-color: #4e4e4e;
-        --light-background-color: #002b36;
-        --robot-highlight: yellow;
-        --highlighted-color: var(--background-color);
-        --highlighted-background-color: yellow;
-        --less-important-text-color: #5b6a6f;
-        --link-color: #52adff;
-        color-scheme: dark;
-    }
+[data-theme="dark"] {
+    --background-color: #1c2227;
+    --text-color: #e2e1d7;
+    --border-color: #4e4e4e;
+    --light-background-color: #002b36;
+    --robot-highlight: yellow;
+    --highlighted-color: var(--background-color);
+    --highlighted-background-color: yellow;
+    --less-important-text-color: #5b6a6f;
+    --link-color: #52adff;
+    color-scheme: dark;
 }
 body {
     background: var(--background-color);
@@ -255,6 +253,7 @@ input.hamburger-menu:checked ~ span.hamburger-menu-3
 }
 .arguments-list-container {
     overflow-y: auto;
+    margin-bottom: 1.33rem;
 }
 .arguments-list {
     display: -ms-inline-grid;
@@ -296,13 +295,18 @@ input.hamburger-menu:checked ~ span.hamburger-menu-3
     display: flex;
     min-width: 150px;
 }
-.arguments-list .arg-type {
+.arguments-list .arg-type,
+.return-type .arg-type {
     margin-left: 2rem;
     -ms-grid-column: 3;
     grid-column: 3;
     background: var(--background-color);
     white-space: nowrap;
     -webkit-text-size-adjust: none;
+}
+.tags .kw-tags {
+    margin-left: 2rem;
+    display: flex;
 }
 .arguments-list .arg-kind {
   color: transparent;
@@ -513,6 +517,7 @@ h4 {
 }
 .enum-type-members span,
 .args span,
+.return-type span,
 .args a
  {
     font-family: monospace;
@@ -520,22 +525,12 @@ h4 {
     padding: 0 0.1em;
     font-size: 1.1em;
 }
+.arg-type,
 span.type,
 a.type {
     font-size: 1em;
     background: none;
     padding: 0 0
-}
-.arg-type span.or::after {
-    content: ' or ';
-}
-span.or {
-    background: none;
-    font-size: 0.7em;
-    font-family: system-ui, -apple-system, sans-serif;
-}
-.arg-type span.or:nth-last-of-type(1) {
-    display: none;
 }
 .typed-dict-item .td-type::after {
     content: ',';
@@ -558,7 +553,7 @@ span.or {
     background: var(--highlighted-background-color);
     color: var(--highlighted-color);
 }
-.tags {
+.tags, .return-type {
     display: flex;
     align-items: baseline;
 }
@@ -663,7 +658,7 @@ span.or {
     display: none;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 /* Pygments 'default' style sheet. Generated with Pygments 2.1.3 using:
     pygmentize -S default -f html -a .code > src/robot/htmldata/libdoc/pygments.css
     and added for dark mode
@@ -820,7 +815,7 @@ span.or {
     .code .il { color: #2aa198 } /* Literal.Number.Integer.Long */
 }
 </style>
-<style media="print" type="text/css">
+<style media="print">
 body {
     margin: 0;
     padding: 0;
@@ -833,7 +828,7 @@ a {
     display: none;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 #javascript-disabled {
     width: 600px;
     margin: 100px auto 0 auto;
@@ -856,7 +851,7 @@ a {
     font-style: italic;
 }
 </style>
-<style media="all" type="text/css">
+<style media="all">
 #introduction-container > h2,
 .doc > h1,
 .doc > h2,
@@ -933,7 +928,8 @@ storage = function () {
     var prefix = 'robot-framework-';
     var storage;
     function init(user) {
-        prefix += user + '-';
+        if (user)
+            prefix += user + '-';
         storage = getStorage();
     }
     function getStorage() {
@@ -947,16 +943,19 @@ storage = function () {
             return {};
         }
     }
-    function get(name, defaultValue) {
-        var value = storage[prefix + name];
+    function get(key, defaultValue) {
+        var value = storage[fullKey(key)];
         if (typeof value === 'undefined')
             return defaultValue;
         return value;
     }
-    function set(name, value) {
-        storage[prefix + name] = value;
+    function set(key, value) {
+        storage[fullKey(key)] = value;
     }
-    return {init: init, get: get, set: set};
+    function fullKey(key) {
+        return prefix + key;
+    }
+    return {init: init, get: get, set: set, fullKey: fullKey};
 }();
 </script>
 <script type="text/javascript">
@@ -1192,7 +1191,7 @@ window.util = function () {
 jQuery.extend({highlight:function(e,t,n,r){if(e.nodeType===3){var i=e.data.match(t);if(i){var s=document.createElement(n||"span");s.className=r||"highlight";var o=e.splitText(i.index);o.splitText(i[0].length);var u=o.cloneNode(true);s.appendChild(u);o.parentNode.replaceChild(s,o);return 1}}else if(e.nodeType===1&&e.childNodes&&!/(script|style)/i.test(e.tagName)&&!(e.tagName===n.toUpperCase()&&e.className===r)){for(var a=0;a<e.childNodes.length;a++){a+=jQuery.highlight(e.childNodes[a],t,n,r)}}return 0}});jQuery.fn.unhighlight=function(e){var t={className:"highlight",element:"span"};jQuery.extend(t,e);return this.find(t.element+"."+t.className).each(function(){var e=this.parentNode;e.replaceChild(this.firstChild,this);e.normalize()}).end()};jQuery.fn.highlight=function(e,t){var n={className:"highlight",element:"span",caseSensitive:false,wordsOnly:false};jQuery.extend(n,t);if(e.constructor===String){e=[e]}e=jQuery.grep(e,function(e,t){return e!=""});e=jQuery.map(e,function(e,t){return e.replace(/[-[\]{}()*+?.,\\^$|#\s]/g,"\\$&")});if(e.length==0){return this}var r=n.caseSensitive?"":"i";var i="("+e.join("|")+")";if(n.wordsOnly){i="\\b"+i+"\\b"}var s=new RegExp(i,r);return this.each(function(){jQuery.highlight(this,s,n.element,n.className)})}
 </script>
 <script type="text/javascript">
-libdoc = {"specversion": 1, "name": "genericwindow", "doc": "<p>Testing testing</p>", "version": "", "generated": "2023-03-07 10:17:46", "type": "LIBRARY", "scope": "SUITE", "docFormat": "HTML", "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 12, "tags": [], "inits": [], "keywords": [{"name": "Capture Image", "args": [{"name": "widget_name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "widget_name"}], "doc": "<p>Takes a picture of the intended widget and returns the image file</p>\n<p>widget_name - The unique name of the intended widget</p>", "shortdoc": "Takes a picture of the intended widget and returns the image file", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 47}, {"name": "Capture Window", "args": [], "doc": "<p>Takes a picture of the window itself and returns the image file</p>", "shortdoc": "Takes a picture of the window itself and returns the image file", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 40}, {"name": "Check State", "args": [{"name": "widget_name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "widget_name"}], "doc": "", "shortdoc": "", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 92}, {"name": "Click", "args": [{"name": "widget_name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "widget_name"}], "doc": "<p>Clicks on the intended widget</p>\n<p>widget_name - The unique name of the intended widget</p>", "shortdoc": "Clicks on the intended widget", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 55}, {"name": "Configure", "args": [{"name": "type", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "type"}, {"name": "configPath", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "configPath"}, {"name": "dataPath", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "dataPath"}, {"name": "remoteConnection", "types": [], "typedocs": {}, "defaultValue": "None", "kind": "POSITIONAL_OR_NAMED", "required": false, "repr": "remoteConnection=None"}], "doc": "<p>Sets up the details of the generic window for a specific test</p>\n<p>type - One of {Sikuli, Selenium}</p>\n<p>configPath - absolute path to the configuration file</p>\n<p>dataPath - absolute path to the data folder</p>", "shortdoc": "Sets up the details of the generic window for a specific test", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 24}, {"name": "Debug Window", "args": [], "doc": "<p>Uses the image library debug feature to identify the GUI component.</p>", "shortdoc": "Uses the image library debug feature to identify the GUI component.", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\window.py", "lineno": 62}, {"name": "Document API", "args": [], "doc": "<p>Returns a single string containing a set of all widgets in the window and their available functions.</p>", "shortdoc": "Returns a single string containing a set of all widgets in the window and  their available functions.", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\window.py", "lineno": 70}, {"name": "Find", "args": [], "doc": "<p>Called to locate any anchor for the window and revise relative locations to widgets.</p>", "shortdoc": "Called to locate any anchor for the window and revise relative locations to  widgets.", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\window.py", "lineno": 38}, {"name": "Highlight", "args": [{"name": "widget_name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "widget_name"}], "doc": "", "shortdoc": "", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 88}, {"name": "Move", "args": [{"name": "endX", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "endX"}, {"name": "endY", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "endY"}], "doc": "<p>Move the window to the desired end location endX - x coordinate of end location endY - y coordinate of end location</p>", "shortdoc": "Move the window to the desired end location endX - x coordinate of end location endY - y coordinate of end location", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 100}, {"name": "Read", "args": [{"name": "widget_name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "widget_name"}], "doc": "<p>Read and return text from the intended widget</p>\n<p>widget_name - The unique name of the intended widget</p>", "shortdoc": "Read and return text from the intended widget", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 71}, {"name": "Right Click", "args": [{"name": "widget_name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "widget_name"}], "doc": "<p>Right clicks on the intended widget</p>\n<p>widget_name - The unique name of the intended widget</p>", "shortdoc": "Right clicks on the intended widget", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 63}, {"name": "Scroll", "args": [{"name": "widget_name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "widget_name"}, {"name": "direction", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "direction"}], "doc": "", "shortdoc": "", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 96}, {"name": "Write", "args": [{"name": "widget_name", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "widget_name"}, {"name": "text", "types": [], "typedocs": {}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "text"}], "doc": "<p>Write text onto the intended widget</p>\n<p>widget_name - The unique name of the intended widget</p>\n<p>text - the text to be written</p>", "shortdoc": "Write text onto the intended widget", "tags": [], "source": "C:\\Users\\Benny\\Documents\\github\\DahlgrenTest\\RFTest\\widgets\\genericwindow.py", "lineno": 79}], "dataTypes": {"enums": [], "typedDicts": []}, "typedocs": []}
+libdoc = {"specversion": 3, "name": "window", "doc": "<p>Documentation for library <code>window</code>.</p>", "version": "", "generated": "2024-05-27T19:56:19+00:00", "type": "LIBRARY", "scope": "GLOBAL", "docFormat": "HTML", "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\widgets\\window.py", "lineno": 1, "tags": [], "inits": [], "keywords": [{"name": "Create Tester", "args": [{"name": "type", "type": {"name": "TestType", "typedoc": "integer", "nested": [], "union": false}, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "type: TestType"}, {"name": "path", "type": null, "defaultValue": null, "kind": "POSITIONAL_OR_NAMED", "required": true, "repr": "path"}, {"name": "remoteConnection", "type": null, "defaultValue": "None", "kind": "POSITIONAL_OR_NAMED", "required": false, "repr": "remoteConnection=None"}], "returnType": null, "doc": "", "shortdoc": "", "tags": [], "source": "C:\\Users\\Owner\\OneDrive\\Documents\\GitHub\\DahlgrenTest\\RFTest\\widgets\\widget.py", "lineno": 13}], "typedocs": [{"type": "Standard", "name": "integer", "doc": "<p>Conversion is done using Python's <a href=\"https://docs.python.org/library/functions.html#int\">int</a> built-in function. Floating point numbers are accepted only if they can be represented as integers exactly. For example, <code>1.0</code> is accepted and <code>1.1</code> is not.</p>\n<p>Starting from RF 4.1, it is possible to use hexadecimal, octal and binary numbers by prefixing values with <code>0x</code>, <code>0o</code> and <code>0b</code>, respectively.</p>\n<p>Starting from RF 4.1, spaces and underscores can be used as visual separators for digit grouping purposes.</p>\n<p>Examples: <code>42</code>, <code>-1</code>, <code>0b1010</code>, <code>10 000 000</code>, <code>0xBAD_C0FFEE</code></p>", "usages": ["Create Tester"], "accepts": ["string", "float"]}]}
 </script>
 <title></title>
 </head>
@@ -1215,7 +1214,7 @@ libdoc = {"specversion": 1, "name": "genericwindow", "doc": "<p>Testing testing<
     }, false);
     window.addEventListener("hashchange", function() {
         if (window.location.hash.indexOf('#type-') == 0) {
-            const hash = '#' + decodeURI(window.location.hash.slice(6));
+            const hash = '#type-modal-' + decodeURI(window.location.hash.slice(6));
             const typeDoc = document.querySelector(".data-types").querySelector(hash);
             if (typeDoc) {
               showModal(typeDoc);
@@ -1230,6 +1229,7 @@ libdoc = {"specversion": 1, "name": "genericwindow", "doc": "<p>Testing testing<
         parseTemplates();
         document.title = libdoc.name;
         storage.init('libdoc');
+        setTheme();
         renderTemplate('base', libdoc, $('body'));
         if (libdoc.inits.length) {
             libdoc.typedocs.map(function(type) {
@@ -1263,6 +1263,20 @@ libdoc = {"specversion": 1, "name": "genericwindow", "doc": "<p>Testing testing<
         createModal();
     });
 
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme || getTheme());
+    }
+
+    function getTheme() {
+        if (libdoc['theme']) {
+            return libdoc['theme'];
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        } else {
+            return 'light;'
+        }
+    }
+
     function parseTemplates() {
         $('script[type="text/x-jquery-tmpl"]').map(function (idx, elem) {
             $.template(elem.id, elem.text);
@@ -1282,9 +1296,9 @@ libdoc = {"specversion": 1, "name": "genericwindow", "doc": "<p>Testing testing<
 
     function scrollToHash() {
         if (window.location.hash) {
-            var hash = window.location.hash.substring(1).replace('+', ' ');
-            window.location.hash = '';
-            window.location.hash = hash;
+            var hash = window.location.hash.substring(1);
+            var id = decodeURIComponent(hash);
+            document.getElementById(id).scrollIntoView();
         }
     }
 
@@ -1696,13 +1710,23 @@ libdoc = {"specversion": 1, "name": "genericwindow", "doc": "<p>Testing testing<
                 </div>
               </div>
             {{/if}}
+            {{if returnType}}
+            <div class="return-type">
+              <h4>Return Type</h4>
+              <span class="arg-type">
+              {{tmpl(returnType) 'type-info-template'}}
+              </span>
+            </div>
+            {{/if}}
             {{if libdoc.tags.length && tags.length}}
               <div class="tags">
                 <h4>Tags</h4>
+                <span class="kw-tags">
                 {{each tags}}
                   <a href="javascript:tagSearch('${$value}')"
                     title="Show keywords with this tag">${$value}</a>{{if $index < tags.length-1}},<br>{{/if}}
                 {{/each}}
+                </span>
               </div>
             {{/if}}
           </div>
@@ -1732,20 +1756,37 @@ ${name}
   </div>
 {{/if}}
 
-{{if types.length}}
+{{if type}}
   <span class="arg-type">
-    {{each types}}
-      {{if $value in $data.typedocs}}
-          &lt;<a style="cursor: pointer;" class="type" title="Click to show type information" onclick="showModal(${$data.typedocs[$value]})">${$value}</a>&gt;
-      {{else}}
-          &lt;<span class="type">${$value}</span>&gt;
-      {{/if}}
-      <span class="or"></span>
-    {{/each}}
+      {{tmpl(type) 'type-info-template'}}
   </span>
 {{/if}}
 </script>
 
+<script type="text/x-jquery-tmpl" id="type-info-template">
+  <!-- Store last index to variable. Checking it the 'each' loop didn't work. -->
+  ${$item.lastIndex=nested.length-1, ""}
+  {{if union}}
+    {{each nested}}
+      {{tmpl($value) 'type-info-template'}}
+      {{if $index < $item.lastIndex}}|{{/if}}
+    {{/each}}
+  {{else}}
+    {{if typedoc}}
+      <a style="cursor: pointer;" class="type" title="Click to show type information" onclick="showModal(document.querySelector('#type-modal-${typedoc}'))">${name}</a>
+    {{else}}
+      <span class="type">${name}</span>
+    {{/if}}
+    {{if nested.length}}
+      [
+      {{each nested}}
+        {{tmpl($value) 'type-info-template'}}
+        {{if $index < $item.lastIndex}},{{/if}}
+      {{/each}}
+      ]
+    {{/if}}
+  {{/if}}
+</script>
 
 <script type="text/x-jquery-tmpl" id="data-types-template">
   {{if typedocs.length}}
@@ -1759,7 +1800,7 @@ ${name}
 </script>
 
 <script type="text/x-jquery-tmpl" id="data-type-template">
-    <div class="data-type-container {{if hidden}}no-{{/if}}match" id="${name}">
+    <div class="data-type-container {{if hidden}}no-{{/if}}match" id="type-modal-${name}">
        <div class="data-type-name">
             <h2>${name} (${type})</h2>
        </div>

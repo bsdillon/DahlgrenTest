@@ -13,7 +13,7 @@ class MovePoint(Widget):
 
     #not used in MovePoint
     def getState(self):
-        raise NotImplementedError("GetState not implemented in MovePoint")
+        raise NotImplementedError(f"{self}.getState")
 
     def write(self, _):
-        raise NotImplementedError("Write not implemented in MovePoint")
+        raise NotImplementedError(f"{self}.write")

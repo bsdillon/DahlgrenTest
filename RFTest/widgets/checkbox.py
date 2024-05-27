@@ -11,22 +11,22 @@ class CheckBox(Widget):
         if properties["Checked"]:
             self.checkedImage = properties["Checked"]
         else:
-            raise LookupError("No checked image for "+str(self))
+            raise LookupError("CheckBox: No checked image for "+str(self))
 
         if properties["Unchecked"]:
             self.uncheckedImage = properties["Unchecked"]
         else:
-            raise LookupError("No unchecked image for "+str(self))
+            raise LookupError("CheckBox: No unchecked image for "+str(self))
 
     def LogAll(self):
         return "\t"+self.name+": setGroup, read, click, doubleClick, capture, captureSmall, getState\n"
 
     #not used in checkbox
     def getState(self):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.getState")
 
     def move(self, *_):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.move")
 
     def write(self, _):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.write")

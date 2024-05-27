@@ -1,6 +1,6 @@
 /*--------Basic page elements--------*/
 .background{
-    background-color: rgb(0,59,79);//blue-gray
+    background-color: rgb(0,59,79);
 }
 
 .div {
@@ -13,7 +13,7 @@
 }
 
 p, h1, h2, h3, h4, h5, h6 {
-  color: rgb(0,59,79); //blue-gray
+  color: rgb(0,59,79);
   font-family: helvetica;
 }
 
@@ -39,8 +39,8 @@ button:hover{
 }
 
 table{
-  margin = "10px 10px 10px 10px";
-  color = "rgb(0,59,79)";
+  margin: "10px 10px 10px 10px";
+  color: "rgb(0,59,79)";
   font-family: helvetica;
   font-weight: bold;
   border-radius:10px;
@@ -51,14 +51,14 @@ table{
 }
 
 th {
-  background-color = "GhostWhite";
-  font-weight = bolder;
+  background-color: "GhostWhite";
+  font-weight: bolder;
   border-radius: 8px;
 }
 
 td {
-  background-color = "GhostWhite";
-  font-weight = bolder;
+  background-color: "GhostWhite";
+  font-weight: bolder;
   width: 25px; height: 25px;
   text-align: center;
   margin: 5px 5px 5px 5px;
@@ -97,6 +97,18 @@ td.data {
 
 td.data.active:hover {
   background-image: url("info2.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+td.promise {
+  background-image: url("promise.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+td.promise.active:hover {
+  background-image: url("promise2.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -226,6 +238,7 @@ td.running {
 .popup td.BANNER {background-color:#45FF4F;}
 .popup td.BAR {background-color:#000000;}
 .popup td.Data {background-image: url("info.png"); background-position: center; background-repeat: no-repeat; background-size: 1.6em 2em; color: #00000000; background-color:#ffffff;}
+.popup td.Promise {background-image: url("promise.png"); background-position: center; background-repeat: no-repeat; background-size: 1.6em 2em; color: #00000000; background-color:#ffffff;}
 .popup td.Action {background-color:#FFFF00;}
 .popup td.Screenshot {background-image: url("camera.png"); background-position: center; background-repeat: no-repeat; background-size: 2em 2em; color: #00000000; background-color:#ffffff;}
 .popup th {background-color:#00454F; color:white; font-weight:bolder;}

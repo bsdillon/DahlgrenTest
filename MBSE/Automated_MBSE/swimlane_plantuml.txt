@@ -127,7 +127,7 @@ actor "CO2" as CO2
 participant "<$bluesea,color=#0000FF>\nRoosevelt" as Roosevelt
 participant "<$blueair,color=#0000FF>\nDrone" as Drone
 
-rnote over Enemy
+rnote over ﻿Enemy
 Hi. I'm a bad guy
 endrnote
 

@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 from widgeterror import WidgetError
+from logmanagement import LogManager
 
 class ValueButtons(ttk.Frame):
     def __init__(self, parent, low:int, high:int, value:int=0, callback=None, validateBounds=True):
+        self.logger = LogManager("ValueButtons")
+        self.logger.trace(f"Start ValueButtons", indent_delta=1)
         ttk.Frame.__init__(self, parent)
         self.callback = callback
         self.low = low
@@ -30,6 +33,7 @@ class ValueButtons(ttk.Frame):
         throwaway = tk.Button(self,text=">>", command=self.rightFive)
         throwaway.grid(row=0, column=4, sticky=tk.E)
         self.myWidgets.append(throwaway)
+        self.logger.trace(f"End", indent_delta=-1)
 
     def changeValue(self, delta):
         '''
@@ -42,18 +46,26 @@ class ValueButtons(ttk.Frame):
             if not self.callback == None:
                 self.callback(self.value)
 
-    def set(self, newValue):
+    def set(self, newValue:int):
         self.changeValue(newValue-self.value)
         if not newValue == self.value:
             messagebox.showerror(title="Range Error", message=str(newValue)+" is invalid: must be in the range ["+str(self.low)+", "+str(self.high)+"]", parent=self)
 
     def resetRange(self, low:int, high:int, value:int):
+        self.logger.trace(f"Start: {low}<={value}<={high}", indent_delta=1)
+        self.logger.debug(f"Proposed range: {low}<={value}<={high}")
         if self.validate:
-            if not((self.low<= value) and (value <= self.high)):
-                messagebox.showerror(title="Range Error", message=str(value)+" is invalid: must be in the range ["+str(self.low)+", "+str(self.high)+"]", parent=self)
-            self.low = low
-            self.high= high
-            self.set(value)
+            if not((low<= value) and (value <= high)):
+                #messagebox.showerror(title="Range Error", message=f"{value} is invalid: must be in the range [{low}, {high}]", parent=self)
+                if value < low:
+                    value = low
+                elif value > high:
+                    value = high
+                self.logger.debug(f"Adjusted range: {low}<={value}<={high}")
+        self.low = low
+        self.high= high
+        self.set(value)
+        self.logger.trace(f"End", indent_delta=-1)
 
     def get(self):
         return self.value
@@ -70,6 +82,14 @@ class ValueButtons(ttk.Frame):
     def leftFive(self):
         self.changeValue(-5)
 
+    def enable(self):
+        for w in self.myWidgets:
+            w.configure(state=tk.NORMAL)
+
     def disable(self):
         for w in self.myWidgets:
             w.configure(state=tk.DISABLED)
+
+    def setBackground(self, color):
+        for w in self.myWidgets:
+            w.config({"background": color})

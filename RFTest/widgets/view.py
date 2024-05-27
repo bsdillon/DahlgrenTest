@@ -133,10 +133,10 @@ class View(Widget):
 
      #not used in view
     def debugHighlight(self):
-        raise NotImplementedError("DebugHighlight not implemented in View")
+        raise NotImplementedError(f"{self}.debugHighlight")
 
     def getState(self):
-        raise NotImplementedError("GetState not implemented in View")
+        raise NotImplementedError(f"{self}.getState")
 
     def write(self, _):
-        raise NotImplementedError("Write not implemented in View")
+        raise NotImplementedError(f"{self}.write")

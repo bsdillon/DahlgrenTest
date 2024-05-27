@@ -325,7 +325,7 @@ function singleTestTable(testTitle, dataheader, data)
   //create new row for each step in the test
   var oddStripeStyle = false;//included for striped style
   var type = "Data";
-  var detailSet = ["Data","Screenshot"];
+  var detailSet = ["Data","Screenshot", "Promise"];
   for (let step of data)
   {
     var row = table.insertRow();
@@ -406,7 +406,7 @@ function singleTestTable(testTitle, dataheader, data)
           type = step[dataheader[i]];
         }
 
-        if(i==statusCount && (contents==='PASS' || contents==='FAIL' || contents==='Screenshot' || contents==='Data'))
+        if(i==statusCount && (contents==='PASS' || contents==='FAIL' || contents==='Screenshot' || contents==='Data' || contents==='Promise'))
         {
           cell.classList.add(type);
         }
@@ -436,6 +436,10 @@ function singleTestTable(testTitle, dataheader, data)
             case  1:
               //screenshot
               contents = "Click for full image<br><img src='"+contents+"' class='thumb' onclick='flipSize(this);'>";
+              break;
+            case 2:
+              dataObject = promises[contents] // Use the promise key in contents to get the data object
+              contents = dataObject["Analysis"]
               break;
           }
         }

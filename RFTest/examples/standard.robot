@@ -31,4 +31,4 @@ Demonstrate The Keywords
     Log to Console    Parameter 1 is ${param}
     Run Keyword If    ${defaulty}==7    Log    This is default behavior
     Run Keyword If    ${defaulty}!=7    Fail    Non-default behavior
-    [RETURN]    ${defaulty}
+    RETURN    ${defaulty}

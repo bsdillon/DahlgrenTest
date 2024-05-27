@@ -149,6 +149,7 @@ class output:
       #create the default starting file
       f = open(self.dataFile, "w")
       f.write("var testRuns = {};\n")
+      f.write("var promises = {};\n")
       f.write("var reportStructure = {};\n")
       f.write("var testStructure = {};\n")
       f.close()
@@ -285,8 +286,7 @@ class output:
       stepName = stepName.replace('\n', '_')
       self.testCaseStart = datetime.now()
       deltaTime = str(self.testCaseStart - tmp)
-      details = details.replace("'", "**")
-      details = details.replace("\n", "_")
+      details = self.santize(details)
       f = open(self.dataFile, "a")
       f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+caseName+"', Step: '"+stepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+details+"'});\n")
       f.close()
@@ -309,6 +309,27 @@ class output:
       f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+file+"'});\n")
       f.close()
 
+   @keyword(name='Create Promise')
+   def createPromise(self, testCaseName, testStepName):
+      '''
+      Part of *Output Functions*\n
+      
+      '''
+      if self.dataFile==None:
+         raise FileNotFoundError("Called 'Write Data' before 'Configure Data Path'")
+
+      tmp = self.testCaseStart
+      self.testCaseStart = datetime.now()
+      deltaTime = str(self.testCaseStart - tmp)
+      key = f"{self.currentTestName}_{self.testCaseStart.timestamp()}"
+      f = open(self.dataFile, "a")
+      
+      f.write("promises['"+key+"']={Analysis: 'Pending analysis...'};\n")
+      f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: 'Promise', Details: '"+key+"'});\n")
+      f.close()
+      
+      return [self.dataFile, key]
+
    @keyword(name='Write Data')
    def KW_OQE_writeDaxtaToFile(self, testCaseName, testStepName, testStatus, data):
       '''
@@ -317,13 +338,18 @@ class output:
       '''
       if self.dataFile==None:
          raise FileNotFoundError("Called 'Write Data' before 'Configure Data Path'")
-
       tmp = self.testCaseStart
       self.testCaseStart = datetime.now()
       deltaTime = str(self.testCaseStart - tmp)
       f = open(self.dataFile, "a")
+      data = self.santize(data)
       f.write("testRuns['"+self.currentTestName+"'].push({Case: '"+testCaseName+"', Step: '"+testStepName+"', Time: '"+deltaTime+"', Status: '"+testStatus+"', Details: '"+data+"'});\n")
       f.close()
+
+   def santize(self, text):
+      text = text.replace("'", "**")
+      text = text.replace("\n", "_")
+      return text
 
    @keyword(name='Mark Time')
    def markTime(self, name):

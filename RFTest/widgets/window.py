@@ -89,6 +89,7 @@ class Window(Widget):
                 y = int(wData["Y"])
                 w = int(wData["width"])
                 h = int(wData["height"])
+                wData["Image file name"]=wName+".png"
 
                 vGroup = None
                 if "Group" in wData:
@@ -213,24 +214,39 @@ class Window(Widget):
         return False
 
     @keyword(name="Find")
-    def find(self):
+    def find(self, target_anchor=None):
         '''
         Called to locate any anchor for the window and revise relative locations to 
         widgets.
         
+        target_anchor - optional name of the ONLY anchor that should be accepted
         Returns the name of the anchor found OR None
         '''
         if self.currentView:
             answer = self.currentView.view_find()
             if answer:
-                return answer
+                if target_anchor:
+                    if target_anchor==answer:
+                        return answer
+                else:
+                    return answer
         
         for vName in self.views:
             v = self.views[vName]
-            answer = v.view_find()
+            try:
+                answer = v.view_find()
+            except Exception as ex:
+                import traceback
+                traceback.print_exception(ex)
+                self.LogToConsole(f"Failure : {ex}")
             if answer:
-                self.currentView = v
-                return answer
+                if target_anchor:
+                    if target_anchor==answer:
+                        self.currentView = v
+                        return answer
+                else:
+                    self.currentView = v
+                    return answer
         raise LookupError("Unable to find any anchor")
 
     def getWidget(self, name):
@@ -296,10 +312,10 @@ class Window(Widget):
 
     #not used in Window
     def debugHighlight(self):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.debugHighlight")
 
     def getState(self):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.getState")
 
     def write(self, _):
-        raise NotImplementedError
+        raise NotImplementedError(f"{self}.write")

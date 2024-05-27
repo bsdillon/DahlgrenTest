@@ -21,6 +21,7 @@ class genericwindow(Window):
         type - One of {Sikuli, Selenium}\n\n
         configPath - absolute path to the configuration file\n\n
         dataPath - absolute path to the data folder
+        remoteConnection - 
         '''
         testType = None
         if type == "Sikuli":
@@ -45,6 +46,17 @@ class genericwindow(Window):
         widget_name - The unique name of the intended widget
         '''
         self.getWidget(widget_name).click()
+
+    @keyword(name='Click At')
+    def ClickAt(self, widget_name, x, y):
+        '''
+        Clicks on the intended widget PLUS an x,y offset.\n
+        The offeset allows you to click WITHIN a widget at some location.\n\n
+        widget_name - The unique name of the intended widget
+        x - x offset from upper left of widget
+        y - y offset from upper left of widget
+        '''
+        self.getWidget(widget_name).clickAt(x, y)
 
     @keyword(name='Right Click')
     def RightClick(self, widget_name):
@@ -82,3 +94,15 @@ class genericwindow(Window):
     @keyword(name='Scroll')
     def Scroll(self, widget_name, direction):
         self.getWidget(widget_name).scroll(direction)
+
+    @keyword(name='Create Gif')
+    def create_gif(self, widget_name, count=3, rate_ms=200):
+        return self.getWidget(widget_name).captureSmall(count, rate_ms)
+
+    @keyword(name="Start Watcher For")
+    def start_watcher(self, widget_name, name):
+        self.getWidget(widget_name).startWatcher(name)
+
+    @keyword(name="Stop Watcher For")
+    def stop_watcher(self, name):
+        return self.haltWater(name)

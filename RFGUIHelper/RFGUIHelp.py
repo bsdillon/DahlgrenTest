@@ -1,11 +1,11 @@
-import ctypes
 from mainwindow import MainWindow
+import platform
 
-ctypes.windll.shcore.SetProcessDpiAwareness(2)
+if platform.system() == 'Windows':
+    #required for windows applications.
+    import ctypes
+    ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
+#start main window
 master = MainWindow()
-
 master.window.mainloop()
-# test.start()
-#         self.top.lift()
-#         self.top.mainloop()
