@@ -33,51 +33,57 @@
 
     <h3>Table of Contents</h3>
     <ul>
-      <li><a href="#configuration">Configuration</a>
+      <li><a href="preinstall">Pre-Installation</a>
         <ul>
-          <li><a href="#downloads">Download lists</a></li>
+          <li><a href="#operatingsystem">Operatingy System</a></li>
+          <li><a href="#packages">Installing RHEL Packages</a></li>
+          <li><a href="#pipinstall">Pip Install Python Packages</a></li>
+          <li><a href="#environs">Setting Environmental Variables</a></li>
         </ul>
       </li>
-      <li><a href="#session1">The Simplest Example</a>
+      <li><a href="#installrobot">Install Robot Framework</a></li>
+      <li><a href="#project1">Project 1. Simplest Robot Framework Test</a>
         <ul>
-          <li><a href="#session1-instr">Instructions</a></li>
-          <li><a href="#session1-solut">Solution Files</a></li>
+          <li><a href="#project1-instr">Instructions</a></li>
+          <li><a href="#project1-solut">Solution Scripts</a></li>
         </ul>
       </li>
-      <li><a href="#session2">Using Keywords</a>
+      <li><a href="#project2">Project 2. Using Keywords in a Test</a>
         <ul>
-          <li><a href="#session2-instr">Instructions</a></li>
-          <li><a href="#session2-solut">Solution Files</a></li>
+          <li><a href="#project2-instr">Instructions</a></li>
+          <li><a href="#project2-solut">Solution Scripts</a></li>
         </ul>
       </li>
-      <li><a href="#session3">Data-Driven Testing</a>
+      <li><a href="#project3">Project 3. Data-Driven Testing</a>
         <ul>
-          <li><a href="#session3-instr">Instructions</a></li>
-          <li><a href="#session3-solut">Solution Files</a></li>
+          <li><a href="#project3-instr">Instructions</a></li>
+          <li><a href="#project3-solut">Solution Scripts</a></li>
         </ul>
       </li>
-      <li><a href="#session4">Working With A GUI</a>
+      <li><a href="#rfguihelper">Configure RFW GUI Helper</a></li>
+      <li><a href="#project4">Project 4. Mapping a GUI</a>
         <ul>
-          <li><a href="#session4-instr">Instructions</a></li>
-          <li><a href="#session4-solut">Solution Files</a></li>
+          <li><a href="#project4-instr">Instructions</a></li>
+          <li><a href="#project4-solut">Solution Scripts</a></li>
         </ul>
       </li>
-      <li><a href="#session5">Recording the Test</a>
+      <li><a href="#oqelibrary">Objective Quality Evidence Library</a></li>
+      <li><a href="#project5">Project 5. Testing with a GUI</a>
         <ul>
-          <li><a href="#session5-instr">Instructions</a></li>
-          <li><a href="#session5-solut">Solution Files</a></li>
+          <li><a href="#project5-instr">Instructions</a></li>
+          <li><a href="#project5-solut">Solution Scripts</a></li>
         </ul>
       </li>
-      <li><a href="#session6">Resource Files</a>
+      <li><a href="#project6">Project 6. Resource Files</a>
         <ul>
-          <li><a href="#session6-instr">Instructions</a></li>
-          <li><a href="#session6-solut">Solution Files</a></li>
+          <li><a href="#project6-instr">Instructions</a></li>
+          <li><a href="#project6-solut">Solution Scripts</a></li>
         </ul>
       </li>
-      <li><a href="#session7">Remote Testing</a>
+      <li><a href="#project7">Project 7. Remote Testing</a>
         <ul>
-          <li><a href="#session7-instr">Instructions</a></li>
-          <li><a href="#session7-solut">Solution Files</a></li>
+          <li><a href="#project7-instr">Instructions</a></li>
+          <li><a href="#project7-solut">Solution Scripts</a></li>
         </ul>
       </li>
     </ul>
@@ -85,6 +91,7 @@
     <hr></hr>
 
 <div class="alternate">
+    <a name="preinstall"></a><h2>Pre-Installation</h2>
     <a name="operatingsystem"></a><h3>Operating System</h3>
       <p>
         RFW works on Windows and Linux. RHEL 8+ is preferred OS, and these instructions 
@@ -112,7 +119,7 @@
       When offline, you can specify the exact path of the compressed file. If you 
       were installing offline, use <nobr><code>python3 -m pip install <i>PATH</i></code></nobr><br>
     </p>
-    <a name="pipinstall"></a><h3>Setting Environmental Variables</h3>
+    <a name="environs"></a><h3>Setting Environmental Variables</h3>
 
       <li>Environmental variables are used to fix certain paths in memory and avoid frequent use
           of very long memory locations. You will need to (re)define several environmental variables
@@ -129,7 +136,7 @@
     <hr></hr>
     
 <div class="alternate">
-    <a name="robot"></a><h2>Install Robot Framework</h2>
+    <a name="installrobot"></a><h2>Install Robot Framework</h2>
     <h4>Description</h4>
     <p>
       Robot Framework is a free library that natively supports testing. A typical RFW test
@@ -510,7 +517,7 @@ Read Character 4<br>
       </li>
     </ol>
 
-    <a name="session3-solut"></a><h3>Solution Scripts</h3>
+    <a name="session2-solut"></a><h3>Solution Scripts</h3>
     <a href="rfw2.robot" download target="_blank">RFW script</a><br>
 
     <hr></hr>
@@ -788,7 +795,7 @@ Find r&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n
 <hr></hr>
 
 <div class="alternate">
-    <a name="part????"></a><h2>Objective Quality Evidence Library</h2>
+    <a name="oqelibrary"></a><h2>Objective Quality Evidence Library</h2>
     <h4>Description</h4>
     <p>
       The auxlliary libraries of RFW 3.1 include a report system that exceeds the capabilities 
@@ -1008,12 +1015,12 @@ tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"<br>
         <img src="report5.png"><br>
       </li>
     </ol>
-    <a name="session4-solut"></a><h3>Solution Scripts</h3>
+    <a name="session5-solut"></a><h3>Solution Scripts</h3>
     <a href="rfw5.robot" download target="_blank">RFW script</a><br>
 
 <hr></hr>
 
-    <a name="session6"></a><h2>Resource Files</h2>
+    <a name="project6"></a><h2>Project 6. Resource Files</h2>
     <p>
       This session will focus on resource files. Up to now we have used 
       <code>.robot</code> files, but now we will learn how and when to 
@@ -1025,7 +1032,7 @@ tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"<br>
     </p>
 
     <h3>Instructions</h3>
-    <ol><a name="session6-instr"></a>
+    <ol><a name="project6-instr"></a>
       <li>
         The goal of a resource file is to represent a complete set of functionality.
         That could mean a set of capabilities (e.g. accessing a database) but in this
@@ -1157,11 +1164,11 @@ Click and Verify
         files below are a good example set, but not necessarily the only possible solution.
       </li>
     </ol>
-    <a name="session6-solut"></a><h3>Solution Scripts</h3>
+    <a name="project6-solut"></a><h3>Solution Scripts</h3>
     <a href="rfw6.robot" download target="_blank">RFW script</a><br>
     <a href="rfw6.resource" download target="_blank">Resource script</a><br>
 
-    <a name="session7"></a><h2>Remote Testing</h2>
+    <a name="project7"></a><h2>Project 7. Remote Testing</h2>
     <p>
       This last session will demonstrate the use of RFW from a 
       remote machine. Sikuli natively supports remote actions
@@ -1173,7 +1180,7 @@ Click and Verify
     </p>
 
     <h3>Instructions</h3>
-    <ol><a name="session7-instr"></a>
+    <ol><a name="project7-instr"></a>
       <li>
         In order to remotely operate a system, it must have a VNC
         server installed and you must know the IP of that sever. The
@@ -1226,7 +1233,7 @@ RF GUI Helper: Open&nbsp;&nbsp;&nbsp;&nbsp;${DATA PATH}&nbsp;&nbsp;&nbsp;&nbsp;r
       </li>
     </ol>
 
-    <a name="session7-solut"></a><h3>Solution Scripts</h3>
+    <a name="project7-solut"></a><h3>Solution Scripts</h3>
     <a href="rfw7.robot" download target="_blank">RFW script</a><br>
     <a href="rfw7.resource" download target="_blank">Resource script</a><br>
   </body>
