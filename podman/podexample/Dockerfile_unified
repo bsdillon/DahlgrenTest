@@ -1,0 +1,11 @@
+# Use a common base image
+FROM python:3.9-slim
+
+FROM python:3.9-slim
+WORKDIR /app
+COPY time_counter.py /app/
+COPY admin_worker.py /app/
+COPY log_manager.py /app/
+COPY start_containers.sh /app/
+RUN chmod +x /app/start_containers.sh  # Make the script executable
+CMD ["/app/start_containers.sh"]

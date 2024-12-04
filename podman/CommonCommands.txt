@@ -1,0 +1,143 @@
+podman build .							--- Builds whatever is in the Dockerfile (the default file name) with a randomly generated ID
+podman build -t <image-ID> -f <podman-file-name> .		--- Builds a specific image ID from a specific dockerfile
+
+podman images							--- Gives a table of all images in the system
+podman images -f "dangling=true"				--- List ONLY "dangling" images
+
+podman inspect <image_id>					--- Reads details from an image.
+
+podman rm <image-ID>						--- Removes the specific container from images
+podman rmi <image_id>						--- Removes specific "dangling" image
+podman images prune						--- Removes all "dangling" images
+
+podman run <image-ID>						--- Runs a specific container; with a randomly generated, two word name
+podman run --name <user-_container_id> <image-ID>		--- Runs the container with a specific name, not the two-word random name.
+
+podman run -it <image-ID>					--- Runs the contain with input from this terminal and tty (output from container) on this terminal; in other words interactive
+podman run -it <image-ID> /bin/sh    				--- Runs the container from a shell script as an interactive terminal
+
+podman run --restart=always <image-ID>				--- Makes the container ALWAYS start, including on system startup.
+podman run --restart=on-failure <image-ID>			--- Makes the container restart after a failure
+podman rm -f  <image-ID>					--- Forces the container to stop and removes it so it doesn't restart (i.e. ending the restart cycle)
+
+-------------------------------------------------------------------------------
+
+podman run --security-opt seccomp=default <image-ID>		--- Generally blocks most actions, but allows others; if it doesn't work you can customize from there.
+podman run --security-opt seccomp=<filename> <image-ID>		--- Uses a white list file to define a security posture as a white/black list
+
+***When some action fails***
+cp /usr/share/containers/seccomp.json /custom-path.json		--- copy the default file as a baseline
+								--- Make custome changes to your file to allow the missing activity
+{								--- Or create a new file with your own mix of activities
+  "defaultAction": "SCMP_ACT_ERRNO",				--- Makes the default action for ALL activities an error
+  "syscalls": [							--- For these system calls...
+    {
+      "names": ["accept", "bind"],				--- Just the named ones...
+      "action": "SCMP_ACT_ALLOW"				--- They are allowed
+    }
+  ]
+}
+
+podman run <image>						--- By default the container can only access virtual consoles e.g. /dev/tty0
+podman run --privileged <image>					--- Gives the container the same priv as the user who runs the container
+
+-------------------------------------------------------------------------------
+
+podman run \							--- Multi-line version that indicates all health-related operations
+  --health-cmd "curl -f http://localhost/health" \			Typically a curl command, but could be any operation from the host machine, including starting some other script
+  --health-start-period 1m \						Time after start BEFORE the first health check
+  --health-interval 30s \						Period between health checks
+  --health-timeout 10s \						Time after a health check in which it MUST be completed
+  --health-retries 3 \							How many retries before the container is classified as "unhealthy"
+  <image-ID>
+
+-------------------------------------------------------------------------------
+
+podman run --memory <memory-limit> <image-ID>			--- Runs the container, but with limits on memory ex. 100m or 2g (100MB or 2GB)
+podman run --cpus <num-of-cpus> <image-ID>			--- Runs the container, but with limits on CPU usage; may be whole (2) or decimal (1.5) number
+podman run --cpu-shares=<parts-of-1024> <image-ID>		--- Gives a priority to the container 1024=100%
+podman run --cpu-quota=<parts-of-cycle> <image-ID>		--- Maximum part of 100,000 microseconds that can be allocated to container ex. 25000 is 25ms out of 100ms or 25%
+podman run --cpu-period=<size-of-cycle> <image-ID>		--- While the default is 100,000 microseconds, this allows you to specify a different number of microseconds per cycle
+
+-------------------------------------------------------------------------------
+
+podman run <image-ID>						--- By default all containers exist on an isolated network separate from the host and network.
+podman run --network bridge <image-ID>				--- Absolutely equivalent to the default position
+podman run --network host <image-ID>				--- This is all-open so that the container is as much on the network as the host machine
+podman run --network none <image-ID>				--- Leaves the container completely isolated with no network connection at all.
+podman run --network <network-ID> <image-ID>			--- Runs a container on a named isolated network
+
+podman network create <network-ID>				--- Creates a private isolated network and gives it a name
+podman network rm <network-ID>					--- Removes the an existing private network
+podman network ls						--- Lists all networks in the system, starting with bridge
+
+podman run [-p <host port>:<container port>] <image-ID>		--- Forwards traffic from one port on the host to another port on the container; repeat for each port mapping
+
+-------------------------------------------------------------------------------
+
+podman ps -a							--- Gives a list of all images that are running; with -a you get those that have terminated; Includes the random, two-word name of the container
+podman ps -a --filter "ancestor=<image-ID>"			--- List of ONLY those images from a specific container.
+
+podman inspect <container_id>					--- Reads details from an container, both internal and meta data
+
+podman logs <container_id>					--- Reads the logs from an container
+
+podman container prune						--- Removes non-running images
+
+podman stop <container_id>					--- Kills some container in mid-operation; sends SIGKILL (code 137)
+podman stop -a							--- Kills all containers 
+
+podman start <container_id>					--- Restarts some process that has been stopped or ended naturally
+
+***REQUIRES SETTING CHANGE***
+podman stats <container_id>					--- See the resource usage
+podman pause <container_id>					--- In ROOTFUL mode can pause a running container
+podman unpause <container_id>					--- Reverses the pause operation.
+podman container checkpoint <container_id>			--- Stops and saves the current state of the container
+podman container restore <container-id>				--- Restarts the container from the saved checkpoint
+
+-------------------------------------------------------------------------------
+
+podman machine init						--- Initialize a new Podman virtual machine.
+podman machine start						--- Start the Podman virtual machine.
+podman machine stop						--- Stop the Podman virtual machine.
+
+podman system prune						--- Removes stopped containers, dangling images, dangling build cache, and unused networks.
+podman system df						--- List all the images, containers and local volumes that cost memory.
+podman system info						--- Combination of host system information and podman machine information
+podman system reset						--- Completely resets the podman machine. No containers. No images. Nothing.
+
+-------------------------------------------------------------------------------
+
+podman volume create <volume-name>				--- Creates a named memory space that is managed by podman
+								--- The location of all volumes is set as volume_path in podman's storage.conf file
+podman volume ls						--- List all volumes known to podman
+podman volume rm <volume-name>					--- Remove a volume from podman
+podman volume inspect <volume-name>				--- See the details of the volume, including where it is physically located in the host machine
+
+
+podman run -v <volume-name>:/path/in/container <image-ID>	--- Mounts that volume to a specific location in the container
+podman run -v /path/on/host:/path/in/container <image>		--- Similar command mounting part of the host system into the container
+
+-------------------------------------------------------------------------------
+
+podman pod create --name <pod-name>				--- Create a new pod with a specific name
+
+podman pod ls							--- List all pods known to podman
+podman pod rm <pod-name>					--- Remove a specific pod
+podman pod inspect <pod-name>					--- See the details of the pod
+
+podman run --pod <pod-name> <image-ID>				--- Runs a container, simultaneously adding it to the specified pod
+
+podman ps							--- Lists all processes that are part of the named pod
+
+podman pod stop <pod-id-or-name>				--- Stop all containers in the pod
+podman pod start <pod-id-or-name>				--- Start all containers in the pod
+podman pod restart <pod-id-or-name>				--- Restart all containers in the pod
+
+
+
+
+
+
+
