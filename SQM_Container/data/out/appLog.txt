@@ -1,0 +1,329 @@
+
++++++++ New Run: 01-26-25 21:11 +++++++
+
+SoftwareAnalyzer2.Program.Main [Information]-02:11:33: Starting analysis
+SoftwareAnalyzer2.Source.StartAnalysis.BatchProcess [Trace]-02:11:33: Found project temporary
+SoftwareAnalyzer2.Source.StartAnalysis.BatchProcess [Trace]-02:11:33: Parsing files
+SoftwareAnalyzer2.Source.StartAnalysis.ParseSource [Information]-02:11:34: Checking for updated files in temporary
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:34: Reading file: /workspace/data/src/A.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:34: Analyzing /workspace/data/src/A.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:34: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/A.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:35: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/A.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:37:     /workspace/data/src/A.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:37:     /workspace/data/src/A.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:37:     /workspace/data/src/A.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:37: Reading file: /workspace/data/src/B.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:37: Analyzing /workspace/data/src/B.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:37: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/B.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:39: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/B.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:40:     /workspace/data/src/B.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:40:     /workspace/data/src/B.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:40:     /workspace/data/src/B.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:40: Reading file: /workspace/data/src/CheckAll.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:40: Analyzing /workspace/data/src/CheckAll.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:40: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/CheckAll.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:41: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/CheckAll.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:42:     /workspace/data/src/CheckAll.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:42:     /workspace/data/src/CheckAll.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:42:     /workspace/data/src/CheckAll.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:42: Reading file: /workspace/data/src/DotExpression.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:42: Analyzing /workspace/data/src/DotExpression.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:42: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/DotExpression.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:43: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/DotExpression.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:44:     /workspace/data/src/DotExpression.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:44:     /workspace/data/src/DotExpression.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:44:     /workspace/data/src/DotExpression.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:44: Reading file: /workspace/data/src/JAVACode/JAVAArrayAccessCheck/ArrayAccessCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:44: Analyzing /workspace/data/src/JAVACode/JAVAArrayAccessCheck/ArrayAccessCheck.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:44: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAArrayAccessCheck/ArrayAccessCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:46: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAArrayAccessCheck/ArrayAccessCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:47:     /workspace/data/src/JAVACode/JAVAArrayAccessCheck/ArrayAccessCheck.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:47:     /workspace/data/src/JAVACode/JAVAArrayAccessCheck/ArrayAccessCheck.java - Modifying AST
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:11:47: Error in /JAVACode/JAVAArrayAccessCheck/ArrayAccessCheck.java: 
+FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object.
+   at SoftwareAnalyzer2.Tools.JavaANTLR.SingleMethodModifier(IModifiable node, IModifiable target) in /workspace/src/Tools/JavaANTLR.cs:line 2757
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ClassMethodModifier(IModifiable node) in /workspace/src/Tools/JavaANTLR.cs:line 2868
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1060
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify(String currentNode, String newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1039
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ModifyTree() in /workspace/src/Tools/JavaANTLR.cs:line 87
+   at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in /workspace/src/Tools/ANTLRTool.cs:line 209
+
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:47: Reading file: /workspace/data/src/JAVACode/JAVAArrayElementAssignment/ArrayElementAssignment.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:47: Analyzing /workspace/data/src/JAVACode/JAVAArrayElementAssignment/ArrayElementAssignment.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:47: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAArrayElementAssignment/ArrayElementAssignment.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:48: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAArrayElementAssignment/ArrayElementAssignment.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:49:     /workspace/data/src/JAVACode/JAVAArrayElementAssignment/ArrayElementAssignment.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:49:     /workspace/data/src/JAVACode/JAVAArrayElementAssignment/ArrayElementAssignment.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:49:     /workspace/data/src/JAVACode/JAVAArrayElementAssignment/ArrayElementAssignment.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:49: Reading file: /workspace/data/src/JAVACode/JAVABranchCheck/BranchCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:49: Analyzing /workspace/data/src/JAVACode/JAVABranchCheck/BranchCheck.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:49: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVABranchCheck/BranchCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:50: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVABranchCheck/BranchCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:51:     /workspace/data/src/JAVACode/JAVABranchCheck/BranchCheck.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:51:     /workspace/data/src/JAVACode/JAVABranchCheck/BranchCheck.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:51:     /workspace/data/src/JAVACode/JAVABranchCheck/BranchCheck.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:52: Reading file: /workspace/data/src/JAVACode/JAVAEnum/Enum.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:52: Analyzing /workspace/data/src/JAVACode/JAVAEnum/Enum.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:52: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAEnum/Enum.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:53: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAEnum/Enum.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:54:     /workspace/data/src/JAVACode/JAVAEnum/Enum.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:54:     /workspace/data/src/JAVACode/JAVAEnum/Enum.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:54:     /workspace/data/src/JAVACode/JAVAEnum/Enum.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:54: Reading file: /workspace/data/src/JAVACode/JAVAEnum/EnumInClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:54: Analyzing /workspace/data/src/JAVACode/JAVAEnum/EnumInClass.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:54: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAEnum/EnumInClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:55: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAEnum/EnumInClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:56:     /workspace/data/src/JAVACode/JAVAEnum/EnumInClass.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:56:     /workspace/data/src/JAVACode/JAVAEnum/EnumInClass.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:56:     /workspace/data/src/JAVACode/JAVAEnum/EnumInClass.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:11:57: Reading file: /workspace/data/src/JAVACode/JAVAFor3Check/For3.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:11:57: Analyzing /workspace/data/src/JAVACode/JAVAFor3Check/For3.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:57: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAFor3Check/For3.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:11:58: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAFor3Check/For3.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:00:     /workspace/data/src/JAVACode/JAVAFor3Check/For3.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:00:     /workspace/data/src/JAVACode/JAVAFor3Check/For3.java - Modifying AST
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:00: Error in /JAVACode/JAVAFor3Check/For3.java: 
+FATAL ERROR: File Analysis incomplete:Autochange has not been refactored 0expression(8:23-24): ++
+   1Variable(8:22-22): m
+
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ExpressionModifier(IModifiable node) in /workspace/src/Tools/JavaANTLR.cs:line 1191
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1060
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify(String currentNode, String newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1039
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ForThreePartModifier(IModifiable node) in /workspace/src/Tools/JavaANTLR.cs:line 1948
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1060
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify(String currentNode, String newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1039
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ModifyTree() in /workspace/src/Tools/JavaANTLR.cs:line 98
+   at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in /workspace/src/Tools/ANTLRTool.cs:line 209
+
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:00: Reading file: /workspace/data/src/JAVACode/JAVAForEachCheck/ForEach.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:00: Analyzing /workspace/data/src/JAVACode/JAVAForEachCheck/ForEach.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:00: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAForEachCheck/ForEach.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:01: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAForEachCheck/ForEach.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:02:     /workspace/data/src/JAVACode/JAVAForEachCheck/ForEach.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:02:     /workspace/data/src/JAVACode/JAVAForEachCheck/ForEach.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:02:     /workspace/data/src/JAVACode/JAVAForEachCheck/ForEach.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:02: Error in /JAVACode/JAVAForEachCheck/ForEach.java: 
+ERROR: Trival layers still exist in the tree: typeType(11): 
+
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:02: Reading file: /workspace/data/src/JAVACode/JAVAGenerics/GenericClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:02: Analyzing /workspace/data/src/JAVACode/JAVAGenerics/GenericClass.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:02: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAGenerics/GenericClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:03: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAGenerics/GenericClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:03:     /workspace/data/src/JAVACode/JAVAGenerics/GenericClass.java - Combining ANTLR results
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:03: Error in /JAVACode/JAVAGenerics/GenericClass.java: 
+ERROR: Token expected but not found.
+	class		// A Simple Java program to show multiple
+
+ERROR: Inconsistency between tree 3 and token 0
+
+	Tree: class
+
+	Token expected: [@0,0:40='// A Simple Java program to show multiple',<LINE_COMMENT>,channel=1,1:0]
+
+   /workspace/data/src/JAVACode/JAVAGenerics/GenericClass.java - FATAL ERROR: Could not combine outputs
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:04: Reading file: /workspace/data/src/JAVACode/JAVAGenerics/GenericFunction.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:04: Analyzing /workspace/data/src/JAVACode/JAVAGenerics/GenericFunction.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:04: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAGenerics/GenericFunction.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:04: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAGenerics/GenericFunction.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:05:     /workspace/data/src/JAVACode/JAVAGenerics/GenericFunction.java - Combining ANTLR results
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:05: Error in /JAVACode/JAVAGenerics/GenericFunction.java: 
+ERROR: Token expected but not found.
+	class		// A Simple Java program to show working of user defined
+
+ERROR: Inconsistency between tree 3 and token 0
+
+	Tree: class
+
+	Token expected: [@0,0:55='// A Simple Java program to show working of user defined',<LINE_COMMENT>,channel=1,1:0]
+
+   /workspace/data/src/JAVACode/JAVAGenerics/GenericFunction.java - FATAL ERROR: Could not combine outputs
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:06: Reading file: /workspace/data/src/JAVACode/JAVANestedClass/NestedClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:06: Analyzing /workspace/data/src/JAVACode/JAVANestedClass/NestedClass.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:06: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVANestedClass/NestedClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:06: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVANestedClass/NestedClass.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:07:     /workspace/data/src/JAVACode/JAVANestedClass/NestedClass.java - Combining ANTLR results
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:07: Error in /JAVACode/JAVANestedClass/NestedClass.java: 
+ERROR: Token expected but not found.
+	class		// Java program to demonstrate accessing
+
+ERROR: Inconsistency between tree 3 and token 0
+
+	Tree: class
+
+	Token expected: [@0,0:39='// Java program to demonstrate accessing',<LINE_COMMENT>,channel=1,1:0]
+
+   /workspace/data/src/JAVACode/JAVANestedClass/NestedClass.java - FATAL ERROR: Could not combine outputs
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:07: Reading file: /workspace/data/src/JAVACode/JAVAOperatorTest/OperatorTest.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:07: Analyzing /workspace/data/src/JAVACode/JAVAOperatorTest/OperatorTest.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:07: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAOperatorTest/OperatorTest.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:08: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAOperatorTest/OperatorTest.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:08:     /workspace/data/src/JAVACode/JAVAOperatorTest/OperatorTest.java - Combining ANTLR results
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:08: Error in /JAVACode/JAVAOperatorTest/OperatorTest.java: 
+ERROR: Token expected but not found.
+	int		// some additions
+
+ERROR: Inconsistency between tree 44 and token 15
+
+	Salvaged token in tree: int
+
+	Token expected: [@23,85:101='// some additions',<LINE_COMMENT>,channel=1,4:9]
+
+   /workspace/data/src/JAVACode/JAVAOperatorTest/OperatorTest.java - FATAL ERROR: Could not combine outputs
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:09: Reading file: /workspace/data/src/JAVACode/JAVAReadCheck/Main.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:09: Analyzing /workspace/data/src/JAVACode/JAVAReadCheck/Main.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:09: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAReadCheck/Main.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:09: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAReadCheck/Main.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:10:     /workspace/data/src/JAVACode/JAVAReadCheck/Main.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:10:     /workspace/data/src/JAVACode/JAVAReadCheck/Main.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:10:     /workspace/data/src/JAVACode/JAVAReadCheck/Main.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:10: Reading file: /workspace/data/src/JAVACode/JAVAReadCheck/ReadEdgeTest.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:10: Analyzing /workspace/data/src/JAVACode/JAVAReadCheck/ReadEdgeTest.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:10: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAReadCheck/ReadEdgeTest.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:11: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAReadCheck/ReadEdgeTest.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:12:     /workspace/data/src/JAVACode/JAVAReadCheck/ReadEdgeTest.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:12:     /workspace/data/src/JAVACode/JAVAReadCheck/ReadEdgeTest.java - Modifying AST
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:12: Error in /JAVACode/JAVAReadCheck/ReadEdgeTest.java: 
+FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object.
+   at SoftwareAnalyzer2.Tools.JavaANTLR.SingleMethodModifier(IModifiable node, IModifiable target) in /workspace/src/Tools/JavaANTLR.cs:line 2757
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ClassMethodModifier(IModifiable node) in /workspace/src/Tools/JavaANTLR.cs:line 2868
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1060
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify(String currentNode, String newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1039
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ModifyTree() in /workspace/src/Tools/JavaANTLR.cs:line 87
+   at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in /workspace/src/Tools/ANTLRTool.cs:line 209
+
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:12: Reading file: /workspace/data/src/JAVACode/JAVARettyCheck/RettyCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:12: Analyzing /workspace/data/src/JAVACode/JAVARettyCheck/RettyCheck.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:12: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVARettyCheck/RettyCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:12: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVARettyCheck/RettyCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:13:     /workspace/data/src/JAVACode/JAVARettyCheck/RettyCheck.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:13:     /workspace/data/src/JAVACode/JAVARettyCheck/RettyCheck.java - Modifying AST
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:13: Error in /JAVACode/JAVARettyCheck/RettyCheck.java: 
+FATAL ERROR: File Analysis incomplete:Object reference not set to an instance of an object.
+   at SoftwareAnalyzer2.Tools.JavaANTLR.SingleMethodModifier(IModifiable node, IModifiable target) in /workspace/src/Tools/JavaANTLR.cs:line 2757
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ClassMethodModifier(IModifiable node) in /workspace/src/Tools/JavaANTLR.cs:line 2868
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1060
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify(String currentNode, String newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1039
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ModifyTree() in /workspace/src/Tools/JavaANTLR.cs:line 87
+   at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in /workspace/src/Tools/ANTLRTool.cs:line 209
+
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:13: Reading file: /workspace/data/src/JAVACode/JAVAScopeResolution/MethodReferenceOperatorExample.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:13: Analyzing /workspace/data/src/JAVACode/JAVAScopeResolution/MethodReferenceOperatorExample.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:13: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAScopeResolution/MethodReferenceOperatorExample.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:14: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAScopeResolution/MethodReferenceOperatorExample.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:14:     /workspace/data/src/JAVACode/JAVAScopeResolution/MethodReferenceOperatorExample.java - Combining ANTLR results
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:14: Error in /JAVACode/JAVAScopeResolution/MethodReferenceOperatorExample.java: 
+ERROR: Token expected but not found.
+	<		Stream
+
+ERROR: Inconsistency between tree 61 and token 25
+
+	Tree: <
+
+	Token expected: [@38,225:230='Stream',<IDENTIFIER>,7:0]
+
+   /workspace/data/src/JAVACode/JAVAScopeResolution/MethodReferenceOperatorExample.java - FATAL ERROR: Could not combine outputs
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:14: Reading file: /workspace/data/src/JAVACode/JAVASwitch/Switch.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:14: Analyzing /workspace/data/src/JAVACode/JAVASwitch/Switch.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:14: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVASwitch/Switch.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:15: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVASwitch/Switch.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:16:     /workspace/data/src/JAVACode/JAVASwitch/Switch.java - Combining ANTLR results
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:16: Error in /JAVACode/JAVASwitch/Switch.java: 
+ERROR: Token expected but not found.
+	public		// Java program to demonstrate switch case
+
+ERROR: Inconsistency between tree 3 and token 0
+
+	Salvaged token in tree: public
+
+	Token expected: [@0,0:41='// Java program to demonstrate switch case',<LINE_COMMENT>,channel=1,1:0]
+
+   /workspace/data/src/JAVACode/JAVASwitch/Switch.java - FATAL ERROR: Could not combine outputs
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:16: Reading file: /workspace/data/src/JAVACode/JAVATernary/TernaryCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:16: Analyzing /workspace/data/src/JAVACode/JAVATernary/TernaryCheck.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:16: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVATernary/TernaryCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:16: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVATernary/TernaryCheck.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:18:     /workspace/data/src/JAVACode/JAVATernary/TernaryCheck.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:18:     /workspace/data/src/JAVACode/JAVATernary/TernaryCheck.java - Modifying AST
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:18:     /workspace/data/src/JAVACode/JAVATernary/TernaryCheck.java - Searching for errors
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:18: Reading file: /workspace/data/src/JAVACode/JAVATryCatch/tryCatchJava.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:18: Analyzing /workspace/data/src/JAVACode/JAVATryCatch/tryCatchJava.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:18: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVATryCatch/tryCatchJava.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:18: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVATryCatch/tryCatchJava.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:19:     /workspace/data/src/JAVACode/JAVATryCatch/tryCatchJava.java - Combining ANTLR results
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:19:     /workspace/data/src/JAVACode/JAVATryCatch/tryCatchJava.java - Modifying AST
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:19: Error in /JAVACode/JAVATryCatch/tryCatchJava.java: 
+FATAL ERROR: File Analysis incomplete:Check on a try statement
+   at SoftwareAnalyzer2.Tools.JavaANTLR.StatementModifier(IModifiable node) in /workspace/src/Tools/JavaANTLR.cs:line 702
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1060
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.NodeModifyUp(NodeType currentNode, NodeType newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1065
+   at SoftwareAnalyzer2.Structure.Node.Implementations.ASTree.RootUpModify(String currentNode, String newNode, Action`1 modifier) in /workspace/src/Structure/Node/Implementations/ASTree.cs:line 1039
+   at SoftwareAnalyzer2.Tools.JavaANTLR.ModifyTree() in /workspace/src/Tools/JavaANTLR.cs:line 68
+   at SoftwareAnalyzer2.Tools.ANTLRTool.Analyze(String fileName, ILanguage lang) in /workspace/src/Tools/ANTLRTool.cs:line 209
+
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:19: Reading file: /workspace/data/src/JAVACode/JAVAWhile/DoWhileLoop.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:19: Analyzing /workspace/data/src/JAVACode/JAVAWhile/DoWhileLoop.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:19: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAWhile/DoWhileLoop.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:19: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAWhile/DoWhileLoop.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:20:     /workspace/data/src/JAVACode/JAVAWhile/DoWhileLoop.java - Combining ANTLR results
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:20: Error in /JAVACode/JAVAWhile/DoWhileLoop.java: 
+ERROR: Token expected but not found.
+	class		// Java program to illustrate the do-while loop
+
+ERROR: Inconsistency between tree 3 and token 0
+
+	Tree: class
+
+	Token expected: [@0,0:46='// Java program to illustrate the do-while loop',<LINE_COMMENT>,channel=1,1:0]
+
+   /workspace/data/src/JAVACode/JAVAWhile/DoWhileLoop.java - FATAL ERROR: Could not combine outputs
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Trace]-02:12:20: Reading file: /workspace/data/src/JAVACode/JAVAWhile/WhileLoop.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:20: Analyzing /workspace/data/src/JAVACode/JAVAWhile/WhileLoop.java in language Java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:20: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tree /workspace/data/src/JAVACode/JAVAWhile/WhileLoop.java
+SoftwareAnalyzer2.Tools.JavaANTLR.startProcess [Debug]-02:12:21: startProcess java org.antlr.v4.gui.TestRig Java compilationUnit -tokens /workspace/data/src/JAVACode/JAVAWhile/WhileLoop.java
+SoftwareAnalyzer2.Tools.JavaANTLR.Analyze [Debug]-02:12:21:     /workspace/data/src/JAVACode/JAVAWhile/WhileLoop.java - Combining ANTLR results
+SoftwareAnalyzer2.Source.StartAnalysis.ReadFile [Error]-02:12:21: Error in /JAVACode/JAVAWhile/WhileLoop.java: 
+ERROR: Token expected but not found.
+	class		// Java program to illustrate while loop.
+
+ERROR: Inconsistency between tree 3 and token 0
+
+	Tree: class
+
+	Token expected: [@0,0:40='// Java program to illustrate while loop.',<LINE_COMMENT>,channel=1,1:0]
+
+   /workspace/data/src/JAVACode/JAVAWhile/WhileLoop.java - FATAL ERROR: Could not combine outputs
+SoftwareAnalyzer2.Source.StartAnalysis.ParseSource [Error]-02:12:21: Errors in the parse process! Cannot move on to registration.

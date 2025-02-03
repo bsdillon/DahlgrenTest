@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>SoftwareQualityMetrics</RootNamespace>
+    <AssemblyName>SoftwareQualityMetrics</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Define package dependencies here. -->
+    <!-- <PackageReference Include="Serilog.Extensions.Logging.File" Version="9.0.0" /> -->
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
+    <!-- <PackageReference Include="System" Version="3.5.8" />
+    <PackageReference Include="System.Core" Version="3.5.21022.801" />
+    <PackageReference Include="System.Xml.Linq" Version="3.5.21022.801" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" /> -->
+    <!-- <PackageReference Include="System.Data" Version="4.3.0" /> -->
+    <!-- <PackageReference Include="System.Deployment" Version="4.8.0" /> -->
+    <!-- <PackageReference Include="System.Xml" Version="4.3.1" /> -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Include all your source files here -->
+  </ItemGroup>
+</Project>

@@ -1,0 +1,30 @@
+# Use the official .NET SDK image
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+# Set the working directory inside the container
+WORKDIR /workspace
+
+# Install C++ compiler (clang and g++ for C++ processing)
+RUN apt-get update && apt-get install -y \
+    g++ \
+    make \
+    openjdk-17-jdk \
+    alsa-utils \
+    && apt-get clean
+
+# Copy all files into the container
+COPY grammars/antlr.jar /workspace/compiled_grammars/antlr.jar
+COPY nuget/ /workspace/nuget_cache/
+COPY compiled_grammars/ /workspace/compiled_grammars/
+COPY run_sqm.sh /workspace/run_sqm.sh
+COPY bell.mp3 /workspace/bell.mp3
+
+RUN chmod +x /workspace/run_sqm.sh
+
+# Generate the classpath
+COPY create_classpath.sh /workspace/create_classpath.sh
+RUN chmod +x /workspace/create_classpath.sh
+RUN /workspace/create_classpath.sh
+
+# Set the entrypoint to run the script
+ENTRYPOINT ["/workspace/run_sqm.sh"]

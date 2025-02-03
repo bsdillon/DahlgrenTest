@@ -1,0 +1,14 @@
+# Use the official .NET SDK image
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the entry point script into the container
+COPY entrypoint.sh /entrypoint.sh
+
+# Make the script executable
+RUN chmod +x /entrypoint.sh
+
+# Set the entrypoint to run the script
+ENTRYPOINT ["/entrypoint.sh"]

@@ -1,2 +1,7 @@
 *.pyc
 *.class
+SQM_Container/src/bin
+SQM_Container/src/obj
+SQM_Container/nuget
+SQM_Container/compiled_grammars
+SQM_Container/data/out/temporary

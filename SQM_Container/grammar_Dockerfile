@@ -1,0 +1,17 @@
+# Use an official Java runtime as the base image
+FROM openjdk:8-jdk
+
+# Set the working directory
+WORKDIR /workspace
+
+# Copy the entrypoint script into the container
+COPY compile_grammar.sh /workspace/compile_grammar.sh
+
+# Copy all grammar files into the container
+COPY grammars/ /workspace/grammars/
+
+# Make the script executable
+RUN chmod +x /workspace/compile_grammar.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/workspace/compile_grammar.sh"]

@@ -1,0 +1,14 @@
+# Use the latest .NET SDK image
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+# Set the working directory
+WORKDIR /workspace
+
+# Copy the script into the container
+COPY build_nuget.sh /workspace/build_nuget.sh
+
+# Make the script executable
+RUN chmod +x /workspace/build_nuget.sh
+
+# Set the entrypoint to the script
+ENTRYPOINT ["/workspace/build_nuget.sh"]
